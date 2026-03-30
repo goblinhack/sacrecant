@@ -981,6 +981,12 @@ void Game::state_change(GameState new_state, const std::string &why)
       wid_save_destroy(g);
 
       //
+      // After a warning window closes, and we transition back to playing state,
+      // the cursor is missing. We need to recreate it.
+      //
+      game_request_to_update_cursor_set(g);
+
+      //
       // Play as normal now
       //
       g_opt_level_select_menu = false;
