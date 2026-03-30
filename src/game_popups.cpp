@@ -142,7 +142,7 @@ void game_popups_display(Gamep g, Levelsp v, Levelp l)
         // Make the text look a bit more squarish
         //
         auto dx = br.x - tl.x;
-        br.x    = tl.x + (int) (((float) dx * 0.7));
+        br.x    = tl.x + static_cast< int >((static_cast< float >(dx) * 0.7));
 
         //
         // Fade out and raise the text up with a percentage
@@ -195,7 +195,7 @@ void game_popups_display(Gamep g, Levelsp v, Levelp l)
         }
 
         auto text = i->text;
-        if (i->count) {
+        if (i->count != 0u) {
           text += "x";
           text += std::to_string(i->count + 1);
         }

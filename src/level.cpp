@@ -440,7 +440,7 @@ auto level_get_thing_id_at(Gamep g, Levelsp v, Levelp l, const bpoint &p, int sl
       // Allow players to land on chasms intentionally. Monsters don't want to.
       //
       if (thing_is_chasm(it)) {
-        if (me && thing_is_player(me)) {
+        if ((me != nullptr) && thing_is_player(me)) {
           return true; // filter out i.e. ignore
         }
       }

@@ -408,7 +408,7 @@ static void thing_collision_interpolated_expand_candidates(Gamep g, Levelsp v, L
   // If this is a fireball hitting a wall, then we want to hit the ghost that is
   // also hiding inside the wall
   //
-  if (! cands.size()) {
+  if (cands.empty()) {
     return;
   }
 
@@ -418,7 +418,7 @@ static void thing_collision_interpolated_expand_candidates(Gamep g, Levelsp v, L
 
   auto at = thing_real_at(me);
 
-  auto owner = top_owner(g, v, l, me);
+  auto *owner = top_owner(g, v, l, me);
 
   //
   // For all other things on the same tile as the collision
@@ -492,7 +492,8 @@ static void thing_collision_interpolated_sort_candidates(Gamep g, Levelsp v, Lev
 
     if (d1 == d2) {
       return thing_priority(t1) < thing_priority(t2);
-    } else if (d1 < d2) {
+    }
+    if (d1 < d2) {
       return true;
     } else {
       return false;
@@ -516,7 +517,7 @@ static void thing_collision_interpolated_sort_candidates(Gamep g, Levelsp v, Lev
 //
 // Process the collision candidate list
 //
-static bool thing_collision_interplolated_process_candidates(Gamep g, Levelsp v, Levelp l, Thingp me, const ThingCands &cands)
+static auto thing_collision_interplolated_process_candidates(Gamep g, Levelsp v, Levelp l, Thingp me, const ThingCands &cands) -> bool
 {
   TRACE();
 
@@ -698,7 +699,7 @@ void thing_collision_handle_interpolated(Gamep g, Levelsp v, Levelp l, Thingp me
 
     for (auto dx = -1; dx <= 1; dx++) {
       for (auto dy = -1; dy <= 1; dy++) {
-        bpoint collision_at(interp_at.x + dx, interp_at.y + dy);
+        bpoint const collision_at(interp_at.x + dx, interp_at.y + dy);
 
         //
         // Do accurate hit box collision detection for this interpolated postion

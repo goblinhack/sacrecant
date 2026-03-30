@@ -556,7 +556,7 @@ auto player_check_if_target_needs_move_confirm(Gamep g, Levelsp v, Levelp l, con
       //
       // A popup is present
       //
-      if (! thing_move_path_size(g, v, l, me)) {
+      if (thing_move_path_size(g, v, l, me) == 0) {
         std::vector< bpoint > pending_path;
         pending_path.push_back(to);
         (void) thing_move_path_apply_confirmed(g, v, l, me, pending_path, true);
@@ -1144,7 +1144,7 @@ auto player_move_to_next(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool
         // If we're jumping onto a chasm still, maybe a few tiles away, we want
         // the player to have a chance to say no
         //
-        bool need_path = false;
+        bool const need_path = false;
         if (level_is_cursor_path_hazard(g, v, l, move_destination) != nullptr) {
           if (! player_move_try(g, v, l, me, move_next, move_confirmed, need_path)) {
             return false;
@@ -1169,7 +1169,7 @@ auto player_move_to_next(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool
     }
   }
 
-  bool need_path = false;
+  bool const need_path = false;
   if (! player_move_try(g, v, l, me, move_next, move_confirmed, need_path)) {
     return false;
   }
