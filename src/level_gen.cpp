@@ -2196,7 +2196,7 @@ static void level_gen_dump(class LevelGen *l, const char *msg)
   } else {
     LOG("level: %u", l->level_num + 1);
   }
-  TRACE_INDENT();
+  TRACE();
 
   LOG("seed              : %u", l->info.seed_num);
   LOG("room count        : %d", l->info.room_count);

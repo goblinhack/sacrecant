@@ -1124,6 +1124,7 @@ void thing_monst_event_loop(Gamep g, Levelsp v, Levelp l, Thingp me);
 void thing_monst_tick(Gamep g, Levelsp v, Levelp l, Thingp me);
 void thing_move_or_jump_finish(Gamep g, Levelsp v, Levelp l, Thingp me);
 void thing_move_path_reset(Gamep g, Levelsp v, Levelp l, Thingp t);
+void thing_move_path_confirm(Gamep g, Levelsp v, Levelp l, Thingp t);
 void thing_moving_from_set(Thingp t, const bpoint &val);
 void thing_path_shorten(Gamep g, Levelsp v, Levelp l, Thingp t, std::vector< bpoint > &path);
 void thing_pix_at_set(Gamep g, Levelsp v, Levelp l, Thingp t, const spoint &val);

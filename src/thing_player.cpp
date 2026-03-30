@@ -410,7 +410,13 @@ static void player_check_if_target_needs_move_confirm_callback(Gamep g, bool val
     return;
   }
 
-  LOG("player_check_if_target_needs_move_confirm_callback : path %d", (int) thing_move_path_size(g, v, l, me));
+  if (val) {
+    THING_DBG(me, "callback: got 'Yes' warning confirmation");
+  } else {
+    THING_DBG(me, "callback: got 'No' warning confirmation");
+  }
+  TRACE_INDENT();
+
   switch (player_state(g, v)) {
     case PLAYER_STATE_INIT :
       //
@@ -437,11 +443,12 @@ static void player_check_if_target_needs_move_confirm_callback(Gamep g, bool val
       // Wait for confirmation.
       //
       if (val) {
-        THING_DBG(me, "confirmed move");
+        THING_DBG(me, "player confirmed move, path size %d", thing_move_path_size(g, v, l, me));
         TRACE_INDENT();
+        thing_move_path_confirm(g, v, l, me);
         player_state_change(g, v, l, PLAYER_STATE_FOLLOWING_PATH);
       } else {
-        THING_DBG(me, "declined move");
+        THING_DBG(me, "player declined move");
         TRACE_INDENT();
         player_state_change(g, v, l, PLAYER_STATE_NORMAL);
       }
@@ -535,7 +542,12 @@ auto player_check_if_target_needs_move_confirm(Gamep g, Levelsp v, Levelp l, con
 //
 [[nodiscard]] static auto player_move_try(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to, bool move_confirmed, bool need_path) -> bool
 {
-  THING_DBG(me, "move try");
+  if (move_confirmed) {
+    THING_DBG(me, "move try (confirmed move)");
+  } else {
+    THING_DBG(me, "move try");
+  }
+  TRACE_INDENT();
 
   if (! move_confirmed) {
     if (! player_check_if_target_needs_move_confirm(g, v, l, to)) {
@@ -1045,12 +1057,14 @@ auto player_jump(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool
 //
 auto player_move_to_next(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool
 {
-  TRACE();
+  THING_DBG(me, "player move to next");
+  TRACE_INDENT();
 
   //
   // If already moving, do not pop the next path tile
   //
   if (thing_is_moving(me)) {
+    THING_DBG(me, "player move to next: already moving, delay");
     return false;
   }
 
@@ -1097,18 +1111,26 @@ auto player_move_to_next(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool
   bpoint move_next      = {};
   bool   move_confirmed = {};
 
+  THING_DBG(me, "player pop next move");
   if (! thing_move_path_pop(g, v, l, me, move_confirmed, move_next)) {
     //
     // If could not pop, then no path is left
     //
+    THING_DBG(me, "player pop next move; no path left");
     player_state_change(g, v, l, PLAYER_STATE_NORMAL);
     return false;
   }
 
   bpoint move_destination = {};
   if (thing_move_path_target(g, v, l, me, move_destination)) {
+    THING_DBG(me, "player has a path to target");
+
     if (level_is_cursor_path_hazard(g, v, l, move_next) != nullptr) {
+      THING_DBG(me, "player has a path to target, but it is a hazard");
+
       if (thing_jump_to(g, v, l, me, move_destination)) {
+        THING_DBG(me, "player has a path to target, but can jump to it");
+
         //
         // If could jump, then abort the path walk
         //

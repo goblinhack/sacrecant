@@ -95,7 +95,8 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
 //
 auto thing_jump_to(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to, bool warn) -> bool
 {
-  TRACE();
+  THING_DBG(me, "jump to %d,%d", to.x, to.y);
+  TRACE_INDENT();
 
   if (is_oob_or_border(to)) [[unlikely]] {
     return false;
@@ -114,13 +115,12 @@ auto thing_jump_to(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to, bool warn
   // If jumping too far, truncate the jump
   //
   auto how_far_i_can_jump = thing_distance_jump(me);
-  THING_DBG(me, "jump to %d,%d (original)", to.x, to.y);
 
   thing_jump_truncate(g, v, l, me, to, how_far_i_can_jump);
 
   auto how_far_i_want_to_jump = static_cast< int >(floor(distance(at, to)));
 
-  THING_DBG(me, "jump to %d,%d (latest)", to.x, to.y);
+  THING_DBG(me, "jump to %d,%d (final)", to.x, to.y);
   TRACE_INDENT();
 
   //
@@ -147,12 +147,15 @@ auto thing_jump_to(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to, bool warn
       }
     }
 
+    THING_DBG(me, "something in the way of jumping onto");
+    TRACE_INDENT();
+
     //
     // We could be trying to land on the player. Try again, but with a shorter distance.
     //
     if (how_far_i_want_to_jump > 1) {
       thing_jump_truncate(g, v, l, me, to, how_far_i_want_to_jump - 1);
-      THING_DBG(me, "something in the way, truncate jump to %d,%d", to.x, to.y);
+      THING_DBG(me, "truncated jump to %d,%d", to.x, to.y);
       return thing_jump_to(g, v, l, me, to, warn);
     }
 

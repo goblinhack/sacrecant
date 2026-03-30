@@ -23,8 +23,18 @@ static void level_log_(Gamep g, Levelsp v, Levelp l, const char *fmt, va_list ar
 
   buf[ 0 ] = '\0';
   get_timestamp(buf, MAXLONGSTR);
-  len = static_cast< int >(strlen(buf));
-  snprintf(buf + len, MAXLONGSTR - len, "%s: ", to_string(g, v, l).c_str());
+
+  IF_DEBUG
+  {
+    len = static_cast< int >(strlen(buf));
+    snprintf(buf + len, MAXLONGSTR - len, "[%-50s]: %s: ", "", to_string(g, v, l).c_str());
+  }
+  else
+  {
+    len = static_cast< int >(strlen(buf));
+    snprintf(buf + len, MAXLONGSTR - len, "%s: ", to_string(g, v, l).c_str());
+  }
+
   len = static_cast< int >(strlen(buf));
   vsnprintf(buf + len, MAXLONGSTR - len, fmt, args);
 

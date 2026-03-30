@@ -80,8 +80,8 @@ auto game_mouse_up(Gamep g, int x, int y, uint32_t button) -> bool { return fals
 
 auto game_mouse_motion(Gamep g, int x, int y, int relx, int rely, int wheelx, int wheely) -> bool
 {
-  DBG2("game mouse motion");
-  TRACE_INDENT();
+  DBG("game mouse motion");
+  TRACE();
 
   if (wid_some_recent_event_occurred()) {
     return false;

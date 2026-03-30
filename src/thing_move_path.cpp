@@ -11,11 +11,11 @@
 //
 // Remove the move path
 //
-void thing_move_path_reset(Gamep g, Levelsp v, Levelp l, Thingp t)
+void thing_move_path_reset(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
 
-  auto *ext_struct = thing_ext_struct(g, t);
+  auto *ext_struct = thing_ext_struct(g, me);
   if (ext_struct == nullptr) {
     return;
   }
@@ -25,13 +25,32 @@ void thing_move_path_reset(Gamep g, Levelsp v, Levelp l, Thingp t)
 }
 
 //
-// Get the move path size
+// Confirm the move path
 //
-auto thing_move_path_size(Gamep g, Levelsp v, Levelp l, Thingp t) -> int
+void thing_move_path_confirm(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
 
-  auto *ext_struct = thing_ext_struct(g, t);
+  auto *ext_struct = thing_ext_struct(g, me);
+  if (ext_struct == nullptr) {
+    return;
+  }
+
+  if (! ext_struct->move_path.size) {
+    return;
+  }
+
+  ext_struct->move_path.confirmed = true;
+}
+
+//
+// Get the move path size
+//
+auto thing_move_path_size(Gamep g, Levelsp v, Levelp l, Thingp me) -> int
+{
+  TRACE();
+
+  auto *ext_struct = thing_ext_struct(g, me);
   if (ext_struct == nullptr) {
     return 0;
   }
@@ -42,22 +61,22 @@ auto thing_move_path_size(Gamep g, Levelsp v, Levelp l, Thingp t) -> int
 //
 // Return true if there is a move to pop (and pop it)
 //
-auto thing_move_path_pop(Gamep g, Levelsp v, Levelp l, Thingp t, bpoint &out) -> bool
+auto thing_move_path_pop(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint &out) -> bool
 {
   bool move_confirmed = {};
-  return thing_move_path_pop(g, v, l, t, move_confirmed, out);
+  return thing_move_path_pop(g, v, l, me, move_confirmed, out);
 }
 
 //
 // Return true if there is a move to pop (and pop it)
 //
-auto thing_move_path_pop(Gamep g, Levelsp v, Levelp l, Thingp t, bool &move_confirmed, bpoint &out) -> bool
+auto thing_move_path_pop(Gamep g, Levelsp v, Levelp l, Thingp me, bool &move_confirmed, bpoint &out) -> bool
 {
   TRACE();
 
   move_confirmed = false;
 
-  auto *ext_struct = thing_ext_struct(g, t);
+  auto *ext_struct = thing_ext_struct(g, me);
   if (ext_struct == nullptr) {
     return false;
   }
@@ -82,11 +101,11 @@ auto thing_move_path_pop(Gamep g, Levelsp v, Levelp l, Thingp t, bool &move_conf
 //
 // Copy the given path to the thing
 //
-auto thing_move_path_apply_confirmed(Gamep g, Levelsp v, Levelp l, Thingp t, std::vector< bpoint > &move_path, bool confirmed) -> bool
+auto thing_move_path_apply_confirmed(Gamep g, Levelsp v, Levelp l, Thingp me, std::vector< bpoint > &move_path, bool confirmed) -> bool
 {
-  auto *ext_struct = thing_ext_struct(g, t);
+  auto *ext_struct = thing_ext_struct(g, me);
   if (ext_struct == nullptr) {
-    thing_err(t, "no ext struct");
+    thing_err(me, "no ext struct");
     return false;
   }
 
@@ -95,9 +114,9 @@ auto thing_move_path_apply_confirmed(Gamep g, Levelsp v, Levelp l, Thingp t, std
 
   IF_DEBUG2
   {
-    THING_DBG(t, "apply path size: %d", static_cast< int >(move_path.size()));
+    THING_DBG(me, "apply path size: %d", static_cast< int >(move_path.size()));
     for (auto p : move_path) {
-      THING_DBG(t, " - path: %d,%d", p.x, p.y);
+      THING_DBG(me, " - path: %d,%d", p.x, p.y);
     }
   }
 
@@ -118,19 +137,19 @@ auto thing_move_path_apply_confirmed(Gamep g, Levelsp v, Levelp l, Thingp t, std
 //
 // Copy the given path to the thing
 //
-auto thing_move_path_apply(Gamep g, Levelsp v, Levelp l, Thingp t, std::vector< bpoint > &move_path) -> bool
+auto thing_move_path_apply(Gamep g, Levelsp v, Levelp l, Thingp me, std::vector< bpoint > &move_path) -> bool
 {
-  return thing_move_path_apply_confirmed(g, v, l, t, move_path, false);
+  return thing_move_path_apply_confirmed(g, v, l, me, move_path, false);
 }
 
 //
 // Return true if there is a move to pop.
 //
-auto thing_move_path_target(Gamep g, Levelsp v, Levelp l, Thingp t, bpoint &out) -> bool
+auto thing_move_path_target(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint &out) -> bool
 {
   TRACE();
 
-  auto *ext_struct = thing_ext_struct(g, t);
+  auto *ext_struct = thing_ext_struct(g, me);
   if (ext_struct == nullptr) {
     return false;
   }
