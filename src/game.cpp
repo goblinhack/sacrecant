@@ -1344,7 +1344,18 @@ auto game_hiscores_get(Gamep g) -> class HiScores *
   return &g->config.hiscores;
 }
 
-void game_add_new_hiscore(Gamep g, int score, LevelNum level_num, const char *name, const char *reason)
+auto game_hiscore_get(Gamep g) -> uint32_t
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return 0;
+  }
+  return g->config.hiscores.hiscores[ 0 ].score;
+}
+
+void game_add_new_hiscore(Gamep g, uint32_t score, LevelNum level_num, const char *name, const char *reason)
 {
   TRACE();
 
@@ -1355,7 +1366,7 @@ void game_add_new_hiscore(Gamep g, int score, LevelNum level_num, const char *na
   g->config.hiscores.add_new_hiscore(g, score, level_num, name, reason);
 }
 
-auto game_is_new_hiscore(Gamep g, int score) -> bool
+auto game_is_new_hiscore(Gamep g, uint32_t score) -> bool
 {
   TRACE();
 
@@ -1366,7 +1377,7 @@ auto game_is_new_hiscore(Gamep g, int score) -> bool
   return g->config.hiscores.is_new_hiscore(score);
 }
 
-auto game_is_new_highest_hiscore(Gamep g, int score) -> bool
+auto game_is_new_highest_hiscore(Gamep g, uint32_t score) -> bool
 {
   TRACE();
 
@@ -1377,7 +1388,7 @@ auto game_is_new_highest_hiscore(Gamep g, int score) -> bool
   return g->config.hiscores.is_new_highest_hiscore(score);
 }
 
-auto game_place_str(Gamep g, int score) -> const char *
+auto game_place_str(Gamep g, uint32_t score) -> const char *
 {
   TRACE();
 

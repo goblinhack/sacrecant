@@ -212,13 +212,17 @@ using ThingInventory = struct ThingInventory {
 //
 using ThingPlayer = struct ThingPlayer {
   //
-  // For hiscores
+  // Player score
   //
-  int16_t levels_completed;
+  uint32_t score;
   //
   // What we're carrying
   //
   ThingInventory inventory;
+  //
+  // For hiscores
+  //
+  int8_t levels_completed;
 };
 
 using Thing = struct Thing {

@@ -28,8 +28,8 @@ public:
   std::string name;
   std::string reason;
   std::string when;
-  int         score            = {};
-  int         levels_completed = {};
+  uint32_t    score            = {};
+  uint32_t    levels_completed = {};
 
   //
   // The number of scores in the table.
@@ -49,10 +49,10 @@ public:
   //
   std::vector< HiScore > hiscores;
 
-  void add_new_hiscore(Gamep g, int score, LevelNum level, const std::string &name, const std::string &reason);
-  auto is_new_hiscore(int score) -> bool;
-  auto is_new_highest_hiscore(int score) -> bool;
-  auto place_str(int score) -> const char *;
+  void add_new_hiscore(Gamep g, uint32_t score, LevelNum level, const std::string &name, const std::string &reason);
+  auto is_new_hiscore(uint32_t score) -> bool;
+  auto is_new_highest_hiscore(uint32_t score) -> bool;
+  auto place_str(uint32_t score) -> const char *;
 };
 
 #endif // MY_HISCORE_HPP

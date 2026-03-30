@@ -119,6 +119,49 @@
 }
 
 //
+// Score
+//
+[[nodiscard]] static auto wid_thing_info_score(Gamep g, Thingp t, Tpp tp, WidPopup *parent, int width) -> bool
+{
+  TRACE();
+
+  if (! thing_is_player(t)) {
+    return false;
+  }
+
+  if (! tp_is_health_bar_shown(tp)) {
+    return false;
+  }
+
+  auto *player_struct = thing_player_struct(g);
+  if (player_struct == nullptr) {
+    return false;
+  }
+
+  auto score    = player_struct->score;
+  auto hiscore  = game_hiscore_get(g);
+  auto maxscore = std::max(score, hiscore);
+
+  auto score_str = string_sprintf(
+      // newline
+      UI_INFO1_FMT_STR "Score "
+      // newline
+      UI_INFO2_FMT_STR " %06u "
+      // newline
+      UI_INFO1_FMT_STR " Hiscore "
+      // newline
+      UI_INFO2_FMT_STR " %06u",
+      // newline
+      score,
+      // newline
+      maxscore);
+
+  parent->log(g, score_str);
+
+  return true;
+}
+
+//
 // Health bar
 //
 [[nodiscard]] static auto wid_thing_info_health_bar(Gamep g, Thingp t, Tpp tp, WidPopup *parent, int width) -> bool
@@ -289,6 +332,9 @@ void wid_thing_info(Gamep g, Levelsp v, Levelp l, Thingp t, WidPopup *parent, in
     parent->log_empty_line(g);
   }
 
+  if (wid_thing_info_score(g, t, tp, parent, width)) {
+    parent->log_empty_line(g);
+  }
   if (wid_thing_info_health_bar(g, t, tp, parent, width)) {
     parent->log_empty_line(g);
   }

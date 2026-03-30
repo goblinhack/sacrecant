@@ -26,7 +26,7 @@ HiScores::HiScores()
 
 HiScores::~HiScores() { TRACE(); }
 
-void HiScores::add_new_hiscore(Gamep g, int score, LevelNum level_num, const std::string &name, const std::string &reason)
+void HiScores::add_new_hiscore(Gamep g, uint32_t score, LevelNum level_num, const std::string &name, const std::string &reason)
 {
   TRACE();
   auto        h = hiscores.begin();
@@ -49,7 +49,7 @@ void HiScores::add_new_hiscore(Gamep g, int score, LevelNum level_num, const std
   }
 }
 
-auto HiScores::is_new_hiscore(int score) -> bool
+auto HiScores::is_new_hiscore(uint32_t score) -> bool
 {
   TRACE();
   auto h = hiscores.begin();
@@ -71,7 +71,7 @@ auto HiScores::is_new_hiscore(int score) -> bool
   return false;
 }
 
-auto HiScores::is_new_highest_hiscore(int score) -> bool
+auto HiScores::is_new_highest_hiscore(uint32_t score) -> bool
 {
   auto h = hiscores.begin();
 
@@ -88,7 +88,7 @@ auto HiScores::is_new_highest_hiscore(int score) -> bool
   return false;
 }
 
-auto HiScores::place_str(int score) -> const char *
+auto HiScores::place_str(uint32_t score) -> const char *
 {
   // NOLINTBEGIN
   const char *which[ HiScore::max_displayed ] = {

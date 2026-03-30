@@ -49,6 +49,7 @@ enum {
 };
 
 auto game_hiscores_get(Gamep g) -> class HiScores *;
+auto game_hiscore_get(Gamep g) -> uint32_t;
 
 void game_visible_map_pix_get(Gamep g, int *visible_map_tl_x, int *visible_map_tl_y, int *visible_map_br_x, int *visible_map_br_y);
 void game_visible_map_pix_set(Gamep g, int visible_map_tl_x, int visible_map_tl_y, int visible_map_br_x, int visible_map_br_y);
@@ -266,8 +267,8 @@ void               game_request_to_end_game_unset(Gamep g);
 auto game_request_to_end_game_reason_get(Gamep g) -> std::string;
 void game_request_to_end_game_reason_set(Gamep g, const std::string &val);
 
-[[nodiscard]] auto game_is_new_highest_hiscore(Gamep g, int score) -> bool;
-[[nodiscard]] auto game_is_new_hiscore(Gamep g, int score) -> bool;
+[[nodiscard]] auto game_is_new_highest_hiscore(Gamep g, uint32_t score) -> bool;
+[[nodiscard]] auto game_is_new_hiscore(Gamep g, uint32_t score) -> bool;
 [[nodiscard]] auto game_wait_for_tick_to_finish(Gamep g, Levelsp v, Levelp l) -> bool;
 [[nodiscard]] auto game_event_ascend(Gamep g) -> bool;
 [[nodiscard]] auto game_event_descend(Gamep g) -> bool;
@@ -287,7 +288,7 @@ void game_request_to_end_game_reason_set(Gamep g, const std::string &val);
 [[nodiscard]] auto game_mouse_motion(Gamep g, int x, int y, int relx, int rely, int wheelx, int wheely) -> bool;
 [[nodiscard]] auto game_mouse_up(Gamep g, int x, int y, uint32_t button) -> bool;
 [[nodiscard]] auto game_save(Gamep g, const std::string &file_to_save) -> bool;
-[[nodiscard]] auto game_place_str(Gamep g, int score) -> const char *;
+[[nodiscard]] auto game_place_str(Gamep g, uint32_t score) -> const char *;
 [[nodiscard]] auto game_state(Gamep g) -> GameState;
 [[nodiscard]] auto game_map_single_pix_size_get(Gamep g) -> int;
 [[nodiscard]] auto game_map_zoom_def_get(Gamep g) -> int;
@@ -316,6 +317,6 @@ void game_unset_currently_saving_snapshot(Gamep);
 void game_unset_request_reset_state_change(Gamep);
 void game_unset_request_to_save_snapshot(Gamep);
 void game_unset_request_to_update_same_level(Gamep);
-void game_add_new_hiscore(Gamep g, int score, LevelNum level_num, const char *name, const char *reason);
+void game_add_new_hiscore(Gamep g, uint32_t score, LevelNum level_num, const char *name, const char *reason);
 
 #endif
