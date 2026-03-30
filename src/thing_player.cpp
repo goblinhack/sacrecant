@@ -1112,11 +1112,15 @@ auto player_move_to_next(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool
   bool   move_confirmed = {};
 
   THING_DBG(me, "player pop next move");
+  TRACE_INDENT();
+
   if (! thing_move_path_pop(g, v, l, me, move_confirmed, move_next)) {
     //
     // If could not pop, then no path is left
     //
     THING_DBG(me, "player pop next move; no path left");
+    TRACE_INDENT();
+
     player_state_change(g, v, l, PLAYER_STATE_NORMAL);
     return false;
   }
@@ -1124,12 +1128,26 @@ auto player_move_to_next(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool
   bpoint move_destination = {};
   if (thing_move_path_target(g, v, l, me, move_destination)) {
     THING_DBG(me, "player has a path to target");
+    TRACE_INDENT();
 
     if (level_is_cursor_path_hazard(g, v, l, move_next) != nullptr) {
       THING_DBG(me, "player has a path to target, but it is a hazard");
+      TRACE_INDENT();
 
       if (thing_jump_to(g, v, l, me, move_destination)) {
         THING_DBG(me, "player has a path to target, but can jump to it");
+        TRACE_INDENT();
+
+        //
+        // If we're jumping onto a chasm still, maybe a few tiles away, we want
+        // the player to have a chance to say no
+        //
+        bool need_path = false;
+        if (level_is_cursor_path_hazard(g, v, l, move_destination) != nullptr) {
+          if (! player_move_try(g, v, l, me, move_next, move_confirmed, need_path)) {
+            return false;
+          }
+        }
 
         //
         // If could jump, then abort the path walk
@@ -1150,7 +1168,6 @@ auto player_move_to_next(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool
   }
 
   bool need_path = false;
-
   if (! player_move_try(g, v, l, me, move_next, move_confirmed, need_path)) {
     return false;
   }

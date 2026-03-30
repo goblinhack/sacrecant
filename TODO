@@ -1,5 +1,6 @@
 bugs
 ----
+after warning confirm, mouse cursor is missing
 player jumping into chasm bugs
 fireball on new level due to previous keypress
 popup text is too wide
@@ -11,9 +12,10 @@ too many monsters
 
 essential features
 ------------------
+intro screen / background level maybe
+intro level / handbook
 stamina needed to avoid fast jump loops
 score? score is hard coded to 666
-intro level
 traps must do something / gas effects
 items can be lost in deep water
 chests need to contain something and those items destroyed when the chest is
