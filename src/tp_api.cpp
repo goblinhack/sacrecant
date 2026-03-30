@@ -167,10 +167,10 @@ auto tp_is_blit_square_outlined(Tpp tp) -> bool
   return tp_flag(tp, is_blit_square_outlined) != 0;
 }
 
-auto tp_is_blit_when_obscured_as_faded(Tpp tp) -> bool
+auto tp_is_blit_when_obscured_faded(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_blit_when_obscured_as_faded) != 0;
+  return tp_flag(tp, is_blit_when_obscured_faded) != 0;
 }
 
 auto tp_is_border(Tpp tp) -> bool
@@ -1181,10 +1181,10 @@ auto tp_is_blit_outlined_when_hit(Tpp tp) -> bool
   return tp_flag(tp, is_blit_outlined_when_hit) != 0;
 }
 
-auto tp_is_blit_when_obscured_as_outline(Tpp tp) -> bool
+auto tp_is_blit_when_obscured_outline(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_blit_when_obscured_as_outline) != 0;
+  return tp_flag(tp, is_blit_when_obscured_outline) != 0;
 }
 
 auto tp_is_attackable_by_player(Tpp tp) -> bool

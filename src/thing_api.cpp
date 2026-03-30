@@ -715,116 +715,6 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   thing_is_on_map_set(g, v, l, t, false);
 }
 
-auto thing_is_carried(Thingp t) -> bool
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return false;
-  }
-  return t->_is_carried;
-}
-
-//
-// Returns true/false on success/fail
-//
-auto thing_is_carried_try_set(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp player_or_monst, bool val) -> bool
-{
-  TRACE_DEBUG();
-
-  if (! thing_is_player(player_or_monst) && ! thing_is_monst(player_or_monst)) {
-    thing_err(player_or_monst, "unexpected thing for %s", __FUNCTION__);
-    return false;
-  }
-
-  if (item == nullptr) {
-    ERR("no thing pointer");
-    return false;
-  }
-
-  if (item->_is_carried == static_cast< int >(val)) {
-    auto s = to_string(g, v, l, item);
-    THING_DBG(player_or_monst, "carry-try: %s (failed, already carried)", s.c_str());
-    return true;
-  }
-  auto old_value    = item->_is_carried;
-  item->_is_carried = val;
-
-  //
-  // Attempt the collect/drop. It can fail.
-  //
-  if (val) {
-    //
-    // Try to collect
-    //
-    if (! thing_on_carry_request(g, v, l, item, player_or_monst)) {
-      //
-      // Collect failed
-      //
-      item->_is_carried = old_value;
-
-      auto s = to_string(g, v, l, item);
-      THING_DBG(player_or_monst, "carry-try: %s (failed, carry request)", s.c_str());
-      return false;
-    }
-
-    //
-    // Add to the inventory.
-    //
-    if (! thing_inventory_add(g, v, l, item, player_or_monst)) {
-      //
-      // Possibly out of slots
-      //
-      item->_is_carried = old_value;
-
-      auto s = to_string(g, v, l, item);
-      THING_DBG(player_or_monst, "carry-try: %s (failed, inventory add)", s.c_str());
-      return false;
-    }
-
-  } else {
-    //
-    // Try to drop
-    //
-    if (! thing_on_drop_request(g, v, l, item, player_or_monst)) {
-      //
-      // Drop failed
-      //
-      item->_is_carried = old_value;
-
-      auto s = to_string(g, v, l, item);
-      THING_DBG(player_or_monst, "drop-try: %s (failed, drop request)", s.c_str());
-      return false;
-    }
-
-    //
-    // Remove from the inventory.
-    //
-    if (! thing_inventory_remove(g, v, l, item, player_or_monst)) {
-      item->_is_carried = old_value;
-
-      auto s = to_string(g, v, l, item);
-      THING_DBG(player_or_monst, "drop-try: %s (failed, inventory remove)", s.c_str());
-      return false;
-    }
-  }
-
-  //
-  // Reset animation
-  //
-  thing_anim_init(g, v, l, item, THING_ANIM_IDLE);
-
-  return true;
-}
-
-auto thing_is_carried_try_unset(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp player_or_monst) -> bool
-{
-  TRACE_DEBUG();
-
-  return thing_is_carried_try_set(g, v, l, item, player_or_monst, false);
-}
-
 auto thing_is_animated_can_hflip(Thingp t) -> bool
 {
   TRACE_DEBUG();
@@ -2044,7 +1934,7 @@ auto thing_is_blit_outlined_when_hit(Thingp t) -> bool
   return tp_flag(thing_tp(t), is_blit_outlined_when_hit) != 0;
 }
 
-auto thing_is_blit_when_obscured_as_outline(Thingp t) -> bool
+auto thing_is_blit_when_obscured_outline(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -2052,7 +1942,7 @@ auto thing_is_blit_when_obscured_as_outline(Thingp t) -> bool
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_blit_when_obscured_as_outline) != 0;
+  return tp_flag(thing_tp(t), is_blit_when_obscured_outline) != 0;
 }
 
 auto thing_is_attackable_by_player(Thingp t) -> bool
@@ -2649,7 +2539,7 @@ auto thing_is_collectable(Thingp t) -> bool
   return tp_flag(thing_tp(t), is_collectable) != 0;
 }
 
-auto thing_is_blit_when_obscured_as_faded(Thingp t) -> bool
+auto thing_is_blit_when_obscured_faded(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -2657,7 +2547,7 @@ auto thing_is_blit_when_obscured_as_faded(Thingp t) -> bool
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_blit_when_obscured_as_faded) != 0;
+  return tp_flag(thing_tp(t), is_blit_when_obscured_faded) != 0;
 }
 
 auto thing_is_openable(Thingp t) -> bool

@@ -209,10 +209,10 @@ static void thing_display_outlined_blit(Gamep g, Tpp tp, spoint tl, spoint br, T
     return false;
   }
 
-  if (thing_is_blit_when_obscured_as_faded(t_maybe_null)) {
+  if (thing_is_blit_when_obscured_faded(t_maybe_null)) {
     fg.a = h;
     tile_blit(tile, x1, x2, y1, y2, tl, br, fg);
-  } else if (thing_is_blit_when_obscured_as_outline(t_maybe_null)) {
+  } else if (thing_is_blit_when_obscured_outline(t_maybe_null)) {
     color c = WHITE;
     c.a     = h;
     tile_blit_outline(tile, x1, x2, y1, y2, tl, br, c);

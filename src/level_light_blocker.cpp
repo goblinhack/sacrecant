@@ -19,7 +19,7 @@
 //
 // Something blocking the fov?
 //
-auto level_light_blocker_at(Gamep g, Levelsp v, Levelp l, const bpoint &pov) -> Thingp
+auto level_light_blocker_at(Gamep g, Levelsp v, Levelp l, const bpoint &pov, Thingp me) -> Thingp
 {
   FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, pov)
   {
@@ -31,7 +31,7 @@ auto level_light_blocker_at(Gamep g, Levelsp v, Levelp l, const bpoint &pov) -> 
       continue;
     }
 
-    if (thing_vision_blocker(g, v, l, it)) {
+    if (thing_vision_blocker(g, v, l, me, it)) {
       return it;
     }
   }

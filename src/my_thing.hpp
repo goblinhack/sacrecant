@@ -555,12 +555,12 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_can_move_to_attempt_by_shoving(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool;
 [[nodiscard]] auto thing_can_move_to_attempt(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool;
 [[nodiscard]] auto thing_can_move_to_possible(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool;
-[[nodiscard]] auto thing_carry_item(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp player_or_monst) -> bool;
-[[nodiscard]] auto thing_close(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst) -> bool;
-[[nodiscard]] auto thing_collect_key(Gamep g, Levelsp v, Levelp l, Thingp it, Thingp player_or_monst) -> bool;
+[[nodiscard]] auto thing_carry_item(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp me) -> bool;
+[[nodiscard]] auto thing_close(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp closer) -> bool;
+[[nodiscard]] auto thing_collect_key(Gamep g, Levelsp v, Levelp l, Thingp it, Thingp me) -> bool;
 [[nodiscard]] auto thing_collision_radius(Thingp t) -> float;
 [[nodiscard]] auto thing_corpse_allowed(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
-[[nodiscard]] auto thing_crush(Gamep g, Levelsp v, Levelp l, Thingp it, Thingp me) -> bool;
+[[nodiscard]] auto thing_crush(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp crusher) -> bool;
 [[nodiscard]] auto thing_damage_this_tick_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_damage_this_tick_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_damage_this_tick_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
@@ -576,7 +576,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_distance_vision_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_distance_vision_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
 [[nodiscard]] auto thing_distance_vision(Thingp t) -> int;
-[[nodiscard]] auto thing_drop_item(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp player_or_monst) -> bool;
+[[nodiscard]] auto thing_drop_item(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp me) -> bool;
 [[nodiscard]] auto thing_ext_struct(Gamep g, Thingp t) -> ThingExtp;
 [[nodiscard]] auto thing_find_non_inline(Gamep g, Levelsp v, ThingId id) -> Thingp;
 [[nodiscard]] auto thing_get_at_safe(Gamep g, Levelsp v, Levelp l, const bpoint &p, int slot) -> Thingp;
@@ -590,10 +590,10 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_health(Thingp t) -> int;
 [[nodiscard]] auto thing_init(Gamep g, Levelsp v, Levelp l, Tpp tp, const bpoint &at) -> Thingp;
 [[nodiscard]] auto thing_init(Gamep g, Levelsp v, Levelp l, Tpp tp, const fpoint &real_at) -> Thingp;
-[[nodiscard]] auto thing_inventory_add(Gamep g, Levelsp v, Levelp l, Thingp new_item, Thingp player_or_monst) -> bool;
+[[nodiscard]] auto thing_inventory_add(Gamep g, Levelsp v, Levelp l, Thingp new_item, Thingp me) -> bool;
 [[nodiscard]] auto thing_inventory_is_empty(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
 [[nodiscard]] auto thing_inventory_item_mergeable(Gamep g, Levelsp v, Levelp l, Thingp a, Thingp b) -> bool;
-[[nodiscard]] auto thing_inventory_remove(Gamep g, Levelsp v, Levelp l, Thingp drop_item, Thingp player_or_monst) -> bool;
+[[nodiscard]] auto thing_inventory_remove(Gamep g, Levelsp v, Levelp l, Thingp drop_item, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_able_to_collect_items(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_collect_keys(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_crush_grass(Thingp t) -> bool;
@@ -628,8 +628,8 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_blit_shown_in_chasms(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blit_shown_in_overlay(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blit_square_outlined(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_blit_when_obscured_as_faded(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_blit_when_obscured_as_outline(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_blit_when_obscured_faded(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_blit_when_obscured_outline(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blitzhound(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_border(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_brazier(Thingp t) -> bool;
@@ -637,8 +637,8 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_broken_on_death(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_burnable(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_burning(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_carried_try_set(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp player_or_monst, bool val = true) -> bool;
-[[nodiscard]] auto thing_is_carried_try_unset(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp player_or_monst) -> bool;
+[[nodiscard]] auto thing_is_carried_try_set(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp me, bool val = true) -> bool;
+[[nodiscard]] auto thing_is_carried_try_unset(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_carried(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_chasm(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_collectable(Thingp t) -> bool;
@@ -886,7 +886,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_name_short(Gamep g, Levelsp v, Levelp l, Thingp t, ThingTextFlags flags = 0) -> std::string;
 [[nodiscard]] auto thing_old_at(Thingp t) -> bpoint;
 [[nodiscard]] auto thing_on_same_level_as_player(Gamep g, Levelsp v, Thingp t) -> bool;
-[[nodiscard]] auto thing_open(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst) -> bool;
+[[nodiscard]] auto thing_open(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp opener) -> bool;
 [[nodiscard]] auto thing_path_cost(Gamep g, Levelsp v, Levelp l, Thingp me, std::vector< bpoint > &path) -> int;
 [[nodiscard]] auto thing_player_level(Gamep g) -> Levelp;
 [[nodiscard]] auto thing_player_mouse_down(Gamep g, Levelsp v, Levelp l, int x, int y, uint32_t button) -> bool;
@@ -1009,7 +1009,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_value9(Thingp t) -> int;
 [[nodiscard]] auto thing_variant_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
 [[nodiscard]] auto thing_variant(Thingp t) -> int;
-[[nodiscard]] auto thing_vision_blocker(Gamep g, Levelsp v, Levelp l, Thingp it) -> bool;
 [[nodiscard]] auto thing_vision_blocker(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp it) -> bool;
 [[nodiscard]] auto thing_vision_can_see_tile(Gamep g, Levelsp v, Levelp l, Thingp t, bpoint p) -> bool;
 [[nodiscard]] auto thing_warp_to(Gamep g, Levelsp v, Levelp new_level, Thingp me, bpoint to) -> bool;
@@ -1083,7 +1082,7 @@ void thing_hidden_time_step(Gamep g, Levelsp v, Levelp l, Thingp me, int time_st
 void thing_hit_time_step(Gamep g, Levelsp v, Levelp l, Thingp t, int time_step);
 void thing_hot_time_step(Gamep g, Levelsp v, Levelp l, Thingp me, int time_step);
 void thing_interpolate(Gamep g, Levelsp v, Levelp l, Thingp t, float dt);
-void thing_inventory_dump(Gamep g, Levelsp v, Levelp l, Thingp player_or_monst);
+void thing_inventory_dump(Gamep g, Levelsp v, Levelp l, Thingp me);
 void thing_is_burning_handle(Gamep g, Levelsp v, Levelp l, Thingp t);
 void thing_is_burning_set(Gamep g, Levelsp v, Levelp l, Thingp t, bool val = true);
 void thing_is_burning_unset(Gamep g, Levelsp v, Levelp l, Thingp t);

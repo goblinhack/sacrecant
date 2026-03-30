@@ -167,10 +167,10 @@ auto level_is_blit_square_outlined_cached(Gamep g, Levelsp v, Levelp l, const bp
   return level_flag_cached(g, v, l, is_blit_square_outlined, p);
 }
 
-auto level_is_blit_when_obscured_as_faded_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+auto level_is_blit_when_obscured_faded_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_blit_when_obscured_as_faded, p);
+  return level_flag_cached(g, v, l, is_blit_when_obscured_faded, p);
 }
 
 auto level_is_border_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
@@ -1181,10 +1181,10 @@ auto level_is_blit_outlined_when_hit_cached(Gamep g, Levelsp v, Levelp l, const 
   return level_flag_cached(g, v, l, is_blit_outlined_when_hit, p);
 }
 
-auto level_is_blit_when_obscured_as_outline_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+auto level_is_blit_when_obscured_outline_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_blit_when_obscured_as_outline, p);
+  return level_flag_cached(g, v, l, is_blit_when_obscured_outline, p);
 }
 
 auto level_is_attackable_by_player_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

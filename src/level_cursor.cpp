@@ -206,7 +206,7 @@ static auto level_cursor_path_draw_line_attempt(Gamep g, Levelsp v, Levelp l, Th
         std::initializer_list< ThingFlag > const init    = {is_lava, is_chasm, is_water};
 
         for (auto i : init) {
-          if (level_flag(g, v, l, i, bpoint(v->cursor_at.x, v->cursor_at.y)) != nullptr) {
+          if (level_flag(g, v, l, i, bpoint(v->cursor_at.x, v->cursor_at.y), player) != nullptr) {
             got_one = true;
 
             //
@@ -229,7 +229,7 @@ static auto level_cursor_path_draw_line_attempt(Gamep g, Levelsp v, Levelp l, Th
                 }
 
                 if (level_is_cursor_path_hazard(g, v, l, p) != nullptr) {
-                  if (level_flag(g, v, l, i, p) == nullptr) {
+                  if (level_flag(g, v, l, i, p, player) == nullptr) {
                     dmap.val[ x ][ y ] = DMAP_IS_WALL;
                     continue;
                   }

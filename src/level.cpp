@@ -420,7 +420,7 @@ auto level_get_thing_id_at(Gamep g, Levelsp v, Levelp l, const bpoint &p, int sl
 //
 // Additional level flag filters e.g. open doors are not obstacles
 //
-[[nodiscard]] static auto level_flag_filter(Gamep g, Levelsp v, Levelp l, ThingFlag f, Thingp it) -> bool
+[[nodiscard]] static auto level_flag_filter(Gamep g, Levelsp v, Levelp l, ThingFlag f, Thingp me, Thingp it) -> bool
 {
   TRACE_DEBUG();
 
@@ -430,7 +430,7 @@ auto level_get_thing_id_at(Gamep g, Levelsp v, Levelp l, const bpoint &p, int sl
 
   switch (f) {
     case is_obs_to_vision :
-      if (! thing_vision_blocker(g, v, l, it)) {
+      if (! thing_vision_blocker(g, v, l, me, it)) {
         return true; // filter out i.e. ignore
       }
       return false;
@@ -474,20 +474,21 @@ auto level_get_thing_id_at(Gamep g, Levelsp v, Levelp l, const bpoint &p, int sl
 //
 [[nodiscard]] static auto level_flag_filter_needed(Gamep g, Levelsp v, Levelp l, ThingFlag f) -> bool
 {
-  return level_flag_filter(g, v, l, f, nullptr);
+  return level_flag_filter(g, v, l, f, nullptr, nullptr);
 }
 
 auto level_find_all(Gamep g, Levelsp v, Levelp l, ThingFlag f) -> std::vector< Thingp >
 {
   TRACE();
 
+  Thingp                me = nullptr;
   std::vector< Thingp > out;
 
   const auto filter_needed = level_flag_filter_needed(g, v, l, f);
   if (filter_needed) {
     FOR_ALL_THINGS_ON_LEVEL_UNSAFE(g, v, l, it)
     {
-      if (level_flag_filter(g, v, l, f, it)) {
+      if (level_flag_filter(g, v, l, f, me, it)) {
         continue;
       }
 
@@ -512,12 +513,13 @@ auto level_find_all(Gamep g, Levelsp v, Levelp l, ThingFlag f, bpoint p) -> std:
   TRACE();
 
   std::vector< Thingp > out;
+  Thingp                me = nullptr;
 
   const auto filter_needed = level_flag_filter_needed(g, v, l, f);
   if (filter_needed) {
     FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, p)
     {
-      if (level_flag_filter(g, v, l, f, it)) {
+      if (level_flag_filter(g, v, l, f, me, it)) {
         continue;
       }
 
@@ -561,15 +563,16 @@ auto level_flag_cached(Gamep g, Levelsp v, Levelp l, ThingFlag f, bpoint p) -> b
   return l->flag[ p.x ][ p.y ][ f ] != 0;
 }
 
-auto level_flag(Gamep g, Levelsp v, Levelp l, ThingFlag f, bpoint p) -> Thingp
+auto level_flag(Gamep g, Levelsp v, Levelp l, ThingFlag f, bpoint p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
 
   const auto filter_needed = level_flag_filter_needed(g, v, l, f);
+
   if (filter_needed) {
     FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, p)
     {
-      if (level_flag_filter(g, v, l, f, it)) {
+      if (level_flag_filter(g, v, l, f, me, it)) {
         continue;
       }
 
@@ -589,22 +592,22 @@ auto level_flag(Gamep g, Levelsp v, Levelp l, ThingFlag f, bpoint p) -> Thingp
   return nullptr;
 }
 
-auto level_flag(Gamep g, Levelsp v, Levelp l, ThingFlag f, Thingp at) -> Thingp
+auto level_flag(Gamep g, Levelsp v, Levelp l, ThingFlag f, Thingp me) -> Thingp
 {
   TRACE();
 
-  if (at == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return nullptr;
   }
 
-  return level_flag(g, v, l, f, thing_at(at));
+  return level_flag(g, v, l, f, thing_at(me), me);
 }
 
 //
 // Filter to only alive things
 //
-auto level_alive(Gamep g, Levelsp v, Levelp l, ThingFlag f, bpoint p) -> Thingp
+auto level_alive(Gamep g, Levelsp v, Levelp l, ThingFlag f, bpoint p, Thingp me) -> Thingp
 {
   TRACE();
 
@@ -612,7 +615,7 @@ auto level_alive(Gamep g, Levelsp v, Levelp l, ThingFlag f, bpoint p) -> Thingp
   if (filter_needed) {
     FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, p)
     {
-      if (level_flag_filter(g, v, l, f, it)) {
+      if (level_flag_filter(g, v, l, f, me, it)) {
         continue;
       }
 
@@ -640,22 +643,22 @@ auto level_alive(Gamep g, Levelsp v, Levelp l, ThingFlag f, bpoint p) -> Thingp
   return nullptr;
 }
 
-auto level_alive(Gamep g, Levelsp v, Levelp l, ThingFlag f, Thingp at) -> Thingp
+auto level_alive(Gamep g, Levelsp v, Levelp l, ThingFlag f, Thingp me) -> Thingp
 {
   TRACE();
 
-  if (at == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return nullptr;
   }
 
-  return level_alive(g, v, l, f, thing_at(at));
+  return level_alive(g, v, l, f, thing_at(me), me);
 }
 
 //
 // Flag + is open
 //
-auto level_open(Gamep g, Levelsp v, Levelp l, ThingFlag f, bpoint p) -> Thingp
+auto level_open(Gamep g, Levelsp v, Levelp l, ThingFlag f, bpoint p, Thingp me) -> Thingp
 {
   TRACE();
 
@@ -663,7 +666,7 @@ auto level_open(Gamep g, Levelsp v, Levelp l, ThingFlag f, bpoint p) -> Thingp
   if (filter_needed) {
     FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, p)
     {
-      if (level_flag_filter(g, v, l, f, it)) {
+      if (level_flag_filter(g, v, l, f, me, it)) {
         continue;
       }
 
@@ -691,16 +694,16 @@ auto level_open(Gamep g, Levelsp v, Levelp l, ThingFlag f, bpoint p) -> Thingp
   return nullptr;
 }
 
-auto level_open(Gamep g, Levelsp v, Levelp l, ThingFlag f, Thingp at) -> Thingp
+auto level_open(Gamep g, Levelsp v, Levelp l, ThingFlag f, Thingp me) -> Thingp
 {
   TRACE();
 
-  if (at == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return nullptr;
   }
 
-  return level_open(g, v, l, f, thing_at(at));
+  return level_open(g, v, l, f, thing_at(me), me);
 }
 
 //
@@ -713,10 +716,11 @@ auto level_count(Gamep g, Levelsp v, Levelp l, ThingFlag f, bpoint p) -> int
   int count = 0;
 
   const auto filter_needed = level_flag_filter_needed(g, v, l, f);
+
   if (filter_needed) {
     FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, p)
     {
-      if (level_flag_filter(g, v, l, f, it)) {
+      if (level_flag_filter(g, v, l, f, it, nullptr)) {
         continue;
       }
 

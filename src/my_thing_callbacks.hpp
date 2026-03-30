@@ -52,21 +52,21 @@ using thing_on_level_populated_t = void (*)(Gamep, Levelsp, Levelp, Thingp me);
 void thing_on_level_populated_set(Tpp tp, thing_on_level_populated_t callback);
 void thing_on_level_populated(Gamep g, Levelsp v, Levelp l, Thingp me);
 
-using thing_on_carry_request_t = bool (*)(Gamep, Levelsp, Levelp, Thingp me, Thingp player_or_monst);
+using thing_on_carry_request_t = bool (*)(Gamep, Levelsp, Levelp, Thingp me, Thingp carrier);
 void thing_on_carry_request_set(Tpp tp, thing_on_carry_request_t callback);
-auto thing_on_carry_request(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst) -> bool;
+auto thing_on_carry_request(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp carrier) -> bool;
 
-using thing_on_drop_request_t = bool (*)(Gamep, Levelsp, Levelp, Thingp me, Thingp player_or_monst);
+using thing_on_drop_request_t = bool (*)(Gamep, Levelsp, Levelp, Thingp me, Thingp dropper);
 void thing_on_drop_request_set(Tpp tp, thing_on_drop_request_t callback);
-auto thing_on_drop_request(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst) -> bool;
+auto thing_on_drop_request(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp dropper) -> bool;
 
-using thing_on_open_request_t = bool (*)(Gamep, Levelsp, Levelp, Thingp me, Thingp player_or_monst);
+using thing_on_open_request_t = bool (*)(Gamep, Levelsp, Levelp, Thingp me, Thingp opener);
 void thing_on_open_request_set(Tpp tp, thing_on_open_request_t callback);
-auto thing_on_open_request(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst) -> bool;
+auto thing_on_open_request(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp opener) -> bool;
 
-using thing_on_close_request_t = bool (*)(Gamep, Levelsp, Levelp, Thingp me, Thingp player_or_monst);
+using thing_on_close_request_t = bool (*)(Gamep, Levelsp, Levelp, Thingp me, Thingp closer);
 void thing_on_close_request_set(Tpp tp, thing_on_close_request_t callback);
-auto thing_on_close_request(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst) -> bool;
+auto thing_on_close_request(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp closer) -> bool;
 
 using thing_on_tick_idle_t = void (*)(Gamep, Levelsp, Levelp, Thingp me);
 void thing_on_tick_idle_set(Tpp tp, thing_on_tick_idle_t callback);
@@ -102,7 +102,7 @@ void thing_on_teleported(Gamep g, Levelsp v, Levelp l, Thingp me);
 
 using thing_on_shoved_t = void (*)(Gamep, Levelsp, Levelp, Thingp me, Thingp shover);
 void thing_on_shoved_set(Tpp tp, thing_on_shoved_t callback);
-void thing_on_shoved(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst);
+void thing_on_shoved(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp shover);
 
 using thing_on_jump_begin_t = void (*)(Gamep, Levelsp, Levelp, Thingp me);
 void thing_on_jump_begin_set(Tpp tp, thing_on_jump_begin_t callback);

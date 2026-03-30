@@ -167,10 +167,10 @@ auto level_open_is_blit_square_outlined(Gamep g, Levelsp v, Levelp l, const bpoi
   return level_open(g, v, l, is_blit_square_outlined, p);
 }
 
-auto level_open_is_blit_when_obscured_as_faded(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+auto level_open_is_blit_when_obscured_faded(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_open(g, v, l, is_blit_when_obscured_as_faded, p);
+  return level_open(g, v, l, is_blit_when_obscured_faded, p);
 }
 
 auto level_open_is_border(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
@@ -1181,10 +1181,10 @@ auto level_open_is_blit_outlined_when_hit(Gamep g, Levelsp v, Levelp l, const bp
   return level_open(g, v, l, is_blit_outlined_when_hit, p);
 }
 
-auto level_open_is_blit_when_obscured_as_outline(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+auto level_open_is_blit_when_obscured_outline(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_open(g, v, l, is_blit_when_obscured_as_outline, p);
+  return level_open(g, v, l, is_blit_when_obscured_outline, p);
 }
 
 auto level_open_is_attackable_by_player(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp

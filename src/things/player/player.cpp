@@ -215,7 +215,7 @@ auto tp_load_player() -> bool
   tp_flag_set(tp, is_blit_outlined_when_hit);
   tp_flag_set(tp, is_blit_shown_in_chasms);
   tp_flag_set(tp, is_blit_shown_in_overlay);
-  tp_flag_set(tp, is_blit_when_obscured_as_outline);
+  tp_flag_set(tp, is_blit_when_obscured_outline);
   tp_flag_set(tp, is_burnable); // is capable of being burned by fire
   tp_flag_set(tp, is_collision_circle_large);
   tp_flag_set(tp, is_combustible);

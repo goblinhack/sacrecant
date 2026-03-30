@@ -14,32 +14,6 @@
 //
 // Something blocking the fov?
 //
-auto thing_vision_blocker(Gamep g, Levelsp v, Levelp l, Thingp it) -> bool
-{
-  //
-  // Dead foliage should not block
-  //
-  if (thing_is_dead(it)) {
-    return false;
-  }
-
-  //
-  // Open doors should not block
-  //
-  if (thing_is_open(it)) {
-    return false;
-  }
-
-  if (thing_is_obs_to_vision(it)) {
-    return true;
-  }
-
-  return false;
-}
-
-//
-// Something blocking the fov?
-//
 auto thing_vision_blocker(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp it) -> bool
 {
   //
@@ -60,7 +34,25 @@ auto thing_vision_blocker(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp it) ->
     }
   }
 
-  return thing_vision_blocker(g, v, l, it);
+  //
+  // Dead foliage should not block
+  //
+  if (thing_is_dead(it)) {
+    return false;
+  }
+
+  //
+  // Open doors should not block
+  //
+  if (thing_is_open(it)) {
+    return false;
+  }
+
+  if (thing_is_obs_to_vision(it)) {
+    return true;
+  }
+
+  return false;
 }
 
 void thing_vision_reset(Gamep g, Levelsp v, Levelp l, Thingp t)

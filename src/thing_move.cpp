@@ -511,7 +511,7 @@ void thing_update_pos(Gamep g, Levelsp v, Levelp l, Thingp me)
   //
   // Update hidden status
   //
-  if ((thing_is_blit_when_obscured_as_faded(me) || thing_is_blit_when_obscured_as_outline(me))
+  if ((thing_is_blit_when_obscured_faded(me) || thing_is_blit_when_obscured_outline(me))
       && level_alive_is_blit_obscures(g, v, l, thing_at(me)) != nullptr) {
     thing_is_hidden_set(g, v, l, me, true);
   } else {

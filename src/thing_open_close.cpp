@@ -102,12 +102,12 @@ void thing_is_unlocked_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
 //
 // Open doors
 //
-auto thing_open(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst) -> bool
+auto thing_open(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp opener) -> bool
 {
   TRACE();
 
-  if (! thing_is_player(player_or_monst) && ! thing_is_monst(player_or_monst)) {
-    thing_err(player_or_monst, "unexpected thing for %s", __FUNCTION__);
+  if (! thing_is_player(opener) && ! thing_is_monst(opener)) {
+    thing_err(opener, "unexpected thing for %s", __FUNCTION__);
     return false;
   }
 
@@ -115,11 +115,11 @@ auto thing_open(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst)
     return false;
   }
 
-  bool const success = thing_is_open_try_set(g, v, l, me, player_or_monst);
+  bool const success = thing_is_open_try_set(g, v, l, me, opener);
   if (success) {
-    if (thing_is_player(player_or_monst)) {
+    if (thing_is_player(opener)) {
       (void) level_tick_begin_requested(g, v, l, "player opened something");
-      THING_DBG(player_or_monst, "opened %s", to_string(g, v, l, me).c_str());
+      THING_DBG(opener, "opened %s", to_string(g, v, l, me).c_str());
     }
   }
 
@@ -129,12 +129,12 @@ auto thing_open(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst)
 //
 // Close doors
 //
-auto thing_close(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst) -> bool
+auto thing_close(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp closer) -> bool
 {
   TRACE();
 
-  if (! thing_is_player(player_or_monst) && ! thing_is_monst(player_or_monst)) {
-    thing_err(player_or_monst, "unexpected thing for %s", __FUNCTION__);
+  if (! thing_is_player(closer) && ! thing_is_monst(closer)) {
+    thing_err(closer, "unexpected thing for %s", __FUNCTION__);
     return false;
   }
 
@@ -142,11 +142,11 @@ auto thing_close(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst
     return false;
   }
 
-  bool const success = thing_is_open_try_unset(g, v, l, me, player_or_monst);
+  bool const success = thing_is_open_try_unset(g, v, l, me, closer);
   if (success) {
-    if (thing_is_player(player_or_monst)) {
+    if (thing_is_player(closer)) {
       (void) level_tick_begin_requested(g, v, l, "player closed something");
-      THING_DBG(player_or_monst, "closed %s", to_string(g, v, l, me).c_str());
+      THING_DBG(closer, "closed %s", to_string(g, v, l, me).c_str());
     }
   }
 
