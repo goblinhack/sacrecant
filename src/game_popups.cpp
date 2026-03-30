@@ -12,6 +12,8 @@
 #include "my_main.hpp"
 #include "my_time.hpp"
 
+#include <algorithm>
+
 void game_popup_text_add(Gamep g, int x, int y, const std::string &text, color c)
 {
   TRACE();
@@ -24,6 +26,38 @@ void game_popup_text_add(Gamep g, int x, int y, const std::string &text, color c
   if (is_oob(x, y)) [[unlikely]] {
     ERR("popup text is oob");
     return;
+  }
+
+  //
+  // Merge numeric values if we can
+  //
+  try {
+    auto value1 = std::stoi(text);
+    for (auto *i : *game_popups_get(g, x, y)) {
+      try {
+        auto value2 = std::stoi(i->text);
+        i->text     = std::to_string(value1 + value2);
+        i->created  = time_ms_cached();
+        i->fg       = c;
+        i->y_offset = 0;
+        return;
+      } catch (...) {
+        ;
+      }
+    }
+  } catch (...) {
+    ;
+  }
+
+  //
+  // Merge identical values if we can
+  //
+  for (auto *i : *game_popups_get(g, x, y)) {
+    if (i->text == text) {
+      i->count++;
+      i->y_offset = 0;
+      return;
+    }
   }
 
   auto *l        = game_popups_get(g, x, y);
@@ -105,6 +139,12 @@ void game_popups_display(Gamep g, Levelsp v, Levelp l)
         thing_display_get_tile_info(g, v, l, p, tp_once, NULL_THING, tl, br, &tile_index);
 
         //
+        // Make the text look a bit more squarish
+        //
+        auto dx = br.x - tl.x;
+        br.x    = tl.x + (int) (((float) dx * 0.7));
+
+        //
         // Fade out and raise the text up with a percentage
         //
         float const pct = static_cast< float >(time_ms_cached() - i->created) / static_cast< float >(POPUP_DURATION_MS);
@@ -154,17 +194,23 @@ void game_popups_display(Gamep g, Levelsp v, Levelp l)
           }
         }
 
+        auto text = i->text;
+        if (i->count) {
+          text += "x";
+          text += std::to_string(i->count + 1);
+        }
+
         //
         // Disable outlines when zoomed out
         //
         if (! game_map_zoom_is_full_map_visible(g)) {
           blit_init();
-          thing_blit_text(g, v, l, tl, br, i->text, bg, true /* outline */);
+          thing_blit_text(g, v, l, tl, br, text, bg, true /* outline */);
           blit_flush();
         }
 
         blit_init();
-        thing_blit_text(g, v, l, tl, br, i->text, fg, false /* outline */);
+        thing_blit_text(g, v, l, tl, br, text, fg, false /* outline */);
         blit_flush();
 
         last_tl = tl;

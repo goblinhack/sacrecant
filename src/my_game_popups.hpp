@@ -20,6 +20,10 @@ public:
   //
   uint32_t created {};
   //
+  // For duplicate messages
+  //
+  uint32_t count {};
+  //
   // To avoid overlapping text
   //
   uint32_t y_offset {};
