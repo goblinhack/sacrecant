@@ -10,49 +10,49 @@
 
 #include <ranges>
 
-void thing_is_jumping_set(Gamep g, Levelsp v, Levelp l, Thingp t, bool val)
+void thing_is_jumping_set(Gamep g, Levelsp v, Levelp l, Thingp me, bool val)
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return;
   }
 
-  if (t->_is_jumping == static_cast< int >(val)) {
+  if (me->_is_jumping == static_cast< int >(val)) {
     return;
   }
-  t->_is_jumping = val;
+  me->_is_jumping = val;
 
   if (val) {
-    thing_on_jump_begin(g, v, l, t);
+    thing_on_jump_begin(g, v, l, me);
   } else {
-    thing_on_jump_end(g, v, l, t);
+    thing_on_jump_end(g, v, l, me);
   }
 }
 
-void thing_is_jumping_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
+void thing_is_jumping_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE_DEBUG();
 
-  thing_is_jumping_set(g, v, l, t, false);
+  thing_is_jumping_set(g, v, l, me, false);
 }
 
 //
 // If jumping too far, truncate the jump
 //
-static void thing_jump_truncate(Gamep g, Levelsp v, Levelp l, Thingp t, bpoint &to, int how_far_i_can_jump)
+static void thing_jump_truncate(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint &to, int how_far_i_can_jump)
 {
   //
   // Add some random delta for fun and some for diagonals
   //
-  auto        curr_at                = thing_at(t);
+  auto        curr_at                = thing_at(me);
   float const how_far_i_want_to_jump = distance(curr_at, to);
 
   //
   // Cannot jump in lava for example
   //
-  if (level_is_obs_to_jumping_out_of(g, v, l, curr_at) != nullptr) {
+  if (level_is_obs_to_jumping_out_of(g, v, l, curr_at, me) != nullptr) {
     how_far_i_can_jump = 1;
   }
 
@@ -76,13 +76,13 @@ static void thing_jump_truncate(Gamep g, Levelsp v, Levelp l, Thingp t, bpoint &
 //
 // Check if jumping over something we cannot
 //
-static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp t, bpoint to) -> Thingp
+static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> Thingp
 {
-  auto at        = thing_at(t);
+  auto at        = thing_at(me);
   auto jump_path = draw_line(at, to);
 
   for (auto intermediate : std::ranges::reverse_view(jump_path)) {
-    auto *what = level_is_obs_to_jump_over(g, v, l, intermediate);
+    auto *what = level_is_obs_to_jump_over(g, v, l, intermediate, me);
     if (what != nullptr) {
       return what;
     }
@@ -93,7 +93,7 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
 //
 // Handles player and monster jumps
 //
-auto thing_jump_to(Gamep g, Levelsp v, Levelp l, Thingp t, bpoint to, bool warn) -> bool
+auto thing_jump_to(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to, bool warn) -> bool
 {
   TRACE();
 
@@ -101,34 +101,34 @@ auto thing_jump_to(Gamep g, Levelsp v, Levelp l, Thingp t, bpoint to, bool warn)
     return false;
   }
 
-  auto at = thing_at(t);
+  auto at = thing_at(me);
   if (to == at) {
     return false;
   }
 
-  if (! thing_is_able_to_jump(t)) {
+  if (! thing_is_able_to_jump(me)) {
     return false;
   }
 
   //
   // If jumping too far, truncate the jump
   //
-  auto how_far_i_can_jump = thing_distance_jump(t);
-  THING_DBG(t, "jump to %d,%d (original)", to.x, to.y);
+  auto how_far_i_can_jump = thing_distance_jump(me);
+  THING_DBG(me, "jump to %d,%d (original)", to.x, to.y);
 
-  thing_jump_truncate(g, v, l, t, to, how_far_i_can_jump);
+  thing_jump_truncate(g, v, l, me, to, how_far_i_can_jump);
 
   auto how_far_i_want_to_jump = static_cast< int >(floor(distance(at, to)));
 
-  THING_DBG(t, "jump to %d,%d (latest)", to.x, to.y);
+  THING_DBG(me, "jump to %d,%d (latest)", to.x, to.y);
   TRACE_INDENT();
 
   //
   // Check if jumping over something we cannot
   //
-  auto *obs = thing_jump_something_in_the_way(g, v, l, t, to);
+  auto *obs = thing_jump_something_in_the_way(g, v, l, me, to);
   if (obs != nullptr) {
-    if (thing_is_player(t)) {
+    if (thing_is_player(me)) {
       if (warn) {
         auto the_thing = thing_name_long_the(g, v, l, obs);
         TOPCON("You cannot jump over %s.", the_thing.c_str());
@@ -140,8 +140,8 @@ auto thing_jump_to(Gamep g, Levelsp v, Levelp l, Thingp t, bpoint to, bool warn)
   //
   // No landing in solid obstacles
   //
-  if (level_is_obs_to_jumping_onto(g, v, l, to) != nullptr) {
-    if (thing_is_player(t)) {
+  if (level_is_obs_to_jumping_onto(g, v, l, to, me) != nullptr) {
+    if (thing_is_player(me)) {
       if (warn) {
         TOPCON("There is something in the way of jumping there.");
       }
@@ -151,26 +151,26 @@ auto thing_jump_to(Gamep g, Levelsp v, Levelp l, Thingp t, bpoint to, bool warn)
     // We could be trying to land on the player. Try again, but with a shorter distance.
     //
     if (how_far_i_want_to_jump > 1) {
-      thing_jump_truncate(g, v, l, t, to, how_far_i_want_to_jump - 1);
-      THING_DBG(t, "something in the way, truncate jump to %d,%d", to.x, to.y);
-      return thing_jump_to(g, v, l, t, to, warn);
+      thing_jump_truncate(g, v, l, me, to, how_far_i_want_to_jump - 1);
+      THING_DBG(me, "something in the way, truncate jump to %d,%d", to.x, to.y);
+      return thing_jump_to(g, v, l, me, to, warn);
     }
 
     return false;
   }
 
-  (void) thing_pop(g, v, t);
+  (void) thing_pop(g, v, me);
 
   spoint pix_at;
   pix_at.x = at.x * TILE_WIDTH;
   pix_at.y = at.y * TILE_HEIGHT;
 
-  thing_pix_at_set(g, v, l, t, pix_at);
-  thing_moving_from_set(t, at);
-  thing_at_set(g, v, l, t, to);
-  (void) thing_push(g, v, l, t);
+  thing_pix_at_set(g, v, l, me, pix_at);
+  thing_moving_from_set(me, at);
+  thing_at_set(g, v, l, me, to);
+  (void) thing_push(g, v, l, me);
 
-  thing_is_jumping_set(g, v, l, t);
+  thing_is_jumping_set(g, v, l, me);
 
   return true;
 }

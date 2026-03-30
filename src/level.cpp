@@ -435,24 +435,37 @@ auto level_get_thing_id_at(Gamep g, Levelsp v, Levelp l, const bpoint &p, int sl
       }
       return false;
 
+    case is_obs_to_jumping_onto :
+      //
+      // Allow players to land on chasms intentionally. Monsters don't want to.
+      //
+      if (thing_is_chasm(it)) {
+        if (me && thing_is_player(me)) {
+          return true; // filter out i.e. ignore
+        }
+      }
+
+      [[fallthrough]];
+
     case is_obs_to_cursor_path :
     case is_obs_to_explosion :
     case is_obs_to_falling_onto :
     case is_obs_to_fire :
     case is_obs_to_jump_over :
-    case is_obs_to_jumping_onto :
     case is_obs_to_teleporting_onto :
     case is_obs_to_movement :
-      if (it == nullptr) {
-        return true;
-      }
-
+      //
+      // Should be able to move onto dead things
+      //
       if (thing_is_dead(it)) {
         if (! thing_is_obs_when_dead(it)) {
           return true; // filter out i.e. ignore
         }
       }
 
+      //
+      // Should be able to move onto open things like doors
+      //
       if (thing_is_open(it)) {
         return true; // filter out i.e. ignore
       }
