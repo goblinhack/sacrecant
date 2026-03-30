@@ -387,7 +387,7 @@ Game::Game(const std::string &vappdata) : save_slot(1)
 
 void Game::init()
 {
-  CON("game init");
+  LOG("game init");
   TRACE_INDENT();
 
   //

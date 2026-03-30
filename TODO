@@ -1,16 +1,17 @@
 bugs
 ----
 brazier kick over sound
+rustle noise in bushes
 mantisman jump over short chasm path
 mantisman passing by player test
 too many monsters
+score from monster health
 
 essential features
 ------------------
 intro screen / background level maybe
 intro level / handbook
 stamina needed to avoid fast jump loops
-score? score is hard coded to 666
 traps must do something / gas effects
 items can be lost in deep water
 chests need to contain something and those items destroyed when the chest is
