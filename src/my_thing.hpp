@@ -598,6 +598,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_able_to_collect_keys(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_crush_grass(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_fall_repeatedly(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_able_to_fall_sound(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_fall(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_fire_projectiles(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_jump(Thingp t) -> bool;
@@ -825,7 +826,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused48(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused49(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused5(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_able_to_fall_sound(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused6(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused63(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused7(Thingp t) -> bool;
@@ -861,10 +861,10 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_mob_kill_all_minions(Gamep g, Levelsp v, Levelp l, Thingp mob, ThingEvent &e) -> bool;
 [[nodiscard]] auto thing_mob_minion_count_get(Gamep g, Levelsp v, Levelp l, Thingp mob) -> int;
 [[nodiscard]] auto thing_mob_spawn_a_minion(Gamep g, Levelsp v, Levelp l, Thingp mob, Tpp tp_minion) -> Thingp;
-[[nodiscard]] auto thing_move_path_apply(Gamep g, Levelsp v, Levelp l, Thingp t, std::vector< bpoint > &move_path) -> bool;
 [[nodiscard]] auto thing_move_path_apply_confirmed(Gamep g, Levelsp v, Levelp l, Thingp t, std::vector< bpoint > &move_path, bool) -> bool;
-[[nodiscard]] auto thing_move_path_pop(Gamep g, Levelsp v, Levelp l, Thingp t, bpoint &out) -> bool;
+[[nodiscard]] auto thing_move_path_apply(Gamep g, Levelsp v, Levelp l, Thingp t, std::vector< bpoint > &move_path) -> bool;
 [[nodiscard]] auto thing_move_path_pop(Gamep g, Levelsp v, Levelp l, Thingp t, bool &move_confirmed, bpoint &out) -> bool;
+[[nodiscard]] auto thing_move_path_pop(Gamep g, Levelsp v, Levelp l, Thingp t, bpoint &out) -> bool;
 [[nodiscard]] auto thing_move_path_size(Gamep g, Levelsp v, Levelp l, Thingp t) -> int;
 [[nodiscard]] auto thing_move_path_target(Gamep g, Levelsp v, Levelp l, Thingp t, bpoint &out) -> bool;
 [[nodiscard]] auto thing_move_remaining_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;

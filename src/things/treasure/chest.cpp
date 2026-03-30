@@ -59,8 +59,8 @@ auto tp_load_chest() -> bool
   thing_detail_set(tp, tp_chest_detail_get);
   thing_on_open_request_set(tp, tp_chest_on_open_request);
   tp_chance_set(tp, THING_CHANCE_CONTINUE_TO_BURN, "1d2"); // roll max to continue burning
-  tp_flag_set(tp, is_able_to_fall);
   tp_flag_set(tp, is_able_to_fall_sound);
+  tp_flag_set(tp, is_able_to_fall);
   tp_flag_set(tp, is_animated);
   tp_flag_set(tp, is_blit_centered);
   tp_flag_set(tp, is_blit_outlined_when_hit);

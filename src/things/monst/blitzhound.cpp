@@ -88,8 +88,8 @@ auto tp_load_blitzhound() -> bool
   tp_damage_set(tp, THING_EVENT_MELEE_DAMAGE, "1d4");
   tp_distance_vision_set(tp, 12);
   tp_flag_set(tp, is_able_to_crush_grass);
-  tp_flag_set(tp, is_able_to_fall);
   tp_flag_set(tp, is_able_to_fall_sound);
+  tp_flag_set(tp, is_able_to_fall);
   tp_flag_set(tp, is_able_to_lunge);
   tp_flag_set(tp, is_able_to_move_diagonally);
   tp_flag_set(tp, is_able_to_see_180_degrees);

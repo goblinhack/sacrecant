@@ -121,10 +121,10 @@ auto tp_load_brazier() -> bool
   thing_description_set(tp, tp_brazier_description_get);
   thing_on_death_set(tp, tp_brazier_on_death);
   thing_on_shoved_set(tp, tp_brazier_on_shoved);
+  tp_flag_set(tp, is_able_to_fall_sound);
   tp_flag_set(tp, is_able_to_fall);
   tp_flag_set(tp, is_animated);
   tp_flag_set(tp, is_blit_centered);
-  tp_flag_set(tp, is_able_to_fall_sound);
   tp_flag_set(tp, is_blit_outlined_when_hit);
   tp_flag_set(tp, is_blit_shown_in_chasms);
   tp_flag_set(tp, is_brazier);

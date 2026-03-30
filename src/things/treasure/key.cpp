@@ -38,8 +38,8 @@ auto tp_load_key() -> bool
   // begin sort marker1 {
   thing_description_set(tp, tp_key_description_get);
   thing_on_death_set(tp, tp_key_on_death);
-  tp_flag_set(tp, is_able_to_fall);
   tp_flag_set(tp, is_able_to_fall_sound);
+  tp_flag_set(tp, is_able_to_fall);
   tp_flag_set(tp, is_animated);
   tp_flag_set(tp, is_blit_centered);
   tp_flag_set(tp, is_blit_outlined_when_hit);

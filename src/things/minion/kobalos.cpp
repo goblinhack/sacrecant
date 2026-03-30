@@ -83,8 +83,8 @@ auto tp_load_kobalos() -> bool
   tp_distance_minion_from_mob_max_set(tp, 20);
   tp_distance_vision_set(tp, 10);
   tp_flag_set(tp, is_able_to_crush_grass);
-  tp_flag_set(tp, is_able_to_fall);
   tp_flag_set(tp, is_able_to_fall_sound);
+  tp_flag_set(tp, is_able_to_fall);
   tp_flag_set(tp, is_able_to_lunge);
   tp_flag_set(tp, is_able_to_move_diagonally);
   tp_flag_set(tp, is_able_to_see_180_degrees);
