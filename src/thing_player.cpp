@@ -345,6 +345,8 @@ void player_state_change(Gamep g, Levelsp v, Levelp l, PlayerState new_state)
       // No need of a mouse path when dead.
       //
       level_cursor_path_reset(g, v, l);
+
+      player_move_requests_reset(g, v);
       break;
     case PLAYER_STATE_NORMAL :
       //
