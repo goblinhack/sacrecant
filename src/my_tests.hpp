@@ -52,6 +52,7 @@ auto test_load_monst_mobbing() -> bool;
 auto test_load_monst_pass_through_open_door() -> bool;
 auto test_load_monst_pass_through_walls() -> bool;
 auto test_load_monst_secret_door() -> bool;
+auto test_load_monst_short_jump_around_chasm() -> bool;
 auto test_load_monst_slow() -> bool;
 auto test_load_move_ok() -> bool;
 auto test_load_no_change() -> bool;

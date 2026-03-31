@@ -515,6 +515,7 @@ void level_cursor_copy_path_to_player(Gamep g, Levelsp v, Levelp l, std::vector<
   { //
     THING_DBG(player, "apply cursor path size: %d", static_cast< int >(move_path.size()));
   }
+
   if (thing_move_path_apply(g, v, l, player, move_path)) {
     move_path.clear();
   }

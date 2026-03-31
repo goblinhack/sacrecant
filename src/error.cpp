@@ -77,10 +77,8 @@ static void error_message_do(Gamep g, std::string &tech_support)
 
 void error_message(Gamep g, const std::string &error_msg)
 {
-  if (! g_opt_tests) {
-    if (MY_STDOUT != stdout) {
-      std::println(MY_STDOUT, "{}", error_msg);
-    }
+  if (MY_STDOUT != stdout) {
+    std::println(MY_STDOUT, "{}", error_msg);
   }
 
   std::println(stderr, "{}", error_msg);

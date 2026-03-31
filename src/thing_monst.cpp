@@ -286,15 +286,28 @@ static auto thing_minion_choose_target_can_see(Gamep g, Levelsp v, Levelp l, Thi
     return false;
   }
 
-  bpoint move_destination = {};
-  if (thing_move_path_target(g, v, l, me, move_destination)) {
+  THING_DBG(me, "move to next: (%d,%d) got", move_next.x, move_next.y);
+
+  //
+  // If we have remaining moves and it is not possible to move to the next tile
+  // then we pop moves off of the path to see if we can reach any of them
+  //
+  if (thing_move_path_size(g, v, l, me)) {
     if (! thing_can_move_to_possible(g, v, l, me, move_next)) {
-      if (thing_jump_to(g, v, l, me, move_destination)) {
-        //
-        // If could jump, then abort the path walk
-        //
-        THING_DBG(me, "move to next: jump");
-        return false;
+      THING_DBG(me, "move to next: not possible, try remaining path (size %d)", thing_move_path_size(g, v, l, me));
+      TRACE_INDENT();
+
+      while (thing_move_path_pop(g, v, l, me, move_next)) {
+        THING_DBG(me, "move to next: (%d,%d) got", move_next.x, move_next.y);
+        TRACE_INDENT();
+
+        if (thing_jump_to(g, v, l, me, move_next)) {
+          //
+          // If could jump, then abort the path walk
+          //
+          THING_DBG(me, "move to next: can jump to destination");
+          return false;
+        }
       }
 
       //
@@ -302,7 +315,7 @@ static auto thing_minion_choose_target_can_see(Gamep g, Levelsp v, Levelp l, Thi
       // walk into a chasm.
       //
       (void) thing_lunge(g, v, l, me, move_next);
-      THING_DBG(me, "move to next: something in the way, lunge");
+      THING_DBG(me, "move to next: not possible, lunge");
       return false;
     }
   }

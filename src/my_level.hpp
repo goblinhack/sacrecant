@@ -739,6 +739,7 @@ void level_cursor_path_reset(Gamep g);
 void level_cursor_set(Gamep g, Levelsp v, bpoint p);
 void level_debug(Gamep g, Levelsp v, Levelp l);
 void level_destroy(Gamep g, Levelsp v, Levelp l);
+void level_dump(Gamep g, Levelsp v, Levelp l, int w, int h, const std::string &s);
 void level_display_obj(Gamep, Levelsp, Levelp l, const bpoint &, Tpp, Thingp);
 void level_display(Gamep g, Levelsp v, Levelp l);
 void level_dmap(Gamep g, Levelsp v, Levelp l);
