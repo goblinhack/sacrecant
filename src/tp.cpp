@@ -258,7 +258,7 @@ static void tp_assign_id(const std::string &tp_name, int *id_out)
   //
   if (! tp_preferred_id.contains(tp_name)) {
     tp_preferred_id[ tp_name ] = *id_out = ++id;
-    ERR("tp_assign_id: thing template not found [%s] Please edit tp.cpp and add it.", tp_name.c_str());
+    err("tp_assign_id: thing template not found [%s] Please edit tp.cpp and add it.", tp_name.c_str());
     return;
   }
 
@@ -275,7 +275,7 @@ auto tp_load(const std::string &val) -> Tpp
   tp_assign_id(val, &id);
 
   if (tp_find_opt(val) != nullptr) {
-    ERR("tp_load: thing template name [%s] already loaded", val.c_str());
+    err("tp_load: thing template name [%s] already loaded", val.c_str());
   }
 
   auto *tp = new Tp();
@@ -283,7 +283,7 @@ auto tp_load(const std::string &val) -> Tpp
 
   auto result = tp_name_map.insert(std::make_pair(name, tp));
   if (! result.second) {
-    ERR("tp_load: thing insert name [%s] failed", val.c_str());
+    err("tp_load: thing insert name [%s] failed", val.c_str());
   }
 
   tp_vec.push_back(tp);
@@ -376,12 +376,12 @@ auto tp_random_monst(int c) -> Tpp
   TRACE();
 
   if (c >= MONST_GROUP_ENUM_MAX) {
-    ERR("tp_random_monst: monst bad rating %d", c);
+    err("tp_random_monst: monst bad rating %d", c);
     return nullptr;
   }
 
   if ((tp_monst_vec[ c ].empty())) [[unlikely]] {
-    ERR("tp_random_monst: no rating %d monsters found", c);
+    err("tp_random_monst: no rating %d monsters found", c);
     return nullptr;
   }
 
@@ -393,7 +393,7 @@ auto tp_random(ThingFlag f) -> Tpp
   TRACE();
 
   if ((tp_flag_vec[ f ].empty())) [[unlikely]] {
-    ERR("tp_random: no tp found for ThingFlag %d/%s", f, ThingFlag_to_c_str(f));
+    err("tp_random: no tp found for ThingFlag %d/%s", f, ThingFlag_to_c_str(f));
     return nullptr;
   }
   return tp_get_with_no_rarity_filter(tp_flag_vec[ f ]);
@@ -409,7 +409,7 @@ auto tp_variant(ThingFlag f, int variant) -> Tpp
     }
   }
 
-  ERR("tp_variant: failed to find %d/%s variant %d", f, ThingFlag_to_c_str(f), variant);
+  err("tp_variant: failed to find %d/%s variant %d", f, ThingFlag_to_c_str(f), variant);
   return nullptr;
 }
 
@@ -418,7 +418,7 @@ auto tp_first(ThingFlag f) -> Tpp
   TRACE();
 
   if ((tp_flag_vec[ f ].empty())) [[unlikely]] {
-    ERR("tp_first: no tp found for ThingFlag %d/%s", f, ThingFlag_to_c_str(f));
+    err("tp_first: no tp found for ThingFlag %d/%s", f, ThingFlag_to_c_str(f));
     return nullptr;
   }
   return tp_flag_vec[ f ][ 0 ];

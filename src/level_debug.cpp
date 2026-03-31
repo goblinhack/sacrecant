@@ -18,31 +18,31 @@ void game_debug_info(Gamep g)
     return;
   }
 
-  LOG("level info:");
-  LOG("- Levels memory:                   %" PRI_SIZE_T " Mb", sizeof(Levels) / (1024 * 1024));
-  LOG("- Thing ext memory:                %" PRI_SIZE_T " Mb", sizeof(v->thing_ext) / (1024 * 1024));
-  LOG("- Thing fov memory:                %" PRI_SIZE_T " Mb", sizeof(v->thing_light) / (1024 * 1024));
-  LOG("- sizeof(Thing):                   %" PRI_SIZE_T " b", sizeof(Thing));
-  LOG("- sizeof(ThingInventory):          %" PRI_SIZE_T " b", sizeof(ThingInventory));
-  LOG("- sizeof(ThingExt)                 %" PRI_SIZE_T " b", sizeof(ThingExt));
-  LOG("- sizeof(ThingLight)               %" PRI_SIZE_T " b", sizeof(ThingLight));
-  LOG("- sizeof(ThingPlayer):             %" PRI_SIZE_T " b", sizeof(ThingPlayer));
-  LOG("- MAP_HEIGHT                       %u", MAP_HEIGHT);
-  LOG("- MAP_WIDTH                        %u", MAP_WIDTH);
-  LOG("- MAP_SLOTS                        %u", MAP_SLOTS);
-  LOG("- LEVEL_SCALE                      %u", LEVEL_SCALE);
-  LOG("- LEVEL_ACROSS                     %u", LEVEL_ACROSS);
-  LOG("- LEVEL_DOWN                       %u", LEVEL_DOWN);
-  LOG("- LEVEL_SELECT_ID                  %u", LEVEL_SELECT_ID);
-  LOG("- LEVEL_MAX                        %u", LEVEL_MAX);
-  LOG("- LEVEL_ID_MAX                     %u", THING_ID_PER_LEVEL_MAX);
-  LOG("- THING_LEVEL_ID_BITS              %u (%u indices)", THING_LEVEL_ID_BITS, (1 << THING_LEVEL_ID_BITS) - 1);
-  LOG("- THING_PER_LEVEL_THING_ID_BITS    %u (%u indices)", THING_PER_LEVEL_THING_ID_BITS, (1 << THING_PER_LEVEL_THING_ID_BITS) - 1);
-  LOG("- THING_ARR_INDEX_BITS             %u (%u total indices)", THING_ARR_INDEX_BITS, (1 << THING_ARR_INDEX_BITS) - 1);
-  LOG("- THING_ENTROPY_BITS               %u", THING_ENTROPY_BITS);
-  LOG("- THING_ID_PER_LEVEL_REQ           %u", THING_ID_PER_LEVEL_REQ);
-  LOG("- THING_ID_PER_LEVEL_MAX           %u", THING_ID_PER_LEVEL_MAX);
-  LOG("- THING_ID_MAX                     %u", THING_ID_MAX);
+  log("level info:");
+  log("- Levels memory:                   %" PRI_SIZE_T " Mb", sizeof(Levels) / (1024 * 1024));
+  log("- Thing ext memory:                %" PRI_SIZE_T " Mb", sizeof(v->thing_ext) / (1024 * 1024));
+  log("- Thing fov memory:                %" PRI_SIZE_T " Mb", sizeof(v->thing_light) / (1024 * 1024));
+  log("- sizeof(Thing):                   %" PRI_SIZE_T " b", sizeof(Thing));
+  log("- sizeof(ThingInventory):          %" PRI_SIZE_T " b", sizeof(ThingInventory));
+  log("- sizeof(ThingExt)                 %" PRI_SIZE_T " b", sizeof(ThingExt));
+  log("- sizeof(ThingLight)               %" PRI_SIZE_T " b", sizeof(ThingLight));
+  log("- sizeof(ThingPlayer):             %" PRI_SIZE_T " b", sizeof(ThingPlayer));
+  log("- MAP_HEIGHT                       %u", MAP_HEIGHT);
+  log("- MAP_WIDTH                        %u", MAP_WIDTH);
+  log("- MAP_SLOTS                        %u", MAP_SLOTS);
+  log("- LEVEL_SCALE                      %u", LEVEL_SCALE);
+  log("- LEVEL_ACROSS                     %u", LEVEL_ACROSS);
+  log("- LEVEL_DOWN                       %u", LEVEL_DOWN);
+  log("- LEVEL_SELECT_ID                  %u", LEVEL_SELECT_ID);
+  log("- LEVEL_MAX                        %u", LEVEL_MAX);
+  log("- LEVEL_ID_MAX                     %u", THING_ID_PER_LEVEL_MAX);
+  log("- THING_LEVEL_ID_BITS              %u (%u indices)", THING_LEVEL_ID_BITS, (1 << THING_LEVEL_ID_BITS) - 1);
+  log("- THING_PER_LEVEL_THING_ID_BITS    %u (%u indices)", THING_PER_LEVEL_THING_ID_BITS, (1 << THING_PER_LEVEL_THING_ID_BITS) - 1);
+  log("- THING_ARR_INDEX_BITS             %u (%u total indices)", THING_ARR_INDEX_BITS, (1 << THING_ARR_INDEX_BITS) - 1);
+  log("- THING_ENTROPY_BITS               %u", THING_ENTROPY_BITS);
+  log("- THING_ID_PER_LEVEL_REQ           %u", THING_ID_PER_LEVEL_REQ);
+  log("- THING_ID_PER_LEVEL_MAX           %u", THING_ID_PER_LEVEL_MAX);
+  log("- THING_ID_MAX                     %u", THING_ID_MAX);
 
   if (LEVEL_ID_REQ > LEVEL_ID_MAX) {
     CROAK("You need more bits for level IDs as the level will use too many");

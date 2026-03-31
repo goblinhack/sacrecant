@@ -143,7 +143,7 @@ void tp_err_(Tpp tp, const char *fmt, va_list args)
   len = static_cast< int >(strlen(buf));
   vsnprintf(buf + len, MAXLONGSTR - len, fmt, args);
 
-  ERR("%s", buf);
+  err("%s", buf);
 }
 
 void tp_err(Tpp tp, const char *fmt, ...)

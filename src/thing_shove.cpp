@@ -21,7 +21,7 @@ static void thing_shoved_player(Gamep g, Levelsp v, Levelp l, ThingEvent &e)
   if (it != nullptr) {
     auto by_the_thing = thing_name_long_the(g, v, l, it);
 
-    TOPCON(UI_WARNING_FMT_STR "You are shoved by %s." UI_RESET_FMT, by_the_thing.c_str());
+    topcon(UI_WARNING_FMT_STR "You are shoved by %s." UI_RESET_FMT, by_the_thing.c_str());
   }
 }
 
@@ -37,7 +37,7 @@ static void thing_shoved_by_player(Gamep g, Levelsp v, Levelp l, Thingp t, Thing
     auto the_thing = capitalize_first(thing_name_long_the(g, v, l, t));
     auto by_player = thing_name_long(g, v, l, it);
 
-    TOPCON("%s is shoved by %s.", the_thing.c_str(), by_player.c_str());
+    topcon("%s is shoved by %s.", the_thing.c_str(), by_player.c_str());
   }
 }
 

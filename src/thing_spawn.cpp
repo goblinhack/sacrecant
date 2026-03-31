@@ -13,7 +13,7 @@ void thing_is_spawned_set(Gamep g, Levelsp v, Levelp l, Thingp t, bool val)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    err("no thing pointer");
     return;
   }
 
@@ -77,7 +77,7 @@ auto thing_spawn(Gamep g, Levelsp v, Levelp l, Tpp tp, const bpoint &at) -> Thin
 auto thing_spawn(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp spawner) -> Thingp
 {
   if (spawner == nullptr) {
-    ERR("no thing pointer");
+    err("no thing pointer");
     return nullptr;
   }
 

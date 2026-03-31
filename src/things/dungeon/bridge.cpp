@@ -106,14 +106,14 @@ static void tp_bridge_on_death(Gamep g, Levelsp v, Levelp l, Thingp t, ThingEven
       auto player_at = thing_at(player);
       if (thing_on_same_level_as_player(g, v, t)) {
         if (thing_at(t) == player_at) {
-          TOPCON("The bridge collapses under you!");
+          topcon("The bridge collapses under you!");
         } else if (thing_vision_can_see_tile(g, v, l, player, player_at)) {
-          TOPCON("The bridge collapses!");
+          topcon("The bridge collapses!");
         } else {
-          TOPCON("You hear a bridge collapse!");
+          topcon("You hear a bridge collapse!");
         }
       } else {
-        TOPCON("You hear a very distant bridge collapse!");
+        topcon("You hear a very distant bridge collapse!");
       }
     }
   }

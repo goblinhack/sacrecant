@@ -77,7 +77,7 @@ void sound_fini()
 {
   TRACE();
 
-  LOG("sound fini");
+  log("sound fini");
 
   if (sound_init_done) {
     sound_init_done = false;
@@ -121,7 +121,7 @@ auto sound_load(float volume, const std::string &file, const std::string &alias,
   s->concurrent_max = concurrent_max;
   s->data           = file_load(file.c_str(), &s->len);
   if (s->data == nullptr) {
-    ERR("cannot load sound [%s]", file.c_str());
+    err("cannot load sound [%s]", file.c_str());
     delete s;
     return false;
   }
@@ -130,7 +130,7 @@ auto sound_load(float volume, const std::string &file, const std::string &alias,
 
   rw = SDL_RWFromMem(s->data, s->len);
   if (rw == nullptr) {
-    ERR("SDL_RWFromMem fail [%s]: %s %s", file.c_str(), Mix_GetError(), SDL_GetError());
+    err("SDL_RWFromMem fail [%s]: %s %s", file.c_str(), Mix_GetError(), SDL_GetError());
     SDL_ClearError();
     delete s;
     return false;
@@ -138,7 +138,7 @@ auto sound_load(float volume, const std::string &file, const std::string &alias,
 
   s->chunk = Mix_LoadWAV_RW(rw, 0 /* A non-zero value mean is will automatically close/free the src for you. */);
   if (s->chunk == nullptr) {
-    ERR("Mix_LoadWAV_RW fail [%s]: %s %s", file.c_str(), Mix_GetError(), SDL_GetError());
+    err("Mix_LoadWAV_RW fail [%s]: %s %s", file.c_str(), Mix_GetError(), SDL_GetError());
     SDL_ClearError();
     SDL_RWclose(rw);
     delete s;
@@ -147,7 +147,7 @@ auto sound_load(float volume, const std::string &file, const std::string &alias,
 
   auto result = all_sound.insert(std::make_pair(alias, s));
   if (! result.second) {
-    ERR("cannot insert sound name [%s]", alias.c_str());
+    err("cannot insert sound name [%s]", alias.c_str());
     SDL_RWclose(rw);
     delete s;
     return false;
@@ -174,7 +174,7 @@ auto sound_find(const std::string &alias) -> bool
   TRACE();
 
   if (s->chunk == nullptr) {
-    ERR("cannot find sound chunk %s", s->alias.c_str());
+    err("cannot find sound chunk %s", s->alias.c_str());
     return false;
   }
 
@@ -195,7 +195,7 @@ auto sound_find(const std::string &alias) -> bool
     }
   }
 
-  // TOPCON("%s count %d concurrent_max %d", alias.c_str(), count, s->concurrent_max);
+  // topcon("%s count %d concurrent_max %d", alias.c_str(), count, s->concurrent_max);
   if (count >= s->concurrent_max) {
     return true;
   }
@@ -229,13 +229,13 @@ auto sound_play(Gamep g, const std::string &alias, float scale) -> bool
   auto sound = all_sound.find(alias);
   if (sound == all_sound.end()) {
     if (! g_opt_tests) {
-      ERR("cannot find sound %s", alias.c_str());
+      err("cannot find sound %s", alias.c_str());
     }
     return false;
   }
 
   if (sound->second == nullptr) {
-    ERR("cannot find sound data %s", alias.c_str());
+    err("cannot find sound data %s", alias.c_str());
     return false;
   }
 

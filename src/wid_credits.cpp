@@ -66,7 +66,7 @@ static void wid_credits_destroy(Gamep g)
 void wid_credits_select(Gamep g)
 {
   TRACE();
-  CON("Credits");
+  con("Credits");
 
   if (wid_credits_window != nullptr) {
     wid_credits_destroy(g);

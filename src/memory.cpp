@@ -97,7 +97,7 @@ auto MYDUPSTR_(const char *in, const char *what, const char *file, const char *f
   TRACE();
 
   if (in == nullptr) [[unlikely]] {
-    ERR("no string to duplicate");
+    err("no string to duplicate");
     return nullptr;
   }
 

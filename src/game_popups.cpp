@@ -19,12 +19,12 @@ void game_popup_text_add(Gamep g, int x, int y, const std::string &text, color c
   TRACE();
 
   if (g == nullptr) [[unlikely]] {
-    ERR("no game pointer");
+    err("no game pointer");
     return;
   }
 
   if (is_oob(x, y)) [[unlikely]] {
-    ERR("popup text is oob");
+    err("popup text is oob");
     return;
   }
 
@@ -73,7 +73,7 @@ void game_popups_age(Gamep g)
   TRACE();
 
   if (g == nullptr) [[unlikely]] {
-    ERR("no game pointer");
+    err("no game pointer");
     return;
   }
 
@@ -105,7 +105,7 @@ void game_popups_display(Gamep g, Levelsp v, Levelp l)
   TRACE();
 
   if (g == nullptr) [[unlikely]] {
-    ERR("no game pointer");
+    err("no game pointer");
     return;
   }
 
@@ -120,7 +120,7 @@ void game_popups_display(Gamep g, Levelsp v, Levelp l)
 
       const auto debug = false;
       if (debug) {
-        CON("(%d,%d)", x, y);
+        con("(%d,%d)", x, y);
       }
 
       for (auto *i : *game_popups_get(g, x, y)) {
@@ -177,7 +177,7 @@ void game_popups_display(Gamep g, Levelsp v, Levelp l)
         br.y = tl.y + (tile_height / 2);
 
         if (debug) {
-          CON("popup: %s %u..%u last %u...%u", i->text.c_str(), tl.y, br.y, last_tl.y, last_br.y);
+          con("popup: %s %u..%u last %u...%u", i->text.c_str(), tl.y, br.y, last_tl.y, last_br.y);
         }
 
         //
@@ -190,7 +190,7 @@ void game_popups_display(Gamep g, Levelsp v, Levelp l)
           br.y -= offset;
 
           if (debug) {
-            CON("popup: changed to %s %u..%u last %u...%u", i->text.c_str(), tl.y, br.y, last_tl.y, last_br.y);
+            con("popup: changed to %s %u..%u last %u...%u", i->text.c_str(), tl.y, br.y, last_tl.y, last_br.y);
           }
         }
 
@@ -218,7 +218,7 @@ void game_popups_display(Gamep g, Levelsp v, Levelp l)
       }
 
       if (debug) {
-        CON("-");
+        con("-");
       }
     }
   }
@@ -229,7 +229,7 @@ void game_popups_clear(Gamep g)
   TRACE();
 
   if (g == nullptr) [[unlikely]] {
-    ERR("no game pointer");
+    err("no game pointer");
     return;
   }
 

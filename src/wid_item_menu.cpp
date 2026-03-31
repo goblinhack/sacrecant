@@ -80,7 +80,7 @@ static Thingp g_item;
   }
 
   if (level_is_level_select(g, v, l)) {
-    TOPCON(UI_WARNING_FMT_STR "You can't drop things here!" UI_RESET_FMT);
+    topcon(UI_WARNING_FMT_STR "You can't drop things here!" UI_RESET_FMT);
     sound_play(g, "error");
     return false;
   }
@@ -96,7 +96,7 @@ static Thingp g_item;
 [[nodiscard]] static auto wid_item_menu_equip(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  TOPCON("TODO equip");
+  topcon("TODO equip");
   return wid_item_menu_destroy(g);
 }
 
@@ -152,7 +152,7 @@ static Thingp g_item;
 void wid_item_menu_select(Gamep g, Levelsp v, Thingp item)
 {
   TRACE();
-  LOG("item menu");
+  log("item menu");
 
   auto *l = game_level_get(g, v);
   if (l == nullptr) {

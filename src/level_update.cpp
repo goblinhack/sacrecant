@@ -95,7 +95,7 @@ void level_update_visibility(Gamep g, Levelsp v, Levelp l)
   }
 
   if (update_per_pixel_visibility) {
-    // TOPCON("P");
+    // topcon("P");
     //
     // We only care about pixel moves.
     //

@@ -875,7 +875,7 @@ static void room_dump(class Room *r)
   TRACE();
 
   level_gen_mutex.lock();
-  LOG("room %d @ %s:%d", r->id, r->file, r->line);
+  log("room %d @ %s:%d", r->id, r->file, r->line);
   TRACE_INDENT();
 
   for (int y = 0; y < r->height; y++) {
@@ -883,10 +883,10 @@ static void room_dump(class Room *r)
     for (int x = 0; x < r->width; x++) {
       tmp += r->data[ (y * r->width) + x ];
     }
-    LOG("[%s]", tmp.c_str());
+    log("[%s]", tmp.c_str());
   }
 
-  LOG("-");
+  log("-");
   level_gen_mutex.unlock();
 }
 
@@ -1425,7 +1425,7 @@ static void fragment_alt_dump(class FragmentAlt *f)
   TRACE();
 
   level_gen_mutex.lock();
-  LOG("FragmentAlt %d @ %s:%d", f->id, f->file, f->line);
+  log("FragmentAlt %d @ %s:%d", f->id, f->file, f->line);
   TRACE_INDENT();
 
   for (int y = 0; y < f->height; y++) {
@@ -1433,10 +1433,10 @@ static void fragment_alt_dump(class FragmentAlt *f)
     for (int x = 0; x < f->width; x++) {
       tmp += f->data[ (y * f->width) + x ];
     }
-    LOG("[%s]", tmp.c_str());
+    log("[%s]", tmp.c_str());
   }
 
-  LOG("-");
+  log("-");
   level_gen_mutex.unlock();
 }
 
@@ -1727,7 +1727,7 @@ static void fragment_dump(class Fragment *f)
   TRACE();
 
   level_gen_mutex.lock();
-  LOG("fragment %d @ %s:%d", f->id, f->file, f->line);
+  log("fragment %d @ %s:%d", f->id, f->file, f->line);
   TRACE_INDENT();
 
   for (int y = 0; y < f->height; y++) {
@@ -1735,10 +1735,10 @@ static void fragment_dump(class Fragment *f)
     for (int x = 0; x < f->width; x++) {
       tmp += f->data[ (y * f->width) + x ];
     }
-    LOG("[%s]", tmp.c_str());
+    log("[%s]", tmp.c_str());
   }
 
-  LOG("-");
+  log("-");
   level_gen_mutex.unlock();
 }
 
@@ -2109,7 +2109,7 @@ static auto level_random_get(LevelType level_type) -> class LevelFixed *
   TRACE();
 
   if (level_fixed_all[ level_type ].empty()) {
-    ERR("no levels of type %d", level_type);
+    err("no levels of type %d", level_type);
     return nullptr;
   }
 
@@ -2151,17 +2151,17 @@ static auto level_gen_string(class LevelGen *o, class LevelFixed *l) -> std::str
   std::string out;
 
   if (l == nullptr) {
-    ERR("no fixed level provided");
+    err("no fixed level provided");
     return "";
   }
 
   if (l->data == nullptr) {
-    ERR("no fixed level data provided");
+    err("no fixed level data provided");
     return "";
   }
 
   if (o == nullptr) {
-    ERR("no destination level provided");
+    err("no destination level provided");
     return "";
   }
 
@@ -2192,21 +2192,21 @@ static void level_gen_dump(class LevelGen *l, const char *msg)
 
   level_gen_mutex.lock();
   if (msg != nullptr) {
-    LOG("level: %u (%s)", l->level_num + 1, msg);
+    log("level: %u (%s)", l->level_num + 1, msg);
   } else {
-    LOG("level: %u", l->level_num + 1);
+    log("level: %u", l->level_num + 1);
   }
   TRACE();
 
-  LOG("seed              : %u", l->info.seed_num);
-  LOG("room count        : %d", l->info.room_count);
-  LOG("fragment count    : %d", l->info.fragment_count);
-  LOG("treasure count    : %d", l->info.treasure_count);
-  LOG("monst count       : %d (normal:%d enhanced:%d)", l->info.monst_count, l->info.monst_group_easy_count,
+  log("seed              : %u", l->info.seed_num);
+  log("room count        : %d", l->info.room_count);
+  log("fragment count    : %d", l->info.fragment_count);
+  log("treasure count    : %d", l->info.treasure_count);
+  log("monst count       : %d (normal:%d enhanced:%d)", l->info.monst_count, l->info.monst_group_easy_count,
       l->info.monst_group_hard_count);
-  LOG("teleport count    : %d", l->info.teleport_count);
-  LOG("locked door count : %d", l->info.door_locked_count);
-  LOG("key count         : %d", l->info.key_count);
+  log("teleport count    : %d", l->info.teleport_count);
+  log("locked door count : %d", l->info.door_locked_count);
+  log("key count         : %d", l->info.key_count);
 
   for (int y = 0; y < MAP_HEIGHT; y++) {
     std::string tmp;
@@ -2214,10 +2214,10 @@ static void level_gen_dump(class LevelGen *l, const char *msg)
       auto c = x[ y ].c;
       tmp += c;
     }
-    LOG("[%s]", tmp.c_str());
+    log("[%s]", tmp.c_str());
   }
 
-  LOG("-");
+  log("-");
 
   //
   // Sometimes useful to see walkable paths
@@ -2263,10 +2263,10 @@ static void level_gen_dump(class LevelGen *l, const char *msg)
 
         tmp += c;
       }
-      LOG("[%s]", tmp.c_str());
+      log("[%s]", tmp.c_str());
     }
 
-    LOG("-");
+    log("-");
   }
 
   level_gen_mutex.unlock();
@@ -2297,14 +2297,14 @@ void level_gen_stats_dump(Gamep g)
 {
   TRACE();
 
-  LOG("level generation errors:");
-  LOG("- create level fail:               %d", level_create_fail);
-  LOG("- place first room fail:           %d", level_place_first_room_fail);
-  LOG("- place subsequent room fail:      %d", level_place_subsequent_room_fail);
-  LOG("- find door to place room fail:    %d", level_find_door_fail_count);
-  LOG("- tried to place a duplicate room: %d", level_tried_to_place_existing_room_fail);
-  LOG("- not enough rooms generated:      %d", level_not_enough_rooms);
-  LOG("- no exit room generated:          %d", level_no_exit_room);
+  log("level generation errors:");
+  log("- create level fail:               %d", level_create_fail);
+  log("- place first room fail:           %d", level_place_first_room_fail);
+  log("- place subsequent room fail:      %d", level_place_subsequent_room_fail);
+  log("- find door to place room fail:    %d", level_find_door_fail_count);
+  log("- tried to place a duplicate room: %d", level_tried_to_place_existing_room_fail);
+  log("- not enough rooms generated:      %d", level_not_enough_rooms);
+  log("- no exit room generated:          %d", level_no_exit_room);
 }
 
 //
@@ -2349,7 +2349,7 @@ void level_gen_stats_dump(Gamep g)
   //
   if (l->doors_not_explored.empty()) {
     if (l->debug) [[unlikely]] {
-      LOG("no more doors");
+      log("no more doors");
     }
     return false;
   }
@@ -2366,7 +2366,7 @@ void level_gen_stats_dump(Gamep g)
   l->doors_walked[ *door_out ] = true;
 
   if (*room_out == nullptr) {
-    ERR("found a door with no room");
+    err("found a door with no room");
   }
 
   return true;
@@ -2527,7 +2527,7 @@ static void level_gen_create_remaining_rooms(Gamep g, LevelGen *l)
   //
   while (std::cmp_less(l->rooms_placed.size(), l->max_room_count)) {
     if (l->debug) [[unlikely]] {
-      LOG("rooms placed %d (max %d) attempts %d doors-tried %d doors-not-tried %d", static_cast< int >(l->rooms_placed.size()),
+      log("rooms placed %d (max %d) attempts %d doors-tried %d doors-not-tried %d", static_cast< int >(l->rooms_placed.size()),
           l->max_room_count, attempts, static_cast< int >(l->doors_walked.size()), static_cast< int >(l->doors_not_explored.size()));
     }
 
@@ -2536,7 +2536,7 @@ static void level_gen_create_remaining_rooms(Gamep g, LevelGen *l)
     //
     if (attempts++ > MAX_LEVEL_GEN_TRIES_CREATE_ROOM) {
       if (l->debug) [[unlikely]] {
-        LOG("have tried enough times to place a room");
+        log("have tried enough times to place a room");
       }
       break;
     }
@@ -2547,7 +2547,7 @@ static void level_gen_create_remaining_rooms(Gamep g, LevelGen *l)
     if ((static_cast< int >(l->doors_walked.size())) != 0) {
       if (l->doors_not_explored.empty()) {
         if (l->debug) [[unlikely]] {
-          LOG("have tried all doors");
+          log("have tried all doors");
         }
         break;
       }
@@ -3037,7 +3037,7 @@ static auto level_proc_gen_create_rooms(Gamep g, LevelNum level_num) -> class Le
   level_create_fail++;
 
   if (l->debug) [[unlikely]] {
-    LOG("failed to create room with seed: %s", game_seed_name_get(g));
+    log("failed to create room with seed: %s", game_seed_name_get(g));
   }
 
   return nullptr;
@@ -4807,7 +4807,7 @@ static void level_gen_extend_bridges(Gamep g, class LevelGen *l)
 
   auto *v = game_levels_get(g);
   if (v == nullptr) {
-    ERR("no levels created");
+    err("no levels created");
     return false;
   }
 
@@ -4832,7 +4832,7 @@ static void level_gen_extend_bridges(Gamep g, class LevelGen *l)
       //
       // Unknown level
       //
-      ERR("no fixed level \"%s\" created", g_level_opt.level_name.c_str());
+      err("no fixed level \"%s\" created", g_level_opt.level_name.c_str());
       return false;
     }
 
@@ -4845,7 +4845,7 @@ static void level_gen_extend_bridges(Gamep g, class LevelGen *l)
     //
     fixed_level = level_random_get(LEVEL_TYPE_BOSS);
     if (fixed_level == nullptr) {
-      ERR("no fixed boss level \"%u\" created", l->level_num);
+      err("no fixed boss level \"%u\" created", l->level_num);
       return false;
     }
 
@@ -5125,9 +5125,9 @@ static void level_gen_create_fixed_or_proc_gen_level(Gamep g, LevelNum level_num
     auto *v = game_levels_get(g);
     if (v == nullptr) {
       if (! g_level_opt.level_name.empty()) {
-        ERR("no levels generate for level %s", g_level_opt.level_name.c_str());
+        err("no levels generate for level %s", g_level_opt.level_name.c_str());
       } else {
-        ERR("no levels generate for level num %u", level_num);
+        err("no levels generate for level num %u", level_num);
       }
       break;
     }
@@ -5151,9 +5151,9 @@ static void level_gen_create_fixed_or_proc_gen_level(Gamep g, LevelNum level_num
     //
     if (l == nullptr) {
       if (! g_level_opt.level_name.empty()) {
-        ERR("no level generated for level %s", g_level_opt.level_name.c_str());
+        err("no level generated for level %s", g_level_opt.level_name.c_str());
       } else {
-        ERR("no level generated for level num %u", level_num);
+        err("no level generated for level num %u", level_num);
       }
       break;
     }
@@ -5164,9 +5164,9 @@ static void level_gen_create_fixed_or_proc_gen_level(Gamep g, LevelNum level_num
     TRACE();
     if (! level_gen_populate_for_fixed_or_proc_gen_level(g, l)) {
       if (! g_level_opt.level_name.empty()) {
-        ERR("no level created for level %s", g_level_opt.level_name.c_str());
+        err("no level created for level %s", g_level_opt.level_name.c_str());
       } else {
-        ERR("no level created for level num %u", level_num);
+        err("no level created for level num %u", level_num);
       }
       break;
     }
@@ -5180,9 +5180,9 @@ static void level_gen_create_fixed_or_proc_gen_level(Gamep g, LevelNum level_num
     auto *level = game_level_get(g, v, level_num);
     if (level == nullptr) {
       if (! g_level_opt.level_name.empty()) {
-        ERR("no level populated for level %s", g_level_opt.level_name.c_str());
+        err("no level populated for level %s", g_level_opt.level_name.c_str());
       } else {
-        ERR("no level populated for level num %u", level_num);
+        err("no level populated for level num %u", level_num);
       }
     }
   } while (false);
@@ -5203,7 +5203,7 @@ void level_gen_create_levels(Gamep g, Levelsp v)
   // We keep one level free for the grid level
   //
   auto start = time_ms();
-  LOG("level generation (max %u)", s->level_count);
+  log("level generation (max %u)", s->level_count);
   TRACE_INDENT();
 
   std::vector< std::thread > threads;
@@ -5229,7 +5229,7 @@ void level_gen_create_levels(Gamep g, Levelsp v)
   }
 
   s->create_time = time_ms() - start;
-  LOG("level generation completed, took %u ms", s->create_time);
+  log("level generation completed, took %u ms", s->create_time);
   TRACE_INDENT();
 
   level_gen_stats_dump(g);
@@ -5264,8 +5264,8 @@ void level_gen_test(Gamep g)
 
     thing_stats_dump(g, v);
 
-    CON("Created %u levels for dungeon seed %u (took %u ms)", s->level_count, seed, s->create_time);
-    LOG("------------------------------------------------------");
+    con("Created %u levels for dungeon seed %u (took %u ms)", s->level_count, seed, s->create_time);
+    log("------------------------------------------------------");
     TRACE_INDENT();
 
     //

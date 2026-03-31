@@ -27,7 +27,7 @@ void color_set(const std::string &name, color *c, uint8_t r, uint8_t g, uint8_t 
 
   auto result = color_map.insert(std::make_pair(name, *c));
   if (! result.second) {
-    ERR("color insert name [%s] failed", name.c_str());
+    err("color insert name [%s] failed", name.c_str());
   }
 }
 
@@ -74,7 +74,7 @@ auto string2color(const char **s) -> color
 
   if (result == color_map.end()) {
     if (color_init_done) { // avoids color warnings due to very early errors
-      ERR("string2color: unknown color [%s]", tmp);
+      err("string2color: unknown color [%s]", tmp);
     }
     return WHITE;
   }
@@ -137,7 +137,7 @@ auto string2color(std::string &s, int *len) -> color
 
   if (result == color_map.end()) {
     if (color_init_done) { // avoids color warnings due to very early errors
-      ERR("string2color(2): unknown color [%s]", out.c_str());
+      err("string2color(2): unknown color [%s]", out.c_str());
     }
     return WHITE;
   }
@@ -169,7 +169,7 @@ auto string2color(std::string &s) -> color
 
   if (result == color_map.end()) {
     if (color_init_done) { // avoids color warnings due to very early errors
-      ERR("string2color(3): unknown color [%s]", out.c_str());
+      err("string2color(3): unknown color [%s]", out.c_str());
     }
     return WHITE;
   }
@@ -193,7 +193,7 @@ auto color_find(const char *s) -> color
 
   if (result == color_map.end()) {
     if (color_init_done) { // avoids color warnings due to very early errors
-      ERR("color_find: unknown color [%s]", s);
+      err("color_find: unknown color [%s]", s);
     }
     return WHITE;
   }

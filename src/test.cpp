@@ -173,7 +173,7 @@ void test_callback_set(Testp test, test_callback_t callback)
 {
   TRACE();
   if (test == nullptr) {
-    ERR("no test for %s", __FUNCTION__);
+    err("no test for %s", __FUNCTION__);
     return;
   }
   test->callback = callback;
@@ -185,7 +185,7 @@ auto test_load(const char *name_in) -> Testp
 
   std::string const name(name_in);
 
-  LOG("load test '%s'", name_in);
+  log("load test '%s'", name_in);
 
   if (test_find(name_in) != nullptr) {
     CROAK("test_load: test name [%s] already loaded", name_in);
@@ -256,8 +256,8 @@ void tests_run(Gamep g)
     // Preamble
     //
     if (! skipped) {
-      LOG("running test: %s", name.c_str());
-      LOG("-------------------------------------------");
+      log("running test: %s", name.c_str());
+      log("-------------------------------------------");
     }
 
     //
@@ -292,11 +292,11 @@ void tests_run(Gamep g)
       out += "OK ";
       out += how_long;
 
-      LOG("passed %s", how_long.c_str());
+      log("passed %s", how_long.c_str());
     } else {
       failed++;
       out += "FAILED";
-      LOG("failed");
+      log("failed");
     }
     std::println("{}", out);
 #else
@@ -313,16 +313,16 @@ void tests_run(Gamep g)
       term_log("%%fg=green$OK%%fg=reset$ ");
       term_log(how_long.c_str());
       term_log("\n");
-      LOG("passed %s", how_long.c_str());
+      log("passed %s", how_long.c_str());
     } else {
       failed++;
       term_log("%%fg=red$FAILED%%fg=reset$\n");
-      LOG("failed");
+      log("failed");
     }
 #endif
 
     if (! skipped) {
-      LOG("-");
+      log("-");
     }
 
     //
@@ -337,11 +337,11 @@ void tests_run(Gamep g)
   g_opt_tests = false;
 
   if (failed != 0) {
-    CON("Results: %d passed, %d failed", passed, failed);
+    con("Results: %d passed, %d failed", passed, failed);
     term_log("%%fg=red$Some tests failed%%fg=reset$\n");
     exit(1);
   } else {
-    CON("Results: %d tests passed", passed);
+    con("Results: %d tests passed", passed);
     term_log("%%fg=green$All tests passed%%fg=reset$\n");
     DIE_CLEAN("done");
   }

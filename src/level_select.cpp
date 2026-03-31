@@ -168,8 +168,8 @@ auto level_select_calculate_next_level_down(Gamep g, Levelsp v, Levelp l, bool r
   }
 
   if (compiler_unused) {
-    CON("-");
-    CON("level %d at %u,%u", l->level_num, l->level_select_at.x, l->level_select_at.y);
+    con("-");
+    con("level %d at %u,%u", l->level_num, l->level_select_at.x, l->level_select_at.y);
   }
 
   //
@@ -186,7 +186,7 @@ auto level_select_calculate_next_level_down(Gamep g, Levelsp v, Levelp l, bool r
     }
 
     if (compiler_unused) {
-      CON("level %d -> next (look diagonally left at %u,%u)", l->level_num, p.x, p.y);
+      con("level %d -> next (look diagonally left at %u,%u)", l->level_num, p.x, p.y);
     }
 
     auto *cand = level_select_get_level_from_grid_coords(v, p);
@@ -211,7 +211,7 @@ auto level_select_calculate_next_level_down(Gamep g, Levelsp v, Levelp l, bool r
     }
 
     if (compiler_unused) {
-      CON("level %d -> next (look diagonally right at %u,%u)", l->level_num, p.x, p.y);
+      con("level %d -> next (look diagonally right at %u,%u)", l->level_num, p.x, p.y);
     }
 
     auto *cand = level_select_get_level_from_grid_coords(v, p);
@@ -237,7 +237,7 @@ auto level_select_calculate_next_level_down(Gamep g, Levelsp v, Levelp l, bool r
       }
 
       if (compiler_unused) {
-        CON("level %d -> next %d (sequential)", l->level_num, cand->level_num);
+        con("level %d -> next %d (sequential)", l->level_num, cand->level_num);
       }
 
       if (cand->level_num == l->level_num + 1) {
@@ -251,7 +251,7 @@ auto level_select_calculate_next_level_down(Gamep g, Levelsp v, Levelp l, bool r
     auto *cand = game_level_get(g, v, 0);
     if (cand != nullptr) {
       if (compiler_unused) {
-        CON("level %d -> next (first level)", l->level_num);
+        con("level %d -> next (first level)", l->level_num);
       }
       level_out = cand;
       goto got_level;
@@ -264,7 +264,7 @@ auto level_select_calculate_next_level_down(Gamep g, Levelsp v, Levelp l, bool r
   tries = 0;
   while (tries++ < LEVEL_DOWN * LEVEL_ACROSS * 2) {
     if (compiler_unused) {
-      CON("level %d -> next (random)", l->level_num);
+      con("level %d -> next (random)", l->level_num);
     }
     bpoint const random_p(PCG_RANDOM_RANGE(0, LEVEL_ACROSS), PCG_RANDOM_RANGE(0, LEVEL_DOWN));
 
@@ -287,7 +287,7 @@ got_level:
     l->level_num_next_set = true;
     l->level_num_next     = level_out->level_num;
     if (compiler_unused) {
-      CON("level %d -> next %d at %u,%u", l->level_num, l->level_num_next, l->level_select_at.x, l->level_select_at.y);
+      con("level %d -> next %d at %u,%u", l->level_num, l->level_num_next, l->level_select_at.x, l->level_select_at.y);
     }
   }
 
@@ -322,7 +322,7 @@ static void level_select_dump(LevelSelect *s)
 
   IF_NODEBUG { return; }
 
-  LOG("levelSelect, level count %d", s->level_count);
+  log("levelSelect, level count %d", s->level_count);
   TRACE_INDENT();
 
   for (int y = 0; y < LEVEL_DOWN; y++) {
@@ -336,9 +336,9 @@ static void level_select_dump(LevelSelect *s)
         out += std::to_string(CHARMAP_EMPTY);
       }
     }
-    LOG("%s", out.c_str());
+    log("%s", out.c_str());
   }
-  LOG("-");
+  log("-");
 }
 
 //
@@ -387,12 +387,12 @@ auto level_select_get(Gamep g, Levelsp v, bpoint p) -> LevelSelectCell *
 
   LevelSelect *s = &v->level_select;
   if (s == nullptr) {
-    ERR("null level select");
+    err("null level select");
     return nullptr;
   }
 
   if (level_select_is_oob(p)) {
-    ERR("level select out of range");
+    err("level select out of range");
     return nullptr;
   }
 
@@ -472,7 +472,7 @@ static void snake_dive(Gamep g, Levelsp v, LevelSelect *s, int dive_chance)
 //
 [[nodiscard]] static auto level_select_map_set(Gamep g, Levelsp v) -> bool
 {
-  LOG("level select map");
+  log("level select map");
   TRACE_INDENT();
 
   LevelSelect const *s            = &v->level_select;
@@ -512,7 +512,7 @@ static void snake_dive(Gamep g, Levelsp v, LevelSelect *s, int dive_chance)
 
       auto *l = game_level_get(g, v, c->level_num);
       if (l == nullptr) {
-        ERR("missing level in select map");
+        err("missing level in select map");
         continue;
       }
 
@@ -803,7 +803,7 @@ void level_select_update_grid_tiles(Gamep g, Levelsp v)
 //
 void level_select_grid_of_empty_levels(Gamep g)
 {
-  LOG("level select generate");
+  log("level select generate");
   TRACE_INDENT();
 
   auto *v = levels_memory_alloc(g);
@@ -820,7 +820,7 @@ void level_select_grid_of_empty_levels(Gamep g)
 //
 void level_select_destroy(Gamep g, Levelsp v, Levelp l)
 {
-  LOG("level select destroy");
+  log("level select destroy");
   TRACE_INDENT();
 
   if ((l == nullptr) || ! l->is_initialized) {
@@ -998,7 +998,7 @@ void level_select_mouse_down(Gamep g, Levelsp v, Levelp l)
   if ((level_over == player_level) || level_over->player_can_enter_this_level_next) {
     new_level = level_change(g, v, level_over->level_num);
   } else {
-    TOPCON("You cannot enter this level yet. Choose an open door.");
+    topcon("You cannot enter this level yet. Choose an open door.");
   }
 
   //

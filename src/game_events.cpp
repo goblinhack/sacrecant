@@ -159,7 +159,7 @@ auto game_event_save(Gamep g) -> bool
       // Allow when debugging
       //
     } else {
-      TOPCON(UI_WARNING_FMT_STR "You can only save games when you exit the level." UI_RESET_FMT);
+      topcon(UI_WARNING_FMT_STR "You can only save games when you exit the level." UI_RESET_FMT);
       sound_play(g, "error");
       return true;
     }
@@ -209,7 +209,7 @@ auto game_event_wait(Gamep g) -> bool
   }
 
   if (level_tick_begin_requested(g, v, l, "player waiting")) {
-    TOPCON("You wait...");
+    topcon("You wait...");
   }
 
   return true;
@@ -265,7 +265,7 @@ auto game_event_descend(Gamep g) -> bool
   }
 
   if (level_is_exit(g, v, l, thing_at(player)) == nullptr) {
-    TOPCON(UI_WARNING_FMT_STR "There is no level exit here to descend." UI_RESET_FMT);
+    topcon(UI_WARNING_FMT_STR "There is no level exit here to descend." UI_RESET_FMT);
     sound_play(g, "error");
     return false;
   }
@@ -300,7 +300,7 @@ auto game_event_ascend(Gamep g) -> bool
   }
 
   if (level_is_entrance(g, v, l, thing_at(player)) == nullptr) {
-    TOPCON(UI_WARNING_FMT_STR "There is no level entrance here to ascend." UI_RESET_FMT);
+    topcon(UI_WARNING_FMT_STR "There is no level entrance here to ascend." UI_RESET_FMT);
     sound_play(g, "error");
     return false;
   }

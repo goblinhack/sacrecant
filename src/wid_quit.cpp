@@ -26,16 +26,16 @@ void wid_quit_destroy(Gamep g)
 [[nodiscard]] static auto wid_quit_yes(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  LOG("quit, yes");
+  log("quit, yes");
 
   if (game_levels_get(g) != nullptr) {
-    LOG("continue game");
+    log("continue game");
 
     game_destroy_levels(g);
     wid_quit_destroy(g);
     wid_main_menu_select(g);
   } else {
-    LOG("exit game");
+    log("exit game");
 
     wid_quit_destroy(g);
     DIE_CLEAN("Quit");
@@ -46,7 +46,7 @@ void wid_quit_destroy(Gamep g)
 [[nodiscard]] static auto wid_quit_no(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  LOG("quit, no");
+  log("quit, no");
 
   wid_quit_destroy(g);
 
@@ -102,7 +102,7 @@ void wid_quit_destroy(Gamep g)
 void wid_quit_select(Gamep g)
 {
   TRACE();
-  LOG("quit select");
+  log("quit select");
 
   if (wid_quit_window != nullptr) {
     wid_quit_destroy(g);

@@ -32,7 +32,7 @@ static void wid_cfg_gfx_destroy()
 {
   TRACE();
 
-  CON("Save config for gfx");
+  con("Save config for gfx");
   game_save_config(g);
 
   wid_cfg_gfx_destroy();
@@ -46,7 +46,7 @@ static void wid_cfg_gfx_destroy()
 [[nodiscard]] static auto wid_cfg_gfx_cancel(Gamep g, int y, uint32_t button) -> bool
 {
   TRACE();
-  CON("Reload config");
+  con("Reload config");
   wid_cfg_gfx_destroy();
   wid_options_menu_select(g);
   return true;
@@ -63,7 +63,7 @@ static void wid_cfg_gfx_destroy()
 [[nodiscard]] static auto wid_cfg_gfx_vsync_enable_toggle(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  CON("Toggle vsync");
+  con("Toggle vsync");
   if (game_gfx_vsync_enable_get(g)) {
     game_gfx_vsync_enable_unset(g);
   } else {
@@ -78,7 +78,7 @@ static void wid_cfg_gfx_destroy()
 [[nodiscard]] static auto wid_cfg_gfx_fullscreen_toggle(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  CON("Toggle gfx fullscreen");
+  con("Toggle gfx fullscreen");
   if (game_gfx_fullscreen_get(g)) {
     game_gfx_fullscreen_unset(g);
   } else {
@@ -104,7 +104,7 @@ static void wid_cfg_gfx_destroy()
 [[nodiscard]] static auto wid_cfg_gfx_fullscreen_desktop_toggle(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  CON("Toggle gfx fullscreen desktop");
+  con("Toggle gfx fullscreen desktop");
 
   if (game_gfx_fullscreen_desktop_get(g)) {
     game_gfx_fullscreen_desktop_unset(g);
@@ -131,7 +131,7 @@ static void wid_cfg_gfx_destroy()
 [[nodiscard]] static auto wid_cfg_gfx_borderless_toggle(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  CON("Toggle gfx borderless");
+  con("Toggle gfx borderless");
 
   if (game_gfx_borderless_get(g)) {
     game_gfx_borderless_unset(g);
@@ -148,7 +148,7 @@ static void wid_cfg_gfx_destroy()
 [[nodiscard]] static auto wid_cfg_other_fps_counter_toggle(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  CON("Toggle fps counter");
+  con("Toggle fps counter");
 
   if (game_fps_counter_get(g)) {
     game_fps_counter_unset(g);
@@ -189,7 +189,7 @@ static auto wid_cfg_gfx_find_closest_resolution(Gamep g) -> std::string
   auto w           = game_window_pix_width_get(g);
   auto h           = game_window_pix_height_get(g);
   auto current_res = std::to_string(w) + "x" + std::to_string(h);
-  LOG("find closest resolution to %s:", current_res.c_str());
+  log("find closest resolution to %s:", current_res.c_str());
 
   //
   // Find the closest mode
@@ -205,7 +205,7 @@ static auto wid_cfg_gfx_find_closest_resolution(Gamep g) -> std::string
 
     auto cand_res = std::to_string(mode.w) + "x" + std::to_string(mode.h);
     dist          = abs(((w - mode.w) * 10000) + (h - mode.h));
-    LOG(" - candidate %s dist %d", cand_res.c_str(), dist);
+    log(" - candidate %s dist %d", cand_res.c_str(), dist);
 
     if (dist < best_dist) {
       best_cand = std::to_string(mode.w) + "x" + std::to_string(mode.h);
@@ -214,7 +214,7 @@ static auto wid_cfg_gfx_find_closest_resolution(Gamep g) -> std::string
   }
 
   if (! best_cand.empty()) {
-    LOG(" - best %s", best_cand.c_str());
+    log(" - best %s", best_cand.c_str());
     return best_cand;
   }
 
@@ -230,7 +230,7 @@ static auto wid_cfg_gfx_find_closest_resolution(Gamep g) -> std::string
     }
   }
 
-  LOG("chose fallback resolution of: %s", best_cand.c_str());
+  log("chose fallback resolution of: %s", best_cand.c_str());
 
   return best_cand;
 }
@@ -246,10 +246,10 @@ static auto wid_cfg_gfx_find_closest_resolution(Gamep g) -> std::string
 
   if (pending_mode_set) {
     current_res = std::to_string(pending_mode.w) + "x" + std::to_string(pending_mode.h);
-    CON("Increment resolution (pending %s)", current_res.c_str());
+    con("Increment resolution (pending %s)", current_res.c_str());
   } else {
     current_res = wid_cfg_gfx_find_closest_resolution(g);
-    CON("Increment resolution (current %s)", current_res.c_str());
+    con("Increment resolution (current %s)", current_res.c_str());
   }
 
   auto                                     n = SDL_GetNumDisplayModes(0);
@@ -268,24 +268,24 @@ static auto wid_cfg_gfx_find_closest_resolution(Gamep g) -> std::string
     if (current_res == cand) {
       if (i > 0) {
         chosen = cands[ i - 1 ];
-        LOG(" - candidate: %s (current)", cand.c_str());
+        log(" - candidate: %s (current)", cand.c_str());
       } else {
-        LOG(" - candidate: %s (at max)", cand.c_str());
+        log(" - candidate: %s (at max)", cand.c_str());
       }
     } else {
-      LOG(" - candidate: %s", cand.c_str());
+      log(" - candidate: %s", cand.c_str());
     }
   }
   if (! chosen.empty()) {
     SDL_DisplayMode const mode = modes[ chosen ];
-    LOG(" - chosen: %s", chosen.c_str());
+    log(" - chosen: %s", chosen.c_str());
     pending_mode_set = true;
     pending_mode     = mode;
-    CON("Pending resolution %s", chosen.c_str());
+    con("Pending resolution %s", chosen.c_str());
     wid_cfg_gfx_select(g);
   } else {
     sound_play(g, "error");
-    CON("At maximum resolution (current %s)", current_res.c_str());
+    con("At maximum resolution (current %s)", current_res.c_str());
   }
 
   return true;
@@ -302,10 +302,10 @@ static auto wid_cfg_gfx_find_closest_resolution(Gamep g) -> std::string
 
   if (pending_mode_set) {
     current_res = std::to_string(pending_mode.w) + "x" + std::to_string(pending_mode.h);
-    CON("Decrement resolution (pending %s)", current_res.c_str());
+    con("Decrement resolution (pending %s)", current_res.c_str());
   } else {
     current_res = wid_cfg_gfx_find_closest_resolution(g);
-    CON("Decrement resolution (current %s)", current_res.c_str());
+    con("Decrement resolution (current %s)", current_res.c_str());
   }
 
   auto                                     n = SDL_GetNumDisplayModes(0);
@@ -324,24 +324,24 @@ static auto wid_cfg_gfx_find_closest_resolution(Gamep g) -> std::string
     if (current_res == cand) {
       if (i < static_cast< int >(cands.size()) - 1) {
         chosen = cands[ i + 1 ];
-        LOG(" - candidate: %s (current)", cand.c_str());
+        log(" - candidate: %s (current)", cand.c_str());
       } else {
-        LOG(" - candidate: %s (at max)", cand.c_str());
+        log(" - candidate: %s (at max)", cand.c_str());
       }
     } else {
-      LOG(" - candidate: %s", cand.c_str());
+      log(" - candidate: %s", cand.c_str());
     }
   }
   if (! chosen.empty()) {
     SDL_DisplayMode const mode = modes[ chosen ];
-    LOG(" - chosen: %s", chosen.c_str());
+    log(" - chosen: %s", chosen.c_str());
     pending_mode_set = true;
     pending_mode     = mode;
-    CON("Pending resolution %s", chosen.c_str());
+    con("Pending resolution %s", chosen.c_str());
     wid_cfg_gfx_select(g);
   } else {
     sound_play(g, "error");
-    CON("At minimum resolution (current %s)", current_res.c_str());
+    con("At minimum resolution (current %s)", current_res.c_str());
   }
 
   return true;

@@ -23,7 +23,7 @@
 //
 void restart(Gamep g, const std::string &restart_arg)
 {
-  CON("Exiting, restart called");
+  con("Exiting, restart called");
   TRACE();
 
   char const *executable = nullptr;
@@ -54,9 +54,9 @@ void restart(Gamep g, const std::string &restart_arg)
   // Build the full command line
   //
   std::string argument_line;
-  LOG("command line arguments for restarting '%s'", executable);
+  log("command line arguments for restarting '%s'", executable);
   for (i = 1; i < argc; i++) {
-    LOG("+ argument: \"%s\"", argv[ i ]);
+    log("+ argument: \"%s\"", argv[ i ]);
     argument_line += ' ';
     argument_line += argv[ i ];
   }
@@ -86,13 +86,13 @@ void restart(Gamep g, const std::string &restart_arg)
   if (use_system) {
     char tmp_cmd[ PATH_MAX ];
     snprintf(tmp_cmd, SIZEOF(tmp_cmd), "%s &", argument_line.c_str());
-    CON("system(%s)", tmp_cmd);
+    con("system(%s)", tmp_cmd);
     int const ret = system(tmp_cmd);
     exit(ret);
   }
 
   argv[ 0 ] = executable;
-  CON("execve(%s%s)", executable, argument_line.c_str());
+  con("execve(%s%s)", executable, argument_line.c_str());
   execve(executable, (char *const *) argv, nullptr);
 
   CROAK("failed to restart");

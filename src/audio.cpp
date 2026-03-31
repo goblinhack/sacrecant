@@ -13,7 +13,7 @@ static bool audio_init_done;
 
 void audio_fini()
 {
-  LOG("audio fini");
+  log("audio fini");
   TRACE_INDENT();
 
   Mix_CloseAudio();
@@ -52,7 +52,7 @@ auto audio_init() -> bool
 
   if (! audio_init_done) {
     if (Mix_OpenAudio(audio_freq, audio_format, channels, chunksize) != 0) {
-      ERR("Mix_OpenAudio fail: %s %s", Mix_GetError(), SDL_GetError());
+      err("Mix_OpenAudio fail: %s %s", Mix_GetError(), SDL_GetError());
       SDL_ClearError();
       return false;
     }

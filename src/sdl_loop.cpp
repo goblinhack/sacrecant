@@ -18,7 +18,7 @@
 //
 void sdl_loop(Gamep g)
 {
-  LOG("SDL: main loop");
+  log("SDL: main loop");
   TRACE_INDENT();
 
   //
@@ -66,13 +66,13 @@ void sdl_loop(Gamep g)
     if ((AN_ERROR_OCCURRED())) [[unlikely]] {
       if (g_errored_thread_id != old_g_errored_thread_id) {
         if (g_errored_thread_id == MAIN_THREAD) {
-          CON(UI_IMPORTANT_FMT_STR "An error occurred on the main thread. Check the logs." UI_RESET_FMT);
+          con(UI_IMPORTANT_FMT_STR "An error occurred on the main thread. Check the logs." UI_RESET_FMT);
         } else {
-          CON(UI_IMPORTANT_FMT_STR "An error occurred on thread %d. Check the logs." UI_RESET_FMT, g_errored_thread_id);
+          con(UI_IMPORTANT_FMT_STR "An error occurred on thread %d. Check the logs." UI_RESET_FMT, g_errored_thread_id);
         }
         auto key = ::to_string(game_key_console_get(g));
-        CON("To continue playing at your own risk, 'clear errored' and then press <%s>", key.c_str());
-        CON("For more info 'show error'");
+        con("To continue playing at your own risk, 'clear errored' and then press <%s>", key.c_str());
+        con("For more info 'show error'");
         wid_console_raise(g);
       }
     }
@@ -217,7 +217,7 @@ void sdl_loop(Gamep g)
     // Config change?
     //
     if ((! g_need_restart_with_given_arguments.empty())) [[unlikely]] {
-      LOG("restart needed");
+      log("restart needed");
       break;
     }
 
@@ -237,10 +237,10 @@ void sdl_loop(Gamep g)
         uint32_t const diff = fps_ts_now - fps_ts_begin;
         if (diff != 0) {
           float const fps = static_cast< float >(frames * ONESEC) / static_cast< float >(diff);
-          CON("FPS %f", fps);
+          con("FPS %f", fps);
           game_fps_value_set(g, static_cast< int >(fps));
         } else {
-          CON("FPS calculating...");
+          con("FPS calculating...");
           game_fps_value_set(g, 0);
         }
         fps_ts_begin = fps_ts_now;
@@ -251,7 +251,7 @@ void sdl_loop(Gamep g)
     game_pcg_unlock();
   }
 
-  LOG("SDL: exited main loop");
+  log("SDL: exited main loop");
 
   gl_leave_2d_mode(g);
 

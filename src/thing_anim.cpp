@@ -107,7 +107,7 @@ void thing_anim_init(Gamep g, Levelsp v, Levelp l, Thingp t, ThingAnim anim_type
           //
           t->anim_index = 0;
           break;
-        case THING_ANIM_ENUM_MAX : ERR("unexpected enum"); break;
+        case THING_ANIM_ENUM_MAX : err("unexpected enum"); break;
       }
 
       tile = tp_tiles_get(tp, t->anim_type, t->anim_index);

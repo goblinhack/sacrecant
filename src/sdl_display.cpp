@@ -89,7 +89,7 @@ void sdl_display_reset(Gamep g)
     return;
   }
 
-  CON("SDL: Video resetting");
+  con("SDL: Video resetting");
 
   auto old_console = wid_console_serialize();
 
@@ -109,7 +109,7 @@ void sdl_display_reset(Gamep g)
   //
   wid_display_all(g);
 
-  CON("SDL: Video reset");
+  con("SDL: Video reset");
   sdl_flush_display(g);
 }
 
@@ -145,7 +145,7 @@ auto sdl_display_init(Gamep g) -> bool
   if ((game_config_pix_width_get(g) != 0) && (game_config_pix_height_get(g) != 0)) {
     video_width  = game_config_pix_width_get(g);
     video_height = game_config_pix_height_get(g);
-    LOG("SDL: Used saved resolution %ux%u", video_width, video_height);
+    log("SDL: Used saved resolution %ux%u", video_width, video_height);
   } else {
     //
     // Else guess.
@@ -153,7 +153,7 @@ auto sdl_display_init(Gamep g) -> bool
     SDL_DisplayMode mode;
     memset(&mode, 0, SIZEOF(mode));
 
-    LOG("SDL: Init display");
+    log("SDL: Init display");
     if (SDL_GetCurrentDisplayMode(0, &mode) < 0) {
       CROAK("SDL_GetCurrentDisplayMode couldn't set windowed display: '%s'", SDL_GetError());
       return false;
@@ -164,7 +164,7 @@ auto sdl_display_init(Gamep g) -> bool
 
     video_width  = game_config_pix_width_get(g);
     video_height = game_config_pix_height_get(g);
-    LOG("SDL: Used current resolution %ux%u", video_width, video_height);
+    log("SDL: Used current resolution %ux%u", video_width, video_height);
   }
 
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
@@ -172,7 +172,7 @@ auto sdl_display_init(Gamep g) -> bool
 
   uint32_t video_flags = 0;
 
-  LOG("SDL: Set SDL_WINDOW_OPENGL");
+  log("SDL: Set SDL_WINDOW_OPENGL");
   video_flags = SDL_WINDOW_OPENGL;
 
   if (AN_ERROR_OCCURRED()) {
@@ -183,21 +183,21 @@ auto sdl_display_init(Gamep g) -> bool
     video_height = 768;
   } else {
     if (game_gfx_borderless_get(g)) {
-      LOG("SDL: Set SDL_WINDOW_BORDERLESS");
+      log("SDL: Set SDL_WINDOW_BORDERLESS");
       video_flags |= SDL_WINDOW_BORDERLESS;
     }
 
     if (game_gfx_fullscreen_get(g)) {
-      LOG("SDL: Set SDL_WINDOW_FULLSCREEN");
+      log("SDL: Set SDL_WINDOW_FULLSCREEN");
       video_flags |= SDL_WINDOW_FULLSCREEN;
     }
 
     if (game_gfx_fullscreen_desktop_get(g)) {
-      LOG("SDL: Set SDL_WINDOW_FULLSCREEN_DESKTOP");
+      log("SDL: Set SDL_WINDOW_FULLSCREEN_DESKTOP");
       video_flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
     }
 
-    LOG("SDL: Set SDL_WINDOW_INPUT_FOCUS");
+    log("SDL: Set SDL_WINDOW_INPUT_FOCUS");
     video_flags |= SDL_WINDOW_INPUT_FOCUS;
 
     //
@@ -205,7 +205,7 @@ auto sdl_display_init(Gamep g) -> bool
     //
     // but does it cause issues with debugging, where the debugger window is always behind?
     //
-    // LOG("SDL: Set SDL_WINDOW_ALWAYS_ON_TOP");
+    // log("SDL: Set SDL_WINDOW_ALWAYS_ON_TOP");
     // video_flags |= SDL_WINDOW_ALWAYS_ON_TOP;
   }
 
@@ -216,15 +216,15 @@ auto sdl_display_init(Gamep g) -> bool
   }
 
   if (AN_ERROR_OCCURRED()) {
-    LOG("SDL: Create safe mode window size %ux%u", video_width, video_height);
+    log("SDL: Create safe mode window size %ux%u", video_width, video_height);
   } else {
-    LOG("SDL: Create window size %ux%u", video_width, video_height);
+    log("SDL: Create window size %ux%u", video_width, video_height);
   }
 
   sdl.window = SDL_CreateWindow("gorget", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, video_width, video_height, video_flags);
 
   if (sdl.window == nullptr) {
-    ERR("SDL_CreateWindow couldn't set windowed display %ux%u: '%s'", video_width, video_height, SDL_GetError());
+    err("SDL_CreateWindow couldn't set windowed display %ux%u: '%s'", video_width, video_height, SDL_GetError());
     game_config_reset(g);
     game_save_config(g);
     return false;
@@ -233,25 +233,25 @@ auto sdl_display_init(Gamep g) -> bool
   int w = 0;
   int h = 0;
   SDL_GetWindowSize(sdl.window, &w, &h);
-  LOG("SDL: Created window size %ux%u", w, h);
+  log("SDL: Created window size %ux%u", w, h);
 
   game_config_pix_width_set(g, w);
   game_config_pix_height_set(g, h);
   game_window_pix_width_set(g, w);
   game_window_pix_height_set(g, h);
 
-  LOG("SDL: Call SDL_GL_CreateContext(%dx%d)", game_window_pix_width_get(g), game_window_pix_height_get(g));
+  log("SDL: Call SDL_GL_CreateContext(%dx%d)", game_window_pix_width_get(g), game_window_pix_height_get(g));
   sdl.context = SDL_GL_CreateContext(sdl.window);
   if (sdl.context == nullptr) {
     SDL_ClearError();
-    ERR("SDL_GL_CreateContext failed %s", SDL_GetError());
+    err("SDL_GL_CreateContext failed %s", SDL_GetError());
     return false;
   }
 
-  LOG("SDL: Call SDL_GL_MakeCurrent()");
+  log("SDL: Call SDL_GL_MakeCurrent()");
   if (SDL_GL_MakeCurrent(sdl.window, sdl.context) < 0) {
     SDL_ClearError();
-    ERR("SDL_GL_MakeCurrent failed %s", SDL_GetError());
+    err("SDL_GL_MakeCurrent failed %s", SDL_GetError());
     return false;
   }
 
@@ -278,9 +278,9 @@ auto sdl_display_init(Gamep g) -> bool
   //
   SDL_RaiseWindow(sdl.window);
 
-  LOG("SDL: OpenGL Vendor   : %s", glGetString(GL_VENDOR));
-  LOG("SDL: OpenGL Renderer : %s", glGetString(GL_RENDERER));
-  LOG("SDL: OpenGL Version  : %s", glGetString(GL_VERSION));
+  log("SDL: OpenGL Vendor   : %s", glGetString(GL_VENDOR));
+  log("SDL: OpenGL Renderer : %s", glGetString(GL_RENDERER));
+  log("SDL: OpenGL Version  : %s", glGetString(GL_VERSION));
 
   //
   // Do we really need to do this? it takes a small bit of time.
@@ -305,7 +305,7 @@ auto sdl_display_init(Gamep g) -> bool
 
 void sdl_display_fini(Gamep g)
 {
-  LOG("SDL: Video fini");
+  log("SDL: Video fini");
   TRACE();
 
   if (sdl.init_video == 0) {
@@ -320,14 +320,14 @@ void sdl_display_fini(Gamep g)
   SDL_ShowCursor(1);
 #endif
 
-  LOG("SDL: Video quit");
+  log("SDL: Video quit");
   SDL_VideoQuit();
 
-  LOG("SDL: Delete GL context");
+  log("SDL: Delete GL context");
   SDL_GL_DeleteContext(sdl.context);
   sdl.context = nullptr;
 
-  LOG("SDL: Destroy window");
+  log("SDL: Destroy window");
   SDL_DestroyWindow(sdl.window);
   sdl.window = nullptr;
 }

@@ -79,15 +79,15 @@ static auto tp_door_locked_at_display_get_tile_info(Gamep g, Levelsp v, Levelp l
   if (distance(thing_at(t), thing_at(player)) <= 1) {
     if (thing_is_open(t)) {
       if (thing_close(g, v, l, t, player /* opener */)) {
-        TOPCON("The door closes.");
+        topcon("The door closes.");
       } else {
-        TOPCON("The door wont close!");
+        topcon("The door wont close!");
       }
     } else {
       if (thing_open(g, v, l, t, player /* opener */)) {
-        TOPCON("The door opens.");
+        topcon("The door opens.");
       } else {
-        TOPCON("The door wont open!");
+        topcon("The door wont open!");
       }
     }
 
@@ -105,14 +105,14 @@ static auto tp_door_locked_at_display_get_tile_info(Gamep g, Levelsp v, Levelp l
 
   if (thing_health(t) < tp_health_max_get(tp)) {
     if (thing_is_player(opener)) {
-      TOPCON("The door is damaged and won't open!");
+      topcon("The door is damaged and won't open!");
     }
     return false;
   }
 
   if (thing_is_hot(t) != 0) {
     if (thing_is_player(opener)) {
-      TOPCON("The door is too hot to touch!");
+      topcon("The door is too hot to touch!");
     }
     return false;
   }
@@ -133,7 +133,7 @@ static auto tp_door_locked_at_display_get_tile_info(Gamep g, Levelsp v, Levelp l
       // Need a key
       //
       if (thing_is_player(opener)) {
-        TOPCON("You need a key!");
+        topcon("You need a key!");
       }
 
       return false;
@@ -152,7 +152,7 @@ static auto tp_door_locked_at_display_get_tile_info(Gamep g, Levelsp v, Levelp l
   }
 
   if (thing_is_player(opener)) {
-    TOPCON("The locked door opens.");
+    topcon("The locked door opens.");
 
     thing_is_unlocked_set(g, v, l, t);
   }
@@ -167,7 +167,7 @@ static auto tp_door_locked_at_display_get_tile_info(Gamep g, Levelsp v, Levelp l
   TRACE();
 
   if (thing_is_player(opener)) {
-    TOPCON("The locked door closes.");
+    topcon("The locked door closes.");
   }
 
   thing_sound_play(g, v, l, t, "door_open");
@@ -184,12 +184,12 @@ static void tp_door_locked_on_death(Gamep g, Levelsp v, Levelp l, Thingp t, Thin
     auto at = thing_at(player);
     if (thing_on_same_level_as_player(g, v, t)) {
       if (thing_vision_can_see_tile(g, v, l, player, at)) {
-        TOPCON("The locked door breaks!");
+        topcon("The locked door breaks!");
       } else {
-        TOPCON("You hear a locked door break!");
+        topcon("You hear a locked door break!");
       }
     } else {
-      TOPCON("You hear a very distant locked door break!");
+      topcon("You hear a very distant locked door break!");
     }
   }
 }

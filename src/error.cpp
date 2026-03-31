@@ -49,7 +49,7 @@ static void error_message_do(Gamep g, std::string &tech_support)
   tech_support += "\n";
   tech_support += "The goblin responsible for this shall be punished!\n";
 
-  CON("%s", tech_support.c_str());
+  con("%s", tech_support.c_str());
 
   if (g != nullptr) {
     wid_unset_focus(g);

@@ -90,7 +90,7 @@ void dmap_print(const Dmap *D, bpoint at, bpoint tl, bpoint br)
     }
   }
 
-  LOG("DMAP: %p tl %d,%d br %d %d at %d,%d", (void *) D, minx, miny, maxx, maxy, at.x, at.y);
+  log("DMAP: %p tl %d,%d br %d %d at %d,%d", (void *) D, minx, miny, maxx, maxy, at.x, at.y);
 
   for (y = miny; y <= maxy; y++) {
     std::string debug;
@@ -115,7 +115,7 @@ void dmap_print(const Dmap *D, bpoint at, bpoint tl, bpoint br)
         debug += "  *";
       }
     }
-    LOG("DMAP: %s", debug.c_str());
+    log("DMAP: %s", debug.c_str());
   }
 }
 
@@ -124,7 +124,7 @@ void dmap_print(const Dmap *D)
   int x = 0;
   int y = 0;
 
-  LOG("DMAP:");
+  log("DMAP:");
 
   for (y = 0; y < MAP_HEIGHT; y++) {
     std::string debug;
@@ -145,7 +145,7 @@ void dmap_print(const Dmap *D)
         debug += " *";
       }
     }
-    LOG("DMAP: %s", debug.c_str());
+    log("DMAP: %s", debug.c_str());
   }
 }
 

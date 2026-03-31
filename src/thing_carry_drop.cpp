@@ -36,7 +36,7 @@ auto thing_carry_item(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp carrier)
 
     if (thing_is_player(carrier)) {
       auto the_thing = thing_name_long_the(g, v, l, item);
-      TOPCON("You fail to carry %s.", the_thing.c_str());
+      topcon("You fail to carry %s.", the_thing.c_str());
     }
     return false;
   }
@@ -47,7 +47,7 @@ auto thing_carry_item(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp carrier)
 
   if (thing_is_player(carrier)) {
     auto the_thing = thing_name_long_the(g, v, l, item);
-    TOPCON("You carry %s.", the_thing.c_str());
+    topcon("You carry %s.", the_thing.c_str());
   }
 
   return true;
@@ -83,7 +83,7 @@ auto thing_drop_item(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp dropper) 
 
     if (thing_is_player(dropper)) {
       auto the_thing = thing_name_long_the(g, v, l, item);
-      TOPCON("You fail to drop %s.", the_thing.c_str());
+      topcon("You fail to drop %s.", the_thing.c_str());
     }
     return false;
   }
@@ -93,13 +93,13 @@ auto thing_drop_item(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp dropper) 
   //
   if (! thing_warp_to(g, v, l, item, thing_at(dropper))) {
     auto the_thing = thing_name_long_the(g, v, l, item);
-    TOPCON("You fail to place %s.", the_thing.c_str());
+    topcon("You fail to place %s.", the_thing.c_str());
     return false;
   }
 
   if (thing_is_player(dropper)) {
     auto the_thing = thing_name_long_the(g, v, l, item);
-    TOPCON("You drop %s.", the_thing.c_str());
+    topcon("You drop %s.", the_thing.c_str());
   }
 
   return true;
@@ -110,7 +110,7 @@ auto thing_is_carried(Thingp t) -> bool
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    err("no thing pointer");
     return false;
   }
   return t->_is_carried;
@@ -129,7 +129,7 @@ auto thing_is_carried_try_set(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp 
   }
 
   if (item == nullptr) {
-    ERR("no thing pointer");
+    err("no thing pointer");
     return false;
   }
 

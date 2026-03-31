@@ -61,7 +61,7 @@ void level_init(Gamep g, Levelsp v, Levelp l, LevelNum n)
 
 auto levels_memory_alloc(Gamep g) -> Levelsp
 {
-  LOG("levels alloc memory");
+  log("levels alloc memory");
   TRACE_INDENT();
 
   auto *v = game_levels_get(g);
@@ -86,7 +86,7 @@ auto levels_memory_alloc(Gamep g) -> Levelsp
 
 static void levels_memory_free(Gamep g, Levelsp v)
 {
-  LOG("levels free memory");
+  log("levels free memory");
   TRACE_INDENT();
 
   VERIFY(MTYPE_LEVELS, v);
@@ -98,7 +98,7 @@ static void levels_memory_free(Gamep g, Levelsp v)
 
 void levels_destroy(Gamep g, Levelsp v)
 {
-  LOG("levels destroy");
+  log("levels destroy");
   TRACE_INDENT();
 
   FOR_ALL_LEVELS(g, v, iter)
@@ -120,7 +120,7 @@ void level_finalize(Gamep g, Levelsp v, Levelp l)
 
 void levels_finalize(Gamep g, Levelsp v)
 {
-  LOG("levels finalize");
+  log("levels finalize");
   TRACE_INDENT();
 
   if (g == nullptr) {
@@ -172,7 +172,7 @@ void level_is_completed_by_player_falling(Gamep g, Levelsp v, Levelp l)
 {
   l->player_fell_out_of_level = true;
 
-  TOPCON(UI_IMPORTANT_FMT_STR "You tumble into the void." UI_RESET_FMT);
+  topcon(UI_IMPORTANT_FMT_STR "You tumble into the void." UI_RESET_FMT);
 }
 
 //
@@ -180,7 +180,7 @@ void level_is_completed_by_player_falling(Gamep g, Levelsp v, Levelp l)
 //
 auto level_change(Gamep g, Levelsp v, LevelNum level_num) -> Levelp
 {
-  LOG("level change to %u", level_num);
+  log("level change to %u", level_num);
   TRACE_INDENT();
 
   VERIFY(MTYPE_LEVELS, v);
@@ -190,7 +190,7 @@ auto level_change(Gamep g, Levelsp v, LevelNum level_num) -> Levelp
   //
   LevelSelect const *s = &v->level_select;
   if (s == nullptr) {
-    ERR("no level selection created");
+    err("no level selection created");
     return nullptr;
   }
 
@@ -203,12 +203,12 @@ auto level_change(Gamep g, Levelsp v, LevelNum level_num) -> Levelp
     // Jump tot the last real level
     //
     level_num = s->level_count - 1;
-    LOG("level change to %u (max level)", level_num);
+    log("level change to %u (max level)", level_num);
   }
 
   Level *old_level = game_level_get(g, v); // NOLINT
   if (game_level_populate(g, v, level_num) == nullptr) {
-    TOPCON("The dungeon is still under construction and cannot be entered (BUG)");
+    topcon("The dungeon is still under construction and cannot be entered (BUG)");
     return old_level;
   }
 
@@ -218,7 +218,7 @@ auto level_change(Gamep g, Levelsp v, LevelNum level_num) -> Levelp
 
   if (old_level == new_level) {
     if (new_level->level_num == 0) {
-      TOPCON("Welcome to " UI_IMPORTANT_FMT_STR "Gorget" UI_RESET_FMT ". A literal work in progress...");
+      topcon("Welcome to " UI_IMPORTANT_FMT_STR "Gorget" UI_RESET_FMT ". A literal work in progress...");
     }
     return new_level;
   }
@@ -227,19 +227,19 @@ auto level_change(Gamep g, Levelsp v, LevelNum level_num) -> Levelp
   level_debug(g, v, new_level);
 
   if (level_is_level_select(g, v, new_level)) {
-    BOTCON_NEW_LINE();
-    TOPCON_NEW_LINE();
-    TOPCON("Choose your next level.");
-    TOPCON("Mouse over levels for monster/treasure info.");
+    botcon_newline();
+    topcon_newline();
+    topcon("Choose your next level.");
+    topcon("Mouse over levels for monster/treasure info.");
   } else if (new_level->player_completed_level_via_exit) {
-    TOPCON_NEW_LINE();
-    TOPCON("You re-enter level %u of dungeon %s.", new_level->level_num + 1, game_seed_name_get(g));
+    topcon_newline();
+    topcon("You re-enter level %u of dungeon %s.", new_level->level_num + 1, game_seed_name_get(g));
   } else if (new_level->player_fell_out_of_level) {
-    TOPCON_NEW_LINE();
-    TOPCON("You stumble back into level %u of dungeon %s.", new_level->level_num + 1, game_seed_name_get(g));
+    topcon_newline();
+    topcon("You stumble back into level %u of dungeon %s.", new_level->level_num + 1, game_seed_name_get(g));
   } else if (level_num > 0) {
-    TOPCON_NEW_LINE();
-    TOPCON("You enter level %u of dungeon %s.", new_level->level_num + 1, game_seed_name_get(g));
+    topcon_newline();
+    topcon("You enter level %u of dungeon %s.", new_level->level_num + 1, game_seed_name_get(g));
   }
 
   level_update_visibility(g, v, new_level);
@@ -513,7 +513,7 @@ auto level_flag(Gamep g, Levelsp v, Levelp l, ThingFlag f, Thingp me) -> Thingp
   TRACE();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    err("no thing pointer");
     return nullptr;
   }
 
@@ -564,7 +564,7 @@ auto level_alive(Gamep g, Levelsp v, Levelp l, ThingFlag f, Thingp me) -> Thingp
   TRACE();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    err("no thing pointer");
     return nullptr;
   }
 
@@ -615,7 +615,7 @@ auto level_open(Gamep g, Levelsp v, Levelp l, ThingFlag f, Thingp me) -> Thingp
   TRACE();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    err("no thing pointer");
     return nullptr;
   }
 

@@ -14,7 +14,7 @@ auto thing_is_open_try_set(Gamep g, Levelsp v, Levelp l, Thingp t, Thingp opener
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    err("no thing pointer");
     return false;
   }
 
@@ -75,7 +75,7 @@ auto thing_is_unlocked(Thingp t) -> bool
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    err("no thing pointer");
     return false;
   }
   return t->_is_unlocked;
@@ -86,7 +86,7 @@ void thing_is_unlocked_set(Gamep g, Levelsp v, Levelp l, Thingp t, bool val)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    err("no thing pointer");
     return;
   }
   t->_is_unlocked = val;

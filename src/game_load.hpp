@@ -47,7 +47,7 @@ std::array< bool, UI_MAX_SAVE_SLOTS > slot_valid;
       game_load_error = "bad '" what "' magic expected: " + std::format("0x{:x}", m) + " got " + std::format("0x{:x}", magic);             \
       return in;                                                                                                                           \
     }                                                                                                                                      \
-    IF_DEBUG2 { CON("Read magic '%s' %s", what, std::format("0x{:x}", magic).c_str()); }                                                   \
+    IF_DEBUG2 { con("Read magic '%s' %s", what, std::format("0x{:x}", magic).c_str()); }                                                   \
   }
 
 auto operator>>(std::istream &in, Bits< SDL_Keysym & > my) -> std::istream &
@@ -66,9 +66,9 @@ auto operator>>(std::istream &in, Bits< Config & > my) -> std::istream &
   TRACE();
 
   in >> bits(my.t.version);
-  LOG("read config: version                = [%s]", my.t.version.c_str());
+  log("read config: version                = [%s]", my.t.version.c_str());
   in >> bits(my.t.serialized_size);
-  LOG("read config: serialized_size        = %d", my.t.serialized_size);
+  log("read config: serialized_size        = %d", my.t.serialized_size);
 
   if (my.t.serialized_size != sizeof(Config)) {
     game_load_error = "bad save file header version";
@@ -450,19 +450,19 @@ auto operator>>(std::istream &in, Bits< Config & > my) -> std::istream &
   in >> bits(my.t.sdl_delay);
   in >> bits(my.t.sound_volume);
 
-  LOG("read config: config_pix_height      = %d", my.t.config_pix_height);
-  LOG("read config: config_pix_width       = %d", my.t.config_pix_width);
-  LOG("read config: debug_mode             = %d", static_cast< int >(my.t.debug_mode));
-  LOG("read config: fps_counter            = %d", static_cast< int >(my.t.fps_counter));
-  LOG("read config: gfx_borderless         = %d", static_cast< int >(my.t.gfx_borderless));
-  LOG("read config: gfx_fullscreen         = %d", static_cast< int >(my.t.gfx_fullscreen));
-  LOG("read config: gfx_fullscreen_desktop = %d", static_cast< int >(my.t.gfx_fullscreen_desktop));
-  LOG("read config: gfx_vsync_enable       = %d", static_cast< int >(my.t.gfx_vsync_enable));
-  LOG("read config: mouse_wheel_lr_negated = %d", static_cast< int >(my.t.mouse_wheel_lr_negated));
-  LOG("read config: mouse_wheel_ud_negated = %d", static_cast< int >(my.t.mouse_wheel_ud_negated));
-  LOG("read config: music_volume           = %d", my.t.music_volume);
-  LOG("read config: sdl_delay              = %d", my.t.sdl_delay);
-  LOG("read config: sound_volume           = %d", my.t.sound_volume);
+  log("read config: config_pix_height      = %d", my.t.config_pix_height);
+  log("read config: config_pix_width       = %d", my.t.config_pix_width);
+  log("read config: debug_mode             = %d", static_cast< int >(my.t.debug_mode));
+  log("read config: fps_counter            = %d", static_cast< int >(my.t.fps_counter));
+  log("read config: gfx_borderless         = %d", static_cast< int >(my.t.gfx_borderless));
+  log("read config: gfx_fullscreen         = %d", static_cast< int >(my.t.gfx_fullscreen));
+  log("read config: gfx_fullscreen_desktop = %d", static_cast< int >(my.t.gfx_fullscreen_desktop));
+  log("read config: gfx_vsync_enable       = %d", static_cast< int >(my.t.gfx_vsync_enable));
+  log("read config: mouse_wheel_lr_negated = %d", static_cast< int >(my.t.mouse_wheel_lr_negated));
+  log("read config: mouse_wheel_ud_negated = %d", static_cast< int >(my.t.mouse_wheel_ud_negated));
+  log("read config: music_volume           = %d", my.t.music_volume);
+  log("read config: sdl_delay              = %d", my.t.sdl_delay);
+  log("read config: sound_volume           = %d", my.t.sound_volume);
 
   if (! g_opt_override_debug_level) {
     if (my.t.debug_mode) {
@@ -542,19 +542,19 @@ auto operator>>(std::istream &in, Bits< class Game & > my) -> std::istream &
     uint32_t tmp = 0;
 
     in >> bits(tmp);
-    LOG("read config: sizeof(Thing)          = %u", tmp);
+    log("read config: sizeof(Thing)          = %u", tmp);
     if (tmp != sizeof(Thing)) {
       game_load_error = "Incompatible Thing structure size";
       return in;
     }
     in >> bits(tmp);
-    LOG("read config: sizeof(Level)          = %u", tmp);
+    log("read config: sizeof(Level)          = %u", tmp);
     if (tmp != sizeof(Level)) {
       game_load_error = "Incompatible Level structure size";
       return in;
     }
     in >> bits(tmp);
-    LOG("read config: sizeof(Levels)         = %u", tmp);
+    log("read config: sizeof(Levels)         = %u", tmp);
     if (tmp != sizeof(Levels)) {
       game_load_error = "Incompatible Levels structure size";
       return in;
@@ -1019,7 +1019,7 @@ static auto read_lzo_file(const std::string &filename, long *uncompressed_sz) ->
 
 auto Game::load(const std::string &file_to_load, class Game &target) -> bool
 {
-  LOG("load: %s", file_to_load.c_str());
+  log("load: %s", file_to_load.c_str());
   TRACE_INDENT();
 
   VERIFY(MTYPE_GAME, this);
@@ -1066,7 +1066,7 @@ auto Game::load(const std::string &file_to_load, class Game &target) -> bool
 
   auto start = time_ms();
 
-  LOG("expect: %s, decompress %ld (%ld bytes) -> %ld Mb (%ld bytes)", file_to_load.c_str(),
+  log("expect: %s, decompress %ld (%ld bytes) -> %ld Mb (%ld bytes)", file_to_load.c_str(),
       src_size / (1024 * 1024), //
       src_size,                 //
       dst_size / (1024 * 1024), //
@@ -1085,7 +1085,7 @@ auto Game::load(const std::string &file_to_load, class Game &target) -> bool
 #endif
 
   {
-    LOG("%s decompress %ld Mb (%ld bytes) -> %ld Mb (%ld bytes) took %u ms (%s)",
+    log("%s decompress %ld Mb (%ld bytes) -> %ld Mb (%ld bytes) took %u ms (%s)",
         which,                    //
         src_size / (1024 * 1024), //
         src_size,                 //
@@ -1094,7 +1094,7 @@ auto Game::load(const std::string &file_to_load, class Game &target) -> bool
         time_ms() - start,        //
         file_to_load.c_str());
   } else {
-    ERR("%s decompress %ld Mb (%ld bytes) -> %ld Mb (%ld error code) took %u ms (%s)",
+    err("%s decompress %ld Mb (%ld bytes) -> %ld Mb (%ld error code) took %u ms (%s)",
         which,                           //
         (long) src_size / (1024 * 1024), //
         (long) src_size,                 //
@@ -1168,28 +1168,28 @@ auto Game::load_config() const -> std::string
 
 auto Game::load(int slot) -> bool
 {
-  LOG("load slot: %d", slot);
+  log("load slot: %d", slot);
   TRACE_INDENT();
 
   if (slot < 0) {
-    CON("no game at that slot; bad slot.");
+    con("no game at that slot; bad slot.");
     sound_play(this, "error");
     return false;
   }
 
   if (slot >= UI_MAX_SAVE_SLOTS) {
-    CON("no game at that slot; bad slot.");
+    con("no game at that slot; bad slot.");
     sound_play(this, "error");
     return false;
   }
 
   if (! slot_valid[ slot ]) {
-    CON("no game at that slot.");
+    con("no game at that slot.");
     sound_play(this, "error");
     return false;
   }
 
-  LOG("clean up current game");
+  log("clean up current game");
   game->fini();
 
   auto this_save_file = saved_dir + "saved-slot-" + std::to_string(slot);
@@ -1198,7 +1198,7 @@ auto Game::load(int slot) -> bool
     this_save_file = saved_dir + "saved-snapshot";
   }
 
-  LOG("loading: %s", this_save_file.c_str());
+  log("loading: %s", this_save_file.c_str());
   g_loading = true;
   load(this_save_file, *this);
   g_loading = false;
@@ -1208,9 +1208,9 @@ auto Game::load(int slot) -> bool
 
   if (! game_load_error.empty()) {
     sound_play(this, "error");
-    TOPCON("failed to load the game from %s", this_save_file.c_str());
+    topcon("failed to load the game from %s", this_save_file.c_str());
   } else {
-    TOPCON("Loaded the game from %s", this_save_file.c_str());
+    topcon("Loaded the game from %s", this_save_file.c_str());
   }
 
   return game_load_error.empty();
@@ -1218,21 +1218,21 @@ auto Game::load(int slot) -> bool
 
 auto Game::load_snapshot() -> bool
 {
-  LOG("load snapshot");
+  log("load snapshot");
   TRACE_INDENT();
 
   game->fini();
 
   auto this_save_file = saved_dir + "saved-snapshot";
 
-  LOG("loading: %s", this_save_file.c_str());
+  log("loading: %s", this_save_file.c_str());
   g_loading = true;
   load(this_save_file, *this);
   g_loading = false;
 
   state_change(STATE_PLAYING, "loaded snapshot");
 
-  TOPCON("Loaded the game from %s", this_save_file.c_str());
+  topcon("Loaded the game from %s", this_save_file.c_str());
 
   return game_load_error.empty();
 }
@@ -1243,7 +1243,7 @@ void wid_load_destroy(Gamep g)
     return;
   }
 
-  LOG("widget load destroy");
+  log("widget load destroy");
   TRACE_INDENT();
 
   delete wid_load;
@@ -1281,7 +1281,7 @@ static auto wid_load_key_up(Gamep g, Widp w, const struct SDL_Keysym *key) -> bo
                   int const slot = c - '0';
                   if (! slot_valid[ slot ]) {
                     sound_play(g, "error");
-                    CON("no game at that slot.");
+                    con("no game at that slot.");
                   } else {
                     game->load(slot);
                     wid_load_destroy(game);
@@ -1293,7 +1293,7 @@ static auto wid_load_key_up(Gamep g, Widp w, const struct SDL_Keysym *key) -> bo
               case 'B' :
               case SDLK_ESCAPE :
                 {
-                  LOG("load game cancelled");
+                  log("load game cancelled");
                   TRACE_INDENT();
 
                   wid_load_destroy(game);
@@ -1323,7 +1323,7 @@ static auto wid_load_key_down(Gamep g, Widp w, const struct SDL_Keysym *key) -> 
 
 static auto wid_load_mouse_up(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
-  LOG("load selected slot");
+  log("load selected slot");
   TRACE_INDENT();
 
   auto slot = wid_get_int_context(w);
@@ -1334,7 +1334,7 @@ static auto wid_load_mouse_up(Gamep g, Widp w, int x, int y, uint32_t button) ->
 
 static auto wid_load_saved_snapshot(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
-  LOG("load snapshot");
+  log("load snapshot");
   TRACE_INDENT();
 
   game->load_snapshot();
@@ -1344,7 +1344,7 @@ static auto wid_load_saved_snapshot(Gamep g, Widp w, int x, int y, uint32_t butt
 
 static auto wid_load_cancel(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
-  LOG("load cancel");
+  log("load cancel");
   TRACE_INDENT();
 
   wid_load_destroy(game);
@@ -1354,7 +1354,7 @@ static auto wid_load_cancel(Gamep g, Widp w, int x, int y, uint32_t button) -> b
 
 void Game::load_select()
 {
-  LOG("load menu");
+  log("load menu");
   TRACE_INDENT();
 
   if (wid_load != nullptr) {
@@ -1407,7 +1407,7 @@ void Game::load_select()
     if (! load(tmp_file, tmp)) {
       if (! game_load_error.empty()) {
         s += game_load_error;
-        CON("GAME LOADING ERROR: %s", game_load_error.c_str());
+        con("GAME LOADING ERROR: %s", game_load_error.c_str());
       } else {
         if (slot == UI_MAX_SAVE_SLOTS - 1) {
           s += "<no-snapshot>";
@@ -1445,7 +1445,7 @@ void wid_load_select(Gamep g) { g->load_select(); }
 
 auto game_load_last_config(const char *appdata) -> bool
 {
-  LOG("load config");
+  log("load config");
   TRACE_INDENT();
 
   game = new Game(std::string(appdata));
@@ -1457,7 +1457,7 @@ auto game_load_last_config(const char *appdata) -> bool
 
   if (game->config.version != version) {
     if (sdl.window != nullptr) {
-      WARN("Config version change. Will need to reset config. Found version [%s]. Expected version [%s].", game->config.version.c_str(),
+      warn("Config version change. Will need to reset config. Found version [%s]. Expected version [%s].", game->config.version.c_str(),
            version.c_str());
     } else {
       sdl_msg_box("Config version change. Will need to reset config. Found version [%s]. Expected version [%s].",
@@ -1472,7 +1472,7 @@ auto game_load_last_config(const char *appdata) -> bool
     g_errored_thread_id = -1;
   } else if (! config_error.empty()) {
     if (sdl.window != nullptr) {
-      WARN("Config error: %s. Will need to reset config.", config_error.c_str());
+      warn("Config error: %s. Will need to reset config.", config_error.c_str());
     } else {
       sdl_msg_box("Config error: %s. Will need to reset config.", config_error.c_str());
     }

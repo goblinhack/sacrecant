@@ -161,7 +161,7 @@ auto file_load(const char *filename, int *outlen) -> uint8_t *
 
   MYFREE(popup_str);
    */
-  LOG("file not found \"%s\"", filename);
+  log("file not found \"%s\"", filename);
 
   return nullptr;
 }
@@ -235,7 +235,7 @@ auto file_write(const char *filename, uint8_t *buffer, int len) -> int
 
   file = fopen(filename, "w");
   if (file == nullptr) {
-    ERR("failed to open file \"%s\" for writing: %s\n", filename, strerror(errno));
+    err("failed to open file \"%s\" for writing: %s\n", filename, strerror(errno));
     return -1;
   }
 
@@ -247,13 +247,13 @@ auto file_write(const char *filename, uint8_t *buffer, int len) -> int
    * Check written one object.
    */
   if (! static_cast< bool >(rc)) {
-    ERR("failed to write file \"%s\": %s\n", filename, strerror(errno));
+    err("failed to write file \"%s\": %s\n", filename, strerror(errno));
     fclose(file);
     return -1;
   }
 
   if (ferror(file) != 0) {
-    ERR("Error writing to write file \"%s\": %s\n", filename, strerror(errno));
+    err("Error writing to write file \"%s\": %s\n", filename, strerror(errno));
     fclose(file);
     return -1;
   }

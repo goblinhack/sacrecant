@@ -61,7 +61,7 @@ void thing_level_warp_to_entrance(Gamep g, Levelsp v, Levelp new_level, Thingp t
   // Now move to the correct location
   //
   if (! thing_warp_to(g, v, new_level, t, new_level->entrance)) {
-    TOPCON("You seem lost and unable to find the entrance!");
+    topcon("You seem lost and unable to find the entrance!");
   }
 }
 
@@ -85,6 +85,6 @@ void thing_level_warp_to_exit(Gamep g, Levelsp v, Levelp new_level, Thingp t)
   // Now move to the correct location
   //
   if (! thing_warp_to(g, v, new_level, t, new_level->exit)) {
-    TOPCON("You seem lost and unable to find the exit!");
+    topcon("You seem lost and unable to find the exit!");
   }
 }

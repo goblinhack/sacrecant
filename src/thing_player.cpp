@@ -20,12 +20,12 @@ void thing_player_init(Gamep g)
 
   auto *v = game_levels_get(g);
   if (v == nullptr) {
-    ERR("no levels");
+    err("no levels");
     return;
   }
 
   if (v->player_id == 0U) {
-    ERR("no player");
+    err("no player");
     return;
   }
   auto *l = game_level_get(g, v);
@@ -116,7 +116,7 @@ auto thing_player_level(Gamep g) -> Levelp
 //
 auto thing_player_mouse_down(Gamep g, Levelsp v, Levelp l, int x, int y, uint32_t button) -> bool
 {
-  LOG("thing mouse down");
+  log("thing mouse down");
   TRACE_INDENT();
 
   switch (player_state(g, v)) {
@@ -686,7 +686,7 @@ auto player_fire(Gamep g, Levelsp v, Levelp l, int dx, int dy, Tpp fire_what) ->
 
   auto *me = thing_player(g);
   if (me == nullptr) {
-    ERR("no thing pointer");
+    err("no thing pointer");
     return false;
   }
 
@@ -704,12 +704,12 @@ auto player_fire(Gamep g, Levelsp v, Levelp l, int dx, int dy, Tpp fire_what) ->
 
   auto *ext_struct = thing_ext_struct(g, me);
   if (ext_struct == nullptr) {
-    ERR("no ext struct found");
+    err("no ext struct found");
     return false;
   }
 
   if (fire_what == nullptr) {
-    ERR("nothing to fire");
+    err("nothing to fire");
     return false;
   }
 
@@ -734,7 +734,7 @@ auto player_fire(Gamep g, Levelsp v, Levelp l, int dx, int dy, Tpp fire_what) ->
   //
   if (level_is_deep_water(g, v, l, thing_at(me)) != nullptr) {
     if (thing_is_player(me)) {
-      TOPCON("The deep water is preventing you from firing a volley!");
+      topcon("The deep water is preventing you from firing a volley!");
       return false;
     }
   }
@@ -903,7 +903,7 @@ void player_warp_to_specific_level(Gamep g, Levelsp v, LevelNum level_num)
 
   auto *me = thing_player(g);
   if (me == nullptr) {
-    ERR("no thing pointer");
+    err("no thing pointer");
     return;
   }
 
@@ -948,7 +948,7 @@ void player_fell(Gamep g, Levelsp v, Levelp l, Levelp next_level, Thingp me)
   level_is_completed_by_player_falling(g, v, l);
 
   if (next_level != level_change(g, v, next_level->level_num)) {
-    ERR("unexpected level found");
+    err("unexpected level found");
     return;
   }
 }
@@ -1034,7 +1034,7 @@ auto player_jump(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool
 
   auto *player_struct = thing_player_struct(g);
   if (player_struct == nullptr) {
-    ERR("no player struct found");
+    err("no player struct found");
     return false;
   }
 

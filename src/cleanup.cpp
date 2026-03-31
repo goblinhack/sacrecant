@@ -28,7 +28,7 @@
 //
 void cleanup()
 {
-  LOG("cleanup, thread %d", g_thread_id);
+  log("cleanup, thread %d", g_thread_id);
   TRACE_INDENT();
 
   if (g_thread_id != MAIN_THREAD) {
@@ -36,12 +36,12 @@ void cleanup()
   }
 
   if (g_quitting) {
-    CON("Quitting, nested");
+    con("Quitting, nested");
     return;
   }
 
   if (AN_ERROR_OCCURRED()) {
-    CON("Quitting, errored");
+    con("Quitting, errored");
     return;
   }
 
@@ -133,7 +133,7 @@ void cleanup()
     g_exec_dir = nullptr;
   }
 
-  LOG("cleanup done");
+  log("cleanup done");
 
   ptrcheck_leak_print();
   ptrcheck_fini();

@@ -847,7 +847,7 @@ static void rooms_write_source_file_for_n_rooms(Gamep g, int n, int which, const
 
   std::string const f = "src/rooms_" + std::string(name) + ".cpp";
 
-  CON("Write to %s", f.c_str());
+  con("Write to %s", f.c_str());
 
   FILE *out = fopen(f.c_str(), "w+");
   if (out == nullptr) {

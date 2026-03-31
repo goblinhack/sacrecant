@@ -63,7 +63,7 @@ static void thing_ext_free(Levelsp v, Thingp t)
   }
 
   if (! v->thing_ext[ ext_id ].in_use) {
-    ERR("freeing unused Thing ext ID is not in use, %" PRIX32 "", ext_id);
+    err("freeing unused Thing ext ID is not in use, %" PRIX32 "", ext_id);
   }
 
   v->thing_ext[ ext_id ] = {};
@@ -121,7 +121,7 @@ static void thing_light_free(Levelsp v, Thingp t)
   }
 
   if (! v->thing_light[ light_id ].in_use) {
-    ERR("freeing unused Thing fov ID is not in use, %" PRIX32 "", light_id);
+    err("freeing unused Thing fov ID is not in use, %" PRIX32 "", light_id);
   }
 
   v->thing_light[ light_id ] = {};
@@ -212,7 +212,7 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
   t->id = id.a.val;
 
   if (compiler_unused) {
-    LOG("thing alloc %08" PRIX32 //
+    log("thing alloc %08" PRIX32 //
         " (level: %" PRIu32      //
         " id: %08" PRIX32        //
         " entropy: %08" PRIX32   //

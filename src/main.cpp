@@ -43,35 +43,35 @@ static void usage()
   }
   whinged = 1;
 
-  CON("Gorget, options:");
-  CON(" ");
-  CON("Commonly used options:");
-  CON(" --seed <name/number>              -- Set the random seed.");
-  CON(" ");
-  CON("Debugging:");
-  CON(" --debug                           -- Basic debug.");
-  CON(" --debug2                          -- All debugs. Slow.");
-  CON(" ");
-  CON("Testing:");
-  CON(" --level name/<number>             -- Start in this level only.");
-  CON(" --level-select                    -- Start in the level select menu.");
-  CON(" --quick-start                     -- Quick start inside level.");
-  CON(" --test <name>                     -- Run test foo only.");
-  CON(" --tests                           -- Run all tests.");
-  CON(" ");
-  CON("Code generation:");
-  CON(" --do-level-gen                    -- Do level gen only.");
-  CON(" --do-level-select-gen             -- Do level select gen only.");
-  CON(" --do-room-gen                     -- Generate room files only.");
-  CON(" ");
-  CON("Examples");
-  CON(" # start on seed crowcod, level 10");
-  CON(" ./gorget --seed crowcod --level 10");
-  CON(" ");
-  CON(" # start on seed crowcod, last level and at the level select meny");
-  CON(" ./gorget --seed crowcod --level 100 --level-select");
-  CON(" ");
-  CON("Written by goblinhack@gmail.com");
+  con("Gorget, options:");
+  con(" ");
+  con("Commonly used options:");
+  con(" --seed <name/number>              -- Set the random seed.");
+  con(" ");
+  con("Debugging:");
+  con(" --debug                           -- Basic debug.");
+  con(" --debug2                          -- All debugs. Slow.");
+  con(" ");
+  con("Testing:");
+  con(" --level name/<number>             -- Start in this level only.");
+  con(" --level-select                    -- Start in the level select menu.");
+  con(" --quick-start                     -- Quick start inside level.");
+  con(" --test <name>                     -- Run test foo only.");
+  con(" --tests                           -- Run all tests.");
+  con(" ");
+  con("Code generation:");
+  con(" --do-level-gen                    -- Do level gen only.");
+  con(" --do-level-select-gen             -- Do level select gen only.");
+  con(" --do-room-gen                     -- Generate room files only.");
+  con(" ");
+  con("Examples");
+  con(" # start on seed crowcod, level 10");
+  con(" ./gorget --seed crowcod --level 10");
+  con(" ");
+  con(" # start on seed crowcod, last level and at the level select meny");
+  con(" ./gorget --seed crowcod --level 100 --level-select");
+  con(" ");
+  con("Written by goblinhack@gmail.com");
 }
 
 static void parse_args(int argc, char *argv[])
@@ -83,16 +83,16 @@ static void parse_args(int argc, char *argv[])
   // Parse format args
   //
   if (g_opt_debug1) {
-    CON("Parse command line arguments for '%s'", argv[ 0 ]);
+    con("Parse command line arguments for '%s'", argv[ 0 ]);
   } else {
-    LOG("parse command line arguments for '%s'", argv[ 0 ]);
+    log("parse command line arguments for '%s'", argv[ 0 ]);
   }
 
   for (i = 1; i < argc; i++) {
     if (g_opt_debug1) {
-      CON("+ argument: \"%s\"", argv[ i ]);
+      con("+ argument: \"%s\"", argv[ i ]);
     } else {
-      LOG("+ argument: \"%s\"", argv[ i ]);
+      log("+ argument: \"%s\"", argv[ i ]);
     }
   }
 
@@ -222,7 +222,7 @@ static void parse_args(int argc, char *argv[])
       // Win32 puts spaces in argv when we restart the process. I'm not sure
       // how to handle that, so don't fail the program. Warn and continue.
       //
-      CON("unknown format argument, %s", argv[ i ]);
+      con("unknown format argument, %s", argv[ i ]);
 #ifdef _WIN32
       return;
 #else
@@ -231,7 +231,7 @@ static void parse_args(int argc, char *argv[])
     }
 
     usage();
-    CON("unknown format argument, %s", argv[ i ]);
+    con("unknown format argument, %s", argv[ i ]);
 #ifdef _WIN32
     return;
 #else
@@ -253,14 +253,11 @@ auto main(int argc, char *argv[]) -> int
 
   TRACE_DEBUG();
   redirect_stdout();
-  LOG("will use STDOUT as '%s'", g_log_stdout_filename.c_str());
+  log("will use STDOUT as '%s'", g_log_stdout_filename.c_str());
 
   TRACE_DEBUG();
   redirect_stderr();
-  LOG("will use STDERR as '%s'", g_log_stderr_filename.c_str());
-
-  TRACE_DEBUG();
-  LOG("start");
+  log("will use STDERR as '%s'", g_log_stderr_filename.c_str());
 
   //////////////////////////////////////////////////////////////////////////////
   // Call parse_args before any memory allocations, in case debug2 is enabled
@@ -274,19 +271,19 @@ auto main(int argc, char *argv[]) -> int
   //////////////////////////////////////////////////////////////////////////////
   TRACE_DEBUG();
 #ifdef _WIN32
-  LOG("platform is _WIN32");
+  log("platform is _WIN32");
 #endif
 #ifdef __MINGW32__
-  LOG("platform is __MINGW32__");
+  log("platform is __MINGW32__");
 #endif
 #ifdef __MINGW64__
-  LOG("platform is __MINGW64__");
+  log("platform is __MINGW64__");
 #endif
 #ifdef __APPLE__
-  LOG("platform is __APPLE__");
+  log("platform is __APPLE__");
 #endif
 #ifdef __linux__
-  LOG("platform is __linux__");
+  log("platform is __linux__");
 #endif
 
   //////////////////////////////////////////////////////////////////////////////
@@ -300,13 +297,13 @@ auto main(int argc, char *argv[]) -> int
   }
 
   {
-    LOG("ramdisk init");
+    log("ramdisk init");
     TRACE_DEBUG();
     ramdisk_init();
   }
 
   {
-    LOG("create console");
+    log("create console");
     TRACE_DEBUG();
     ascii_init();
   }
@@ -315,7 +312,7 @@ auto main(int argc, char *argv[]) -> int
   // Need this to get the UTF on the console
   //
 #ifndef _WIN32
-  LOG("set locale for console");
+  log("set locale for console");
   std::locale const loc("");
   std::ios_base::sync_with_stdio(false);
   std::wcout.imbue(loc);
@@ -325,7 +322,7 @@ auto main(int argc, char *argv[]) -> int
   //
   // Crash handlers
   //
-  LOG("install crash handlers");
+  log("install crash handlers");
 #ifdef SIGSEGV
   signal(SIGSEGV, crash_handler);
 #endif
@@ -362,14 +359,14 @@ auto main(int argc, char *argv[]) -> int
   if (! g_opt_tests) {
     TRACE_DEBUG();
     if (! sdl_init()) {
-      ERR("SDL: Init");
+      err("SDL: Init");
     }
   }
 
   if (! g_opt_tests) {
     TRACE_DEBUG();
     if (! sdl_display_init(g)) {
-      ERR("SDL: Display init");
+      err("SDL: Display init");
     }
   }
 
@@ -386,9 +383,9 @@ auto main(int argc, char *argv[]) -> int
     //
     // Causes a 0.3 sec delay first time it seems to run
     //
-    LOG("SDL: Pump events");
+    log("SDL: Pump events");
     SDL_PumpEvents();
-    LOG("SDL: Pump events done");
+    log("SDL: Pump events done");
   }
 
   if (! g_need_restart_with_given_arguments.empty()) {
@@ -399,9 +396,9 @@ auto main(int argc, char *argv[]) -> int
   {
     TRACE_DEBUG();
     if (g_opt_debug1) {
-      CON("Load early gfx tiles, text, UI etc...");
+      con("Load early gfx tiles, text, UI etc...");
     } else {
-      LOG("load early gfx tiles, text, UI etc...");
+      log("load early gfx tiles, text, UI etc...");
     }
     gfx_init();
   }
@@ -415,7 +412,7 @@ auto main(int argc, char *argv[]) -> int
   }
 
   if (! wid_init()) {
-    ERR("widget init");
+    err("widget init");
   }
 
   //
@@ -426,48 +423,48 @@ auto main(int argc, char *argv[]) -> int
   if (! g_skip_audio_and_gfx) {
     TRACE_DEBUG();
     if (g_opt_debug1) {
-      CON("Load fonts");
+      con("Load fonts");
     } else {
-      LOG("load fonts");
+      log("load fonts");
     }
     if (! font_init()) {
-      ERR("font init");
+      err("font init");
     }
   }
 
   if (! g_skip_audio_and_gfx) {
     TRACE_DEBUG();
     if (g_opt_debug1) {
-      CON("Load console");
+      con("Load console");
     } else {
-      LOG("load console");
+      log("load console");
     }
     if (! wid_console_init(g)) {
-      ERR("wid_console init");
+      err("wid_console init");
     }
     wid_console_flush(g);
   }
 
   if (! g_opt_tests) {
-    CON(UI_INFO_FMT_STR "          @@@@@@@@   @@@@@@   @@@@@@@    @@@@@@@@  @@@@@@@@  @@@@@@@" UI_RESET_FMT);
-    CON(UI_INFO_FMT_STR "         @@@@@@@@@  @@@@@@@@  @@@@@@@@  @@@@@@@@@  @@@@@@@@  @@@@@@@" UI_RESET_FMT);
-    CON(UI_INFO_FMT_STR "         !@@        @@!  @@@  @@!  @@@  !@@        @@!         @@!" UI_RESET_FMT);
-    CON(UI_INFO_FMT_STR "         !@!        !@!  @!@  !@!  @!@  !@!        !@!         !@!" UI_RESET_FMT);
-    CON(UI_INFO_FMT_STR "         !@! @!@!@  @!@  !@!  @!@!!@!   !@! @!@!@  @!!!:!      @!!" UI_RESET_FMT);
-    CON(UI_INFO_FMT_STR "         !!! !!@!!  !@!  !!!  !!@!@!    !!! !!@!!  !!!!!:      !!!" UI_RESET_FMT);
-    CON(UI_INFO_FMT_STR "         :!!   !!:  !!:  !!!  !!: :!!   :!!   !!:  !!:         !!:" UI_RESET_FMT);
-    CON(UI_INFO_FMT_STR "         :!:   !::  :!:  !:!  :!:  !:!  :!:   !::  :!:         :!:" UI_RESET_FMT);
-    CON(UI_INFO_FMT_STR "          ::: ::::  ::::: ::  ::   :::   ::: ::::   :: ::::     ::" UI_RESET_FMT);
-    CON(UI_INFO_FMT_STR "          :: :: :    : :  :    :   : :   :: :: :   : :: ::      :" UI_RESET_FMT);
-    CON(UI_INFO_FMT_STR "           :              :    .         :: :      :  :  :" UI_RESET_FMT "");
-    CON(UI_INFO_FMT_STR "           .              :               : .      .     ." UI_RESET_FMT "");
-    CON(UI_INFO_FMT_STR "                          :               ." UI_RESET_FMT);
-    CON(UI_INFO_FMT_STR "                          ." UI_RESET_FMT);
-    CON(UI_INFO_FMT_STR "Version: " MYVER UI_RESET_FMT);
-    CON("Press " UI_WARNING_FMT_STR "<tab>" UI_RESET_FMT " to complete commands.");
-    CON("Press " UI_WARNING_FMT_STR "?" UI_RESET_FMT "     to show command options.");
+    con(UI_INFO_FMT_STR "          @@@@@@@@   @@@@@@   @@@@@@@    @@@@@@@@  @@@@@@@@  @@@@@@@" UI_RESET_FMT);
+    con(UI_INFO_FMT_STR "         @@@@@@@@@  @@@@@@@@  @@@@@@@@  @@@@@@@@@  @@@@@@@@  @@@@@@@" UI_RESET_FMT);
+    con(UI_INFO_FMT_STR "         !@@        @@!  @@@  @@!  @@@  !@@        @@!         @@!" UI_RESET_FMT);
+    con(UI_INFO_FMT_STR "         !@!        !@!  @!@  !@!  @!@  !@!        !@!         !@!" UI_RESET_FMT);
+    con(UI_INFO_FMT_STR "         !@! @!@!@  @!@  !@!  @!@!!@!   !@! @!@!@  @!!!:!      @!!" UI_RESET_FMT);
+    con(UI_INFO_FMT_STR "         !!! !!@!!  !@!  !!!  !!@!@!    !!! !!@!!  !!!!!:      !!!" UI_RESET_FMT);
+    con(UI_INFO_FMT_STR "         :!!   !!:  !!:  !!!  !!: :!!   :!!   !!:  !!:         !!:" UI_RESET_FMT);
+    con(UI_INFO_FMT_STR "         :!:   !::  :!:  !:!  :!:  !:!  :!:   !::  :!:         :!:" UI_RESET_FMT);
+    con(UI_INFO_FMT_STR "          ::: ::::  ::::: ::  ::   :::   ::: ::::   :: ::::     ::" UI_RESET_FMT);
+    con(UI_INFO_FMT_STR "          :: :: :    : :  :    :   : :   :: :: :   : :: ::      :" UI_RESET_FMT);
+    con(UI_INFO_FMT_STR "           :              :    .         :: :      :  :  :" UI_RESET_FMT "");
+    con(UI_INFO_FMT_STR "           .              :               : .      .     ." UI_RESET_FMT "");
+    con(UI_INFO_FMT_STR "                          :               ." UI_RESET_FMT);
+    con(UI_INFO_FMT_STR "                          ." UI_RESET_FMT);
+    con(UI_INFO_FMT_STR "Version: " MYVER UI_RESET_FMT);
+    con("Press " UI_WARNING_FMT_STR "<tab>" UI_RESET_FMT " to complete commands.");
+    con("Press " UI_WARNING_FMT_STR "?" UI_RESET_FMT "     to show command options.");
     auto key = ::to_string(game_key_console_get(g));
-    CON("Press " UI_WARNING_FMT_STR "<%s>" UI_RESET_FMT "   to hide this console", key.c_str());
+    con("Press " UI_WARNING_FMT_STR "<%s>" UI_RESET_FMT "   to hide this console", key.c_str());
   }
 
   //
@@ -477,9 +474,9 @@ auto main(int argc, char *argv[]) -> int
     TRACE_DEBUG();
     g_program_name = std::string(argv[ 0 ]);
     if (g_opt_debug1) {
-      CON("Original program name: %s", g_program_name.c_str());
+      con("Original program name: %s", g_program_name.c_str());
     } else {
-      LOG("original program name: %s", g_program_name.c_str());
+      log("original program name: %s", g_program_name.c_str());
     }
     wid_console_flush(g);
   }
@@ -487,19 +484,19 @@ auto main(int argc, char *argv[]) -> int
   if (! g_skip_audio_and_gfx) {
     TRACE_DEBUG();
     if (g_opt_debug1) {
-      CON("Load tiles");
+      con("Load tiles");
     } else {
-      LOG("load tiles");
+      log("load tiles");
     }
     if (! wid_tiles_init()) {
-      ERR("widget tiles init");
+      err("widget tiles init");
     }
   }
 
   if (! g_skip_audio_and_gfx) {
     TRACE_DEBUG();
     if (! tile_init()) {
-      ERR("tile init");
+      err("tile init");
     }
     wid_console_flush(g);
   }
@@ -507,12 +504,12 @@ auto main(int argc, char *argv[]) -> int
   if (! g_skip_audio_and_gfx) {
     TRACE_DEBUG();
     if (g_opt_debug1) {
-      CON("Load textures");
+      con("Load textures");
     } else {
-      LOG("load textures");
+      log("load textures");
     }
     if (! tex_init()) {
-      ERR("tex init");
+      err("tex init");
     }
     wid_console_flush(g);
   }
@@ -520,12 +517,12 @@ auto main(int argc, char *argv[]) -> int
   if (! g_skip_audio_and_gfx) {
     TRACE_DEBUG();
     if (g_opt_debug1) {
-      CON("Init audio");
+      con("Init audio");
     } else {
-      LOG("init audio");
+      log("init audio");
     }
     if (! audio_init()) {
-      ERR("audio init");
+      err("audio init");
     }
     wid_console_flush(g);
   }
@@ -533,12 +530,12 @@ auto main(int argc, char *argv[]) -> int
   if (! g_skip_audio_and_gfx) {
     TRACE_DEBUG();
     if (g_opt_debug1) {
-      CON("Init music");
+      con("Init music");
     } else {
-      LOG("init music");
+      log("init music");
     }
     if (! music_init()) {
-      ERR("music init");
+      err("music init");
     }
     wid_console_flush(g);
   }
@@ -546,12 +543,12 @@ auto main(int argc, char *argv[]) -> int
   if (! g_skip_audio_and_gfx) {
     TRACE_DEBUG();
     if (g_opt_debug1) {
-      CON("Load sounds");
+      con("Load sounds");
     } else {
-      LOG("load sounds");
+      log("load sounds");
     }
     if (! sound_init()) {
-      ERR("sound init");
+      err("sound init");
     } else {
       sounds_init();
     }
@@ -561,20 +558,20 @@ auto main(int argc, char *argv[]) -> int
   {
     TRACE_DEBUG();
 
-    LOG("load templates");
+    log("load templates");
     if (! tp_init()) {
-      ERR("templates init");
+      err("templates init");
     }
-    LOG("loaded templates");
+    log("loaded templates");
   }
 
   {
     TRACE_DEBUG();
-    LOG("load commands");
+    log("load commands");
     if (! command_init()) {
-      ERR("command init");
+      err("command init");
     }
-    LOG("loaded commands");
+    log("loaded commands");
     wid_console_flush(g);
   }
 
@@ -586,30 +583,30 @@ auto main(int argc, char *argv[]) -> int
     if (g_opt_tests) {
       test_init();
 
-      CON("Running tests");
-      CON("-------------");
+      con("Running tests");
+      con("-------------");
       tests_run(g);
 
       DIE_CLEAN("done");
     }
 
     if (g_opt_do_level_gen) {
-      CON("Creating many levels. Look in the log file for output.");
-      CON("------------------------------------------------------");
+      con("Creating many levels. Look in the log file for output.");
+      con("------------------------------------------------------");
       level_gen_test(g);
       DIE_CLEAN("done");
     }
 
     if (g_opt_do_level_select_gen) {
-      CON("Creating level select levels. Look in the log file for output.");
-      CON("--------------------------------------------------------------");
+      con("Creating level select levels. Look in the log file for output.");
+      con("--------------------------------------------------------------");
       level_select_test(g);
       DIE_CLEAN("done");
     }
 
     if (g_opt_do_room_gen) {
-      CON("Creating room gen files. You will need to recompile after this.");
-      CON("---------------------------------------------------------------");
+      con("Creating room gen files. You will need to recompile after this.");
+      con("---------------------------------------------------------------");
       rooms_test(g);
       DIE_CLEAN("done");
     }
@@ -674,9 +671,9 @@ auto main(int argc, char *argv[]) -> int
     restart(g, g_need_restart_with_given_arguments);
   }
 
-  LOG("quit");
+  log("quit");
   cleanup();
 
-  CON("Goodbye my friend and take care until next time!");
+  con("Goodbye my friend and take care until next time!");
   return 0;
 }

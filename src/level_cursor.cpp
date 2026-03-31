@@ -29,7 +29,7 @@ void level_cursor_set(Gamep g, Levelsp v, bpoint p)
   v->old_cursor_at = v->cursor_at;
 
   if (compiler_unused) {
-    BOTCON("cursor %d,%d", v->cursor_at.x, v->cursor_at.y);
+    botcon("cursor %d,%d", v->cursor_at.x, v->cursor_at.y);
   }
 
   if (! is_oob(p)) {
@@ -341,13 +341,13 @@ static auto level_cursor_path_draw_line_attempt(Gamep g, Levelsp v, Levelp l, Th
   //
   if (p[ path_size - 1 ] != end) {
     if (compiler_unused) {
-      LOG("did not reach %d,%d", end.x, end.y);
+      log("did not reach %d,%d", end.x, end.y);
     }
     return empty;
   }
 
   if (compiler_unused) {
-    TOPCON("attempt %d len %d", attempt, static_cast< int >(p.size()));
+    topcon("attempt %d len %d", attempt, static_cast< int >(p.size()));
   }
 
   return p;

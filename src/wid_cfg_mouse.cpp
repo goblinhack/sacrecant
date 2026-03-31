@@ -23,7 +23,7 @@ static void wid_cfg_mouse_destroy()
 [[nodiscard]] static auto wid_cfg_mouse_cancel(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  CON("Reload config");
+  con("Reload config");
   if (local_g_config_changed) {
     local_g_config_changed = false;
     (void) game_load_config(g);
@@ -38,7 +38,7 @@ static void wid_cfg_mouse_destroy()
 {
   TRACE();
 
-  CON("Save config for mouse");
+  con("Save config for mouse");
   game_save_config(g);
 
   wid_cfg_mouse_destroy();
@@ -58,7 +58,7 @@ static void wid_cfg_mouse_destroy()
 {
   TRACE();
   local_g_config_changed = true;
-  CON("Toggle wheel mouse lr");
+  con("Toggle wheel mouse lr");
 
   if (game_mouse_wheel_lr_negated_get(g)) {
     game_mouse_wheel_lr_negated_unset(g);
@@ -74,7 +74,7 @@ static void wid_cfg_mouse_destroy()
 {
   TRACE();
   local_g_config_changed = true;
-  CON("Toggle wheel mouse ud");
+  con("Toggle wheel mouse ud");
 
   if (game_mouse_wheel_ud_negated_get(g)) {
     game_mouse_wheel_ud_negated_unset(g);

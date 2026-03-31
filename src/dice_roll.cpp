@@ -276,7 +276,7 @@ Dice::Dice(const std::string &s)
       modifier += std::stoi(sp[ 0 ]);
     }
   }
-  // CON("new dice [%s] %dd%d+%d", s.c_str(), ndice, sides, modifier);
+  // con("new dice [%s] %dd%d+%d", s.c_str(), ndice, sides, modifier);
 }
 
 auto Dice::roll() const -> int
@@ -287,12 +287,12 @@ auto Dice::roll() const -> int
 
   int n   = ndice;
   int tot = 0;
-  // CON("roll %dd%d+%d", ndice, sides, modifier);
+  // con("roll %dd%d+%d", ndice, sides, modifier);
   while (n-- > 0) {
     tot += PCG_RANDOM_RANGE(0, sides) + 1;
   }
   tot += modifier;
-  // CON("roll %dd%d+%d => %d", ndice, sides, modifier, tot);
+  // con("roll %dd%d+%d => %d", ndice, sides, modifier, tot);
   return tot;
 }
 

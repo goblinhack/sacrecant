@@ -138,7 +138,7 @@ static void tokens_compile(class Tokens *tokens)
 
   while (cnt < tokens->cnt) {
     if (slre_compile(&tokens->regexp[ cnt ], tokens->args[ cnt ]) == 0) {
-      LOG("failed to compile \"%s\"", tokens->args[ cnt ]);
+      log("failed to compile \"%s\"", tokens->args[ cnt ]);
       return;
     }
     cnt++;

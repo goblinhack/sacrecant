@@ -20,7 +20,7 @@ static void wid_error_destroy(Gamep g)
   wid_error_window = nullptr;
 
   wid_main_menu_select(g);
-  CON("It all went dark briefly. What happened?");
+  con("It all went dark briefly. What happened?");
 }
 
 [[nodiscard]] static auto wid_error_key_down(Gamep g, Widp w, const struct SDL_Keysym *key) -> bool
@@ -63,7 +63,7 @@ static void wid_error_destroy(Gamep g)
 void wid_error(Gamep g, const std::string &error)
 {
   TRACE();
-  CON("ERROR: %s", error.c_str());
+  con("ERROR: %s", error.c_str());
 
   if (wid_error_window != nullptr) {
     wid_error_destroy(g);

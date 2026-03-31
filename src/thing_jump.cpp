@@ -15,7 +15,7 @@ void thing_is_jumping_set(Gamep g, Levelsp v, Levelp l, Thingp me, bool val)
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    err("no thing pointer");
     return;
   }
 
@@ -131,7 +131,7 @@ auto thing_jump_to(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to, bool warn
     if (thing_is_player(me)) {
       if (warn) {
         auto the_thing = thing_name_long_the(g, v, l, obs);
-        TOPCON("You cannot jump over %s.", the_thing.c_str());
+        topcon("You cannot jump over %s.", the_thing.c_str());
       }
     }
     return false;
@@ -143,7 +143,7 @@ auto thing_jump_to(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to, bool warn
   if (level_is_obs_to_jumping_onto(g, v, l, to, me) != nullptr) {
     if (thing_is_player(me)) {
       if (warn) {
-        TOPCON("There is something in the way of jumping there.");
+        topcon("There is something in the way of jumping there.");
       }
     }
 

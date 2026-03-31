@@ -140,7 +140,7 @@ void pixel_to_ascii(Gamep g, int *x, int *y)
   *x = static_cast< int >(mx);
   *y = static_cast< int >(my);
 
-  // TOPCON("%d,%d", *x, *y);
+  // topcon("%d,%d", *x, *y);
 }
 
 auto ascii_ok_for_scissors(int x, int y) -> int
@@ -991,7 +991,7 @@ static void ascii_put_box_(int style, const TileLayers tiles_in, int x1, int y1,
   static std::array< std::array< std::array< std::array< Tilep, MAX_UI_SIZE >, MAX_UI_SIZE >, UI_WID_STYLE_MAX >, UI_TYPES_MAX > tiles = {};
 
   if (style >= UI_WID_STYLE_MAX) {
-    ERR("unimplemented widget style %d", style);
+    err("unimplemented widget style %d", style);
     return;
   }
 

@@ -33,7 +33,7 @@ auto level_match_contents(Gamep g, Levelsp v, Levelp l, Testp t, int w, int h, c
       auto c      = found[ offset ];
       auto e      = expected[ offset ];
       if (c != e) {
-        CON_NEW_LINE();
+        con_newline();
         level_log(g, v, l, "Expected:");
         level_dump(g, v, l, w, h, expected);
         level_log(g, v, l, "Found:");
@@ -64,7 +64,7 @@ auto level_match_contents(Gamep g, Levelsp v, Levelp l, Testp t, int w, int h, c
       FOR_ALL_THINGS_AT(g, v, l, unused, p)
       {
         level_dump(g, v, l, MAP_WIDTH, MAP_HEIGHT);
-        CON_NEW_LINE();
+        con_newline();
         TEST_CON(t, "Level contents found outside of test area");
         return false;
       }

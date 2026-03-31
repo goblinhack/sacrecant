@@ -84,7 +84,7 @@
         auto result = enum_name##_tree.insert(std::make_pair(std::string(*enum_iter), (uint32_t) (enum_iter - arr)));                      \
                                                                                                                                            \
         if (result.second == false) {                                                                                                      \
-          ERR("enum insert name [%s] failed", *enum_iter);                                                                                 \
+          err("enum insert name [%s] failed", *enum_iter);                                                                                 \
         }                                                                                                                                  \
       }                                                                                                                                    \
     }                                                                                                                                      \

@@ -160,7 +160,7 @@ static void thing_fall_end(Gamep g, Levelsp v, Levelp l, Thingp t)
   // Move the thing there
   //
   if (! thing_warp_to(g, v, next_level, t, new_location)) {
-    TOPCON("You fail to find the ground!");
+    topcon("You fail to find the ground!");
   }
 
   if (thing_is_player(t)) {
@@ -221,7 +221,7 @@ static void thing_fall_end(Gamep g, Levelsp v, Levelp l, Thingp t)
     thing_is_burning_unset(g, v, l, t);
 
     if (thing_is_player(t)) {
-      TOPCON(UI_GOOD_FMT_STR "You extinguish the flames as you fall!" UI_RESET_FMT);
+      topcon(UI_GOOD_FMT_STR "You extinguish the flames as you fall!" UI_RESET_FMT);
     }
   }
 }

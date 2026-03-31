@@ -103,7 +103,7 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *level_gen, int
       if (o != overrides.end()) {
         tp = (o->second)(c, at);
         if (tp == nullptr) [[unlikely]] {
-          ERR("could not find a template for override char %c", c);
+          err("could not find a template for override char %c", c);
           return false;
         }
         need_floor = true;
@@ -366,7 +366,7 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *level_gen, con
   TRACE();
 
   if (! level_populate(g, v, l, level_gen, MAP_WIDTH, MAP_HEIGHT, in, overrides)) {
-    ERR("level populate failed");
+    err("level populate failed");
     return false;
   }
 

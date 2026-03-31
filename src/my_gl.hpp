@@ -324,9 +324,9 @@ void gl_clear();
 #define GL_ERROR_CHECK()                                                                                                                   \
   {                                                                                                                                        \
     auto errCode = glGetError();                                                                                                           \
-    [[likely]] if ((errCode == GL_NO_ERROR)) { /* LOG("GFX: ok at %s:%s line %u", SRC_FILE_NAME, SRC_FUNC_NAME, SRC_LINE_NUM); */          \
+    [[likely]] if ((errCode == GL_NO_ERROR)) { /* log("GFX: ok at %s:%s line %u", SRC_FILE_NAME, SRC_FUNC_NAME, SRC_LINE_NUM); */          \
     } else {                                                                                                                               \
-      LOG("GFX: error at %s:%s line %u", SRC_FILE_NAME, SRC_FUNC_NAME, SRC_LINE_NUM);                                                      \
+      log("GFX: error at %s:%s line %u", SRC_FILE_NAME, SRC_FUNC_NAME, SRC_LINE_NUM);                                                      \
       gl_error(errCode);                                                                                                                   \
     }                                                                                                                                      \
   }

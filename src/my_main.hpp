@@ -5,37 +5,38 @@
 #ifndef MY_MAIN_HPP
 #define MY_MAIN_HPP
 
+#include "my_globals.hpp"
 #include "my_types.hpp"
 
 #include <string>
 
 auto log_dir_create() -> std::string;
-void BOTCON_NEW_LINE();
-void BOTCON(const char *fmt, ...) CHECK_FORMAT_STR(printf, 1, 2);
+auto redirect_stderr() -> FILE *;
+auto redirect_stdout() -> FILE *;
+void botcon_newline();
+void botcon(const char *fmt, ...) CHECK_FORMAT_STR(printf, 1, 2);
 void cleanup();
-void CON_NEW_LINE();
-void CON(const char *fmt, ...) CHECK_FORMAT_STR(printf, 1, 2);
+void close_stderr();
+void close_stdout();
+void con_newline();
+void con(const char *fmt, ...) CHECK_FORMAT_STR(printf, 1, 2);
+void crash_handler(int sig);
+void croak_handler(bool clean, const char *fmt, ...) CHECK_FORMAT_STR(printf, 2, 3);
 void ctrlc_handler(int sig);
-void error_message(Gamep g, const std::string &error);
+void err_handler(const char *fmt, ...) CHECK_FORMAT_STR(printf, 1, 2);
 void error_clear(Gamep g);
+void error_message(Gamep g, const std::string &error);
 void find_file_locations();
-void LOG(const char *fmt, ...) CHECK_FORMAT_STR(printf, 1, 2);
+void log(const char *fmt, ...) CHECK_FORMAT_STR(printf, 1, 2);
 void reset_globals();
 void restart(Gamep g, const std::string & /*restart_arg*/);
 void sdl_msg_box(const char *fmt, ...) CHECK_FORMAT_STR(printf, 1, 2);
-void crash_handler(int sig);
-void TOPCON_NEW_LINE();
-void TOPCON(const char *fmt, ...) CHECK_FORMAT_STR(printf, 1, 2);
-void WARN(const char *fmt, ...) CHECK_FORMAT_STR(printf, 1, 2);
-void CROAK_HANDLE(bool clean, const char *fmt, ...) CHECK_FORMAT_STR(printf, 2, 3);
-void ERR_HANDLE(const char *fmt, ...) CHECK_FORMAT_STR(printf, 1, 2);
+void topcon_newline();
+void topcon(const char *fmt, ...) CHECK_FORMAT_STR(printf, 1, 2);
+void warn(const char *fmt, ...) CHECK_FORMAT_STR(printf, 1, 2);
 
-auto redirect_stderr() -> FILE *;
-auto redirect_stdout() -> FILE *;
-void close_stderr();
-void close_stdout();
-#define MY_STDERR redirect_stderr()
-#define MY_STDOUT redirect_stdout()
+#define MY_STDOUT (g_log_stdout ? g_log_stdout : redirect_stdout())
+#define MY_STDERR (g_log_stderr ? g_log_stderr : redirect_stderr())
 
 #define CROAK(...)                                                                                                                         \
   /* Log this now, just in case we crash later */                                                                                          \
@@ -50,7 +51,7 @@ void close_stdout();
     if (stderr != MY_STDERR) {                                                                                                             \
       fprintf(MY_STDERR, "croaked it at %s:%s():%u, main thread\n", SRC_FILE_NAME, SRC_FUNC_NAME, SRC_LINE_NUM);                           \
     }                                                                                                                                      \
-    CROAK_HANDLE(false, __VA_ARGS__);                                                                                                      \
+    croak_handler(false, __VA_ARGS__);                                                                                                     \
     cleanup();                                                                                                                             \
     exit(1);                                                                                                                               \
   } else {                                                                                                                                 \
@@ -58,19 +59,19 @@ void close_stdout();
     if (stderr != MY_STDERR) {                                                                                                             \
       fprintf(MY_STDERR, "croaked it at %s:%s():%u, thread %u\n", SRC_FILE_NAME, SRC_FUNC_NAME, SRC_LINE_NUM, g_thread_id);                \
     }                                                                                                                                      \
-    CROAK_HANDLE(false, __VA_ARGS__);                                                                                                      \
+    croak_handler(false, __VA_ARGS__);                                                                                                     \
     exit(1);                                                                                                                               \
   }
 
 #define DIE_CLEAN(...)                                                                                                                     \
-  CROAK_HANDLE(true, "Exiting at %s:%s():%u", SRC_FILE_NAME, SRC_FUNC_NAME, SRC_LINE_NUM);                                                 \
+  croak_handler(true, "Exiting at %s:%s():%u", SRC_FILE_NAME, SRC_FUNC_NAME, SRC_LINE_NUM);                                                \
   cleanup();                                                                                                                               \
   exit(0);
 
 #ifdef DEBUG_BUILD
 #define ERR CROAK
 #else
-#define ERR(...)                                                                                                                           \
+#define err(...)                                                                                                                           \
   /* Log this now, just in case we crash later */                                                                                          \
   fprintf(stderr, "ERR: " __VA_ARGS__);                                                                                                    \
   fprintf(stderr, "\n");                                                                                                                   \
@@ -83,13 +84,13 @@ void close_stdout();
     if (stderr != MY_STDERR) {                                                                                                             \
       fprintf(MY_STDERR, "error at %s:%s():%u, main thread\n", SRC_FILE_NAME, SRC_FUNC_NAME, SRC_LINE_NUM);                                \
     }                                                                                                                                      \
-    ERR_HANDLE(__VA_ARGS__);                                                                                                               \
+    err_handler(__VA_ARGS__);                                                                                                              \
   } else {                                                                                                                                 \
     fprintf(stderr, "error at %s:%s():%u, thread %u\n", SRC_FILE_NAME, SRC_FUNC_NAME, SRC_LINE_NUM, g_thread_id);                          \
     if (stderr != MY_STDERR) {                                                                                                             \
       fprintf(MY_STDERR, "error at %s:%s():%u, thread %u\n", SRC_FILE_NAME, SRC_FUNC_NAME, SRC_LINE_NUM, g_thread_id);                     \
     }                                                                                                                                      \
-    ERR_HANDLE(__VA_ARGS__);                                                                                                               \
+    err_handler(__VA_ARGS__);                                                                                                              \
   }
 #endif
 
@@ -104,11 +105,11 @@ void close_stdout();
 
 #define DBG                                                                                                                                \
   if (DEBUG)                                                                                                                               \
-  LOG
+  log
 
 #define DBG2                                                                                                                               \
   if (DEBUG2)                                                                                                                              \
-  LOG
+  log
 
 //
 // Used to stop the compiler removing unused code I want to keep

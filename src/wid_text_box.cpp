@@ -149,7 +149,7 @@ auto WidTextBox::log_internal(Gamep g, const std::string &str, wid_text_format f
       line_count++;
       wid_update(g, wid_text_box_container);
     } else {
-      LOG("text box overflow on [%s] height %d line_count %d", str.c_str(), height, line_count);
+      ::log("text box overflow on [%s] height %d line_count %d", str.c_str(), height, line_count);
       return nullptr;
     }
   } else {

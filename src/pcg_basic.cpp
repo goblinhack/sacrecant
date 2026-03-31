@@ -53,7 +53,7 @@ auto pcg32_random_r(pcg32_random_t *rng) -> uint32_t
   uint32_t const xorshifted = ((oldstate >> 18U) ^ oldstate) >> 27U;
   uint32_t const rot        = oldstate >> 59U;
   uint32_t const r          = (xorshifted >> rot) | (xorshifted << ((-rot) & 31));
-  //  LOG("r %d", r);
+  //  log("r %d", r);
   return r;
 }
 
@@ -70,7 +70,7 @@ void pcg32_srandom_r(pcg32_random_t *rng, uint64_t initstate, uint64_t initseq)
 void pcg32_srandom(uint64_t seed, uint64_t seq)
 {
   if (compiler_unused) {
-    LOG("seed %d", static_cast< int >(seed));
+    log("seed %d", static_cast< int >(seed));
   }
   pcg32_srandom_r(&pcg32_global, seed, seq);
 }
@@ -87,7 +87,7 @@ auto pcg32_random(const char *func, int line) -> uint32_t
 
   auto out = pcg32_random_r(&pcg32_global);
   if (compiler_unused) {
-    LOG("%s:%u -> %u", func, line, out);
+    log("%s:%u -> %u", func, line, out);
   }
   return out;
 }
@@ -141,7 +141,7 @@ auto pcg32_boundedrand(const char *func, int line, uint32_t bound) -> uint32_t
 
   auto out = pcg32_boundedrand_r(&pcg32_global, bound);
   if (compiler_unused) {
-    LOG("%s:%u -> %u", func, line, out);
+    log("%s:%u -> %u", func, line, out);
   }
   return out;
 }

@@ -89,7 +89,7 @@ static void wid_more_destroy()
 void wid_more_select(Gamep g)
 {
   TRACE();
-  LOG("more menu");
+  log("more menu");
 
   if (wid_more_window != nullptr) {
     wid_more_destroy();

@@ -77,7 +77,7 @@ void log_(const char *fmt, va_list args)
   putf(MY_STDOUT, buf);
 }
 
-void LOG(const char *fmt, ...)
+void log(const char *fmt, ...)
 {
   TRACE_DEBUG();
 
@@ -104,7 +104,7 @@ static void warn_(const char *fmt, va_list args)
   wid_console_log(buf);
 }
 
-void WARN(const char *fmt, ...)
+void warn(const char *fmt, ...)
 {
   TRACE_DEBUG();
 
@@ -139,7 +139,7 @@ static void con_(const char *fmt, va_list args)
   wid_console_log(buf);
 }
 
-void CON(const char *fmt, ...)
+void con(const char *fmt, ...)
 {
   TRACE_DEBUG();
 
@@ -149,7 +149,7 @@ void CON(const char *fmt, ...)
   va_end(args);
 }
 
-void CON_NEW_LINE()
+void con_newline()
 {
   TRACE_DEBUG();
 
@@ -204,7 +204,7 @@ static void croak_handle(bool clean, const char *fmt, va_list args)
   }
 }
 
-void CROAK_HANDLE(bool clean, const char *fmt, ...)
+void croak_handler(bool clean, const char *fmt, ...)
 {
   TRACE();
 
@@ -242,7 +242,7 @@ static void err_handle(Gamep g, const char *fmt, va_list args)
   error_message(g, buf);
 }
 
-void ERR_HANDLE(const char *fmt, ...)
+void err_handler(const char *fmt, ...)
 {
   TRACE();
 
@@ -306,7 +306,7 @@ static void topcon_(const char *fmt, va_list args)
   wid_console_log(buf + len);
 }
 
-void TOPCON(const char *fmt, ...)
+void topcon(const char *fmt, ...)
 {
   TRACE_DEBUG();
 
@@ -317,7 +317,7 @@ void TOPCON(const char *fmt, ...)
   va_end(args);
 }
 
-void TOPCON_NEW_LINE()
+void topcon_newline()
 {
   TRACE_DEBUG();
 
@@ -339,7 +339,7 @@ static void botcon_(const char *fmt, va_list args)
   wid_botcon_log(buf);
 }
 
-void BOTCON(const char *fmt, ...)
+void botcon(const char *fmt, ...)
 {
   TRACE_DEBUG();
 
@@ -350,7 +350,7 @@ void BOTCON(const char *fmt, ...)
   va_end(args);
 }
 
-void BOTCON_NEW_LINE()
+void botcon_newline()
 {
   TRACE_DEBUG();
 

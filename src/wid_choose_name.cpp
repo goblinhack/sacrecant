@@ -17,7 +17,7 @@ static void selected(Gamep g, Widp w, const std::string &text)
 
   if (! text.empty()) {
     game_player_name_set(g, text.c_str());
-    CON("Save config for player name");
+    con("Save config for player name");
     game_save_config(g);
   }
 
@@ -29,7 +29,7 @@ void wid_player_name_select(Gamep g)
 {
   TRACE();
 
-  CON("Choose player name menu");
+  con("Choose player name menu");
 
   wid_choose_player_name = wid_keyboard(g, game_player_name_get(g),
                                         "Enter a name for the player, max " + std::to_string(UI_MAX_PLAYER_NAME_LEN) + " characters",

@@ -16,7 +16,7 @@ static void selected(Gamep g, Widp w, const std::string &text)
 {
   TRACE();
 
-  CON("Manually set seed to '%s'", text.c_str());
+  con("Manually set seed to '%s'", text.c_str());
 
   //
   // If you set a seed manually, forget what the cli said
@@ -29,7 +29,7 @@ static void selected(Gamep g, Widp w, const std::string &text)
 
   game_seed_set(g, text.c_str());
 
-  CON("Save config for seed");
+  con("Save config for seed");
   game_save_config(g);
 
   wid_destroy(g, &wid_choose_seed);
@@ -40,7 +40,7 @@ void wid_seed_select(Gamep g)
 {
   TRACE();
 
-  CON("Choose seed menu");
+  con("Choose seed menu");
 
   wid_choose_seed
       = wid_keyboard(g, "", "Enter a name or number for the dungeon seed, max " + std::to_string(UI_MAX_SEED_NAME_LEN) + " characters",

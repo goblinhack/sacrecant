@@ -84,7 +84,7 @@ void wid_dead_select(Gamep g, const std::string &reason)
 {
   TRACE();
 
-  LOG("open dead select: %s", reason.c_str());
+  log("open dead select: %s", reason.c_str());
 
   game_state_change(g, STATE_DEAD_MENU, "player is dead");
 

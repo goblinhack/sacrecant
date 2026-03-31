@@ -21,12 +21,12 @@ void level_cursor_describe_update(Gamep g, Levelsp v)
   TRACE();
 
   if (g == nullptr) {
-    ERR("no game pointer");
+    err("no game pointer");
     return;
   }
 
   if (v == nullptr) {
-    ERR("no levels pointer");
+    err("no levels pointer");
     return;
   }
 
@@ -47,17 +47,17 @@ auto level_cursor_describe_add(Gamep g, Levelsp v, Thingp t) -> bool
   TRACE();
 
   if (g == nullptr) {
-    ERR("no game pointer");
+    err("no game pointer");
     return false;
   }
 
   if (v == nullptr) {
-    ERR("no levels pointer");
+    err("no levels pointer");
     return false;
   }
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    err("no thing pointer");
     return false;
   }
 
@@ -89,17 +89,17 @@ auto level_cursor_describe_remove(Gamep g, Levelsp v, Thingp t) -> bool
   TRACE();
 
   if (g == nullptr) {
-    ERR("no game pointer");
+    err("no game pointer");
     return false;
   }
 
   if (v == nullptr) {
-    ERR("no levels pointer");
+    err("no levels pointer");
     return false;
   }
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    err("no thing pointer");
     return false;
   }
 
@@ -123,12 +123,12 @@ void level_cursor_describe_clear(Gamep g, Levelsp v)
   TRACE();
 
   if (g == nullptr) {
-    ERR("no game pointer");
+    err("no game pointer");
     return;
   }
 
   if (v == nullptr) {
-    ERR("no levels pointer");
+    err("no levels pointer");
     return;
   }
 
@@ -147,23 +147,23 @@ void level_cursor_describe(Gamep g, Levelsp v, Levelp l)
   TRACE();
 
   if (g == nullptr) {
-    ERR("no game pointer");
+    err("no game pointer");
     return;
   }
 
   if (v == nullptr) {
-    ERR("no levels pointer");
+    err("no levels pointer");
     return;
   }
 
   if (l == nullptr) {
-    ERR("no level pointer");
+    err("no level pointer");
     return;
   }
 
   auto *player = thing_player(g);
   if (player == nullptr) [[unlikely]] {
-    ERR("no player pointer");
+    err("no player pointer");
     return;
   }
 
@@ -179,10 +179,10 @@ void level_cursor_describe(Gamep g, Levelsp v, Levelp l)
   //
   auto at = v->cursor_at;
   if (! thing_vision_can_see_tile(g, v, l, player, at)) {
-    BOTCON_NEW_LINE();
-    BOTCON_NEW_LINE();
+    botcon_newline();
+    botcon_newline();
     if (compiler_unused) {
-      BOTCON("cannot see here.");
+      botcon("cannot see here.");
     }
     return;
   }
@@ -225,18 +225,18 @@ void level_cursor_describe(Gamep g, Levelsp v, Levelp l)
     all_things_description += one_desc;
   }
 
-  BOTCON_NEW_LINE();
+  botcon_newline();
 
   if ((static_cast< int >(all_things_description.empty())) != 0) {
     if (compiler_unused) {
-      BOTCON("Nothing here.");
+      botcon("Nothing here.");
     }
-    BOTCON_NEW_LINE();
+    botcon_newline();
     return;
   }
 
   if (static_cast< int >(all_things_description.size()) > UI_BOTCON_WIDTH - 1) {
-    BOTCON("Multiple items here.");
+    botcon("Multiple items here.");
     return;
   }
 

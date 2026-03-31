@@ -28,7 +28,7 @@ void wid_progress_bar_destroy(Gamep g)
 void wid_progress_bar(Gamep g, const std::string &title, float pct)
 {
   VERIFY(MTYPE_GAME, g);
-  LOG("progress bar: %s, %.2f pct", title.c_str(), pct);
+  log("progress bar: %s, %.2f pct", title.c_str(), pct);
   TRACE();
 
   if (wid_progress_bar_window != nullptr) {

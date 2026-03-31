@@ -71,15 +71,15 @@ static auto tp_door_unlocked_at_display_get_tile_info(Gamep g, Levelsp v, Levelp
   if (distance(thing_at(t), thing_at(player)) <= 1) {
     if (thing_is_open(t)) {
       if (thing_close(g, v, l, t, player /* opener */)) {
-        TOPCON("The door closes.");
+        topcon("The door closes.");
       } else {
-        TOPCON("The door wont close!");
+        topcon("The door wont close!");
       }
     } else {
       if (thing_open(g, v, l, t, player /* opener */)) {
-        TOPCON("The door opens.");
+        topcon("The door opens.");
       } else {
-        TOPCON("The door wont open!");
+        topcon("The door wont open!");
       }
     }
   }
@@ -94,20 +94,20 @@ static auto tp_door_unlocked_at_display_get_tile_info(Gamep g, Levelsp v, Levelp
 
   if (thing_health(t) < tp_health_max_get(tp)) {
     if (thing_is_player(opener)) {
-      TOPCON("The door is damaged and won't open!");
+      topcon("The door is damaged and won't open!");
     }
     return false;
   }
 
   if (thing_is_hot(t) != 0) {
     if (thing_is_player(opener)) {
-      TOPCON("The door is too hot to touch!");
+      topcon("The door is too hot to touch!");
     }
     return false;
   }
 
   if (thing_is_player(opener)) {
-    TOPCON("The door opens.");
+    topcon("The door opens.");
 
     thing_is_unlocked_set(g, v, l, t);
   }
@@ -122,7 +122,7 @@ static auto tp_door_unlocked_at_display_get_tile_info(Gamep g, Levelsp v, Levelp
   TRACE();
 
   if (thing_is_player(opener)) {
-    TOPCON("The door closes.");
+    topcon("The door closes.");
   }
 
   thing_sound_play(g, v, l, t, "door_open");
@@ -139,12 +139,12 @@ static void tp_door_unlocked_on_death(Gamep g, Levelsp v, Levelp l, Thingp t, Th
     auto at = thing_at(player);
     if (thing_on_same_level_as_player(g, v, t)) {
       if (thing_vision_can_see_tile(g, v, l, player, at)) {
-        TOPCON("The door breaks!");
+        topcon("The door breaks!");
       } else {
-        TOPCON("You hear a door break!");
+        topcon("You hear a door break!");
       }
     } else {
-      TOPCON("You hear a very distant door break!");
+      topcon("You hear a very distant door break!");
     }
   }
 }

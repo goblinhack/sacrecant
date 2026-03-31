@@ -13,7 +13,7 @@ void fov_map_set(FovMap *m, const bpoint &pov, const bool val)
 {
 #ifdef DEBUG_BUILD
   if (is_oob(pov)) [[unlikely]] {
-    ERR("overflow");
+    err("overflow");
     return;
   }
 #endif
@@ -27,7 +27,7 @@ void fov_map_set(FovMap *m, const bpoint &pov, const bool val)
 {
 #ifdef DEBUG_BUILD
   if (is_oob(pov)) [[unlikely]] {
-    ERR("overflow");
+    err("overflow");
     return false;
   }
 #endif

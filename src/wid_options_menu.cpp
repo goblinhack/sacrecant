@@ -141,7 +141,7 @@ static void wid_options_menu_destroy()
 void wid_options_menu_select(Gamep g)
 {
   TRACE();
-  LOG("options menu");
+  log("options menu");
 
   if (wid_options_menu_window != nullptr) {
     wid_options_menu_destroy();

@@ -356,7 +356,7 @@ auto wid_find_under_mouse() -> Widp
   auto *w = wid_find_at(ascii_mouse_x, ascii_mouse_y);
   if (w != nullptr) {
     w = wid_get_top_parent(w);
-    // CON("mouse %d,%d over %s %p", ascii_mouse_x, ascii_mouse_y, w->name.c_str(), w);
+    // con("mouse %d,%d over %s %p", ascii_mouse_x, ascii_mouse_y, w->name.c_str(), w);
     if (wid_ignore_events_only(w)) {
       return nullptr;
     }
@@ -376,9 +376,9 @@ auto wid_find_under_mouse_when_scrolling(Gamep g) -> Widp
   if (w != nullptr) {
     w = wid_get_top_parent(w);
     if (wid_ignore_scroll_events(w)) {
-      // CON("ign2 %s.", wid_name(w).c_str());
+      // con("ign2 %s.", wid_name(w).c_str());
       return nullptr;
-    } // CON("over2 %s.", wid_name(w).c_str());
+    } // con("over2 %s.", wid_name(w).c_str());
     return w;
   }
   return w;
@@ -849,7 +849,7 @@ void wid_mouse_motion(Gamep g, int x, int y, int relx, int rely, int wheelx, int
       // function.
       //
       over = 1U;
-      // TOPCON("mouse motion %s mouse %d,%d.", w->name.c_str(), x, y);
+      // topcon("mouse motion %s mouse %d,%d.", w->name.c_str(), x, y);
     }
 
     w = wid_mouse_motion_handler(x, y, wheelx, wheely);
@@ -951,14 +951,14 @@ void wid_mouse_motion(Gamep g, int x, int y, int relx, int rely, int wheelx, int
 
 void wid_mouse_down(Gamep g, uint32_t button, int x, int y)
 {
-  LOG("widget mouse down");
+  log("widget mouse down");
   TRACE();
 
   Widp w {};
 
   pixel_to_ascii(g, &x, &y);
   if (ascii_ok(x, y) == 0) {
-    LOG("widget mouse down, ignore, no pixel");
+    log("widget mouse down, ignore, no pixel");
     return;
   }
   ascii_mouse_x = x;
@@ -966,7 +966,7 @@ void wid_mouse_down(Gamep g, uint32_t button, int x, int y)
 
   w = wid_mouse_down_handler(g, x, y);
   if (w == nullptr) [[unlikely]] {
-    LOG("widget mouse down, ignore, no handler");
+    log("widget mouse down, ignore, no handler");
     return;
   }
 
@@ -985,7 +985,7 @@ void wid_mouse_down(Gamep g, uint32_t button, int x, int y)
     //
     if (wid_get_moveable(w)) {
       wid_mouse_motion_begin(g, w, x, y);
-      LOG("widget mouse down, mouse move");
+      log("widget mouse down, mouse move");
       return;
     }
 
@@ -993,7 +993,7 @@ void wid_mouse_down(Gamep g, uint32_t button, int x, int y)
       game_last_mouse_down_set(g, time_ms_cached());
     }
 
-    LOG("widget mouse down, processed, raise on mouse");
+    log("widget mouse down, processed, raise on mouse");
     return;
   }
 
@@ -1001,7 +1001,7 @@ void wid_mouse_down(Gamep g, uint32_t button, int x, int y)
     wid_set_mode(w, WID_MODE_ACTIVE);
     wid_raise(g, w);
     wid_mouse_motion_begin(g, w, x, y);
-    LOG("widget mouse down, make wid active");
+    log("widget mouse down, make wid active");
     return;
   }
 

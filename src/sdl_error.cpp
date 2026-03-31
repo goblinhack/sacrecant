@@ -39,19 +39,19 @@ static void sdl_msgerr_(const char *fmt, va_list args)
   //
   // Fullscreen sometimes hides the error, so create a temp window
   //
-  LOG("show SDL message box");
+  log("show SDL message box");
 
   auto *window = SDL_CreateWindow("gorget error", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 100, 100,
                                   SDL_WINDOW_SHOWN | SDL_WINDOW_ALWAYS_ON_TOP);
   SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Gorget", buf, window);
-  LOG("launched SDL message box");
+  log("launched SDL message box");
   SDL_DestroyWindow(window);
 #endif
 
   //
   // We are inside an error already, so do not call ERR
   //
-  LOG("SDL: %s", buf);
+  log("SDL: %s", buf);
 }
 
 void sdl_msg_box(const char *fmt, ...)

@@ -22,12 +22,12 @@ void sdl_fini(Gamep g)
     return;
   }
 
-  LOG("SDL: Fini");
+  log("SDL: Fini");
   TRACE();
 
   sdl_display_fini(g);
 
-  LOG("SDL: Quit");
+  log("SDL: Quit");
   SDL_Quit();
 }
 
@@ -43,47 +43,47 @@ void sdl_joy_rumble(float strength, uint32_t ms)
 
 static void sdl_init_rumble()
 {
-  LOG("SDL: Init rumble:");
+  log("SDL: Init rumble:");
   TRACE();
 
   if (sdl.haptic == nullptr) {
     sdl.haptic = SDL_HapticOpenFromJoystick(sdl.joy);
     if (sdl.haptic == nullptr) {
-      LOG("- Couldn't initialize SDL rumble: %s", SDL_GetError());
+      log("- Couldn't initialize SDL rumble: %s", SDL_GetError());
       SDL_ClearError();
       return;
     }
   }
 
   if (SDL_HapticRumbleSupported(sdl.haptic) == 0) {
-    LOG("- No SDL rumble support: %s", SDL_GetError());
+    log("- No SDL rumble support: %s", SDL_GetError());
     SDL_ClearError();
     return;
   }
 
   if (SDL_HapticRumbleInit(sdl.haptic) != 0) {
-    LOG("- SDL rumble nit failed: %s", SDL_GetError());
+    log("- SDL rumble nit failed: %s", SDL_GetError());
     SDL_ClearError();
     return;
   }
 
-  LOG("- Opened Haptic for joy index %d", sdl.joy_index);
+  log("- Opened Haptic for joy index %d", sdl.joy_index);
 }
 
 static void sdl_init_joystick()
 {
-  LOG("SDL: Init input:");
+  log("SDL: Init input:");
   TRACE();
 
   SDL_GameController const *controller = nullptr;
 
-  LOG("- Init game controleer");
+  log("- Init game controleer");
   SDL_InitSubSystem(SDL_INIT_GAMECONTROLLER);
 
-  LOG("- Init haptic");
+  log("- Init haptic");
   SDL_InitSubSystem(SDL_INIT_HAPTIC);
 
-  LOG("- Init joystick");
+  log("- Init joystick");
   SDL_InitSubSystem(SDL_INIT_JOYSTICK);
 
   sdl.joy_index = 0;
@@ -92,32 +92,32 @@ static void sdl_init_joystick()
     if (SDL_IsGameController(sdl.joy_index) != 0U) {
       controller = SDL_GameControllerOpen(sdl.joy_index);
       if (controller != nullptr) {
-        LOG("- Found gamecontroller");
+        log("- Found gamecontroller");
         break;
       }
-      WARN("could not open gamecontroller %i: %s", sdl.joy_index, SDL_GetError());
+      warn("could not open gamecontroller %i: %s", sdl.joy_index, SDL_GetError());
       SDL_ClearError();
     }
   }
 
   if (controller == nullptr) {
-    LOG("- No found gamecontroller");
+    log("- No found gamecontroller");
     return;
   }
 
   sdl.joy = SDL_JoystickOpen(sdl.joy_index);
   if (sdl.joy != nullptr) {
-    LOG("- Opened Joystick  : %d", sdl.joy_index);
-    LOG("- Name             : %s", SDL_JoystickNameForIndex(0));
-    LOG("- Number of Axes   : %d", SDL_JoystickNumAxes(sdl.joy));
-    LOG("- Number of Buttons: %d", SDL_JoystickNumButtons(sdl.joy));
-    LOG("- Number of Balls  : %d", SDL_JoystickNumBalls(sdl.joy));
+    log("- Opened Joystick  : %d", sdl.joy_index);
+    log("- Name             : %s", SDL_JoystickNameForIndex(0));
+    log("- Number of Axes   : %d", SDL_JoystickNumAxes(sdl.joy));
+    log("- Number of Buttons: %d", SDL_JoystickNumButtons(sdl.joy));
+    log("- Number of Balls  : %d", SDL_JoystickNumBalls(sdl.joy));
 
     sdl.joy_naxes    = SDL_JoystickNumAxes(sdl.joy);
     sdl.joy_nbuttons = SDL_JoystickNumButtons(sdl.joy);
     sdl.joy_balls    = SDL_JoystickNumBalls(sdl.joy);
   } else {
-    WARN("Couldn't open Joystick 0");
+    warn("Couldn't open Joystick 0");
   }
 }
 
@@ -125,16 +125,16 @@ auto sdl_init() -> bool
 {
   gl_ext_init();
 
-  LOG("SDL: Version: %u.%u", SDL_MAJOR_VERSION, SDL_MINOR_VERSION);
+  log("SDL: Version: %u.%u", SDL_MAJOR_VERSION, SDL_MINOR_VERSION);
   TRACE();
 
-  LOG("SDL: Init audio and video");
+  log("SDL: Init audio and video");
   if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
     CROAK("SDL_Init failed %s", SDL_GetError());
     return false;
   }
 
-  LOG("SDL: Init video");
+  log("SDL: Init video");
   if (SDL_VideoInit(nullptr) != 0) {
     CROAK("SDL_VideoInit failed %s", SDL_GetError());
     return false;
@@ -333,7 +333,7 @@ void sdl_prepare_to_exit(Gamep g)
     return;
   }
 
-  LOG("finishing: SDL main loop is exiting...");
+  log("finishing: SDL main loop is exiting...");
   TRACE();
 
 #ifdef ENABLE_UI_ASCII_MOUSE
@@ -354,7 +354,7 @@ auto config_fps_counter_set(Gamep g, class Tokens *tokens, void *context) -> uin
 
   if ((s == nullptr) || (*s == '\0')) {
     game_fps_counter_set(g);
-    CON("FPS counter enabled (default).");
+    con("FPS counter enabled (default).");
   } else {
     if (strtol(s, nullptr, 10) != 0) {
       game_fps_counter_set(g);
@@ -362,9 +362,9 @@ auto config_fps_counter_set(Gamep g, class Tokens *tokens, void *context) -> uin
       game_fps_counter_unset(g);
     }
     if (game_fps_counter_get(g)) {
-      CON("FPS counter enabled.");
+      con("FPS counter enabled.");
     } else {
-      CON("FPS counter disabled.");
+      con("FPS counter disabled.");
     }
   }
 
@@ -393,9 +393,9 @@ auto config_debug_set(Gamep g, class Tokens *tokens, void *context) -> uint8_t
   }
 
   if (g_opt_debug1) {
-    CON("Debug: on.");
+    con("Debug: on.");
   } else {
-    CON("Debug: off.");
+    con("Debug: off.");
   }
 
   return 1U;
@@ -421,10 +421,10 @@ auto config_gfx_vsync_enable(Gamep g, class Tokens *tokens, void *context) -> ui
   }
 
   if (game_gfx_vsync_enable_get(g)) {
-    CON("SDL: Vsync enabled.");
+    con("SDL: Vsync enabled.");
     SDL_GL_SetSwapInterval(1);
   } else {
-    CON("SDL: Vsync disabled.");
+    con("SDL: Vsync disabled.");
     SDL_GL_SetSwapInterval(0);
   }
   GL_ERROR_CHECK();
@@ -453,7 +453,7 @@ auto config_errored_clear(Gamep g, class Tokens *tokens, void *context) -> uint8
 
   error_clear(g);
 
-  CON("Errored cleared.");
+  con("Errored cleared.");
   wid_hide(g, wid_console_window);
   sdl_display_reset(g);
 
@@ -472,12 +472,12 @@ auto show_error(Gamep g, class Tokens *tokens, void *context) -> uint8_t
   TRACE();
 
   if (AN_ERROR_OCCURRED()) {
-    CON("Last error: %s", g_error_last.c_str());
+    con("Last error: %s", g_error_last.c_str());
     auto key = ::to_string(game_key_console_get(g));
-    CON("To continue playing at your own risk, 'clear errored' and then press <%s>", key.c_str());
+    con("To continue playing at your own risk, 'clear errored' and then press <%s>", key.c_str());
     wid_console_raise(g);
   } else {
-    CON("no error.");
+    con("no error.");
   }
 
   return 1U;
@@ -485,14 +485,14 @@ auto show_error(Gamep g, class Tokens *tokens, void *context) -> uint8_t
 
 void sdl_config_update_all(Gamep g)
 {
-  LOG("SDL: Update config");
+  log("SDL: Update config");
   TRACE();
 
   config_game_gfx_update(g);
   config_gfx_vsync_update(g);
   gl_init_2d_mode(g);
 
-  LOG("SDL: Updated config");
+  log("SDL: Updated config");
 }
 
 //
@@ -508,7 +508,7 @@ auto sdl_user_exit(Gamep g, class Tokens *tokens, void *context) -> uint8_t
 
 void config_game_gfx_update(Gamep g)
 {
-  LOG("SDL: Update");
+  log("SDL: Update");
   TRACE();
 
   //
@@ -520,21 +520,21 @@ void config_game_gfx_update(Gamep g)
   TERM_HEIGHT = game_ui_term_height_get(g);
 
   if (TERM_WIDTH == 0) {
-    ERR("TERM_WIDTH is zero");
+    err("TERM_WIDTH is zero");
     return;
   }
   if (TERM_HEIGHT == 0) {
-    ERR("TERM_HEIGHT is zero");
+    err("TERM_HEIGHT is zero");
     return;
   }
 
   if (TERM_WIDTH > TERM_WIDTH_MAX) {
-    LOG("SDL: - %d exceeded console max width: %d", TERM_WIDTH, TERM_WIDTH_MAX);
+    log("SDL: - %d exceeded console max width: %d", TERM_WIDTH, TERM_WIDTH_MAX);
     TERM_WIDTH = TERM_WIDTH_MAX;
   }
 
   if (TERM_HEIGHT > TERM_HEIGHT_MAX) {
-    LOG("SDL: - %d exceeded console max height: %d", TERM_HEIGHT, TERM_HEIGHT_MAX);
+    log("SDL: - %d exceeded console max height: %d", TERM_HEIGHT, TERM_HEIGHT_MAX);
     TERM_HEIGHT = TERM_HEIGHT_MAX;
   }
 
@@ -544,12 +544,12 @@ void config_game_gfx_update(Gamep g)
   TERM_WIDTH  = game_window_pix_width_get(g) / font_width;
   TERM_HEIGHT = game_window_pix_height_get(g) / font_height;
 
-  LOG("SDL: Window:");
-  LOG("SDL: - window pixel size       : %dx%d", game_window_pix_width_get(g), game_window_pix_height_get(g));
-  LOG("SDL: - aspect ratio            : %f", game_aspect_ratio_get(g));
-  LOG("SDL: Initial Terminal");
-  LOG("SDL: - term size               : %dx%d", TERM_WIDTH, TERM_HEIGHT);
-  LOG("SDL: - ascii gl size           : %ux%u", font_width, font_height);
+  log("SDL: Window:");
+  log("SDL: - window pixel size       : %dx%d", game_window_pix_width_get(g), game_window_pix_height_get(g));
+  log("SDL: - aspect ratio            : %f", game_aspect_ratio_get(g));
+  log("SDL: Initial Terminal");
+  log("SDL: - term size               : %dx%d", TERM_WIDTH, TERM_HEIGHT);
+  log("SDL: - ascii gl size           : %ux%u", font_width, font_height);
 
   //
   // Adjust the font until it is a reasonable size.
@@ -557,7 +557,7 @@ void config_game_gfx_update(Gamep g)
   int tries = 100;
   while (tries-- > 0) {
     if ((TERM_WIDTH > TERM_WIDTH_MAX) || (TERM_HEIGHT > TERM_HEIGHT_MAX)) {
-      LOG("SDL: Terminal (try %ux%u min %ux%u max %ux%u font %ux%u) > max terminal size, try larger font", TERM_WIDTH, TERM_HEIGHT,
+      log("SDL: Terminal (try %ux%u min %ux%u max %ux%u font %ux%u) > max terminal size, try larger font", TERM_WIDTH, TERM_HEIGHT,
           TERM_WIDTH_MIN, TERM_HEIGHT_MIN, TERM_WIDTH_MAX, TERM_HEIGHT_MAX, font_width, font_height);
       font_width *= 2;
       font_height *= 2;
@@ -567,7 +567,7 @@ void config_game_gfx_update(Gamep g)
     }
 
     if ((TERM_WIDTH < TERM_WIDTH_MIN) || (TERM_HEIGHT < TERM_HEIGHT_MIN)) {
-      LOG("SDL: Terminal (try %ux%u min %ux%u max %ux%u font %ux%u) < min terminal size, try smaller font", TERM_WIDTH, TERM_HEIGHT,
+      log("SDL: Terminal (try %ux%u min %ux%u max %ux%u font %ux%u) < min terminal size, try smaller font", TERM_WIDTH, TERM_HEIGHT,
           TERM_WIDTH_MIN, TERM_HEIGHT_MIN, TERM_WIDTH_MAX, TERM_HEIGHT_MAX, font_width, font_height);
       font_width /= 2;
       font_height /= 2;
@@ -577,28 +577,28 @@ void config_game_gfx_update(Gamep g)
     }
 
     if (TERM_WIDTH > TERM_WIDTH_MAX) {
-      LOG("SDL: Terminal (try %ux%u min %ux%u max %ux%u font %ux%u) > max width", TERM_WIDTH, TERM_HEIGHT, TERM_WIDTH_MIN, TERM_HEIGHT_MIN,
+      log("SDL: Terminal (try %ux%u min %ux%u max %ux%u font %ux%u) > max width", TERM_WIDTH, TERM_HEIGHT, TERM_WIDTH_MIN, TERM_HEIGHT_MIN,
           TERM_WIDTH_MAX, TERM_HEIGHT_MAX, font_width, font_height);
       TERM_WIDTH = TERM_WIDTH_MAX;
       continue;
     }
 
     if (TERM_HEIGHT > TERM_HEIGHT_MAX) {
-      LOG("SDL: Terminal (try %ux%u min %ux%u max %ux%u font %ux%u) > max height", TERM_WIDTH, TERM_HEIGHT, TERM_WIDTH_MIN, TERM_HEIGHT_MIN,
+      log("SDL: Terminal (try %ux%u min %ux%u max %ux%u font %ux%u) > max height", TERM_WIDTH, TERM_HEIGHT, TERM_WIDTH_MIN, TERM_HEIGHT_MIN,
           TERM_WIDTH_MAX, TERM_HEIGHT_MAX, font_width, font_height);
       TERM_HEIGHT = TERM_HEIGHT_MAX;
       continue;
     }
 
     if (font_width * TERM_WIDTH < game_window_pix_width_get(g) - font_width - 1) {
-      LOG("SDL: Terminal (try %ux%u min %ux%u max %ux%u font %ux%u) can grow horiz", TERM_WIDTH, TERM_HEIGHT, TERM_WIDTH_MIN,
+      log("SDL: Terminal (try %ux%u min %ux%u max %ux%u font %ux%u) can grow horiz", TERM_WIDTH, TERM_HEIGHT, TERM_WIDTH_MIN,
           TERM_HEIGHT_MIN, TERM_WIDTH_MAX, TERM_HEIGHT_MAX, font_width, font_height);
       TERM_WIDTH++;
       continue;
     }
 
     if (font_height * TERM_HEIGHT < game_window_pix_height_get(g) - font_height - 1) {
-      LOG("SDL: Terminal (try %ux%u min %ux%u max %ux%u font %ux%u) can grow vert", TERM_WIDTH, TERM_HEIGHT, TERM_WIDTH_MIN,
+      log("SDL: Terminal (try %ux%u min %ux%u max %ux%u font %ux%u) can grow vert", TERM_WIDTH, TERM_HEIGHT, TERM_WIDTH_MIN,
           TERM_HEIGHT_MIN, TERM_WIDTH_MAX, TERM_HEIGHT_MAX, font_width, font_height);
       TERM_HEIGHT++;
       continue;
@@ -615,7 +615,7 @@ void config_game_gfx_update(Gamep g)
     TERM_HEIGHT = TERM_HEIGHT_MIN;
     font_width  = game_window_pix_width_get(g) / TERM_WIDTH;
     font_height = game_window_pix_height_get(g) / TERM_HEIGHT;
-    LOG("SDL: Terminal (try %ux%u min %ux%u max %ux%u font %ux%u) best effort", TERM_WIDTH, TERM_HEIGHT, TERM_WIDTH_MIN, TERM_HEIGHT_MIN,
+    log("SDL: Terminal (try %ux%u min %ux%u max %ux%u font %ux%u) best effort", TERM_WIDTH, TERM_HEIGHT, TERM_WIDTH_MIN, TERM_HEIGHT_MIN,
         TERM_WIDTH_MAX, TERM_HEIGHT_MAX, font_width, font_height);
   }
 
@@ -626,28 +626,28 @@ void config_game_gfx_update(Gamep g)
   tries = 100;
   while (tries-- > 0) {
     if (TERM_WIDTH >= TERM_WIDTH_MAX) {
-      LOG("SDL: Terminal (try %ux%u min %ux%u max %ux%u font %ux%u) > max width", TERM_WIDTH, TERM_HEIGHT, TERM_WIDTH_MIN, TERM_HEIGHT_MIN,
+      log("SDL: Terminal (try %ux%u min %ux%u max %ux%u font %ux%u) > max width", TERM_WIDTH, TERM_HEIGHT, TERM_WIDTH_MIN, TERM_HEIGHT_MIN,
           TERM_WIDTH_MAX, TERM_HEIGHT_MAX, font_width, font_height);
       TERM_WIDTH = TERM_WIDTH_MAX;
       continue;
     }
 
     if (TERM_HEIGHT >= TERM_HEIGHT_MAX) {
-      LOG("SDL: Terminal (try %ux%u min %ux%u max %ux%u font %ux%u) > max height", TERM_WIDTH, TERM_HEIGHT, TERM_WIDTH_MIN, TERM_HEIGHT_MIN,
+      log("SDL: Terminal (try %ux%u min %ux%u max %ux%u font %ux%u) > max height", TERM_WIDTH, TERM_HEIGHT, TERM_WIDTH_MIN, TERM_HEIGHT_MIN,
           TERM_WIDTH_MAX, TERM_HEIGHT_MAX, font_width, font_height);
       TERM_HEIGHT = TERM_HEIGHT_MAX;
       continue;
     }
 
     if (font_width * TERM_WIDTH < game_window_pix_width_get(g) - font_width - 1) {
-      LOG("SDL: Terminal (try %ux%u min %ux%u max %ux%u font %ux%u) can grow horiz", TERM_WIDTH, TERM_HEIGHT, TERM_WIDTH_MIN,
+      log("SDL: Terminal (try %ux%u min %ux%u max %ux%u font %ux%u) can grow horiz", TERM_WIDTH, TERM_HEIGHT, TERM_WIDTH_MIN,
           TERM_HEIGHT_MIN, TERM_WIDTH_MAX, TERM_HEIGHT_MAX, font_width, font_height);
       TERM_WIDTH++;
       continue;
     }
 
     if (font_height * TERM_HEIGHT < game_window_pix_height_get(g) - font_height - 1) {
-      LOG("SDL: Terminal (try %ux%u min %ux%u max %ux%u font %ux%u) can grow vert", TERM_WIDTH, TERM_HEIGHT, TERM_WIDTH_MIN,
+      log("SDL: Terminal (try %ux%u min %ux%u max %ux%u font %ux%u) can grow vert", TERM_WIDTH, TERM_HEIGHT, TERM_WIDTH_MIN,
           TERM_HEIGHT_MIN, TERM_WIDTH_MAX, TERM_HEIGHT_MAX, font_width, font_height);
       TERM_HEIGHT++;
       continue;
@@ -655,9 +655,9 @@ void config_game_gfx_update(Gamep g)
     break;
   }
 
-  LOG("SDL: Final terminal");
-  LOG("SDL: - term size               : %dx%d", TERM_WIDTH, TERM_HEIGHT);
-  LOG("SDL: - ascii gl size           : %ux%u", font_width, font_height);
+  log("SDL: Final terminal");
+  log("SDL: - term size               : %dx%d", TERM_WIDTH, TERM_HEIGHT);
+  log("SDL: - ascii gl size           : %ux%u", font_width, font_height);
 
   game_ascii_pix_width_set(g, font_width);
   game_ascii_pix_height_set(g, font_height);
@@ -666,16 +666,16 @@ void config_game_gfx_update(Gamep g)
   // Work out the size of the game map
   //
   if (TILE_WIDTH == 0U) {
-    ERR("TILE_WIDTH zero");
+    err("TILE_WIDTH zero");
     return;
   }
 
   if (TILE_HEIGHT == 0U) {
-    ERR("TILE_HEIGHT zero");
+    err("TILE_HEIGHT zero");
     return;
   }
 
-  LOG("SDL: Map:");
+  log("SDL: Map:");
 
   auto      w          = game_ascii_pix_width_get(g);
   auto      h          = game_ascii_pix_height_get(g);
@@ -694,7 +694,7 @@ void config_game_gfx_update(Gamep g)
   if (map_term_w > map_term_h) {
     int const pad = (((map_term_w * w) - (map_term_h * h)) / w) / 2;
     if (pad > 0) {
-      LOG("SDL: - map is over wide      : %dx%d (reduce by %d cells either side)", map_term_w, map_term_h, pad);
+      log("SDL: - map is over wide      : %dx%d (reduce by %d cells either side)", map_term_w, map_term_h, pad);
       visible_map_tl_x += w * pad;
       visible_map_br_x -= w * pad;
     }
@@ -716,11 +716,11 @@ void config_game_gfx_update(Gamep g)
 
   game_visible_map_pix_set(g, visible_map_tl_x, visible_map_tl_y, visible_map_br_x, visible_map_br_y);
 
-  LOG("SDL: - map location            : %d,%d -> %d,%d", visible_map_tl_x, visible_map_tl_y, visible_map_br_x, visible_map_br_y);
-  LOG("SDL: - map onscreen sz         : %dx%d", map_w, map_h);
-  LOG("SDL: - map w to h ratio        : %g", map_w_h_ratio);
-  LOG("SDL: - map pix sz              : %dx%d", fbo_w, fbo_h);
-  LOG("SDL: - map max pix sz          : %dx%d", max_fbo_w, max_fbo_h);
+  log("SDL: - map location            : %d,%d -> %d,%d", visible_map_tl_x, visible_map_tl_y, visible_map_br_x, visible_map_br_y);
+  log("SDL: - map onscreen sz         : %dx%d", map_w, map_h);
+  log("SDL: - map w to h ratio        : %g", map_w_h_ratio);
+  log("SDL: - map pix sz              : %dx%d", fbo_w, fbo_h);
+  log("SDL: - map max pix sz          : %dx%d", max_fbo_w, max_fbo_h);
 
   int zoom = game_map_zoom_get(g);
   if (zoom == 0) {
@@ -761,21 +761,21 @@ void config_game_gfx_update(Gamep g)
   game_tiles_visible_across_set(g, tiles_across);
   game_tiles_visible_down_set(g, tiles_down);
 
-  LOG("SDL: - game map fbo sz         : %dx%d", game_map_fbo_width_get(g), game_map_fbo_height_get(g));
-  LOG("SDL: - map single pixel size   : %d", game_map_single_pix_size_get(g));
+  log("SDL: - game map fbo sz         : %dx%d", game_map_fbo_width_get(g), game_map_fbo_height_get(g));
+  log("SDL: - map single pixel size   : %d", game_map_single_pix_size_get(g));
 
-  LOG("SDL: FBO sizes:");
+  log("SDL: FBO sizes:");
 
   FOR_ALL_FBO(fbo)
   {
     int fbo_tmp_w = 0;
     int fbo_tmp_h = 0;
     fbo_get_size(g, fbo, fbo_tmp_w, fbo_tmp_h);
-    LOG("SDL: - %-30s : %ux%u pixels", FboEnum_to_string(fbo).c_str(), fbo_tmp_w, fbo_tmp_h);
+    log("SDL: - %-30s : %ux%u pixels", FboEnum_to_string(fbo).c_str(), fbo_tmp_w, fbo_tmp_h);
   }
 
-  LOG("SDL: Map");
-  LOG("SDL: - size                    : %dx%d", MAP_WIDTH, MAP_HEIGHT);
-  LOG("SDL: - tiles visible           : %dx%d", tiles_across, tiles_down);
-  LOG("SDL: - tiles zoom              : %d", game_map_zoom_get(g));
+  log("SDL: Map");
+  log("SDL: - size                    : %dx%d", MAP_WIDTH, MAP_HEIGHT);
+  log("SDL: - tiles visible           : %dx%d", tiles_across, tiles_down);
+  log("SDL: - tiles zoom              : %d", game_map_zoom_get(g));
 }

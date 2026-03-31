@@ -183,7 +183,7 @@ Tile::Tile(const class Tile *tile)
 
   auto result = all_tiles.insert(std::make_pair(name, this));
   if (! result.second) {
-    ERR("tile copy insert name [%s] failed", name.c_str());
+    err("tile copy insert name [%s] failed", name.c_str());
   }
   all_tiles_array.push_back(this);
 }
@@ -217,7 +217,7 @@ void tile_load_arr(const char *file, const char *alias, uint32_t width, uint32_t
       auto *t      = new Tile(); // std::make_shared< class Tile >();
       auto  result = all_tiles.insert(std::make_pair(name, t));
       if (! result.second) {
-        ERR("tile insert name [%s] failed", name.c_str());
+        err("tile insert name [%s] failed", name.c_str());
       }
 
       //
@@ -317,7 +317,7 @@ void tile_load_arr(const char *file, const char *alias, uint32_t width, uint32_t
       if (! name.empty()) {
         CROAK("overflow reading tile arr[%s]", name.c_str());
       } else {
-        ERR("overflow reading tile arr at x %d y %d", x, y);
+        err("overflow reading tile arr at x %d y %d", x, y);
       }
     }
   }
@@ -373,7 +373,7 @@ void tile_load_arr_sprites(const char *file, const char *alias, uint32_t tile_wi
 
       IF_DEBUG2
       { //
-        LOG("add tile name [%s]", name.c_str());
+        log("add tile name [%s]", name.c_str());
       }
 
       auto *t      = new Tile(); // std::make_shared< class Tile >();
@@ -497,7 +497,7 @@ void tile_load_arr_sprites(const char *file, const char *alias, uint32_t tile_wi
   }
 
 #ifdef WRITE_TILED
-  CON("save %s", file);
+  con("save %s", file);
   std::string bmp = std::string(basename((char *) file)) + ".bmp";
   SDL_SaveBMP(tmp, bmp.c_str());
 #endif
@@ -572,7 +572,7 @@ auto tile_find_mand(const std::string &name) -> Tilep
   TRACE();
 
   if (name.empty()) {
-    ERR("no tile name given");
+    err("no tile name given");
     return nullptr;
   }
 
@@ -648,7 +648,7 @@ auto string2tile(const char **s, int *len) -> Tilep
 
   auto result = all_tiles.find(name);
   if (result == all_tiles.end()) {
-    ERR("unknown tile [%s]", name);
+    err("unknown tile [%s]", name);
     return nullptr;
   }
 
@@ -673,7 +673,7 @@ auto string2tile(std::string &s, int *len) -> Tilep
   }
 
   if (iter == s.end()) {
-    ERR("unknown tile [%s]", name.c_str());
+    err("unknown tile [%s]", name.c_str());
   }
 
   if (len != nullptr) {
@@ -682,7 +682,7 @@ auto string2tile(std::string &s, int *len) -> Tilep
 
   auto result = all_tiles.find(name);
   if (result == all_tiles.end()) {
-    ERR("unknown tile [%s]", name.c_str());
+    err("unknown tile [%s]", name.c_str());
   }
 
   return result->second;

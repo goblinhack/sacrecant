@@ -16,7 +16,7 @@ void thing_is_burning_handle(Gamep g, Levelsp v, Levelp l, Thingp t)
 
   if (thing_is_burning(t)) {
     if (thing_is_player(t)) {
-      TOPCON(UI_IMPORTANT_FMT_STR "You are burning!" UI_RESET_FMT);
+      topcon(UI_IMPORTANT_FMT_STR "You are burning!" UI_RESET_FMT);
     }
   }
 }
@@ -38,7 +38,7 @@ void thing_continue_to_burn_check(Gamep g, Levelsp v, Levelp l, Thingp t)
     thing_is_burning_unset(g, v, l, t);
 
     if (thing_is_player(t)) {
-      TOPCON(UI_GOOD_FMT_STR "You extinguish the flames in the cool water!" UI_RESET_FMT);
+      topcon(UI_GOOD_FMT_STR "You extinguish the flames in the cool water!" UI_RESET_FMT);
     }
 
     if (level_is_steam(g, v, l, thing_at(t)) == nullptr) {
@@ -57,7 +57,7 @@ void thing_continue_to_burn_check(Gamep g, Levelsp v, Levelp l, Thingp t)
     thing_is_burning_unset(g, v, l, t);
 
     if (thing_is_player(t)) {
-      TOPCON(UI_GOOD_FMT_STR "You stop burning!" UI_RESET_FMT);
+      topcon(UI_GOOD_FMT_STR "You stop burning!" UI_RESET_FMT);
     }
     return;
   }
@@ -76,7 +76,7 @@ void thing_continue_to_burn_check(Gamep g, Levelsp v, Levelp l, Thingp t)
         (void) thing_spawn(g, v, l, tp_first(is_fire), t);
 
         if (thing_is_player(t)) {
-          TOPCON(UI_IMPORTANT_FMT_STR "The flames intensify!" UI_RESET_FMT);
+          topcon(UI_IMPORTANT_FMT_STR "The flames intensify!" UI_RESET_FMT);
         }
       }
     }

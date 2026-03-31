@@ -25,7 +25,7 @@ void tests_run(Gamep g);
 #define TEST_FAILED(test, why)                                                                                                             \
   {                                                                                                                                        \
     TRACE();                                                                                                                               \
-    LOG("test %s: failed at %s:%u, reason: %s", test_name(test), __FUNCTION__, __LINE__, why);                                             \
+    log("test %s: failed at %s:%u, reason: %s", test_name(test), __FUNCTION__, __LINE__, why);                                             \
     result = false;                                                                                                                        \
     goto exit;                                                                                                                             \
   }
@@ -34,13 +34,13 @@ void tests_run(Gamep g);
   {                                                                                                                                        \
     TRACE();                                                                                                                               \
     if (! (what)) {                                                                                                                        \
-      LOG("test %s: assertion failed at %s:%u, reason: %s", test_name(test), __FUNCTION__, __LINE__, why);                                 \
+      log("test %s: assertion failed at %s:%u, reason: %s", test_name(test), __FUNCTION__, __LINE__, why);                                 \
       result = false;                                                                                                                      \
       goto exit;                                                                                                                           \
     }                                                                                                                                      \
   }
 
-#define TEST_PASSED(test) LOG("test %s: passed at %s:%u", test_name(test), __FUNCTION__, __LINE__);
+#define TEST_PASSED(test) log("test %s: passed at %s:%u", test_name(test), __FUNCTION__, __LINE__);
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wvariadic-macros"
@@ -54,14 +54,14 @@ void tests_run(Gamep g);
   {                                                                                                                                        \
     char tmp[ MAXSTR ];                                                                                                                    \
     snprintf(tmp, sizeof(tmp), msg, ##__VA_ARGS__);                                                                                        \
-    LOG("test %s: %s:%u: %s", test_name(test), __FUNCTION__, __LINE__, tmp);                                                               \
+    log("test %s: %s:%u: %s", test_name(test), __FUNCTION__, __LINE__, tmp);                                                               \
   }
 
 #define TEST_CON(test, msg, ...)                                                                                                           \
   {                                                                                                                                        \
     char tmp[ MAXSTR ];                                                                                                                    \
     snprintf(tmp, sizeof(tmp), msg, ##__VA_ARGS__);                                                                                        \
-    CON("test %s: %s:%u: %s", test_name(test), __FUNCTION__, __LINE__, tmp);                                                               \
+    con("test %s: %s:%u: %s", test_name(test), __FUNCTION__, __LINE__, tmp);                                                               \
   }
 
 #ifdef __clang__
@@ -70,7 +70,7 @@ void tests_run(Gamep g);
 
 #pragma GCC diagnostic pop
 
-#define TEST_PROGRESS(test) LOG("test %s: %s:%u: progress", test_name(test), __FUNCTION__, __LINE__);
+#define TEST_PROGRESS(test) log("test %s: %s:%u: progress", test_name(test), __FUNCTION__, __LINE__);
 
 void test_init();
 void test_fini();

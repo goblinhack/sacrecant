@@ -16,17 +16,17 @@ auto thing_get(Gamep g, Levelsp v, Levelp l, const bpoint &p, int slot) -> Thing
   TRACE_DEBUG();
 
   if (l == nullptr) {
-    ERR("trying to get a thing on a null level");
+    err("trying to get a thing on a null level");
     return nullptr;
   }
 
   if (is_oob(p)) [[unlikely]] {
-    ERR("out of bounds thing_get %d,%d, slot %d", p.x, p.y, slot);
+    err("out of bounds thing_get %d,%d, slot %d", p.x, p.y, slot);
     return nullptr;
   }
 
   if ((slot < 0) || (slot >= MAP_SLOTS)) {
-    ERR("slot out of bounds thing_get %d,%d, slot %d", p.x, p.y, slot);
+    err("slot out of bounds thing_get %d,%d, slot %d", p.x, p.y, slot);
     return nullptr;
   }
 
@@ -90,17 +90,17 @@ auto thing_and_tp_get_at(Gamep g, Levelsp v, Levelp l, const bpoint &p, int slot
   *out = nullptr;
 
   if (l == nullptr) {
-    ERR("trying to get a thing on a null level");
+    err("trying to get a thing on a null level");
     return nullptr;
   }
 
   if (is_oob(p)) [[unlikely]] {
-    ERR("out of bounds thing_and_tp_get_at %d,%d, slot %d", p.x, p.y, slot);
+    err("out of bounds thing_and_tp_get_at %d,%d, slot %d", p.x, p.y, slot);
     return nullptr;
   }
 
   if ((slot < 0) || (slot >= MAP_SLOTS)) {
-    ERR("slot out of bounds thing_and_tp_get_at %d,%d, slot %d", p.x, p.y, slot);
+    err("slot out of bounds thing_and_tp_get_at %d,%d, slot %d", p.x, p.y, slot);
     return nullptr;
   }
 
@@ -143,11 +143,11 @@ void thing_stats_dump(Gamep g, Levelsp v)
     }
   }
 
-  LOG("thing stats:");
-  LOG("- Total things        %u out of max %u", in_use_things + free_things, THING_ID_MAX);
-  LOG("- In use things       %u", in_use_things);
-  LOG("- Free things         %u", free_things);
-  LOG("- Ext mem things      %u out of max %u", v->thing_ext_count, THING_EXT_MAX);
+  log("thing stats:");
+  log("- Total things        %u out of max %u", in_use_things + free_things, THING_ID_MAX);
+  log("- In use things       %u", in_use_things);
+  log("- Free things         %u", free_things);
+  log("- Ext mem things      %u out of max %u", v->thing_ext_count, THING_EXT_MAX);
 }
 
 auto thing_ext_struct(Gamep g, Thingp t) -> ThingExtp

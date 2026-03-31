@@ -24,34 +24,34 @@ static void thing_killed_player(Gamep g, Levelsp v, Levelp l, ThingEvent &e)
 
     switch (e.event_type) {
       case THING_EVENT_SHOVED : //
-        TOPCON(UI_IMPORTANT_FMT_STR "You are shoved by %s." UI_RESET_FMT, by_the_thing.c_str());
+        topcon(UI_IMPORTANT_FMT_STR "You are shoved by %s." UI_RESET_FMT, by_the_thing.c_str());
         break;
       case THING_EVENT_CRUSH : //
-        TOPCON(UI_IMPORTANT_FMT_STR "You are crushed to death by %s." UI_RESET_FMT, by_the_thing.c_str());
+        topcon(UI_IMPORTANT_FMT_STR "You are crushed to death by %s." UI_RESET_FMT, by_the_thing.c_str());
         break;
       case THING_EVENT_MELEE_DAMAGE : //
-        TOPCON(UI_IMPORTANT_FMT_STR "You are killed by %s." UI_RESET_FMT, by_the_thing.c_str());
+        topcon(UI_IMPORTANT_FMT_STR "You are killed by %s." UI_RESET_FMT, by_the_thing.c_str());
         break;
       case THING_EVENT_HEAT_DAMAGE : //
-        TOPCON(UI_IMPORTANT_FMT_STR "You die in the unsuffereble heat from %s." UI_RESET_FMT, by_the_thing.c_str());
+        topcon(UI_IMPORTANT_FMT_STR "You die in the unsuffereble heat from %s." UI_RESET_FMT, by_the_thing.c_str());
         break;
       case THING_EVENT_WATER_DAMAGE : //
-        TOPCON(UI_IMPORTANT_FMT_STR "You die in the undrinkable depths from %s." UI_RESET_FMT, by_the_thing.c_str());
+        topcon(UI_IMPORTANT_FMT_STR "You die in the undrinkable depths from %s." UI_RESET_FMT, by_the_thing.c_str());
         break;
       case THING_EVENT_EXPLOSION_DAMAGE : //
-        TOPCON(UI_IMPORTANT_FMT_STR "You die in blast from %s." UI_RESET_FMT, by_the_thing.c_str());
+        topcon(UI_IMPORTANT_FMT_STR "You die in blast from %s." UI_RESET_FMT, by_the_thing.c_str());
         break;
       case THING_EVENT_FIRE_DAMAGE : //
         if (thing_is_lava(it)) {
-          TOPCON(UI_IMPORTANT_FMT_STR "You are consumed by lava!" UI_RESET_FMT);
+          topcon(UI_IMPORTANT_FMT_STR "You are consumed by lava!" UI_RESET_FMT);
         } else if (thing_is_fire(it)) {
-          TOPCON(UI_IMPORTANT_FMT_STR "You are consumed in flames!" UI_RESET_FMT);
+          topcon(UI_IMPORTANT_FMT_STR "You are consumed in flames!" UI_RESET_FMT);
         } else if (thing_is_water(it)) {
-          TOPCON(UI_IMPORTANT_FMT_STR "You are boiled to death!" UI_RESET_FMT);
+          topcon(UI_IMPORTANT_FMT_STR "You are boiled to death!" UI_RESET_FMT);
         } else if (thing_is_steam(it)) {
-          TOPCON(UI_IMPORTANT_FMT_STR "You are steamed to death!" UI_RESET_FMT);
+          topcon(UI_IMPORTANT_FMT_STR "You are steamed to death!" UI_RESET_FMT);
         } else {
-          TOPCON(UI_IMPORTANT_FMT_STR "You are burnt by %s." UI_RESET_FMT, by_the_thing.c_str());
+          topcon(UI_IMPORTANT_FMT_STR "You are burnt by %s." UI_RESET_FMT, by_the_thing.c_str());
         }
         break;
       case THING_EVENT_OPEN :             //
@@ -62,45 +62,45 @@ static void thing_killed_player(Gamep g, Levelsp v, Levelp l, ThingEvent &e)
       case THING_EVENT_CARRIED_MERGED :   //
       case THING_EVENT_MELT :             //
       case THING_EVENT_ENUM_MAX :         //
-        ERR("unexpected event: %s", ThingEventType_to_string(e.event_type).c_str());
+        err("unexpected event: %s", ThingEventType_to_string(e.event_type).c_str());
         break;
     }
   } else {
     switch (e.event_type) {
       case THING_EVENT_NONE : break;
       case THING_EVENT_FALL : //
-        TOPCON(UI_IMPORTANT_FMT_STR "You fall to your death." UI_RESET_FMT);
+        topcon(UI_IMPORTANT_FMT_STR "You fall to your death." UI_RESET_FMT);
         break;
       case THING_EVENT_LIFESPAN_EXPIRED : //
-        TOPCON(UI_IMPORTANT_FMT_STR "You die of old age." UI_RESET_FMT);
+        topcon(UI_IMPORTANT_FMT_STR "You die of old age." UI_RESET_FMT);
         break;
       case THING_EVENT_SHOVED : //
-        TOPCON(UI_IMPORTANT_FMT_STR "You are shoved and die." UI_RESET_FMT);
+        topcon(UI_IMPORTANT_FMT_STR "You are shoved and die." UI_RESET_FMT);
         break;
       case THING_EVENT_CRUSH : //
-        TOPCON(UI_IMPORTANT_FMT_STR "You are crushed and die." UI_RESET_FMT);
+        topcon(UI_IMPORTANT_FMT_STR "You are crushed and die." UI_RESET_FMT);
         break;
       case THING_EVENT_MELEE_DAMAGE : //
-        TOPCON(UI_IMPORTANT_FMT_STR "You are beaten to death." UI_RESET_FMT);
+        topcon(UI_IMPORTANT_FMT_STR "You are beaten to death." UI_RESET_FMT);
         break;
       case THING_EVENT_HEAT_DAMAGE : //
-        TOPCON(UI_IMPORTANT_FMT_STR "You die in the unsuffereble heat." UI_RESET_FMT);
+        topcon(UI_IMPORTANT_FMT_STR "You die in the unsuffereble heat." UI_RESET_FMT);
         break;
       case THING_EVENT_WATER_DAMAGE : //
-        TOPCON(UI_IMPORTANT_FMT_STR "You die in the undrinkable depths." UI_RESET_FMT);
+        topcon(UI_IMPORTANT_FMT_STR "You die in the undrinkable depths." UI_RESET_FMT);
         break;
       case THING_EVENT_EXPLOSION_DAMAGE : //
-        TOPCON(UI_IMPORTANT_FMT_STR "You die in the blast." UI_RESET_FMT);
+        topcon(UI_IMPORTANT_FMT_STR "You die in the blast." UI_RESET_FMT);
         break;
       case THING_EVENT_FIRE_DAMAGE : //
-        TOPCON(UI_IMPORTANT_FMT_STR "You are burnt to death." UI_RESET_FMT);
+        topcon(UI_IMPORTANT_FMT_STR "You are burnt to death." UI_RESET_FMT);
         break;
       case THING_EVENT_OPEN :           //
       case THING_EVENT_CARRIED :        //
       case THING_EVENT_CARRIED_MERGED : //
       case THING_EVENT_MELT :           //
       case THING_EVENT_ENUM_MAX :       //
-        ERR("unexpected event: %s", ThingEventType_to_string(e.event_type).c_str());
+        err("unexpected event: %s", ThingEventType_to_string(e.event_type).c_str());
         break;
     }
   }
@@ -120,29 +120,29 @@ static void thing_killed_by_player(Gamep g, Levelsp v, Levelp l, Thingp t, Thing
 
     switch (e.event_type) {
       case THING_EVENT_SHOVED : //
-        TOPCON("%s is knocked over by %s.", the_thing.c_str(), by_player.c_str());
+        topcon("%s is knocked over by %s.", the_thing.c_str(), by_player.c_str());
         break;
       case THING_EVENT_CRUSH : //
-        TOPCON("%s is crushed by %s.", the_thing.c_str(), by_player.c_str());
+        topcon("%s is crushed by %s.", the_thing.c_str(), by_player.c_str());
         break;
       case THING_EVENT_MELEE_DAMAGE : //
-        TOPCON("%s is killed by %s.", the_thing.c_str(), by_player.c_str());
+        topcon("%s is killed by %s.", the_thing.c_str(), by_player.c_str());
         break;
       case THING_EVENT_HEAT_DAMAGE : //
-        TOPCON("%s is killed by heat damage from %s.", the_thing.c_str(), by_player.c_str());
+        topcon("%s is killed by heat damage from %s.", the_thing.c_str(), by_player.c_str());
         break;
       case THING_EVENT_WATER_DAMAGE : //
-        TOPCON("%s is killed by water damage from %s.", the_thing.c_str(), by_player.c_str());
+        topcon("%s is killed by water damage from %s.", the_thing.c_str(), by_player.c_str());
         break;
       case THING_EVENT_EXPLOSION_DAMAGE : //
-        TOPCON("%s is killed by blast damage from %s.", the_thing.c_str(), by_player.c_str());
+        topcon("%s is killed by blast damage from %s.", the_thing.c_str(), by_player.c_str());
         break;
       case THING_EVENT_FIRE_DAMAGE : //
-        TOPCON("%s is burnt to death by %s.", the_thing.c_str(), by_player.c_str());
+        topcon("%s is burnt to death by %s.", the_thing.c_str(), by_player.c_str());
         break;
       case THING_EVENT_CARRIED :        //
       case THING_EVENT_CARRIED_MERGED : //
-        TOPCON("%s is carried by %s.", the_thing.c_str(), by_player.c_str());
+        topcon("%s is carried by %s.", the_thing.c_str(), by_player.c_str());
         break;
       case THING_EVENT_OPEN :             //
       case THING_EVENT_NONE :             //
@@ -150,7 +150,7 @@ static void thing_killed_by_player(Gamep g, Levelsp v, Levelp l, Thingp t, Thing
       case THING_EVENT_LIFESPAN_EXPIRED : //
       case THING_EVENT_MELT :             //
       case THING_EVENT_ENUM_MAX :         //
-        ERR("unexpected event: %s", ThingEventType_to_string(e.event_type).c_str());
+        err("unexpected event: %s", ThingEventType_to_string(e.event_type).c_str());
         break;
     }
   }
@@ -261,7 +261,7 @@ void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp t, ThingEvent &e)
     //
     auto score = 666;
     if (game_is_new_hiscore(g, score)) {
-      TOPCON(UI_GOOD_FMT_STR "New high score, %s place!" UI_RESET_FMT, game_place_str(g, score));
+      topcon(UI_GOOD_FMT_STR "New high score, %s place!" UI_RESET_FMT, game_place_str(g, score));
       game_add_new_hiscore(g, score, l->level_num, game_player_name_get(g), death_reason.c_str());
     }
 

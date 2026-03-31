@@ -27,7 +27,7 @@ static void wid_cfg_sound_destroy()
 [[nodiscard]] static auto wid_cfg_sound_cancel(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  CON("Reload config");
+  con("Reload config");
   if (local_g_config_changed) {
     local_g_config_changed = false;
     (void) game_load_config(g);
@@ -42,7 +42,7 @@ static void wid_cfg_sound_destroy()
 {
   TRACE();
 
-  CON("Save config for sound");
+  con("Save config for sound");
   game_save_config(g);
 
   wid_cfg_sound_destroy();
@@ -62,7 +62,7 @@ static void wid_cfg_sound_destroy()
 {
   TRACE();
   local_g_config_changed = true;
-  CON("Increment sound volume");
+  con("Increment sound volume");
   auto vol = game_sound_volume_get(g);
   game_sound_volume_set(g, vol + 1);
   if (game_sound_volume_get(g) > MIX_MAX_VOLUME) {
@@ -76,7 +76,7 @@ static void wid_cfg_sound_destroy()
 {
   TRACE();
   local_g_config_changed = true;
-  CON("Decrement sound volume");
+  con("Decrement sound volume");
   auto vol = game_sound_volume_get(g);
   game_sound_volume_set(g, vol - 1);
   if (game_sound_volume_get(g) < 0) {
@@ -90,7 +90,7 @@ static void wid_cfg_sound_destroy()
 {
   TRACE();
   local_g_config_changed = true;
-  CON("Increment music volume");
+  con("Increment music volume");
   auto vol = game_music_volume_get(g);
   game_music_volume_set(g, vol + 1);
   if (game_music_volume_get(g) > MIX_MAX_VOLUME) {
@@ -105,7 +105,7 @@ static void wid_cfg_sound_destroy()
 {
   TRACE();
   local_g_config_changed = true;
-  CON("Decrement music volume");
+  con("Decrement music volume");
   auto vol = game_music_volume_get(g);
   game_music_volume_set(g, vol - 1);
   if (game_music_volume_get(g) < 0) {

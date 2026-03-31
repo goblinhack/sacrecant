@@ -135,7 +135,7 @@ void command_add(Gamep g, command_fn_t callback, const std::string &input, const
   auto  result  = commands_map.insert(std::make_pair(input, command));
 
   if (! result.second) {
-    ERR("command insert name [%s] failed", input.c_str());
+    err("command insert name [%s] failed", input.c_str());
     return;
   }
 
@@ -235,7 +235,7 @@ static auto command_matches(Gamep g, const char *input, char *output, uint8_t sh
     // tokens_print_to(&command->readable_tokens, match, SIZEOF(match));
     if (t == longest_match) {
       matches++;
-      // CON("  MATCH    \"%s\" [%d] longest %d", match,t,longest_match);
+      // con("  MATCH    \"%s\" [%d] longest %d", match,t,longest_match);
 
       matched_command = command;
 
@@ -257,10 +257,10 @@ static auto command_matches(Gamep g, const char *input, char *output, uint8_t sh
       tokens_print_to(&command->readable_tokens, match2, SIZEOF(match2));
 
       if (static_cast< bool >(show_ambiguous)) {
-        CON("  %s -- %s", match, match2);
+        con("  %s -- %s", match, match2);
       }
     } else {
-      // CON("  NO MATCH \"%s\" [%d] longest %d", match,t,longest_match);
+      // con("  NO MATCH \"%s\" [%d] longest %d", match,t,longest_match);
     }
   }
 
@@ -348,16 +348,16 @@ auto command_handle(Gamep g, const char *input, char *expandedtext, uint8_t show
    */
   matches = command_matches(g, input, expandedtext, 0U, 0U, execute_command, context);
   if (matches == 0) {
-    CON(">" UI_IMPORTANT_FMT_STR "unknown command: \"%s\"" UI_RESET_FMT "", input);
+    con(">" UI_IMPORTANT_FMT_STR "unknown command: \"%s\"" UI_RESET_FMT "", input);
     return 0U;
   }
 
   if (matches > 1) {
     if (static_cast< bool >(show_ambiguous)) {
       if (*input != 0) {
-        CON(">" UI_INFO_FMT_STR "Multiple matches, \"%s\"" UI_RESET_FMT ". Try:", input);
+        con(">" UI_INFO_FMT_STR "Multiple matches, \"%s\"" UI_RESET_FMT ". Try:", input);
       } else {
-        CON(">" UI_INFO_FMT_STR "Commands:" UI_RESET_FMT);
+        con(">" UI_INFO_FMT_STR "Commands:" UI_RESET_FMT);
       }
     }
 
@@ -366,7 +366,7 @@ auto command_handle(Gamep g, const char *input, char *expandedtext, uint8_t show
     if (! static_cast< bool >(show_ambiguous)) {
       if (expandedtext != nullptr) {
         if (strcasecmp(input, expandedtext) == 0) {
-          CON(">" UI_INFO_FMT_STR "Incomplete command, \"%s\"" UI_RESET_FMT ". Try:", input);
+          con(">" UI_INFO_FMT_STR "Incomplete command, \"%s\"" UI_RESET_FMT ". Try:", input);
 
           command_matches(g, input, expandedtext, 1U, show_complete, execute_command, context);
         }
@@ -379,7 +379,7 @@ auto command_handle(Gamep g, const char *input, char *expandedtext, uint8_t show
   }
 
   if ((! static_cast< bool >(execute_command)) && (matches == 1)) {
-    CON(">" UI_INFO_FMT_STR "Incomplete command, \"%s\"" UI_RESET_FMT ". Try:", input);
+    con(">" UI_INFO_FMT_STR "Incomplete command, \"%s\"" UI_RESET_FMT ". Try:", input);
 
     command_matches(g, input, expandedtext, 1U, show_complete, execute_command, context);
   }

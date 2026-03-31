@@ -283,7 +283,7 @@ void wid_get_tl_x_tl_y_br_x_br_y(Widp w, int *tl_x, int *tl_y, int *br_x, int *b
     *tl_y = 0;
     *br_x = 0;
     *br_y = 0;
-    ERR("no wid");
+    err("no wid");
     return;
   }
 
@@ -403,7 +403,7 @@ void wid_set_string_context(Widp w, std::string string_context)
   TRACE();
 
   if (w == nullptr) {
-    ERR("no widget pointer");
+    err("no widget pointer");
     return;
   }
   w->string_context = std::move(string_context);
@@ -414,7 +414,7 @@ auto wid_get_string_context(Widp w) -> std::string
   TRACE();
 
   if (w == nullptr) {
-    ERR("no widget pointer");
+    err("no widget pointer");
     return "";
   }
   return w->string_context;
@@ -425,7 +425,7 @@ void wid_set_int_context(Widp w, int int_context)
   TRACE();
 
   if (w == nullptr) {
-    ERR("no widget pointer");
+    err("no widget pointer");
     return;
   }
   w->int_context = int_context;
@@ -436,7 +436,7 @@ auto wid_get_int_context(Widp w) -> int
   TRACE();
 
   if (w == nullptr) {
-    ERR("no widget pointer");
+    err("no widget pointer");
     return 0;
   }
   return w->int_context;
@@ -447,7 +447,7 @@ void wid_set_void_context(Widp w, void *void_context)
   TRACE();
 
   if (w == nullptr) {
-    ERR("no widget pointer");
+    err("no widget pointer");
     return;
   }
   w->void_context = void_context;
@@ -458,7 +458,7 @@ auto wid_get_void_context(Widp w) -> void *
   TRACE();
 
   if (w == nullptr) {
-    ERR("no widget pointer");
+    err("no widget pointer");
     return nullptr;
   }
   return w->void_context;
@@ -469,22 +469,22 @@ void wid_set_thing_context(Gamep g, Levelsp v, Widp w, Thingp t)
   TRACE();
 
   if (g == nullptr) {
-    ERR("no game pointer");
+    err("no game pointer");
     return;
   }
 
   if (v == nullptr) {
-    ERR("no levels pointer");
+    err("no levels pointer");
     return;
   }
 
   if (w == nullptr) {
-    ERR("no widget pointer");
+    err("no widget pointer");
     return;
   }
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    err("no thing pointer");
     return;
   }
 
@@ -509,22 +509,22 @@ void wid_unset_thing_context(Gamep g, Levelsp v, Widp w, Thingp t)
   TRACE();
 
   if (g == nullptr) {
-    ERR("no game pointer");
+    err("no game pointer");
     return;
   }
 
   if (v == nullptr) {
-    ERR("no levels pointer");
+    err("no levels pointer");
     return;
   }
 
   if (w == nullptr) {
-    ERR("no widget pointer");
+    err("no widget pointer");
     return;
   }
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    err("no thing pointer");
     return;
   }
 
@@ -542,22 +542,22 @@ auto wid_get_thing_context(Gamep g, Levelsp v, Widp w, int which) -> Thingp
   TRACE();
 
   if (g == nullptr) {
-    ERR("no game pointer");
+    err("no game pointer");
     return nullptr;
   }
 
   if (v == nullptr) {
-    ERR("no levels pointer");
+    err("no levels pointer");
     return nullptr;
   }
 
   if (w == nullptr) {
-    ERR("no widget pointer");
+    err("no widget pointer");
     return nullptr;
   }
 
   if (which >= UI_MAX_WID_CONTEXT) {
-    ERR("index overflow for UI_MAX_WID_CONTEXT");
+    err("index overflow for UI_MAX_WID_CONTEXT");
     return nullptr;
   }
 
@@ -607,7 +607,7 @@ auto wid_get_next(Widp w) -> Widp
   }
 
   if (w->next == w) {
-    ERR("widget list get next loop");
+    err("widget list get next loop");
   }
 
   return w->next;
@@ -1505,7 +1505,7 @@ void wid_set_tilename(int depth, Widp w, const std::string &name)
 
   Tilep tile = tile_find(name);
   if (tile == nullptr) [[unlikely]] {
-    ERR("failed to find wid tile [%s]", name.c_str());
+    err("failed to find wid tile [%s]", name.c_str());
   }
 
   if (w == nullptr) [[unlikely]] {
@@ -2303,7 +2303,7 @@ auto wid_new_square_button(Gamep g, Widp parent, const std::string &name) -> Wid
   }
 
   if (parent == nullptr) {
-    ERR("no parent widget");
+    err("no parent widget");
   }
 
   Widp w = wid_new(parent);
@@ -2348,7 +2348,7 @@ auto wid_new_plain(Gamep g, Widp parent, const std::string &name) -> Widp
   }
 
   if (parent == nullptr) {
-    ERR("no parent widget");
+    err("no parent widget");
   }
 
   Widp w = wid_new(parent);
@@ -2394,7 +2394,7 @@ static auto wid_new_scroll_trough(Gamep g, Widp parent) -> Widp
   }
 
   if (parent == nullptr) {
-    ERR("no parent widget");
+    err("no parent widget");
   }
 
   Widp w = wid_new(parent);
@@ -2439,7 +2439,7 @@ static auto wid_new_scroll_bar(Gamep g, Widp parent, const std::string &name, Wi
   }
 
   if (parent == nullptr) {
-    ERR("no parent widget");
+    err("no parent widget");
   }
 
   Widp w = wid_new(parent);
@@ -2506,7 +2506,7 @@ auto wid_new_vert_scroll_bar(Gamep g, Widp parent, const std::string &name, Widp
   }
 
   if (parent == nullptr) {
-    ERR("no parent widget");
+    err("no parent widget");
   }
 
   spoint vert_tl = {};
@@ -2568,7 +2568,7 @@ auto wid_new_horiz_scroll_bar(Gamep g, Widp parent, const std::string &name, Wid
   }
 
   if (parent == nullptr) {
-    ERR("no parent widget");
+    err("no parent widget");
   }
 
   spoint horiz_tl = {};
@@ -3776,14 +3776,14 @@ auto wid_receive_input(Gamep g, Widp w, const SDL_Keysym *key) -> bool
   w = wid_get_top_parent(wid_console_input_line);
 
   if (sdlk_eq(*key, game_key_console_get(g))) {
-    LOG("open console");
+    log("open console");
 
     if (AN_ERROR_OCCURRED()) {
       //
       // Console is always present until errors are cleared
       //
       auto console_key = ::to_string(game_key_console_get(g));
-      CON("To continue, 'clear errored' and then press <%s>", console_key.c_str());
+      con("To continue, 'clear errored' and then press <%s>", console_key.c_str());
 
       wid_console_raise(g);
     } else {
@@ -4212,7 +4212,7 @@ void wid_move_to_y_off(Gamep g, Widp w, int off)
 {
   TRACE();
   if (g == nullptr) {
-    ERR("no game pointer");
+    err("no game pointer");
     return;
   }
   wid_move_delta(g, w, 0, off);
@@ -4450,28 +4450,28 @@ static auto wid_key_down_handler(Gamep g, int x, int y) -> Widp
 
   Widp w {};
 
-  // CON("key down.");
+  // con("key down.");
   w = wid_key_down_handler_at(g, wid_focus, x, y, 1U /* strict */);
   if (w != nullptr) {
-    // CON("%s %d.",to_cstring(w).c_str(),__LINE__);
+    // con("%s %d.",to_cstring(w).c_str(),__LINE__);
     return w;
   }
 
   w = wid_key_down_handler_at(g, wid_get_top_parent(wid_focus), x, y, 0U /* strict */);
   if (w != nullptr) {
-    // CON("%s %d.",to_string(w).c_str(),__LINE__);
+    // con("%s %d.",to_string(w).c_str(),__LINE__);
     return w;
   }
 
   w = wid_key_down_handler_at(g, wid_over, x, y, 1U /* strict */);
   if (w != nullptr) {
-    // CON("%s %d.",to_string(w).c_str(),__LINE__);
+    // con("%s %d.",to_string(w).c_str(),__LINE__);
     return w;
   }
 
   w = wid_key_down_handler_at(g, wid_get_top_parent(wid_over), x, y, 0U /* strict */);
   if (w != nullptr) {
-    // CON("%s %d.",to_string(w).c_str(),__LINE__);
+    // con("%s %d.",to_string(w).c_str(),__LINE__);
     return w;
   }
 
@@ -4480,7 +4480,7 @@ static auto wid_key_down_handler(Gamep g, int x, int y) -> Widp
       auto *c = iter.second;
 
       if ((wid_focus_locked != nullptr) && (wid_get_top_parent(c) != wid_get_top_parent(wid_focus_locked))) {
-        // CON("  focus is locked.");
+        // con("  focus is locked.");
         continue;
       }
 
@@ -4488,7 +4488,7 @@ static auto wid_key_down_handler(Gamep g, int x, int y) -> Widp
       if (c == nullptr) [[unlikely]] {
         continue;
       }
-      // CON("     got top level strict handler%s.",to_string(c).c_str());
+      // con("     got top level strict handler%s.",to_string(c).c_str());
 
       return c;
     }
@@ -4499,7 +4499,7 @@ static auto wid_key_down_handler(Gamep g, int x, int y) -> Widp
       auto *c = iter.second;
 
       if ((wid_focus_locked != nullptr) && (wid_get_top_parent(c) != wid_get_top_parent(wid_focus_locked))) {
-        // CON("  focus is locked.");
+        // con("  focus is locked.");
         continue;
       }
 
@@ -4508,7 +4508,7 @@ static auto wid_key_down_handler(Gamep g, int x, int y) -> Widp
         continue;
       }
 
-      // CON("     got top level loose handler%s.",to_string(c));
+      // con("     got top level loose handler%s.",to_string(c));
       return c;
     }
   }
@@ -4632,7 +4632,7 @@ int g_blend_b;
   extern std::string vals_str[];
   extern int g_blend_a;
   extern int g_blend_b;
-  CON("glBlendFunc(%s, %s)", vals_str[g_blend_a].c_str(), vals_str[g_blend_b].c_str());
+  con("glBlendFunc(%s, %s)", vals_str[g_blend_a].c_str(), vals_str[g_blend_b].c_str());
   glBlendFunc(vals[g_blend_a], vals[g_blend_b]);
 #endif
 
@@ -4652,7 +4652,7 @@ void wid_key_down(Gamep g, const struct SDL_Keysym *key, int x, int y)
 
 #ifdef ENABLE_DEBUG_GFX_GL_BLEND
   if (wid_event_to_char(key) == '+') {
-    CON("ENABLE_DEBUG_GFX_GL_BLEND +");
+    con("ENABLE_DEBUG_GFX_GL_BLEND +");
     usleep(50);
     g_blend_a++;
     if (g_blend_a >= (int) ARRAY_SIZE(vals)) {
@@ -4660,14 +4660,14 @@ void wid_key_down(Gamep g, const struct SDL_Keysym *key, int x, int y)
       g_blend_b++;
       if (g_blend_b >= (int) ARRAY_SIZE(vals)) {
         g_blend_b = 0;
-        ERR("wrapped");
+        err("wrapped");
       }
     }
     return;
   }
 
   if (wid_event_to_char(key) == '-') {
-    CON("ENABLE_DEBUG_GFX_GL_BLEND -");
+    con("ENABLE_DEBUG_GFX_GL_BLEND -");
     usleep(50);
     g_blend_a--;
     if (g_blend_a < 0) {
@@ -4713,7 +4713,7 @@ void wid_key_down(Gamep g, const struct SDL_Keysym *key, int x, int y)
       //
       // Do not raise, gets in the way of popups the callback creates.
       //
-      // CON("widget did not handle");
+      // con("widget did not handle");
       return;
     }
   }
@@ -5152,7 +5152,7 @@ static void wid_display(Gamep g, Widp w, uint8_t disable_scissor, uint8_t *updat
     // Set the tiles this widget is over, taking into account the scissors
     // if the parent is resized.
     //
-    // CON("%d,%d to @%d,%d %s %p", tl.x, tl.y, br.x, br.y, w->name.c_str(), w);
+    // con("%d,%d to @%d,%d %s %p", tl.x, tl.y, br.x, br.y, w->name.c_str(), w);
     for (auto x = tl.x; x < br.x; x++) {
       if ((ascii_x_ok(x) == 0)) [[unlikely]] {
         continue;
@@ -5345,7 +5345,7 @@ static void wid_tick_all(Gamep g)
 
   for (auto &w : work) {
     if (w->on_tick == nullptr) {
-      ERR("widget on ticker tree, but no callback set");
+      err("widget on ticker tree, but no callback set");
     }
 
     (w->on_tick)(g, w);
@@ -5363,7 +5363,7 @@ void wid_display_all(Gamep g)
 
   wid_tick_all(g);
 
-  // CON("---------------------------------");
+  // con("---------------------------------");
 
   wid_on_screen_at = {};
 
@@ -5393,7 +5393,7 @@ printf("========================================= %d\n", wid_total_count);
 #endif
 
   if (wid_total_count > 5000) {
-    TOPCON("too many widgets %d", wid_total_count);
+    topcon("too many widgets %d", wid_total_count);
   }
 
 #if 0

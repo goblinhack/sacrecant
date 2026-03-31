@@ -27,7 +27,7 @@ static auto font_load(const std::string &name) -> Fontp
   }
 
   if (name.empty()) {
-    ERR("no name for font %s", __FUNCTION__);
+    err("no name for font %s", __FUNCTION__);
     return nullptr;
   }
 
@@ -36,7 +36,7 @@ static auto font_load(const std::string &name) -> Fontp
   auto result = fonts.insert(std::make_pair(name, f));
 
   if (! result.second) {
-    ERR("font insert name [%s] failed", name.c_str());
+    err("font insert name [%s] failed", name.c_str());
     return f;
   }
 
@@ -61,7 +61,7 @@ auto font_find(const std::string &file) -> Fontp
   TRACE();
 
   if (file.empty()) {
-    ERR("no filename given for font find %s", __FUNCTION__);
+    err("no filename given for font find %s", __FUNCTION__);
     return nullptr;
   }
 
