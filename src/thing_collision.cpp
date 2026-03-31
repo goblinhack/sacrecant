@@ -493,11 +493,7 @@ static void thing_collision_interpolated_sort_candidates(Gamep g, Levelsp v, Lev
     if (d1 == d2) {
       return thing_priority(t1) < thing_priority(t2);
     }
-    if (d1 < d2) {
-      return true;
-    } else {
-      return false;
-    }
+    return d1 < d2;
   });
 
   //

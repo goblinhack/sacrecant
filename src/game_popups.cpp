@@ -195,7 +195,7 @@ void game_popups_display(Gamep g, Levelsp v, Levelp l)
         }
 
         auto text = i->text;
-        if (i->count != 0u) {
+        if (i->count != 0U) {
           text += "x";
           text += std::to_string(i->count + 1);
         }

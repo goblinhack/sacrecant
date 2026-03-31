@@ -36,7 +36,7 @@ void thing_move_path_confirm(Gamep g, Levelsp v, Levelp l, Thingp me)
     return;
   }
 
-  if (ext_struct->move_path.size == 0u) {
+  if (ext_struct->move_path.size == 0U) {
     return;
   }
 
