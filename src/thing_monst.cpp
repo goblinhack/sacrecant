@@ -292,7 +292,7 @@ static auto thing_minion_choose_target_can_see(Gamep g, Levelsp v, Levelp l, Thi
   // If we have remaining moves and it is not possible to move to the next tile
   // then we pop moves off of the path to see if we can reach any of them
   //
-  if (thing_move_path_size(g, v, l, me)) {
+  if (thing_move_path_size(g, v, l, me) != 0) {
     if (! thing_can_move_to_possible(g, v, l, me, move_next)) {
       THING_DBG(me, "move to next: not possible, try remaining path (size %d)", thing_move_path_size(g, v, l, me));
       TRACE_INDENT();
