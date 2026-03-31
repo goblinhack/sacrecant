@@ -559,7 +559,7 @@ auto player_check_if_target_needs_move_confirm(Gamep g, Levelsp v, Levelp l, con
       if (thing_move_path_size(g, v, l, me) == 0) {
         std::vector< bpoint > pending_path;
         pending_path.push_back(to);
-        (void) thing_move_path_apply_confirmed(g, v, l, me, pending_path, true);
+        (void) thing_move_path_confirmed(g, v, l, me, pending_path);
       }
 
       return false;

@@ -236,7 +236,7 @@ void thing_path_shorten(Gamep g, Levelsp v, Levelp l, Thingp t, std::vector< bpo
 //
 // Also factors in preferred tiles.
 //
-auto thing_path_cost(Gamep g, Levelsp v, Levelp l, Thingp me, std::vector< bpoint > &path) -> int
+auto thing_path_cost(Gamep g, Levelsp v, Levelp l, Thingp me, const std::vector< bpoint > &path) -> int
 {
   TRACE();
 

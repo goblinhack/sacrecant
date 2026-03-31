@@ -101,8 +101,11 @@ auto thing_move_path_pop(Gamep g, Levelsp v, Levelp l, Thingp me, bool &move_con
 //
 // Copy the given path to the thing
 //
-auto thing_move_path_apply_confirmed(Gamep g, Levelsp v, Levelp l, Thingp me, std::vector< bpoint > &move_path, bool confirmed) -> bool
+static auto thing_move_path_confirmed(Gamep g, Levelsp v, Levelp l, Thingp me, const std::vector< bpoint > &move_path, const bool confirmed)
+    -> bool
 {
+  TRACE();
+
   auto *ext_struct = thing_ext_struct(g, me);
   if (ext_struct == nullptr) {
     thing_err(me, "no ext struct");
@@ -135,11 +138,23 @@ auto thing_move_path_apply_confirmed(Gamep g, Levelsp v, Levelp l, Thingp me, st
 }
 
 //
-// Copy the given path to the thing
+// Copy the confirmed path to the thing
 //
-auto thing_move_path_apply(Gamep g, Levelsp v, Levelp l, Thingp me, std::vector< bpoint > &move_path) -> bool
+auto thing_move_path_confirmed(Gamep g, Levelsp v, Levelp l, Thingp me, const std::vector< bpoint > &move_path) -> bool
 {
-  return thing_move_path_apply_confirmed(g, v, l, me, move_path, false);
+  TRACE();
+
+  return thing_move_path_confirmed(g, v, l, me, move_path, true);
+}
+
+//
+// Copy the non confirmed path to the thing
+//
+auto thing_move_path_apply(Gamep g, Levelsp v, Levelp l, Thingp me, const std::vector< bpoint > &move_path) -> bool
+{
+  TRACE();
+
+  return thing_move_path_confirmed(g, v, l, me, move_path, false);
 }
 
 //
