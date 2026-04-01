@@ -369,7 +369,8 @@ static void thing_display_it(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp 
       outline.a     = static_cast< uint8_t >(a);
       tile_blit_outline_w_invis_inside(tile, x1, x2, y1, y2, tl, br, outline);
       return;
-    } else if (thing_is_blit_hit_outline_w_black_inside(t_maybe_null)) {
+    }
+    if (thing_is_blit_hit_outline_w_black_inside(t_maybe_null)) {
       color outline = RED;
       outline.a     = static_cast< uint8_t >(a);
       tile_blit_outline_w_black_inside(tile, x1, x2, y1, y2, tl, br, outline);
@@ -385,7 +386,7 @@ static void thing_display_it(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp 
     }
   }
 
-  if (0)
+  if (0) {
     if (thing_is_monst(t_maybe_null) && ! thing_is_dead(t_maybe_null)) {
       //
       // If low on health, orange outline
@@ -394,11 +395,12 @@ static void thing_display_it(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp 
       auto h     = thing_health(t_maybe_null);
 
       if (h < h_max) {
-        color c = CYAN;
+        color const c = CYAN;
         tile_blit_outline_w_invis_inside(tile, x1, x2, y1, y2, tl, br, c);
         return;
       }
     }
+  }
 
   if ((thing_is_hot(t_maybe_null) != 0) && ! thing_is_dead(t_maybe_null)) {
     //
