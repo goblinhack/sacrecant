@@ -193,7 +193,6 @@ void level_light_calculate_all(Gamep g, Levelsp v, Levelp l)
   TRACE();
 
   auto *player = thing_player(g);
-
   if (player == nullptr) [[unlikely]] {
     return;
   }

@@ -128,7 +128,7 @@ public:
   int value17 {0};
   int value18 {0};
   int value19 {0};
-  int value20 {0};
+  int score_value {0};
 
   //
   // Max number of minions the thing can spawn

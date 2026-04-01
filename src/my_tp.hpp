@@ -648,8 +648,8 @@ void               tp_value18_set(Tpp tp, int val);
 void               tp_value19_set(Tpp tp, int val);
 [[nodiscard]] auto tp_value19_get(Tpp tp) -> int;
 
-void               tp_value20_set(Tpp tp, int val);
-[[nodiscard]] auto tp_value20_get(Tpp tp) -> int;
+void               tp_score_value_set(Tpp tp, int val);
+[[nodiscard]] auto tp_score_value_get(Tpp tp) -> int;
 
 void               tp_minion_max_set(Tpp tp, int val);
 [[nodiscard]] auto tp_minion_max_get(Tpp tp) -> int;

@@ -1397,24 +1397,24 @@ auto tp_value19_get(Tpp tp) -> int
   return tp->value19;
 }
 
-void tp_value20_set(Tpp tp, int val)
+void tp_score_value_set(Tpp tp, int val)
 {
   TRACE();
   if (tp == nullptr) [[unlikely]] {
     tp_err(tp, "no thing template pointer");
     return;
   }
-  tp->value20 = val;
+  tp->score_value = val;
 }
 
-auto tp_value20_get(Tpp tp) -> int
+auto tp_score_value_get(Tpp tp) -> int
 {
   TRACE();
   if (tp == nullptr) [[unlikely]] {
     tp_err(tp, "no thing template pointer");
     return 0;
   }
-  return tp->value20;
+  return tp->score_value;
 }
 
 void tp_minion_max_set(Tpp tp, int val)

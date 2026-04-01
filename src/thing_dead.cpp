@@ -109,13 +109,13 @@ static void thing_killed_player(Gamep g, Levelsp v, Levelp l, ThingEvent &e)
 //
 // The player has attacked
 //
-static void thing_killed_by_player(Gamep g, Levelsp v, Levelp l, Thingp t, ThingEvent &e)
+static void thing_killed_by_player(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
 {
   TRACE();
   auto *it = e.source;
 
-  if ((it != nullptr) && thing_is_loggable(t)) {
-    auto the_thing = capitalize_first(thing_name_long_the(g, v, l, t));
+  if ((it != nullptr) && thing_is_loggable(me)) {
+    auto the_thing = capitalize_first(thing_name_long_the(g, v, l, me));
     auto by_player = thing_name_long(g, v, l, it);
 
     switch (e.event_type) {
@@ -157,24 +157,43 @@ static void thing_killed_by_player(Gamep g, Levelsp v, Levelp l, Thingp t, Thing
 }
 
 //
+// Who really dunnit?
+//
+static Thingp thing_get_killer(Gamep g, Levelsp v, Levelp l, ThingEvent &e)
+{
+  auto killer = e.source;
+
+  if (! killer) {
+    return killer;
+  }
+
+  auto fired_by = thing_projectile_fired_by_get(g, v, l, killer);
+  if (fired_by) {
+    return fired_by;
+  }
+
+  return top_owner(g, v, l, killer);
+}
+
+//
 // Initiate the death process
 //
-void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp t, ThingEvent &e)
+void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
 {
   TRACE();
 
-  THING_DBG(t, "thing_dead");
+  THING_DBG(me, "thing_dead");
 
-  if (thing_is_dead(t)) {
+  if (thing_is_dead(me)) {
     return;
   }
 
-  auto *tp = thing_tp(t);
+  auto *tp = thing_tp(me);
 
   //
   // Where did the thing die? Might not be on the current level.
   //
-  auto *t_level = game_level_get(g, v, t->level_num);
+  auto *t_level = game_level_get(g, v, me->level_num);
   if (t_level != nullptr) {
     l = t_level;
   }
@@ -182,84 +201,84 @@ void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp t, ThingEvent &e)
   //
   // Log the reason of demise?
   //
-  if (thing_is_loggable(t)) {
-    THING_DBG(t, "%s: dead", to_string(g, v, l, e).c_str());
+  if (thing_is_loggable(me)) {
+    THING_DBG(me, "%s: dead", to_string(g, v, l, e).c_str());
   }
 
   //
   // Call this prior to setting death, else we are told that we killed an already dead thing
   //
-  if (thing_is_player(t)) {
+  if (thing_is_player(me)) {
     thing_killed_player(g, v, l, e);
   } else if ((e.source != nullptr) && thing_is_player(e.source)) {
-    thing_killed_by_player(g, v, l, t, e);
+    thing_killed_by_player(g, v, l, me, e);
   }
 
-  thing_is_dead_set(g, v, l, t);
+  thing_is_dead_set(g, v, l, me);
 
   //
   // Update the animation, for example, flattened grass
   //
-  if (thing_is_burning(t) && (tp_tiles_size(tp, THING_ANIM_BURNT) != 0)) {
+  if (thing_is_burning(me) && (tp_tiles_size(tp, THING_ANIM_BURNT) != 0)) {
     //
     // If it has burnt anim frames
     //
-    t->anim_type = THING_ANIM_BURNT;
+    me->anim_type = THING_ANIM_BURNT;
     //
     // Restart the animation if we have burnt frames
     //
-    thing_anim_init(g, v, l, t, THING_ANIM_BURNT);
+    thing_anim_init(g, v, l, me, THING_ANIM_BURNT);
   } else if (tp_tiles_size(tp, THING_ANIM_DEAD) != 0) {
     //
     // Restart the animation if we have dead frames
     //
-    thing_anim_init(g, v, l, t, THING_ANIM_DEAD);
+    thing_anim_init(g, v, l, me, THING_ANIM_DEAD);
   }
 
   //
   // Stop it moving
   //
-  thing_move_or_jump_finish(g, v, l, t);
+  thing_move_or_jump_finish(g, v, l, me);
 
   //
   // Do adjacent tiles need updating due to the destruction of this tiled thing?
   //
-  if (thing_is_dmap(t) || thing_is_tiled(t)) {
-    level_update_paths_set(g, v, l, thing_at(t));
+  if (thing_is_dmap(me) || thing_is_tiled(me)) {
+    level_update_paths_set(g, v, l, thing_at(me));
   }
 
-  t->tick_dead = v->tick;
+  me->tick_dead = v->tick;
 
   //
   // Leaves a corpse?
   //
-  if (thing_corpse_allowed(g, v, l, t)) {
+  if (thing_corpse_allowed(g, v, l, me)) {
     //
     // Keep the thing on the map, but in dead state.
     //
-    thing_is_corpse_set(g, v, l, t);
+    thing_is_corpse_set(g, v, l, me);
   } else {
     //
     // Schedule for removal from the map and freeing
     //
-    thing_is_scheduled_for_cleanup_set(g, v, l, t);
+    thing_is_scheduled_for_cleanup_set(g, v, l, me);
   }
 
   //
   // Request end of game if this is the player
   //
-  if (thing_is_player(t)) {
+  if (thing_is_player(me)) {
     //
     // No more following the cursor if dead...
     //
     player_state_change(g, v, l, PLAYER_STATE_DEAD);
 
-    auto death_reason = to_death_reason_string(g, v, l, t, e);
+    auto death_reason = to_death_reason_string(g, v, l, me, e);
 
     //
     // Hiscore?
     //
-    auto score = 666;
+    auto score = thing_score(g, me);
     if (game_is_new_hiscore(g, score)) {
       topcon(UI_GOOD_FMT_STR "New high score, %s place!" UI_RESET_FMT, game_place_str(g, score));
       game_add_new_hiscore(g, score, l->level_num, game_player_name_get(g), death_reason.c_str());
@@ -275,35 +294,35 @@ void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp t, ThingEvent &e)
   //
   // Per thing callback
   //
-  thing_on_death(g, v, l, t, e);
+  thing_on_death(g, v, l, me, e);
 
   //
   // If the mob dies, unleash or kill minions
   //
-  if (thing_is_mob(t)) {
-    if (thing_is_mob_kill_minions_on_death(t)) {
-      (void) thing_mob_kill_all_minions(g, v, l, t, e);
+  if (thing_is_mob(me)) {
+    if (thing_is_mob_kill_minions_on_death(me)) {
+      (void) thing_mob_kill_all_minions(g, v, l, me, e);
     } else {
-      (void) thing_mob_detach_all_minions(g, v, l, t);
+      (void) thing_mob_detach_all_minions(g, v, l, me);
     }
   }
 
   //
   // Unleash minions from mobs
   //
-  if (thing_is_minion(t)) {
-    (void) thing_minion_detach_me_from_mob(g, v, l, t);
+  if (thing_is_minion(me)) {
+    (void) thing_minion_detach_me_from_mob(g, v, l, me);
   }
 
   //
   // Not sure if we kill or just detach projectiles
   //
-  if (thing_is_able_to_fire_projectiles(t)) {
-    (void) thing_projectile_detach_all_fired(g, v, l, t);
+  if (thing_is_able_to_fire_projectiles(me)) {
+    (void) thing_projectile_detach_all_fired(g, v, l, me);
   }
 
-  if (thing_is_projectile(t)) {
-    (void) thing_projectile_detach_me_from_firer(g, v, l, t);
+  if (thing_is_projectile(me)) {
+    (void) thing_projectile_detach_me_from_firer(g, v, l, me);
   }
 
   //
@@ -312,10 +331,28 @@ void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp t, ThingEvent &e)
   // There is a problem here potentially if the group leader dies, leaving the members
   // detached.
   //
-  thing_group_leave(g, v, l, t);
+  thing_group_leave(g, v, l, me);
 
   //
   // Unset various flags so the dead thing is not still described as "sleeping" when dead
   //
-  thing_is_sleeping_unset(g, v, l, t);
+  thing_is_sleeping_unset(g, v, l, me);
+
+  //
+  // Give score bonus to the player
+  //
+  auto killer = thing_get_killer(g, v, l, e);
+
+  if (e.source) {
+    thing_topcon(e.source, "source");
+  }
+  if (killer) {
+    thing_topcon(killer, "killer");
+  } else {
+    thing_topcon(me, "no killer");
+  }
+  if (killer && (killer != me) && thing_is_player(killer)) {
+    auto bonus = tp_score_value_get(tp);
+    (void) thing_score_incr(g, v, l, killer, bonus);
+  }
 }

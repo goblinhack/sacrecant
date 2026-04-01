@@ -4028,52 +4028,6 @@ auto thing_value19_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
   }
   return t->_value19 -= val;
 }
-auto thing_value20(Thingp t) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-  return t->_value20;
-}
-
-auto thing_value20_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-  return t->_value20 = val;
-}
-
-auto thing_value20_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-  return t->_value20 += val;
-}
-
-auto thing_value20_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-  if (static_cast< int >(t->_value20) - val <= 0) {
-    return t->_value20 = 0;
-  }
-  return t->_value20 -= val;
-}
 
 auto thing_minion_max(Thingp t) -> int
 {

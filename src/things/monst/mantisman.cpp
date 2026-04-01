@@ -127,6 +127,7 @@ auto tp_load_mantisman() -> bool
   tp_name_pluralize_set(tp, "mantismen");
   tp_name_short_set(tp, "mantisman");
   tp_priority_set(tp, THING_PRIORITY_MONST);
+  tp_score_value_set(tp, 3);
   tp_speed_set(tp, 100);
   tp_temperature_burns_at_set(tp, 50);  // celsius
   tp_temperature_damage_at_set(tp, 35); // celsius

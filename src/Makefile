@@ -136,6 +136,8 @@ tidy:
 			$x -- $(CFLAGS); \
 	)
 	splat "if (ext == nullptr) [[unlikely]] {" "if (ext == nullptr) [[unlikely]] {" "*" do
+	splat "if (player == nullptr) [[unlikely]] {" "if (player == nullptr) [[unlikely]] {" "*" do
+	splat "if (tp == nullptr) [[unlikely]] {" "if (tp == nullptr) [[unlikely]] {" "*" do
 	git checkout 3rdparty
 	@echo "Done"
 

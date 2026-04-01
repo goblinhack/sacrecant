@@ -125,6 +125,7 @@ auto tp_load_glorp() -> bool
   tp_name_pluralize_set(tp, "glorps");
   tp_name_short_set(tp, "glorp");
   tp_priority_set(tp, THING_PRIORITY_MONST);
+  tp_score_value_set(tp, 5);
   tp_speed_set(tp, 50);
   tp_temperature_burns_at_set(tp, 30);  // celsius
   tp_temperature_damage_at_set(tp, 30); // celsius

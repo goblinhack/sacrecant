@@ -401,7 +401,7 @@ using Thing = struct Thing {
   int16_t _value17;
   int16_t _value18;
   int16_t _value19;
-  int16_t _value20;
+  int16_t _score_value;
   //
   // How many minions this mob can spawn
   //
@@ -535,6 +535,10 @@ using Thing = struct Thing {
 };
 
 // begin sort marker1 {
+[[nodiscard]] auto thing_score(Gamep g, Thingp t) -> int;
+[[nodiscard]] auto thing_score_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
+[[nodiscard]] auto thing_score_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
+[[nodiscard]] auto thing_score_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
 [[nodiscard]] auto immediate_owner(Gamep g, Levelsp v, Levelp l, Thingp t) -> Thingp;
 [[nodiscard]] auto level_vision_blocker_at(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &at) -> bool;
 [[nodiscard]] auto monst_state_to_string(MonstState state) -> std::string;
@@ -914,6 +918,10 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_projectile_max(Thingp t) -> int;
 [[nodiscard]] auto thing_push(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
 [[nodiscard]] auto thing_real_at(Thingp t) -> fpoint;
+[[nodiscard]] auto thing_score_value_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
+[[nodiscard]] auto thing_score_value_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
+[[nodiscard]] auto thing_score_value_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
+[[nodiscard]] auto thing_score_value(Thingp t) -> int;
 [[nodiscard]] auto thing_shove_handle(Gamep g, Levelsp v, Levelp l, Thingp shover, bpoint at) -> bool;
 [[nodiscard]] auto thing_shove_to(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool;
 [[nodiscard]] auto thing_spawn_a_projectile(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp tp_projectile) -> Thingp;
@@ -979,10 +987,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_value2_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_value2_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
 [[nodiscard]] auto thing_value2(Thingp t) -> int;
-[[nodiscard]] auto thing_value20_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
-[[nodiscard]] auto thing_value20_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
-[[nodiscard]] auto thing_value20_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
-[[nodiscard]] auto thing_value20(Thingp t) -> int;
 [[nodiscard]] auto thing_value3_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_value3_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_value3_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
@@ -1137,8 +1141,8 @@ void thing_player_event_loop(Gamep g, Levelsp v, Levelp l);
 void thing_player_init(Gamep g);
 void thing_prev_pix_at_set(Gamep g, Levelsp v, Levelp l, Thingp t, const spoint &val);
 void thing_projectile_move(Gamep g, Levelsp v, Levelp l, Thingp t, float dt);
-void thing_set_dir_from_delta(Thingp me, int dx, int dy);
 void thing_set_dir_from_delta(Thingp me, const bpoint &p);
+void thing_set_dir_from_delta(Thingp me, int dx, int dy);
 void thing_sound_play(Gamep g, Levelsp v, Levelp l, Thingp t, const std::string &alias);
 void thing_stats_dump(Gamep g, Levelsp v);
 void thing_submerged_update(Gamep g, Levelsp v, Levelp l, Thingp t);
