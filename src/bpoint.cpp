@@ -77,3 +77,22 @@ auto adjacent(const bpoint &a, const bpoint &b) -> bool
   }
   return true;
 }
+
+bpoint unit(const bpoint &p)
+{
+  auto o = p;
+
+  if (o.x > 1) {
+    o.x = 1;
+  }
+  if (o.y > 1) {
+    o.y = 1;
+  }
+  if (o.x < -1) {
+    o.x = -1;
+  }
+  if (o.y < -1) {
+    o.y = -1;
+  }
+  return o;
+}

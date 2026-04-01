@@ -238,6 +238,12 @@ void thing_set_dir_from_delta(Thingp me, int dx, int dy)
   }
 }
 
+void thing_set_dir_from_delta(Thingp me, const bpoint &p)
+{
+  TRACE();
+  thing_set_dir_from_delta(me, p.x, p.y);
+}
+
 //
 // Get direction; need to also account for projectiles that move at an angle.
 //

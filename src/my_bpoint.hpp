@@ -42,6 +42,7 @@ static inline auto distance(const bpoint &a, const bpoint &b) -> float
 }
 
 auto adjacent_vert_or_horiz(const bpoint &a, const bpoint &b) -> bool;
+auto unit(const bpoint &p) -> bpoint;
 auto adjacent(const bpoint &a, const bpoint &b) -> bool;
 
 #endif // MY_BPOINT_HPP
