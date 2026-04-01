@@ -5,6 +5,7 @@
 #include "my_bpoint.hpp"
 #include "my_math.hpp"
 
+#include <algorithm>
 #include <cmath>
 
 auto operator<(bpoint const &a, bpoint const &b) -> bool { return (a.x < b.x) || (a.x == b.x && a.y < b.y); }
@@ -78,21 +79,13 @@ auto adjacent(const bpoint &a, const bpoint &b) -> bool
   return true;
 }
 
-bpoint unit(const bpoint &p)
+auto unit(const bpoint &p) -> bpoint
 {
   auto o = p;
 
-  if (o.x > 1) {
-    o.x = 1;
-  }
-  if (o.y > 1) {
-    o.y = 1;
-  }
-  if (o.x < -1) {
-    o.x = -1;
-  }
-  if (o.y < -1) {
-    o.y = -1;
-  }
+  o.x = std::min< int8_t >(o.x, 1);
+  o.y = std::min< int8_t >(o.y, 1);
+  o.x = std::max< int >(o.x, -1);
+  o.y = std::max< int >(o.y, -1);
   return o;
 }

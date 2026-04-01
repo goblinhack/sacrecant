@@ -19,8 +19,8 @@ auto thing_score(Gamep g, Thingp t) -> int
     return 0;
   }
 
-  auto ext = thing_player_struct(g);
-  if (! ext) {
+  auto *ext = thing_player_struct(g);
+  if (ext == nullptr) {
     return 0;
   }
 
@@ -36,8 +36,8 @@ auto thing_score_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
     return 0;
   }
 
-  auto ext = thing_player_struct(g);
-  if (! ext) {
+  auto *ext = thing_player_struct(g);
+  if (ext == nullptr) {
     return 0;
   }
 
@@ -54,8 +54,8 @@ auto thing_score_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
     return 0;
   }
 
-  auto ext = thing_player_struct(g);
-  if (! ext) {
+  auto *ext = thing_player_struct(g);
+  if (ext == nullptr) {
     return 0;
   }
 
@@ -72,8 +72,8 @@ auto thing_score_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
     return 0;
   }
 
-  auto ext = thing_player_struct(g);
-  if (! ext) {
+  auto *ext = thing_player_struct(g);
+  if (ext == nullptr) {
     return 0;
   }
 

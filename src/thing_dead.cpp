@@ -159,16 +159,16 @@ static void thing_killed_by_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
 //
 // Who really dunnit?
 //
-static Thingp thing_get_killer(Gamep g, Levelsp v, Levelp l, ThingEvent &e)
+static auto thing_get_killer(Gamep g, Levelsp v, Levelp l, ThingEvent &e) -> Thingp
 {
-  auto killer = e.source;
+  auto *killer = e.source;
 
-  if (! killer) {
+  if (killer == nullptr) {
     return killer;
   }
 
-  auto fired_by = thing_projectile_fired_by_get(g, v, l, killer);
-  if (fired_by) {
+  auto *fired_by = thing_projectile_fired_by_get(g, v, l, killer);
+  if (fired_by != nullptr) {
     return fired_by;
   }
 
@@ -341,17 +341,8 @@ void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   //
   // Give score bonus to the player
   //
-  auto killer = thing_get_killer(g, v, l, e);
-
-  if (e.source) {
-    thing_topcon(e.source, "source");
-  }
-  if (killer) {
-    thing_topcon(killer, "killer");
-  } else {
-    thing_topcon(me, "no killer");
-  }
-  if (killer && (killer != me) && thing_is_player(killer)) {
+  auto *killer = thing_get_killer(g, v, l, e);
+  if ((killer != nullptr) && (killer != me) && thing_is_player(killer)) {
     auto bonus = tp_score_value_get(tp);
     (void) thing_score_incr(g, v, l, killer, bonus);
   }

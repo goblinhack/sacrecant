@@ -535,10 +535,6 @@ using Thing = struct Thing {
 };
 
 // begin sort marker1 {
-[[nodiscard]] auto thing_score(Gamep g, Thingp t) -> int;
-[[nodiscard]] auto thing_score_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
-[[nodiscard]] auto thing_score_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
-[[nodiscard]] auto thing_score_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
 [[nodiscard]] auto immediate_owner(Gamep g, Levelsp v, Levelp l, Thingp t) -> Thingp;
 [[nodiscard]] auto level_vision_blocker_at(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &at) -> bool;
 [[nodiscard]] auto monst_state_to_string(MonstState state) -> std::string;
@@ -918,10 +914,14 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_projectile_max(Thingp t) -> int;
 [[nodiscard]] auto thing_push(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
 [[nodiscard]] auto thing_real_at(Thingp t) -> fpoint;
+[[nodiscard]] auto thing_score_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
+[[nodiscard]] auto thing_score_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
+[[nodiscard]] auto thing_score_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
 [[nodiscard]] auto thing_score_value_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_score_value_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_score_value_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
 [[nodiscard]] auto thing_score_value(Thingp t) -> int;
+[[nodiscard]] auto thing_score(Gamep g, Thingp t) -> int;
 [[nodiscard]] auto thing_shove_handle(Gamep g, Levelsp v, Levelp l, Thingp shover, bpoint at) -> bool;
 [[nodiscard]] auto thing_shove_to(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool;
 [[nodiscard]] auto thing_spawn_a_projectile(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp tp_projectile) -> Thingp;
@@ -1063,7 +1063,7 @@ void thing_continue_to_burn_check(Gamep g, Levelsp v, Levelp l, Thingp t);
 void thing_croak(Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 2, 3);
 void thing_damage(Gamep g, Levelsp v, Levelp l, Thingp t, ThingEvent &e);
 void thing_dbg(Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 2, 3);
-void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp t, ThingEvent &e);
+void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e);
 void thing_degroup(Gamep g, Levelsp v, Levelp l, Thingp t);
 void thing_dir_bl_set(Thingp, uint8_t);
 void thing_dir_br_set(Thingp, uint8_t);
