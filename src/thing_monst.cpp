@@ -39,7 +39,6 @@ static auto thing_monst_choose_target_player(Gamep g, Levelsp v, Levelp l, Thing
     return false;
   }
 
-  thing_can_see_dump(g, v, l, me);
   auto target = thing_at(player);
   if (! thing_vision_can_see_tile(g, v, l, me, target)) {
     THING_DBG(me, "choose target: cannot see player");

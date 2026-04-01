@@ -22,42 +22,42 @@
   std::string const start
       = "XXXXXXX"
         "X.....X"
-        "X.....X"
-        "X.@m..X"
-        "X.....X"
-        "X.....X"
+        "X....mX"
+        "Xxxx.xX"
+        "Xxxx.xX"
+        "Xxxx@xX"
         "XXXXXXX";
   std::string const expect1
       = "XXXXXXX"
+        "Xm....X"
         "X.....X"
-        "X.m.xxX"
-        "X.....X"
-        "X.....X"
-        "X....@X"
+        "Xxxx.xX"
+        "Xxxx.xX"
+        "Xxxx@xX"
         "XXXXXXX";
   std::string const expect2
       = "XXXXXXX"
         "X.....X"
-        "X.....X"
-        "X....@X"
-        "X....xX"
-        "X....mX"
+        "X...m.X"
+        "Xxxx.xX"
+        "Xxxx.xX"
+        "Xxxx@xX"
         "XXXXXXX";
   std::string const expect3
       = "XXXXXXX"
         "X.....X"
         "X.....X"
-        "X....@X"
-        "X....xX"
-        "X....mX"
+        "Xxxx.xX"
+        "XxxxmxX"
+        "Xxxx@xX"
         "XXXXXXX";
   std::string const expect4
       = "XXXXXXX"
         "X.....X"
         "X.....X"
-        "X....@X"
-        "X....xX"
-        "X....mX"
+        "Xxxx.xX"
+        "XxxxmxX"
+        "Xxxx@xX"
         "XXXXXXX";
 
   //

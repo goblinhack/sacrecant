@@ -135,11 +135,9 @@ void thing_can_see_dump(Gamep g, Levelsp v, Levelp l, Thingp t)
         continue;
       }
 
-      if (0) {
-        if (static_cast< uint32_t >(age_map_get(&ext->has_seen, p.x, p.y)) != 0U) {
-          debug += "o";
-          continue;
-        }
+      if (static_cast< uint32_t >(age_map_get(&ext->has_seen, p.x, p.y)) != 0U) {
+        debug += "o";
+        continue;
       }
 
       debug += ".";
@@ -232,7 +230,7 @@ void thing_vision_calculate(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   IF_DEBUG
   {
-    if (1 || compiler_unused) {
+    if (compiler_unused) {
       THING_DBG(me, "dir %s", ThingDir_to_string(me->dir).c_str());
       thing_can_see_dump(g, v, l, me);
     }
