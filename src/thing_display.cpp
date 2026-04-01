@@ -257,30 +257,14 @@ static void thing_display_blit(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tp
   }
 
   //
-  // light_pixels is set for things like floors and walls, and blits the tile as lots of individual
+  // NOTE: light_pixels is set for things like floors and walls, and blits the tile as lots of individual
   // pixels with their own lighting
   //
-  if (t_maybe_null && thing_is_monst(t_maybe_null)) {
-    auto h_max = tp_health_max_get(tp);
-    auto h     = thing_health(t_maybe_null);
 
-    if (h < h_max / 2) {
-      color c = ORANGE;
-      tile_blit(tile, x1, x2, y1, y2, tl, br, fg, light_pixels, blit_flush_per_line);
-      tile_blit_outline_with_empty_interior(tile, x1, x2, y1, y2, tl, br, c);
-    } else {
-      if (tp_is_blit_outlined(tp) || tp_is_blit_square_outlined(tp)) {
-        thing_display_outlined_blit(g, tp, tl, br, tile, x1, x2, y1, y2, fg, BLACK);
-      } else {
-        tile_blit(tile, x1, x2, y1, y2, tl, br, fg, light_pixels, blit_flush_per_line);
-      }
-    }
+  if (tp_is_blit_outlined(tp) || tp_is_blit_square_outlined(tp)) {
+    thing_display_outlined_blit(g, tp, tl, br, tile, x1, x2, y1, y2, fg, BLACK);
   } else {
-    if (tp_is_blit_outlined(tp) || tp_is_blit_square_outlined(tp)) {
-      thing_display_outlined_blit(g, tp, tl, br, tile, x1, x2, y1, y2, fg, BLACK);
-    } else {
-      tile_blit(tile, x1, x2, y1, y2, tl, br, fg, light_pixels, blit_flush_per_line);
-    }
+    tile_blit(tile, x1, x2, y1, y2, tl, br, fg, light_pixels, blit_flush_per_line);
   }
 }
 
@@ -384,25 +368,41 @@ static void thing_display_it(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp 
       color outline = RED;
       outline.a     = static_cast< uint8_t >(a);
       tile_blit_outline_with_empty_interior(tile, x1, x2, y1, y2, tl, br, outline);
+      return;
     } else if (thing_is_blit_hit_effect2(t_maybe_null)) {
       color outline = RED;
       outline.a     = static_cast< uint8_t >(a);
       tile_blit_outline_with_black_interior(tile, x1, x2, y1, y2, tl, br, outline);
+      return;
     } else {
-      //
-      // Flash orange
-      //
-      color const is_hot = ORANGE;
+      color const is_hot = RED;
       fg.r               = is_hot.r;
       fg.g               = is_hot.g;
       fg.b               = is_hot.b;
       fg.a               = static_cast< uint8_t >(a);
       thing_display_blit(g, v, l, p, tp, t_maybe_null, tl, br, tile, x1, x2, y1, y2, fbo, fg, nullptr, false);
+      return;
     }
-  } else if ((thing_is_hot(t_maybe_null) != 0) && ! thing_is_dead(t_maybe_null)) {
+  }
+
+  if (0)
+    if (thing_is_monst(t_maybe_null) && ! thing_is_dead(t_maybe_null)) {
+      //
+      // If low on health, orange outline
+      //
+      auto h_max = tp_health_max_get(tp);
+      auto h     = thing_health(t_maybe_null);
+
+      if (h < h_max) {
+        color c = CYAN;
+        tile_blit_outline_with_empty_interior(tile, x1, x2, y1, y2, tl, br, c);
+        return;
+      }
+    }
+
+  if ((thing_is_hot(t_maybe_null) != 0) && ! thing_is_dead(t_maybe_null)) {
     //
-    // Pulse when hot. But not when dead. Else a monster killed by a fireball will
-    // pulse!
+    // Pulse when hot. But not when dead. Else a monster killed by a fireball will pulse!
     //
     if (! thing_is_always_hot(t_maybe_null)) {
       color const hot = ORANGE;
