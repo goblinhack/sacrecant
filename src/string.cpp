@@ -919,7 +919,7 @@ auto string2tp(const char **s, int *len) -> Tpp
   }
 
   if (c == eo_tmp) {
-    err("thing template name %s is too long", tmp);
+    ERR("thing template name %s is too long", tmp);
     return nullptr;
   }
 
@@ -932,7 +932,7 @@ auto string2tp(const char **s, int *len) -> Tpp
 
   Tpp tp = tp_find_mand(tmp);
   if (tp == nullptr) [[unlikely]] {
-    err("thing template name [%s] not found", tmp) [[unlikely]];
+    ERR("thing template name [%s] not found", tmp) [[unlikely]];
   }
 
   return tp;

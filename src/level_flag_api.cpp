@@ -1145,10 +1145,10 @@ auto level_is_unused48(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me)
   return level_flag(g, v, l, is_unused48, p, me);
 }
 
-auto level_is_unused49(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+auto level_is_blit_hit_effect2(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused49, p, me);
+  return level_flag(g, v, l, is_blit_hit_effect2, p, me);
 }
 
 auto level_is_unused5(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
@@ -1175,10 +1175,10 @@ auto level_is_collision_hit_all_on_tile(Gamep g, Levelsp v, Levelp l, const bpoi
   return level_flag(g, v, l, is_collision_hit_all_on_tile, p, me);
 }
 
-auto level_is_blit_outlined_when_hit(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+auto level_is_blit_hit_effect1(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_blit_outlined_when_hit, p, me);
+  return level_flag(g, v, l, is_blit_hit_effect1, p, me);
 }
 
 auto level_is_blit_when_obscured_outline(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
@@ -1253,16 +1253,16 @@ auto level_is_grouped_thing(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thing
   return level_flag(g, v, l, is_grouped_thing, p, me);
 }
 
-auto level_is_able_to_see_360_degrees(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+auto level_is_vision_360_degrees(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_able_to_see_360_degrees, p, me);
+  return level_flag(g, v, l, is_vision_360_degrees, p, me);
 }
 
-auto level_is_able_to_see_180_degrees(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+auto level_is_vision_180_degrees(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_able_to_see_180_degrees, p, me);
+  return level_flag(g, v, l, is_vision_180_degrees, p, me);
 }
 
 auto level_is_able_to_lunge(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp

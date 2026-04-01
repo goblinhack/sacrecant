@@ -50,7 +50,7 @@ auto music_init() -> bool
   int const initted = Mix_Init(flags);
   log("SDL: Load mixer");
   if ((initted & flags) != flags) {
-    err("Mix_Init: Failed to init required OGG support");
+    ERR("Mix_Init: Failed to init required OGG support");
   }
 
   music_init_done = true;
@@ -101,14 +101,14 @@ auto music_load(uint32_t rate, const char *file, const char *name_alias) -> bool
 
   rw = SDL_RWFromMem(m->data, m->len);
   if (rw == nullptr) {
-    err("SDL_RWFromMem fail [%s]: %s %s", file, Mix_GetError(), SDL_GetError());
+    ERR("SDL_RWFromMem fail [%s]: %s %s", file, Mix_GetError(), SDL_GetError());
     SDL_ClearError();
     return false;
   }
 
   m->m = Mix_LoadMUS_RW(rw, 0);
   if (m->m == nullptr) {
-    err("Mix_LoadMUS_RW fail [%s]: %s %s", file, Mix_GetError(), SDL_GetError());
+    ERR("Mix_LoadMUS_RW fail [%s]: %s %s", file, Mix_GetError(), SDL_GetError());
     SDL_ClearError();
     SDL_RWclose(rw);
     delete m;
@@ -117,7 +117,7 @@ auto music_load(uint32_t rate, const char *file, const char *name_alias) -> bool
 
   auto result = all_music.insert(std::make_pair(name_alias, m));
   if (! result.second) {
-    err("cannot insert music name [%s]", name_alias);
+    ERR("cannot insert music name [%s]", name_alias);
     SDL_RWclose(rw);
     delete m;
     return false;
@@ -165,7 +165,7 @@ auto music_play(Gamep g, const char *name) -> bool
   }
 
   if (Mix_FadeInMusicPos(music->second->m, -1, 2000, 0) == -1) {
-    err("cannot play music %s: %s", name, Mix_GetError());
+    ERR("cannot play music %s: %s", name, Mix_GetError());
     SDL_ClearError();
     return false;
   }

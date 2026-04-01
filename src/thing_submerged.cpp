@@ -15,7 +15,7 @@ auto thing_is_submergible(Thingp t) -> bool
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    err("no thing pointer");
+    ERR("no thing pointer");
     return false;
   }
   return tp_flag(thing_tp(t), is_submergible) != 0;
@@ -26,7 +26,7 @@ auto thing_submerged_pct_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) ->
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    err("no thing pointer");
+    ERR("no thing pointer");
     return 0;
   }
   return t->_submerged_pct = val;
@@ -37,7 +37,7 @@ auto thing_submerged_pct_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    err("no thing pointer");
+    ERR("no thing pointer");
     return 0;
   }
   return t->_submerged_pct += val;
@@ -48,7 +48,7 @@ auto thing_submerged_pct_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    err("no thing pointer");
+    ERR("no thing pointer");
     return 0;
   }
   if (t->_submerged_pct - val <= 0) {

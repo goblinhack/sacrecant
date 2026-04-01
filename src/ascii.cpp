@@ -991,7 +991,7 @@ static void ascii_put_box_(int style, const TileLayers tiles_in, int x1, int y1,
   static std::array< std::array< std::array< std::array< Tilep, MAX_UI_SIZE >, MAX_UI_SIZE >, UI_WID_STYLE_MAX >, UI_TYPES_MAX > tiles = {};
 
   if (style >= UI_WID_STYLE_MAX) {
-    err("unimplemented widget style %d", style);
+    ERR("unimplemented widget style %d", style);
     return;
   }
 

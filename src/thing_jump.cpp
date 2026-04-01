@@ -15,7 +15,7 @@ void thing_is_jumping_set(Gamep g, Levelsp v, Levelp l, Thingp me, bool val)
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    err("no thing pointer");
+    ERR("no thing pointer");
     return;
   }
 

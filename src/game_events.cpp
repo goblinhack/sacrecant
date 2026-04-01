@@ -385,7 +385,7 @@ auto game_event_quit(Gamep g) -> bool
   }
 
   if (g_opt_level_select_menu) {
-    DIE_CLEAN("Quick quit");
+    DIE_CLEAN("Quick quit from level select");
   }
 
   wid_quit_select(g);

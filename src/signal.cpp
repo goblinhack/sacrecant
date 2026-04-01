@@ -60,12 +60,12 @@ static void debug_crash_handler(int sig)
 #elif defined __linux__
   int ret = readlink("/proc/self/exe", prog_name, max_path - 1);
   if (ret == -1) {
-    err("debug_crash_handler: read process name failed");
+    ERR("debug_crash_handler: read process name failed");
     return;
   }
 
   if ((size_t) ret >= max_path) {
-    err("debug_crash_handler: symlink too long");
+    ERR("debug_crash_handler: symlink too long");
     return;
   }
 #endif
@@ -89,7 +89,7 @@ static void debug_crash_handler(int sig)
     if (system("which gdb")) {
       // ignore
     }
-    err("debugger failed to exec");
+    ERR("debugger failed to exec");
     assert(false && "Debugger failed to exec");
   } else {
     //

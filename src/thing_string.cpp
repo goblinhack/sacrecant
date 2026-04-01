@@ -16,13 +16,13 @@ auto to_string(Gamep g, Levelsp v, Levelp l, Thingp t) -> std::string
   TRACE();
 
   if (t == nullptr) {
-    err("no thing pointer");
+    ERR("no thing pointer");
     return "<no thing>";
   }
 
   auto *tp = thing_tp(t);
   if (t == nullptr) {
-    err("no thing template pointer");
+    ERR("no thing template pointer");
     return "<no tp>";
   }
 

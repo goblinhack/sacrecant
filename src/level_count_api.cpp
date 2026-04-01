@@ -1145,10 +1145,10 @@ auto level_count_is_unused48(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> u
   return level_count(g, v, l, is_unused48, p);
 }
 
-auto level_count_is_unused49(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+auto level_count_is_blit_hit_effect2(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused49, p);
+  return level_count(g, v, l, is_blit_hit_effect2, p);
 }
 
 auto level_count_is_unused5(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
@@ -1175,10 +1175,10 @@ auto level_count_is_collision_hit_all_on_tile(Gamep g, Levelsp v, Levelp l, cons
   return level_count(g, v, l, is_collision_hit_all_on_tile, p);
 }
 
-auto level_count_is_blit_outlined_when_hit(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+auto level_count_is_blit_hit_effect1(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_blit_outlined_when_hit, p);
+  return level_count(g, v, l, is_blit_hit_effect1, p);
 }
 
 auto level_count_is_blit_when_obscured_outline(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
@@ -1253,16 +1253,16 @@ auto level_count_is_grouped_thing(Gamep g, Levelsp v, Levelp l, const bpoint &p)
   return level_count(g, v, l, is_grouped_thing, p);
 }
 
-auto level_count_is_able_to_see_360_degrees(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+auto level_count_is_vision_360_degrees(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_able_to_see_360_degrees, p);
+  return level_count(g, v, l, is_vision_360_degrees, p);
 }
 
-auto level_count_is_able_to_see_180_degrees(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+auto level_count_is_vision_180_degrees(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_able_to_see_180_degrees, p);
+  return level_count(g, v, l, is_vision_180_degrees, p);
 }
 
 auto level_count_is_able_to_lunge(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t

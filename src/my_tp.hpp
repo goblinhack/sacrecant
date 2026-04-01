@@ -180,11 +180,11 @@
       list_macro(is_unused46, "is_unused46"),                                       /* newline */                                          \
       list_macro(is_unused47, "is_unused47"),                                       /* newline */                                          \
       list_macro(is_unused48, "is_unused48"),                                       /* newline */                                          \
-      list_macro(is_unused49, "is_unused49"),                                       /* newline */                                          \
+      list_macro(is_blit_hit_effect2, "is_blit_hit_effect2"),                                       /* newline */                                          \
       list_macro(is_able_to_fall_sound, "is_able_to_fall_sound"),                   /* newline */                                          \
       list_macro(is_collision_hit_first_on_tile, "is_collision_hit_first_on_tile"), /* newline */                                          \
       list_macro(is_collision_hit_all_on_tile, "is_collision_hit_all_on_tile"),     /* newline */                                          \
-      list_macro(is_blit_outlined_when_hit, "is_blit_outlined_when_hit"),           /* newline */                                          \
+      list_macro(is_blit_hit_effect1, "is_blit_hit_effect1"),           /* newline */                                          \
       list_macro(is_blit_when_obscured_outline, "is_blit_when_obscured_outline"),   /* newline */                                          \
       list_macro(is_attackable_by_player, "is_attackable_by_player"),               /* newline */                                          \
       list_macro(is_attackable_by_monst, "is_attackable_by_monst"),                 /* newline */                                          \
@@ -196,8 +196,8 @@
       list_macro(is_blitzhound, "is_blitzhound"),                                   /* newline */                                          \
       list_macro(is_unused63, "is_unused63"),                                       /* newline */                                          \
       list_macro(is_grouped_thing, "is_grouped_thing"),                             /* newline */                                          \
-      list_macro(is_able_to_see_360_degrees, "is_able_to_see_360_degrees"),         /* newline */                                          \
-      list_macro(is_able_to_see_180_degrees, "is_able_to_see_180_degrees"),         /* newline */                                          \
+      list_macro(is_vision_360_degrees, "is_vision_360_degrees"),                   /* newline */                                          \
+      list_macro(is_vision_180_degrees, "is_vision_180_degrees"),                   /* newline */                                          \
       list_macro(is_able_to_lunge, "is_able_to_lunge"),                             /* newline */                                          \
       list_macro(is_obs_to_paths, "is_obs_to_paths"),                               /* newline */                                          \
       list_macro(is_removable_when_dead_on_err, "is_removable_when_dead_on_err"),   /* newline */                                          \
@@ -696,8 +696,6 @@ void tp_monst_group_add(Tpp tp, ThingMonstGroup val);
 [[nodiscard]] auto tp_is_able_to_move_diagonally(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_able_to_move_through_walls(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_able_to_open(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_able_to_see_180_degrees(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_able_to_see_360_degrees(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_able_to_shove(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_able_to_walk_through_walls(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_animated_can_hflip(Tpp tp) -> bool;
@@ -712,7 +710,7 @@ void tp_monst_group_add(Tpp tp, ThingMonstGroup val);
 [[nodiscard]] auto tp_is_blit_if_has_seen(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_blit_obscures(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_blit_on_ground(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_blit_outlined_when_hit(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_blit_hit_effect1(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_blit_outlined(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_blit_per_pixel_lighting(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_blit_shown_in_chasms(Tpp tp) -> bool;
@@ -891,13 +889,15 @@ void tp_monst_group_add(Tpp tp, ThingMonstGroup val);
 [[nodiscard]] auto tp_is_unused46(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused47(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused48(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused49(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_blit_hit_effect2(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused5(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused6(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused63(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused7(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused8(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused9(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_vision_180_degrees(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_vision_360_degrees(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_wait_on_dead_anim(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_wall(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_water(Tpp tp) -> bool;

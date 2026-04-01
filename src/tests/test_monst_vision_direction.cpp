@@ -7,7 +7,7 @@
 #include "../my_main.hpp"
 #include "../my_test.hpp"
 
-[[nodiscard]] static auto test_monst_hiding_in_bush(Gamep g, Testp t) -> bool
+[[nodiscard]] static auto test_monst_vision_direction(Gamep g, Testp t) -> bool
 {
   TEST_LOG(t, "begin");
   TRACE();
@@ -21,43 +21,43 @@
   //
   std::string const start
       = "XXXXXXX"
-        "X@~~~mX"
-        "X~~~~~X"
-        "X~~~~~X"
-        "X~~~~~X"
-        "X~~~~~X"
+        "X.....X"
+        "X.....X"
+        "X.@m..X"
+        "X.....X"
+        "X.....X"
         "XXXXXXX";
   std::string const expect1
       = "XXXXXXX"
-        "X@~~~.X"
-        "X~~m~~X"
-        "X~~~~~X"
-        "X~~~~~X"
-        "X~~~~~X"
+        "X.....X"
+        "X.m.xxX"
+        "X.....X"
+        "X.....X"
+        "X....@X"
         "XXXXXXX";
   std::string const expect2
       = "XXXXXXX"
-        "X@~~~.X"
-        "X~~~~~X"
-        "X~~m~~X"
-        "X~~~~~X"
-        "X~~~~~X"
+        "X.....X"
+        "X.....X"
+        "X....@X"
+        "X....xX"
+        "X....mX"
         "XXXXXXX";
   std::string const expect3
       = "XXXXXXX"
-        "X@m~~.X"
-        "X~~~~~X"
-        "X~~~~~X"
-        "X~~~~~X"
-        "X~~~~~X"
+        "X.....X"
+        "X.....X"
+        "X....@X"
+        "X....xX"
+        "X....mX"
         "XXXXXXX";
   std::string const expect4
       = "XXXXXXX"
-        "X@~~~.X"
-        "X~~~~~X"
-        "X~~~~~X"
-        "X~~~m~X"
-        "X~~~~~X"
+        "X.....X"
+        "X.....X"
+        "X....@X"
+        "X....xX"
+        "X....mX"
         "XXXXXXX";
 
   //
@@ -72,21 +72,6 @@
   // The guts of the test
   //
   bool result = false;
-
-  //
-  // Spawn water under the player
-  //
-  auto *player = thing_player(g);
-
-  if (thing_spawn(g, v, l, tp_random(is_water), thing_at(player)) == nullptr) {
-    TEST_FAILED(t, "failed to spawn thing");
-    goto exit;
-  }
-
-  if (thing_spawn(g, v, l, tp_random(is_foliage), thing_at(player)) == nullptr) {
-    TEST_FAILED(t, "failed to spawn thing");
-    goto exit;
-  }
 
   level_dump(g, v, l, w, h);
   TEST_PROGRESS(t);
@@ -208,14 +193,14 @@ exit:
   return result;
 }
 
-auto test_load_monst_hiding_in_bush() -> bool // NOLINT
+auto test_load_monst_vision_direction() -> bool // NOLINT
 {
   TRACE();
 
-  Testp test = test_load("monst_hiding_in_bush");
+  Testp test = test_load("monst_vision_direction");
 
   // begin sort marker1 {
-  test_callback_set(test, test_monst_hiding_in_bush);
+  test_callback_set(test, test_monst_vision_direction);
   // end sort marker1 }
 
   return true;

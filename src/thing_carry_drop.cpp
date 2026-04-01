@@ -110,7 +110,7 @@ auto thing_is_carried(Thingp t) -> bool
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    err("no thing pointer");
+    ERR("no thing pointer");
     return false;
   }
   return t->_is_carried;
@@ -129,7 +129,7 @@ auto thing_is_carried_try_set(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp 
   }
 
   if (item == nullptr) {
-    err("no thing pointer");
+    ERR("no thing pointer");
     return false;
   }
 

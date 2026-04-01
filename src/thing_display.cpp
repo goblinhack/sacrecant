@@ -165,11 +165,10 @@ void thing_display_get_tile_info(Gamep g, Levelsp v, Levelp l, const bpoint &p, 
 //
 // Solid black outline
 //
-static void thing_display_outlined_blit(Gamep g, Tpp tp, spoint tl, spoint br, Tilep tile, float x1, float x2, float y1, float y2, color fg)
+static void thing_display_outlined_blit(Gamep g, Tpp tp, spoint tl, spoint br, Tilep tile, float x1, float x2, float y1, float y2,
+                                        const color &fg, const color &outline)
 {
   TRACE_DEBUG();
-
-  const color outline = BLACK;
 
   //
   // Outlined?
@@ -215,7 +214,7 @@ static void thing_display_outlined_blit(Gamep g, Tpp tp, spoint tl, spoint br, T
   } else if (thing_is_blit_when_obscured_outline(t_maybe_null)) {
     color c = WHITE;
     c.a     = h;
-    tile_blit_outline(tile, x1, x2, y1, y2, tl, br, c);
+    tile_blit_outline_with_empty_interior(tile, x1, x2, y1, y2, tl, br, c);
   } else {
     thing_err(t_maybe_null, "need to set obscured type");
   }
@@ -261,10 +260,27 @@ static void thing_display_blit(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tp
   // light_pixels is set for things like floors and walls, and blits the tile as lots of individual
   // pixels with their own lighting
   //
-  if (tp_is_blit_outlined(tp) || tp_is_blit_square_outlined(tp)) {
-    thing_display_outlined_blit(g, tp, tl, br, tile, x1, x2, y1, y2, fg);
+  if (t_maybe_null && thing_is_monst(t_maybe_null)) {
+    auto h_max = tp_health_max_get(tp);
+    auto h     = thing_health(t_maybe_null);
+
+    if (h < h_max / 2) {
+      color c = ORANGE;
+      tile_blit(tile, x1, x2, y1, y2, tl, br, fg, light_pixels, blit_flush_per_line);
+      tile_blit_outline_with_empty_interior(tile, x1, x2, y1, y2, tl, br, c);
+    } else {
+      if (tp_is_blit_outlined(tp) || tp_is_blit_square_outlined(tp)) {
+        thing_display_outlined_blit(g, tp, tl, br, tile, x1, x2, y1, y2, fg, BLACK);
+      } else {
+        tile_blit(tile, x1, x2, y1, y2, tl, br, fg, light_pixels, blit_flush_per_line);
+      }
+    }
   } else {
-    tile_blit(tile, x1, x2, y1, y2, tl, br, fg, light_pixels, blit_flush_per_line);
+    if (tp_is_blit_outlined(tp) || tp_is_blit_square_outlined(tp)) {
+      thing_display_outlined_blit(g, tp, tl, br, tile, x1, x2, y1, y2, fg, BLACK);
+    } else {
+      tile_blit(tile, x1, x2, y1, y2, tl, br, fg, light_pixels, blit_flush_per_line);
+    }
   }
 }
 
@@ -333,82 +349,76 @@ static void thing_display_it(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp 
     fg.b         = 255;
   }
 
-  if (t_maybe_null != nullptr) {
-    //
-    // Flash if hit
-    //
-    if (thing_is_hit(t_maybe_null) != 0) {
-      //
-      // Preserve original alpha
-      //
-      color const flash = ORANGE;
-      fg.r              = flash.r;
-      fg.g              = flash.g;
-      fg.b              = flash.b;
-      light_pixels      = nullptr;
-    }
-
-    //
-    // Pulse when hot. But not when dead. Else a monster killed by a fireball will
-    // pulse!
-    //
-    if ((thing_is_hot(t_maybe_null) != 0) && ! thing_is_dead(t_maybe_null)) {
-      //
-      // Preserve original alpha
-      //
-      if (! thing_is_always_hot(t_maybe_null)) {
-        color const hot = RED;
-        fg.r            = thing_is_hot(t_maybe_null);
-        fg.g            = hot.g;
-        fg.b            = hot.b;
-        light_pixels    = nullptr;
-      }
-    }
-
-    //
-    // Rotate when falling
-    //
-    if (t_maybe_null->angle != 0.0) {
-      thing_display_rotated(g, v, l, p, tp, t_maybe_null, tl, br, tile, x1, x2, y1, y2, fbo, fg);
-      return;
-    }
-
-    //
-    // If we have alpha values in the texture, the end of one triangle line and the start of another creates
-    // a visible strip
-    //
-    bool const is_blit_flush_per_line = thing_is_blit_flush_per_line(t_maybe_null);
-    thing_display_blit(g, v, l, p, tp, t_maybe_null, tl, br, tile, x1, x2, y1, y2, fbo, fg, light_pixels, is_blit_flush_per_line);
-
-    //
-    // Flash red outline if hit
-    //
-    if (thing_is_hit(t_maybe_null) != 0) {
-      float a = (static_cast< float >(thing_is_hit(t_maybe_null)) / static_cast< float >(THING_HIT_FLASH_TIME_MS));
-      a *= 255.0F;
-      a = std::min(static_cast< int >(a), 255);
-
-      if (thing_is_blit_outlined_when_hit(t_maybe_null)) {
-        color outline = RED;
-        outline.a     = static_cast< uint8_t >(a);
-        tile_blit_outline(tile, x1, x2, y1, y2, tl, br, outline);
-      } else {
-        //
-        // Flash orange
-        //
-        color const is_hot = ORANGE;
-        fg.r               = is_hot.r;
-        fg.g               = is_hot.g;
-        fg.b               = is_hot.b;
-        fg.a               = static_cast< uint8_t >(a);
-        thing_display_blit(g, v, l, p, tp, t_maybe_null, tl, br, tile, x1, x2, y1, y2, fbo, fg, nullptr, false);
-      }
-    }
-  } else {
+  if (t_maybe_null == nullptr) {
     //
     // Probably the cursor
     //
     thing_display_blit(g, v, l, p, tp, t_maybe_null, tl, br, tile, x1, x2, y1, y2, fbo, fg, nullptr, false);
+    return;
+  }
+
+  //
+  // Rotate when falling
+  //
+  if (t_maybe_null->angle != 0.0) {
+    thing_display_rotated(g, v, l, p, tp, t_maybe_null, tl, br, tile, x1, x2, y1, y2, fbo, fg);
+    return;
+  }
+
+  //
+  // If we have alpha values in the texture, the end of one triangle line and the start of another creates
+  // a visible strip
+  //
+  bool const is_blit_flush_per_line = thing_is_blit_flush_per_line(t_maybe_null);
+  thing_display_blit(g, v, l, p, tp, t_maybe_null, tl, br, tile, x1, x2, y1, y2, fbo, fg, light_pixels, is_blit_flush_per_line);
+
+  //
+  // Flash red outline if hit
+  //
+  if (thing_is_hit(t_maybe_null) != 0) {
+    float a = (static_cast< float >(thing_is_hit(t_maybe_null)) / static_cast< float >(THING_HIT_FLASH_TIME_MS));
+    a *= 255.0F;
+    a = std::min(static_cast< int >(a), 255);
+
+    if (thing_is_blit_hit_effect1(t_maybe_null)) {
+      color outline = RED;
+      outline.a     = static_cast< uint8_t >(a);
+      tile_blit_outline_with_empty_interior(tile, x1, x2, y1, y2, tl, br, outline);
+    } else if (thing_is_blit_hit_effect2(t_maybe_null)) {
+      color outline = RED;
+      outline.a     = static_cast< uint8_t >(a);
+      tile_blit_outline_with_black_interior(tile, x1, x2, y1, y2, tl, br, outline);
+    } else {
+      //
+      // Flash orange
+      //
+      color const is_hot = ORANGE;
+      fg.r               = is_hot.r;
+      fg.g               = is_hot.g;
+      fg.b               = is_hot.b;
+      fg.a               = static_cast< uint8_t >(a);
+      thing_display_blit(g, v, l, p, tp, t_maybe_null, tl, br, tile, x1, x2, y1, y2, fbo, fg, nullptr, false);
+    }
+  } else if ((thing_is_hot(t_maybe_null) != 0) && ! thing_is_dead(t_maybe_null)) {
+    //
+    // Pulse when hot. But not when dead. Else a monster killed by a fireball will
+    // pulse!
+    //
+    if (! thing_is_always_hot(t_maybe_null)) {
+      color const hot = ORANGE;
+      fg.r            = hot.r;
+      fg.g            = hot.g;
+      fg.b            = hot.b;
+      fg.a            = thing_is_hot(t_maybe_null);
+      light_pixels    = nullptr;
+      thing_display_blit(g, v, l, p, tp, t_maybe_null, tl, br, tile, x1, x2, y1, y2, fbo, fg, light_pixels, is_blit_flush_per_line);
+
+      if (thing_is_blit_hit_effect1(t_maybe_null)) {
+        tile_blit_outline_with_empty_interior(tile, x1, x2, y1, y2, tl, br, fg);
+      } else if (thing_is_blit_hit_effect2(t_maybe_null)) {
+        tile_blit_outline_with_black_interior(tile, x1, x2, y1, y2, tl, br, fg);
+      }
+    }
   }
 }
 

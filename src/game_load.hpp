@@ -1094,7 +1094,7 @@ auto Game::load(const std::string &file_to_load, class Game &target) -> bool
         time_ms() - start,        //
         file_to_load.c_str());
   } else {
-    err("%s decompress %ld Mb (%ld bytes) -> %ld Mb (%ld error code) took %u ms (%s)",
+    ERR("%s decompress %ld Mb (%ld bytes) -> %ld Mb (%ld error code) took %u ms (%s)",
         which,                           //
         (long) src_size / (1024 * 1024), //
         (long) src_size,                 //

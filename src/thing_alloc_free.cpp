@@ -63,7 +63,7 @@ static void thing_ext_free(Levelsp v, Thingp t)
   }
 
   if (! v->thing_ext[ ext_id ].in_use) {
-    err("freeing unused Thing ext ID is not in use, %" PRIX32 "", ext_id);
+    ERR("freeing unused Thing ext ID is not in use, %" PRIX32 "", ext_id);
   }
 
   v->thing_ext[ ext_id ] = {};
@@ -121,7 +121,7 @@ static void thing_light_free(Levelsp v, Thingp t)
   }
 
   if (! v->thing_light[ light_id ].in_use) {
-    err("freeing unused Thing fov ID is not in use, %" PRIX32 "", light_id);
+    ERR("freeing unused Thing fov ID is not in use, %" PRIX32 "", light_id);
   }
 
   v->thing_light[ light_id ] = {};

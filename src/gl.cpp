@@ -368,7 +368,7 @@ static void gl_init_fbo_(FboEnum fbo, GLuint *render_buf_id, GLuint *fbo_id, GLu
   DBG2("OpenGl: - glCheckFramebufferStatus_EXT");
   auto status = glCheckFramebufferStatus_EXT(GL_FRAMEBUFFER);
   if ((static_cast< bool >(status)) && (status != GL_FRAMEBUFFER_COMPLETE)) {
-    err("failed to create framebuffer, error: %d/0x%x", status, status);
+    ERR("failed to create framebuffer, error: %d/0x%x", status, status);
 
 #ifdef GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT
     if (status == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {

@@ -224,7 +224,7 @@ auto sdl_display_init(Gamep g) -> bool
   sdl.window = SDL_CreateWindow("gorget", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, video_width, video_height, video_flags);
 
   if (sdl.window == nullptr) {
-    err("SDL_CreateWindow couldn't set windowed display %ux%u: '%s'", video_width, video_height, SDL_GetError());
+    ERR("SDL_CreateWindow couldn't set windowed display %ux%u: '%s'", video_width, video_height, SDL_GetError());
     game_config_reset(g);
     game_save_config(g);
     return false;
@@ -244,14 +244,14 @@ auto sdl_display_init(Gamep g) -> bool
   sdl.context = SDL_GL_CreateContext(sdl.window);
   if (sdl.context == nullptr) {
     SDL_ClearError();
-    err("SDL_GL_CreateContext failed %s", SDL_GetError());
+    ERR("SDL_GL_CreateContext failed %s", SDL_GetError());
     return false;
   }
 
   log("SDL: Call SDL_GL_MakeCurrent()");
   if (SDL_GL_MakeCurrent(sdl.window, sdl.context) < 0) {
     SDL_ClearError();
-    err("SDL_GL_MakeCurrent failed %s", SDL_GetError());
+    ERR("SDL_GL_MakeCurrent failed %s", SDL_GetError());
     return false;
   }
 

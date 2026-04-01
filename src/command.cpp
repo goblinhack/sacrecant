@@ -135,7 +135,7 @@ void command_add(Gamep g, command_fn_t callback, const std::string &input, const
   auto  result  = commands_map.insert(std::make_pair(input, command));
 
   if (! result.second) {
-    err("command insert name [%s] failed", input.c_str());
+    ERR("command insert name [%s] failed", input.c_str());
     return;
   }
 

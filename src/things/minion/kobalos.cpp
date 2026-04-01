@@ -87,12 +87,11 @@ auto tp_load_kobalos() -> bool
   tp_flag_set(tp, is_able_to_fall);
   tp_flag_set(tp, is_able_to_lunge);
   tp_flag_set(tp, is_able_to_move_diagonally);
-  tp_flag_set(tp, is_able_to_see_180_degrees);
   tp_flag_set(tp, is_animated_can_hflip);
   tp_flag_set(tp, is_animated);
   tp_flag_set(tp, is_attackable_by_player);
   tp_flag_set(tp, is_blit_centered);
-  tp_flag_set(tp, is_blit_outlined_when_hit);
+  tp_flag_set(tp, is_blit_hit_effect1);
   tp_flag_set(tp, is_blit_shown_in_chasms);
   tp_flag_set(tp, is_burnable); // is capable of being burned by fire
   tp_flag_set(tp, is_collision_circle_large);
@@ -112,6 +111,7 @@ auto tp_load_kobalos() -> bool
   tp_flag_set(tp, is_removable_when_dead_on_err);
   tp_flag_set(tp, is_submergible); // is seen submerged when in water
   tp_flag_set(tp, is_tickable);
+  tp_flag_set(tp, is_vision_180_degrees);
   tp_health_set(tp, "1d4");
   tp_is_immunity_add(tp, THING_EVENT_WATER_DAMAGE);
   tp_name_a_or_an_set(tp, "a kobalos");

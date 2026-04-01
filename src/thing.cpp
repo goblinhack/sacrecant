@@ -16,17 +16,17 @@ auto thing_get(Gamep g, Levelsp v, Levelp l, const bpoint &p, int slot) -> Thing
   TRACE_DEBUG();
 
   if (l == nullptr) {
-    err("trying to get a thing on a null level");
+    ERR("trying to get a thing on a null level");
     return nullptr;
   }
 
   if (is_oob(p)) [[unlikely]] {
-    err("out of bounds thing_get %d,%d, slot %d", p.x, p.y, slot);
+    ERR("out of bounds thing_get %d,%d, slot %d", p.x, p.y, slot);
     return nullptr;
   }
 
   if ((slot < 0) || (slot >= MAP_SLOTS)) {
-    err("slot out of bounds thing_get %d,%d, slot %d", p.x, p.y, slot);
+    ERR("slot out of bounds thing_get %d,%d, slot %d", p.x, p.y, slot);
     return nullptr;
   }
 
@@ -90,17 +90,17 @@ auto thing_and_tp_get_at(Gamep g, Levelsp v, Levelp l, const bpoint &p, int slot
   *out = nullptr;
 
   if (l == nullptr) {
-    err("trying to get a thing on a null level");
+    ERR("trying to get a thing on a null level");
     return nullptr;
   }
 
   if (is_oob(p)) [[unlikely]] {
-    err("out of bounds thing_and_tp_get_at %d,%d, slot %d", p.x, p.y, slot);
+    ERR("out of bounds thing_and_tp_get_at %d,%d, slot %d", p.x, p.y, slot);
     return nullptr;
   }
 
   if ((slot < 0) || (slot >= MAP_SLOTS)) {
-    err("slot out of bounds thing_and_tp_get_at %d,%d, slot %d", p.x, p.y, slot);
+    ERR("slot out of bounds thing_and_tp_get_at %d,%d, slot %d", p.x, p.y, slot);
     return nullptr;
   }
 

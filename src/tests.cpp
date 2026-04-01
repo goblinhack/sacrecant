@@ -56,6 +56,7 @@ auto tests_init() -> bool
   if (!test_load_monst_secret_door()) { return false; }
   if (!test_load_monst_short_jump_around_chasm()) { return false; }
   if (!test_load_monst_slow()) { return false; }
+  if (!test_load_monst_vision_direction()) { return false; }
   if (!test_load_move_ok()) { return false; }
   if (!test_load_no_change()) { return false; }
   if (!test_load_path_astar()) { return false; }

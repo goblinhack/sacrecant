@@ -1145,10 +1145,10 @@ auto level_is_unused48_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> 
   return level_flag_cached(g, v, l, is_unused48, p);
 }
 
-auto level_is_unused49_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+auto level_is_blit_hit_effect2_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused49, p);
+  return level_flag_cached(g, v, l, is_blit_hit_effect2, p);
 }
 
 auto level_is_unused5_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
@@ -1175,10 +1175,10 @@ auto level_is_collision_hit_all_on_tile_cached(Gamep g, Levelsp v, Levelp l, con
   return level_flag_cached(g, v, l, is_collision_hit_all_on_tile, p);
 }
 
-auto level_is_blit_outlined_when_hit_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+auto level_is_blit_hit_effect1_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_blit_outlined_when_hit, p);
+  return level_flag_cached(g, v, l, is_blit_hit_effect1, p);
 }
 
 auto level_is_blit_when_obscured_outline_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
@@ -1253,16 +1253,16 @@ auto level_is_grouped_thing_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p
   return level_flag_cached(g, v, l, is_grouped_thing, p);
 }
 
-auto level_is_able_to_see_360_degrees_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+auto level_is_vision_360_degrees_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_able_to_see_360_degrees, p);
+  return level_flag_cached(g, v, l, is_vision_360_degrees, p);
 }
 
-auto level_is_able_to_see_180_degrees_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+auto level_is_vision_180_degrees_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_able_to_see_180_degrees, p);
+  return level_flag_cached(g, v, l, is_vision_180_degrees, p);
 }
 
 auto level_is_able_to_lunge_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

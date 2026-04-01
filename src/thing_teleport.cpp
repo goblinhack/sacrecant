@@ -12,7 +12,7 @@ auto thing_is_teleporting(Thingp me) -> bool
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    err("no thing pointer");
+    ERR("no thing pointer");
     return false;
   }
   return me->_is_teleporting;
@@ -23,7 +23,7 @@ void thing_is_teleporting_set(Gamep g, Levelsp v, Levelp l, Thingp me, bool val)
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    err("no thing pointer");
+    ERR("no thing pointer");
     return;
   }
 

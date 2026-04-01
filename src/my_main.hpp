@@ -23,11 +23,11 @@ void con(const char *fmt, ...) CHECK_FORMAT_STR(printf, 1, 2);
 void crash_handler(int sig);
 void croak_handler(bool clean, const char *fmt, ...) CHECK_FORMAT_STR(printf, 2, 3);
 void ctrlc_handler(int sig);
-void err_handler(const char *fmt, ...) CHECK_FORMAT_STR(printf, 1, 2);
 void error_clear(Gamep g);
 void error_message(Gamep g, const std::string &error);
 void find_file_locations();
 void log(const char *fmt, ...) CHECK_FORMAT_STR(printf, 1, 2);
+void err(const char *fmt, ...) CHECK_FORMAT_STR(printf, 1, 2);
 void reset_globals();
 void restart(Gamep g, const std::string & /*restart_arg*/);
 void sdl_msg_box(const char *fmt, ...) CHECK_FORMAT_STR(printf, 1, 2);
@@ -71,7 +71,7 @@ void warn(const char *fmt, ...) CHECK_FORMAT_STR(printf, 1, 2);
 #ifdef DEBUG_BUILD
 #define ERR CROAK
 #else
-#define err(...)                                                                                                                           \
+#define ERR(...)                                                                                                                           \
   /* Log this now, just in case we crash later */                                                                                          \
   fprintf(stderr, "ERR: " __VA_ARGS__);                                                                                                    \
   fprintf(stderr, "\n");                                                                                                                   \
@@ -84,13 +84,13 @@ void warn(const char *fmt, ...) CHECK_FORMAT_STR(printf, 1, 2);
     if (stderr != MY_STDERR) {                                                                                                             \
       fprintf(MY_STDERR, "error at %s:%s():%u, main thread\n", SRC_FILE_NAME, SRC_FUNC_NAME, SRC_LINE_NUM);                                \
     }                                                                                                                                      \
-    err_handler(__VA_ARGS__);                                                                                                              \
+    err(__VA_ARGS__);                                                                                                                      \
   } else {                                                                                                                                 \
     fprintf(stderr, "error at %s:%s():%u, thread %u\n", SRC_FILE_NAME, SRC_FUNC_NAME, SRC_LINE_NUM, g_thread_id);                          \
     if (stderr != MY_STDERR) {                                                                                                             \
       fprintf(MY_STDERR, "error at %s:%s():%u, thread %u\n", SRC_FILE_NAME, SRC_FUNC_NAME, SRC_LINE_NUM, g_thread_id);                     \
     }                                                                                                                                      \
-    err_handler(__VA_ARGS__);                                                                                                              \
+    err(__VA_ARGS__);                                                                                                                      \
   }
 #endif
 

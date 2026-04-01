@@ -610,8 +610,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_able_to_move_diagonally(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_move_through_walls(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_open(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_able_to_see_180_degrees(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_able_to_see_360_degrees(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_shove(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_walk_through_walls(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_always_hot(Thingp me) -> bool;
@@ -627,7 +625,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_blit_if_has_seen(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blit_obscures(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blit_on_ground(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_blit_outlined_when_hit(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_blit_hit_effect1(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blit_outlined(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blit_per_pixel_lighting(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blit_shown_in_chasms(Thingp t) -> bool;
@@ -828,13 +826,15 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused46(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused47(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused48(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused49(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_blit_hit_effect2(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused5(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused6(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused63(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused7(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused8(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused9(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_vision_180_degrees(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_vision_360_degrees(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_wait_on_dead_anim(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_wall(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_water(Thingp t) -> bool;

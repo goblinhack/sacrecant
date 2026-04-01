@@ -520,11 +520,11 @@ void config_game_gfx_update(Gamep g)
   TERM_HEIGHT = game_ui_term_height_get(g);
 
   if (TERM_WIDTH == 0) {
-    err("TERM_WIDTH is zero");
+    ERR("TERM_WIDTH is zero");
     return;
   }
   if (TERM_HEIGHT == 0) {
-    err("TERM_HEIGHT is zero");
+    ERR("TERM_HEIGHT is zero");
     return;
   }
 
@@ -666,12 +666,12 @@ void config_game_gfx_update(Gamep g)
   // Work out the size of the game map
   //
   if (TILE_WIDTH == 0U) {
-    err("TILE_WIDTH zero");
+    ERR("TILE_WIDTH zero");
     return;
   }
 
   if (TILE_HEIGHT == 0U) {
-    err("TILE_HEIGHT zero");
+    ERR("TILE_HEIGHT zero");
     return;
   }
 

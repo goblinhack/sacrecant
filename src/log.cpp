@@ -242,7 +242,7 @@ static void err_handle(Gamep g, const char *fmt, va_list args)
   error_message(g, buf);
 }
 
-void err_handler(const char *fmt, ...)
+void err(const char *fmt, ...)
 {
   TRACE();
 

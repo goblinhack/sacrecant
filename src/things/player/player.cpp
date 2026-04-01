@@ -212,7 +212,7 @@ auto tp_load_player() -> bool
   tp_flag_set(tp, is_animated);
   tp_flag_set(tp, is_attackable_by_monst);
   tp_flag_set(tp, is_blit_centered);
-  tp_flag_set(tp, is_blit_outlined_when_hit);
+  tp_flag_set(tp, is_blit_hit_effect1);
   tp_flag_set(tp, is_blit_shown_in_chasms);
   tp_flag_set(tp, is_blit_shown_in_overlay);
   tp_flag_set(tp, is_blit_when_obscured_outline);

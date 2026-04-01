@@ -147,6 +147,7 @@ void thing_can_see_dump(Gamep g, Levelsp v, Levelp l, Thingp t)
 
     THING_DBG(t, "can see: %s", debug.c_str());
   }
+  THING_DBG(t, "-");
 }
 
 void thing_has_seen_dump(Gamep g, Levelsp v, Levelp l, Thingp t)
@@ -200,6 +201,16 @@ void thing_vision_calculate(Gamep g, Levelsp v, Levelp l, Thingp me)
     return;
   }
 
+  //
+  // Per thread stdout name
+  //
+  IF_DEBUG
+  {
+    g_thread_id = VISION_THREAD;
+    redirect_stdout();
+    redirect_stderr();
+  }
+
   FovContext ctx;
 
   ctx.g                  = g;
@@ -219,8 +230,17 @@ void thing_vision_calculate(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   level_fov(ctx);
 
-  if (compiler_unused) {
-    THING_DBG(me, "dir %s", ThingDir_to_string(me->dir).c_str());
-    thing_can_see_dump(g, v, l, me);
+  IF_DEBUG
+  {
+    if (1 || compiler_unused) {
+      THING_DBG(me, "dir %s", ThingDir_to_string(me->dir).c_str());
+      thing_can_see_dump(g, v, l, me);
+    }
+  }
+
+  IF_DEBUG
+  {
+    close_stdout();
+    close_stderr();
   }
 }

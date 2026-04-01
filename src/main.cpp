@@ -359,14 +359,14 @@ auto main(int argc, char *argv[]) -> int
   if (! g_opt_tests) {
     TRACE_DEBUG();
     if (! sdl_init()) {
-      err("SDL: Init");
+      ERR("SDL: Init");
     }
   }
 
   if (! g_opt_tests) {
     TRACE_DEBUG();
     if (! sdl_display_init(g)) {
-      err("SDL: Display init");
+      ERR("SDL: Display init");
     }
   }
 
@@ -412,7 +412,7 @@ auto main(int argc, char *argv[]) -> int
   }
 
   if (! wid_init()) {
-    err("widget init");
+    ERR("widget init");
   }
 
   //
@@ -428,7 +428,7 @@ auto main(int argc, char *argv[]) -> int
       log("load fonts");
     }
     if (! font_init()) {
-      err("font init");
+      ERR("font init");
     }
   }
 
@@ -440,7 +440,7 @@ auto main(int argc, char *argv[]) -> int
       log("load console");
     }
     if (! wid_console_init(g)) {
-      err("wid_console init");
+      ERR("wid_console init");
     }
     wid_console_flush(g);
   }
@@ -489,14 +489,14 @@ auto main(int argc, char *argv[]) -> int
       log("load tiles");
     }
     if (! wid_tiles_init()) {
-      err("widget tiles init");
+      ERR("widget tiles init");
     }
   }
 
   if (! g_skip_audio_and_gfx) {
     TRACE_DEBUG();
     if (! tile_init()) {
-      err("tile init");
+      ERR("tile init");
     }
     wid_console_flush(g);
   }
@@ -509,7 +509,7 @@ auto main(int argc, char *argv[]) -> int
       log("load textures");
     }
     if (! tex_init()) {
-      err("tex init");
+      ERR("tex init");
     }
     wid_console_flush(g);
   }
@@ -522,7 +522,7 @@ auto main(int argc, char *argv[]) -> int
       log("init audio");
     }
     if (! audio_init()) {
-      err("audio init");
+      ERR("audio init");
     }
     wid_console_flush(g);
   }
@@ -535,7 +535,7 @@ auto main(int argc, char *argv[]) -> int
       log("init music");
     }
     if (! music_init()) {
-      err("music init");
+      ERR("music init");
     }
     wid_console_flush(g);
   }
@@ -548,7 +548,7 @@ auto main(int argc, char *argv[]) -> int
       log("load sounds");
     }
     if (! sound_init()) {
-      err("sound init");
+      ERR("sound init");
     } else {
       sounds_init();
     }
@@ -560,7 +560,7 @@ auto main(int argc, char *argv[]) -> int
 
     log("load templates");
     if (! tp_init()) {
-      err("templates init");
+      ERR("templates init");
     }
     log("loaded templates");
   }
@@ -569,7 +569,7 @@ auto main(int argc, char *argv[]) -> int
     TRACE_DEBUG();
     log("load commands");
     if (! command_init()) {
-      err("command init");
+      ERR("command init");
     }
     log("loaded commands");
     wid_console_flush(g);

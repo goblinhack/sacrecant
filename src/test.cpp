@@ -63,6 +63,7 @@ static std::initializer_list< std::string > tests = {
     "monst_secret_door",
     "monst_short_jump_around_chasm",
     "monst_slow",
+    "monst_vision_direction",
     "move_ok",
     "no_change",
     "path_astar",
@@ -173,7 +174,7 @@ void test_callback_set(Testp test, test_callback_t callback)
 {
   TRACE();
   if (test == nullptr) {
-    err("no test for %s", __FUNCTION__);
+    ERR("no test for %s", __FUNCTION__);
     return;
   }
   test->callback = callback;

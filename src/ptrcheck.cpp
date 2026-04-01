@@ -132,7 +132,7 @@ void ERROR(const char *fmt, ...)
   std::cerr << std::format("Died at {}:{} line {}", SRC_FILE_NAME, SRC_FUNC_NAME, SRC_LINE_NUM);                                           \
   CLEANUP(args);
 
-#define err(args...)                                                                                                                       \
+#define ERR(args...)                                                                                                                       \
   std::cerr << std::format("Error at {}:{} line {}", SRC_FILE_NAME, SRC_FUNC_NAME, SRC_LINE_NUM);                                          \
   ERROR(args);
 
@@ -479,7 +479,7 @@ static auto ptrcheck_verify_pointer(int mtype, const void *ptr, const char *func
     return pc;
   }
   if (ptr == nullptr) {
-    err("%s%p NULL pointer %s:%s line %u", null_pointer_warning, ptr, file, func, line);
+    ERR("%s%p NULL pointer %s:%s line %u", null_pointer_warning, ptr, file, func, line);
     return nullptr;
   }
 
@@ -506,7 +506,7 @@ static auto ptrcheck_alloc_(int mtype, const void *ptr, const char *what, int si
 #endif
 
   if (ptr == nullptr) {
-    err("NULL pointer");
+    ERR("NULL pointer");
   }
 
   //
@@ -534,7 +534,7 @@ static auto ptrcheck_alloc_(int mtype, const void *ptr, const char *what, int si
   // Missing an earlier free?
   //
   if (hash_find(ptrcheck_hash[ mtype ], const_cast< void * >(ptr)) != nullptr) {
-    err("Pointer %p already exists and attempting to add again", ptr);
+    ERR("Pointer %p already exists and attempting to add again", ptr);
     ptrcheck_describe_pointer(mtype, ptr);
     return const_cast< void * >(ptr);
   }
@@ -593,7 +593,7 @@ static auto ptrcheck_free_(int mtype, void *ptr, const char *func, const char *f
 #endif
 
   if (ptr == nullptr) {
-    err("NULL pointer");
+    ERR("NULL pointer");
     return 0;
   }
 
@@ -715,7 +715,7 @@ void ptrcheck_leak_print(int mtype)
       }
 #endif
       if (elem->next == elem) {
-        err("Hash table corruption");
+        ERR("Hash table corruption");
       }
 
       elem = elem->next;

@@ -54,7 +54,8 @@ public:
 static std::unordered_map< std::string, Texp > textures;
 static std::unordered_map< std::string, Texp > textures_monochrome;
 static std::unordered_map< std::string, Texp > textures_mask;
-static std::unordered_map< std::string, Texp > textures_outline;
+static std::unordered_map< std::string, Texp > textures_outline_with_black_interior;
+static std::unordered_map< std::string, Texp > textures_outline_with_empty_interior;
 
 auto tex_init() -> bool
 {
@@ -77,10 +78,14 @@ void tex_fini()
     delete t.second;
   }
   textures_mask.clear();
-  for (auto &t : textures_outline) {
+  for (auto &t : textures_outline_with_black_interior) {
     delete t.second;
   }
-  textures_outline.clear();
+  textures_outline_with_black_interior.clear();
+  for (auto &t : textures_outline_with_empty_interior) {
+    delete t.second;
+  }
+  textures_outline_with_empty_interior.clear();
 }
 
 void tex_free(Texp tex)
@@ -89,7 +94,8 @@ void tex_free(Texp tex)
   textures.erase(tex->name);
   textures_monochrome.erase(tex->name);
   textures_mask.erase(tex->name);
-  textures_outline.erase(tex->name);
+  textures_outline_with_black_interior.erase(tex->name);
+  textures_outline_with_empty_interior.erase(tex->name);
   delete (tex);
 }
 
@@ -138,7 +144,7 @@ static auto load_image(const std::string &filename) -> SDL_Surface *
 
   image_data = load_raw_image(filename, &x, &y, &comp);
   if (image_data == nullptr) {
-    err("could not read memory for file, '%s'", filename.c_str());
+    ERR("could not read memory for file, '%s'", filename.c_str());
   }
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
@@ -163,7 +169,7 @@ static auto load_image(const std::string &filename) -> SDL_Surface *
     surf = SDL_CreateRGBSurface(0, x, y, 32, 0, 0, 0, 0);
     NEWPTR(MTYPE_SDL, surf, "SDL_CreateRGBSurface3");
   } else {
-    err("could not handle image with %d components", comp);
+    ERR("could not handle image with %d components", comp);
     free_raw_image(image_data);
     return nullptr;
   }
@@ -200,7 +206,7 @@ static void load_images(SDL_Surface **surf1_out, const std::string &filename)
 
   image_data = load_raw_image(filename, &x, &y, &comp);
   if (image_data == nullptr) {
-    err("could not read memory for file, '%s'", filename.c_str());
+    ERR("could not read memory for file, '%s'", filename.c_str());
   }
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
@@ -218,26 +224,26 @@ static void load_images(SDL_Surface **surf1_out, const std::string &filename)
   if (comp == 4) {
     surf1 = SDL_CreateRGBSurface(0, x, y, 32, rmask, gmask, bmask, amask);
     if (surf1 == nullptr) {
-      err("could not create surface");
+      ERR("could not create surface");
       return;
     }
     NEWPTR(MTYPE_SDL, surf1, "SDL_CreateRGBSurface5");
   } else if (comp == 3) {
     surf1 = SDL_CreateRGBSurface(0, x, y, 24, rmask, gmask, bmask, 0);
     if (surf1 == nullptr) {
-      err("could not create surface");
+      ERR("could not create surface");
       return;
     }
     NEWPTR(MTYPE_SDL, surf1, "SDL_CreateRGBSurface6");
   } else if (comp == 2) {
     surf1 = SDL_CreateRGBSurface(0, x, y, 32, 0, 0, 0, 0);
     if (surf1 == nullptr) {
-      err("could not create surface");
+      ERR("could not create surface");
       return;
     }
     NEWPTR(MTYPE_SDL, surf1, "SDL_CreateRGBSurface7");
   } else {
-    err("could not handle image with %d components", comp);
+    ERR("could not handle image with %d components", comp);
   }
 
   memcpy(surf1->pixels, image_data, comp * x * y);
@@ -247,7 +253,7 @@ static void load_images(SDL_Surface **surf1_out, const std::string &filename)
     DBG2("- SDL_ConvertSurfaceFormat");
     surf1 = SDL_ConvertSurfaceFormat(old_surf, SDL_PIXELFORMAT_RGBA8888, 0);
     if (surf1 == nullptr) {
-      err("could not convert surface");
+      ERR("could not convert surface");
       return;
     }
     NEWPTR(MTYPE_SDL, surf1, "SDL_CreateRGBSurface14");
@@ -276,10 +282,10 @@ auto tex_load(const std::string &file, const std::string &name, int mode) -> Tex
   DBG2("Loading texture '%s', '%s'", file.c_str(), name.c_str());
   if (file.empty()) {
     if (name.empty()) {
-      err("no file for tex");
+      ERR("no file for tex");
       return nullptr;
     }
-    err("no file for tex loading '%s'", name.c_str());
+    ERR("no file for tex loading '%s'", name.c_str());
     return nullptr;
   }
 
@@ -287,7 +293,7 @@ auto tex_load(const std::string &file, const std::string &name, int mode) -> Tex
   surface              = load_image(file);
 
   if (surface == nullptr) {
-    err("could not make surface from file '%s'", file.c_str());
+    ERR("could not make surface from file '%s'", file.c_str());
   }
 
   t = tex_from_surface(surface, file, name, mode);
@@ -302,22 +308,28 @@ auto tex_load(const std::string &file, const std::string &name, int mode) -> Tex
 //
 // 1 - gray/monochrome
 // 2 - white mask
-// 3 - white outline only
+// 3 - white outline with black interior
+// 4 - white outline with empty interior
 //
 static auto tex_create_masks_from_surface(SDL_Surface *src, const std::string &file, const std::string &name, int mode)
     -> std::vector< Texp >
 {
-  auto name_monochrome = name + "_monochrome";
-  auto name_mask       = name + "_mask";
-  auto name_outline    = name + "_outline";
+  auto name_monochrome                        = name + "_monochrome";
+  auto name_mask                              = name + "_mask";
+  auto name_outline_with_black_interior = name + "_outline_with_black_interior";
+  auto name_outline_with_empty_interior = name + "_outline_with_empty_interior";
 
-  Texp tex_dst_monochrome = new Tex(name_monochrome);
-  Texp tex_dst_mask       = new Tex(name_mask);
-  Texp tex_dst_outline    = new Tex(name_outline);
+  Texp tex_dst_monochrome                        = new Tex(name_monochrome);
+  Texp tex_dst_mask                              = new Tex(name_mask);
+  Texp tex_dst_outline_with_black_interior = new Tex(name_outline_with_black_interior);
+  Texp tex_dst_outline_with_empty_interior = new Tex(name_outline_with_empty_interior);
 
   textures_monochrome.insert(std::make_pair(name_monochrome, tex_dst_monochrome));
   textures_mask.insert(std::make_pair(name_mask, tex_dst_mask));
-  textures_outline.insert(std::make_pair(name_outline, tex_dst_outline));
+  textures_outline_with_black_interior.insert(
+      std::make_pair(name_outline_with_black_interior, tex_dst_outline_with_black_interior));
+  textures_outline_with_empty_interior.insert(
+      std::make_pair(name_outline_with_empty_interior, tex_dst_outline_with_empty_interior));
 
   uint32_t rmask = 0, gmask = 0, bmask = 0, amask = 0;
 
@@ -344,11 +356,15 @@ static auto tex_create_masks_from_surface(SDL_Surface *src, const std::string &f
   SDL_Surface *dst_mask = SDL_CreateRGBSurface(0, src_width, src_height, 32, rmask, gmask, bmask, amask);
   NEWPTR(MTYPE_SDL, dst_mask, "SDL_CreateRGBSurface18");
 
-  SDL_Surface *dst_outline = SDL_CreateRGBSurface(0, src_width, src_height, 32, rmask, gmask, bmask, amask);
-  NEWPTR(MTYPE_SDL, dst_outline, "SDL_CreateRGBSurface19");
+  SDL_Surface *dst_outline_with_black_interior = SDL_CreateRGBSurface(0, src_width, src_height, 32, rmask, gmask, bmask, amask);
+  NEWPTR(MTYPE_SDL, dst_outline_with_black_interior, "SDL_CreateRGBSurface19");
+
+  SDL_Surface *dst_outline_with_empty_interior = SDL_CreateRGBSurface(0, src_width, src_height, 32, rmask, gmask, bmask, amask);
+  NEWPTR(MTYPE_SDL, dst_outline_with_empty_interior, "SDL_CreateRGBSurface19");
 
   color const col_white(255, 255, 255, 255);
   color const col_black(0, 0, 0, 255);
+  color const col_none(0, 0, 0, 0);
 
   for (src_y = 0; src_y < src_height; src_y++) {
     for (src_x = 0; src_x < src_width; src_x++) {
@@ -356,12 +372,21 @@ static auto tex_create_masks_from_surface(SDL_Surface *src, const std::string &f
       GET_PIXEL(src, src_x, src_y, col_orig);
 
       //
-      // Solid black for the monster body and white pixels to replace any black outline
+      // Solid black for the monster body and white pixels to replace any black outline_with_black_interior
       //
       if ((col_orig.a == 255) && (col_orig.r == 0) && (col_orig.g == 0) && (col_orig.b == 0)) {
-        PUT_PIXEL(dst_outline, src_x, src_y, col_white);
+        PUT_PIXEL(dst_outline_with_black_interior, src_x, src_y, col_white);
       } else if (col_orig.a != 0U) {
-        PUT_PIXEL(dst_outline, src_x, src_y, col_black);
+        PUT_PIXEL(dst_outline_with_black_interior, src_x, src_y, col_black);
+      }
+
+      //
+      // Empty pixels for the monster body and white pixels to replace any black outline_with_black_interior
+      //
+      if ((col_orig.a == 255) && (col_orig.r == 0) && (col_orig.g == 0) && (col_orig.b == 0)) {
+        PUT_PIXEL(dst_outline_with_empty_interior, src_x, src_y, col_white);
+      } else if (col_orig.a != 0U) {
+        PUT_PIXEL(dst_outline_with_black_interior, src_x, src_y, col_none);
       }
 
       //
@@ -423,32 +448,38 @@ static auto tex_create_masks_from_surface(SDL_Surface *src, const std::string &f
 
   tex_dst_monochrome = tex_from_surface(dst_monochrome, file, name_monochrome, mode);
   tex_dst_mask       = tex_from_surface(dst_mask, file, name_mask, mode);
-  tex_dst_outline    = tex_from_surface(dst_outline, file, name_outline, mode);
+  tex_dst_outline_with_black_interior
+      = tex_from_surface(dst_outline_with_black_interior, file, name_outline_with_black_interior, mode);
+  tex_dst_outline_with_empty_interior
+      = tex_from_surface(dst_outline_with_empty_interior, file, name_outline_with_empty_interior, mode);
 
   std::vector< Texp > out;
 
   out.push_back(tex_dst_monochrome);
   out.push_back(tex_dst_mask);
-  out.push_back(tex_dst_outline);
+  out.push_back(tex_dst_outline_with_black_interior);
+  out.push_back(tex_dst_outline_with_empty_interior);
 
   return out;
 }
 
-void tex_load_sprites(Texp *tex, Texp *tex_monochrome, Texp *tex_mask, Texp *tex_outline, const std::string &file, const std::string &name,
-                      uint32_t tile_width, uint32_t tile_height, int mode)
+void tex_load_sprites(Texp *tex, Texp *tex_monochrome, Texp *tex_mask,          // newline
+                      Texp              *tex_outline_with_black_interior, // newline
+                      Texp              *tex_outline_with_empty_interior, // newline
+                      const std::string &file, const std::string &name, uint32_t tile_width, uint32_t tile_height, int mode)
 {
   TRACE();
   Texp t = tex_find(name);
   if (t != nullptr) {
-    err("tex name already exists '%s'", name.c_str());
+    ERR("tex name already exists '%s'", name.c_str());
   }
 
   DBG2("Loading texture '%s', '%s'", file.c_str(), name.c_str());
   if (file.empty()) {
     if (name.empty()) {
-      err("no file for tex");
+      ERR("no file for tex");
     } else {
-      err("no file for tex loading '%s'", name.c_str());
+      ERR("no file for tex loading '%s'", name.c_str());
     }
   }
 
@@ -458,14 +489,15 @@ void tex_load_sprites(Texp *tex, Texp *tex_monochrome, Texp *tex_mask, Texp *tex
   load_images(&surface, file);
 
   if (surface == nullptr) {
-    err("could not make surface from file '%s'", file.c_str());
+    ERR("could not make surface from file '%s'", file.c_str());
   }
 
-  *tex            = tex_from_surface(surface, file, name, mode);
-  auto p          = tex_create_masks_from_surface(surface, file, name, mode);
-  *tex_monochrome = p[ 0 ];
-  *tex_mask       = p[ 1 ];
-  *tex_outline    = p[ 2 ];
+  *tex                                   = tex_from_surface(surface, file, name, mode);
+  auto p                                 = tex_create_masks_from_surface(surface, file, name, mode);
+  *tex_monochrome                        = p[ 0 ];
+  *tex_mask                              = p[ 1 ];
+  *tex_outline_with_black_interior = p[ 2 ];
+  *tex_outline_with_empty_interior = p[ 3 ];
 
   DBG2("- loaded texture '%s', '%s'", file.c_str(), name.c_str());
 }
@@ -477,7 +509,7 @@ auto tex_find(const std::string &file) -> Texp
 {
   TRACE();
   if (file.empty()) {
-    err("no filename given for tex find");
+    ERR("no filename given for tex find");
   }
 
   auto result = textures.find(file);
@@ -496,7 +528,7 @@ auto tex_from_surface(SDL_Surface *surface, const std::string &file, const std::
   TRACE();
 
   if (surface == nullptr) {
-    err("could not make surface from file, '%s'", file.c_str());
+    ERR("could not make surface from file, '%s'", file.c_str());
   }
 
   DBG2("Texture: '%s', %dx%d", file.c_str(), surface->w, surface->h);
@@ -526,11 +558,11 @@ auto tex_from_surface(SDL_Surface *surface, const std::string &file, const std::
 #ifdef GL_BGR
       textureFormat = GL_BGR;
 #else
-      err("'%s' need support for GL_BGR", file);
+      ERR("'%s' need support for GL_BGR", file);
 #endif
     }
   } else {
-    err("'%s' is not truecolor, need %d bytes per pixel", file.c_str(), channels);
+    ERR("'%s' is not truecolor, need %d bytes per pixel", file.c_str(), channels);
   }
 
   //
@@ -603,7 +635,7 @@ auto tex_from_fbo(Gamep g, FboEnum fbo) -> Texp
   auto result = textures.insert(std::make_pair(name, t));
 
   if (! result.second) {
-    err("tex insert name '%s' failed", name.c_str());
+    ERR("tex insert name '%s' failed", name.c_str());
   }
 
   t->width              = w;
@@ -624,7 +656,7 @@ auto tex_get_width(Texp tex) -> uint32_t
 {
   TRACE();
   if (tex == nullptr) {
-    err("no texture");
+    ERR("no texture");
   }
 
   return tex->width;
@@ -634,7 +666,7 @@ auto tex_get_height(Texp tex) -> uint32_t
 {
   TRACE();
   if (tex == nullptr) {
-    err("no texture");
+    ERR("no texture");
   }
 
   return tex->height;
@@ -672,7 +704,7 @@ auto string2tex(const char **s) -> Texp
 
   auto result = textures.find(tmp);
   if (result == textures.end()) {
-    err("unknown tex '%s'", tmp);
+    ERR("unknown tex '%s'", tmp);
   }
 
   return result->second;
@@ -700,12 +732,12 @@ auto string2tex(std::string &s, int *len) -> Texp
   }
 
   if (iter == s.end()) {
-    err("unknown tex '%s'", out.c_str());
+    ERR("unknown tex '%s'", out.c_str());
   }
 
   auto result = textures.find(out);
   if (result == textures.end()) {
-    err("unknown tex '%s'", out.c_str());
+    ERR("unknown tex '%s'", out.c_str());
   }
 
   return result->second;

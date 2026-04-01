@@ -1,14 +1,16 @@
 bugs
 ----
+lunging too far
+mantisman passing by player test
 brazier kick over sound
 rustle noise in bushes
-mantisman passing by player test
-too many monsters
 score from monster health
+too many monsters
 
 essential features
 ------------------
 intro screen / background level maybe
+intelligent monsters when hurt should escape
 intro level / handbook
 stamina needed to avoid fast jump loops
 traps must do something / gas effects

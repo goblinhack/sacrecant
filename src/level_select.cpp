@@ -387,12 +387,12 @@ auto level_select_get(Gamep g, Levelsp v, bpoint p) -> LevelSelectCell *
 
   LevelSelect *s = &v->level_select;
   if (s == nullptr) {
-    err("null level select");
+    ERR("null level select");
     return nullptr;
   }
 
   if (level_select_is_oob(p)) {
-    err("level select out of range");
+    ERR("level select out of range");
     return nullptr;
   }
 
@@ -512,7 +512,7 @@ static void snake_dive(Gamep g, Levelsp v, LevelSelect *s, int dive_chance)
 
       auto *l = game_level_get(g, v, c->level_num);
       if (l == nullptr) {
-        err("missing level in select map");
+        ERR("missing level in select map");
         continue;
       }
 

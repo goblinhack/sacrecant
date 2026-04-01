@@ -528,7 +528,7 @@ auto Game::save(const std::string &file_to_save) -> bool
 
 #ifndef USE_LZ4
   if (lzo_init() != LZO_E_OK) {
-    err("LZO init fail: Enable '-DLZO_DEBUG' for diagnostics)");
+    ERR("LZO init fail: Enable '-DLZO_DEBUG' for diagnostics)");
   }
 #endif
 
@@ -565,7 +565,7 @@ auto Game::save(const std::string &file_to_save) -> bool
         dst_size,                 //
         time_ms() - start);
   } else {
-    err("%s compressed failed %ld Mb (%ld bytes) -> %ld Mb (%ld error code) took %u ms",
+    ERR("%s compressed failed %ld Mb (%ld bytes) -> %ld Mb (%ld error code) took %u ms",
         which,                           //
         (long) src_size / (1024 * 1024), //
         src_size,                        //
@@ -596,7 +596,7 @@ auto Game::save(const std::string &file_to_save) -> bool
   //
   auto *ofile = fopen(file_to_save.c_str(), "wb");
   if (ofile == nullptr) {
-    err("failed to open %s for writing: %s", file_to_save.c_str(), strerror(errno));
+    ERR("failed to open %s for writing: %s", file_to_save.c_str(), strerror(errno));
     wid_progress_bar_destroy(this);
     return false;
   }
@@ -697,7 +697,7 @@ auto Game::save_config() -> bool
   auto          filename = saved_dir + "config";
   std::ofstream out(filename, std::ios::binary);
   if (! out) {
-    err("failed to open %s for writing: %s", filename.c_str(), strerror(errno));
+    ERR("failed to open %s for writing: %s", filename.c_str(), strerror(errno));
     return false;
   }
   log("opened [%s] for writing", filename.c_str());

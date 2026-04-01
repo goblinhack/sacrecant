@@ -235,7 +235,7 @@ auto file_write(const char *filename, uint8_t *buffer, int len) -> int
 
   file = fopen(filename, "w");
   if (file == nullptr) {
-    err("failed to open file \"%s\" for writing: %s\n", filename, strerror(errno));
+    ERR("failed to open file \"%s\" for writing: %s\n", filename, strerror(errno));
     return -1;
   }
 
@@ -247,13 +247,13 @@ auto file_write(const char *filename, uint8_t *buffer, int len) -> int
    * Check written one object.
    */
   if (! static_cast< bool >(rc)) {
-    err("failed to write file \"%s\": %s\n", filename, strerror(errno));
+    ERR("failed to write file \"%s\": %s\n", filename, strerror(errno));
     fclose(file);
     return -1;
   }
 
   if (ferror(file) != 0) {
-    err("Error writing to write file \"%s\": %s\n", filename, strerror(errno));
+    ERR("Error writing to write file \"%s\": %s\n", filename, strerror(errno));
     fclose(file);
     return -1;
   }

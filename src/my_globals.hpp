@@ -54,7 +54,10 @@ extern thread_local FILE       *g_log_stdout;
 // Main thread is 0
 // Game threads > 0
 //
-enum { MAIN_THREAD = 0 };
+enum {
+  MAIN_THREAD   = 0, // newline
+  VISION_THREAD = 99 // newline
+};
 extern thread_local int g_thread_id;
 
 static inline auto AN_ERROR_OCCURRED() -> bool { return g_errored_thread_id != -1; }

@@ -135,7 +135,7 @@ static void level_err_(Gamep g, Levelsp v, Levelp l, const char *fmt, va_list ar
   len = static_cast< int >(strlen(buf));
   vsnprintf(buf + len, MAXLONGSTR - len, fmt, args);
 
-  err("%s", buf);
+  ERR("%s", buf);
 }
 
 void level_err(Gamep g, Levelsp v, Levelp l, const char *fmt, ...)

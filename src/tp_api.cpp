@@ -1145,10 +1145,10 @@ auto tp_is_unused48(Tpp tp) -> bool
   return tp_flag(tp, is_unused48) != 0;
 }
 
-auto tp_is_unused49(Tpp tp) -> bool
+auto tp_is_blit_hit_effect2(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused49) != 0;
+  return tp_flag(tp, is_blit_hit_effect2) != 0;
 }
 
 auto tp_is_unused5(Tpp tp) -> bool
@@ -1175,10 +1175,10 @@ auto tp_is_collision_hit_all_on_tile(Tpp tp) -> bool
   return tp_flag(tp, is_collision_hit_all_on_tile) != 0;
 }
 
-auto tp_is_blit_outlined_when_hit(Tpp tp) -> bool
+auto tp_is_blit_hit_effect1(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_blit_outlined_when_hit) != 0;
+  return tp_flag(tp, is_blit_hit_effect1) != 0;
 }
 
 auto tp_is_blit_when_obscured_outline(Tpp tp) -> bool
@@ -1253,16 +1253,16 @@ auto tp_is_grouped_thing(Tpp tp) -> bool
   return tp_flag(tp, is_grouped_thing) != 0;
 }
 
-auto tp_is_able_to_see_360_degrees(Tpp tp) -> bool
+auto tp_is_vision_360_degrees(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_able_to_see_360_degrees) != 0;
+  return tp_flag(tp, is_vision_360_degrees) != 0;
 }
 
-auto tp_is_able_to_see_180_degrees(Tpp tp) -> bool
+auto tp_is_vision_180_degrees(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_able_to_see_180_degrees) != 0;
+  return tp_flag(tp, is_vision_180_degrees) != 0;
 }
 
 auto tp_is_able_to_lunge(Tpp tp) -> bool

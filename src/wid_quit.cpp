@@ -38,7 +38,7 @@ void wid_quit_destroy(Gamep g)
     log("exit game");
 
     wid_quit_destroy(g);
-    DIE_CLEAN("Quit");
+    DIE_CLEAN("player chose quit");
   }
   return true;
 }

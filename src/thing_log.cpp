@@ -133,7 +133,7 @@ static void thing_err_(Thingp t, const char *fmt, va_list args)
   len = static_cast< int >(strlen(buf));
   vsnprintf(buf + len, MAXLONGSTR - len, fmt, args);
 
-  err("%s", buf);
+  ERR("%s", buf);
 }
 
 void thing_err(Thingp t, const char *fmt, ...)

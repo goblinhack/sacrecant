@@ -39,6 +39,7 @@ static auto thing_monst_choose_target_player(Gamep g, Levelsp v, Levelp l, Thing
     return false;
   }
 
+  thing_can_see_dump(g, v, l, me);
   auto target = thing_at(player);
   if (! thing_vision_can_see_tile(g, v, l, me, target)) {
     THING_DBG(me, "choose target: cannot see player");
@@ -79,7 +80,7 @@ static auto thing_monst_choose_target_player(Gamep g, Levelsp v, Levelp l, Thing
 //
 // Choose somewhere random that we can see
 //
-static auto thing_minion_choose_target_can_see(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool
+static auto thing_monst_choose_something_we_can_see(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool
 {
   THING_DBG(me, "choose target: can see");
   TRACE_INDENT();
@@ -344,14 +345,14 @@ static auto thing_minion_choose_target_can_see(Gamep g, Levelsp v, Levelp l, Thi
 
   if (thing_is_minion(me)) {
     if (thing_minion_choose_target_near_mob(g, v, l, me)) {
-      THING_DBG(me, "choose target: found target near mob");
+      THING_DBG(me, "choose target: minion found target near mob");
       monst_state_change(g, v, l, me, MONST_STATE_WANDER);
       return true;
     }
   }
 
-  if (thing_minion_choose_target_can_see(g, v, l, me)) {
-    THING_DBG(me, "choose target: found target can see");
+  if (thing_monst_choose_something_we_can_see(g, v, l, me)) {
+    THING_DBG(me, "choose target: monst found a target it can see");
     monst_state_change(g, v, l, me, MONST_STATE_WANDER);
     return true;
   }

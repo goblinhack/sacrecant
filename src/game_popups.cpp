@@ -19,12 +19,12 @@ void game_popup_text_add(Gamep g, int x, int y, const std::string &text, color c
   TRACE();
 
   if (g == nullptr) [[unlikely]] {
-    err("no game pointer");
+    ERR("no game pointer");
     return;
   }
 
   if (is_oob(x, y)) [[unlikely]] {
-    err("popup text is oob");
+    ERR("popup text is oob");
     return;
   }
 
@@ -73,7 +73,7 @@ void game_popups_age(Gamep g)
   TRACE();
 
   if (g == nullptr) [[unlikely]] {
-    err("no game pointer");
+    ERR("no game pointer");
     return;
   }
 
@@ -105,7 +105,7 @@ void game_popups_display(Gamep g, Levelsp v, Levelp l)
   TRACE();
 
   if (g == nullptr) [[unlikely]] {
-    err("no game pointer");
+    ERR("no game pointer");
     return;
   }
 
@@ -229,7 +229,7 @@ void game_popups_clear(Gamep g)
   TRACE();
 
   if (g == nullptr) [[unlikely]] {
-    err("no game pointer");
+    ERR("no game pointer");
     return;
   }
 

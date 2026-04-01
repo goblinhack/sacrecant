@@ -370,7 +370,7 @@ void thing_projectile_move(Gamep g, Levelsp v, Levelp l, Thingp t, float dt)
 
   auto *player = thing_player(g);
   if (player == nullptr) [[unlikely]] {
-    err("no player struct found");
+    ERR("no player struct found");
     return;
   }
 
