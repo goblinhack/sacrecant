@@ -1145,10 +1145,10 @@ auto level_is_unused48_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> 
   return level_flag_cached(g, v, l, is_unused48, p);
 }
 
-auto level_is_blit_hit_effect2_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+auto level_is_blit_hit_outline_w_black_inside_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_blit_hit_effect2, p);
+  return level_flag_cached(g, v, l, is_blit_hit_outline_w_black_inside, p);
 }
 
 auto level_is_unused5_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
@@ -1175,10 +1175,10 @@ auto level_is_collision_hit_all_on_tile_cached(Gamep g, Levelsp v, Levelp l, con
   return level_flag_cached(g, v, l, is_collision_hit_all_on_tile, p);
 }
 
-auto level_is_blit_hit_effect1_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+auto level_is_blit_hit_outline_w_invis_inside_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_blit_hit_effect1, p);
+  return level_flag_cached(g, v, l, is_blit_hit_outline_w_invis_inside, p);
 }
 
 auto level_is_blit_when_obscured_outline_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

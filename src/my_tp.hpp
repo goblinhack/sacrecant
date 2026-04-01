@@ -180,11 +180,11 @@
       list_macro(is_unused46, "is_unused46"),                                       /* newline */                                          \
       list_macro(is_unused47, "is_unused47"),                                       /* newline */                                          \
       list_macro(is_unused48, "is_unused48"),                                       /* newline */                                          \
-      list_macro(is_blit_hit_effect2, "is_blit_hit_effect2"),                       /* newline */                                          \
+      list_macro(is_blit_hit_outline_w_black_inside, "is_blit_hit_outline_w_black_inside"),                       /* newline */                                          \
       list_macro(is_able_to_fall_sound, "is_able_to_fall_sound"),                   /* newline */                                          \
       list_macro(is_collision_hit_first_on_tile, "is_collision_hit_first_on_tile"), /* newline */                                          \
       list_macro(is_collision_hit_all_on_tile, "is_collision_hit_all_on_tile"),     /* newline */                                          \
-      list_macro(is_blit_hit_effect1, "is_blit_hit_effect1"),                       /* newline */                                          \
+      list_macro(is_blit_hit_outline_w_invis_inside, "is_blit_hit_outline_w_invis_inside"),                       /* newline */                                          \
       list_macro(is_blit_when_obscured_outline, "is_blit_when_obscured_outline"),   /* newline */                                          \
       list_macro(is_attackable_by_player, "is_attackable_by_player"),               /* newline */                                          \
       list_macro(is_attackable_by_monst, "is_attackable_by_monst"),                 /* newline */                                          \
@@ -707,8 +707,8 @@ void tp_monst_group_add(Tpp tp, ThingMonstGroup val);
 [[nodiscard]] auto tp_is_barrel(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_blit_centered(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_blit_flush_per_line(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_blit_hit_effect1(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_blit_hit_effect2(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_blit_hit_outline_w_invis_inside(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_blit_hit_outline_w_black_inside(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_blit_if_has_seen(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_blit_obscures(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_blit_on_ground(Tpp tp) -> bool;

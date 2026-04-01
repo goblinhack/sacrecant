@@ -103,7 +103,7 @@ auto tp_load_barrel() -> bool
   tp_flag_set(tp, is_animated);
   tp_flag_set(tp, is_barrel);
   tp_flag_set(tp, is_blit_centered);
-  tp_flag_set(tp, is_blit_hit_effect2);
+  tp_flag_set(tp, is_blit_hit_outline_w_black_inside);
   tp_flag_set(tp, is_blit_if_has_seen);
   tp_flag_set(tp, is_blit_shown_in_chasms);
   tp_flag_set(tp, is_broken_on_death);

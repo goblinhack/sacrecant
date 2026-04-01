@@ -1145,10 +1145,10 @@ auto tp_is_unused48(Tpp tp) -> bool
   return tp_flag(tp, is_unused48) != 0;
 }
 
-auto tp_is_blit_hit_effect2(Tpp tp) -> bool
+auto tp_is_blit_hit_outline_w_black_inside(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_blit_hit_effect2) != 0;
+  return tp_flag(tp, is_blit_hit_outline_w_black_inside) != 0;
 }
 
 auto tp_is_unused5(Tpp tp) -> bool
@@ -1175,10 +1175,10 @@ auto tp_is_collision_hit_all_on_tile(Tpp tp) -> bool
   return tp_flag(tp, is_collision_hit_all_on_tile) != 0;
 }
 
-auto tp_is_blit_hit_effect1(Tpp tp) -> bool
+auto tp_is_blit_hit_outline_w_invis_inside(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_blit_hit_effect1) != 0;
+  return tp_flag(tp, is_blit_hit_outline_w_invis_inside) != 0;
 }
 
 auto tp_is_blit_when_obscured_outline(Tpp tp) -> bool

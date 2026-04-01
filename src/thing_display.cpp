@@ -214,7 +214,7 @@ static void thing_display_outlined_blit(Gamep g, Tpp tp, spoint tl, spoint br, T
   } else if (thing_is_blit_when_obscured_outline(t_maybe_null)) {
     color c = WHITE;
     c.a     = h;
-    tile_blit_outline_with_empty_interior(tile, x1, x2, y1, y2, tl, br, c);
+    tile_blit_outline_w_invis_inside(tile, x1, x2, y1, y2, tl, br, c);
   } else {
     thing_err(t_maybe_null, "need to set obscured type");
   }
@@ -364,15 +364,15 @@ static void thing_display_it(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp 
     a *= 255.0F;
     a = std::min(static_cast< int >(a), 255);
 
-    if (thing_is_blit_hit_effect1(t_maybe_null)) {
+    if (thing_is_blit_hit_outline_w_invis_inside(t_maybe_null)) {
       color outline = RED;
       outline.a     = static_cast< uint8_t >(a);
-      tile_blit_outline_with_empty_interior(tile, x1, x2, y1, y2, tl, br, outline);
+      tile_blit_outline_w_invis_inside(tile, x1, x2, y1, y2, tl, br, outline);
       return;
-    } else if (thing_is_blit_hit_effect2(t_maybe_null)) {
+    } else if (thing_is_blit_hit_outline_w_black_inside(t_maybe_null)) {
       color outline = RED;
       outline.a     = static_cast< uint8_t >(a);
-      tile_blit_outline_with_black_interior(tile, x1, x2, y1, y2, tl, br, outline);
+      tile_blit_outline_w_black_inside(tile, x1, x2, y1, y2, tl, br, outline);
       return;
     } else {
       color const is_hot = RED;
@@ -395,7 +395,7 @@ static void thing_display_it(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp 
 
       if (h < h_max) {
         color c = CYAN;
-        tile_blit_outline_with_empty_interior(tile, x1, x2, y1, y2, tl, br, c);
+        tile_blit_outline_w_invis_inside(tile, x1, x2, y1, y2, tl, br, c);
         return;
       }
     }
@@ -413,10 +413,10 @@ static void thing_display_it(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp 
       light_pixels    = nullptr;
       thing_display_blit(g, v, l, p, tp, t_maybe_null, tl, br, tile, x1, x2, y1, y2, fbo, fg, light_pixels, is_blit_flush_per_line);
 
-      if (thing_is_blit_hit_effect1(t_maybe_null)) {
-        tile_blit_outline_with_empty_interior(tile, x1, x2, y1, y2, tl, br, fg);
-      } else if (thing_is_blit_hit_effect2(t_maybe_null)) {
-        tile_blit_outline_with_black_interior(tile, x1, x2, y1, y2, tl, br, fg);
+      if (thing_is_blit_hit_outline_w_invis_inside(t_maybe_null)) {
+        tile_blit_outline_w_invis_inside(tile, x1, x2, y1, y2, tl, br, fg);
+      } else if (thing_is_blit_hit_outline_w_black_inside(t_maybe_null)) {
+        tile_blit_outline_w_black_inside(tile, x1, x2, y1, y2, tl, br, fg);
       }
     }
   }

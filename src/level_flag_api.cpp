@@ -1145,10 +1145,10 @@ auto level_is_unused48(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me)
   return level_flag(g, v, l, is_unused48, p, me);
 }
 
-auto level_is_blit_hit_effect2(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+auto level_is_blit_hit_outline_w_black_inside(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_blit_hit_effect2, p, me);
+  return level_flag(g, v, l, is_blit_hit_outline_w_black_inside, p, me);
 }
 
 auto level_is_unused5(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
@@ -1175,10 +1175,10 @@ auto level_is_collision_hit_all_on_tile(Gamep g, Levelsp v, Levelp l, const bpoi
   return level_flag(g, v, l, is_collision_hit_all_on_tile, p, me);
 }
 
-auto level_is_blit_hit_effect1(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+auto level_is_blit_hit_outline_w_invis_inside(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_blit_hit_effect1, p, me);
+  return level_flag(g, v, l, is_blit_hit_outline_w_invis_inside, p, me);
 }
 
 auto level_is_blit_when_obscured_outline(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp

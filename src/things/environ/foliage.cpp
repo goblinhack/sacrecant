@@ -40,7 +40,7 @@ auto tp_load_foliage() -> bool
   tp_chance_set(tp, THING_CHANCE_CONTINUE_TO_BURN, "1d2"); // roll max to continue burning
   tp_chance_set(tp, THING_CHANCE_START_BURNING, "1d2");    // roll max to continue burning
   tp_flag_set(tp, is_able_to_fall);
-  tp_flag_set(tp, is_blit_hit_effect2);
+  tp_flag_set(tp, is_blit_hit_outline_w_black_inside);
   tp_flag_set(tp, is_blit_if_has_seen);
   tp_flag_set(tp, is_blit_obscures);
   tp_flag_set(tp, is_blit_on_ground);

@@ -73,8 +73,8 @@ public:
   class Tex *tex {};
   class Tex *tex_monochrome {};
   class Tex *tex_mask {};
-  class Tex *tex_outline_with_black_interior {};
-  class Tex *tex_outline_with_empty_interior {};
+  class Tex *tex_outline_w_black_inside {};
+  class Tex *tex_outline_w_invis_inside {};
 
   uint8_t pix[ TILE_WIDTH_MAX ][ TILE_HEIGHT_MAX ] {};
 
@@ -97,21 +97,21 @@ private:
   int _gl_binding {};
   int _gl_binding_monochrome {};
   int _gl_binding_mask {};
-  int _gl_binding_outline_with_black_interior {};
-  int _gl_binding_outline_with_empty_interior {};
+  int _gl_binding_outline_w_black_inside {};
+  int _gl_binding_outline_w_invis_inside {};
 
 public:
   [[nodiscard]] auto gl_binding() const -> int;
   [[nodiscard]] auto gl_binding_monochrome() const -> int;
   [[nodiscard]] auto gl_binding_mask() const -> int;
-  [[nodiscard]] auto gl_binding_outline_with_black_interior() const -> int;
-  [[nodiscard]] auto gl_binding_outline_with_empty_interior() const -> int;
+  [[nodiscard]] auto gl_binding_outline_w_black_inside() const -> int;
+  [[nodiscard]] auto gl_binding_outline_w_invis_inside() const -> int;
 
   void set_gl_binding(int v);
   void set_gl_binding_monochrome(int v);
   void set_gl_binding_mask(int v);
-  void set_gl_binding_outline_with_black_interior(int v);
-  void set_gl_binding_outline_with_empty_interior(int v);
+  void set_gl_binding_outline_w_black_inside(int v);
+  void set_gl_binding_outline_w_invis_inside(int v);
 };
 
 Tile::Tile() { NEWPTR(MTYPE_TILE, this, "Tile"); }
@@ -156,8 +156,8 @@ Tile::Tile(const class Tile *tile)
       tex(tile->tex),                                                         //
       tex_monochrome(tile->tex_monochrome),                                   //
       tex_mask(tile->tex_mask),                                               //
-      tex_outline_with_black_interior(tile->tex_outline_with_black_interior), //
-      tex_outline_with_empty_interior(tile->tex_outline_with_empty_interior), //
+      tex_outline_w_black_inside(tile->tex_outline_w_black_inside), //
+      tex_outline_w_invis_inside(tile->tex_outline_w_invis_inside), //
       delay_ms(tile->delay_ms),                                               //
       dir(tile->dir),                                                         //
       internal_has_dir_anim(tile->internal_has_dir_anim),                     //
@@ -180,8 +180,8 @@ Tile::Tile(const class Tile *tile)
   set_gl_binding(tile->gl_binding());
   set_gl_binding_monochrome(tile->gl_binding_monochrome());
   set_gl_binding_mask(tile->gl_binding_mask());
-  set_gl_binding_outline_with_black_interior(tile->gl_binding_outline_with_black_interior());
-  set_gl_binding_outline_with_empty_interior(tile->gl_binding_outline_with_empty_interior());
+  set_gl_binding_outline_w_black_inside(tile->gl_binding_outline_w_black_inside());
+  set_gl_binding_outline_w_invis_inside(tile->gl_binding_outline_w_invis_inside());
 
   memcpy(pix, tile->pix, sizeof(pix));
 
@@ -337,12 +337,12 @@ void tile_load_arr_sprites(const char *file, const char *alias, uint32_t tile_wi
   Texp tex                             = nullptr;
   Texp tex_monochrome                  = nullptr;
   Texp tex_mask                        = nullptr;
-  Texp tex_outline_with_black_interior = nullptr;
-  Texp tex_outline_with_empty_interior = nullptr;
+  Texp tex_outline_w_black_inside = nullptr;
+  Texp tex_outline_w_invis_inside = nullptr;
 
   tex_load_sprites(&tex, &tex_monochrome, &tex_mask, // newline
-                   &tex_outline_with_black_interior, // newline
-                   &tex_outline_with_empty_interior, // newline
+                   &tex_outline_w_black_inside, // newline
+                   &tex_outline_w_invis_inside, // newline
                    file, alias, tile_width, tile_height, gl_mode);
 
   float const fw = static_cast< float >(1.0) / (((static_cast< float >(tex_get_width(tex)))) / ((static_cast< float >(tile_width))));
@@ -405,14 +405,14 @@ void tile_load_arr_sprites(const char *file, const char *alias, uint32_t tile_wi
       t->tex                             = tex;
       t->tex_monochrome                  = tex_monochrome;
       t->tex_mask                        = tex_mask;
-      t->tex_outline_with_black_interior = tex_outline_with_black_interior;
-      t->tex_outline_with_empty_interior = tex_outline_with_empty_interior;
+      t->tex_outline_w_black_inside = tex_outline_w_black_inside;
+      t->tex_outline_w_invis_inside = tex_outline_w_invis_inside;
 
       t->set_gl_binding(tex_get_gl_binding(t->tex));
       t->set_gl_binding_monochrome(tex_get_gl_binding(t->tex_monochrome));
       t->set_gl_binding_mask(tex_get_gl_binding(t->tex_mask));
-      t->set_gl_binding_outline_with_black_interior(tex_get_gl_binding(t->tex_outline_with_black_interior));
-      t->set_gl_binding_outline_with_empty_interior(tex_get_gl_binding(t->tex_outline_with_empty_interior));
+      t->set_gl_binding_outline_w_black_inside(tex_get_gl_binding(t->tex_outline_w_black_inside));
+      t->set_gl_binding_outline_w_invis_inside(tex_get_gl_binding(t->tex_outline_w_invis_inside));
 
       t->x1 = fw * (static_cast< float >(x));
       t->y1 = fh * (static_cast< float >(y));
@@ -842,28 +842,28 @@ void Tile::set_gl_binding_mask(int v)
   _gl_binding_mask = v;
 }
 
-auto Tile::gl_binding_outline_with_black_interior() const -> int
+auto Tile::gl_binding_outline_w_black_inside() const -> int
 {
   TRACE();
-  return _gl_binding_outline_with_black_interior;
+  return _gl_binding_outline_w_black_inside;
 }
 
-void Tile::set_gl_binding_outline_with_black_interior(int v)
+void Tile::set_gl_binding_outline_w_black_inside(int v)
 {
   TRACE();
-  _gl_binding_outline_with_black_interior = v;
+  _gl_binding_outline_w_black_inside = v;
 }
 
-auto Tile::gl_binding_outline_with_empty_interior() const -> int
+auto Tile::gl_binding_outline_w_invis_inside() const -> int
 {
   TRACE();
-  return _gl_binding_outline_with_empty_interior;
+  return _gl_binding_outline_w_invis_inside;
 }
 
-void Tile::set_gl_binding_outline_with_empty_interior(int v)
+void Tile::set_gl_binding_outline_w_invis_inside(int v)
 {
   TRACE();
-  _gl_binding_outline_with_empty_interior = v;
+  _gl_binding_outline_w_invis_inside = v;
 }
 
 void tile_blit(const Tilep &tile, const spoint tl, const spoint br, const color &c)
@@ -939,23 +939,23 @@ void tile_blit_section(const Tilep &tile, const fpoint &tile_tl, const fpoint &t
 //
 // Outline with solid black interior
 //
-void tile_blit_outline_with_black_interior(const Tilep &tile, float x1, float x2, float y1, float y2, const spoint tl, const spoint br,
+void tile_blit_outline_w_black_inside(const Tilep &tile, float x1, float x2, float y1, float y2, const spoint tl, const spoint br,
                                            const color &c)
 {
   TRACE_DEBUG();
 
-  blit(tile->gl_binding_outline_with_black_interior(), x1, y2, x2, y1, tl.x, br.y, br.x, tl.y, c);
+  blit(tile->gl_binding_outline_w_black_inside(), x1, y2, x2, y1, tl.x, br.y, br.x, tl.y, c);
 }
 
 //
 // Outline with solid empty interior
 //
-void tile_blit_outline_with_empty_interior(const Tilep &tile, float x1, float x2, float y1, float y2, const spoint tl, const spoint br,
+void tile_blit_outline_w_invis_inside(const Tilep &tile, float x1, float x2, float y1, float y2, const spoint tl, const spoint br,
                                            const color &c)
 {
   TRACE_DEBUG();
 
-  blit(tile->gl_binding_outline_with_empty_interior(), x1, y2, x2, y1, tl.x, br.y, br.x, tl.y, c);
+  blit(tile->gl_binding_outline_w_invis_inside(), x1, y2, x2, y1, tl.x, br.y, br.x, tl.y, c);
 }
 
 //

@@ -1879,7 +1879,7 @@ auto thing_is_unused48(Thingp t) -> bool
   return tp_flag(thing_tp(t), is_unused48) != 0;
 }
 
-auto thing_is_blit_hit_effect2(Thingp t) -> bool
+auto thing_is_blit_hit_outline_w_black_inside(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1887,7 +1887,7 @@ auto thing_is_blit_hit_effect2(Thingp t) -> bool
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_blit_hit_effect2) != 0;
+  return tp_flag(thing_tp(t), is_blit_hit_outline_w_black_inside) != 0;
 }
 
 auto thing_is_able_to_fall_sound(Thingp t) -> bool
@@ -1923,7 +1923,7 @@ auto thing_is_collision_hit_all_on_tile(Thingp t) -> bool
   return tp_flag(thing_tp(t), is_collision_hit_all_on_tile) != 0;
 }
 
-auto thing_is_blit_hit_effect1(Thingp t) -> bool
+auto thing_is_blit_hit_outline_w_invis_inside(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1931,7 +1931,7 @@ auto thing_is_blit_hit_effect1(Thingp t) -> bool
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_blit_hit_effect1) != 0;
+  return tp_flag(thing_tp(t), is_blit_hit_outline_w_invis_inside) != 0;
 }
 
 auto thing_is_blit_when_obscured_outline(Thingp t) -> bool

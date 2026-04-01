@@ -54,8 +54,8 @@ public:
 static std::unordered_map< std::string, Texp > textures;
 static std::unordered_map< std::string, Texp > textures_monochrome;
 static std::unordered_map< std::string, Texp > textures_mask;
-static std::unordered_map< std::string, Texp > textures_outline_with_black_interior;
-static std::unordered_map< std::string, Texp > textures_outline_with_empty_interior;
+static std::unordered_map< std::string, Texp > textures_outline_w_black_inside;
+static std::unordered_map< std::string, Texp > textures_outline_w_invis_inside;
 
 auto tex_init() -> bool
 {
@@ -78,14 +78,14 @@ void tex_fini()
     delete t.second;
   }
   textures_mask.clear();
-  for (auto &t : textures_outline_with_black_interior) {
+  for (auto &t : textures_outline_w_black_inside) {
     delete t.second;
   }
-  textures_outline_with_black_interior.clear();
-  for (auto &t : textures_outline_with_empty_interior) {
+  textures_outline_w_black_inside.clear();
+  for (auto &t : textures_outline_w_invis_inside) {
     delete t.second;
   }
-  textures_outline_with_empty_interior.clear();
+  textures_outline_w_invis_inside.clear();
 }
 
 void tex_free(Texp tex)
@@ -94,8 +94,8 @@ void tex_free(Texp tex)
   textures.erase(tex->name);
   textures_monochrome.erase(tex->name);
   textures_mask.erase(tex->name);
-  textures_outline_with_black_interior.erase(tex->name);
-  textures_outline_with_empty_interior.erase(tex->name);
+  textures_outline_w_black_inside.erase(tex->name);
+  textures_outline_w_invis_inside.erase(tex->name);
   delete (tex);
 }
 
@@ -316,18 +316,18 @@ static auto tex_create_masks_from_surface(SDL_Surface *src, const std::string &f
 {
   auto name_monochrome                  = name + "_monochrome";
   auto name_mask                        = name + "_mask";
-  auto name_outline_with_black_interior = name + "_outline_with_black_interior";
-  auto name_outline_with_empty_interior = name + "_outline_with_empty_interior";
+  auto name_outline_w_black_inside = name + "_outline_w_black_inside";
+  auto name_outline_w_invis_inside = name + "_outline_w_invis_inside";
 
   Texp tex_dst_monochrome                  = new Tex(name_monochrome);
   Texp tex_dst_mask                        = new Tex(name_mask);
-  Texp tex_dst_outline_with_black_interior = new Tex(name_outline_with_black_interior);
-  Texp tex_dst_outline_with_empty_interior = new Tex(name_outline_with_empty_interior);
+  Texp tex_dst_outline_w_black_inside = new Tex(name_outline_w_black_inside);
+  Texp tex_dst_outline_w_invis_inside = new Tex(name_outline_w_invis_inside);
 
   textures_monochrome.insert(std::make_pair(name_monochrome, tex_dst_monochrome));
   textures_mask.insert(std::make_pair(name_mask, tex_dst_mask));
-  textures_outline_with_black_interior.insert(std::make_pair(name_outline_with_black_interior, tex_dst_outline_with_black_interior));
-  textures_outline_with_empty_interior.insert(std::make_pair(name_outline_with_empty_interior, tex_dst_outline_with_empty_interior));
+  textures_outline_w_black_inside.insert(std::make_pair(name_outline_w_black_inside, tex_dst_outline_w_black_inside));
+  textures_outline_w_invis_inside.insert(std::make_pair(name_outline_w_invis_inside, tex_dst_outline_w_invis_inside));
 
   uint32_t rmask = 0, gmask = 0, bmask = 0, amask = 0;
 
@@ -354,11 +354,11 @@ static auto tex_create_masks_from_surface(SDL_Surface *src, const std::string &f
   SDL_Surface *dst_mask = SDL_CreateRGBSurface(0, src_width, src_height, 32, rmask, gmask, bmask, amask);
   NEWPTR(MTYPE_SDL, dst_mask, "SDL_CreateRGBSurface18");
 
-  SDL_Surface *dst_outline_with_black_interior = SDL_CreateRGBSurface(0, src_width, src_height, 32, rmask, gmask, bmask, amask);
-  NEWPTR(MTYPE_SDL, dst_outline_with_black_interior, "SDL_CreateRGBSurface19");
+  SDL_Surface *dst_outline_w_black_inside = SDL_CreateRGBSurface(0, src_width, src_height, 32, rmask, gmask, bmask, amask);
+  NEWPTR(MTYPE_SDL, dst_outline_w_black_inside, "SDL_CreateRGBSurface19");
 
-  SDL_Surface *dst_outline_with_empty_interior = SDL_CreateRGBSurface(0, src_width, src_height, 32, rmask, gmask, bmask, amask);
-  NEWPTR(MTYPE_SDL, dst_outline_with_empty_interior, "SDL_CreateRGBSurface19");
+  SDL_Surface *dst_outline_w_invis_inside = SDL_CreateRGBSurface(0, src_width, src_height, 32, rmask, gmask, bmask, amask);
+  NEWPTR(MTYPE_SDL, dst_outline_w_invis_inside, "SDL_CreateRGBSurface19");
 
   color const col_white(255, 255, 255, 255);
   color const col_black(0, 0, 0, 255);
@@ -370,21 +370,21 @@ static auto tex_create_masks_from_surface(SDL_Surface *src, const std::string &f
       GET_PIXEL(src, src_x, src_y, col_orig);
 
       //
-      // Solid black for the monster body and white pixels to replace any black outline_with_black_interior
+      // Solid black for the monster body and white pixels to replace any black outline_w_black_inside
       //
       if ((col_orig.a == 255) && (col_orig.r == 0) && (col_orig.g == 0) && (col_orig.b == 0)) {
-        PUT_PIXEL(dst_outline_with_black_interior, src_x, src_y, col_white);
+        PUT_PIXEL(dst_outline_w_black_inside, src_x, src_y, col_white);
       } else if (col_orig.a != 0U) {
-        PUT_PIXEL(dst_outline_with_black_interior, src_x, src_y, col_black);
+        PUT_PIXEL(dst_outline_w_black_inside, src_x, src_y, col_black);
       }
 
       //
-      // Empty pixels for the monster body and white pixels to replace any black outline_with_black_interior
+      // Empty pixels for the monster body and white pixels to replace any black outline_w_black_inside
       //
       if ((col_orig.a == 255) && (col_orig.r == 0) && (col_orig.g == 0) && (col_orig.b == 0)) {
-        PUT_PIXEL(dst_outline_with_empty_interior, src_x, src_y, col_white);
+        PUT_PIXEL(dst_outline_w_invis_inside, src_x, src_y, col_white);
       } else if (col_orig.a != 0U) {
-        PUT_PIXEL(dst_outline_with_black_interior, src_x, src_y, col_none);
+        PUT_PIXEL(dst_outline_w_black_inside, src_x, src_y, col_none);
       }
 
       //
@@ -446,22 +446,22 @@ static auto tex_create_masks_from_surface(SDL_Surface *src, const std::string &f
 
   tex_dst_monochrome                  = tex_from_surface(dst_monochrome, file, name_monochrome, mode);
   tex_dst_mask                        = tex_from_surface(dst_mask, file, name_mask, mode);
-  tex_dst_outline_with_black_interior = tex_from_surface(dst_outline_with_black_interior, file, name_outline_with_black_interior, mode);
-  tex_dst_outline_with_empty_interior = tex_from_surface(dst_outline_with_empty_interior, file, name_outline_with_empty_interior, mode);
+  tex_dst_outline_w_black_inside = tex_from_surface(dst_outline_w_black_inside, file, name_outline_w_black_inside, mode);
+  tex_dst_outline_w_invis_inside = tex_from_surface(dst_outline_w_invis_inside, file, name_outline_w_invis_inside, mode);
 
   std::vector< Texp > out;
 
   out.push_back(tex_dst_monochrome);
   out.push_back(tex_dst_mask);
-  out.push_back(tex_dst_outline_with_black_interior);
-  out.push_back(tex_dst_outline_with_empty_interior);
+  out.push_back(tex_dst_outline_w_black_inside);
+  out.push_back(tex_dst_outline_w_invis_inside);
 
   return out;
 }
 
 void tex_load_sprites(Texp *tex, Texp *tex_monochrome, Texp *tex_mask,    // newline
-                      Texp              *tex_outline_with_black_interior, // newline
-                      Texp              *tex_outline_with_empty_interior, // newline
+                      Texp              *tex_outline_w_black_inside, // newline
+                      Texp              *tex_outline_w_invis_inside, // newline
                       const std::string &file, const std::string &name, uint32_t tile_width, uint32_t tile_height, int mode)
 {
   TRACE();
@@ -492,8 +492,8 @@ void tex_load_sprites(Texp *tex, Texp *tex_monochrome, Texp *tex_mask,    // new
   auto p                           = tex_create_masks_from_surface(surface, file, name, mode);
   *tex_monochrome                  = p[ 0 ];
   *tex_mask                        = p[ 1 ];
-  *tex_outline_with_black_interior = p[ 2 ];
-  *tex_outline_with_empty_interior = p[ 3 ];
+  *tex_outline_w_black_inside = p[ 2 ];
+  *tex_outline_w_invis_inside = p[ 3 ];
 
   DBG2("- loaded texture '%s', '%s'", file.c_str(), name.c_str());
 }
