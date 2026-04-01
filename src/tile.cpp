@@ -145,26 +145,26 @@ void tile_fini()
 }
 
 Tile::Tile(const class Tile *tile)
-    :                                                                         //
-      global_index(all_tiles_array.size() + 1),                               //
-      pix_width(tile->pix_width),                                             //
-      pix_height(tile->pix_height),                                           //
-      x1(tile->x1),                                                           //
-      y1(tile->y1),                                                           //
-      x2(tile->x2),                                                           //
-      y2(tile->y2),                                                           //
-      tex(tile->tex),                                                         //
-      tex_monochrome(tile->tex_monochrome),                                   //
-      tex_mask(tile->tex_mask),                                               //
+    :                                                               //
+      global_index(all_tiles_array.size() + 1),                     //
+      pix_width(tile->pix_width),                                   //
+      pix_height(tile->pix_height),                                 //
+      x1(tile->x1),                                                 //
+      y1(tile->y1),                                                 //
+      x2(tile->x2),                                                 //
+      y2(tile->y2),                                                 //
+      tex(tile->tex),                                               //
+      tex_monochrome(tile->tex_monochrome),                         //
+      tex_mask(tile->tex_mask),                                     //
       tex_outline_w_black_inside(tile->tex_outline_w_black_inside), //
       tex_outline_w_invis_inside(tile->tex_outline_w_invis_inside), //
-      delay_ms(tile->delay_ms),                                               //
-      dir(tile->dir),                                                         //
-      internal_has_dir_anim(tile->internal_has_dir_anim),                     //
-      is_alive_on_end_of_anim(tile->is_alive_on_end_of_anim),                 //
-      is_cleanup_on_end_of_anim(tile->is_cleanup_on_end_of_anim),             //
-      is_end_of_anim(tile->is_end_of_anim),                                   //
-      is_loggable(tile->is_loggable)                                          //
+      delay_ms(tile->delay_ms),                                     //
+      dir(tile->dir),                                               //
+      internal_has_dir_anim(tile->internal_has_dir_anim),           //
+      is_alive_on_end_of_anim(tile->is_alive_on_end_of_anim),       //
+      is_cleanup_on_end_of_anim(tile->is_cleanup_on_end_of_anim),   //
+      is_end_of_anim(tile->is_end_of_anim),                         //
+      is_loggable(tile->is_loggable)                                //
 {
   TRACE();
 
@@ -334,15 +334,15 @@ void tile_load_arr_sprites(const char *file, const char *alias, uint32_t tile_wi
 {
   TRACE();
 
-  Texp tex                             = nullptr;
-  Texp tex_monochrome                  = nullptr;
-  Texp tex_mask                        = nullptr;
+  Texp tex                        = nullptr;
+  Texp tex_monochrome             = nullptr;
+  Texp tex_mask                   = nullptr;
   Texp tex_outline_w_black_inside = nullptr;
   Texp tex_outline_w_invis_inside = nullptr;
 
   tex_load_sprites(&tex, &tex_monochrome, &tex_mask, // newline
-                   &tex_outline_w_black_inside, // newline
-                   &tex_outline_w_invis_inside, // newline
+                   &tex_outline_w_black_inside,      // newline
+                   &tex_outline_w_invis_inside,      // newline
                    file, alias, tile_width, tile_height, gl_mode);
 
   float const fw = static_cast< float >(1.0) / (((static_cast< float >(tex_get_width(tex)))) / ((static_cast< float >(tile_width))));
@@ -398,13 +398,13 @@ void tile_load_arr_sprites(const char *file, const char *alias, uint32_t tile_wi
       all_tiles_array.push_back(t);
       t->global_index = all_tiles_array.size();
 
-      t->name                            = name;
-      t->index                           = idx - 1;
-      t->pix_width                       = tile_width;
-      t->pix_height                      = tile_height;
-      t->tex                             = tex;
-      t->tex_monochrome                  = tex_monochrome;
-      t->tex_mask                        = tex_mask;
+      t->name                       = name;
+      t->index                      = idx - 1;
+      t->pix_width                  = tile_width;
+      t->pix_height                 = tile_height;
+      t->tex                        = tex;
+      t->tex_monochrome             = tex_monochrome;
+      t->tex_mask                   = tex_mask;
       t->tex_outline_w_black_inside = tex_outline_w_black_inside;
       t->tex_outline_w_invis_inside = tex_outline_w_invis_inside;
 
@@ -940,7 +940,7 @@ void tile_blit_section(const Tilep &tile, const fpoint &tile_tl, const fpoint &t
 // Outline with solid black interior
 //
 void tile_blit_outline_w_black_inside(const Tilep &tile, float x1, float x2, float y1, float y2, const spoint tl, const spoint br,
-                                           const color &c)
+                                      const color &c)
 {
   TRACE_DEBUG();
 
@@ -951,7 +951,7 @@ void tile_blit_outline_w_black_inside(const Tilep &tile, float x1, float x2, flo
 // Outline with solid empty interior
 //
 void tile_blit_outline_w_invis_inside(const Tilep &tile, float x1, float x2, float y1, float y2, const spoint tl, const spoint br,
-                                           const color &c)
+                                      const color &c)
 {
   TRACE_DEBUG();
 

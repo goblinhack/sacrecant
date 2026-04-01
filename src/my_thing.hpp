@@ -622,8 +622,8 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_barrel(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blit_centered(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blit_flush_per_line(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_blit_hit_outline_w_invis_inside(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blit_hit_outline_w_black_inside(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_blit_hit_outline_w_invis_inside(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blit_if_has_seen(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blit_obscures(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blit_on_ground(Thingp t) -> bool;

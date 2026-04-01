@@ -314,13 +314,13 @@ auto tex_load(const std::string &file, const std::string &name, int mode) -> Tex
 static auto tex_create_masks_from_surface(SDL_Surface *src, const std::string &file, const std::string &name, int mode)
     -> std::vector< Texp >
 {
-  auto name_monochrome                  = name + "_monochrome";
-  auto name_mask                        = name + "_mask";
+  auto name_monochrome             = name + "_monochrome";
+  auto name_mask                   = name + "_mask";
   auto name_outline_w_black_inside = name + "_outline_w_black_inside";
   auto name_outline_w_invis_inside = name + "_outline_w_invis_inside";
 
-  Texp tex_dst_monochrome                  = new Tex(name_monochrome);
-  Texp tex_dst_mask                        = new Tex(name_mask);
+  Texp tex_dst_monochrome             = new Tex(name_monochrome);
+  Texp tex_dst_mask                   = new Tex(name_mask);
   Texp tex_dst_outline_w_black_inside = new Tex(name_outline_w_black_inside);
   Texp tex_dst_outline_w_invis_inside = new Tex(name_outline_w_invis_inside);
 
@@ -444,8 +444,8 @@ static auto tex_create_masks_from_surface(SDL_Surface *src, const std::string &f
   }
 #endif
 
-  tex_dst_monochrome                  = tex_from_surface(dst_monochrome, file, name_monochrome, mode);
-  tex_dst_mask                        = tex_from_surface(dst_mask, file, name_mask, mode);
+  tex_dst_monochrome             = tex_from_surface(dst_monochrome, file, name_monochrome, mode);
+  tex_dst_mask                   = tex_from_surface(dst_mask, file, name_mask, mode);
   tex_dst_outline_w_black_inside = tex_from_surface(dst_outline_w_black_inside, file, name_outline_w_black_inside, mode);
   tex_dst_outline_w_invis_inside = tex_from_surface(dst_outline_w_invis_inside, file, name_outline_w_invis_inside, mode);
 
@@ -459,9 +459,9 @@ static auto tex_create_masks_from_surface(SDL_Surface *src, const std::string &f
   return out;
 }
 
-void tex_load_sprites(Texp *tex, Texp *tex_monochrome, Texp *tex_mask,    // newline
-                      Texp              *tex_outline_w_black_inside, // newline
-                      Texp              *tex_outline_w_invis_inside, // newline
+void tex_load_sprites(Texp *tex, Texp *tex_monochrome, Texp *tex_mask, // newline
+                      Texp              *tex_outline_w_black_inside,   // newline
+                      Texp              *tex_outline_w_invis_inside,   // newline
                       const std::string &file, const std::string &name, uint32_t tile_width, uint32_t tile_height, int mode)
 {
   TRACE();
@@ -488,10 +488,10 @@ void tex_load_sprites(Texp *tex, Texp *tex_monochrome, Texp *tex_mask,    // new
     ERR("could not make surface from file '%s'", file.c_str());
   }
 
-  *tex                             = tex_from_surface(surface, file, name, mode);
-  auto p                           = tex_create_masks_from_surface(surface, file, name, mode);
-  *tex_monochrome                  = p[ 0 ];
-  *tex_mask                        = p[ 1 ];
+  *tex                        = tex_from_surface(surface, file, name, mode);
+  auto p                      = tex_create_masks_from_surface(surface, file, name, mode);
+  *tex_monochrome             = p[ 0 ];
+  *tex_mask                   = p[ 1 ];
   *tex_outline_w_black_inside = p[ 2 ];
   *tex_outline_w_invis_inside = p[ 3 ];
 

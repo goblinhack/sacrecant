@@ -881,8 +881,8 @@ using LevelType = enum LevelType_ {
 [[nodiscard]] auto level_is_barrel(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_blit_centered(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_blit_flush_per_line(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
-[[nodiscard]] auto level_is_blit_hit_outline_w_invis_inside(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_blit_hit_outline_w_black_inside(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
+[[nodiscard]] auto level_is_blit_hit_outline_w_invis_inside(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_blit_if_has_seen(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_blit_obscures(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_blit_on_ground(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
@@ -1104,8 +1104,8 @@ using LevelType = enum LevelType_ {
 [[nodiscard]] auto level_is_barrel_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_blit_centered_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_blit_flush_per_line_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
-[[nodiscard]] auto level_is_blit_hit_outline_w_invis_inside_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_blit_hit_outline_w_black_inside_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
+[[nodiscard]] auto level_is_blit_hit_outline_w_invis_inside_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_blit_if_has_seen_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_blit_obscures_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_blit_on_ground_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
@@ -1325,8 +1325,8 @@ using LevelType = enum LevelType_ {
 [[nodiscard]] auto level_alive_is_barrel(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_blit_centered(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_blit_flush_per_line(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
-[[nodiscard]] auto level_alive_is_blit_hit_outline_w_invis_inside(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_blit_hit_outline_w_black_inside(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
+[[nodiscard]] auto level_alive_is_blit_hit_outline_w_invis_inside(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_blit_if_has_seen(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_blit_obscures(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_blit_on_ground(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
@@ -1546,8 +1546,8 @@ using LevelType = enum LevelType_ {
 [[nodiscard]] auto level_count_is_barrel(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_blit_centered(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_blit_flush_per_line(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
-[[nodiscard]] auto level_count_is_blit_hit_outline_w_invis_inside(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_blit_hit_outline_w_black_inside(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
+[[nodiscard]] auto level_count_is_blit_hit_outline_w_invis_inside(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_blit_if_has_seen(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_blit_obscures(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_blit_on_ground(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
@@ -1774,8 +1774,8 @@ using LevelType = enum LevelType_ {
 [[nodiscard]] auto level_open_is_barrel(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_blit_centered(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_blit_flush_per_line(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
-[[nodiscard]] auto level_open_is_blit_hit_outline_w_invis_inside(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_blit_hit_outline_w_black_inside(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
+[[nodiscard]] auto level_open_is_blit_hit_outline_w_invis_inside(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_blit_if_has_seen(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_blit_obscures(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_blit_on_ground(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
