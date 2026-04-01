@@ -622,10 +622,11 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_barrel(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blit_centered(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blit_flush_per_line(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_blit_hit_effect1(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_blit_hit_effect2(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blit_if_has_seen(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blit_obscures(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blit_on_ground(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_blit_hit_effect1(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blit_outlined(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blit_per_pixel_lighting(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blit_shown_in_chasms(Thingp t) -> bool;
@@ -826,7 +827,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused46(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused47(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused48(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_blit_hit_effect2(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused5(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused6(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused63(Thingp t) -> bool;

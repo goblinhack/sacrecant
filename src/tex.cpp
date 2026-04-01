@@ -314,22 +314,20 @@ auto tex_load(const std::string &file, const std::string &name, int mode) -> Tex
 static auto tex_create_masks_from_surface(SDL_Surface *src, const std::string &file, const std::string &name, int mode)
     -> std::vector< Texp >
 {
-  auto name_monochrome                        = name + "_monochrome";
-  auto name_mask                              = name + "_mask";
+  auto name_monochrome                  = name + "_monochrome";
+  auto name_mask                        = name + "_mask";
   auto name_outline_with_black_interior = name + "_outline_with_black_interior";
   auto name_outline_with_empty_interior = name + "_outline_with_empty_interior";
 
-  Texp tex_dst_monochrome                        = new Tex(name_monochrome);
-  Texp tex_dst_mask                              = new Tex(name_mask);
+  Texp tex_dst_monochrome                  = new Tex(name_monochrome);
+  Texp tex_dst_mask                        = new Tex(name_mask);
   Texp tex_dst_outline_with_black_interior = new Tex(name_outline_with_black_interior);
   Texp tex_dst_outline_with_empty_interior = new Tex(name_outline_with_empty_interior);
 
   textures_monochrome.insert(std::make_pair(name_monochrome, tex_dst_monochrome));
   textures_mask.insert(std::make_pair(name_mask, tex_dst_mask));
-  textures_outline_with_black_interior.insert(
-      std::make_pair(name_outline_with_black_interior, tex_dst_outline_with_black_interior));
-  textures_outline_with_empty_interior.insert(
-      std::make_pair(name_outline_with_empty_interior, tex_dst_outline_with_empty_interior));
+  textures_outline_with_black_interior.insert(std::make_pair(name_outline_with_black_interior, tex_dst_outline_with_black_interior));
+  textures_outline_with_empty_interior.insert(std::make_pair(name_outline_with_empty_interior, tex_dst_outline_with_empty_interior));
 
   uint32_t rmask = 0, gmask = 0, bmask = 0, amask = 0;
 
@@ -446,12 +444,10 @@ static auto tex_create_masks_from_surface(SDL_Surface *src, const std::string &f
   }
 #endif
 
-  tex_dst_monochrome = tex_from_surface(dst_monochrome, file, name_monochrome, mode);
-  tex_dst_mask       = tex_from_surface(dst_mask, file, name_mask, mode);
-  tex_dst_outline_with_black_interior
-      = tex_from_surface(dst_outline_with_black_interior, file, name_outline_with_black_interior, mode);
-  tex_dst_outline_with_empty_interior
-      = tex_from_surface(dst_outline_with_empty_interior, file, name_outline_with_empty_interior, mode);
+  tex_dst_monochrome                  = tex_from_surface(dst_monochrome, file, name_monochrome, mode);
+  tex_dst_mask                        = tex_from_surface(dst_mask, file, name_mask, mode);
+  tex_dst_outline_with_black_interior = tex_from_surface(dst_outline_with_black_interior, file, name_outline_with_black_interior, mode);
+  tex_dst_outline_with_empty_interior = tex_from_surface(dst_outline_with_empty_interior, file, name_outline_with_empty_interior, mode);
 
   std::vector< Texp > out;
 
@@ -463,7 +459,7 @@ static auto tex_create_masks_from_surface(SDL_Surface *src, const std::string &f
   return out;
 }
 
-void tex_load_sprites(Texp *tex, Texp *tex_monochrome, Texp *tex_mask,          // newline
+void tex_load_sprites(Texp *tex, Texp *tex_monochrome, Texp *tex_mask,    // newline
                       Texp              *tex_outline_with_black_interior, // newline
                       Texp              *tex_outline_with_empty_interior, // newline
                       const std::string &file, const std::string &name, uint32_t tile_width, uint32_t tile_height, int mode)
@@ -492,10 +488,10 @@ void tex_load_sprites(Texp *tex, Texp *tex_monochrome, Texp *tex_mask,          
     ERR("could not make surface from file '%s'", file.c_str());
   }
 
-  *tex                                   = tex_from_surface(surface, file, name, mode);
-  auto p                                 = tex_create_masks_from_surface(surface, file, name, mode);
-  *tex_monochrome                        = p[ 0 ];
-  *tex_mask                              = p[ 1 ];
+  *tex                             = tex_from_surface(surface, file, name, mode);
+  auto p                           = tex_create_masks_from_surface(surface, file, name, mode);
+  *tex_monochrome                  = p[ 0 ];
+  *tex_mask                        = p[ 1 ];
   *tex_outline_with_black_interior = p[ 2 ];
   *tex_outline_with_empty_interior = p[ 3 ];
 
