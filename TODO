@@ -1,42 +1,73 @@
 bugs
 ----
-score from monster health
+domains
 brazier kick over sound
 rustle noise in bushes
 too many monsters
 
 essential features
 ------------------
-intro screen / background level maybe
-intelligent monsters when hurt should escape
-intro level / handbook
-stamina needed to avoid fast jump loops
-traps must do something / gas effects
-items can be lost in deep water
-chests need to contain something and those items destroyed when the chest is
-spell points to collect
-emergency teleport
-hard coded to fire fireball
-spells need to have a cost that can be influenced by specializing
-level map has to show wizards
-wizards have to move levels
-ethereal wepon to hit ghosts in walls
+domains
+  - dungeon
+  - swamp, explosive bogs
+  - nethervoid
+  - graveyard
+  - underhell
+abilities
+  - keep a percentage of money or stats each time you restart
+  - madness as an ability - randomly fire a spell
+  - bloodfeaster - each corpse can be drained / chance of resurrecting something much stronger
+  - lightbringer - light follows you randomly
+  - demonbloodpact - vow to not hurt demons
+  - breathless - gas weapons have no effect
+  - wraithwalk - walk into walls
+  - take on limitations at start e.g one leg, limited jump, reduced spell cost
+weapon slots
+  - etherblast to hit ghosts in walls
+  - emergency teleport
+player
+  - stamina needed to avoid fast jump loops
+gameplay
+  - hard coded to fire fireball
+  - traps must do something / gas effects
+  - items can be lost in deep water
+  - chests need to contain something and those items destroyed when the chest is
+  - spell points to collect
+  - spells need to have a cost that can be influenced by specializing
+  - boss that can move levels
+  - projectile collision with projectile
+  - boulders that can crush
+  - cobwebs burns and get you stuck
+  - ice weapon and shattering
+  - intelligent monsters when hurt should escape
+  - shrines that reduce spell points
+  - bushes quiver when monster is behind? / items hiding in bushes 
+  - anti magic areas
+  - anti anti magic areas
+monsters
+  - ogri - like in Doctor Who, monoliths that move slowly and block the way
+  - unihulk
+  - ravenbeast
+  - bearowl
+  - ogyr (celtic)
+  - door mimic
+  - thief that can steal items
+allies
+  - Allies vanish each level and the life force is returned to you
+  - Life force can be applied to the summoning of allies each level.
+    Each ally that dies in-level, is a permanent loss of life force.
+    Hence you need to balance how many allies to summon with the chance
+    of permanent loss.
+ui
+  - intro screen / background level maybe
+  - intro level / handbook
+  - option to replay same dungeon
+  - play weekly/daily seed - generated from date
+  - random player name e.g. galatrex the dark
 
-later features
---------------
-wraithwalk - walk into walls
-explosive bog
-projectile collision with projectile
-play weekly/daily seed - generated from date
-cobwebs burns and get you stuck
-ice weapon and shattering
-take on limitations at start e.g one leg, limited jump, reduced spell cost
-ghosts can only be hit when solid
-bushes quiver when monster is behind? / items hiding in bushes 
-boulders that can crush
-shrines that reduce spell points
-anti magic areas
-anti anti magic areas
+not sure
+--------
+sacrifices
 sacrifice a leg / soul to progress
 sacrifices are to Gods
 sacrificed an arm to a god of fire, would you get a spectral arm of fire with fire damage bonus as replacement
@@ -44,41 +75,6 @@ most players would need to sacrifice something in order to get past the first ha
 eyes of ice, heart of fire
 7 chakras
 "You have used up your 5 free stabs included with the basic plan. If you wish to stab more..."
-
-monsters
---------
-ogri - like in Doctor Who, monoliths that move slowly and block the way
-unihulk
-ravenbeast
-bearowl
-ogyr (celtic)
-door mimic
-thief that can steal items
-
-story
------
-You are a dark wizard, once powerful but cast out of your realm by
-the slightly darker wizard <insert name here>
-
-Your aim is to relaim the dungeon of Gorget, defeating on the way
-the other lesser, yellow, green and red wizards that stand in your way.
-
-Fight hoards of enemies, but keep them at a distance, as you are
-physically weak. Use spells, missiles and summon allies each level
-to assist you.
-
-- Allies vanish each level and the life force is returned to you
-- Some allies can be posted as permanent sentries on a level; still
-  not sure how this could be used
-- The game is turn based, but missiles can only travel N tiles per
-  game move. So A missile might only travel half way down a hall
-  in one move, before completing its journey the next move. This
-  allows you to fire a volley of shots. It also introduces the chance
-  of missing and avoiding enemy shots.
-- Life force can be applied to the summoning of allies each level.
-  Each ally that dies in-level, is a permanent loss of life force.
-  Hence you need to balance how many allies to summon with the chance
-  of permanent loss.
 - Allies will follow you around and defend you; also thinking you
   can set an ally with a basic programmed task - explore/defend/attack
 - Enemy souls can be harvested to add to your life force. Thinking
@@ -87,4 +83,16 @@ to assist you.
 - Alternative turn based idea is that the dungeon will force a move
   after say 10 seconds. Gradually this will increase in speed until
   the monsters are moving almost real time.
+
+
+story
+-----
+You are a dark wizard, once powerful but cast out of your realm by
+the slightly darker wizard <insert name here>
+
+Your aim is to retake the throne of darkest of dark lords.
+
+Fight hoards of enemies, but keep them at a distance, as you are
+physically weak. Use spells, missiles and summon allies each level
+to assist you.
 
