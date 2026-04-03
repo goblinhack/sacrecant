@@ -1077,7 +1077,7 @@ auto thing_is_lava(Thingp t) -> bool
   return tp_flag(thing_tp(t), is_lava) != 0;
 }
 
-auto thing_is_level_across_icon(Thingp t) -> bool
+auto thing_is_unused46(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1085,7 +1085,7 @@ auto thing_is_level_across_icon(Thingp t) -> bool
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_level_across_icon) != 0;
+  return tp_flag(thing_tp(t), is_unused46) != 0;
 }
 
 auto thing_is_level_curr(Thingp t) -> bool
@@ -1099,7 +1099,7 @@ auto thing_is_level_curr(Thingp t) -> bool
   return tp_flag(thing_tp(t), is_level_curr) != 0;
 }
 
-auto thing_is_level_down_icon(Thingp t) -> bool
+auto thing_is_unused47(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1107,7 +1107,7 @@ auto thing_is_level_down_icon(Thingp t) -> bool
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_level_down_icon) != 0;
+  return tp_flag(thing_tp(t), is_unused47) != 0;
 }
 
 auto thing_is_level_final_icon(Thingp t) -> bool
@@ -1132,7 +1132,7 @@ auto thing_is_level_next_icon(Thingp t) -> bool
   return tp_flag(thing_tp(t), is_level_next_icon) != 0;
 }
 
-auto thing_is_level_not_visited_icon(Thingp t) -> bool
+auto thing_is_level_locked_icon(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1140,10 +1140,10 @@ auto thing_is_level_not_visited_icon(Thingp t) -> bool
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_level_not_visited_icon) != 0;
+  return tp_flag(thing_tp(t), is_level_locked_icon) != 0;
 }
 
-auto thing_is_level_visited_icon(Thingp t) -> bool
+auto thing_is_level_closed_icon(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1151,7 +1151,7 @@ auto thing_is_level_visited_icon(Thingp t) -> bool
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_level_visited_icon) != 0;
+  return tp_flag(thing_tp(t), is_level_closed_icon) != 0;
 }
 
 auto thing_is_minion(Thingp t) -> bool
@@ -1846,7 +1846,7 @@ auto thing_is_unused45(Thingp t) -> bool
   return tp_flag(thing_tp(t), is_unused45) != 0;
 }
 
-auto thing_is_unused46(Thingp t) -> bool
+auto thing_is_level_open_icon(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1854,10 +1854,10 @@ auto thing_is_unused46(Thingp t) -> bool
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused46) != 0;
+  return tp_flag(thing_tp(t), is_level_open_icon) != 0;
 }
 
-auto thing_is_unused47(Thingp t) -> bool
+auto thing_is_blit_bg(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1865,10 +1865,10 @@ auto thing_is_unused47(Thingp t) -> bool
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused47) != 0;
+  return tp_flag(thing_tp(t), is_blit_bg) != 0;
 }
 
-auto thing_is_unused48(Thingp t) -> bool
+auto thing_is_level_select_bg(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1876,7 +1876,7 @@ auto thing_is_unused48(Thingp t) -> bool
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused48) != 0;
+  return tp_flag(thing_tp(t), is_level_select_bg) != 0;
 }
 
 auto thing_is_blit_hit_outline_w_black_inside(Thingp t) -> bool

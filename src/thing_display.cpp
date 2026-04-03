@@ -26,8 +26,10 @@ void tp_display_init(Tpp tp)
     }
   } else if (tp_is_blit_on_ground(tp)) {
     // ok
+  } else if (tp_is_blit_bg(tp)) {
+    // ok
   } else {
-    tp_err(tp, "neither blit on_ground or centered are set");
+    //    tp_err(tp, "neither blit on_ground or centered are set");
   }
 }
 

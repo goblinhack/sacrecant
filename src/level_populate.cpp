@@ -340,20 +340,20 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *level_gen, int
         if (0) {
           if (tp == tp_player) {
             {
-              if (thing_spawn(g, v, l, tp_random(is_foliage), at + bpoint(2, 0)) == nullptr) {
-                return false;
-              }
-              if (thing_spawn(g, v, l, tp_random(is_foliage), at + bpoint(4, 0)) == nullptr) {
-                return false;
-              }
-            }
-            if (0) {
-              if (thing_spawn(g, v, l, tp_random(is_treasure), at + bpoint(2, 0)) == nullptr) {
+              if (thing_spawn(g, v, l, tp_random(is_exit), at + bpoint(2, 0)) == nullptr) {
                 return false;
               }
             }
           }
         }
+      }
+    }
+  }
+
+  if (0) {
+    if (l->entrance.x > 0) {
+      if (thing_spawn(g, v, l, tp_random(is_exit), l->entrance + bpoint(1, 1)) == nullptr) {
+        return false;
       }
     }
   }

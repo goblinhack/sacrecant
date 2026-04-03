@@ -527,10 +527,10 @@ auto level_alive_is_lava(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thing
   return level_alive(g, v, l, is_lava, p);
 }
 
-auto level_alive_is_level_across_icon(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+auto level_alive_is_unused46(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_alive(g, v, l, is_level_across_icon, p);
+  return level_alive(g, v, l, is_unused46, p);
 }
 
 auto level_alive_is_level_curr(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
@@ -539,10 +539,10 @@ auto level_alive_is_level_curr(Gamep g, Levelsp v, Levelp l, const bpoint &p) ->
   return level_alive(g, v, l, is_level_curr, p);
 }
 
-auto level_alive_is_level_down_icon(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+auto level_alive_is_unused47(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_alive(g, v, l, is_level_down_icon, p);
+  return level_alive(g, v, l, is_unused47, p);
 }
 
 auto level_alive_is_level_final_icon(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
@@ -557,16 +557,16 @@ auto level_alive_is_level_next_icon(Gamep g, Levelsp v, Levelp l, const bpoint &
   return level_alive(g, v, l, is_level_next_icon, p);
 }
 
-auto level_alive_is_level_not_visited_icon(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+auto level_alive_is_level_locked_icon(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_alive(g, v, l, is_level_not_visited_icon, p);
+  return level_alive(g, v, l, is_level_locked_icon, p);
 }
 
-auto level_alive_is_level_visited_icon(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+auto level_alive_is_level_closed_icon(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_alive(g, v, l, is_level_visited_icon, p);
+  return level_alive(g, v, l, is_level_closed_icon, p);
 }
 
 auto level_alive_is_levitating(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
@@ -1127,22 +1127,22 @@ auto level_alive_is_unused45(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> T
   return level_alive(g, v, l, is_unused45, p);
 }
 
-auto level_alive_is_unused46(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+auto level_alive_is_level_open_icon(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_alive(g, v, l, is_unused46, p);
+  return level_alive(g, v, l, is_level_open_icon, p);
 }
 
-auto level_alive_is_unused47(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+auto level_alive_is_blit_bg(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_alive(g, v, l, is_unused47, p);
+  return level_alive(g, v, l, is_blit_bg, p);
 }
 
-auto level_alive_is_unused48(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+auto level_alive_is_level_select_bg(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_alive(g, v, l, is_unused48, p);
+  return level_alive(g, v, l, is_level_select_bg, p);
 }
 
 auto level_alive_is_blit_hit_outline_w_black_inside(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp

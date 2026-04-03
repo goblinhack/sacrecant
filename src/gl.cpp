@@ -291,11 +291,6 @@ static void gl_init_fbo_(FboEnum fbo, GLuint *render_buf_id, GLuint *fbo_id, GLu
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
       break;
-    case FBO_MINIMAP_WORLD :
-    case FBO_MINIMAP_WORLD_ROTATED :
-      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-      break;
   }
 
   DBG2("OpenGl: - glTexImage2D");
@@ -561,14 +556,6 @@ void fbo_get_size(Gamep g, FboEnum fbo, int &w, int &h)
     case FBO_FINAL :
       w = game_window_pix_width_get(g);
       h = game_window_pix_height_get(g);
-      break;
-    case FBO_MINIMAP_WORLD_ROTATED :
-      w = MAP_WIDTH * MAP_WORLD_MAP_PIXEL_SIZE_PER_LEVEL * 2;
-      h = MAP_HEIGHT * MAP_WORLD_MAP_PIXEL_SIZE_PER_LEVEL * 2;
-      break;
-    case FBO_MINIMAP_WORLD :
-      w = MAP_WIDTH * MAP_WORLD_MAP_PIXEL_SIZE_PER_LEVEL;
-      h = MAP_HEIGHT * MAP_WORLD_MAP_PIXEL_SIZE_PER_LEVEL;
       break;
     case FBO_MINIMAP_LEVEL :
       w = MAP_WIDTH;

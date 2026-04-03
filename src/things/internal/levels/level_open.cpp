@@ -8,18 +8,18 @@
 #include "my_tps.hpp"
 #include "my_types.hpp"
 
-auto tp_load_level_visited() -> bool
+auto tp_load_level_open() -> bool
 {
   TRACE();
 
-  auto *tp   = tp_load("level_visited"); // keep as string for scripts
+  auto *tp   = tp_load("level_open"); // keep as string for scripts
   auto  name = tp_name(tp);
 
   // begin sort marker1 {
   tp_flag_set(tp, is_animated_sync_first);
   tp_flag_set(tp, is_animated);
   tp_flag_set(tp, is_blit_centered);
-  tp_flag_set(tp, is_level_visited_icon);
+  tp_flag_set(tp, is_level_open_icon);
   tp_z_depth_set(tp, MAP_Z_DEPTH_OBJ);
   // end sort marker1 }
 

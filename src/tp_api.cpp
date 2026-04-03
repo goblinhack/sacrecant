@@ -527,10 +527,10 @@ auto tp_is_lava(Tpp tp) -> bool
   return tp_flag(tp, is_lava) != 0;
 }
 
-auto tp_is_level_across_icon(Tpp tp) -> bool
+auto tp_is_unused46(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_level_across_icon) != 0;
+  return tp_flag(tp, is_unused46) != 0;
 }
 
 auto tp_is_level_curr(Tpp tp) -> bool
@@ -539,10 +539,10 @@ auto tp_is_level_curr(Tpp tp) -> bool
   return tp_flag(tp, is_level_curr) != 0;
 }
 
-auto tp_is_level_down_icon(Tpp tp) -> bool
+auto tp_is_unused47(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_level_down_icon) != 0;
+  return tp_flag(tp, is_unused47) != 0;
 }
 
 auto tp_is_level_final_icon(Tpp tp) -> bool
@@ -557,16 +557,16 @@ auto tp_is_level_next_icon(Tpp tp) -> bool
   return tp_flag(tp, is_level_next_icon) != 0;
 }
 
-auto tp_is_level_not_visited_icon(Tpp tp) -> bool
+auto tp_is_level_locked_icon(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_level_not_visited_icon) != 0;
+  return tp_flag(tp, is_level_locked_icon) != 0;
 }
 
-auto tp_is_level_visited_icon(Tpp tp) -> bool
+auto tp_is_level_closed_icon(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_level_visited_icon) != 0;
+  return tp_flag(tp, is_level_closed_icon) != 0;
 }
 
 auto tp_is_levitating(Tpp tp) -> bool
@@ -1127,22 +1127,22 @@ auto tp_is_unused45(Tpp tp) -> bool
   return tp_flag(tp, is_unused45) != 0;
 }
 
-auto tp_is_unused46(Tpp tp) -> bool
+auto tp_is_level_open_icon(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused46) != 0;
+  return tp_flag(tp, is_level_open_icon) != 0;
 }
 
-auto tp_is_unused47(Tpp tp) -> bool
+auto tp_is_blit_bg(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused47) != 0;
+  return tp_flag(tp, is_blit_bg) != 0;
 }
 
-auto tp_is_unused48(Tpp tp) -> bool
+auto tp_is_level_select_bg(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused48) != 0;
+  return tp_flag(tp, is_level_select_bg) != 0;
 }
 
 auto tp_is_blit_hit_outline_w_black_inside(Tpp tp) -> bool

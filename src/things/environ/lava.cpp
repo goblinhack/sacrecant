@@ -59,7 +59,7 @@ auto tp_load_lava() -> bool
   tp_z_depth_set(tp, MAP_Z_DEPTH_LIQUID);
   // end sort marker1 }
 
-  auto delay = 500;
+  auto delay = 1200;
 
   for (auto frame = 0; frame < 8; frame++) {
     auto  frame_string = std::to_string(frame);

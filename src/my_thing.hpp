@@ -620,6 +620,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_attackable_by_monst(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_attackable_by_player(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_barrel(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_blit_bg(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blit_centered(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blit_flush_per_line(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blit_hit_outline_w_black_inside(Thingp t) -> bool;
@@ -720,13 +721,13 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_key(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_kobalos(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_lava(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_level_across_icon(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_level_closed_icon(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_level_curr(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_level_down_icon(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_level_final_icon(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_level_locked_icon(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_level_next_icon(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_level_not_visited_icon(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_level_visited_icon(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_level_open_icon(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_level_select_bg(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_levitating(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_loggable(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_mantisman(Thingp t) -> bool;
@@ -826,7 +827,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused45(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused46(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused47(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused48(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused5(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused6(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused63(Thingp t) -> bool;

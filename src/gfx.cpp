@@ -762,6 +762,13 @@ static void gfx_ui_init_solid()
   tile_load_arr("data/gfx/ui/solid.tga", "solid", 8, 8, ARRAY_SIZE(tiles), tiles);
 }
 
+static void gfx_ui_init_worlds()
+{
+  const char *tiles[] = {"is_level_select_bg"};
+  tile_load_arr("data/gfx/worlds.tga", "worlds", (int) TILE_WIDTH * (int) MAP_WIDTH, (int) TILE_HEIGHT * (int) MAP_HEIGHT,
+                ARRAY_SIZE(tiles), tiles);
+}
+
 static void gfx_init_tiles()
 {
   const char *tiles[] = {
@@ -2041,10 +2048,12 @@ static void gfx_init_tiles()
       "potion.0",
       "potion.1",
       // ##############################################################################
-      "level_not_visited.0",
-      "level_not_visited.1",
-      "level_visited.0",
-      "level_visited.1",
+      "level_locked.0",
+      "level_locked.1",
+      "level_closed.0",
+      "level_closed.1",
+      "level_open.0",
+      "level_open.1",
       "level_next.0",
       "level_next.1",
       "level_curr.0",
@@ -2055,8 +2064,6 @@ static void gfx_init_tiles()
       "level_across.1",
       "level_down.0",
       "level_down.1",
-      "",
-      "",
       // ##############################################################################
       "",
       "",
@@ -3789,6 +3796,7 @@ void gfx_init()
   gfx_ui_init_health_bar();
   gfx_ui_init_progress_bar();
   gfx_ui_init_solid();
+  gfx_ui_init_worlds();
   // end sort marker1 }
 }
 

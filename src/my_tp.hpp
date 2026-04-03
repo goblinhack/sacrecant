@@ -84,13 +84,13 @@
       list_macro(is_key, "is_key"),                                                         /* newline */                                  \
       list_macro(is_kobalos, "is_kobalos"),                                                 /* newline */                                  \
       list_macro(is_lava, "is_lava"),                                                       /* newline */                                  \
-      list_macro(is_level_across_icon, "is_level_across_icon"),                             /* newline */                                  \
+      list_macro(is_unused46, "is_unused46"),                                               /* newline */                                  \
       list_macro(is_level_curr, "is_level_curr"),                                           /* newline */                                  \
-      list_macro(is_level_down_icon, "is_level_down_icon"),                                 /* newline */                                  \
+      list_macro(is_unused47, "is_unused47"),                                               /* newline */                                  \
       list_macro(is_level_final_icon, "is_level_final_icon"),                               /* newline */                                  \
       list_macro(is_level_next_icon, "is_level_next_icon"),                                 /* newline */                                  \
-      list_macro(is_level_not_visited_icon, "is_level_not_visited_icon"),                   /* newline */                                  \
-      list_macro(is_level_visited_icon, "is_level_visited_icon"),                           /* newline */                                  \
+      list_macro(is_level_locked_icon, "is_level_locked_icon"),                             /* newline */                                  \
+      list_macro(is_level_closed_icon, "is_level_closed_icon"),                             /* newline */                                  \
       list_macro(is_levitating, "is_levitating"),                                           /* newline */                                  \
       list_macro(is_light_source, "is_light_source"),                                       /* newline */                                  \
       list_macro(is_loggable, "is_loggable"),                                               /* newline */                                  \
@@ -177,9 +177,9 @@
       list_macro(is_unused43, "is_unused43"),                                               /* newline */                                  \
       list_macro(is_unused44, "is_unused44"),                                               /* newline */                                  \
       list_macro(is_unused45, "is_unused45"),                                               /* newline */                                  \
-      list_macro(is_unused46, "is_unused46"),                                               /* newline */                                  \
-      list_macro(is_unused47, "is_unused47"),                                               /* newline */                                  \
-      list_macro(is_unused48, "is_unused48"),                                               /* newline */                                  \
+      list_macro(is_level_open_icon, "is_level_open_icon"),                                 /* newline */                                  \
+      list_macro(is_blit_bg, "is_blit_bg"),                                                 /* newline */                                  \
+      list_macro(is_level_select_bg, "is_level_select_bg"),                                 /* newline */                                  \
       list_macro(is_blit_hit_outline_w_black_inside, "is_blit_hit_outline_w_black_inside"), /* newline */                                  \
       list_macro(is_able_to_fall_sound, "is_able_to_fall_sound"),                           /* newline */                                  \
       list_macro(is_collision_hit_first_on_tile, "is_collision_hit_first_on_tile"),         /* newline */                                  \
@@ -705,6 +705,7 @@ void tp_monst_group_add(Tpp tp, ThingMonstGroup val);
 [[nodiscard]] auto tp_is_attackable_by_monst(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_attackable_by_player(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_barrel(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_blit_bg(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_blit_centered(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_blit_flush_per_line(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_blit_hit_outline_w_black_inside(Tpp tp) -> bool;
@@ -786,13 +787,13 @@ void tp_monst_group_add(Tpp tp, ThingMonstGroup val);
 [[nodiscard]] auto tp_is_key(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_kobalos(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_lava(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_level_across_icon(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_level_closed_icon(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_level_curr(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_level_down_icon(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_level_final_icon(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_level_locked_icon(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_level_next_icon(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_level_not_visited_icon(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_level_visited_icon(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_level_open_icon(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_level_select_bg(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_levitating(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_light_source(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_loggable(Tpp tp) -> bool;
@@ -889,7 +890,6 @@ void tp_monst_group_add(Tpp tp, ThingMonstGroup val);
 [[nodiscard]] auto tp_is_unused45(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused46(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused47(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused48(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused5(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused6(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused63(Tpp tp) -> bool;
