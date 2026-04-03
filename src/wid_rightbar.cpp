@@ -54,39 +54,6 @@ static void wid_rightbar_create_minimap_level(Gamep g)
   }
 }
 
-static void wid_rightbar_create_minimap_world(Gamep g)
-{
-  TRACE();
-
-  {
-    auto        *w = wid_new_square_button(g, wid_rightbar->wid_popup_container, "world map text");
-    spoint const minimap_tl(minimap_size + 3, TERM_HEIGHT - minimap_size);
-    spoint const minimap_br(minimap_size + minimap_size + 4, TERM_HEIGHT - minimap_size);
-    wid_set_text(w, "World:");
-    wid_set_text_lhs(w);
-    wid_set_text_top(w);
-    wid_set_style(w, UI_WID_STYLE_SPARSE_NONE);
-    wid_set_pos(w, minimap_tl, minimap_br);
-    wid_set_mode(w, WID_MODE_OVER);
-    wid_set_color(w, WID_COLOR_BG, WHITE);
-    wid_set_mode(w, WID_MODE_NORMAL);
-    wid_set_color(w, WID_COLOR_BG, WHITE);
-  }
-
-  {
-    auto        *w = wid_new_square_button(g, wid_rightbar->wid_popup_container, "world map");
-    spoint const minimap_tl(minimap_size + 3, TERM_HEIGHT - minimap_size + 1);
-    spoint const minimap_br(minimap_size + minimap_size + 4, TERM_HEIGHT - 2);
-    wid_set_tilename(TILE_LAYER_FG_0, w, "FBO_MINIMAP_WORLD_ROTATED");
-    wid_set_style(w, UI_WID_STYLE_SPARSE_NONE);
-    wid_set_pos(w, minimap_tl, minimap_br);
-    wid_set_mode(w, WID_MODE_OVER);
-    wid_set_color(w, WID_COLOR_BG, WHITE);
-    wid_set_mode(w, WID_MODE_NORMAL);
-    wid_set_color(w, WID_COLOR_BG, WHITE);
-  }
-}
-
 [[nodiscard]] static auto wid_rightbar_create_window(Gamep g) -> bool
 {
   TRACE();
@@ -164,11 +131,7 @@ static void wid_rightbar_create_minimap_world(Gamep g)
   //
   // Minimaps
   //
-  IF_DEBUG
-  {
-    wid_rightbar_create_minimap_level(g);
-    wid_rightbar_create_minimap_world(g);
-  }
+  IF_DEBUG { wid_rightbar_create_minimap_level(g); }
 
   wid_update(g, wid_rightbar->wid_popup_container);
 
