@@ -19,7 +19,7 @@
 
 . ./build/common.sh
 
-TARGET=gorget
+TARGET=sacrecant
 
 #
 # The default MINGW32 and MINGW64 environments build binaries using the older
@@ -503,10 +503,10 @@ if [[ $OPT_LZ4 != "" ]]; then
     # LZ0 to LZ4 comparisons:
     #
     # LZ0 compressed 1239Mb (1299692095 bytes) -> 17Mb (18108144 bytes) took 122 ms
-    # LZ0 decompress 17Mb (18108144 bytes) -> 1239Mb (1299692095 bytes) took 1311 ms (appdata/gorget/saved-slot-0)
+    # LZ0 decompress 17Mb (18108144 bytes) -> 1239Mb (1299692095 bytes) took 1311 ms (appdata/sacrecant/saved-slot-0)
     #
     # LZ4 compressed 1239Mb (1299692095 bytes) -> 15Mb (15982242 bytes) took 121 ms
-    # LZ4 decompress 15Mb (15982242 bytes) -> 1239Mb (1299692095 bytes) took 63 ms (appdata/gorget/saved-slot-0)
+    # LZ4 decompress 15Mb (15982242 bytes) -> 1239Mb (1299692095 bytes) took 63 ms (appdata/sacrecant/saved-slot-0)
     #
     CFLAGS+=" -DUSE_LZ4"
     LDLIBS+=" -llz4"

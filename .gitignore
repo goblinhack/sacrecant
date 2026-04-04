@@ -39,10 +39,10 @@ build/Makefile
 build/Makefile.template
 data/gfx/
 data/sounds/
-gorget
-gorget.dSYM/
-gorget.stderr.txt
-gorget.stdout.txt
+sacrecant
+sacrecant.dSYM/
+sacrecant.stderr.txt
+sacrecant.stdout.txt
 src/cfg.hpp
 src/ramdisk_data_0.S
 src/ramdisk_data_1.S

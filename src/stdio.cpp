@@ -40,9 +40,9 @@ auto redirect_stdout() -> FILE *
 
   std::string out;
   if (g_thread_id == MAIN_THREAD) {
-    out = std::format("{}{}{}{}{}", appdata, DIR_SEP, "gorget", DIR_SEP, "stdout.txt");
+    out = std::format("{}{}{}{}{}", appdata, DIR_SEP, "sacrecant", DIR_SEP, "stdout.txt");
   } else {
-    out = std::format("{}{}{}{}{}.level.{}", appdata, DIR_SEP, "gorget", DIR_SEP, "stdout.txt", g_thread_id);
+    out = std::format("{}{}{}{}{}.level.{}", appdata, DIR_SEP, "sacrecant", DIR_SEP, "stdout.txt", g_thread_id);
   }
   g_log_stdout_filename = out;
   g_log_stdout          = fopen(out.c_str(), "w+");
@@ -52,9 +52,9 @@ auto redirect_stdout() -> FILE *
   //
   if (g_log_stdout == nullptr) {
     if (g_thread_id == MAIN_THREAD) {
-      out = "gorget.stdout.txt";
+      out = "sacrecant.stdout.txt";
     } else {
-      out = std::format("{}.level.{}", "gorget.stdout.txt", g_thread_id);
+      out = std::format("{}.level.{}", "sacrecant.stdout.txt", g_thread_id);
     }
     g_log_stdout_filename = out;
     g_log_stdout          = fopen(out.c_str(), "w+");
@@ -99,9 +99,9 @@ auto redirect_stderr() -> FILE *
 
   std::string out;
   if (g_thread_id == MAIN_THREAD) {
-    out = std::format("{}{}{}{}{}", appdata, DIR_SEP, "gorget", DIR_SEP, "stderr.txt");
+    out = std::format("{}{}{}{}{}", appdata, DIR_SEP, "sacrecant", DIR_SEP, "stderr.txt");
   } else {
-    out = std::format("{}{}{}{}{}.level.{}", appdata, DIR_SEP, "gorget", DIR_SEP, "stderr.txt", g_thread_id);
+    out = std::format("{}{}{}{}{}.level.{}", appdata, DIR_SEP, "sacrecant", DIR_SEP, "stderr.txt", g_thread_id);
   }
   g_log_stderr_filename = out;
   g_log_stderr          = fopen(out.c_str(), "w+");
@@ -111,9 +111,9 @@ auto redirect_stderr() -> FILE *
   //
   if (g_log_stderr == nullptr) {
     if (g_thread_id == MAIN_THREAD) {
-      out = "gorget.stderr.txt";
+      out = "sacrecant.stderr.txt";
     } else {
-      out = std::format("{}.level.{}", "gorget.stderr.txt", g_thread_id);
+      out = std::format("{}.level.{}", "sacrecant.stderr.txt", g_thread_id);
     }
     g_log_stderr_filename = out;
     g_log_stderr          = fopen(out.c_str(), "w+");

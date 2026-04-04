@@ -7,7 +7,7 @@ include ../build/Makefile.template
 #COMPILER_FLAGS+=-O0
 #endif
 
-NAME=gorget
+NAME=sacrecant
 BUILD_DIR=../.o
 
 TARGET_GAME=../$(NAME)$(EXE)

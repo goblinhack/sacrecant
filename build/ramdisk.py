@@ -41,9 +41,9 @@ number_of_ramdisk_files = 10
 root = pathlib.Path(".")
 
 if sys.platform == 'win32':
-    target = "gorget.exe"
+    target = "sacrecant.exe"
 else:
-    target = "gorget"
+    target = "sacrecant"
 
 #
 # If the make target exists, see if any graphics are newer than the

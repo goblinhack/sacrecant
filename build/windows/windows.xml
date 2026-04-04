@@ -1,10 +1,10 @@
 <project>
-    <shortName>Gorget</shortName>
-    <fullName>Gorget</fullName>
+    <shortName>Sacrecant</shortName>
+    <fullName>Sacrecant</fullName>
     <version>0.2.4</version>
     <installerFilename></installerFilename>
-    <licenseFile>C:/msys64/home/neila/gorget/src/LICENSE</licenseFile>
-    <logoImage>C:/msys64/home/neila/gorget/build/windows/gorget-logo.png</logoImage>
+    <licenseFile>C:/msys64/home/neila/sacrecant/src/LICENSE</licenseFile>
+    <logoImage>C:/msys64/home/neila/sacrecant/build/windows/sacrecant-logo.png</logoImage>
     <componentList>
         <component>
             <name>default</name>
@@ -14,53 +14,53 @@
             <show>1</show>
             <desktopShortcutList>
                 <shortcut>
-                    <comment>gorget</comment>
-                    <exec>${installdir}/gorget/gorget</exec>
-                    <icon>${installdir}/gorget/gorget.ico</icon>
-                    <name>gorget</name>
+                    <comment>sacrecant</comment>
+                    <exec>${installdir}/sacrecant/sacrecant</exec>
+                    <icon>${installdir}/sacrecant/sacrecant.ico</icon>
+                    <name>sacrecant</name>
                     <noPinToStart>0</noPinToStart>
-                    <path>${installdir}/gorget</path>
+                    <path>${installdir}/sacrecant</path>
                     <platforms>windows-x64</platforms>
                     <runAsAdmin>0</runAsAdmin>
                     <runInTerminal>0</runInTerminal>
-                    <windowsExec>${installdir}/gorget/gorget.exe</windowsExec>
+                    <windowsExec>${installdir}/sacrecant/sacrecant.exe</windowsExec>
                     <windowsExecArgs></windowsExecArgs>
-                    <windowsIcon>${installdir}/gorget/gorget.ico</windowsIcon>
-                    <windowsPath>${installdir}/gorget/</windowsPath>
+                    <windowsIcon>${installdir}/sacrecant/sacrecant.ico</windowsIcon>
+                    <windowsPath>${installdir}/sacrecant/</windowsPath>
                 </shortcut>
             </desktopShortcutList>
             <folderList>
                 <folder>
                     <description>Program Files</description>
-                    <destination>${installdir}/gorget/</destination>
+                    <destination>${installdir}/sacrecant/</destination>
                     <name>programfiles</name>
                     <platforms>windows-x64</platforms>
                     <shortcutList>
                         <shortcut>
                             <comment>Uninstall</comment>
-                            <exec>${installdir}/gorget/${uninstallerName}</exec>
+                            <exec>${installdir}/sacrecant/${uninstallerName}</exec>
                             <icon></icon>
                             <name>Uninstall ${product_fullname}</name>
-                            <path>${installdir}/gorget/</path>
+                            <path>${installdir}/sacrecant/</path>
                             <platforms>windows-x64</platforms>
                             <runAsAdmin>0</runAsAdmin>
                             <runInTerminal>0</runInTerminal>
-                            <windowsExec>${installdir}/gorget/${uninstallerName}.exe</windowsExec>
+                            <windowsExec>${installdir}/sacrecant/${uninstallerName}.exe</windowsExec>
                             <windowsExecArgs></windowsExecArgs>
                             <windowsIcon></windowsIcon>
-                            <windowsPath>${installdir}/gorget/</windowsPath>
+                            <windowsPath>${installdir}/sacrecant/</windowsPath>
                         </shortcut>
                     </shortcutList>
                 </folder>
                 <folder>
                     <description>Program Files</description>
-                    <destination>${installdir}/gorget/</destination>
+                    <destination>${installdir}/sacrecant/</destination>
                     <name>programfileslinux</name>
                     <platforms>linux</platforms>
                 </folder>
                 <folder>
                     <description>Program Files</description>
-                    <destination>${installdir}/gorget/</destination>
+                    <destination>${installdir}/sacrecant/</destination>
                     <name>programfileswindows</name>
                     <platforms>windows-x64</platforms>
                     <distributionFileList>
@@ -149,16 +149,16 @@
                             <origin>C:/msys64/ucrt64/bin/zlib1.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>C:/msys64/home/neila/gorget/gorget.exe</origin>
+                            <origin>C:/msys64/home/neila/sacrecant/sacrecant.exe</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>C:/msys64/home/neila/gorget/gorget.pdb</origin>
+                            <origin>C:/msys64/home/neila/sacrecant/sacrecant.pdb</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>C:/msys64/home/neila/gorget/data</origin>
+                            <origin>C:/msys64/home/neila/sacrecant/data</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>C:/msys64/home/neila/gorget/build/windows/gorget.ico</origin>
+                            <origin>C:/msys64/home/neila/sacrecant/build/windows/sacrecant.ico</origin>
                         </distributionFile>
                         <distributionFile>
                             <origin>C:/msys64/ucrt64/bin/libunwind.dll</origin>
@@ -181,9 +181,9 @@
                     </distributionFileList>
                 </folder>
                 <folder>
-                    <description>gorget</description>
-                    <destination>${installdir}/gorget/</destination>
-                    <name>gorget</name>
+                    <description>sacrecant</description>
+                    <destination>${installdir}/sacrecant/</destination>
+                    <name>sacrecant</name>
                     <platforms>all</platforms>
                 </folder>
             </folderList>
@@ -193,27 +193,27 @@
                     <name>Uninstall ${product_fullname}</name>
                     <runAsAdmin>0</runAsAdmin>
                     <runInTerminal>0</runInTerminal>
-                    <windowsExec>${installdir}/gorget/${uninstallerName}.exe</windowsExec>
+                    <windowsExec>${installdir}/sacrecant/${uninstallerName}.exe</windowsExec>
                     <windowsExecArgs></windowsExecArgs>
                     <windowsIcon></windowsIcon>
-                    <windowsPath>${installdir}/gorget/</windowsPath>
+                    <windowsPath>${installdir}/sacrecant/</windowsPath>
                 </startMenuShortcut>
                 <startMenuShortcut>
-                    <comment>Gorget</comment>
-                    <name>gorget</name>
+                    <comment>Sacrecant</comment>
+                    <name>sacrecant</name>
                     <runAsAdmin>0</runAsAdmin>
                     <runInTerminal>0</runInTerminal>
-                    <windowsExec>${installdir}/gorget/gorget.exe</windowsExec>
+                    <windowsExec>${installdir}/sacrecant/sacrecant.exe</windowsExec>
                     <windowsExecArgs></windowsExecArgs>
-                    <windowsIcon>${installdir}/gorget/gorget.ico</windowsIcon>
-                    <windowsPath>${installdir}/gorget</windowsPath>
+                    <windowsIcon>${installdir}/sacrecant/sacrecant.ico</windowsIcon>
+                    <windowsPath>${installdir}/sacrecant</windowsPath>
                 </startMenuShortcut>
             </startMenuShortcutList>
         </component>
     </componentList>
     <preInstallationActionList>
       <deleteFile>
-        <path>${installdir}/gorget/</path>
+        <path>${installdir}/sacrecant/</path>
       </deleteFile>
     </preInstallationActionList>
     <enableRollback>1</enableRollback>

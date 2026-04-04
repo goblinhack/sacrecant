@@ -3,7 +3,7 @@
 cd ..
 cd build/docker
 DOCKER_FILE=ubuntu.dockerfile
-DOCKER_IMAGE=gorget.ubuntu
+DOCKER_IMAGE=sacrecant.ubuntu
 
 which docker &>/dev/null
 if [[ $? -ne 0 ]]; then

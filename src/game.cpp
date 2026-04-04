@@ -375,7 +375,7 @@ Game::Game(const std::string &vappdata) : save_slot(1)
 
   g->appdata = vappdata;
 
-  saved_dir = appdata + DIR_SEP + "gorget" + DIR_SEP;
+  saved_dir = appdata + DIR_SEP + "sacrecant" + DIR_SEP;
 
   if (! config.seed_name.empty()) {
     save_meta = "seed " + config.seed_name + ", ";

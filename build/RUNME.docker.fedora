@@ -3,7 +3,7 @@
 cd ..
 cd build/docker
 DOCKER_FILE=fedora.dockerfile
-DOCKER_IMAGE=gorget.fedora
+DOCKER_IMAGE=sacrecant.fedora
 
 which docker &>/dev/null
 if [[ $? -ne 0 ]]; then

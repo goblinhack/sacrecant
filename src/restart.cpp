@@ -75,7 +75,7 @@ void restart(Gamep g, const std::string &restart_arg)
   // Windows has spaces in the path name and that ends up being incorrectly
   // split by execve on the 2nd boot. So, just avoid the issue.
   //
-  executable = (char *) "gorget.exe";
+  executable = (char *) "sacrecant.exe";
   use_system = false;
 #else
   use_system = false;

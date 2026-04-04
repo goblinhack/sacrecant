@@ -71,23 +71,23 @@ log() {
 }
 
 log_info() {
-    echo "gorget: ${GREEN}$*${RESET}"
+    echo "sacrecant: ${GREEN}$*${RESET}"
 }
 
 log_echo() {
-    echo "gorget: $*"
+    echo "sacrecant: $*"
 }
 
 log_err() {
-    echo "gorget: ${RED}ERROR: $*${RESET}"
+    echo "sacrecant: ${RED}ERROR: $*${RESET}"
 }
 
 log_warn() {
-    echo "gorget: ${CYAN}WARN: $*${RESET}"
+    echo "sacrecant: ${CYAN}WARN: $*${RESET}"
 }
 
 log_die() {
-    echo "gorget: ${RED}FATAL ERROR: $*${RESET}"
+    echo "sacrecant: ${RED}FATAL ERROR: $*${RESET}"
     echo "Mail goblinhack@gmail.com for help"
     exit 1
 }

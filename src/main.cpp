@@ -43,7 +43,7 @@ static void usage()
   }
   whinged = 1;
 
-  con("Gorget, options:");
+  con("Sacrecant, options:");
   con(" ");
   con("Commonly used options:");
   con(" --seed <name/number>              -- Set the random seed.");
@@ -66,10 +66,10 @@ static void usage()
   con(" ");
   con("Examples");
   con(" # start on seed crowcod, level 10");
-  con(" ./gorget --seed crowcod --level 10");
+  con(" ./sacrecant --seed crowcod --level 10");
   con(" ");
   con(" # start on seed crowcod, last level and at the level select meny");
-  con(" ./gorget --seed crowcod --level 100 --level-select");
+  con(" ./sacrecant --seed crowcod --level 100 --level-select");
   con(" ");
   con("Written by goblinhack@gmail.com");
 }

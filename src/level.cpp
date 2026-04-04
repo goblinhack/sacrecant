@@ -218,7 +218,7 @@ auto level_change(Gamep g, Levelsp v, LevelNum level_num) -> Levelp
 
   if (old_level == new_level) {
     if (new_level->level_num == 0) {
-      topcon("Welcome to " UI_IMPORTANT_FMT_STR "Gorget" UI_RESET_FMT ". A literal work in progress...");
+      topcon("Welcome to " UI_IMPORTANT_FMT_STR "Sacrecant" UI_RESET_FMT ". A literal work in progress...");
     }
     return new_level;
   }

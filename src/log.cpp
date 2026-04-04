@@ -39,7 +39,7 @@ auto log_dir_create() -> std::string
   mkdir(appdata, 0700);
 #endif
 
-  char *dir = dynprintf("%s%s%s", appdata, DIR_SEP, "gorget");
+  char *dir = dynprintf("%s%s%s", appdata, DIR_SEP, "sacrecant");
 #ifdef _WIN32
   mkdir(dir);
 #else

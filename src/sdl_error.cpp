@@ -41,9 +41,9 @@ static void sdl_msgerr_(const char *fmt, va_list args)
   //
   log("show SDL message box");
 
-  auto *window = SDL_CreateWindow("gorget error", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 100, 100,
+  auto *window = SDL_CreateWindow("sacrecant error", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 100, 100,
                                   SDL_WINDOW_SHOWN | SDL_WINDOW_ALWAYS_ON_TOP);
-  SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Gorget", buf, window);
+  SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Sacrecant", buf, window);
   log("launched SDL message box");
   SDL_DestroyWindow(window);
 #endif

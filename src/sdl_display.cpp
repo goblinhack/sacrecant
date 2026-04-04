@@ -221,7 +221,7 @@ auto sdl_display_init(Gamep g) -> bool
     log("SDL: Create window size %ux%u", video_width, video_height);
   }
 
-  sdl.window = SDL_CreateWindow("gorget", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, video_width, video_height, video_flags);
+  sdl.window = SDL_CreateWindow("sacrecant", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, video_width, video_height, video_flags);
 
   if (sdl.window == nullptr) {
     ERR("SDL_CreateWindow couldn't set windowed display %ux%u: '%s'", video_width, video_height, SDL_GetError());
@@ -258,9 +258,9 @@ auto sdl_display_init(Gamep g) -> bool
   SDL_ClearError();
 
   if (AN_ERROR_OCCURRED()) {
-    SDL_SetWindowTitle(sdl.window, "gorget (safe mode)");
+    SDL_SetWindowTitle(sdl.window, "sacrecant (safe mode)");
   } else {
-    SDL_SetWindowTitle(sdl.window, "gorget");
+    SDL_SetWindowTitle(sdl.window, "sacrecant");
   }
 
   SDL_SetWindowInputFocus(sdl.window);
