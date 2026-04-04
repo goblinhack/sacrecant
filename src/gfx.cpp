@@ -769,10 +769,16 @@ static void gfx_ui_init_worlds()
                 ARRAY_SIZE(tiles), tiles);
 }
 
-static void gfx_ui_init_intro()
+static void gfx_ui_init_intro_bg()
 {
-  const char *tiles[] = {"intro"};
-  tile_load_arr("data/gfx/ui/intro.tga", "intro", 256, 192, ARRAY_SIZE(tiles), tiles);
+  const char *tiles[] = {"intro_bg"};
+  tile_load_arr("data/gfx/ui/intro_bg.tga", "intro_bg", 256, 192, ARRAY_SIZE(tiles), tiles);
+}
+
+static void gfx_ui_init_intro_fg()
+{
+  const char *tiles[] = {"intro_fg"};
+  tile_load_arr("data/gfx/ui/intro_fg.tga", "intro_fg", 256, 192, ARRAY_SIZE(tiles), tiles);
 }
 
 static void gfx_init_tiles()
@@ -3803,7 +3809,8 @@ void gfx_init()
   gfx_ui_init_progress_bar();
   gfx_ui_init_solid();
   gfx_ui_init_worlds();
-  gfx_ui_init_intro();
+  gfx_ui_init_intro_bg();
+  gfx_ui_init_intro_fg();
   // end sort marker1 }
 }
 

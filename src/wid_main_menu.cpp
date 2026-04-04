@@ -133,13 +133,40 @@ static void wid_main_menu_hide(Gamep g)
 static void game_display_title_bg(Gamep g)
 {
   TRACE();
-  GLCOLOR(WHITE);
+
+  static color fg  = RED;
+  static int   hue = 0;
+
+  GLCOLOR(fg);
+  hue = 1;
+  if (hue > 255) {
+    hue = 0;
+  }
+
+  fg   = color_change_hue(fg, hue);
+  fg.a = 255;
+
+  if (fg.r + fg.g + fg.b < 100) {
+    fg = RED;
+  }
+
+  auto bright = static_cast< float >(1.01);
+  int  r      = static_cast< int >((static_cast< float >(fg.r)) * bright);
+  r           = std::min(r, 255);
+  fg.r        = r;
+  int green   = static_cast< int >((static_cast< float >(fg.g)) * bright);
+  green       = std::min(green, 255);
+  fg.g        = green;
+  int b       = static_cast< int >((static_cast< float >(fg.b)) * bright);
+  b           = std::min(b, 255);
+  fg.b        = b;
+
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
   float w = game_window_pix_width_get(g);
   float h = game_window_pix_height_get(g);
 
-  auto  tile = tile_find_mand("intro");
+  auto  tile = tile_find_mand("intro_bg");
   float tw   = tile_width(tile);
   float th   = tile_height(tile);
 
@@ -153,20 +180,36 @@ static void game_display_title_bg(Gamep g)
   br.x += center;
 
   blit_init();
-  tile_blit(tile, tl, br, WHITE);
+  tile_blit(tile, tl, br, fg);
   blit_flush();
 }
 
-static void game_display_title_fg1(Gamep g)
+static void game_display_title_fg(Gamep g)
 {
   TRACE();
 
-  GLCOLOR(WHITE);
+  color fg = WHITE;
+
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-  std::string const t = "title_fg1_1";
+  float w = game_window_pix_width_get(g);
+  float h = game_window_pix_height_get(g);
+
+  auto  tile = tile_find_mand("intro_fg");
+  float tw   = tile_width(tile);
+  float th   = tile_height(tile);
+
+  w = (h * tw) / th;
+
+  spoint tl(0, 0);
+  spoint br((int) w, (int) h);
+
+  auto center = (int) ((game_window_pix_width_get(g) - w) / 2);
+  tl.x += center;
+  br.x += center;
+
   blit_init();
-  tile_blit(tile_find_mand(t), spoint(0, 0), spoint(game_window_pix_width_get(g), game_window_pix_height_get(g)), WHITE);
+  tile_blit(tile, tl, br, fg);
   blit_flush();
 }
 
@@ -303,10 +346,10 @@ static void wid_main_menu_tick(Gamep g, Widp w)
 {
   TRACE();
 
+  game_display_title_fg(g);
   game_display_title_bg(g);
 
   if (compiler_unused) {
-    game_display_title_fg1(g);
     game_display_title_fg2(g);
     game_display_title_fg3(g);
     game_display_title_fg4(g);
