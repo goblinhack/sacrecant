@@ -446,21 +446,6 @@ auto main(int argc, char *argv[]) -> int
   }
 
   if (! g_opt_tests) {
-    con(UI_INFO_FMT_STR "          @@@@@@@@   @@@@@@   @@@@@@@    @@@@@@@@  @@@@@@@@  @@@@@@@" UI_RESET_FMT);
-    con(UI_INFO_FMT_STR "         @@@@@@@@@  @@@@@@@@  @@@@@@@@  @@@@@@@@@  @@@@@@@@  @@@@@@@" UI_RESET_FMT);
-    con(UI_INFO_FMT_STR "         !@@        @@!  @@@  @@!  @@@  !@@        @@!         @@!" UI_RESET_FMT);
-    con(UI_INFO_FMT_STR "         !@!        !@!  @!@  !@!  @!@  !@!        !@!         !@!" UI_RESET_FMT);
-    con(UI_INFO_FMT_STR "         !@! @!@!@  @!@  !@!  @!@!!@!   !@! @!@!@  @!!!:!      @!!" UI_RESET_FMT);
-    con(UI_INFO_FMT_STR "         !!! !!@!!  !@!  !!!  !!@!@!    !!! !!@!!  !!!!!:      !!!" UI_RESET_FMT);
-    con(UI_INFO_FMT_STR "         :!!   !!:  !!:  !!!  !!: :!!   :!!   !!:  !!:         !!:" UI_RESET_FMT);
-    con(UI_INFO_FMT_STR "         :!:   !::  :!:  !:!  :!:  !:!  :!:   !::  :!:         :!:" UI_RESET_FMT);
-    con(UI_INFO_FMT_STR "          ::: ::::  ::::: ::  ::   :::   ::: ::::   :: ::::     ::" UI_RESET_FMT);
-    con(UI_INFO_FMT_STR "          :: :: :    : :  :    :   : :   :: :: :   : :: ::      :" UI_RESET_FMT);
-    con(UI_INFO_FMT_STR "           :              :    .         :: :      :  :  :" UI_RESET_FMT "");
-    con(UI_INFO_FMT_STR "           .              :               : .      .     ." UI_RESET_FMT "");
-    con(UI_INFO_FMT_STR "                          :               ." UI_RESET_FMT);
-    con(UI_INFO_FMT_STR "                          ." UI_RESET_FMT);
-    con(UI_INFO_FMT_STR "Version: " MYVER UI_RESET_FMT);
     con("Press " UI_WARNING_FMT_STR "<tab>" UI_RESET_FMT " to complete commands.");
     con("Press " UI_WARNING_FMT_STR "?" UI_RESET_FMT "     to show command options.");
     auto key = ::to_string(game_key_console_get(g));
