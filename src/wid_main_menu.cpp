@@ -136,9 +136,24 @@ static void game_display_title_bg(Gamep g)
   GLCOLOR(WHITE);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-  std::string const t = "title_bg";
+  float w = game_window_pix_width_get(g);
+  float h = game_window_pix_height_get(g);
+
+  auto  tile = tile_find_mand("intro");
+  float tw   = tile_width(tile);
+  float th   = tile_height(tile);
+
+  w = (h * tw) / th;
+
+  spoint tl(0, 0);
+  spoint br((int) w, (int) h);
+
+  auto center = (int) ((game_window_pix_width_get(g) - w) / 2);
+  tl.x += center;
+  br.x += center;
+
   blit_init();
-  tile_blit(tile_find_mand(t), spoint(0, 0), spoint(game_window_pix_width_get(g), game_window_pix_height_get(g)), WHITE);
+  tile_blit(tile, tl, br, WHITE);
   blit_flush();
 }
 
@@ -288,8 +303,9 @@ static void wid_main_menu_tick(Gamep g, Widp w)
 {
   TRACE();
 
+  game_display_title_bg(g);
+
   if (compiler_unused) {
-    game_display_title_bg(g);
     game_display_title_fg1(g);
     game_display_title_fg2(g);
     game_display_title_fg3(g);

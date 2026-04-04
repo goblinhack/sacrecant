@@ -206,13 +206,11 @@ void wid_dump(Widp w, int depth)
              wid_get_text(w), tlx, tly, brx, bry, wid_count(w, depth));
 #endif
 
-#if 1
   for (auto &iter : w->children_display_sorted) {
     auto *child = iter.second;
 
     wid_dump(child, depth + 2);
   }
-#endif
 }
 
 auto wid_count(Widp w, int depth) -> int
@@ -5359,6 +5357,11 @@ void wid_display_all(Gamep g)
 {
   TRACE();
 
+  gl_enter_2d_mode(g, game_window_pix_width_get(g), game_window_pix_height_get(g));
+  blit_fbo_bind_locked(FBO_WID);
+  gl_clear();
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
   ascii_clear_display();
 
   wid_tick_all(g);
@@ -5435,6 +5438,7 @@ printf("========================================= %d\n", wid_total_count);
   //
   wid_update_mouse(g);
 
+  blit_fbo_unbind_locked();
   gl_enter_2d_mode(g, game_window_pix_width_get(g), game_window_pix_height_get(g));
 }
 

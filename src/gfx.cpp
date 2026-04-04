@@ -765,8 +765,14 @@ static void gfx_ui_init_solid()
 static void gfx_ui_init_worlds()
 {
   const char *tiles[] = {"is_level_select_bg"};
-  tile_load_arr("data/gfx/worlds.tga", "worlds", (int) TILE_WIDTH * (int) MAP_WIDTH, (int) TILE_HEIGHT * (int) MAP_HEIGHT,
+  tile_load_arr("data/gfx/ui/worlds.tga", "worlds", (int) TILE_WIDTH * (int) MAP_WIDTH, (int) TILE_HEIGHT * (int) MAP_HEIGHT,
                 ARRAY_SIZE(tiles), tiles);
+}
+
+static void gfx_ui_init_intro()
+{
+  const char *tiles[] = {"intro"};
+  tile_load_arr("data/gfx/ui/intro.tga", "intro", 256, 192, ARRAY_SIZE(tiles), tiles);
 }
 
 static void gfx_init_tiles()
@@ -3797,6 +3803,7 @@ void gfx_init()
   gfx_ui_init_progress_bar();
   gfx_ui_init_solid();
   gfx_ui_init_worlds();
+  gfx_ui_init_intro();
   // end sort marker1 }
 }
 

@@ -2,6 +2,8 @@ Work in progress.
 
 <p align="center">
 <img alt="Pixel art" src="data/pics/screenshot.1.png">
+<img alt="Pixel art" src="data/pics/screenshot.2.png">
+<img alt="Pixel art" src="data/pics/screenshot.3.png">
 </p>
 
 Music
