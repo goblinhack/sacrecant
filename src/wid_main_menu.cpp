@@ -213,39 +213,10 @@ static void game_display_title_fg(Gamep g)
   blit_flush();
 }
 
-static void game_display_title_fg2(Gamep g)
+static auto clamp(float v) -> uint8_t // define a function to bound and round the input float value to 0-255
 {
   TRACE();
 
-  static color fg    = WHITE;
-  static int   delta = 10;
-  static int   red   = 255;
-
-  if (PCG_RANDOM_RANGE(0, 100) < 50) {
-    red += delta;
-    if (red > 255) {
-      delta = -delta;
-      red   = 255;
-    } else if (red < 200) {
-      delta = -delta;
-      red   = 200;
-    }
-  }
-
-  fg.g = red;
-  fg.b = red;
-  GLCOLOR(fg);
-
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-  std::string const t = "title_fg2_1";
-  blit_init();
-  tile_blit(tile_find_mand(t), spoint(0, 0), spoint(game_window_pix_width_get(g), game_window_pix_height_get(g)), WHITE);
-  blit_flush();
-}
-
-static auto clamp(float v) -> uint8_t // define a function to bound and round the input float value to 0-255
-{
   if (v < 0) {
     return 0;
   }
@@ -258,6 +229,8 @@ static auto clamp(float v) -> uint8_t // define a function to bound and round th
 // https://stackoverflow.com/questions/8507885/shift-hue-of-an-rgb-color#8509802
 auto color_change_hue(const color &in, const float fHue) -> color
 {
+  TRACE();
+
   color       out;
   const float cosA = cos(fHue * std::numbers::pi_v< float > / 180); // convert degrees to radians
   const float sinA = sin(fHue * std::numbers::pi_v< float > / 180); // convert degrees to radians
@@ -278,82 +251,12 @@ auto color_change_hue(const color &in, const float fHue) -> color
   return out;
 }
 
-static void game_display_title_fg3(Gamep g)
-{
-  TRACE();
-
-  static color fg  = RED;
-  static int   hue = 0;
-
-  hue = 1;
-  if (hue > 255) {
-    hue = 0;
-  }
-
-  fg   = color_change_hue(fg, hue);
-  fg.a = 255;
-
-  if (fg.r + fg.g + fg.b < 100) {
-    fg = RED;
-  }
-
-  auto bright = static_cast< float >(1.01);
-  int  r      = static_cast< int >((static_cast< float >(fg.r)) * bright);
-  r           = std::min(r, 255);
-  fg.r        = r;
-  int green   = static_cast< int >((static_cast< float >(fg.g)) * bright);
-  green       = std::min(green, 255);
-  fg.g        = green;
-  int b       = static_cast< int >((static_cast< float >(fg.b)) * bright);
-  b           = std::min(b, 255);
-  fg.b        = b;
-
-  GLCOLOR(fg);
-
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-  std::string const t = "title_fg3_1";
-  blit_init();
-  tile_blit(tile_find_mand(t), spoint(0, 0), spoint(game_window_pix_width_get(g), game_window_pix_height_get(g)), WHITE);
-  blit_flush();
-}
-
-static void game_display_title_fg4(Gamep g)
-{
-  TRACE();
-
-  GLCOLOR(WHITE);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-  static int  frame = 1;
-  static ts_t ts;
-
-  if (time_have_x_tenths_passed_since(5, ts)) {
-    frame++;
-    if (frame > 64) {
-      frame = 1;
-    }
-    ts = time_ms_cached();
-  }
-
-  std::string const t = "title_fg4_" + std::to_string(frame);
-  blit_init();
-  tile_blit(tile_find_mand(t), spoint(0, 0), spoint(game_window_pix_width_get(g), game_window_pix_height_get(g)), WHITE);
-  blit_flush();
-}
-
 static void wid_main_menu_tick(Gamep g, Widp w)
 {
   TRACE();
 
   game_display_title_fg(g);
   game_display_title_bg(g);
-
-  if (compiler_unused) {
-    game_display_title_fg2(g);
-    game_display_title_fg3(g);
-    game_display_title_fg4(g);
-  }
 
   if (wid_main_menu_window != nullptr) {
     ascii_putf(TERM_WIDTH - SIZEOF(MYVER), TERM_HEIGHT - 1, GREEN, BLACK, "v" MYVER);
