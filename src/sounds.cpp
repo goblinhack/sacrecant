@@ -5,7 +5,7 @@
 #include "my_callstack.hpp"
 #include "my_sound.hpp"
 
-void sounds_load()
+void sounds_load(Gamep g)
 {
   TRACE();
 
@@ -28,4 +28,5 @@ void sounds_load()
   (void) sound_load(1.0F, "data/sounds/misc/footsteps.ogg", "footstep");
   (void) sound_load(1.0F, "data/sounds/missiles/arrow.ogg", "fireball", 5);
   (void) sound_load(1.0F, "data/sounds/treasure/key.ogg", "key");
+  (void) sound_load(1.0F, "data/sounds/misc/dungeon_ambience.ogg", "dungeon_ambience");
 }

@@ -33,6 +33,7 @@ public:
   }
 
   std::string name_alias;
+  std::string name;
   SDL_RWops  *rw   = {};
   Mix_Music  *m    = {};
   uint8_t    *data = {};
@@ -89,6 +90,7 @@ auto music_load(Gamep g, uint32_t rate, const char *file, const char *name_alias
 
   auto *m = new Music(name_alias);
 
+  m->name = file;
   m->rate = rate;
   m->data = file_load(file, &m->len);
   if (m->data == nullptr) {
@@ -156,6 +158,8 @@ auto music_play(Gamep g, const std::string &name) -> bool
     return false;
   }
 
+  topcon("Playing %s", m->name.c_str());
+
   return true;
 }
 
@@ -174,11 +178,10 @@ void music_load(Gamep g)
 
   (void) music_load(g, 44100, "data/music/DST-Razornest.ogg", /*          */ "intro");
   (void) music_load(g, 44100, "data/music/DST-EndingCredits.ogg", /*      */ "end");
-  (void) music_load(g, 44100, "data/music/DST-Incantation.ogg", /*        */ "gameover");
+  (void) music_load(g, 44100, "data/music/DST-Incantation.ogg", /*        */ "dead");
 
   (void) music_load(g, 44100, "data/music/DST-0mnis.ogg", /*              */ "dungeon.1");
   (void) music_load(g, 44100, "data/music/DST-OldCavern.ogg", /*          */ "dungeon.1");
-  (void) music_load(g, 44100, "data/music/DST-Protector.ogg", /*          */ "dungeon.1");
   (void) music_load(g, 44100, "data/music/DST-Escape.ogg", /*             */ "dungeon.1");
   (void) music_load(g, 44100, "data/music/DST-OmegaCenturion.ogg", /*     */ "dungeon.1");
   (void) music_load(g, 44100, "data/music/DST-Arch-Delerium.ogg", /*      */ "dungeon.2");
@@ -192,6 +195,7 @@ void music_load(Gamep g)
   (void) music_load(g, 44100, "data/music/DST-OffWorld.ogg", /*           */ "dungeon.4");
   (void) music_load(g, 44100, "data/music/DST-OrganicSpace.ogg", /*       */ "dungeon.4");
   (void) music_load(g, 44100, "data/music/DST-Perchlorate.ogg", /*        */ "dungeon.4");
+  (void) music_load(g, 44100, "data/music/DST-Protector.ogg", /*          */ "dungeon.4");
   (void) music_load(g, 44100, "data/music/DST-BloodAndIron.ogg", /*       */ "dungeon.boss");
 
   (void) music_load(g, 44100, "data/music/DST-Petaluna.ogg", /*           */ "bogland.1");

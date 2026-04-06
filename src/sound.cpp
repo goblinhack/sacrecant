@@ -14,6 +14,8 @@
 #include <map>
 #include <utility>
 
+static const auto max_channels = 16;
+
 class Sound
 {
 public:
@@ -65,12 +67,21 @@ static void sound_finished(int channel)
 auto sound_init() -> bool
 {
   TRACE();
-  Mix_AllocateChannels(16);
+  Mix_AllocateChannels(max_channels);
   Mix_ChannelFinished(sound_finished);
 
   sound_init_done = true;
 
   return true;
+}
+
+void sound_fade_out(Gamep g)
+{
+  TRACE();
+
+  for (auto c = 0; c < max_channels; c++) {
+    Mix_FadeOutChannel(c, 1000);
+  }
 }
 
 void sound_fini()
@@ -169,7 +180,7 @@ auto sound_find(const std::string &alias) -> bool
   return result != all_sound.end();
 }
 
-[[nodiscard]] static auto sound_play_internal(Game *g, const std::string &alias, class Sound *s, float scale) -> bool
+[[nodiscard]] static auto sound_play_internal(Game *g, const std::string &alias, class Sound *s, float scale, int loops) -> bool
 {
   TRACE();
 
@@ -202,7 +213,7 @@ auto sound_find(const std::string &alias) -> bool
 
   Mix_VolumeChunk(s->chunk, static_cast< int >(volume));
 
-  auto chan = Mix_PlayChannel(-1, s->chunk, 0 /* loops */);
+  auto chan = Mix_PlayChannel(-1, s->chunk, loops);
   if (chan == -1) {
     DBG("Failed to play sound %s volume %d channel %d: %s", alias.c_str(), static_cast< int >(volume), chan, Mix_GetError());
     return false;
@@ -218,7 +229,7 @@ auto sound_find(const std::string &alias) -> bool
   return false;
 }
 
-auto sound_play(Gamep g, const std::string &alias, float scale) -> bool
+auto sound_play(Gamep g, const std::string &alias, float scale, int loops) -> bool
 {
   TRACE();
 
@@ -239,7 +250,5 @@ auto sound_play(Gamep g, const std::string &alias, float scale) -> bool
     return false;
   }
 
-  return sound_play_internal(g, alias, sound->second, scale);
+  return sound_play_internal(g, alias, sound->second, scale, loops);
 }
-
-void sound_halt() { TRACE(); }

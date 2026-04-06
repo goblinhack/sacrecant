@@ -6,6 +6,7 @@
 #include "my_cpp_template.hpp"
 #include "my_game.hpp"
 #include "my_main.hpp"
+#include "my_music.hpp"
 #include "my_sdl_proto.hpp"
 #include "my_sound.hpp"
 #include "my_string.hpp"
@@ -83,6 +84,9 @@ static void wid_dead_selected(Gamep g)
 void wid_dead_select(Gamep g, const std::string &reason)
 {
   TRACE();
+
+  sound_fade_out(g);
+  music_play(g, "dead");
 
   log("open dead select: %s", reason.c_str());
 

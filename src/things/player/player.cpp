@@ -125,6 +125,8 @@ static void tp_player_level_leave(Gamep g, Levelsp v, Levelp l, Thingp t)
 {
   TRACE();
   thing_vision_reset(g, v, l, t);
+
+  sound_fade_out(g);
 }
 
 static void tp_player_level_enter(Gamep g, Levelsp v, Levelp l, Thingp t)
@@ -135,6 +137,8 @@ static void tp_player_level_enter(Gamep g, Levelsp v, Levelp l, Thingp t)
   // Needed to make sure the light resets as it looks for pixel changes.
   //
   thing_prev_pix_at_set(g, v, l, t, spoint(-1, -1));
+
+  sound_play(g, "dungeon_ambience", 10);
 
   switch (l->level_num + 1) {
     case 1 :  music_play(g, "dungeon.1"); break;

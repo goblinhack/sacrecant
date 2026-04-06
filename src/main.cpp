@@ -537,7 +537,7 @@ auto main(int argc, char *argv[]) -> int
     if (! sound_init()) {
       ERR("sound init");
     } else {
-      sounds_load();
+      sounds_load(g);
     }
     wid_console_flush(g);
   }
