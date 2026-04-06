@@ -18,7 +18,7 @@ auto sound_load(float volume, const std::string &file, const std::string &alias,
 auto sound_find(const std::string &alias) -> bool;
 auto sound_play(Gamep g, const std::string &alias, float scale = 1.0) -> bool;
 void sound_halt();
-void sounds_init();
+void sounds_load();
 
 enum {
   CHANNEL_MISC,

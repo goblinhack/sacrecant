@@ -17,22 +17,28 @@
 class Music
 {
 public:
-  explicit Music(std::string vname_alias) : name_alias(std::move(vname_alias)) {}
+  Music(std::string vname_alias) : name_alias(vname_alias) {}
 
   ~Music()
   {
-    Mix_FreeMusic(m);
+    if (m) {
+      Mix_FreeMusic(m);
+    }
+    if (rw) {
+      SDL_RWclose(rw);
+    }
     MYFREE(data);
   }
 
   std::string name_alias;
+  SDL_RWops  *rw   = {};
   Mix_Music  *m    = {};
   uint8_t    *data = {};
   int         len  = {};
   uint32_t    rate = 44100;
 };
 
-static std::unordered_map< std::string, class Music * > all_music;
+static std::map< std::string, class Music * > all_music;
 
 static std::string music_current;
 
@@ -50,7 +56,7 @@ auto music_init() -> bool
   int const initted = Mix_Init(flags);
   log("SDL: Load mixer");
   if ((initted & flags) != flags) {
-    ERR("Mix_Init: Failed to init required OGG support");
+    CROAK("Mix_Init: Failed to init required music support");
   }
 
   music_init_done = true;
@@ -78,9 +84,10 @@ void music_fini()
   all_music.clear();
 }
 
-auto music_load(uint32_t rate, const char *file, const char *name_alias) -> bool
+auto music_load(Gamep g, uint32_t rate, const char *file, const char *name_alias) -> bool
 {
   TRACE();
+
   if ((name_alias != nullptr) && (*name_alias != 0)) {
     auto m = music_find(name_alias);
     if (m) {
@@ -97,34 +104,29 @@ auto music_load(uint32_t rate, const char *file, const char *name_alias) -> bool
     return false;
   }
 
-  SDL_RWops *rw = nullptr;
-
-  rw = SDL_RWFromMem(m->data, m->len);
-  if (rw == nullptr) {
-    ERR("SDL_RWFromMem fail [%s]: %s %s", file, Mix_GetError(), SDL_GetError());
+  m->rw = SDL_RWFromMem(m->data, m->len);
+  if (m->rw == nullptr) {
+    CROAK("SDL_RWFromMem fail [%s]: %s %s", file, Mix_GetError(), SDL_GetError());
     SDL_ClearError();
     return false;
   }
 
-  m->m = Mix_LoadMUS_RW(rw, 0);
+  m->m = Mix_LoadMUS_RW(m->rw, 0);
   if (m->m == nullptr) {
-    ERR("Mix_LoadMUS_RW fail [%s]: %s %s", file, Mix_GetError(), SDL_GetError());
+    CROAK("Mix_LoadMUS_RW fail [%s]: %s %s", file, Mix_GetError(), SDL_GetError());
     SDL_ClearError();
-    SDL_RWclose(rw);
+    SDL_RWclose(m->rw);
     delete m;
     return false;
   }
 
   auto result = all_music.insert(std::make_pair(name_alias, m));
   if (! result.second) {
-    ERR("cannot insert music name [%s]", name_alias);
-    SDL_RWclose(rw);
+    CROAK("cannot insert music name [%s]", name_alias);
+    SDL_RWclose(m->rw);
     delete m;
     return false;
   }
-
-  SDL_RWclose(rw);
-  // DBG("Load %s", file);
 
   return true;
 }
@@ -155,11 +157,21 @@ auto music_play(Gamep g, const char *name) -> bool
   }
   music_current = name;
 
-  music_update_volume(g);
-
   auto music = all_music.find(name);
   if (music == all_music.end()) {
     CROAK("cannot find music %s: %s", name, Mix_GetError());
+    SDL_ClearError();
+    return false;
+  }
+
+  if (! music->second) {
+    ERR("cannot play music %s: %s (bug)", name, Mix_GetError());
+    SDL_ClearError();
+    return false;
+  }
+
+  if (! music->second->m) {
+    ERR("cannot play music %s: %s (bug)", name, Mix_GetError());
     SDL_ClearError();
     return false;
   }
@@ -180,4 +192,11 @@ auto music_halt() -> bool
 
   Mix_FadeOutMusic(1500);
   return true;
+}
+
+void music_load(Gamep g)
+{
+  TRACE();
+
+  (void) music_load(g, 44100, "data/music/DST-PhaserSwitch.ogg", "intro");
 }

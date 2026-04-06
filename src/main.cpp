@@ -521,6 +521,8 @@ auto main(int argc, char *argv[]) -> int
     }
     if (! music_init()) {
       ERR("music init");
+    } else {
+      music_load(g);
     }
     wid_console_flush(g);
   }
@@ -535,7 +537,7 @@ auto main(int argc, char *argv[]) -> int
     if (! sound_init()) {
       ERR("sound init");
     } else {
-      sounds_init();
+      sounds_load();
     }
     wid_console_flush(g);
   }

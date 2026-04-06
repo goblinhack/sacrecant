@@ -5,7 +5,7 @@
 #include "my_callstack.hpp"
 #include "my_sound.hpp"
 
-void sounds_init()
+void sounds_load()
 {
   TRACE();
 

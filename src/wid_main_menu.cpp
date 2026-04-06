@@ -10,6 +10,7 @@
 #include "my_callstack.hpp"
 #include "my_game.hpp"
 #include "my_main.hpp"
+#include "my_music.hpp"
 #include "my_random.hpp"
 #include "my_sdl_proto.hpp"
 #include "my_sound.hpp"
@@ -279,6 +280,10 @@ void wid_main_menu_select(Gamep g)
 {
   log("main menu");
   TRACE();
+
+  if (wid_main_menu_window == nullptr) {
+    music_play(g, "intro");
+  }
 
   if (wid_main_menu_window != nullptr) {
     wid_main_menu_destroy(g);
