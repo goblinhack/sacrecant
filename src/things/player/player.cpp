@@ -6,6 +6,7 @@
 #include "my_game_popups.hpp"
 #include "my_level.hpp"
 #include "my_main.hpp"
+#include "my_music.hpp"
 #include "my_sound.hpp"
 #include "my_thing.hpp"
 #include "my_thing_callbacks.hpp"
@@ -134,6 +135,34 @@ static void tp_player_level_enter(Gamep g, Levelsp v, Levelp l, Thingp t)
   // Needed to make sure the light resets as it looks for pixel changes.
   //
   thing_prev_pix_at_set(g, v, l, t, spoint(-1, -1));
+
+  switch (l->level_num + 1) {
+    case 1 :  music_play(g, "dungeon.1"); break;
+    case 2 :  music_play(g, "dungeon.2"); break;
+    case 3 :  music_play(g, "dungeon.3"); break;
+    case 4 :  music_play(g, "dungeon.4"); break;
+    case 5 :  music_play(g, "dungeon.boss"); break;
+    case 6 :  music_play(g, "bogland.1"); break;
+    case 7 :  music_play(g, "bogland.2"); break;
+    case 8 :  music_play(g, "bogland.3"); break;
+    case 9 :  music_play(g, "bogland.4"); break;
+    case 10 : music_play(g, "bogland.boss"); break;
+    case 11 : music_play(g, "nethervoid.1"); break;
+    case 12 : music_play(g, "nethervoid.2"); break;
+    case 13 : music_play(g, "nethervoid.3"); break;
+    case 14 : music_play(g, "nethervoid.4"); break;
+    case 15 : music_play(g, "nethervoid.boss"); break;
+    case 16 : music_play(g, "graveyard.1"); break;
+    case 17 : music_play(g, "graveyard.2"); break;
+    case 18 : music_play(g, "graveyard.3"); break;
+    case 19 : music_play(g, "graveyard.4"); break;
+    case 20 : music_play(g, "graveyard.boss"); break;
+    case 21 : music_play(g, "underhell.1"); break;
+    case 22 : music_play(g, "underhell.2"); break;
+    case 23 : music_play(g, "underhell.3"); break;
+    case 24 : music_play(g, "underhell.4"); break;
+    case 25 : music_play(g, "underhell.boss"); break;
+  }
 }
 
 static void tp_player_level_populated(Gamep g, Levelsp v, Levelp l, Thingp t) { TRACE(); }

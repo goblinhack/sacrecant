@@ -139,12 +139,14 @@ void levels_finalize(Gamep g, Levelsp v)
   }
 }
 
-void level_enter(Gamep g, Levelsp v, Levelp l)
+void level_enter(Gamep g, Levelsp v, Levelp l, Thingp player)
 {
   level_log(g, v, l, "Level entered");
   TRACE_INDENT();
 
   l->player_has_entered_level = true;
+
+  thing_on_level_enter(g, v, l, player);
 }
 
 void level_is_completed_by_player_exiting(Gamep g, Levelsp v, Levelp l)

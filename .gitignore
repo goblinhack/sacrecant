@@ -55,3 +55,4 @@ src/ramdisk_data_7.S
 src/ramdisk_data_8.S
 src/ramdisk_data_9.S
 src/ramdisk_data.cpp
+.DS_Store

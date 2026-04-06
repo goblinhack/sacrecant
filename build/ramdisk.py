@@ -130,9 +130,9 @@ for filepath in root.rglob(r"data/sounds/*/*.wav"):
     files[filepath.parent].append(filepath.name)
     number_of_files_to_add_to_ramdisk += 1
 
-for filepath in root.rglob(r"data/music/*.ogg"):
-    files[filepath.parent].append(filepath.name)
-    number_of_files_to_add_to_ramdisk += 1
+# for filepath in root.rglob(r"data/music/*.ogg"):
+#     files[filepath.parent].append(filepath.name)
+#     number_of_files_to_add_to_ramdisk += 1
 
 if is_old_clang_version():
     for ram_file in range(number_of_ramdisk_files):

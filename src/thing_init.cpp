@@ -54,17 +54,9 @@ auto thing_init(Gamep g, Levelsp v, Levelp l, Tpp tp, const fpoint &real_at) -> 
     // First time entering this level?
     //
     if (! l->player_has_entered_level) {
-      level_enter(g, v, l);
+      level_enter(g, v, l, t);
     }
   }
-
-  //
-  // Assign the current level select id. This is only valid when in the select screen.
-  //
-  if (0)
-    if (tp_is_level_curr(tp)) {
-      v->level_select_id = t->id;
-    }
 
   (void) thing_distance_minion_from_mob_max_set(g, v, l, t, tp_distance_minion_from_mob_max_get(tp));
   (void) thing_distance_vision_set(g, v, l, t, tp_distance_vision_get(tp));
