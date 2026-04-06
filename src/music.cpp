@@ -142,7 +142,9 @@ auto music_play(Gamep g, const std::string &name) -> bool
   }
 
   if (cand.empty()) {
-    ERR("cannot find music %s", name.c_str());
+    if (! g_opt_tests) {
+      ERR("cannot find music %s", name.c_str());
+    }
     return false;
   }
 
