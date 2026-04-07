@@ -134,18 +134,36 @@ static void tp_player_level_enter(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE();
 
   //
+  // Ambience loops
+  //
+  auto loops = 100;
+
+  //
   // Needed to make sure the light resets as it looks for pixel changes.
   //
   thing_prev_pix_at_set(g, v, l, t, spoint(-1, -1));
 
-  sound_play(g, "dungeon_ambience", 10);
-
   switch (l->level_num + 1) {
-    case 1 :  music_play(g, "dungeon.1"); break;
-    case 2 :  music_play(g, "dungeon.2"); break;
-    case 3 :  music_play(g, "dungeon.3"); break;
-    case 4 :  music_play(g, "dungeon.4"); break;
-    case 5 :  music_play(g, "dungeon.boss"); break;
+    case 1 :
+      sound_play(g, "dungeon_ambience", loops);
+      music_play(g, "dungeon.1");
+      break;
+    case 2 :
+      sound_play(g, "dungeon_ambience", loops);
+      music_play(g, "dungeon.2");
+      break;
+    case 3 :
+      sound_play(g, "dungeon_ambience", loops);
+      music_play(g, "dungeon.3");
+      break;
+    case 4 :
+      sound_play(g, "dungeon_ambience", loops);
+      music_play(g, "dungeon.4");
+      break;
+    case 5 :
+      sound_play(g, "dungeon_ambience", loops);
+      music_play(g, "dungeon.boss");
+      break;
     case 6 :  music_play(g, "bogland.1"); break;
     case 7 :  music_play(g, "bogland.2"); break;
     case 8 :  music_play(g, "bogland.3"); break;
@@ -161,11 +179,26 @@ static void tp_player_level_enter(Gamep g, Levelsp v, Levelp l, Thingp t)
     case 18 : music_play(g, "graveyard.3"); break;
     case 19 : music_play(g, "graveyard.4"); break;
     case 20 : music_play(g, "graveyard.boss"); break;
-    case 21 : music_play(g, "underhell.1"); break;
-    case 22 : music_play(g, "underhell.2"); break;
-    case 23 : music_play(g, "underhell.3"); break;
-    case 24 : music_play(g, "underhell.4"); break;
-    case 25 : music_play(g, "underhell.boss"); break;
+    case 21 :
+      sound_play(g, "underhell_ambience", loops);
+      music_play(g, "underhell.1");
+      break;
+    case 22 :
+      sound_play(g, "underhell_ambience", loops);
+      music_play(g, "underhell.2");
+      break;
+    case 23 :
+      sound_play(g, "underhell_ambience", loops);
+      music_play(g, "underhell.3");
+      break;
+    case 24 :
+      sound_play(g, "underhell_ambience", loops);
+      music_play(g, "underhell.4");
+      break;
+    case 25 :
+      sound_play(g, "underhell_ambience", loops);
+      music_play(g, "underhell.boss");
+      break;
   }
 }
 
