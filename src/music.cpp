@@ -190,18 +190,21 @@ void music_load(Gamep g)
   TRACE();
 
   (void) music_load(g, 44100, "data/music/DST-Razornest.ogg", /*          */ "intro");
-  (void) music_load(g, 44100, "data/music/DST-EndingCredits.ogg", /*      */ "end");
+  (void) music_load(g, 44100, "data/music/DST-XToFly.ogg", /*             */ "end");
   (void) music_load(g, 44100, "data/music/DST-Incantation.ogg", /*        */ "dead");
 
   (void) music_load(g, 44100, "data/music/DST-0mnis.ogg", /*              */ "dungeon.1");
   (void) music_load(g, 44100, "data/music/DST-OldCavern.ogg", /*          */ "dungeon.1");
   (void) music_load(g, 44100, "data/music/DST-Escape.ogg", /*             */ "dungeon.1");
   (void) music_load(g, 44100, "data/music/DST-OmegaCenturion.ogg", /*     */ "dungeon.1");
+  (void) music_load(g, 44100, "data/music/DST-ThreeWorlds.ogg", /*        */ "dungeon.1");
   (void) music_load(g, 44100, "data/music/DST-Arch-Delerium.ogg", /*      */ "dungeon.2");
+  (void) music_load(g, 44100, "data/music/DST-WaitingfortheEnemy.ogg", /* */ "dungeon.2");
   (void) music_load(g, 44100, "data/music/DST-Psykick.ogg", /*            */ "dungeon.2");
   (void) music_load(g, 44100, "data/music/DST-Frontier.ogg", /*           */ "dungeon.2");
   (void) music_load(g, 44100, "data/music/DST-DoomCity.ogg", /*           */ "dungeon.3");
   (void) music_load(g, 44100, "data/music/DST-PurgatoryStep.ogg", /*      */ "dungeon.3");
+  (void) music_load(g, 44100, "data/music/DST-WaterFell.ogg", /*          */ "dungeon.3");
   (void) music_load(g, 44100, "data/music/DST-Legends.ogg", /*            */ "dungeon.3");
   (void) music_load(g, 44100, "data/music/DST-DasElectron.ogg", /*        */ "dungeon.4");
   (void) music_load(g, 44100, "data/music/DST-NoSleep.ogg", /*            */ "dungeon.4");
@@ -217,27 +220,35 @@ void music_load(Gamep g)
   (void) music_load(g, 44100, "data/music/DST-Drogs.ogg", /*              */ "bogland.2");
   (void) music_load(g, 44100, "data/music/DST-MelodyB.ogg", /*            */ "bogland.2");
   (void) music_load(g, 44100, "data/music/DST-Echorex.ogg", /*            */ "bogland.3");
+  (void) music_load(g, 44100, "data/music/DST-Xmar.ogg", /*               */ "bogland.3");
   (void) music_load(g, 44100, "data/music/DST-Eretria.ogg", /*            */ "bogland.4");
   (void) music_load(g, 44100, "data/music/DST-Nvision.ogg", /*            */ "bogland.4");
   (void) music_load(g, 44100, "data/music/DST-ElectriKaos.ogg", /*        */ "bogland.boss");
 
   (void) music_load(g, 44100, "data/music/DST-DFree.ogg", /*              */ "nethervoid.1");
+  (void) music_load(g, 44100, "data/music/DST-Vostros.ogg", /*            */ "nethervoid.1");
+  (void) music_load(g, 44100, "data/music/DST-X.ogg", /*                  */ "nethervoid.1");
   (void) music_load(g, 44100, "data/music/DST-ExoPlanet.ogg", /*          */ "nethervoid.1");
   (void) music_load(g, 44100, "data/music/DST-Digitalus.ogg", /*          */ "nethervoid.2");
   (void) music_load(g, 44100, "data/music/DST-Expander.ogg", /*           */ "nethervoid.2");
   (void) music_load(g, 44100, "data/music/DST-DreamOfForever.ogg", /*     */ "nethervoid.3");
   (void) music_load(g, 44100, "data/music/DST-FrozenJellyFish.ogg", /*    */ "nethervoid.3");
+  (void) music_load(g, 44100, "data/music/DST-Teleport.ogg", /*           */ "nethervoid.3");
   (void) music_load(g, 44100, "data/music/DST-CyberOps.ogg", /*           */ "nethervoid.4");
   (void) music_load(g, 44100, "data/music/DST-impuretechnology.ogg", /*   */ "nethervoid.4");
   (void) music_load(g, 44100, "data/music/DST-MysteriousMystery.ogg", /*  */ "nethervoid.4");
   (void) music_load(g, 44100, "data/music/DST-Beatdown.ogg", /*           */ "nethervoid.boss");
 
+  (void) music_load(g, 44100, "data/music/DST-Tourette.ogg", /*           */ "graveyard.1");
   (void) music_load(g, 44100, "data/music/DST-ClockTower.ogg", /*         */ "graveyard.1");
   (void) music_load(g, 44100, "data/music/DST-ExInfernus.ogg", /*         */ "graveyard.1");
+  (void) music_load(g, 44100, "data/music/DST-TowerAngels.ogg", /*        */ "graveyard.1");
   (void) music_load(g, 44100, "data/music/DST-Dangeroz.ogg", /*           */ "graveyard.2");
+  (void) music_load(g, 44100, "data/music/DST-TwoHeaded.ogg", /*          */ "graveyard.2");
   (void) music_load(g, 44100, "data/music/DST-NoSuchThingAsGhosts.ogg", /**/ "graveyard.2");
   (void) music_load(g, 44100, "data/music/DST-DarkDance.ogg", /*          */ "graveyard.3");
   (void) music_load(g, 44100, "data/music/DST-GhostHouse.ogg", /*         */ "graveyard.3");
+  (void) music_load(g, 44100, "data/music/DST-TheHauntedChapel.ogg", /*   */ "graveyard.3");
   (void) music_load(g, 44100, "data/music/DST-DarkestKnight.ogg", /*      */ "graveyard.4");
   (void) music_load(g, 44100, "data/music/DST-FourPointFour.ogg", /*      */ "graveyard.4");
   (void) music_load(g, 44100, "data/music/DST-ClubFight.ogg", /*          */ "graveyard.boss");
@@ -248,5 +259,6 @@ void music_load(Gamep g)
   (void) music_load(g, 44100, "data/music/DST-Drakul.ogg", /*             */ "underhell.3");
   (void) music_load(g, 44100, "data/music/DST-MyDarkestHour.ogg", /*      */ "underhell.3");
   (void) music_load(g, 44100, "data/music/DST-Dredge.ogg", /*             */ "underhell.4");
+  (void) music_load(g, 44100, "data/music/DST-Wdyw.ogg", /*               */ "underhell.4");
   (void) music_load(g, 44100, "data/music/DST-Flak.ogg", /*               */ "underhell.boss");
 }
