@@ -185,11 +185,26 @@ static void tp_player_level_enter(Gamep g, Levelsp v, Levelp l, Thingp t)
       sound_play(g, "bogland_ambience", scale, loops);
       music_play(g, "bogland.boss");
       break;
-    case 11 : music_play(g, "nethervoid.1"); break;
-    case 12 : music_play(g, "nethervoid.2"); break;
-    case 13 : music_play(g, "nethervoid.3"); break;
-    case 14 : music_play(g, "nethervoid.4"); break;
-    case 15 : music_play(g, "nethervoid.boss"); break;
+    case 11 :
+      sound_play(g, "nethervoid_ambience", scale, loops);
+      music_play(g, "nethervoid.1");
+      break;
+    case 12 :
+      sound_play(g, "nethervoid_ambience", scale, loops);
+      music_play(g, "nethervoid.2");
+      break;
+    case 13 :
+      sound_play(g, "nethervoid_ambience", scale, loops);
+      music_play(g, "nethervoid.3");
+      break;
+    case 14 :
+      sound_play(g, "nethervoid_ambience", scale, loops);
+      music_play(g, "nethervoid.4");
+      break;
+    case 15 :
+      sound_play(g, "nethervoid_ambience", scale, loops);
+      music_play(g, "nethervoid.boss");
+      break;
     case 16 : music_play(g, "graveyard.1"); break;
     case 17 : music_play(g, "graveyard.2"); break;
     case 18 : music_play(g, "graveyard.3"); break;
