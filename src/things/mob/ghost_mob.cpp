@@ -40,7 +40,7 @@ static void tp_ghost_mob_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp t)
 {
   TRACE();
 
-  if (d100() < 70) {
+  if (d100() < 90) {
     return;
   }
 
@@ -92,7 +92,7 @@ auto tp_load_ghost_mob() -> bool
   tp_flag_set(tp, is_wait_on_dead_anim);
   tp_health_set(tp, "1d3+2");
   tp_light_color_set(tp, "cyan");
-  tp_minion_max_set(tp, 10);
+  tp_minion_max_set(tp, 5);
   tp_name_a_or_an_set(tp, "a pile of bones");
   tp_name_apostrophize_set(tp, "pile of bones'");
   tp_name_long_set(tp, "pile of bones");
