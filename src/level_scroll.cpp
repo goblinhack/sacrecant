@@ -173,7 +173,7 @@ void level_scroll_to_focus(Gamep g, Levelsp v, Levelp l)
     v->pixel_map_at.x -= dy;
   }
 
-  else if (y > 1.0 - scroll_outer) {
+  if (y > 1.0 - scroll_outer) {
     dy = static_cast< int >((y - scroll_outer) * v->scroll_speed);
     dy = std::min(dy, max_pixel_scroll_outer);
     v->pixel_map_at.y += dy;
