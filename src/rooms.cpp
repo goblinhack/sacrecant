@@ -22,8 +22,8 @@ void rooms_init(Gamep g)
   rooms_small(g);
   rooms_medium(g);
   rooms_large(g);
-  //  rooms_tall(g);
-  //  rooms_long(g);
+  rooms_tall(g);
+  rooms_long(g);
   rooms_exit(g);
   rooms_key(g);
   rooms_prefab(g);
