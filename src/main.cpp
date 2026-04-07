@@ -612,6 +612,10 @@ auto main(int argc, char *argv[]) -> int
     } else if (g_opt_restarted_in_gfx_menu) {
       g_opt_restarted_in_gfx_menu = false;
       wid_hide(g, wid_console_window);
+      //
+      // Need this to get the background working
+      //
+      wid_main_menu_select(g);
       wid_cfg_gfx_select(g);
     } else if (g_opt_quick_start) {
       wid_hide(g, wid_console_window);
