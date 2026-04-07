@@ -355,7 +355,7 @@ void Config::reset()
   key_screenshot.sym = SDLK_F10;
   key_wait.sym       = SDLK_PERIOD;
   key_zoom.sym       = SDLK_z;
-  music_volume       = {MIX_MAX_VOLUME / 2};
+  music_volume       = {MIX_MAX_VOLUME / 4};
   sdl_delay          = 1;
   sound_volume       = {MIX_MAX_VOLUME};
 
