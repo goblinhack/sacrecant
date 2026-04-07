@@ -55,6 +55,10 @@ static void wid_dead_selected(Gamep g)
             auto c = wid_event_to_char(key);
             switch (c) {
               case 'q' :
+              case 'Q' :
+                if (g_opt_quick_start) {
+                  DIE_CLEAN("Quick quit");
+                }
               case SDLK_ESCAPE :
                 {
                   TRACE();

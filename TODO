@@ -1,5 +1,6 @@
 bugs
 ----
+dead animations should end when player dies
 domains
 intro screen -> level map
 sounds for level entering

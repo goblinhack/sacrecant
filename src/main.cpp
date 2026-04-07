@@ -665,6 +665,5 @@ auto main(int argc, char *argv[]) -> int
   log("quit");
   cleanup();
 
-  con("Goodbye my friend and take care until next time!");
   return 0;
 }

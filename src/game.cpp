@@ -997,7 +997,6 @@ void Game::state_change(GameState new_state, const std::string &why)
       //
       // So we can quit the level and play normally
       //
-      g_opt_quick_start       = false;
       g_opt_level_select_menu = false;
       break;
     case STATE_MOVE_WARNING_MENU :
