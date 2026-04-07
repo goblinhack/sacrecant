@@ -399,8 +399,8 @@ void wid_cfg_gfx_select(Gamep g)
 
   auto m = TERM_WIDTH / 2;
 
-  spoint const outer_tl(m - 20, (TERM_HEIGHT / 2) - 15);
-  spoint const outer_br(m + 20, (TERM_HEIGHT / 2) + 15);
+  spoint const outer_tl(m - 27, (TERM_HEIGHT / 2) - 15);
+  spoint const outer_br(m + 27, (TERM_HEIGHT / 2) + 15);
 
   auto width = outer_br.x - outer_tl.x - 2;
 
