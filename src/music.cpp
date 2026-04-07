@@ -19,7 +19,7 @@
 class Music
 {
 public:
-  Music(std::string vname_alias) : name_alias(vname_alias) {}
+  Music(void) {}
 
   ~Music()
   {
@@ -41,7 +41,7 @@ public:
   uint32_t    rate = 44100;
 };
 
-static std::vector< class Music * > all_music;
+static std::multimap< std::string, class Music * > all;
 
 static std::string music_current;
 
@@ -74,25 +74,48 @@ void music_fini()
   if (music_init_done) {
     music_init_done = false;
 
-    for (auto m : all_music) {
-      delete m;
+    for (;;) {
+      auto iter = all.begin();
+      if (iter == all.end()) {
+        break;
+      }
+      delete iter->second;
+      iter = all.erase(iter);
     }
 
     Mix_Quit();
     log("SDL: Mix_Quit");
   }
-  all_music.clear();
+  all.clear();
+}
+
+static auto find_one(const std::string &alias) -> Music *
+{
+  TRACE();
+
+  std::vector< Music * > out;
+
+  for (auto [ itr, rangeEnd ] = all.equal_range(alias); itr != rangeEnd; ++itr) {
+    out.push_back(itr->second);
+  }
+
+  if (out.empty()) {
+    return nullptr;
+  }
+
+  return rand_one_of(out);
 }
 
 auto music_load(Gamep g, uint32_t rate, const char *file, const char *name_alias) -> bool
 {
   TRACE();
 
-  auto *m = new Music(name_alias);
+  auto *m = new Music();
 
-  m->name = file;
-  m->rate = rate;
-  m->data = file_load(file, &m->len);
+  m->name_alias = name_alias;
+  m->name       = file;
+  m->rate       = rate;
+  m->data       = file_load(file, &m->len);
   if (m->data == nullptr) {
     CROAK("cannot load music [%s]", file);
     return false;
@@ -109,12 +132,11 @@ auto music_load(Gamep g, uint32_t rate, const char *file, const char *name_alias
   if (m->m == nullptr) {
     CROAK("Mix_LoadMUS_RW fail [%s]: %s %s", file, Mix_GetError(), SDL_GetError());
     SDL_ClearError();
-    SDL_RWclose(m->rw);
     delete m;
     return false;
   }
 
-  all_music.push_back(m);
+  all.insert(std::make_pair(name_alias, m));
 
   return true;
 }
@@ -135,22 +157,13 @@ auto music_play(Gamep g, const std::string &name) -> bool
   }
   music_current = name;
 
-  std::vector< class Music * > cand;
-
-  for (auto m : all_music) {
-    if (m->name_alias == name) {
-      cand.push_back(m);
-    }
-  }
-
-  if (cand.empty()) {
+  auto m = find_one(name);
+  if (! m) {
     if (! g_opt_tests) {
       ERR("cannot find music %s", name.c_str());
     }
     return false;
   }
-
-  auto m = rand_one_of(cand);
 
   if (Mix_FadeInMusicPos(m->m, -1, 2000, 0) == -1) {
     ERR("cannot play music %s: %s", name.c_str(), Mix_GetError());

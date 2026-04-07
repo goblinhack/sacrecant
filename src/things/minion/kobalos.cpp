@@ -63,6 +63,8 @@ static bool tp_kobalos_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp me, Thi
 
   (void) thing_spawn(g, v, l, tp_first(is_effect_attack), it);
 
+  thing_sound_play(g, v, l, me, "hiss");
+
   return true;
 }
 
