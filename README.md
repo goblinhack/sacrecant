@@ -21,4 +21,5 @@ Sound effects
 - item collect [found here](https://freesound.org/people/mrickey13/sounds/518850/)
 - Monster death by Michel88 [found here](https://freesound.org/people/Michel88/)
 - Dungeon ambience [found here](https://freesound.org/people/Sclolex/)
+- Bogland ambience [found here](https://freesound.org/people/Patrick_Corra/)
 - Underhell ambience [found here](https://freesound.org/people/looplicator/)

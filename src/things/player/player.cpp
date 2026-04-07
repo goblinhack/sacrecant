@@ -137,6 +137,7 @@ static void tp_player_level_enter(Gamep g, Levelsp v, Levelp l, Thingp t)
   // Ambience loops
   //
   auto loops = 100;
+  auto scale = 1;
 
   //
   // Needed to make sure the light resets as it looks for pixel changes.
@@ -145,30 +146,45 @@ static void tp_player_level_enter(Gamep g, Levelsp v, Levelp l, Thingp t)
 
   switch (l->level_num + 1) {
     case 1 :
-      sound_play(g, "dungeon_ambience", loops);
+      sound_play(g, "dungeon_ambience", scale, loops);
       music_play(g, "dungeon.1");
       break;
     case 2 :
-      sound_play(g, "dungeon_ambience", loops);
+      sound_play(g, "dungeon_ambience", scale, loops);
       music_play(g, "dungeon.2");
       break;
     case 3 :
-      sound_play(g, "dungeon_ambience", loops);
+      sound_play(g, "dungeon_ambience", scale, loops);
       music_play(g, "dungeon.3");
       break;
     case 4 :
-      sound_play(g, "dungeon_ambience", loops);
+      sound_play(g, "dungeon_ambience", scale, loops);
       music_play(g, "dungeon.4");
       break;
     case 5 :
-      sound_play(g, "dungeon_ambience", loops);
+      sound_play(g, "dungeon_ambience", scale, loops);
       music_play(g, "dungeon.boss");
       break;
-    case 6 :  music_play(g, "bogland.1"); break;
-    case 7 :  music_play(g, "bogland.2"); break;
-    case 8 :  music_play(g, "bogland.3"); break;
-    case 9 :  music_play(g, "bogland.4"); break;
-    case 10 : music_play(g, "bogland.boss"); break;
+    case 6 :
+      sound_play(g, "bogland_ambience", scale, loops);
+      music_play(g, "bogland.1");
+      break;
+    case 7 :
+      sound_play(g, "bogland_ambience", scale, loops);
+      music_play(g, "bogland.2");
+      break;
+    case 8 :
+      sound_play(g, "bogland_ambience", scale, loops);
+      music_play(g, "bogland.3");
+      break;
+    case 9 :
+      sound_play(g, "bogland_ambience", scale, loops);
+      music_play(g, "bogland.4");
+      break;
+    case 10 :
+      sound_play(g, "bogland_ambience", scale, loops);
+      music_play(g, "bogland.boss");
+      break;
     case 11 : music_play(g, "nethervoid.1"); break;
     case 12 : music_play(g, "nethervoid.2"); break;
     case 13 : music_play(g, "nethervoid.3"); break;
@@ -180,23 +196,23 @@ static void tp_player_level_enter(Gamep g, Levelsp v, Levelp l, Thingp t)
     case 19 : music_play(g, "graveyard.4"); break;
     case 20 : music_play(g, "graveyard.boss"); break;
     case 21 :
-      sound_play(g, "underhell_ambience", loops);
+      sound_play(g, "underhell_ambience", scale, loops);
       music_play(g, "underhell.1");
       break;
     case 22 :
-      sound_play(g, "underhell_ambience", loops);
+      sound_play(g, "underhell_ambience", scale, loops);
       music_play(g, "underhell.2");
       break;
     case 23 :
-      sound_play(g, "underhell_ambience", loops);
+      sound_play(g, "underhell_ambience", scale, loops);
       music_play(g, "underhell.3");
       break;
     case 24 :
-      sound_play(g, "underhell_ambience", loops);
+      sound_play(g, "underhell_ambience", scale, loops);
       music_play(g, "underhell.4");
       break;
     case 25 :
-      sound_play(g, "underhell_ambience", loops);
+      sound_play(g, "underhell_ambience", scale, loops);
       music_play(g, "underhell.boss");
       break;
   }
