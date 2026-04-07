@@ -198,7 +198,7 @@ auto tp_load_fire() -> bool
   tp_is_immunity_add(tp, THING_EVENT_HEAT_DAMAGE);
   tp_lifespan_set(tp, "1d6+3");
   tp_light_color_set(tp, "orange");
-  tp_name_a_or_an_set(tp, "a fire");
+  tp_name_a_or_an_set(tp, "fire");
   tp_name_apostrophize_set(tp, "fires'");
   tp_name_long_set(tp, "fire");
   tp_name_pluralize_set(tp, "fires");
