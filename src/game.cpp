@@ -1152,11 +1152,16 @@ void Game::tick()
   auto *v = game_levels_get(g);
   if (v != nullptr) {
     switch (state) {
+      case STATE_DEAD_MENU :
+        //
+        // We want things to finish their animations when the player is dead,
+        // so need to allow ticking to complete
+        //
+        [[fallthrough]];
       case STATE_PLAYING :           levels_tick(g, v); break;
       case STATE_INIT :              break;
       case STATE_MAIN_MENU :         break;
       case STATE_QUITTING :          break;
-      case STATE_DEAD_MENU :         break;
       case STATE_MOVE_WARNING_MENU : break;
       case STATE_KEYBOARD_MENU :     break;
       case STATE_LOAD_MENU :         break;

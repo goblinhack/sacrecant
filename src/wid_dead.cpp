@@ -33,6 +33,10 @@ static void wid_dead_selected(Gamep g)
 
   TRACE();
   game_state_reset(g, "finished game");
+
+  if (g_opt_quick_start) {
+    DIE_CLEAN("Quick quit");
+  }
 }
 
 [[nodiscard]] static auto wid_dead_key_down(Gamep g, Widp w, const struct SDL_Keysym *key) -> bool
@@ -59,6 +63,7 @@ static void wid_dead_selected(Gamep g)
                 if (g_opt_quick_start) {
                   DIE_CLEAN("Quick quit");
                 }
+                [[fallthrough]];
               case SDLK_ESCAPE :
                 {
                   TRACE();

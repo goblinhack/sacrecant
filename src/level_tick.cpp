@@ -56,6 +56,14 @@ static void level_tick_ok_to_end_check(Gamep g, Levelsp v, Levelp l)
   l->tick_wait_on_things = false;
   l->tick_wait_on_anim   = false;
 
+  //
+  // The player has died and the dead menu has been closed
+  //
+  if (game_request_to_end_game_get(g)) {
+    l->tick_end_requested = true;
+    return;
+  }
+
   if (static_cast< uint32_t >(! worklist.empty()) != 0U) {
     l->tick_wait_on_things = true;
   }
@@ -110,7 +118,7 @@ static void level_tick_ok_to_end_check(Gamep g, Levelsp v, Levelp l)
     // Some things like explosions, we want to wait for the explosion to finish before
     // moving to the next tick. Except it adds delays and is currently disabled.
     //
-    if (g_opt_tests || game_request_to_end_game_get(g)) {
+    if (g_opt_tests) {
       if (thing_is_dead(t)) {
         if (! thing_is_scheduled_for_cleanup(t)) {
           if (thing_is_wait_on_dead_anim(t)) {
