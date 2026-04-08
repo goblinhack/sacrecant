@@ -65,7 +65,13 @@ static void wid_main_menu_hide(Gamep g)
   TRACE();
   wid_main_menu_hide(g);
   wid_main_menu_destroy(g);
-  wid_new_game(g);
+
+  if (g_intro_done) {
+    wid_new_game(g);
+  } else {
+    wid_intro_select(g);
+  }
+
   return false; // suppress mouse click
 }
 
@@ -167,7 +173,7 @@ static void game_display_title_bg(Gamep g)
   float w = game_window_pix_width_get(g);
   float h = game_window_pix_height_get(g);
 
-  auto  tile = tile_find_mand("intro_bg");
+  auto  tile = tile_find_mand("main_bg");
   float tw   = tile_width(tile);
   float th   = tile_height(tile);
 
@@ -196,7 +202,7 @@ static void game_display_title_fg(Gamep g)
   float w = game_window_pix_width_get(g);
   float h = game_window_pix_height_get(g);
 
-  auto  tile = tile_find_mand("intro_fg");
+  auto  tile = tile_find_mand("main_fg");
   float tw   = tile_width(tile);
   float th   = tile_height(tile);
 
