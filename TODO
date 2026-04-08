@@ -1,13 +1,37 @@
 bugs
 ----
 domains
-intro screen -> level map
 sounds for level entering
 brazier kick over sound
 rustle noise in bushes
 
 essential features
 ------------------
+gods
+  orcus                           (black)
+    - firebolt
+    - emergency teleport
+    - limited levitation
+  surt, the fire giant            (orange)
+    - firebolt
+    - immunity to fire and lava
+    - damage +10%
+    - speed -20%
+  ares, god of war                (red)
+    - firebolt
+    - damage +20%
+    - speed +20%
+    - limited levitation per level
+  morrigan, the demon queen       (blue)
+    - fast missile
+    - limited wraithwalk per level
+    - magical armour 1d20
+    - speed +50%
+  - lilith                        (white)
+  - loviater                      (yellow)
+    - darknes
+  - horned god                    (green)
+
 domains
   - dungeon
   - swamp, explosive bogs

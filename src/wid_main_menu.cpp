@@ -66,7 +66,7 @@ static void wid_main_menu_hide(Gamep g)
   wid_main_menu_hide(g);
   wid_main_menu_destroy(g);
 
-  if (g_intro_done) {
+  if (g_intro_done++ >= 2) {
     wid_new_game(g);
   } else {
     wid_intro_select(g);
@@ -170,19 +170,19 @@ static void game_display_title_bg(Gamep g)
 
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-  float w = game_window_pix_width_get(g);
-  float h = game_window_pix_height_get(g);
+  float       w = game_window_pix_width_get(g);
+  float const h = game_window_pix_height_get(g);
 
-  auto  tile = tile_find_mand("main_bg");
-  float tw   = tile_width(tile);
-  float th   = tile_height(tile);
+  auto       *tile = tile_find_mand("main_bg");
+  float const tw   = tile_width(tile);
+  float const th   = tile_height(tile);
 
   w = (h * tw) / th;
 
   spoint tl(0, 0);
-  spoint br((int) w, (int) h);
+  spoint br(static_cast< int >(w), static_cast< int >(h));
 
-  auto center = (int) ((game_window_pix_width_get(g) - w) / 2);
+  auto center = static_cast< int >((game_window_pix_width_get(g) - w) / 2);
   tl.x += center;
   br.x += center;
 
@@ -195,23 +195,23 @@ static void game_display_title_fg(Gamep g)
 {
   TRACE();
 
-  color fg = WHITE;
+  color const fg = WHITE;
 
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-  float w = game_window_pix_width_get(g);
-  float h = game_window_pix_height_get(g);
+  float       w = game_window_pix_width_get(g);
+  float const h = game_window_pix_height_get(g);
 
-  auto  tile = tile_find_mand("main_fg");
-  float tw   = tile_width(tile);
-  float th   = tile_height(tile);
+  auto       *tile = tile_find_mand("main_fg");
+  float const tw   = tile_width(tile);
+  float const th   = tile_height(tile);
 
   w = (h * tw) / th;
 
   spoint tl(0, 0);
-  spoint br((int) w, (int) h);
+  spoint br(static_cast< int >(w), static_cast< int >(h));
 
-  auto center = (int) ((game_window_pix_width_get(g) - w) / 2);
+  auto center = static_cast< int >((game_window_pix_width_get(g) - w) / 2);
   tl.x += center;
   br.x += center;
 

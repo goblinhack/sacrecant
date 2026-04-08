@@ -744,7 +744,7 @@ void level_display(Gamep g, Levelsp v, Levelp l);
 void level_dmap(Gamep g, Levelsp v, Levelp l);
 void level_dump(Gamep g, Levelsp v, Levelp l, int w = MAP_WIDTH, int h = MAP_HEIGHT);
 void level_dump(Gamep g, Levelsp v, Levelp l, int w, int h, const std::string &s);
-void level_enter(Gamep g, Levelsp v, Levelp l, Thingp);
+void level_enter(Gamep g, Levelsp v, Levelp l, Thingp /*player*/);
 void level_finalize(Gamep g, Levelsp v, Levelp l);
 void level_forced_auto_scroll(Gamep g, Levelsp v, Levelp l);
 void level_gen_create_levels(Gamep g, Levelsp v);

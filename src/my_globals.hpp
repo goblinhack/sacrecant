@@ -10,7 +10,6 @@
 extern bool g_do_screenshot; // Grab a screen shot next fram
 extern bool g_dying;
 extern bool g_grab_next_key;             // Waiting for key input
-extern bool g_intro_done;                // Have we shown the intro text yet?
 extern bool g_loading;                   // Currently loading
 extern bool g_main_loop_running;         // SDL main loop is running.
 extern bool g_monochrome;                // Ugly hack to switch to monochrome gfx
@@ -37,6 +36,7 @@ extern char  *g_gfx_path;
 extern char  *g_ttf_path;
 extern char **g_argv;
 
+extern int g_intro_done; // Have we shown the intro text yet?
 extern int g_argc;
 extern int g_err_count;                                 // How many ERRs
 extern int g_memory_allocated;                          // We've allocated something

@@ -21,14 +21,14 @@ static const auto max_channels = 16;
 class Sound
 {
 public:
-  Sound() {}
+  Sound() = default;
 
   ~Sound()
   {
-    if (chunk) {
+    if (chunk != nullptr) {
       Mix_FreeChunk(chunk);
     }
-    if (rw) {
+    if (rw != nullptr) {
       SDL_RWclose(rw);
     }
     MYFREE(data);
@@ -224,8 +224,8 @@ auto sound_play(Gamep g, const std::string &name_alias, float scale, int loops) 
     return false;
   }
 
-  auto sound = find_one(name_alias);
-  if (! sound) {
+  auto *sound = find_one(name_alias);
+  if (sound == nullptr) {
     if (! g_opt_tests) {
       ERR("cannot find sound %s", name_alias.c_str());
     }

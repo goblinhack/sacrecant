@@ -19,14 +19,14 @@
 class Music
 {
 public:
-  Music(void) {}
+  Music() = default;
 
   ~Music()
   {
-    if (m) {
+    if (m != nullptr) {
       Mix_FreeMusic(m);
     }
-    if (rw) {
+    if (rw != nullptr) {
       SDL_RWclose(rw);
     }
     MYFREE(data);
@@ -157,8 +157,8 @@ auto music_play(Gamep g, const std::string &name) -> bool
   }
   music_current = name;
 
-  auto m = find_one(name);
-  if (! m) {
+  auto *m = find_one(name);
+  if (m == nullptr) {
     if (! g_opt_tests) {
       ERR("cannot find music %s", name.c_str());
     }

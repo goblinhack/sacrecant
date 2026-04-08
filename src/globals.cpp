@@ -11,7 +11,6 @@
 bool g_do_screenshot; // Grab a screen shot next fram
 bool g_dying;
 bool g_grab_next_key;             // Waiting for key input
-bool g_intro_done;                // Have we shown the intro text yet?
 bool g_loading;                   // Currently loading
 bool g_main_loop_running;         // SDL main loop running.
 bool g_monochrome;                // Ugly hack to switch to monochrome gfx
@@ -31,6 +30,7 @@ bool g_ptrcheck_inited;           // Ptrcheck is active
 bool g_quitting;                  // Exiting the game
 bool g_skip_audio_and_gfx;        // For tests
 
+int g_intro_done;       // Have we shown the intro text yet?
 int g_err_count;        // How many ERRs
 int g_memory_allocated; // We've allocated something
 

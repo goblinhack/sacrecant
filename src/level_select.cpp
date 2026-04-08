@@ -603,7 +603,7 @@ static auto level_select_count_levels(LevelSelect *s) -> int
           tp = tp_is_level_next_icon;
         }
 
-        auto t = thing_spawn(g, v, level_select, tp, at);
+        auto *t = thing_spawn(g, v, level_select, tp, at);
         if (t == nullptr) {
           return false;
         }
@@ -650,8 +650,8 @@ static void level_select_create(Gamep g, Levelsp v, LevelSelect *s)
   PCG_SRAND(seed_num);
 
   for (auto y = 0; y < LEVEL_DOWN; y++) {
-    for (auto x = 0; x < LEVEL_ACROSS; x++) {
-      LevelSelectCell *c = &s->data[ x ][ y ];
+    for (auto &x : s->data) {
+      LevelSelectCell *c = &x[ y ];
       c->is_set          = 1U;
     }
   }
@@ -871,21 +871,21 @@ void level_select_mouse_down(Gamep g, Levelsp v, Levelp l)
 
   auto at = v->cursor_at;
 
-  if (level_is_level_locked_icon(g, v, l, at)) {
+  if (level_is_level_locked_icon(g, v, l, at) != nullptr) {
     topcon("You cannot enter this level yet. Choose an open door.");
     return;
   }
-  if (level_is_level_final_icon(g, v, l, at)) {
+  if (level_is_level_final_icon(g, v, l, at) != nullptr) {
     // ok to choose
   }
-  if (level_is_level_open_icon(g, v, l, at)) {
+  if (level_is_level_open_icon(g, v, l, at) != nullptr) {
     // ok to choose
   }
-  if (level_is_level_closed_icon(g, v, l, at)) {
+  if (level_is_level_closed_icon(g, v, l, at) != nullptr) {
     topcon("This level is closed to you. Choose an open door.");
     return;
   }
-  if (level_is_level_next_icon(g, v, l, at)) {
+  if (level_is_level_next_icon(g, v, l, at) != nullptr) {
     // ok to choose
   }
 

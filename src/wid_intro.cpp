@@ -17,7 +17,6 @@ static void wid_intro_destroy(Gamep g)
   TRACE();
   delete wid_intro_window;
   wid_intro_window = nullptr;
-  wid_main_menu_select(g);
 }
 
 [[nodiscard]] static auto wid_intro_key_down(Gamep g, Widp w, const struct SDL_Keysym *key) -> bool
@@ -41,11 +40,18 @@ static void wid_intro_destroy(Gamep g)
             switch (c) {
               case 'b' :
               case 'B' :
+                wid_intro_destroy(g);
+                wid_main_menu_select(g);
+                return true;
+
+              case 'n' :
+              case SDLK_RETURN :
               case SDLK_ESCAPE :
                 {
                   TRACE();
                   sound_play(g, "keypress");
                   wid_intro_destroy(g);
+                  wid_new_game(g);
                   return true;
                 }
             }
@@ -53,13 +59,14 @@ static void wid_intro_destroy(Gamep g)
       }
   }
 
-  return true;
+  return false;
 }
 
 [[nodiscard]] static auto wid_intro_mouse_up(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
   wid_intro_destroy(g);
+  wid_new_game(g);
   return true;
 }
 
@@ -67,23 +74,23 @@ static void game_display_intro(Gamep g)
 {
   TRACE();
 
-  color fg = WHITE;
+  color const fg = WHITE;
 
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-  float w = game_window_pix_width_get(g);
-  float h = game_window_pix_height_get(g);
+  float       w = game_window_pix_width_get(g);
+  float const h = game_window_pix_height_get(g);
 
-  auto  tile = tile_find_mand("intro");
-  float tw   = tile_width(tile);
-  float th   = tile_height(tile);
+  auto       *tile = tile_find_mand("intro");
+  float const tw   = tile_width(tile);
+  float const th   = tile_height(tile);
 
   w = (h * tw) / th;
 
   spoint tl(0, 0);
-  spoint br((int) w, (int) h);
+  spoint br(static_cast< int >(w), static_cast< int >(h));
 
-  auto center = (int) ((game_window_pix_width_get(g) - w) / 2);
+  auto center = static_cast< int >((game_window_pix_width_get(g) - w) / 2);
   tl.x += center;
   br.x += center;
 
@@ -116,7 +123,7 @@ void wid_intro_select(Gamep g)
 
   wid_set_on_key_down(wid_intro_window->wid_popup_container, wid_intro_key_down);
 
-  auto name = game_player_name_get(g);
+  const auto *name = game_player_name_get(g);
   wid_intro_window->log(g, UI_GREEN_FMT_STR + std::string("Greetings, foolish ") + name + ".");
   wid_intro_window->log_empty_line(g);
   wid_intro_window->log_empty_line(g);
@@ -154,6 +161,8 @@ void wid_intro_select(Gamep g)
   wid_intro_window->log(g, UI_INFO1_FMT_STR "If you decide to spare:");
   wid_intro_window->log_empty_line(g);
   wid_intro_window->log(g, UI_GREEN_FMT_STR "- the wizard might reward you...", TEXT_FORMAT_LHS);
+  wid_intro_window->log_empty_line(g);
+  wid_intro_window->log(g, UI_RED_FMT_STR "- the reward could be the magical equivalent of garbage!", TEXT_FORMAT_LHS);
   wid_intro_window->log_empty_line(g);
 
   wid_intro_window->log(g, UI_INFO1_FMT_STR "Enough talk... Begin your quest to defeat Lord Batcat!");
