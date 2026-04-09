@@ -1510,6 +1510,70 @@ void blit(int tex, float texMinX, float texMinY, float texMaxX, float texMaxY, G
   const float pixDiffY = (static_cast< float >(pixMinY) - static_cast< float >(pixMaxY)) / static_cast< float > LIGHT_PIXEL;
   const uint8_t                                                                                                 a = 255;
 
+  const float cr = (float) c.r / 255.0f;
+  const float cg = (float) c.g / 255.0f;
+  const float cb = (float) c.b / 255.0f;
+
+  //
+  // Fewer triangle breaks doing y rows first
+  //
+  for (auto y = 0; y < LIGHT_PIXEL; y++) {
+
+    const float texMaxY2 = texMaxY + (y * texDiffY);
+    const float texMinY2 = texMaxY + ((y + 1) * texDiffY);
+    const auto  pixMaxY2 = static_cast< GLshort >(static_cast< float >(pixMaxY) + (static_cast< float >(y) * pixDiffY));
+    const auto  pixMinY2 = static_cast< GLshort >(static_cast< float >(pixMaxY) + (static_cast< float >(y + 1) * pixDiffY));
+
+    for (auto x = 0; x < LIGHT_PIXEL; x++) {
+
+      auto *const   pixel = &light_pixels->pixel[ x ][ y ];
+      const uint8_t r     = (int) (std::max(pixel->r, pixel->player_r) * cr);
+      const uint8_t g     = (int) (std::max(pixel->g, pixel->player_g) * cg);
+      const uint8_t b     = (int) (std::max(pixel->b, pixel->player_b) * cb);
+
+      float const texMinX2 = texMinX + (x * texDiffX);
+      float const texMaxX2 = texMinX + ((x + 1) * texDiffX);
+      auto        pixMinX2 = static_cast< GLshort >(static_cast< float >(pixMinX) + (static_cast< float >(x) * pixDiffX));
+      auto        pixMaxX2 = static_cast< GLshort >(static_cast< float >(pixMinX) + (static_cast< float >(x + 1) * pixDiffX));
+
+      gl_push(&bufp, bufp_end, first_vertex, texMinX2, texMinY2, texMaxX2, texMaxY2, pixMinX2, pixMinY2, pixMaxX2, pixMaxY2, r, g, b, a, r,
+              g, b, a, r, g, b, a, r, g, b, a);
+    }
+
+    //
+    // If we have alpha values in the texture, the end of one triangle line and the start of another creates
+    // a visible strip
+    //
+    if (blit_flush_per_line) {
+      buf_tex = tex;
+      blit_flush();
+    }
+  }
+}
+
+void blit(int tex, float texMinX, float texMinY, float texMaxX, float texMaxY, GLshort pixMinX, GLshort pixMinY, GLshort pixMaxX,
+          GLshort pixMaxY, LightPixels *light_pixels, bool blit_flush_per_line)
+{
+  TRACE_DEBUG();
+
+  if (buf_tex == 0) [[unlikely]] {
+    blit_init();
+    first_vertex = true;
+  } else if (buf_tex != tex) [[unlikely]] {
+    blit_flush();
+    first_vertex = true;
+  } else {
+    first_vertex = false;
+  }
+
+  buf_tex = tex;
+
+  const float texDiffX = (texMaxX - texMinX) / static_cast< float > LIGHT_PIXEL;
+  const float texDiffY = (texMinY - texMaxY) / static_cast< float > LIGHT_PIXEL;
+  const float pixDiffX = (static_cast< float >(pixMaxX) - static_cast< float >(pixMinX)) / static_cast< float > LIGHT_PIXEL;
+  const float pixDiffY = (static_cast< float >(pixMinY) - static_cast< float >(pixMaxY)) / static_cast< float > LIGHT_PIXEL;
+  const uint8_t                                                                                                 a = 255;
+
   //
   // Fewer triangle breaks doing y rows first
   //

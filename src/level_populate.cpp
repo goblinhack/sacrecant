@@ -51,6 +51,7 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *level_gen, int
     CROAK("bad map size, expected %d chars, got %d chars for map of expected size %dx%d", (int) expected_len, (int) strlen(in), w, h);
   }
 
+  auto  biome         = level_to_biome(g, v, l);
   auto *tp_wall       = tp_random(g, v, l, is_wall);
   auto *tp_border     = tp_first(is_border);
   auto *tp_rock       = tp_random(g, v, l, is_rock);
@@ -110,6 +111,21 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *level_gen, int
       } else if (need_border) {
         tp = tp_border;
       } else {
+        //
+        // Add an inner border for some levels
+        //
+        if ((x == 1) || (x == MAP_WIDTH - 2) || (y == 1) || (y == MAP_HEIGHT - 2)) {
+          switch (biome) {
+            case BIOME_DUNGEON :    break;
+            case BIOME_BOGLAND :    need_foliage = true; break;
+            case BIOME_NETHERVOID : break;
+            case BIOME_GRAVEYARD :  need_foliage = true; break;
+            case BIOME_UNDERHELL :  break;
+            case BIOME_ANY :        [[fallthrough]];
+            case BIOME_ENUM_MAX :   break;
+          }
+        }
+
         switch (c) {
           case CHARMAP_FLOOR :
             need_floor = true;
@@ -127,13 +143,98 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *level_gen, int
               }
             }
             break;
-          case CHARMAP_CHASM :    tp = tp_chasm; break;
-          case CHARMAP_JOIN :     need_corridor = true; break;
-          case CHARMAP_CORRIDOR : tp = tp_corridor; break;
-          case CHARMAP_BRIDGE :   tp = tp_bridge; break;
+          case CHARMAP_CHASM : tp = tp_chasm; break;
+          case CHARMAP_JOIN :
+            switch (biome) {
+              case BIOME_DUNGEON :    need_corridor = true; break;
+              case BIOME_BOGLAND :    need_dirt = true; break;
+              case BIOME_NETHERVOID : need_corridor = true; break;
+              case BIOME_GRAVEYARD :  need_dirt = true; break;
+              case BIOME_UNDERHELL :  need_dirt = true; break;
+              case BIOME_ANY :        [[fallthrough]];
+              case BIOME_ENUM_MAX :   break;
+            }
+            break;
+          case CHARMAP_CORRIDOR :
+            switch (biome) {
+              case BIOME_DUNGEON :    tp = tp_corridor; break;
+              case BIOME_BOGLAND :    tp = tp_bridge; break;
+              case BIOME_NETHERVOID : tp = tp_bridge; break;
+              case BIOME_GRAVEYARD :  need_dirt = true; break;
+              case BIOME_UNDERHELL :  need_dirt = true; break;
+              case BIOME_ANY :        [[fallthrough]];
+              case BIOME_ENUM_MAX :   break;
+            }
+            break;
+          case CHARMAP_BRIDGE : tp = tp_bridge; break;
           case CHARMAP_WALL :
-            need_floor = true;
-            tp         = tp_wall;
+            switch (biome) {
+              case BIOME_DUNGEON :
+                need_floor = true;
+                tp         = tp_wall;
+                break;
+              case BIOME_BOGLAND :
+                if (d100() < 10) {
+                  need_floor = true;
+                  tp         = tp_wall;
+                } else {
+                  need_dirt  = true;
+                  need_water = true;
+                  if (need_deco) {
+                    if (d100() < 50) {
+                      need_foliage = true;
+                    }
+                  }
+                }
+                break;
+              case BIOME_NETHERVOID :
+                // no walls
+                need_floor = true;
+                break;
+              case BIOME_GRAVEYARD :
+                need_floor = true;
+                tp         = tp_wall;
+                break;
+              case BIOME_UNDERHELL :
+                if (d100() < 10) {
+                  need_floor = true;
+                  tp         = tp_wall;
+                }
+                break;
+              case BIOME_ANY :      [[fallthrough]];
+              case BIOME_ENUM_MAX : break;
+            }
+            break;
+          case CHARMAP_ROCK :
+            switch (biome) {
+              case BIOME_DUNGEON :
+                need_dirt = true;
+                tp        = tp_rock;
+                break;
+              case BIOME_BOGLAND :
+                need_dirt  = true;
+                need_water = true;
+                if (need_deco) {
+                  if (d100() < 50) {
+                    need_foliage = true;
+                  }
+                }
+                break;
+              case BIOME_NETHERVOID :
+                // no walls
+                need_floor = true;
+                break;
+              case BIOME_GRAVEYARD :
+                need_dirt = true;
+                tp        = tp_rock;
+                break;
+              case BIOME_UNDERHELL :
+                need_dirt = true;
+                tp        = tp_lava;
+                break;
+              case BIOME_ANY :      [[fallthrough]];
+              case BIOME_ENUM_MAX : break;
+            }
             break;
           case CHARMAP_TREASURE :
             need_floor = true;
@@ -265,13 +366,36 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *level_gen, int
             need_dirt = true;
             tp        = tp_border;
             break;
-          case CHARMAP_ROCK :
-            need_dirt = true;
-            tp        = tp_rock;
-            break;
           case CHARMAP_EMPTY :
-            need_dirt = true;
-            tp        = tp_rock;
+            switch (biome) {
+              case BIOME_DUNGEON :
+                need_dirt = true;
+                tp        = tp_rock;
+                break;
+              case BIOME_BOGLAND :
+                need_dirt  = true;
+                need_water = true;
+                if (need_deco) {
+                  if (d100() < 50) {
+                    need_foliage = true;
+                  }
+                }
+                break;
+              case BIOME_NETHERVOID :
+                tp         = tp_chasm;
+                need_floor = true;
+                break;
+              case BIOME_GRAVEYARD :
+                // newline
+                tp = tp_chasm;
+                break;
+              case BIOME_UNDERHELL :
+                need_dirt = true;
+                tp        = tp_lava;
+                break;
+              case BIOME_ANY :      [[fallthrough]];
+              case BIOME_ENUM_MAX : break;
+            }
             break;
           default :
             if (! g_opt_do_level_gen) {

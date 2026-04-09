@@ -200,13 +200,3 @@ auto color_find(const char *s) -> color
 
   return result->second;
 }
-
-auto color_eq(const color &col1, const color &col2) -> bool
-{
-  return col1.r == col2.r && col1.g == col2.g && col1.b == col2.b && col1.a == col2.a;
-}
-
-auto color_neq(const color &col1, const color &col2) -> bool
-{
-  return col1.r != col2.r || col1.g != col2.g || col1.b != col2.b || col1.a != col2.a;
-}

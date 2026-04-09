@@ -897,7 +897,11 @@ void tile_blit(const Tilep &tile, float x1, float x2, float y1, float y2, const 
   TRACE_DEBUG();
 
   if (light_pixels != nullptr) {
-    blit(tile->gl_binding(), x1, y2, x2, y1, tl.x, br.y, br.x, tl.y, c, light_pixels, is_blit_flush_per_line);
+    if (color_eq(c, WHITE)) {
+      blit(tile->gl_binding(), x1, y2, x2, y1, tl.x, br.y, br.x, tl.y, light_pixels, is_blit_flush_per_line);
+    } else {
+      blit(tile->gl_binding(), x1, y2, x2, y1, tl.x, br.y, br.x, tl.y, c, light_pixels, is_blit_flush_per_line);
+    }
   } else {
     blit(tile->gl_binding(), x1, y2, x2, y1, tl.x, br.y, br.x, tl.y, c);
   }

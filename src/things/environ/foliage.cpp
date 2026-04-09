@@ -51,7 +51,6 @@ auto tp_load_foliage() -> bool
   tp_flag_set(tp, is_corpse_on_death);
   tp_flag_set(tp, is_described_cursor);
   tp_flag_set(tp, is_foliage);
-  tp_flag_set(tp, is_light_source, 1);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_obs_to_vision);
   tp_flag_set(tp, is_physics_explosion);
@@ -63,7 +62,6 @@ auto tp_load_foliage() -> bool
   tp_flag_set(tp, is_tickable);
   tp_health_set(tp, "1d5");
   tp_is_immunity_add(tp, THING_EVENT_WATER_DAMAGE);
-  tp_light_color_set(tp, "green");
   tp_name_a_or_an_set(tp, "foliage");
   tp_name_apostrophize_set(tp, "foliages'");
   tp_name_long_set(tp, "foliage");
