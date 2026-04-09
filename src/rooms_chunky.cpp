@@ -1446,5 +1446,4 @@ void rooms_chunky(Gamep g)
            /* line */ (const char *) "    ...  ",
            /* line */ (const char *) "     ^   ",
            /* end */ nullptr);
-
 }

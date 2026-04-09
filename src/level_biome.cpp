@@ -7,7 +7,7 @@
 #include "my_level.hpp"
 #include "my_main.hpp"
 
-Biome level_to_biome(Gamep g, Levelsp v, Levelp l)
+auto level_to_biome(Gamep g, Levelsp v, Levelp l) -> Biome
 {
   TRACE();
 

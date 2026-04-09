@@ -2499,5 +2499,4 @@ void rooms_blend2(Gamep g)
            /* line */ (const char *) "   ~   ....xx       ",
            /* line */ (const char *) "    ~   ^           ",
            /* end */ nullptr);
-
 }

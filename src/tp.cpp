@@ -343,7 +343,7 @@ static auto tp_random(Gamep g, Levelsp v, Levelp l, TpVec &m) -> Tpp
   TRACE();
 
   auto biome = BIOME_ANY;
-  if (l) {
+  if (l != nullptr) {
     biome = level_to_biome(g, v, l);
   }
 

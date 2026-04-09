@@ -1510,9 +1510,9 @@ void blit(int tex, float texMinX, float texMinY, float texMaxX, float texMaxY, G
   const float pixDiffY = (static_cast< float >(pixMinY) - static_cast< float >(pixMaxY)) / static_cast< float > LIGHT_PIXEL;
   const uint8_t                                                                                                 a = 255;
 
-  const float cr = (float) c.r / 255.0f;
-  const float cg = (float) c.g / 255.0f;
-  const float cb = (float) c.b / 255.0f;
+  const float cr = static_cast< float >(c.r) / 255.0F;
+  const float cg = static_cast< float >(c.g) / 255.0F;
+  const float cb = static_cast< float >(c.b) / 255.0F;
 
   //
   // Fewer triangle breaks doing y rows first
@@ -1527,9 +1527,9 @@ void blit(int tex, float texMinX, float texMinY, float texMaxX, float texMaxY, G
     for (auto x = 0; x < LIGHT_PIXEL; x++) {
 
       auto *const   pixel = &light_pixels->pixel[ x ][ y ];
-      const uint8_t r     = (int) (std::max(pixel->r, pixel->player_r) * cr);
-      const uint8_t g     = (int) (std::max(pixel->g, pixel->player_g) * cg);
-      const uint8_t b     = (int) (std::max(pixel->b, pixel->player_b) * cb);
+      const uint8_t r     = static_cast< int >(std::max(pixel->r, pixel->player_r) * cr);
+      const uint8_t g     = static_cast< int >(std::max(pixel->g, pixel->player_g) * cg);
+      const uint8_t b     = static_cast< int >(std::max(pixel->b, pixel->player_b) * cb);
 
       float const texMinX2 = texMinX + (x * texDiffX);
       float const texMaxX2 = texMinX + ((x + 1) * texDiffX);
