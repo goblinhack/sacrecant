@@ -150,8 +150,16 @@ void level_scroll_to_focus(Gamep g, Levelsp v, Levelp l)
   auto scroll_inner = MAP_SCROLL_EDGE_INNER;
   auto scroll_outer = MAP_SCROLL_EDGE_OUTER;
 
-  int const max_pixel_scroll_inner = MAP_SCROLL_EDGE_INNER_PIXEL;
-  int const max_pixel_scroll_outer = MAP_SCROLL_EDGE_OUTER_PIXEL;
+  int max_pixel_scroll_inner = MAP_SCROLL_EDGE_INNER_PIXEL;
+  int max_pixel_scroll_outer = MAP_SCROLL_EDGE_OUTER_PIXEL;
+
+  //
+  // Need to scroll faster when teleporting
+  //
+  if (v->requested_forced_auto_scroll != 0U) {
+    max_pixel_scroll_inner = 10 * MAP_SCROLL_EDGE_INNER_PIXEL;
+    max_pixel_scroll_outer = 10 * MAP_SCROLL_EDGE_OUTER_PIXEL;
+  }
 
   if (x > 1.0 - scroll_outer) {
     dx = static_cast< int >((x - scroll_outer) * v->scroll_speed);
