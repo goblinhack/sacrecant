@@ -89,6 +89,7 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *level_gen, int
       bpoint const at(x, y);
 
       auto is_room_entrance = level_gen_is_room_entrance(g, level_gen, at);
+      auto is_room_exit     = level_gen_is_room_exit(g, level_gen, at);
       auto is_room_locked   = level_gen_is_room_locked(g, level_gen, at);
 
       l->debug[ x ][ y ] = c;
@@ -169,7 +170,7 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *level_gen, int
             break;
           case CHARMAP_BRIDGE : tp = tp_bridge; break;
           case CHARMAP_WALL :
-            if (is_room_locked) {
+            if (is_room_locked || is_room_exit) {
               need_floor = true;
               tp         = tp_wall;
             } else {
@@ -179,7 +180,7 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *level_gen, int
                   tp         = tp_wall;
                   break;
                 case BIOME_BOGLAND :
-                  if (d100() < 10) {
+                  if (d100() < 30) {
                     need_floor = true;
                     tp         = tp_wall;
                   } else {
@@ -201,7 +202,7 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *level_gen, int
                   tp         = tp_wall;
                   break;
                 case BIOME_UNDERHELL :
-                  if (d100() < 10) {
+                  if (d100() < 30) {
                     need_floor = true;
                     tp         = tp_wall;
                   }
@@ -278,8 +279,25 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *level_gen, int
             tp         = tp_random(g, v, l, is_trap);
             break;
           case CHARMAP_LAVA :
-            need_dirt = true;
-            tp        = tp_lava;
+            switch (biome) {
+              case BIOME_DUNGEON :
+                need_dirt = true;
+                tp        = tp_lava;
+                break;
+              case BIOME_BOGLAND :
+                need_dirt  = true;
+                tp         = tp_deep_water;
+                need_water = true;
+                break;
+              case BIOME_NETHERVOID : tp = tp_chasm; break;
+              case BIOME_GRAVEYARD :  tp = tp_chasm; break;
+              case BIOME_UNDERHELL :
+                need_dirt = true;
+                tp        = tp_lava;
+                break;
+              case BIOME_ANY :      [[fallthrough]];
+              case BIOME_ENUM_MAX : break;
+            }
             break;
           case CHARMAP_BRAZIER :
             need_floor = true;

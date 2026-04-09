@@ -572,6 +572,18 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
       }
     }
 
+    if (thing_is_wall(t_maybe_null)) {
+      switch (level_to_biome(g, v, l)) {
+        case BIOME_DUNGEON :    break;
+        case BIOME_BOGLAND :    fg = GREEN; break;
+        case BIOME_NETHERVOID : break;
+        case BIOME_GRAVEYARD :  break;
+        case BIOME_UNDERHELL :  break;
+        case BIOME_ANY :        [[fallthrough]];
+        case BIOME_ENUM_MAX :   break;
+      }
+    }
+
     int submerged_pct = 0;
     if ((submerged_pct = thing_submerged_pct(t_maybe_null)) != 0) {
       //

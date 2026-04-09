@@ -3693,6 +3693,30 @@ auto level_gen_is_room_entrance(Gamep g, class LevelGen *l, int x, int y) -> boo
 auto level_gen_is_room_entrance(Gamep g, class LevelGen *l, bpoint at) -> bool { return level_gen_is_room_entrance(g, l, at.x, at.y); }
 
 //
+// Is this tile in the exit?
+//
+auto level_gen_is_room_exit(Gamep g, class LevelGen *l, int x, int y) -> bool
+{
+  TRACE();
+
+  if (l == nullptr) { // tests
+    return false;
+  }
+
+  if (is_oob(x, y)) [[unlikely]] {
+    return false;
+  }
+
+  auto *r = l->data[ x ][ y ].room;
+  return (r != nullptr) && (l->room_exit == r);
+}
+
+//
+// Is this tile in the exit?
+//
+auto level_gen_is_room_exit(Gamep g, class LevelGen *l, bpoint at) -> bool { return level_gen_is_room_exit(g, l, at.x, at.y); }
+
+//
 // Is this room locked?
 //
 auto level_gen_is_room_locked(Gamep g, class LevelGen *l, int x, int y) -> bool

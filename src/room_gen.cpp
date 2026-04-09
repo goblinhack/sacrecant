@@ -772,6 +772,8 @@ static void room_gen_add_fragments(Gamep g, class RoomGen *r)
     case ROOM_TYPE_BLEND2 :
       room_gen_design_chunky_room(g, &r);
       room_gen_design_chunky_room(g, &r);
+      room_gen_design_tall_room(g, &r);
+      room_gen_design_long_room(g, &r);
       break;
   }
 
@@ -894,15 +896,15 @@ void rooms_test(Gamep g)
 {
   TRACE();
 
-  rooms_write_source_file_for_n_rooms(g, 1000, ROOM_TYPE_LARGE, "large");
-  rooms_write_source_file_for_n_rooms(g, 1000, ROOM_TYPE_TALL, "tall");
-  rooms_write_source_file_for_n_rooms(g, 1000, ROOM_TYPE_LONG, "long");
-  rooms_write_source_file_for_n_rooms(g, 1000, ROOM_TYPE_CROSS, "cross");
-  rooms_write_source_file_for_n_rooms(g, 1000, ROOM_TYPE_CROSS_SYM, "cross_sym");
-  rooms_write_source_file_for_n_rooms(g, 1000, ROOM_TYPE_SMALL, "small");
-  rooms_write_source_file_for_n_rooms(g, 1000, ROOM_TYPE_MEDIUM, "medium");
-  rooms_write_source_file_for_n_rooms(g, 1000, ROOM_TYPE_CIRCULAR, "circular");
-  rooms_write_source_file_for_n_rooms(g, 1000, ROOM_TYPE_CHUNKY, "chunky");
-  rooms_write_source_file_for_n_rooms(g, 1000, ROOM_TYPE_BLEND2, "blend2");
-  rooms_write_source_file_for_n_rooms(g, 1000, ROOM_TYPE_BLEND1, "blend1");
+  rooms_write_source_file_for_n_rooms(g, 100, ROOM_TYPE_LARGE, "large");
+  rooms_write_source_file_for_n_rooms(g, 100, ROOM_TYPE_TALL, "tall");
+  rooms_write_source_file_for_n_rooms(g, 100, ROOM_TYPE_LONG, "long");
+  rooms_write_source_file_for_n_rooms(g, 100, ROOM_TYPE_CROSS, "cross");
+  rooms_write_source_file_for_n_rooms(g, 100, ROOM_TYPE_CROSS_SYM, "cross_sym");
+  rooms_write_source_file_for_n_rooms(g, 100, ROOM_TYPE_SMALL, "small");
+  rooms_write_source_file_for_n_rooms(g, 100, ROOM_TYPE_MEDIUM, "medium");
+  rooms_write_source_file_for_n_rooms(g, 100, ROOM_TYPE_CIRCULAR, "circular");
+  rooms_write_source_file_for_n_rooms(g, 100, ROOM_TYPE_CHUNKY, "chunky");
+  rooms_write_source_file_for_n_rooms(g, 100, ROOM_TYPE_BLEND2, "blend2");
+  rooms_write_source_file_for_n_rooms(g, 100, ROOM_TYPE_BLEND1, "blend1");
 }
