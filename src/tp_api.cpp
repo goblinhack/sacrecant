@@ -1097,34 +1097,34 @@ auto tp_is_unused40(Tpp tp) -> bool
   return tp_flag(tp, is_unused40) != 0;
 }
 
-auto tp_is_unused41(Tpp tp) -> bool
+auto tp_is_biome_underhell(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused41) != 0;
+  return tp_flag(tp, is_biome_underhell) != 0;
 }
 
-auto tp_is_unused42(Tpp tp) -> bool
+auto tp_is_biome_graveyard(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused42) != 0;
+  return tp_flag(tp, is_biome_graveyard) != 0;
 }
 
-auto tp_is_unused43(Tpp tp) -> bool
+auto tp_is_biome_nethervoid(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused43) != 0;
+  return tp_flag(tp, is_biome_nethervoid) != 0;
 }
 
-auto tp_is_unused44(Tpp tp) -> bool
+auto tp_is_biome_bogland(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused44) != 0;
+  return tp_flag(tp, is_biome_bogland) != 0;
 }
 
-auto tp_is_unused45(Tpp tp) -> bool
+auto tp_is_biome_dungeon(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused45) != 0;
+  return tp_flag(tp, is_biome_dungeon) != 0;
 }
 
 auto tp_is_level_open_icon(Tpp tp) -> bool

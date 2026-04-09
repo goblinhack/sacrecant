@@ -157,7 +157,7 @@ static void tp_fire_on_fall_begin(Gamep g, Levelsp v, Levelp l, Thingp t)
 
   if (level_is_smoke(g, v, l, thing_at(t)) == nullptr) {
     THING_DBG(t, "spawn smoke over falling fire");
-    (void) thing_spawn(g, v, l, tp_random(is_smoke), t);
+    (void) thing_spawn(g, v, l, tp_random(g, v, l, is_smoke), t);
   }
 }
 

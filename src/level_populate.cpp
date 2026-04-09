@@ -51,22 +51,22 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *level_gen, int
     CROAK("bad map size, expected %d chars, got %d chars for map of expected size %dx%d", (int) expected_len, (int) strlen(in), w, h);
   }
 
-  auto *tp_wall       = tp_random(is_wall);
+  auto *tp_wall       = tp_random(g, v, l, is_wall);
   auto *tp_border     = tp_first(is_border);
-  auto *tp_rock       = tp_random(is_rock);
-  auto *tp_water      = tp_random(is_water);
-  auto *tp_lava       = tp_random(is_lava);
-  auto *tp_bridge     = tp_random(is_bridge);
-  auto *tp_chasm      = tp_random(is_chasm);
-  auto *tp_deep_water = tp_random(is_deep_water);
-  auto *tp_brazier    = tp_random(is_brazier);
-  auto *tp_pillar     = tp_random(is_pillar);
-  auto *tp_barrel     = tp_random(is_barrel);
-  auto *tp_teleport   = tp_random(is_teleport);
-  auto *tp_foliage    = tp_random(is_foliage);
-  auto *tp_corridor   = tp_random(is_corridor);
-  auto *tp_grass      = tp_random(is_grass);
-  auto *tp_floor      = tp_random(is_floor);
+  auto *tp_rock       = tp_random(g, v, l, is_rock);
+  auto *tp_water      = tp_random(g, v, l, is_water);
+  auto *tp_lava       = tp_random(g, v, l, is_lava);
+  auto *tp_bridge     = tp_random(g, v, l, is_bridge);
+  auto *tp_chasm      = tp_random(g, v, l, is_chasm);
+  auto *tp_deep_water = tp_random(g, v, l, is_deep_water);
+  auto *tp_brazier    = tp_random(g, v, l, is_brazier);
+  auto *tp_pillar     = tp_random(g, v, l, is_pillar);
+  auto *tp_barrel     = tp_random(g, v, l, is_barrel);
+  auto *tp_teleport   = tp_random(g, v, l, is_teleport);
+  auto *tp_foliage    = tp_random(g, v, l, is_foliage);
+  auto *tp_corridor   = tp_random(g, v, l, is_corridor);
+  auto *tp_grass      = tp_random(g, v, l, is_grass);
+  auto *tp_floor      = tp_random(g, v, l, is_floor);
   auto *tp_dirt       = tp_find_mand("dirt");
   auto *tp_exit       = tp_find_mand("exit");
   auto *tp_player     = tp_find_mand("player");
@@ -137,7 +137,7 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *level_gen, int
             break;
           case CHARMAP_TREASURE :
             need_floor = true;
-            tp         = tp_random(is_treasure);
+            tp         = tp_random(g, v, l, is_treasure);
             break;
           case CHARMAP_TELEPORT :
             need_floor = true;
@@ -168,7 +168,7 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *level_gen, int
             break;
           case CHARMAP_TRAP :
             need_floor = true;
-            tp         = tp_random(is_trap);
+            tp         = tp_random(g, v, l, is_trap);
             break;
           case CHARMAP_LAVA :
             need_dirt = true;
@@ -180,14 +180,14 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *level_gen, int
             break;
           case CHARMAP_DOOR_UNLOCKED :
             need_floor = true;
-            tp         = tp_random(is_door_unlocked);
+            tp         = tp_random(g, v, l, is_door_unlocked);
             break;
           case CHARMAP_DOOR_LOCKED :
             need_floor = true;
             if (is_test_level) {
-              tp = tp_random(is_door_locked);
+              tp = tp_random(g, v, l, is_door_locked);
             } else if (l->info.key_count != 0) {
-              tp = tp_random(is_door_locked);
+              tp = tp_random(g, v, l, is_door_locked);
             } else {
               tp = tp_variant(is_door_secret, wall_variant);
             }
@@ -200,33 +200,33 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *level_gen, int
             need_floor = true;
             tp         = tp_grass;
             break;
-          case CHARMAP_MONST1 :
+          case CHARMAP_MONST_EASY :
             need_floor = true;
             if (! is_entrance) {
-              tp = tp_random_monst(1);
+              tp = tp_random_monst(g, v, l, MONST_GROUP_EASY);
             }
             break;
-          case CHARMAP_MONST2 :
+          case CHARMAP_MONST_HARD :
             need_floor = true;
             if (! is_entrance) {
-              tp = tp_random_monst(2);
+              tp = tp_random_monst(g, v, l, MONST_GROUP_HARD);
             }
             break;
           case CHARMAP_MOB1 :
             need_floor = true;
             if (! is_entrance) {
-              tp = tp_random(is_mob1);
+              tp = tp_random(g, v, l, is_mob1);
             }
             break;
           case CHARMAP_MOB2 :
             need_floor = true;
             if (! is_entrance) {
-              tp = tp_random(is_mob2);
+              tp = tp_random(g, v, l, is_mob2);
             }
             break;
           case CHARMAP_FIRE :
             need_floor = true;
-            tp         = tp_random(is_fire);
+            tp         = tp_random(g, v, l, is_fire);
             break;
           case CHARMAP_ENTRANCE :
             need_floor = true;
@@ -259,7 +259,7 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *level_gen, int
             break;
           case CHARMAP_KEY :
             need_floor = true;
-            tp         = tp_random(is_key);
+            tp         = tp_random(g, v, l, is_key);
             break;
           case CHARMAP_BORDER :
             need_dirt = true;
@@ -340,7 +340,7 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *level_gen, int
         if (0) {
           if (tp == tp_player) {
             {
-              if (thing_spawn(g, v, l, tp_random(is_exit), at + bpoint(2, 0)) == nullptr) {
+              if (thing_spawn(g, v, l, tp_random(g, v, l, is_exit), at + bpoint(2, 0)) == nullptr) {
                 return false;
               }
             }
@@ -352,7 +352,7 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *level_gen, int
 
   if (0) {
     if (l->entrance.x > 0) {
-      if (thing_spawn(g, v, l, tp_random(is_exit), l->entrance + bpoint(1, 1)) == nullptr) {
+      if (thing_spawn(g, v, l, tp_random(g, v, l, is_exit), l->entrance + bpoint(1, 1)) == nullptr) {
         return false;
       }
     }

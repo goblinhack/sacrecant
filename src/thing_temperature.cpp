@@ -42,7 +42,7 @@ void thing_temperature_handle(Gamep g, Levelsp v, Levelp l, Thingp source, Thing
         // But only if combustible.
         //
         THING_DBG(t, "set on fire");
-        (void) thing_spawn(g, v, l, tp_random(is_fire), t);
+        (void) thing_spawn(g, v, l, tp_random(g, v, l, is_fire), t);
         thing_is_burning_set(g, v, l, t);
       }
     } else {

@@ -4,6 +4,7 @@ domains
 sounds for level entering
 brazier kick over sound
 rustle noise in bushes
+shoot from behind double damage
 
 essential features
 ------------------
@@ -31,6 +32,7 @@ gods
   - loviater                      (yellow)
     - darknes
   - horned god                    (green)
+  sacrificing an acolyte of the same god - bad
 
 domains
   - dungeon
@@ -85,9 +87,7 @@ allies
     Hence you need to balance how many allies to summon with the chance
     of permanent loss.
 ui
-  - intro screen / background level maybe
-  - intro level / handbook
-  - option to replay same dungeon
+  - replay seed
   - play weekly/daily seed - generated from date
   - random player name e.g. galatrex the dark
 

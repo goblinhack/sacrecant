@@ -1791,7 +1791,7 @@ auto thing_is_unused40(Thingp t) -> bool
   return tp_flag(thing_tp(t), is_unused40) != 0;
 }
 
-auto thing_is_unused41(Thingp t) -> bool
+auto thing_is_biome_underhell(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1799,10 +1799,10 @@ auto thing_is_unused41(Thingp t) -> bool
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused41) != 0;
+  return tp_flag(thing_tp(t), is_biome_underhell) != 0;
 }
 
-auto thing_is_unused42(Thingp t) -> bool
+auto thing_is_biome_graveyard(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1810,10 +1810,10 @@ auto thing_is_unused42(Thingp t) -> bool
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused42) != 0;
+  return tp_flag(thing_tp(t), is_biome_graveyard) != 0;
 }
 
-auto thing_is_unused43(Thingp t) -> bool
+auto thing_is_biome_nethervoid(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1821,10 +1821,10 @@ auto thing_is_unused43(Thingp t) -> bool
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused43) != 0;
+  return tp_flag(thing_tp(t), is_biome_nethervoid) != 0;
 }
 
-auto thing_is_unused44(Thingp t) -> bool
+auto thing_is_biome_bogland(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1832,10 +1832,10 @@ auto thing_is_unused44(Thingp t) -> bool
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused44) != 0;
+  return tp_flag(thing_tp(t), is_biome_bogland) != 0;
 }
 
-auto thing_is_unused45(Thingp t) -> bool
+auto thing_is_biome_dungeon(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1843,7 +1843,7 @@ auto thing_is_unused45(Thingp t) -> bool
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused45) != 0;
+  return tp_flag(thing_tp(t), is_biome_dungeon) != 0;
 }
 
 auto thing_is_level_open_icon(Thingp t) -> bool

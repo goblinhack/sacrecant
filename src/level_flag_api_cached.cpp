@@ -1097,34 +1097,34 @@ auto level_is_unused40_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> 
   return level_flag_cached(g, v, l, is_unused40, p);
 }
 
-auto level_is_unused41_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+auto level_is_biome_underhell_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused41, p);
+  return level_flag_cached(g, v, l, is_biome_underhell, p);
 }
 
-auto level_is_unused42_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+auto level_is_biome_graveyard_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused42, p);
+  return level_flag_cached(g, v, l, is_biome_graveyard, p);
 }
 
-auto level_is_unused43_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+auto level_is_biome_nethervoid_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused43, p);
+  return level_flag_cached(g, v, l, is_biome_nethervoid, p);
 }
 
-auto level_is_unused44_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+auto level_is_biome_bogland_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused44, p);
+  return level_flag_cached(g, v, l, is_biome_bogland, p);
 }
 
-auto level_is_unused45_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+auto level_is_biome_dungeon_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused45, p);
+  return level_flag_cached(g, v, l, is_biome_dungeon, p);
 }
 
 auto level_is_level_open_icon_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

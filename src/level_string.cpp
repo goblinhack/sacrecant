@@ -110,13 +110,13 @@ auto level_string(Gamep g, Levelsp v, Levelp l, int w, int h) -> std::string
         c = CHARMAP_MOB2;
       }
       if (level_is_monst_group_easy(g, v, l, p) != nullptr) {
-        c = CHARMAP_MONST1;
+        c = CHARMAP_MONST_EASY;
       }
       if (level_is_monst_group_hard(g, v, l, p) != nullptr) {
-        c = CHARMAP_MONST2;
+        c = CHARMAP_MONST_HARD;
       }
       if (level_is_minion(g, v, l, p) != nullptr) {
-        c = CHARMAP_MONST1;
+        c = CHARMAP_MONST_EASY;
       }
       if (level_is_pillar(g, v, l, p) != nullptr) {
         c = CHARMAP_PILLAR;

@@ -1097,34 +1097,34 @@ auto level_is_unused40(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me)
   return level_flag(g, v, l, is_unused40, p, me);
 }
 
-auto level_is_unused41(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+auto level_is_biome_underhell(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused41, p, me);
+  return level_flag(g, v, l, is_biome_underhell, p, me);
 }
 
-auto level_is_unused42(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+auto level_is_biome_graveyard(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused42, p, me);
+  return level_flag(g, v, l, is_biome_graveyard, p, me);
 }
 
-auto level_is_unused43(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+auto level_is_biome_nethervoid(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused43, p, me);
+  return level_flag(g, v, l, is_biome_nethervoid, p, me);
 }
 
-auto level_is_unused44(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+auto level_is_biome_bogland(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused44, p, me);
+  return level_flag(g, v, l, is_biome_bogland, p, me);
 }
 
-auto level_is_unused45(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+auto level_is_biome_dungeon(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused45, p, me);
+  return level_flag(g, v, l, is_biome_dungeon, p, me);
 }
 
 auto level_is_level_open_icon(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp

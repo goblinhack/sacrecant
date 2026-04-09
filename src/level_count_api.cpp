@@ -1097,34 +1097,34 @@ auto level_count_is_unused40(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> u
   return level_count(g, v, l, is_unused40, p);
 }
 
-auto level_count_is_unused41(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+auto level_count_is_biome_underhell(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused41, p);
+  return level_count(g, v, l, is_biome_underhell, p);
 }
 
-auto level_count_is_unused42(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+auto level_count_is_biome_graveyard(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused42, p);
+  return level_count(g, v, l, is_biome_graveyard, p);
 }
 
-auto level_count_is_unused43(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+auto level_count_is_biome_nethervoid(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused43, p);
+  return level_count(g, v, l, is_biome_nethervoid, p);
 }
 
-auto level_count_is_unused44(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+auto level_count_is_biome_bogland(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused44, p);
+  return level_count(g, v, l, is_biome_bogland, p);
 }
 
-auto level_count_is_unused45(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+auto level_count_is_biome_dungeon(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused45, p);
+  return level_count(g, v, l, is_biome_dungeon, p);
 }
 
 auto level_count_is_level_open_icon(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t

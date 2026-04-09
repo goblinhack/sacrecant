@@ -172,11 +172,11 @@
       list_macro(is_unused38, "is_unused38"),                                               /* newline */                                  \
       list_macro(is_unused39, "is_unused39"),                                               /* newline */                                  \
       list_macro(is_unused40, "is_unused40"),                                               /* newline */                                  \
-      list_macro(is_unused41, "is_unused41"),                                               /* newline */                                  \
-      list_macro(is_unused42, "is_unused42"),                                               /* newline */                                  \
-      list_macro(is_unused43, "is_unused43"),                                               /* newline */                                  \
-      list_macro(is_unused44, "is_unused44"),                                               /* newline */                                  \
-      list_macro(is_unused45, "is_unused45"),                                               /* newline */                                  \
+      list_macro(is_biome_underhell, "is_biome_underhell"),                                 /* newline */                                  \
+      list_macro(is_biome_graveyard, "is_biome_graveyard"),                                 /* newline */                                  \
+      list_macro(is_biome_nethervoid, "is_biome_nethervoid"),                               /* newline */                                  \
+      list_macro(is_biome_bogland, "is_biome_bogland"),                                     /* newline */                                  \
+      list_macro(is_biome_dungeon, "is_biome_dungeon"),                                     /* newline */                                  \
       list_macro(is_level_open_icon, "is_level_open_icon"),                                 /* newline */                                  \
       list_macro(is_blit_bg, "is_blit_bg"),                                                 /* newline */                                  \
       list_macro(is_level_select_bg, "is_level_select_bg"),                                 /* newline */                                  \
@@ -274,6 +274,20 @@ ENUM_DEF_H(MAP_Z_DEPTH_ENUM, MapZDepth)
       list_macro(MONST_GROUP_HARD, "2"), /* newline */
 
 ENUM_DEF_H(MONST_GROUP_ENUM, ThingMonstGroup)
+
+//
+// Biome
+//
+#define BIOME_ENUM(list_macro)                                                                                                             \
+  CLANG_FORMAT_INDENT()                           /* dummy line for clang indentation fixup */                                             \
+  list_macro(BIOME_ANY, "ANY"),                   /* newline */                                                                            \
+      list_macro(BIOME_DUNGEON, "DUNGEON"),       /* newline */                                                                            \
+      list_macro(BIOME_BOGLAND, "BOGLAND"),       /* newline */                                                                            \
+      list_macro(BIOME_NETHERVOID, "NETHERVOID"), /* newline */                                                                            \
+      list_macro(BIOME_GRAVEYARD, "GRAVEYARD"),   /* newline */                                                                            \
+      list_macro(BIOME_UNDERHELL, "UNDERHELL"),   /* newline */
+
+ENUM_DEF_H(BIOME_ENUM, Biome)
 
 //
 // Thing anim enum
@@ -482,10 +496,10 @@ class Tp;
 [[nodiscard]] auto tp_random_dungeon_entrance() -> Tpp;
 [[nodiscard]] auto tp_random_exit() -> Tpp;
 [[nodiscard]] auto tp_random_key() -> Tpp;
-[[nodiscard]] auto tp_random_monst(int c) -> Tpp;
+[[nodiscard]] auto tp_random_monst(Gamep g, Levelsp v, Levelp l, int c) -> Tpp;
 [[nodiscard]] auto tp_random_player() -> Tpp;
 [[nodiscard]] auto tp_random_wall() -> Tpp;
-[[nodiscard]] auto tp_random(ThingFlag f) -> Tpp;
+[[nodiscard]] auto tp_random(Gamep g, Levelsp v, Levelp l, ThingFlag f) -> Tpp;
 [[nodiscard]] auto tp_speed_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_temperature_burns_at_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_temperature_damage_at_get(Tpp tp) -> int;
@@ -705,6 +719,11 @@ void tp_monst_group_add(Tpp tp, ThingMonstGroup val);
 [[nodiscard]] auto tp_is_attackable_by_monst(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_attackable_by_player(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_barrel(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_biome_bogland(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_biome_dungeon(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_biome_graveyard(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_biome_nethervoid(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_biome_underhell(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_blit_bg(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_blit_centered(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_blit_flush_per_line(Tpp tp) -> bool;
@@ -883,11 +902,6 @@ void tp_monst_group_add(Tpp tp, ThingMonstGroup val);
 [[nodiscard]] auto tp_is_unused39(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused4(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused40(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused41(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused42(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused43(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused44(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused45(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused46(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused47(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused5(Tpp tp) -> bool;

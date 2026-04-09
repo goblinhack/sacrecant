@@ -6,6 +6,7 @@
 #include "my_dice_rolls.hpp"
 #include "my_gl.hpp"
 #include "my_globals.hpp"
+#include "my_level.hpp"
 #include "my_main.hpp"
 #include "my_ptrcheck.hpp"
 #include "my_random.hpp"
@@ -337,11 +338,84 @@ auto tp_first_tile(Tpp tp, ThingAnim val) -> Tilep
   return tp->tiles[ val ][ 0 ];
 }
 
-static auto tp_get_with_no_rarity_filter(TpVec &m) -> Tpp
+static auto tp_random(Gamep g, Levelsp v, Levelp l, TpVec &m) -> Tpp
 {
   TRACE();
 
-  int tries = 1000;
+  auto biome = BIOME_ANY;
+  if (l) {
+    biome = level_to_biome(g, v, l);
+  }
+
+  int tries = 100;
+  while (tries-- > 0) {
+    auto  index = PCG_RAND() % m.size();
+    auto *tp    = m[ index ];
+    if (tp == nullptr) [[unlikely]] {
+      break;
+    }
+
+    auto is_biome_dungeon    = tp_is_biome_dungeon(tp);
+    auto is_biome_bogland    = tp_is_biome_bogland(tp);
+    auto is_biome_nethervoid = tp_is_biome_nethervoid(tp);
+    auto is_biome_graveyard  = tp_is_biome_graveyard(tp);
+    auto is_biome_underhell  = tp_is_biome_underhell(tp);
+    auto is_biome_restricted = is_biome_dungeon ||    // newline
+                               is_biome_bogland ||    // newline
+                               is_biome_nethervoid || // newline
+                               is_biome_graveyard ||  // newline
+                               is_biome_underhell;
+
+    if (is_biome_restricted) {
+      if (biome == BIOME_DUNGEON) {
+        if (! is_biome_dungeon) {
+          continue;
+        }
+      }
+
+      if (biome == BIOME_BOGLAND) {
+        if (! is_biome_bogland) {
+          continue;
+        }
+      }
+
+      if (biome == BIOME_NETHERVOID) {
+        if (! is_biome_nethervoid) {
+          continue;
+        }
+      }
+
+      if (biome == BIOME_GRAVEYARD) {
+        if (! is_biome_graveyard) {
+          continue;
+        }
+      }
+
+      if (biome == BIOME_UNDERHELL) {
+        if (! is_biome_underhell) {
+          continue;
+        }
+      }
+    }
+
+    //
+    // If this thing has a limited chance of appearing, roll the dice.
+    //
+    auto chance = tp->chance_d1000_appearing;
+    if (chance != 0) {
+      auto roll = d1000();
+      if (roll < chance) {
+        return tp;
+      }
+    } else {
+      return tp;
+    }
+  }
+
+  //
+  // Try again, but without the biome filter
+  //
+  tries = 100;
   while (tries-- > 0) {
     auto  index = PCG_RAND() % m.size();
     auto *tp    = m[ index ];
@@ -371,7 +445,7 @@ static auto tp_get_with_no_rarity_filter(TpVec &m) -> Tpp
   return tp;
 }
 
-auto tp_random_monst(int c) -> Tpp
+auto tp_random_monst(Gamep g, Levelsp v, Levelp l, int c) -> Tpp
 {
   TRACE();
 
@@ -385,10 +459,10 @@ auto tp_random_monst(int c) -> Tpp
     return nullptr;
   }
 
-  return tp_get_with_no_rarity_filter(tp_monst_vec[ c ]);
+  return tp_random(g, v, l, tp_monst_vec[ c ]);
 }
 
-auto tp_random(ThingFlag f) -> Tpp
+auto tp_random(Gamep g, Levelsp v, Levelp l, ThingFlag f) -> Tpp
 {
   TRACE();
 
@@ -396,7 +470,7 @@ auto tp_random(ThingFlag f) -> Tpp
     ERR("tp_random: no tp found for ThingFlag %d/%s", f, ThingFlag_to_c_str(f));
     return nullptr;
   }
-  return tp_get_with_no_rarity_filter(tp_flag_vec[ f ]);
+  return tp_random(g, v, l, tp_flag_vec[ f ]);
 }
 
 auto tp_variant(ThingFlag f, int variant) -> Tpp

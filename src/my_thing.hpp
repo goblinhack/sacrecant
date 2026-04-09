@@ -620,6 +620,11 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_attackable_by_monst(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_attackable_by_player(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_barrel(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_biome_bogland(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_biome_dungeon(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_biome_graveyard(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_biome_nethervoid(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_biome_underhell(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blit_bg(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blit_centered(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blit_flush_per_line(Thingp t) -> bool;
@@ -820,11 +825,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused39(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused4(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused40(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused41(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused42(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused43(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused44(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused45(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused46(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused47(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused5(Thingp t) -> bool;

@@ -97,6 +97,9 @@ auto tp_load_blitzhound() -> bool
   tp_flag_set(tp, is_animated_can_hflip);
   tp_flag_set(tp, is_animated);
   tp_flag_set(tp, is_attackable_by_player);
+  tp_flag_set(tp, is_biome_dungeon);
+  tp_flag_set(tp, is_biome_graveyard);
+  tp_flag_set(tp, is_biome_nethervoid);
   tp_flag_set(tp, is_blit_centered);
   tp_flag_set(tp, is_blit_hit_outline_w_invis_inside);
   tp_flag_set(tp, is_blit_shown_in_chasms);
