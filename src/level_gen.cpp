@@ -3693,6 +3693,54 @@ auto level_gen_is_room_entrance(Gamep g, class LevelGen *l, int x, int y) -> boo
 auto level_gen_is_room_entrance(Gamep g, class LevelGen *l, bpoint at) -> bool { return level_gen_is_room_entrance(g, l, at.x, at.y); }
 
 //
+// Is this room locked?
+//
+auto level_gen_is_room_locked(Gamep g, class LevelGen *l, int x, int y) -> bool
+{
+  TRACE();
+
+  if (l == nullptr) { // tests
+    return false;
+  }
+
+  if (is_oob(x, y)) [[unlikely]] {
+    return false;
+  }
+
+  auto *r = l->data[ x ][ y ].room;
+  return (r != nullptr) && (r->room_type == ROOM_TYPE_LOCKED);
+}
+
+//
+// Is this tile in the entrance?
+//
+auto level_gen_is_room_locked(Gamep g, class LevelGen *l, bpoint at) -> bool { return level_gen_is_room_locked(g, l, at.x, at.y); }
+
+//
+// Is this room has_key?
+//
+auto level_gen_is_room_has_key(Gamep g, class LevelGen *l, int x, int y) -> bool
+{
+  TRACE();
+
+  if (l == nullptr) { // tests
+    return false;
+  }
+
+  if (is_oob(x, y)) [[unlikely]] {
+    return false;
+  }
+
+  auto *r = l->data[ x ][ y ].room;
+  return (r != nullptr) && (r->room_type == ROOM_TYPE_HAS_KEY);
+}
+
+//
+// Is this tile in the entrance?
+//
+auto level_gen_is_room_has_key(Gamep g, class LevelGen *l, bpoint at) -> bool { return level_gen_is_room_has_key(g, l, at.x, at.y); }
+
+//
 // Hide secret doors
 //
 static void level_gen_add_foliage_around_secret_doors(Gamep g, class LevelGen *l)

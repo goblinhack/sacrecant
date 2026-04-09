@@ -88,7 +88,8 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *level_gen, int
       Tpp          tp     = nullptr;
       bpoint const at(x, y);
 
-      auto is_entrance = level_gen_is_room_entrance(g, level_gen, at);
+      auto is_room_entrance = level_gen_is_room_entrance(g, level_gen, at);
+      auto is_room_locked   = level_gen_is_room_locked(g, level_gen, at);
 
       l->debug[ x ][ y ] = c;
 
@@ -168,41 +169,46 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *level_gen, int
             break;
           case CHARMAP_BRIDGE : tp = tp_bridge; break;
           case CHARMAP_WALL :
-            switch (biome) {
-              case BIOME_DUNGEON :
-                need_floor = true;
-                tp         = tp_wall;
-                break;
-              case BIOME_BOGLAND :
-                if (d100() < 10) {
+            if (is_room_locked) {
+              need_floor = true;
+              tp         = tp_wall;
+            } else {
+              switch (biome) {
+                case BIOME_DUNGEON :
                   need_floor = true;
                   tp         = tp_wall;
-                } else {
-                  need_dirt  = true;
-                  need_water = true;
-                  if (need_deco) {
-                    if (d100() < 50) {
-                      need_foliage = true;
+                  break;
+                case BIOME_BOGLAND :
+                  if (d100() < 10) {
+                    need_floor = true;
+                    tp         = tp_wall;
+                  } else {
+                    need_dirt  = true;
+                    need_water = true;
+                    if (need_deco) {
+                      if (d100() < 50) {
+                        need_foliage = true;
+                      }
                     }
                   }
-                }
-                break;
-              case BIOME_NETHERVOID :
-                // no walls
-                need_floor = true;
-                break;
-              case BIOME_GRAVEYARD :
-                need_floor = true;
-                tp         = tp_wall;
-                break;
-              case BIOME_UNDERHELL :
-                if (d100() < 10) {
+                  break;
+                case BIOME_NETHERVOID :
+                  // no walls
+                  need_floor = true;
+                  break;
+                case BIOME_GRAVEYARD :
                   need_floor = true;
                   tp         = tp_wall;
-                }
-                break;
-              case BIOME_ANY :      [[fallthrough]];
-              case BIOME_ENUM_MAX : break;
+                  break;
+                case BIOME_UNDERHELL :
+                  if (d100() < 10) {
+                    need_floor = true;
+                    tp         = tp_wall;
+                  }
+                  break;
+                case BIOME_ANY :      [[fallthrough]];
+                case BIOME_ENUM_MAX : break;
+              }
             }
             break;
           case CHARMAP_ROCK :
@@ -280,8 +286,18 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *level_gen, int
             tp         = tp_brazier;
             break;
           case CHARMAP_DOOR_UNLOCKED :
-            need_floor = true;
-            tp         = tp_random(g, v, l, is_door_unlocked);
+            switch (biome) {
+              case BIOME_DUNGEON :
+                need_floor = true;
+                tp         = tp_random(g, v, l, is_door_unlocked);
+                break;
+              case BIOME_BOGLAND :    need_dirt = true; break;
+              case BIOME_NETHERVOID : need_dirt = true; break;
+              case BIOME_GRAVEYARD :  need_dirt = true; break;
+              case BIOME_UNDERHELL :  need_dirt = true; break;
+              case BIOME_ANY :        [[fallthrough]];
+              case BIOME_ENUM_MAX :   break;
+            }
             break;
           case CHARMAP_DOOR_LOCKED :
             need_floor = true;
@@ -303,25 +319,25 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *level_gen, int
             break;
           case CHARMAP_MONST_EASY :
             need_floor = true;
-            if (! is_entrance) {
+            if (! is_room_entrance) {
               tp = tp_random_monst(g, v, l, MONST_GROUP_EASY);
             }
             break;
           case CHARMAP_MONST_HARD :
             need_floor = true;
-            if (! is_entrance) {
+            if (! is_room_entrance) {
               tp = tp_random_monst(g, v, l, MONST_GROUP_HARD);
             }
             break;
           case CHARMAP_MOB1 :
             need_floor = true;
-            if (! is_entrance) {
+            if (! is_room_entrance) {
               tp = tp_random(g, v, l, is_mob1);
             }
             break;
           case CHARMAP_MOB2 :
             need_floor = true;
-            if (! is_entrance) {
+            if (! is_room_entrance) {
               tp = tp_random(g, v, l, is_mob2);
             }
             break;
