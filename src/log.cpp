@@ -10,6 +10,7 @@
 #include "my_log.hpp"
 #include "my_main.hpp"
 #include "my_ptrcheck.hpp"
+#include "my_sprintf.hpp"
 #include "my_string.hpp"
 #include "my_wids.hpp"
 
@@ -39,14 +40,12 @@ auto log_dir_create() -> std::string
   mkdir(appdata, 0700);
 #endif
 
-  char *dir = dynprintf("%s%s%s", appdata, DIR_SEP, "sacrecant");
+  auto dir = string_sprintf("%s%s%s", appdata, DIR_SEP, "sacrecant");
 #ifdef _WIN32
-  mkdir(dir);
+  mkdir(dir.c_str());
 #else
-  mkdir(dir, 0700);
+  mkdir(dir.c_str(), 0700);
 #endif
-
-  MYFREE(dir);
 
   return {appdata};
 }

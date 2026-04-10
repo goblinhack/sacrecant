@@ -998,6 +998,8 @@ void rooms_dump(Gamep g)
 //
 [[nodiscard]] static auto room_can_place_at(Gamep g, class LevelGen *l, class Room *r, bpoint at) -> bool
 {
+  TRACE_DEBUG();
+
   //
   // Optimization, check edge tiles first
   //
@@ -1031,6 +1033,14 @@ void rooms_dump(Gamep g)
 //
 static void room_place_at(class LevelGen *l, class Room *r, bpoint at)
 {
+  TRACE_DEBUG();
+
+  if (l->debug) [[unlikely]] {
+    if (r->file) {
+      log("place room %s:%d", r->file, r->line);
+    }
+  }
+
   //
   // The room should be clear to place at this point
   //
