@@ -640,14 +640,18 @@ using RoomFlags = enum RoomFlags_ {
   //
   ROOM_FLAG_LOCKED = 1 << 3,
   //
+  // Secret rooms
+  //
+  ROOM_FLAG_SECRET = 1 << 4,
+  //
   // Key room
   //
-  ROOM_FLAG_HAS_KEY = 1 << 4,
+  ROOM_FLAG_HAS_KEY = 1 << 5,
   //
   // Sanity check on exits that we have no tiles in the same column or row
   // as an exit; it makes it harder to join rooms together
   //
-  ROOM_FLAG_CHECK_EXITS = 1 << 5,
+  ROOM_FLAG_CHECK_EXITS = 1 << 6,
   //
   // Room types
   //
@@ -658,6 +662,7 @@ static auto const ROOM_FLAG_ALL = // newline
     ROOM_FLAG_NORMAL |            // newline
     ROOM_FLAG_EXIT |              // newline
     ROOM_FLAG_LOCKED |            // newline
+    ROOM_FLAG_SECRET |            // newline
     ROOM_FLAG_HAS_KEY;            // newline
 
 #define ROOM_TYPE_FIRST ROOM_TYPE_ENTRANCE
@@ -694,6 +699,8 @@ enum {
 [[nodiscard]] auto level_gen_is_room_has_key(Gamep g, class LevelGen *l, int x, int y) -> bool;
 [[nodiscard]] auto level_gen_is_room_locked(Gamep g, class LevelGen *l, bpoint at) -> bool;
 [[nodiscard]] auto level_gen_is_room_locked(Gamep g, class LevelGen *l, int x, int y) -> bool;
+[[nodiscard]] auto level_gen_is_room_secret(Gamep g, class LevelGen *l, bpoint at) -> bool;
+[[nodiscard]] auto level_gen_is_room_secret(Gamep g, class LevelGen *l, int x, int y) -> bool;
 [[nodiscard]] auto level_get_thing_id_at(Gamep g, Levelsp v, Levelp l, const bpoint &p, int slot) -> ThingId;
 [[nodiscard]] auto level_is_level_select(Gamep g, Levelsp v, Levelp l) -> bool;
 [[nodiscard]] auto level_is_player_level(Gamep g, Levelsp v, Levelp l) -> bool;
@@ -826,6 +833,7 @@ void rooms_large(Gamep g);
 void rooms_long(Gamep g);
 void rooms_medium(Gamep g);
 void rooms_prefab_secret(Gamep g);
+void rooms_prefab_locked(Gamep g);
 void rooms_prefab(Gamep g);
 void rooms_small(Gamep g);
 void rooms_start(Gamep g);

@@ -250,6 +250,11 @@ public:
   bool has_placed_ROOM_TYPE_HAS_KEY     = {};
 
   //
+  // We've placed a secret room
+  //
+  bool has_placed_ROOM_TYPE_DOOR_SECRET = {};
+
+  //
   // Temporary for flood fill
   //
   bool walked[ MAP_WIDTH ][ MAP_HEIGHT ] = {};
@@ -268,6 +273,7 @@ using RoomType = enum RoomType_ {
   ROOM_TYPE_NORMAL,
   ROOM_TYPE_EXIT,
   ROOM_TYPE_LOCKED,
+  ROOM_TYPE_SECRET,
   ROOM_TYPE_HAS_KEY,
   ROOM_TYPE_MAX
 };
@@ -706,11 +712,11 @@ void room_add(Gamep g, int chance, int room_flags, const char *file, int line, .
   //
   // Special room types
   //
-  if ((room_flags & ROOM_FLAG_LOCKED) != 0) {
+  if ((room_flags & ROOM_FLAG_SECRET) != 0) {
+    room_type = ROOM_TYPE_SECRET;
+  } else if ((room_flags & ROOM_FLAG_LOCKED) != 0) {
     room_type = ROOM_TYPE_LOCKED;
-  }
-
-  if ((room_flags & ROOM_FLAG_HAS_KEY) != 0) {
+  } else if ((room_flags & ROOM_FLAG_HAS_KEY) != 0) {
     room_type = ROOM_TYPE_HAS_KEY;
   }
 
@@ -1394,6 +1400,11 @@ static auto fragment_alt_random_get(Gamep g, class LevelGen *l, Fragment *f, bpo
           break;
         case ROOM_TYPE_LOCKED :
           if ((a->room_flags & ROOM_FLAG_LOCKED) == 0U) {
+            skip = true;
+          }
+          break;
+        case ROOM_TYPE_SECRET :
+          if ((a->room_flags & ROOM_FLAG_SECRET) == 0U) {
             skip = true;
           }
           break;
@@ -2444,6 +2455,10 @@ void level_gen_stats_dump(Gamep g)
 
       if (r->room_type == ROOM_TYPE_LOCKED) {
         l->has_placed_ROOM_TYPE_DOOR_LOCKED = true;
+      }
+
+      if (r->room_type == ROOM_TYPE_SECRET) {
+        l->has_placed_ROOM_TYPE_DOOR_SECRET = true;
       }
 
       if (r->room_type == ROOM_TYPE_HAS_KEY) {
@@ -3741,6 +3756,30 @@ auto level_gen_is_room_locked(Gamep g, class LevelGen *l, int x, int y) -> bool
 auto level_gen_is_room_locked(Gamep g, class LevelGen *l, bpoint at) -> bool { return level_gen_is_room_locked(g, l, at.x, at.y); }
 
 //
+// Is this room secret?
+//
+auto level_gen_is_room_secret(Gamep g, class LevelGen *l, int x, int y) -> bool
+{
+  TRACE();
+
+  if (l == nullptr) { // tests
+    return false;
+  }
+
+  if (is_oob(x, y)) [[unlikely]] {
+    return false;
+  }
+
+  auto *r = l->data[ x ][ y ].room;
+  return (r != nullptr) && (r->room_type == ROOM_TYPE_SECRET);
+}
+
+//
+// Is this tile in the entrance?
+//
+auto level_gen_is_room_secret(Gamep g, class LevelGen *l, bpoint at) -> bool { return level_gen_is_room_secret(g, l, at.x, at.y); }
+
+//
 // Is this room has_key?
 //
 auto level_gen_is_room_has_key(Gamep g, class LevelGen *l, int x, int y) -> bool
@@ -4232,7 +4271,7 @@ static void level_gen_add_missing_monsts_and_treasure(class LevelGen *l, int nmo
 }
 
 //
-// For secret doors, need to add a corresponding key
+// For locked doors, need to add a corresponding key
 //
 static void level_gen_add_missing_keys_do(class LevelGen *l)
 {
@@ -4529,6 +4568,9 @@ static void level_gen_add_doors_do(class LevelGen *l)
       continue;
     }
     if ((r->flags & ROOM_FLAG_LOCKED) != 0U) {
+      continue;
+    }
+    if ((r->flags & ROOM_FLAG_SECRET) != 0U) {
       continue;
     }
     if (l->room_entrance == r) {

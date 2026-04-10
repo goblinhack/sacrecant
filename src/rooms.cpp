@@ -28,6 +28,5 @@ void rooms_init(Gamep g)
   rooms_key(g);
   rooms_prefab(g);
   rooms_prefab_secret(g);
-  rooms_prefab(g);
-  rooms_prefab_secret(g);
+  rooms_prefab_locked(g);
 }
