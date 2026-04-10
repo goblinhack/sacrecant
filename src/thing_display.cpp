@@ -590,8 +590,12 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
       // Submerge the tile if it is over some kind of liquid.
       //
       if (submerged_pct != 0) {
-        tile_blit_apply_submerge_pct(g, tl, br, tile, x1, x2, y1, y2, thing_submerged_pct(t_maybe_null));
-        thing_display_it(g, v, l, p, tp, t_maybe_null, tl, br, tile, x1, x2, y1, y2, fbo, fg, light_pixels);
+        if (thing_is_foliage(t_maybe_null)) {
+          thing_display_it(g, v, l, p, tp, t_maybe_null, tl, br, tile, x1, x2, y1, y2, fbo, fg, light_pixels);
+        } else {
+          tile_blit_apply_submerge_pct(g, tl, br, tile, x1, x2, y1, y2, thing_submerged_pct(t_maybe_null));
+          thing_display_it(g, v, l, p, tp, t_maybe_null, tl, br, tile, x1, x2, y1, y2, fbo, fg, light_pixels);
+        }
 
         //
         // Add a reflection
