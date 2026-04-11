@@ -1091,10 +1091,10 @@ auto level_is_unused4_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> b
   return level_flag_cached(g, v, l, is_unused4, p);
 }
 
-auto level_is_unused40_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+auto level_is_vault_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused40, p);
+  return level_flag_cached(g, v, l, is_vault, p);
 }
 
 auto level_is_biome_underhell_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

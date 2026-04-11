@@ -86,7 +86,7 @@ static void level_assign_tiles_at(Gamep g, Levelsp v, Levelp l, const bpoint &p)
     }
 
     if (tp_is_tiled(tp)) {
-      auto tile_name = tp_name(tp);
+      auto tile_name = tp_tile_name(tp);
 
       uint16_t const A = level_is_same_obj_type_at(g, v, l, bpoint(x - 1, y - 1), tp) ? 1 : 0;
       uint16_t const B = level_is_same_obj_type_at(g, v, l, bpoint(x, y - 1), tp) ? 1 : 0;

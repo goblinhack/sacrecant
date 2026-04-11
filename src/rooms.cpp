@@ -12,7 +12,7 @@ void rooms_init(Gamep g)
 {
   TRACE();
 
-  rooms_start(g);
+  rooms_entrance(g);
   rooms_blend1(g);
   rooms_blend2(g);
   rooms_chunky(g);

@@ -171,7 +171,7 @@
       list_macro(is_unused37, "is_unused37"),                                               /* newline */                                  \
       list_macro(is_unused38, "is_unused38"),                                               /* newline */                                  \
       list_macro(is_unused39, "is_unused39"),                                               /* newline */                                  \
-      list_macro(is_unused40, "is_unused40"),                                               /* newline */                                  \
+      list_macro(is_vault, "is_vault"),                                                     /* newline */                                  \
       list_macro(is_biome_underhell, "is_biome_underhell"),                                 /* newline */                                  \
       list_macro(is_biome_graveyard, "is_biome_graveyard"),                                 /* newline */                                  \
       list_macro(is_biome_nethervoid, "is_biome_nethervoid"),                               /* newline */                                  \
@@ -493,6 +493,7 @@ class Tp;
 [[nodiscard]] auto tp_name_real(Tpp tp) -> std::string;
 [[nodiscard]] auto tp_name_short(Tpp tp) -> std::string;
 [[nodiscard]] auto tp_name(Tpp tp) -> std::string;
+[[nodiscard]] auto tp_tile_name(Tpp tp) -> std::string;
 [[nodiscard]] auto tp_random_dungeon_entrance() -> Tpp;
 [[nodiscard]] auto tp_random_exit() -> Tpp;
 [[nodiscard]] auto tp_random_key() -> Tpp;
@@ -539,6 +540,7 @@ void tp_name_long_set(Tpp tp, const std::string &val);
 void tp_name_pluralize_set(Tpp tp, const std::string &val);
 void tp_name_real_set(Tpp tp, const std::string &val);
 void tp_name_short_set(Tpp tp, const std::string &val);
+void tp_tile_name_set(Tpp tp, const std::string &val);
 void tp_tiles_push_back(Tpp tp, ThingAnim val, Tilep tile_p);
 
 //
@@ -901,7 +903,6 @@ void tp_monst_group_add(Tpp tp, ThingMonstGroup val);
 [[nodiscard]] auto tp_is_unused38(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused39(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused4(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused40(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused46(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused47(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused5(Tpp tp) -> bool;
@@ -910,6 +911,7 @@ void tp_monst_group_add(Tpp tp, ThingMonstGroup val);
 [[nodiscard]] auto tp_is_unused7(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused8(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused9(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_vault(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_vision_180_degrees(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_vision_360_degrees(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_wait_on_dead_anim(Tpp tp) -> bool;

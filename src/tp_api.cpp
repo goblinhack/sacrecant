@@ -1091,10 +1091,10 @@ auto tp_is_unused4(Tpp tp) -> bool
   return tp_flag(tp, is_unused4) != 0;
 }
 
-auto tp_is_unused40(Tpp tp) -> bool
+auto tp_is_vault(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused40) != 0;
+  return tp_flag(tp, is_vault) != 0;
 }
 
 auto tp_is_biome_underhell(Tpp tp) -> bool

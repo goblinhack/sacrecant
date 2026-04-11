@@ -1091,10 +1091,10 @@ auto level_open_is_unused4(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thi
   return level_open(g, v, l, is_unused4, p);
 }
 
-auto level_open_is_unused40(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+auto level_open_is_vault(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_open(g, v, l, is_unused40, p);
+  return level_open(g, v, l, is_vault, p);
 }
 
 auto level_open_is_biome_underhell(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp

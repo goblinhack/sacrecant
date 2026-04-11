@@ -684,6 +684,7 @@ void room_add(Gamep g, int chance, int room_flags, const char *file, int line, .
         case CHARMAP_TRAP :          break;
         case CHARMAP_TREASURE :      break;
         case CHARMAP_WALL :          break;
+        case CHARMAP_VAULT :         break;
         case CHARMAP_WATER :         break;
         case CHARMAP_FIRE :          break;
         case CHARMAP_EXIT :
@@ -1273,6 +1274,7 @@ auto fragment_alt_add(Gamep g, int chance, uint32_t room_flags, const char *file
         case CHARMAP_TRAP :          break;
         case CHARMAP_TREASURE :      break;
         case CHARMAP_WALL :          break;
+        case CHARMAP_VAULT :         break;
         case CHARMAP_WATER :         break;
         case CHARMAP_FIRE :          break;
         default :                    CROAK("fragment_alt has unknown char [%c] in fragment_alt @ %s:%d", fragment_alt_line[ i ], file, line); return false;
@@ -1645,6 +1647,7 @@ auto fragment_add(Gamep g, int chance, const char *file, int line, ...) -> bool
         case CHARMAP_TRAP :          break;
         case CHARMAP_TREASURE :      break;
         case CHARMAP_WALL :          break;
+        case CHARMAP_VAULT :         break;
         case CHARMAP_WATER :         break;
         case CHARMAP_WILDCARD :      break;
         case CHARMAP_FIRE :          break;
@@ -2002,6 +2005,7 @@ void level_fixed_add(Gamep g, int chance, LevelType level_type, const std::strin
         case CHARMAP_TRAP :          break;
         case CHARMAP_TREASURE :      break;
         case CHARMAP_WALL :          break;
+        case CHARMAP_VAULT :         break;
         case CHARMAP_WATER :         break;
         case CHARMAP_ROCK :          break;
         case CHARMAP_BORDER :        break;
@@ -2261,6 +2265,7 @@ static void level_gen_dump(class LevelGen *l, const char *msg)
           case CHARMAP_BRIDGE :
           case CHARMAP_LAVA :
           case CHARMAP_WALL :
+          case CHARMAP_VAULT :
           case CHARMAP_EMPTY :         break;
           case CHARMAP_MOB1 :
           case CHARMAP_BARREL :
@@ -2796,6 +2801,7 @@ static void level_gen_single_large_blob_in_center(Gamep g, class LevelGen *l, ch
           case CHARMAP_TRAP :
           case CHARMAP_TREASURE :
           case CHARMAP_WALL :
+          case CHARMAP_VAULT :
             //
             // No water / chasm etc...
             //
@@ -2872,6 +2878,7 @@ static void level_gen_blob(Gamep g, class LevelGen *l, char c)
           case CHARMAP_TRAP :
           case CHARMAP_TREASURE :
           case CHARMAP_WALL :
+          case CHARMAP_VAULT :
           case CHARMAP_WILDCARD :
             //
             // No item
@@ -3644,6 +3651,7 @@ static void level_gen_add_walls_around_rooms(class LevelGen *l)
         case CHARMAP_DOOR_UNLOCKED :
         case CHARMAP_GRASS :
         case CHARMAP_WALL :
+        case CHARMAP_VAULT :
         case CHARMAP_BARREL :
         case CHARMAP_BRAZIER :
         case CHARMAP_BRIDGE :
@@ -3845,6 +3853,7 @@ static void level_gen_add_foliage_around_secret_doors(Gamep g, class LevelGen *l
         case CHARMAP_DOOR_UNLOCKED :
         case CHARMAP_MONST_EASY :
         case CHARMAP_MONST_HARD :    break;
+        case CHARMAP_VAULT :
         case CHARMAP_DOOR_SECRET :
           for (int dy = -2; dy <= 2; dy++) {
             for (int dx = -2; dx <= 2; dx++) {
@@ -4821,6 +4830,7 @@ static void level_gen_extend_bridges_do(Gamep g, class LevelGen *l, int x, int y
     case CHARMAP_FOLIAGE :
     case CHARMAP_BARREL :
     case CHARMAP_BRAZIER :
+    case CHARMAP_VAULT :
     case CHARMAP_WALL :
     case CHARMAP_WATER :
     case CHARMAP_LAVA :

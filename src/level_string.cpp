@@ -55,6 +55,9 @@ auto level_string(Gamep g, Levelsp v, Levelp l, int w, int h) -> std::string
       if (level_alive_is_grass(g, v, l, p) != nullptr) {
         c = CHARMAP_GRASS;
       }
+      if (level_is_vault(g, v, l, p) != nullptr) {
+        c = CHARMAP_VAULT;
+      }
       if (level_is_wall(g, v, l, p) != nullptr) {
         c = CHARMAP_WALL;
       }

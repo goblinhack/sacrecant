@@ -61,6 +61,7 @@ auto tp_load_smoke() -> bool;
 auto tp_load_steam() -> bool;
 auto tp_load_teleport() -> bool;
 auto tp_load_trap() -> bool;
+auto tp_load_vault() -> bool;
 auto tp_load_wall() -> bool;
 auto tp_load_water() -> bool;
   /* end shell marker1 */

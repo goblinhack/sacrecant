@@ -175,6 +175,11 @@ public:
   std::string name;
 
   //
+  // Some things share tiles
+  //
+  std::string tile_name;
+
+  //
   // For mimics
   //
   std::string name_real;

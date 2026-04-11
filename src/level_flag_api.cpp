@@ -1091,10 +1091,10 @@ auto level_is_unused4(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) 
   return level_flag(g, v, l, is_unused4, p, me);
 }
 
-auto level_is_unused40(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+auto level_is_vault(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused40, p, me);
+  return level_flag(g, v, l, is_vault, p, me);
 }
 
 auto level_is_biome_underhell(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp

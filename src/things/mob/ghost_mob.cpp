@@ -40,6 +40,9 @@ static void tp_ghost_mob_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp t)
 {
   TRACE();
 
+  //
+  // Spawn sometimes
+  //
   if (d100() < 90) {
     return;
   }

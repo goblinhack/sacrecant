@@ -60,6 +60,18 @@ static std::initializer_list< std::string > tps = {
     "wall10", // Update WALL_VARIANTS
     "wall11", // Update WALL_VARIANTS
     "wall12", // Update WALL_VARIANTS
+    "vault1", // Update WALL_VARIANTS
+    "vault2", // Update WALL_VARIANTS
+    "vault3", // Update WALL_VARIANTS
+    "vault4", // Update WALL_VARIANTS
+    "vault5", // Update WALL_VARIANTS
+    "vault6", // Update WALL_VARIANTS
+    "vault7", // Update WALL_VARIANTS
+    "vault8", // Update WALL_VARIANTS
+    "vault9", // Update WALL_VARIANTS
+    "vault10", // Update WALL_VARIANTS
+    "vault11", // Update WALL_VARIANTS
+    "vault12", // Update WALL_VARIANTS
     "rock1",
     "border",
     "player",
@@ -279,8 +291,9 @@ auto tp_load(const std::string &val) -> Tpp
     ERR("tp_load: thing template name [%s] already loaded", val.c_str());
   }
 
-  auto *tp = new Tp();
-  tp->name = name;
+  auto *tp      = new Tp();
+  tp->name      = name;
+  tp->tile_name = name;
 
   auto result = tp_name_map.insert(std::make_pair(name, tp));
   if (! result.second) {
@@ -661,6 +674,26 @@ auto tp_name(Tpp tp) -> std::string
     return "<noname>";
   }
   return tp->name;
+}
+
+auto tp_tile_name(Tpp tp) -> std::string
+{
+  TRACE();
+  if (tp == nullptr) [[unlikely]] {
+    tp_err(tp, "no thing template pointer");
+    return "<notile_name>";
+  }
+  return tp->tile_name;
+}
+
+void tp_tile_name_set(Tpp tp, const std::string &val)
+{
+  TRACE();
+  if (tp == nullptr) [[unlikely]] {
+    tp_err(tp, "no thing template pointer");
+    return;
+  }
+  tp->tile_name = std::string(val);
 }
 
 void tp_name_short_set(Tpp tp, const std::string &val)

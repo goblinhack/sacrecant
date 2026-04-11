@@ -1780,7 +1780,7 @@ auto thing_is_unused39(Thingp t) -> bool
   return tp_flag(thing_tp(t), is_unused39) != 0;
 }
 
-auto thing_is_unused40(Thingp t) -> bool
+auto thing_is_vault(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1788,7 +1788,7 @@ auto thing_is_unused40(Thingp t) -> bool
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused40) != 0;
+  return tp_flag(thing_tp(t), is_vault) != 0;
 }
 
 auto thing_is_biome_underhell(Thingp t) -> bool

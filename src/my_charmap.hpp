@@ -43,6 +43,7 @@ enum : char {
   CHARMAP_TELEPORT      = 'T',
   CHARMAP_TRAP          = 't',
   CHARMAP_TREASURE      = '$',
+  CHARMAP_VAULT         = 'v',
   CHARMAP_WALL          = 'x',
   CHARMAP_WATER         = '~',
   CHARMAP_WILDCARD      = '*',
