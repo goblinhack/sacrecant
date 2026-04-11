@@ -64,11 +64,11 @@ auto tp_load_vault() -> bool
     tp_name_long_set(tp, "vault");
     tp_name_pluralize_set(tp, "vaults");
     tp_name_short_set(tp, "vault");
-    tp_tile_name_set(tp, tile_name);
     tp_priority_set(tp, THING_PRIORITY_WALL);
     tp_temperature_damage_at_set(tp, 500); // celsius
     tp_temperature_initial_set(tp, 20);    // celsius
     tp_temperature_melts_at_set(tp, 1000); // celsius
+    tp_tile_name_set(tp, tile_name);
     tp_variant_set(tp, variant);
     tp_weight_set(tp, WEIGHT_VVHEAVY); // grams
     tp_z_depth_set(tp, MAP_Z_DEPTH_WALL);
