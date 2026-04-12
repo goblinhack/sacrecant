@@ -85,7 +85,7 @@ public:
   bool   is_room_secret        = {};
 };
 
-static auto level_populate_biome_dungeon(Gamep g, Levelsp v, Levelp l, class LevelGen *level_gen, class LevelPopulate &lp) -> Tpp
+static auto level_populate_biome_dungeon(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, class LevelPopulate &lp) -> Tpp
 {
   TRACE();
 
@@ -274,7 +274,7 @@ static auto level_populate_biome_dungeon(Gamep g, Levelsp v, Levelp l, class Lev
   return tp;
 }
 
-static auto level_populate_biome_bogland(Gamep g, Levelsp v, Levelp l, class LevelGen *level_gen, class LevelPopulate &lp) -> Tpp
+static auto level_populate_biome_bogland(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, class LevelPopulate &lp) -> Tpp
 {
   TRACE();
 
@@ -379,7 +379,7 @@ static auto level_populate_biome_bogland(Gamep g, Levelsp v, Levelp l, class Lev
     case CHARMAP_ENTRANCE :    [[fallthrough]];
     case CHARMAP_EXIT :        [[fallthrough]];
     case CHARMAP_KEY :         [[fallthrough]];
-    case CHARMAP_BORDER :      return level_populate_biome_dungeon(g, v, l, level_gen, lp);
+    case CHARMAP_BORDER :      return level_populate_biome_dungeon(g, v, l, lg, lp);
     default :
       if (! g_opt_do_level_gen) {
         CROAK("unexpected map char '%c'", lp.c);
@@ -389,8 +389,7 @@ static auto level_populate_biome_bogland(Gamep g, Levelsp v, Levelp l, class Lev
   return tp;
 }
 
-auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *level_gen, int w, int h, const char *in, const Overrides &overrides)
-    -> bool
+auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, int w, int h, const char *in, const Overrides &overrides) -> bool
 {
   TRACE();
 
@@ -416,7 +415,7 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *level_gen, int
   lp.tp_barrel     = tp_random(g, v, l, is_barrel);
   lp.tp_teleport   = tp_random(g, v, l, is_teleport);
   lp.tp_foliage    = tp_random(g, v, l, is_foliage);
-  lp.tp_reeds      = tp_random(g, v, l, is_reeds);
+  lp.tp_reeds      = tp_first(is_reeds);
   lp.tp_corridor   = tp_random(g, v, l, is_corridor);
   lp.tp_grass      = tp_random(g, v, l, is_grass);
   lp.tp_floor      = tp_random(g, v, l, is_floor);
@@ -446,10 +445,10 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *level_gen, int
       lp.c  = in[ offset ];
       lp.at = bpoint(x, y);
 
-      lp.is_room_entrance = level_gen_is_room_entrance(g, level_gen, lp.at);
-      lp.is_room_exit     = level_gen_is_room_exit(g, level_gen, lp.at);
-      lp.is_room_locked   = level_gen_is_room_locked(g, level_gen, lp.at);
-      lp.is_room_secret   = level_gen_is_room_secret(g, level_gen, lp.at);
+      lp.is_room_entrance = level_gen_is_room_entrance(g, lg, lp.at);
+      lp.is_room_exit     = level_gen_is_room_exit(g, lg, lp.at);
+      lp.is_room_locked   = level_gen_is_room_locked(g, lg, lp.at);
+      lp.is_room_secret   = level_gen_is_room_secret(g, lg, lp.at);
 
       l->debug[ x ][ y ] = lp.c;
 
@@ -482,18 +481,18 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *level_gen, int
         //
         // Keep these special rooms as is
         //
-        tp = level_populate_biome_dungeon(g, v, l, level_gen, lp);
+        tp = level_populate_biome_dungeon(g, v, l, lg, lp);
       } else {
         //
         // Per biome tweaks
         //
         switch (lp.biome) {
-          case BIOME_DUNGEON :    tp = level_populate_biome_dungeon(g, v, l, level_gen, lp); break;
-          case BIOME_BOGLAND :    tp = level_populate_biome_bogland(g, v, l, level_gen, lp); break;
-          case BIOME_NETHERVOID : tp = level_populate_biome_dungeon(g, v, l, level_gen, lp); break;
-          case BIOME_GRAVEYARD :  tp = level_populate_biome_dungeon(g, v, l, level_gen, lp); break;
-          case BIOME_UNDERHELL :  tp = level_populate_biome_dungeon(g, v, l, level_gen, lp); break;
-          case BIOME_ANY :        [[fallthrough]];
+          case BIOME_DUNGEON :    tp = level_populate_biome_dungeon(g, v, l, lg, lp); break;
+          case BIOME_BOGLAND :    tp = level_populate_biome_bogland(g, v, l, lg, lp); break;
+          case BIOME_NETHERVOID : tp = level_populate_biome_dungeon(g, v, l, lg, lp); break;
+          case BIOME_GRAVEYARD :  tp = level_populate_biome_dungeon(g, v, l, lg, lp); break;
+          case BIOME_UNDERHELL :  tp = level_populate_biome_dungeon(g, v, l, lg, lp); break;
+          case BIOME_NONE :       [[fallthrough]];
           case BIOME_ENUM_MAX :   break;
         }
       }
@@ -591,11 +590,11 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *level_gen, int
   return level_populated(g, v, l);
 }
 
-auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *level_gen, const char *in, const Overrides &overrides) -> bool
+auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, const char *in, const Overrides &overrides) -> bool
 {
   TRACE();
 
-  if (! level_populate(g, v, l, level_gen, MAP_WIDTH, MAP_HEIGHT, in, overrides)) {
+  if (! level_populate(g, v, l, lg, MAP_WIDTH, MAP_HEIGHT, in, overrides)) {
     ERR("level populate failed");
     return false;
   }

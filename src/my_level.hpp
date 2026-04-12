@@ -147,6 +147,10 @@ using Level = struct Level {
   //
   LevelNum level_num;
   //
+  // The biome for this level
+  //
+  Biome biome;
+  //
   // Level generation info
   //
   LevelInfo info;
@@ -691,16 +695,16 @@ enum {
 [[nodiscard]] auto level_flag_cached(Gamep g, Levelsp v, Levelp l, ThingFlag f, bpoint p) -> bool;
 [[nodiscard]] auto level_flag(Gamep g, Levelsp v, Levelp l, ThingFlag f, bpoint p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_flag(Gamep g, Levelsp v, Levelp l, ThingFlag f, Thingp me) -> Thingp;
-[[nodiscard]] auto level_gen_is_room_entrance(Gamep g, class LevelGen *l, bpoint at) -> bool;
-[[nodiscard]] auto level_gen_is_room_entrance(Gamep g, class LevelGen *l, int x, int y) -> bool;
-[[nodiscard]] auto level_gen_is_room_exit(Gamep g, class LevelGen *l, bpoint at) -> bool;
-[[nodiscard]] auto level_gen_is_room_exit(Gamep g, class LevelGen *l, int x, int y) -> bool;
-[[nodiscard]] auto level_gen_is_room_has_key(Gamep g, class LevelGen *l, bpoint at) -> bool;
-[[nodiscard]] auto level_gen_is_room_has_key(Gamep g, class LevelGen *l, int x, int y) -> bool;
-[[nodiscard]] auto level_gen_is_room_locked(Gamep g, class LevelGen *l, bpoint at) -> bool;
-[[nodiscard]] auto level_gen_is_room_locked(Gamep g, class LevelGen *l, int x, int y) -> bool;
-[[nodiscard]] auto level_gen_is_room_secret(Gamep g, class LevelGen *l, bpoint at) -> bool;
-[[nodiscard]] auto level_gen_is_room_secret(Gamep g, class LevelGen *l, int x, int y) -> bool;
+[[nodiscard]] auto level_gen_is_room_entrance(Gamep g, class LevelGen *lg, bpoint at) -> bool;
+[[nodiscard]] auto level_gen_is_room_entrance(Gamep g, class LevelGen *lg, int x, int y) -> bool;
+[[nodiscard]] auto level_gen_is_room_exit(Gamep g, class LevelGen *lg, bpoint at) -> bool;
+[[nodiscard]] auto level_gen_is_room_exit(Gamep g, class LevelGen *lg, int x, int y) -> bool;
+[[nodiscard]] auto level_gen_is_room_has_key(Gamep g, class LevelGen *lg, bpoint at) -> bool;
+[[nodiscard]] auto level_gen_is_room_has_key(Gamep g, class LevelGen *lg, int x, int y) -> bool;
+[[nodiscard]] auto level_gen_is_room_locked(Gamep g, class LevelGen *lg, bpoint at) -> bool;
+[[nodiscard]] auto level_gen_is_room_locked(Gamep g, class LevelGen *lg, int x, int y) -> bool;
+[[nodiscard]] auto level_gen_is_room_secret(Gamep g, class LevelGen *lg, bpoint at) -> bool;
+[[nodiscard]] auto level_gen_is_room_secret(Gamep g, class LevelGen *lg, int x, int y) -> bool;
 [[nodiscard]] auto level_get_thing_id_at(Gamep g, Levelsp v, Levelp l, const bpoint &p, int slot) -> ThingId;
 [[nodiscard]] auto level_is_level_select(Gamep g, Levelsp v, Levelp l) -> bool;
 [[nodiscard]] auto level_is_player_level(Gamep g, Levelsp v, Levelp l) -> bool;

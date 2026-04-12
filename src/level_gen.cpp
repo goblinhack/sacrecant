@@ -155,7 +155,7 @@ static int level_no_exit_room;
 //
 static std::array< class LevelGen *, LEVEL_MAX > levels_generated = {};
 
-static void level_gen_dump(class LevelGen *l, const char *msg = nullptr);
+static void level_gen_dump(class LevelGen *lg, const char *msg = nullptr);
 
 class Cell
 {
@@ -917,7 +917,7 @@ void rooms_dump(Gamep g)
 //
 // Can we place a room here on the level?
 //
-[[nodiscard]] static auto room_can_place_at(class LevelGen *l, class Room *r, bpoint at, int rx, int ry) -> bool
+[[nodiscard]] static auto room_can_place_at(class LevelGen *lg, class Room *r, bpoint at, int rx, int ry) -> bool
 {
   //
   // Check we have something to place here.
@@ -955,7 +955,7 @@ void rooms_dump(Gamep g)
     //
     // Doors can overlap.
     //
-    if (l->data[ p.x ][ p.y ].c == CHARMAP_JOIN) {
+    if (lg->data[ p.x ][ p.y ].c == CHARMAP_JOIN) {
       return true;
     }
   }
@@ -966,7 +966,7 @@ void rooms_dump(Gamep g)
   for (int dy = -1; dy <= 1; dy++) {
     for (int dx = -1; dx <= 1; dx++) {
       if ((dx == 0) && (dy == 0)) {
-        switch (l->data[ p.x + dx ][ p.y + dy ].c) {
+        switch (lg->data[ p.x + dx ][ p.y + dy ].c) {
           case CHARMAP_JOIN :
           case CHARMAP_EMPTY : break;
           default :            return false;
@@ -976,7 +976,7 @@ void rooms_dump(Gamep g)
         // Allow certain tiles, like water to be adjacent. This way a room can be created
         // right at the water edge.
         //
-        switch (l->data[ p.x + dx ][ p.y + dy ].c) {
+        switch (lg->data[ p.x + dx ][ p.y + dy ].c) {
           case CHARMAP_WATER :
           case CHARMAP_DEEP_WATER :
           case CHARMAP_LAVA :
@@ -998,7 +998,7 @@ void rooms_dump(Gamep g)
 //
 // Can we place a room here on the level?
 //
-[[nodiscard]] static auto room_can_place_at(Gamep g, class LevelGen *l, class Room *r, bpoint at) -> bool
+[[nodiscard]] static auto room_can_place_at(Gamep g, class LevelGen *lg, class Room *r, bpoint at) -> bool
 {
   TRACE_DEBUG();
 
@@ -1006,7 +1006,7 @@ void rooms_dump(Gamep g)
   // Optimization, check edge tiles first
   //
   for (auto p : r->door_adjacent_tile) {
-    if (! room_can_place_at(l, r, at, p.x, p.y)) {
+    if (! room_can_place_at(lg, r, at, p.x, p.y)) {
       return false;
     }
   }
@@ -1018,7 +1018,7 @@ void rooms_dump(Gamep g)
   //
   for (int ry = 0; ry < r->height; ry++) {
     for (int rx = 0; rx < r->width; rx++) {
-      if (! room_can_place_at(l, r, at, rx, ry)) {
+      if (! room_can_place_at(lg, r, at, rx, ry)) {
         return false;
       }
     }
@@ -1033,11 +1033,11 @@ void rooms_dump(Gamep g)
 //
 // Place a room on the level
 //
-static void room_place_at(class LevelGen *l, class Room *r, bpoint at)
+static void room_place_at(class LevelGen *lg, class Room *r, bpoint at)
 {
   TRACE_DEBUG();
 
-  if (l->debug) [[unlikely]] {
+  if (lg->debug) [[unlikely]] {
     if (r->file) {
       log("place room %s:%d", r->file, r->line);
     }
@@ -1087,22 +1087,22 @@ static void room_place_at(class LevelGen *l, class Room *r, bpoint at)
       bpoint const p(rx + at.x, ry + at.y);
 
       if (room_c == CHARMAP_ENTRANCE) {
-        l->info.entrance_at.x = p.x;
-        l->info.entrance_at.y = p.y;
+        lg->info.entrance_at.x = p.x;
+        lg->info.entrance_at.y = p.y;
       }
       if (room_c == CHARMAP_EXIT) {
-        l->info.exit_at.x = p.x;
-        l->info.exit_at.y = p.y;
+        lg->info.exit_at.x = p.x;
+        lg->info.exit_at.y = p.y;
       }
 
-      class Cell *cell = &l->data[ p.x ][ p.y ];
+      class Cell *cell = &lg->data[ p.x ][ p.y ];
       cell->c          = room_c;
       cell->room       = r;
     }
   }
 
-  l->rooms_placed[ r ] = true;
-  l->info.room_count   = static_cast< int >(l->rooms_placed.size());
+  lg->rooms_placed[ r ] = true;
+  lg->info.room_count   = static_cast< int >(lg->rooms_placed.size());
 }
 
 //
@@ -1380,11 +1380,11 @@ auto fragment_alt_random_get(Gamep g, Fragment *f, bpoint at) -> class FragmentA
 //
 // Get a random alt fragment.
 //
-static auto fragment_alt_random_get(Gamep g, class LevelGen *l, Fragment *f, bpoint at) -> class FragmentAlt *
+static auto fragment_alt_random_get(Gamep g, class LevelGen *lg, Fragment *f, bpoint at) -> class FragmentAlt *
 {
   TRACE();
 
-  auto *r = l->data[ at.x ][ at.y ].room;
+  auto *r = lg->data[ at.x ][ at.y ].room;
   if (f->fragment_alts.empty()) {
     return nullptr;
   }
@@ -1786,7 +1786,7 @@ void fragments_dump(Gamep g)
 //
 // Can we match a fragment against the location
 //
-[[nodiscard]] static auto fragment_match(Gamep g, class LevelGen *l, class Fragment *f, bpoint at) -> bool
+[[nodiscard]] static auto fragment_match(Gamep g, class LevelGen *lg, class Fragment *f, bpoint at) -> bool
 {
   for (int ry = 0; ry < f->height; ry++) {
     for (int rx = 0; rx < f->width; rx++) {
@@ -1810,7 +1810,7 @@ void fragments_dump(Gamep g)
       if ((p.y >= MAP_HEIGHT - 1)) [[unlikely]] {
         return false;
       }
-      if (c != l->data[ p.x ][ p.y ].c) {
+      if (c != lg->data[ p.x ][ p.y ].c) {
         return false;
       }
     }
@@ -1825,7 +1825,7 @@ void fragments_dump(Gamep g)
 //
 // Place the fragment
 //
-static auto fragment_put(Gamep g, class LevelGen *l, class Fragment *f, bpoint at) -> FragmentAlt *
+static auto fragment_put(Gamep g, class LevelGen *lg, class Fragment *f, bpoint at) -> FragmentAlt *
 {
   TRACE();
 
@@ -1835,7 +1835,7 @@ static auto fragment_put(Gamep g, class LevelGen *l, class Fragment *f, bpoint a
     return nullptr;
   }
 
-  auto *a = fragment_alt_random_get(g, l, f, at);
+  auto *a = fragment_alt_random_get(g, lg, f, at);
   if (a == nullptr) {
     return nullptr;
   }
@@ -1863,7 +1863,7 @@ static auto fragment_put(Gamep g, class LevelGen *l, class Fragment *f, bpoint a
         continue;
       }
 
-      l->data[ p.x ][ p.y ].c = c;
+      lg->data[ p.x ][ p.y ].c = c;
     }
   }
 
@@ -1873,7 +1873,7 @@ static auto fragment_put(Gamep g, class LevelGen *l, class Fragment *f, bpoint a
 //
 // Add fragments if we find any matches
 //
-static void level_gen_add_fragments(Gamep g, class LevelGen *l)
+static void level_gen_add_fragments(Gamep g, class LevelGen *lg)
 {
   TRACE();
 
@@ -1889,7 +1889,7 @@ static void level_gen_add_fragments(Gamep g, class LevelGen *l)
     for (int y = 0; y < MAP_HEIGHT - f->height; y++) {
       for (int x = 0; x < MAP_WIDTH - f->width; x++) {
         bpoint const at(x, y);
-        if (fragment_match(g, l, f, at)) {
+        if (fragment_match(g, lg, f, at)) {
           cands.push_back(at);
         }
       }
@@ -1900,17 +1900,17 @@ static void level_gen_add_fragments(Gamep g, class LevelGen *l)
     }
 
     auto  cand = cands[ PCG_RAND() % cands.size() ];
-    auto *alt  = fragment_put(g, l, f, cand);
+    auto *alt  = fragment_put(g, lg, f, cand);
     if (alt == nullptr) {
       continue;
     }
 
-    if (l->debug) [[unlikely]] {
+    if (lg->debug) [[unlikely]] {
       auto fragment_name = std::format("placed another fragment {}:{} with {}:{}", f->file, f->line, alt->file, alt->line);
-      level_gen_dump(l, fragment_name.c_str());
+      level_gen_dump(lg, fragment_name.c_str());
     }
 
-    if (l->info.fragment_count++ >= MAX_LEVEL_GEN_FRAGMENTS) {
+    if (lg->info.fragment_count++ >= MAX_LEVEL_GEN_FRAGMENTS) {
       return;
     }
   }
@@ -2062,26 +2062,26 @@ void level_fixed_add(Gamep g, int chance, LevelType level_type, const std::strin
   //
   // Allocate space for the level
   //
-  auto *l = new LevelFixed();
-  level_fixed_all[ level_type ].push_back(l);
+  auto *lf = new LevelFixed();
+  level_fixed_all[ level_type ].push_back(lf);
 
   if (level_alias_all.contains(alias)) {
     CROAK("level alias \"%s\" is in use already @ %s:%d", alias.c_str(), file, line);
     return;
   }
 
-  level_alias_all[ alias ] = l;
+  level_alias_all[ alias ] = lf;
 
-  l->id         = level_fixed_no++;
-  l->chance     = chance;
-  l->level_type = level_type;
-  l->alias      = alias;
-  l->file       = file;
-  l->line       = line;
-  l->width      = level_width;
-  l->height     = level_height;
-  l->overrides  = overrides;
-  l->data       = static_cast< char * >(MYZALLOC(MAP_WIDTH * MAP_HEIGHT, "level data"));
+  lf->id         = level_fixed_no++;
+  lf->chance     = chance;
+  lf->level_type = level_type;
+  lf->alias      = alias;
+  lf->file       = file;
+  lf->line       = line;
+  lf->width      = level_width;
+  lf->height     = level_height;
+  lf->overrides  = overrides;
+  lf->data       = static_cast< char * >(MYZALLOC(MAP_WIDTH * MAP_HEIGHT, "level data"));
 
   //
   // Center the level if smaller
@@ -2094,15 +2094,15 @@ void level_fixed_add(Gamep g, int chance, LevelType level_type, const std::strin
   //
   va_start(ap, dummy);
 
-  for (int y = 0; y < l->height; y++) {
+  for (int y = 0; y < lf->height; y++) {
     const char *level_line = va_arg(ap, char *);
-    for (int x = 0; x < l->width; x++) {
+    for (int x = 0; x < lf->width; x++) {
       auto c = level_line[ x ];
 
       auto X = x + pad_w;
       auto Y = y + pad_h;
 
-      l->data[ (Y * MAP_WIDTH) + X ] = c;
+      lf->data[ (Y * MAP_WIDTH) + X ] = c;
     }
   }
 
@@ -2124,8 +2124,8 @@ void levels_fini(Gamep g)
   TRACE();
 
   for (auto level_type = static_cast< int >(LEVEL_TYPE_FIRST); level_type < static_cast< int >(LEVEL_TYPE_MAX); level_type++) {
-    for (auto *l : level_fixed_all[ level_type ]) {
-      delete l;
+    for (auto *lf : level_fixed_all[ level_type ]) {
+      delete lf;
     }
   }
 }
@@ -2173,18 +2173,18 @@ static auto level_fixed_find_by_name(const std::string &alias, LevelNum level_nu
 //
 // Convert a level into a single string
 //
-static auto level_gen_string(class LevelGen *o, class LevelFixed *l) -> std::string
+static auto level_gen_string(class LevelGen *o, class LevelFixed *lf) -> std::string
 {
   TRACE();
 
   std::string out;
 
-  if (l == nullptr) {
+  if (lf == nullptr) {
     ERR("no fixed level provided");
     return "";
   }
 
-  if (l->data == nullptr) {
+  if (lf->data == nullptr) {
     ERR("no fixed level data provided");
     return "";
   }
@@ -2200,7 +2200,7 @@ static auto level_gen_string(class LevelGen *o, class LevelFixed *l) -> std::str
   //
   for (int y = 0; y < MAP_HEIGHT; y++) {
     for (int x = 0; x < MAP_WIDTH; x++) {
-      auto c = l->data[ (y * MAP_WIDTH) + x ];
+      auto c = lf->data[ (y * MAP_WIDTH) + x ];
       if (c == 0) {
         c = CHARMAP_CHASM;
       }
@@ -2215,31 +2215,31 @@ static auto level_gen_string(class LevelGen *o, class LevelFixed *l) -> std::str
 //
 // Dump a level
 //
-static void level_gen_dump(class LevelGen *l, const char *msg)
+static void level_gen_dump(class LevelGen *lg, const char *msg)
 {
   TRACE();
 
   level_gen_mutex.lock();
   if (msg != nullptr) {
-    log("level: %u (%s)", l->level_num + 1, msg);
+    log("level: %u (%s)", lg->level_num + 1, msg);
   } else {
-    log("level: %u", l->level_num + 1);
+    log("level: %u", lg->level_num + 1);
   }
   TRACE();
 
-  log("seed              : %u", l->info.seed_num);
-  log("room count        : %d", l->info.room_count);
-  log("fragment count    : %d", l->info.fragment_count);
-  log("treasure count    : %d", l->info.treasure_count);
-  log("monst count       : %d (normal:%d enhanced:%d)", l->info.monst_count, l->info.monst_group_easy_count,
-      l->info.monst_group_hard_count);
-  log("teleport count    : %d", l->info.teleport_count);
-  log("locked door count : %d", l->info.door_locked_count);
-  log("key count         : %d", l->info.key_count);
+  log("seed              : %u", lg->info.seed_num);
+  log("room count        : %d", lg->info.room_count);
+  log("fragment count    : %d", lg->info.fragment_count);
+  log("treasure count    : %d", lg->info.treasure_count);
+  log("monst count       : %d (normal:%d enhanced:%d)", lg->info.monst_count, lg->info.monst_group_easy_count,
+      lg->info.monst_group_hard_count);
+  log("teleport count    : %d", lg->info.teleport_count);
+  log("locked door count : %d", lg->info.door_locked_count);
+  log("key count         : %d", lg->info.key_count);
 
   for (int y = 0; y < MAP_HEIGHT; y++) {
     std::string tmp;
-    for (auto &x : l->data) {
+    for (auto &x : lg->data) {
       auto c = x[ y ].c;
       tmp += c;
     }
@@ -2255,9 +2255,9 @@ static void level_gen_dump(class LevelGen *l, const char *msg)
     for (int y = 0; y < MAP_HEIGHT; y++) {
       std::string tmp;
       for (int x = 0; x < MAP_WIDTH; x++) {
-        auto c = l->data[ x ][ y ].c;
+        auto c = lg->data[ x ][ y ].c;
 
-        switch (l->data[ x ][ y ].c) {
+        switch (lg->data[ x ][ y ].c) {
           case CHARMAP_CHASM :
           case CHARMAP_DOOR_LOCKED :
           case CHARMAP_DOOR_SECRET :
@@ -2286,7 +2286,7 @@ static void level_gen_dump(class LevelGen *l, const char *msg)
           case CHARMAP_FOLIAGE :
           case CHARMAP_REEDS :
           case CHARMAP_GRASS :
-            if (l->info.on_path_entrance_to_exit[ x ][ y ] != 0U) {
+            if (lg->info.on_path_entrance_to_exit[ x ][ y ] != 0U) {
               c = '_';
             }
             break;
@@ -2306,14 +2306,14 @@ static void level_gen_dump(class LevelGen *l, const char *msg)
 //
 // Convert a level into a single string
 //
-static auto level_gen_string(class LevelGen *l) -> std::string
+static auto level_gen_string(class LevelGen *lg) -> std::string
 {
   TRACE();
 
   std::string out;
 
   for (int y = 0; y < MAP_HEIGHT; y++) {
-    for (auto &x : l->data) {
+    for (auto &x : lg->data) {
       out += x[ y ].c;
     }
   }
@@ -2341,11 +2341,11 @@ void level_gen_stats_dump(Gamep g)
 //
 // Update the list of all doors, and return a new unwalked door to use
 //
-[[nodiscard]] static auto level_gen_random_door_get(class LevelGen *l, bpoint *door_out, class Room **room_out) -> bool
+[[nodiscard]] static auto level_gen_random_door_get(class LevelGen *lg, bpoint *door_out, class Room **room_out) -> bool
 {
   TRACE();
 
-  l->doors_not_explored.clear();
+  lg->doors_not_explored.clear();
 
   //
   // Build a vector of all doors that have not been walked before
@@ -2355,7 +2355,7 @@ void level_gen_stats_dump(Gamep g)
       //
       // Filter to doors
       //
-      if (l->data[ x ][ y ].c != CHARMAP_JOIN) {
+      if (lg->data[ x ][ y ].c != CHARMAP_JOIN) {
         continue;
       }
 
@@ -2364,22 +2364,22 @@ void level_gen_stats_dump(Gamep g)
       //
       // If this door is walked already, ignore it
       //
-      if (l->doors_walked.contains(p)) {
+      if (lg->doors_walked.contains(p)) {
         continue;
       }
 
       //
       // Add to the candidates
       //
-      l->doors_not_explored.push_back(bpoint(x, y));
+      lg->doors_not_explored.push_back(bpoint(x, y));
     }
   }
 
   //
   // Did we find any new doors?
   //
-  if (l->doors_not_explored.empty()) {
-    if (l->debug) [[unlikely]] {
+  if (lg->doors_not_explored.empty()) {
+    if (lg->debug) [[unlikely]] {
       log("no more doors");
     }
     return false;
@@ -2388,13 +2388,13 @@ void level_gen_stats_dump(Gamep g)
   //
   // Return a random door
   //
-  *door_out = l->doors_not_explored[ PCG_RANDOM_RANGE(0, l->doors_not_explored.size()) ];
-  *room_out = l->data[ door_out->x ][ door_out->y ].room;
+  *door_out = lg->doors_not_explored[ PCG_RANDOM_RANGE(0, lg->doors_not_explored.size()) ];
+  *room_out = lg->data[ door_out->x ][ door_out->y ].room;
 
   //
   // Don't try this door again
   //
-  l->doors_walked[ *door_out ] = true;
+  lg->doors_walked[ *door_out ] = true;
 
   if (*room_out == nullptr) {
     ERR("found a door with no room");
@@ -2406,8 +2406,8 @@ void level_gen_stats_dump(Gamep g)
 //
 // Place a room of the given type at a specific door
 //
-[[nodiscard]] static auto level_gen_place_room_at_door_intersection(Gamep g, LevelGen *l, const bpoint door_other, const RoomType room_type)
-    -> bool
+[[nodiscard]] static auto level_gen_place_room_at_door_intersection(Gamep g, LevelGen *lg, const bpoint door_other,
+                                                                    const RoomType room_type) -> bool
 {
   TRACE();
 
@@ -2423,7 +2423,7 @@ void level_gen_stats_dump(Gamep g)
     // Get a new room we have not placed before to try to place
     //
     auto *r = room_random_get(room_type);
-    if (l->rooms_placed.contains(r)) {
+    if (lg->rooms_placed.contains(r)) {
       level_tried_to_place_existing_room_fail++;
       continue;
     }
@@ -2456,33 +2456,33 @@ void level_gen_stats_dump(Gamep g)
       // ...   ...
       //
       bpoint const door_intersection_at = door_other - d;
-      if (! room_can_place_at(g, l, r, door_intersection_at)) {
+      if (! room_can_place_at(g, lg, r, door_intersection_at)) {
         continue;
       }
 
       //
       // Place the room
       //
-      room_place_at(l, r, door_intersection_at);
+      room_place_at(lg, r, door_intersection_at);
 
       //
       // Have placed an exit?
       //
       if (r->room_type == ROOM_TYPE_EXIT) {
-        l->has_placed_ROOM_TYPE_EXIT = true;
-        l->room_exit                 = r;
+        lg->has_placed_ROOM_TYPE_EXIT = true;
+        lg->room_exit                 = r;
       }
 
       if (r->room_type == ROOM_TYPE_LOCKED) {
-        l->has_placed_ROOM_TYPE_DOOR_LOCKED = true;
+        lg->has_placed_ROOM_TYPE_DOOR_LOCKED = true;
       }
 
       if (r->room_type == ROOM_TYPE_SECRET) {
-        l->has_placed_ROOM_TYPE_DOOR_SECRET = true;
+        lg->has_placed_ROOM_TYPE_DOOR_SECRET = true;
       }
 
       if (r->room_type == ROOM_TYPE_HAS_KEY) {
-        l->has_placed_ROOM_TYPE_HAS_KEY = true;
+        lg->has_placed_ROOM_TYPE_HAS_KEY = true;
       }
 
       //
@@ -2505,7 +2505,7 @@ void level_gen_stats_dump(Gamep g)
 //
 // Place a room of the given type at a random door
 //
-[[nodiscard]] static auto level_gen_create_another_room(Gamep g, LevelGen *l, RoomType room_type) -> bool
+[[nodiscard]] static auto level_gen_create_another_room(Gamep g, LevelGen *lg, RoomType room_type) -> bool
 {
   TRACE();
 
@@ -2514,7 +2514,7 @@ void level_gen_stats_dump(Gamep g)
   //
   bpoint      door_other = {};
   class Room *room_other = {}; // NOLINT
-  if (! level_gen_random_door_get(l, &door_other, &room_other)) {
+  if (! level_gen_random_door_get(lg, &door_other, &room_other)) {
     level_find_door_fail_count++;
     return false;
   }
@@ -2523,7 +2523,7 @@ void level_gen_stats_dump(Gamep g)
   // If this door is too close, then switch to a normal room
   //
   if (room_type == ROOM_TYPE_EXIT) {
-    bpoint const entrance(l->info.entrance_at.x, l->info.entrance_at.y);
+    bpoint const entrance(lg->info.entrance_at.x, lg->info.entrance_at.y);
     if (distance(door_other, entrance) < MIN_LEVEL_EXIT_DISTANCE) {
       room_type = ROOM_TYPE_NORMAL;
     }
@@ -2532,7 +2532,7 @@ void level_gen_stats_dump(Gamep g)
   //
   // Try multiple rooms with this door
   //
-  if (level_gen_place_room_at_door_intersection(g, l, door_other, room_type)) {
+  if (level_gen_place_room_at_door_intersection(g, lg, door_other, room_type)) {
     return true;
   }
 
@@ -2541,7 +2541,7 @@ void level_gen_stats_dump(Gamep g)
   //
   if (room_type == ROOM_TYPE_EXIT) {
     room_type = ROOM_TYPE_NORMAL;
-    return level_gen_place_room_at_door_intersection(g, l, door_other, room_type);
+    return level_gen_place_room_at_door_intersection(g, lg, door_other, room_type);
   }
 
   return false;
@@ -2550,7 +2550,7 @@ void level_gen_stats_dump(Gamep g)
 //
 // The first room has been placed. Place all the rest.
 //
-static void level_gen_create_remaining_rooms(Gamep g, LevelGen *l)
+static void level_gen_create_remaining_rooms(Gamep g, LevelGen *lg)
 {
   TRACE();
 
@@ -2560,17 +2560,17 @@ static void level_gen_create_remaining_rooms(Gamep g, LevelGen *l)
   //
   // Keep placing rooms until we hit the max allowed
   //
-  while (std::cmp_less(l->rooms_placed.size(), l->max_room_count)) {
-    if (l->debug) [[unlikely]] {
-      log("rooms placed %d (max %d) attempts %d doors-tried %d doors-not-tried %d", static_cast< int >(l->rooms_placed.size()),
-          l->max_room_count, attempts, static_cast< int >(l->doors_walked.size()), static_cast< int >(l->doors_not_explored.size()));
+  while (std::cmp_less(lg->rooms_placed.size(), lg->max_room_count)) {
+    if (lg->debug) [[unlikely]] {
+      log("rooms placed %d (max %d) attempts %d doors-tried %d doors-not-tried %d", static_cast< int >(lg->rooms_placed.size()),
+          lg->max_room_count, attempts, static_cast< int >(lg->doors_walked.size()), static_cast< int >(lg->doors_not_explored.size()));
     }
 
     //
     // Ensure we loop only so many times
     //
     if (attempts++ > MAX_LEVEL_GEN_TRIES_CREATE_ROOM) {
-      if (l->debug) [[unlikely]] {
+      if (lg->debug) [[unlikely]] {
         log("have tried enough times to place a room");
       }
       break;
@@ -2579,9 +2579,9 @@ static void level_gen_create_remaining_rooms(Gamep g, LevelGen *l)
     //
     // Ran out of doors to try?
     //
-    if ((static_cast< int >(l->doors_walked.size())) != 0) {
-      if (l->doors_not_explored.empty()) {
-        if (l->debug) [[unlikely]] {
+    if ((static_cast< int >(lg->doors_walked.size())) != 0) {
+      if (lg->doors_not_explored.empty()) {
+        if (lg->debug) [[unlikely]] {
           log("have tried all doors");
         }
         break;
@@ -2594,14 +2594,14 @@ static void level_gen_create_remaining_rooms(Gamep g, LevelGen *l)
     // Special rooms? Keep trying to place until we can.
     //
     if (need_ROOM_TYPE_DOOR_LOCKED) {
-      if (! l->has_placed_ROOM_TYPE_DOOR_LOCKED) {
+      if (! lg->has_placed_ROOM_TYPE_DOOR_LOCKED) {
         if (d100() < 50) {
           room_type = ROOM_TYPE_LOCKED;
         }
       }
 
-      if (l->has_placed_ROOM_TYPE_DOOR_LOCKED) {
-        if (! l->has_placed_ROOM_TYPE_HAS_KEY) {
+      if (lg->has_placed_ROOM_TYPE_DOOR_LOCKED) {
+        if (! lg->has_placed_ROOM_TYPE_HAS_KEY) {
           room_type = ROOM_TYPE_HAS_KEY;
         }
       }
@@ -2610,10 +2610,10 @@ static void level_gen_create_remaining_rooms(Gamep g, LevelGen *l)
     //
     // If we have not yet placed an exit room, should we?
     //
-    if (! l->has_placed_ROOM_TYPE_EXIT) {
+    if (! lg->has_placed_ROOM_TYPE_EXIT) {
       if (d100() < 50) {
         room_type = ROOM_TYPE_EXIT;
-      } else if (std::cmp_greater(l->rooms_placed.size(), l->min_room_count)) {
+      } else if (std::cmp_greater(lg->rooms_placed.size(), lg->min_room_count)) {
         //
         // If we have the minimum rooms, then likely we're far enough away from
         // the start room now to try placing an exit room.
@@ -2631,21 +2631,21 @@ static void level_gen_create_remaining_rooms(Gamep g, LevelGen *l)
       }
     }
 
-    if (l->debug) [[unlikely]] {
-      level_gen_dump(l, "placed another room");
+    if (lg->debug) [[unlikely]] {
+      level_gen_dump(lg, "placed another room");
     }
 
     //
     // Create another room if possible
     //
-    if (! level_gen_create_another_room(g, l, room_type)) {
+    if (! level_gen_create_another_room(g, lg, room_type)) {
       continue;
     }
 
     //
     // If we are out of doors to walk, no point in continuing.
     //
-    if (l->doors_not_explored.empty()) {
+    if (lg->doors_not_explored.empty()) {
       return;
     }
   }
@@ -2654,7 +2654,7 @@ static void level_gen_create_remaining_rooms(Gamep g, LevelGen *l)
 //
 // Place the first room
 //
-[[nodiscard]] static auto level_gen_create_first_room(Gamep g, LevelGen *l) -> bool
+[[nodiscard]] static auto level_gen_create_first_room(Gamep g, LevelGen *lg) -> bool
 {
   TRACE();
 
@@ -2676,24 +2676,24 @@ static void level_gen_create_remaining_rooms(Gamep g, LevelGen *l)
   //
   // Choose a random first room and place it
   //
-  auto *r = l->room_entrance = room_random_get(ROOM_TYPE_ENTRANCE);
-  if (! room_can_place_at(g, l, r, at)) {
+  auto *r = lg->room_entrance = room_random_get(ROOM_TYPE_ENTRANCE);
+  if (! room_can_place_at(g, lg, r, at)) {
     return false;
   }
 
-  room_place_at(l, r, at);
+  room_place_at(lg, r, at);
 
   //
   // Placed the first room
   //
-  if (l->debug) [[unlikely]] {
-    level_gen_dump(l, "placed first room");
+  if (lg->debug) [[unlikely]] {
+    level_gen_dump(lg, "placed first room");
   }
 
   return true;
 }
 
-static void cave_dump(class LevelGen *l)
+static void cave_dump(class LevelGen *lg)
 {
   uint8_t x = 0;
   uint8_t y = 0;
@@ -2708,7 +2708,7 @@ static void cave_dump(class LevelGen *l)
   for (y = 0; y < MAP_HEIGHT; y++) {
     std::print("|");
     for (x = 0; x < MAP_WIDTH; x++) {
-      if (l->cave.curr[ x + MAP_LEVEL_CELLULAR_BORDER ][ y + MAP_LEVEL_CELLULAR_BORDER ] != 0U) {
+      if (lg->cave.curr[ x + MAP_LEVEL_CELLULAR_BORDER ][ y + MAP_LEVEL_CELLULAR_BORDER ] != 0U) {
         std::print("x");
       } else {
         std::print(" ");
@@ -2729,7 +2729,7 @@ static void cave_dump(class LevelGen *l)
 //
 // Place a single large pool of water/lava/chasm on the level
 //
-static void level_gen_single_large_blob_in_center(Gamep g, class LevelGen *l, char c)
+static void level_gen_single_large_blob_in_center(Gamep g, class LevelGen *lg, char c)
 {
   uint8_t        x               = 0;
   uint8_t        y               = 0;
@@ -2741,21 +2741,21 @@ static void level_gen_single_large_blob_in_center(Gamep g, class LevelGen *l, ch
   //
   // Generate a cave
   //
-  cave_create(g, &l->cave, fill_prob, r1, r2, map_generations);
+  cave_create(g, &lg->cave, fill_prob, r1, r2, map_generations);
 
   //
   // Keep a single large blob for the lake
   //
-  cave_generation_keep_largest_blob(g, &l->cave);
+  cave_generation_keep_largest_blob(g, &lg->cave);
 
   //
   // And put in the middle of the level
   //
-  cave_generation_center_blob(g, &l->cave);
+  cave_generation_center_blob(g, &lg->cave);
 
   if (compiler_unused) {
-    cave_dump(l);
-    level_gen_dump(l);
+    cave_dump(lg);
+    level_gen_dump(lg);
   }
 
   //
@@ -2778,9 +2778,9 @@ static void level_gen_single_large_blob_in_center(Gamep g, class LevelGen *l, ch
 
   for (x = 0; x < MAP_WIDTH; x++) {
     for (y = 0; y < MAP_HEIGHT; y++) {
-      if (l->cave.curr[ x + MAP_LEVEL_CELLULAR_BORDER ][ y + MAP_LEVEL_CELLULAR_BORDER ] != 0U) {
+      if (lg->cave.curr[ x + MAP_LEVEL_CELLULAR_BORDER ][ y + MAP_LEVEL_CELLULAR_BORDER ] != 0U) {
 
-        switch (l->data[ x ][ y ].c) {
+        switch (lg->data[ x ][ y ].c) {
           case CHARMAP_BARREL :
           case CHARMAP_BRAZIER :
           case CHARMAP_BRIDGE :
@@ -2817,11 +2817,11 @@ static void level_gen_single_large_blob_in_center(Gamep g, class LevelGen *l, ch
             // Water / chasm / etc...
             //
             if (add_bridge_down && (x == MAP_WIDTH / 2)) {
-              l->data[ x ][ y ].c = CHARMAP_BRIDGE;
+              lg->data[ x ][ y ].c = CHARMAP_BRIDGE;
             } else if (add_bridge_across && (y == MAP_HEIGHT / 2)) {
-              l->data[ x ][ y ].c = CHARMAP_BRIDGE;
+              lg->data[ x ][ y ].c = CHARMAP_BRIDGE;
             } else {
-              l->data[ x ][ y ].c = c;
+              lg->data[ x ][ y ].c = c;
             }
             break;
         }
@@ -2833,7 +2833,7 @@ static void level_gen_single_large_blob_in_center(Gamep g, class LevelGen *l, ch
 //
 // Add grass or other blobby things
 //
-static void level_gen_blob(Gamep g, class LevelGen *l, char c)
+static void level_gen_blob(Gamep g, class LevelGen *lg, char c)
 {
   uint8_t        x               = 0;
   uint8_t        y               = 0;
@@ -2845,17 +2845,17 @@ static void level_gen_blob(Gamep g, class LevelGen *l, char c)
   //
   // Generate a cave
   //
-  cave_create(g, &l->cave, fill_prob, r1, r2, map_generations);
+  cave_create(g, &lg->cave, fill_prob, r1, r2, map_generations);
 
   if (compiler_unused) {
-    cave_dump(l);
-    level_gen_dump(l);
+    cave_dump(lg);
+    level_gen_dump(lg);
   }
 
   for (x = 0; x < MAP_WIDTH; x++) {
     for (y = 0; y < MAP_HEIGHT; y++) {
-      if (l->cave.curr[ x + MAP_LEVEL_CELLULAR_BORDER ][ y + MAP_LEVEL_CELLULAR_BORDER ] != 0U) {
-        switch (l->data[ x ][ y ].c) {
+      if (lg->cave.curr[ x + MAP_LEVEL_CELLULAR_BORDER ][ y + MAP_LEVEL_CELLULAR_BORDER ] != 0U) {
+        switch (lg->data[ x ][ y ].c) {
           case CHARMAP_BARREL :
           case CHARMAP_BRAZIER :
           case CHARMAP_BRIDGE :
@@ -2901,11 +2901,11 @@ static void level_gen_blob(Gamep g, class LevelGen *l, char c)
               //
               // Don't place obscuring foliage in the entrance room
               //
-              if (! level_gen_is_room_entrance(g, l, x, y)) {
-                l->data[ x ][ y ].c = c;
+              if (! level_gen_is_room_entrance(g, lg, x, y)) {
+                lg->data[ x ][ y ].c = c;
               }
             } else {
-              l->data[ x ][ y ].c = c;
+              lg->data[ x ][ y ].c = c;
             }
             break;
         }
@@ -2927,21 +2927,21 @@ static auto level_gen_new_class(Gamep g, LevelNum level_num) -> class LevelGen *
   uint32_t seed_num = (game_seed_num_get(g) * 1001) + ((level_num + 1) * LEVEL_MAX);
   PCG_SRAND(seed_num);
 
-  auto *l = new LevelGen();
+  auto *lg = new LevelGen();
 
   //
   // Per thread seed that increments each time we fail. Hopefully this avoids dup levels.
   //
   seed_num = (game_seed_num_get(g) * 1001) + ((level_num + 1) * LEVEL_MAX);
   PCG_SRAND(seed_num);
-  l->info.seed_num = seed_num;
+  lg->info.seed_num = seed_num;
 
-  l->level_num      = level_num;
-  l->min_room_count = MIN_LEVEL_ROOM_COUNT + (level_num / 10);
-  l->max_room_count = l->min_room_count + 10;
-  l->debug          = g_opt_debug2;
+  lg->level_num      = level_num;
+  lg->min_room_count = MIN_LEVEL_ROOM_COUNT + (level_num / 10);
+  lg->max_room_count = lg->min_room_count + 10;
+  lg->debug          = g_opt_debug2;
 
-  return l;
+  return lg;
 }
 
 //
@@ -2976,7 +2976,7 @@ static auto level_proc_gen_create_rooms(Gamep g, LevelNum level_num) -> class Le
 {
   TRACE();
 
-  LevelGen *l = {};
+  LevelGen *lg = {};
 
   //
   // Per thread seed that increments each time we fail. Hopefully this avoids dup levels.
@@ -2990,19 +2990,19 @@ static auto level_proc_gen_create_rooms(Gamep g, LevelNum level_num) -> class Le
     //
     // Start with a fresh level each try
     //
-    if (l != nullptr) {
-      delete l;
-      l = nullptr;
+    if (lg != nullptr) {
+      delete lg;
+      lg = nullptr;
     }
 
-    l = level_gen_new_class(g, level_num);
+    lg = level_gen_new_class(g, level_num);
 
     //
     // Per thread seed that increments each time we fail. Hopefully this avoids dup levels.
     //
     seed_num = (game_seed_num_get(g) * 1001) + ((level_num + 1) * LEVEL_MAX) + level_gen_tries;
     PCG_SRAND(seed_num);
-    l->info.seed_num = seed_num;
+    lg->info.seed_num = seed_num;
 
     //
     // Add a blob of hazard in the center of the level
@@ -3022,7 +3022,7 @@ static auto level_proc_gen_create_rooms(Gamep g, LevelNum level_num) -> class Le
         blob_type = CHARMAP_WATER;
       }
 
-      level_gen_single_large_blob_in_center(g, l, blob_type);
+      level_gen_single_large_blob_in_center(g, lg, blob_type);
     }
 
     //
@@ -3030,7 +3030,7 @@ static auto level_proc_gen_create_rooms(Gamep g, LevelNum level_num) -> class Le
     //
     bool first_room_placed = false;
     for (auto attempts = 0; attempts < MAX_LEVEL_GEN_TRIES_CREATE_FIRST_ROOM; attempts++) {
-      if (level_gen_create_first_room(g, l)) {
+      if (level_gen_create_first_room(g, lg)) {
         first_room_placed = true;
         break;
       }
@@ -3043,12 +3043,12 @@ static auto level_proc_gen_create_rooms(Gamep g, LevelNum level_num) -> class Le
     //
     // Place the remaining rooms
     //
-    level_gen_create_remaining_rooms(g, l);
+    level_gen_create_remaining_rooms(g, lg);
 
     //
     // Check we have enough rooms. Add a few more for deeper levels.
     //
-    if (std::cmp_less(l->rooms_placed.size(), l->min_room_count)) {
+    if (std::cmp_less(lg->rooms_placed.size(), lg->min_room_count)) {
       level_not_enough_rooms++;
       continue;
     }
@@ -3056,7 +3056,7 @@ static auto level_proc_gen_create_rooms(Gamep g, LevelNum level_num) -> class Le
     //
     // Check we have an exit room
     //
-    if (! l->has_placed_ROOM_TYPE_EXIT) {
+    if (! lg->has_placed_ROOM_TYPE_EXIT) {
       level_no_exit_room++;
       continue;
     }
@@ -3064,21 +3064,21 @@ static auto level_proc_gen_create_rooms(Gamep g, LevelNum level_num) -> class Le
     //
     // Add grass or other blobby features
     //
-    level_gen_blob(g, l, CHARMAP_GRASS);
-    level_gen_blob(g, l, CHARMAP_FOLIAGE);
+    level_gen_blob(g, lg, CHARMAP_GRASS);
+    level_gen_blob(g, lg, CHARMAP_FOLIAGE);
 
     //
     // Success
     //
-    return l;
+    return lg;
   }
 
-  delete l;
-  l = nullptr;
+  delete lg;
+  lg = nullptr;
 
   level_create_fail++;
 
-  if (l->debug) [[unlikely]] {
+  if (lg->debug) [[unlikely]] {
     log("failed to create room with seed: %s", game_seed_name_get(g));
   }
 
@@ -3088,9 +3088,9 @@ static auto level_proc_gen_create_rooms(Gamep g, LevelNum level_num) -> class Le
 //
 // Has to be a tile you could walk or swim on
 //
-[[nodiscard]] static auto level_gen_tile_is_traversable(class LevelGen *l, int x, int y) -> bool
+[[nodiscard]] static auto level_gen_tile_is_traversable(class LevelGen *lg, int x, int y) -> bool
 {
-  switch (l->data[ x ][ y ].c) {
+  switch (lg->data[ x ][ y ].c) {
     case CHARMAP_BARREL :        return true;
     case CHARMAP_BRIDGE :        return true;
     case CHARMAP_CORRIDOR :      return true;
@@ -3120,7 +3120,7 @@ static auto level_proc_gen_create_rooms(Gamep g, LevelNum level_num) -> class Le
 //
 // Get rid of tiles that go nowhere
 //
-[[nodiscard]] static auto level_gen_trim_dead_tiles(Gamep g, class LevelGen *l) -> bool
+[[nodiscard]] static auto level_gen_trim_dead_tiles(Gamep g, class LevelGen *lg) -> bool
 {
   TRACE();
 
@@ -3128,7 +3128,7 @@ static auto level_proc_gen_create_rooms(Gamep g, LevelNum level_num) -> class Le
 
   for (int y = 1; y < MAP_HEIGHT - 1; y++) {
     for (int x = 1; x < MAP_WIDTH - 1; x++) {
-      switch (l->data[ x ][ y ].c) {
+      switch (lg->data[ x ][ y ].c) {
         case CHARMAP_CORRIDOR :
         case CHARMAP_TRAP :
         case CHARMAP_DOOR_UNLOCKED :
@@ -3140,15 +3140,15 @@ static auto level_proc_gen_create_rooms(Gamep g, LevelNum level_num) -> class Le
             //
             int walkable_tile = 0;
 
-            walkable_tile += level_gen_tile_is_traversable(l, x - 1, y) ? 1 : 0;
-            walkable_tile += level_gen_tile_is_traversable(l, x + 1, y) ? 1 : 0;
-            walkable_tile += level_gen_tile_is_traversable(l, x, y - 1) ? 1 : 0;
-            walkable_tile += level_gen_tile_is_traversable(l, x, y + 1) ? 1 : 0;
+            walkable_tile += level_gen_tile_is_traversable(lg, x - 1, y) ? 1 : 0;
+            walkable_tile += level_gen_tile_is_traversable(lg, x + 1, y) ? 1 : 0;
+            walkable_tile += level_gen_tile_is_traversable(lg, x, y - 1) ? 1 : 0;
+            walkable_tile += level_gen_tile_is_traversable(lg, x, y + 1) ? 1 : 0;
 
             if (walkable_tile <= 1) {
-              l->data[ x ][ y ].c    = CHARMAP_EMPTY;
-              l->data[ x ][ y ].room = nullptr;
-              did_something          = true;
+              lg->data[ x ][ y ].c    = CHARMAP_EMPTY;
+              lg->data[ x ][ y ].room = nullptr;
+              did_something           = true;
             }
             break;
           }
@@ -3160,15 +3160,15 @@ static auto level_proc_gen_create_rooms(Gamep g, LevelNum level_num) -> class Le
             //
             int empty_tile = 0;
 
-            empty_tile += (l->data[ x - 1 ][ y ].c == CHARMAP_EMPTY) ? 1 : 0;
-            empty_tile += (l->data[ x + 1 ][ y ].c == CHARMAP_EMPTY) ? 1 : 0;
-            empty_tile += (l->data[ x ][ y - 1 ].c == CHARMAP_EMPTY) ? 1 : 0;
-            empty_tile += (l->data[ x ][ y + 1 ].c == CHARMAP_EMPTY) ? 1 : 0;
+            empty_tile += (lg->data[ x - 1 ][ y ].c == CHARMAP_EMPTY) ? 1 : 0;
+            empty_tile += (lg->data[ x + 1 ][ y ].c == CHARMAP_EMPTY) ? 1 : 0;
+            empty_tile += (lg->data[ x ][ y - 1 ].c == CHARMAP_EMPTY) ? 1 : 0;
+            empty_tile += (lg->data[ x ][ y + 1 ].c == CHARMAP_EMPTY) ? 1 : 0;
 
             if (empty_tile >= 3) {
-              l->data[ x ][ y ].c    = CHARMAP_EMPTY;
-              l->data[ x ][ y ].room = nullptr;
-              did_something          = true;
+              lg->data[ x ][ y ].c    = CHARMAP_EMPTY;
+              lg->data[ x ][ y ].room = nullptr;
+              did_something           = true;
             }
             break;
           }
@@ -3181,41 +3181,41 @@ static auto level_proc_gen_create_rooms(Gamep g, LevelNum level_num) -> class Le
 //
 // Keep track of which room is connected to another via a door
 //
-static void level_gen_scan_connected_rooms(class LevelGen *l)
+static void level_gen_scan_connected_rooms(class LevelGen *lg)
 {
   TRACE();
 
   for (int y = 1; y < MAP_HEIGHT - 1; y++) {
     for (int x = 1; x < MAP_WIDTH - 1; x++) {
-      switch (l->data[ x ][ y ].c) {
+      switch (lg->data[ x ][ y ].c) {
         case CHARMAP_JOIN :
           {
             {
-              auto *room_a = l->data[ x - 1 ][ y ].room;
-              auto *room_b = l->data[ x + 1 ][ y ].room;
+              auto *room_a = lg->data[ x - 1 ][ y ].room;
+              auto *room_b = lg->data[ x + 1 ][ y ].room;
 
               if ((room_a != nullptr) && (room_b != nullptr)) {
                 if (room_a < room_b) {
                   std::pair< class Room *, class Room * > const conn(room_a, room_b);
-                  l->rooms_connected[ conn ] = true;
+                  lg->rooms_connected[ conn ] = true;
                 } else {
                   std::pair< class Room *, class Room * > const conn(room_b, room_a);
-                  l->rooms_connected[ conn ] = true;
+                  lg->rooms_connected[ conn ] = true;
                 }
               }
             }
 
             {
-              auto *room_a = l->data[ x ][ y + 1 ].room;
-              auto *room_b = l->data[ x ][ y - 1 ].room;
+              auto *room_a = lg->data[ x ][ y + 1 ].room;
+              auto *room_b = lg->data[ x ][ y - 1 ].room;
 
               if ((room_a != nullptr) && (room_b != nullptr)) {
                 if (room_a < room_b) {
                   std::pair< class Room *, class Room * > const conn(room_a, room_b);
-                  l->rooms_connected[ conn ] = true;
+                  lg->rooms_connected[ conn ] = true;
                 } else {
                   std::pair< class Room *, class Room * > const conn(room_b, room_a);
-                  l->rooms_connected[ conn ] = true;
+                  lg->rooms_connected[ conn ] = true;
                 }
               }
             }
@@ -3231,7 +3231,7 @@ static void level_gen_scan_connected_rooms(class LevelGen *l)
 // Add corridors between rooms that are not connected
 // Shortest distance is 2, which is ". ."
 //
-static void level_gen_connect_adjacent_rooms_with_distance_and_chance(class LevelGen *l, int dist, int chance)
+static void level_gen_connect_adjacent_rooms_with_distance_and_chance(class LevelGen *lg, int dist, int chance)
 {
   TRACE();
 
@@ -3239,7 +3239,7 @@ static void level_gen_connect_adjacent_rooms_with_distance_and_chance(class Leve
 
   for (int y = dist; y < MAP_HEIGHT - dist - 1; y++) {
     for (int x = dist; x < MAP_WIDTH - dist - 1; x++) {
-      switch (l->data[ x ][ y ].c) {
+      switch (lg->data[ x ][ y ].c) {
         case CHARMAP_JOIN :
           {
             //
@@ -3262,7 +3262,7 @@ static void level_gen_connect_adjacent_rooms_with_distance_and_chance(class Leve
               bool has_clear_path = true;
               for (auto d = 1; d < dist; d++) {
                 bpoint const adj(x + (direction.x * d), y + (direction.y * d));
-                switch (l->data[ adj.x ][ adj.y ].c) {
+                switch (lg->data[ adj.x ][ adj.y ].c) {
                   case CHARMAP_WATER :
                   case CHARMAP_DEEP_WATER :
                   case CHARMAP_CHASM :
@@ -3280,7 +3280,7 @@ static void level_gen_connect_adjacent_rooms_with_distance_and_chance(class Leve
                 // Also only have a bridge if there is some hazard to cross
                 //
                 for (auto delta : directions) {
-                  switch (l->data[ adj.x + delta.x ][ adj.y + delta.y ].c) {
+                  switch (lg->data[ adj.x + delta.x ][ adj.y + delta.y ].c) {
                     case CHARMAP_WATER :
                     case CHARMAP_DEEP_WATER :
                     case CHARMAP_CHASM : //
@@ -3305,12 +3305,12 @@ static void level_gen_connect_adjacent_rooms_with_distance_and_chance(class Leve
               // Check there is a room at the end of the blank space
               //
               bpoint const dest(x + (direction.x * dist), y + (direction.y * dist));
-              if (l->data[ dest.x ][ dest.y ].c != CHARMAP_FLOOR) {
+              if (lg->data[ dest.x ][ dest.y ].c != CHARMAP_FLOOR) {
                 continue;
               }
 
-              auto *room_a = l->data[ x ][ y ].room;
-              auto *room_b = l->data[ dest.x ][ dest.y ].room;
+              auto *room_a = lg->data[ x ][ y ].room;
+              auto *room_b = lg->data[ dest.x ][ dest.y ].room;
 
               //
               // Check the two rooms at either end of the corridor are different.
@@ -3343,9 +3343,9 @@ static void level_gen_connect_adjacent_rooms_with_distance_and_chance(class Leve
               //
               // If the rooms are not connected, then join them via a corridor
               //
-              if (! l->rooms_connected.contains(conn)) {
-                l->rooms_adj_connected++;
-                l->rooms_connected[ conn ] = true;
+              if (! lg->rooms_connected.contains(conn)) {
+                lg->rooms_adj_connected++;
+                lg->rooms_connected[ conn ] = true;
 
                 auto fill_char = CHARMAP_CORRIDOR;
                 if (d100() < MAX_LEVEL_GEN_MIN_BRIDGE_LEN_CHANCE) {
@@ -3356,16 +3356,16 @@ static void level_gen_connect_adjacent_rooms_with_distance_and_chance(class Leve
                   bpoint const adj(x + (direction.x * d), y + (direction.y * d));
 
                   if (bridge_candidate) {
-                    l->data[ adj.x ][ adj.y ].c = CHARMAP_BRIDGE;
+                    lg->data[ adj.x ][ adj.y ].c = CHARMAP_BRIDGE;
                   } else {
                     if (dist > MAX_LEVEL_GEN_MIN_BRIDGE_LEN) {
-                      l->data[ adj.x ][ adj.y ].c = fill_char;
+                      lg->data[ adj.x ][ adj.y ].c = fill_char;
                     } else {
-                      l->data[ adj.x ][ adj.y ].c = CHARMAP_CORRIDOR;
+                      lg->data[ adj.x ][ adj.y ].c = CHARMAP_CORRIDOR;
                     }
                   }
 
-                  l->data[ adj.x ][ adj.y ].room = room_a;
+                  lg->data[ adj.x ][ adj.y ].room = room_a;
                 }
               }
             }
@@ -3381,7 +3381,7 @@ static void level_gen_connect_adjacent_rooms_with_distance_and_chance(class Leve
 // Add corridors between rooms that are not connected
 // Shortest distance is 2, which is ". ."
 //
-static void level_gen_connect_adjacent_rooms(Gamep g, class LevelGen *l)
+static void level_gen_connect_adjacent_rooms(Gamep g, class LevelGen *lg)
 {
   TRACE();
 
@@ -3407,14 +3407,14 @@ static void level_gen_connect_adjacent_rooms(Gamep g, class LevelGen *l)
       std::pair(20 /* corridor length */, 40 /* percentage chance of occuring */),
   };
   for (auto d : dists) {
-    level_gen_connect_adjacent_rooms_with_distance_and_chance(l, d.first, d.second);
+    level_gen_connect_adjacent_rooms_with_distance_and_chance(lg, d.first, d.second);
   }
 }
 
 //
 // Make bridges dramatic by adding chasms around them
 //
-static void level_gen_add_chasms_around_bridges(class LevelGen *l)
+static void level_gen_add_chasms_around_bridges(class LevelGen *lg)
 {
   TRACE();
 
@@ -3425,20 +3425,20 @@ static void level_gen_add_chasms_around_bridges(class LevelGen *l)
   //
   for (int y = 1; y < MAP_HEIGHT - 1; y++) {
     for (int x = 1; x < MAP_WIDTH - 1; x++) {
-      switch (l->data[ x ][ y ].c) {
+      switch (lg->data[ x ][ y ].c) {
         case CHARMAP_BRIDGE :
           {
-            if (l->data[ x - 1 ][ y ].c == CHARMAP_EMPTY) {
-              l->data[ x - 1 ][ y ].c = bridge_type;
+            if (lg->data[ x - 1 ][ y ].c == CHARMAP_EMPTY) {
+              lg->data[ x - 1 ][ y ].c = bridge_type;
             }
-            if (l->data[ x + 1 ][ y ].c == CHARMAP_EMPTY) {
-              l->data[ x + 1 ][ y ].c = bridge_type;
+            if (lg->data[ x + 1 ][ y ].c == CHARMAP_EMPTY) {
+              lg->data[ x + 1 ][ y ].c = bridge_type;
             }
-            if (l->data[ x ][ y - 1 ].c == CHARMAP_EMPTY) {
-              l->data[ x ][ y - 1 ].c = bridge_type;
+            if (lg->data[ x ][ y - 1 ].c == CHARMAP_EMPTY) {
+              lg->data[ x ][ y - 1 ].c = bridge_type;
             }
-            if (l->data[ x ][ y + 1 ].c == CHARMAP_EMPTY) {
-              l->data[ x ][ y + 1 ].c = bridge_type;
+            if (lg->data[ x ][ y + 1 ].c == CHARMAP_EMPTY) {
+              lg->data[ x ][ y + 1 ].c = bridge_type;
             }
             break;
           }
@@ -3450,7 +3450,7 @@ static void level_gen_add_chasms_around_bridges(class LevelGen *l)
 //
 // Grow lakes, chasms etc...
 //
-static void level_gen_grow_hazards(class LevelGen *l)
+static void level_gen_grow_hazards(class LevelGen *lg)
 {
   TRACE();
 
@@ -3458,7 +3458,7 @@ static void level_gen_grow_hazards(class LevelGen *l)
 
   for (int y = 1; y < MAP_HEIGHT - 1; y++) {
     for (int x = 1; x < MAP_WIDTH - 1; x++) {
-      auto c = l->data[ x ][ y ].c;
+      auto c = lg->data[ x ][ y ].c;
 
       switch (c) {
         case CHARMAP_CHASM :
@@ -3468,42 +3468,42 @@ static void level_gen_grow_hazards(class LevelGen *l)
             continue;
           }
 
-          if (l->data[ x - 1 ][ y - 1 ].c == CHARMAP_EMPTY) {
+          if (lg->data[ x - 1 ][ y - 1 ].c == CHARMAP_EMPTY) {
             if (d100() < 50) {
               changed[ x - 1 ][ y - 1 ] = c;
             }
           }
-          if (l->data[ x - 1 ][ y + 1 ].c == CHARMAP_EMPTY) {
+          if (lg->data[ x - 1 ][ y + 1 ].c == CHARMAP_EMPTY) {
             if (d100() < 50) {
               changed[ x - 1 ][ y + 1 ] = c;
             }
           }
-          if (l->data[ x + 1 ][ y - 1 ].c == CHARMAP_EMPTY) {
+          if (lg->data[ x + 1 ][ y - 1 ].c == CHARMAP_EMPTY) {
             if (d100() < 50) {
               changed[ x + 1 ][ y - 1 ] = c;
             }
           }
-          if (l->data[ x + 1 ][ y + 1 ].c == CHARMAP_EMPTY) {
+          if (lg->data[ x + 1 ][ y + 1 ].c == CHARMAP_EMPTY) {
             if (d100() < 50) {
               changed[ x + 1 ][ y + 1 ] = c;
             }
           }
-          if (l->data[ x - 1 ][ y ].c == CHARMAP_EMPTY) {
+          if (lg->data[ x - 1 ][ y ].c == CHARMAP_EMPTY) {
             if (d100() < 50) {
               changed[ x - 1 ][ y ] = c;
             }
           }
-          if (l->data[ x + 1 ][ y ].c == CHARMAP_EMPTY) {
+          if (lg->data[ x + 1 ][ y ].c == CHARMAP_EMPTY) {
             if (d100() < 50) {
               changed[ x + 1 ][ y ] = c;
             }
           }
-          if (l->data[ x ][ y - 1 ].c == CHARMAP_EMPTY) {
+          if (lg->data[ x ][ y - 1 ].c == CHARMAP_EMPTY) {
             if (d100() < 50) {
               changed[ x ][ y - 1 ] = c;
             }
           }
-          if (l->data[ x ][ y + 1 ].c == CHARMAP_EMPTY) {
+          if (lg->data[ x ][ y + 1 ].c == CHARMAP_EMPTY) {
             if (d100() < 50) {
               changed[ x ][ y + 1 ] = c;
             }
@@ -3517,7 +3517,7 @@ static void level_gen_grow_hazards(class LevelGen *l)
     for (int x = 0; x < MAP_WIDTH; x++) {
       auto c = changed[ x ][ y ];
       if (c != 0) {
-        l->data[ x ][ y ].c = c;
+        lg->data[ x ][ y ].c = c;
       }
     }
   }
@@ -3526,7 +3526,7 @@ static void level_gen_grow_hazards(class LevelGen *l)
 //
 // Grow island of safety
 //
-static void level_gen_grow_islands(class LevelGen *l)
+static void level_gen_grow_islands(class LevelGen *lg)
 {
   TRACE();
 
@@ -3534,47 +3534,47 @@ static void level_gen_grow_islands(class LevelGen *l)
 
   for (int y = 1; y < MAP_HEIGHT - 1; y++) {
     for (int x = 1; x < MAP_WIDTH - 1; x++) {
-      auto c = l->data[ x ][ y ].c;
+      auto c = lg->data[ x ][ y ].c;
 
       switch (c) {
         case CHARMAP_DIRT :
 
-          if (l->data[ x - 1 ][ y - 1 ].c == CHARMAP_WATER) {
+          if (lg->data[ x - 1 ][ y - 1 ].c == CHARMAP_WATER) {
             if (d100() < 50) {
               changed[ x - 1 ][ y - 1 ] = c;
             }
           }
-          if (l->data[ x - 1 ][ y + 1 ].c == CHARMAP_WATER) {
+          if (lg->data[ x - 1 ][ y + 1 ].c == CHARMAP_WATER) {
             if (d100() < 50) {
               changed[ x - 1 ][ y + 1 ] = c;
             }
           }
-          if (l->data[ x + 1 ][ y - 1 ].c == CHARMAP_WATER) {
+          if (lg->data[ x + 1 ][ y - 1 ].c == CHARMAP_WATER) {
             if (d100() < 50) {
               changed[ x + 1 ][ y - 1 ] = c;
             }
           }
-          if (l->data[ x + 1 ][ y + 1 ].c == CHARMAP_WATER) {
+          if (lg->data[ x + 1 ][ y + 1 ].c == CHARMAP_WATER) {
             if (d100() < 50) {
               changed[ x + 1 ][ y + 1 ] = c;
             }
           }
-          if (l->data[ x - 1 ][ y ].c == CHARMAP_WATER) {
+          if (lg->data[ x - 1 ][ y ].c == CHARMAP_WATER) {
             if (d100() < 50) {
               changed[ x - 1 ][ y ] = c;
             }
           }
-          if (l->data[ x + 1 ][ y ].c == CHARMAP_WATER) {
+          if (lg->data[ x + 1 ][ y ].c == CHARMAP_WATER) {
             if (d100() < 50) {
               changed[ x + 1 ][ y ] = c;
             }
           }
-          if (l->data[ x ][ y - 1 ].c == CHARMAP_WATER) {
+          if (lg->data[ x ][ y - 1 ].c == CHARMAP_WATER) {
             if (d100() < 50) {
               changed[ x ][ y - 1 ] = c;
             }
           }
-          if (l->data[ x ][ y + 1 ].c == CHARMAP_WATER) {
+          if (lg->data[ x ][ y + 1 ].c == CHARMAP_WATER) {
             if (d100() < 50) {
               changed[ x ][ y + 1 ] = c;
             }
@@ -3588,7 +3588,7 @@ static void level_gen_grow_islands(class LevelGen *l)
     for (int x = 0; x < MAP_WIDTH; x++) {
       auto c = changed[ x ][ y ];
       if (c != 0) {
-        l->data[ x ][ y ].c = c;
+        lg->data[ x ][ y ].c = c;
       }
     }
   }
@@ -3597,7 +3597,7 @@ static void level_gen_grow_islands(class LevelGen *l)
 //
 // Add islands of safety
 //
-static void level_gen_add_islands(class LevelGen *l)
+static void level_gen_add_islands(class LevelGen *lg)
 {
   TRACE();
 
@@ -3605,7 +3605,7 @@ static void level_gen_add_islands(class LevelGen *l)
 
   for (int y = 1; y < MAP_HEIGHT - 1; y++) {
     for (int x = 1; x < MAP_WIDTH - 1; x++) {
-      auto c = l->data[ x ][ y ].c;
+      auto c = lg->data[ x ][ y ].c;
 
       switch (c) {
         case CHARMAP_CHASM :
@@ -3615,14 +3615,14 @@ static void level_gen_add_islands(class LevelGen *l)
             continue;
           }
 
-          if (/* top left  */ l->data[ x - 1 ][ y - 1 ].c == c &&
-              /* bot right */ l->data[ x - 1 ][ y + 1 ].c == c &&
-              /* top right */ l->data[ x + 1 ][ y - 1 ].c == c &&
-              /* bot right */ l->data[ x + 1 ][ y + 1 ].c == c &&
-              /* left      */ l->data[ x - 1 ][ y ].c == c &&
-              /* right     */ l->data[ x + 1 ][ y ].c == c &&
-              /* top       */ l->data[ x ][ y - 1 ].c == c &&
-              /* bot       */ l->data[ x ][ y + 1 ].c == c) {
+          if (/* top left  */ lg->data[ x - 1 ][ y - 1 ].c == c &&
+              /* bot right */ lg->data[ x - 1 ][ y + 1 ].c == c &&
+              /* top right */ lg->data[ x + 1 ][ y - 1 ].c == c &&
+              /* bot right */ lg->data[ x + 1 ][ y + 1 ].c == c &&
+              /* left      */ lg->data[ x - 1 ][ y ].c == c &&
+              /* right     */ lg->data[ x + 1 ][ y ].c == c &&
+              /* top       */ lg->data[ x ][ y - 1 ].c == c &&
+              /* bot       */ lg->data[ x ][ y + 1 ].c == c) {
             changed[ x ][ y ] = CHARMAP_DIRT;
           }
           break;
@@ -3634,7 +3634,7 @@ static void level_gen_add_islands(class LevelGen *l)
     for (int x = 1; x < MAP_WIDTH - 1; x++) {
       auto c = changed[ x ][ y ];
       if (c != 0) {
-        l->data[ x ][ y ].c = c;
+        lg->data[ x ][ y ].c = c;
       }
     }
   }
@@ -3643,13 +3643,13 @@ static void level_gen_add_islands(class LevelGen *l)
 //
 // Make bridges dramatic by adding chasms around them
 //
-static void level_gen_add_walls_around_rooms(class LevelGen *l)
+static void level_gen_add_walls_around_rooms(class LevelGen *lg)
 {
   TRACE();
 
   for (int y = 1; y < MAP_HEIGHT - 1; y++) {
     for (int x = 1; x < MAP_WIDTH - 1; x++) {
-      auto c = l->data[ x ][ y ].c;
+      auto c = lg->data[ x ][ y ].c;
       switch (c) {
         case CHARMAP_WATER :
         case CHARMAP_DEEP_WATER :
@@ -3683,29 +3683,29 @@ static void level_gen_add_walls_around_rooms(class LevelGen *l)
         case CHARMAP_FLOOR :
         case CHARMAP_FLOOR_50 :
         case CHARMAP_JOIN :
-          if (l->data[ x - 1 ][ y - 1 ].c == CHARMAP_EMPTY) {
-            l->data[ x - 1 ][ y - 1 ].c = CHARMAP_WALL;
+          if (lg->data[ x - 1 ][ y - 1 ].c == CHARMAP_EMPTY) {
+            lg->data[ x - 1 ][ y - 1 ].c = CHARMAP_WALL;
           }
-          if (l->data[ x - 1 ][ y + 1 ].c == CHARMAP_EMPTY) {
-            l->data[ x - 1 ][ y + 1 ].c = CHARMAP_WALL;
+          if (lg->data[ x - 1 ][ y + 1 ].c == CHARMAP_EMPTY) {
+            lg->data[ x - 1 ][ y + 1 ].c = CHARMAP_WALL;
           }
-          if (l->data[ x + 1 ][ y - 1 ].c == CHARMAP_EMPTY) {
-            l->data[ x + 1 ][ y - 1 ].c = CHARMAP_WALL;
+          if (lg->data[ x + 1 ][ y - 1 ].c == CHARMAP_EMPTY) {
+            lg->data[ x + 1 ][ y - 1 ].c = CHARMAP_WALL;
           }
-          if (l->data[ x + 1 ][ y + 1 ].c == CHARMAP_EMPTY) {
-            l->data[ x + 1 ][ y + 1 ].c = CHARMAP_WALL;
+          if (lg->data[ x + 1 ][ y + 1 ].c == CHARMAP_EMPTY) {
+            lg->data[ x + 1 ][ y + 1 ].c = CHARMAP_WALL;
           }
-          if (l->data[ x - 1 ][ y ].c == CHARMAP_EMPTY) {
-            l->data[ x - 1 ][ y ].c = CHARMAP_WALL;
+          if (lg->data[ x - 1 ][ y ].c == CHARMAP_EMPTY) {
+            lg->data[ x - 1 ][ y ].c = CHARMAP_WALL;
           }
-          if (l->data[ x + 1 ][ y ].c == CHARMAP_EMPTY) {
-            l->data[ x + 1 ][ y ].c = CHARMAP_WALL;
+          if (lg->data[ x + 1 ][ y ].c == CHARMAP_EMPTY) {
+            lg->data[ x + 1 ][ y ].c = CHARMAP_WALL;
           }
-          if (l->data[ x ][ y - 1 ].c == CHARMAP_EMPTY) {
-            l->data[ x ][ y - 1 ].c = CHARMAP_WALL;
+          if (lg->data[ x ][ y - 1 ].c == CHARMAP_EMPTY) {
+            lg->data[ x ][ y - 1 ].c = CHARMAP_WALL;
           }
-          if (l->data[ x ][ y + 1 ].c == CHARMAP_EMPTY) {
-            l->data[ x ][ y + 1 ].c = CHARMAP_WALL;
+          if (lg->data[ x ][ y + 1 ].c == CHARMAP_EMPTY) {
+            lg->data[ x ][ y + 1 ].c = CHARMAP_WALL;
           }
           break;
       }
@@ -3716,11 +3716,11 @@ static void level_gen_add_walls_around_rooms(class LevelGen *l)
 //
 // Is this tile in the entrance?
 //
-auto level_gen_is_room_entrance(Gamep g, class LevelGen *l, int x, int y) -> bool
+auto level_gen_is_room_entrance(Gamep g, class LevelGen *lg, int x, int y) -> bool
 {
   TRACE();
 
-  if (l == nullptr) { // tests
+  if (lg == nullptr) { // tests
     return false;
   }
 
@@ -3728,23 +3728,23 @@ auto level_gen_is_room_entrance(Gamep g, class LevelGen *l, int x, int y) -> boo
     return false;
   }
 
-  auto *r = l->data[ x ][ y ].room;
-  return (r != nullptr) && (l->room_entrance == r);
+  auto *r = lg->data[ x ][ y ].room;
+  return (r != nullptr) && (lg->room_entrance == r);
 }
 
 //
 // Is this tile in the entrance?
 //
-auto level_gen_is_room_entrance(Gamep g, class LevelGen *l, bpoint at) -> bool { return level_gen_is_room_entrance(g, l, at.x, at.y); }
+auto level_gen_is_room_entrance(Gamep g, class LevelGen *lg, bpoint at) -> bool { return level_gen_is_room_entrance(g, lg, at.x, at.y); }
 
 //
 // Is this tile in the exit?
 //
-auto level_gen_is_room_exit(Gamep g, class LevelGen *l, int x, int y) -> bool
+auto level_gen_is_room_exit(Gamep g, class LevelGen *lg, int x, int y) -> bool
 {
   TRACE();
 
-  if (l == nullptr) { // tests
+  if (lg == nullptr) { // tests
     return false;
   }
 
@@ -3752,23 +3752,23 @@ auto level_gen_is_room_exit(Gamep g, class LevelGen *l, int x, int y) -> bool
     return false;
   }
 
-  auto *r = l->data[ x ][ y ].room;
-  return (r != nullptr) && (l->room_exit == r);
+  auto *r = lg->data[ x ][ y ].room;
+  return (r != nullptr) && (lg->room_exit == r);
 }
 
 //
 // Is this tile in the exit?
 //
-auto level_gen_is_room_exit(Gamep g, class LevelGen *l, bpoint at) -> bool { return level_gen_is_room_exit(g, l, at.x, at.y); }
+auto level_gen_is_room_exit(Gamep g, class LevelGen *lg, bpoint at) -> bool { return level_gen_is_room_exit(g, lg, at.x, at.y); }
 
 //
 // Is this room locked?
 //
-auto level_gen_is_room_locked(Gamep g, class LevelGen *l, int x, int y) -> bool
+auto level_gen_is_room_locked(Gamep g, class LevelGen *lg, int x, int y) -> bool
 {
   TRACE();
 
-  if (l == nullptr) { // tests
+  if (lg == nullptr) { // tests
     return false;
   }
 
@@ -3776,23 +3776,23 @@ auto level_gen_is_room_locked(Gamep g, class LevelGen *l, int x, int y) -> bool
     return false;
   }
 
-  auto *r = l->data[ x ][ y ].room;
+  auto *r = lg->data[ x ][ y ].room;
   return (r != nullptr) && (r->room_type == ROOM_TYPE_LOCKED);
 }
 
 //
 // Is this tile in the entrance?
 //
-auto level_gen_is_room_locked(Gamep g, class LevelGen *l, bpoint at) -> bool { return level_gen_is_room_locked(g, l, at.x, at.y); }
+auto level_gen_is_room_locked(Gamep g, class LevelGen *lg, bpoint at) -> bool { return level_gen_is_room_locked(g, lg, at.x, at.y); }
 
 //
 // Is this room secret?
 //
-auto level_gen_is_room_secret(Gamep g, class LevelGen *l, int x, int y) -> bool
+auto level_gen_is_room_secret(Gamep g, class LevelGen *lg, int x, int y) -> bool
 {
   TRACE();
 
-  if (l == nullptr) { // tests
+  if (lg == nullptr) { // tests
     return false;
   }
 
@@ -3800,23 +3800,23 @@ auto level_gen_is_room_secret(Gamep g, class LevelGen *l, int x, int y) -> bool
     return false;
   }
 
-  auto *r = l->data[ x ][ y ].room;
+  auto *r = lg->data[ x ][ y ].room;
   return (r != nullptr) && (r->room_type == ROOM_TYPE_SECRET);
 }
 
 //
 // Is this tile in the entrance?
 //
-auto level_gen_is_room_secret(Gamep g, class LevelGen *l, bpoint at) -> bool { return level_gen_is_room_secret(g, l, at.x, at.y); }
+auto level_gen_is_room_secret(Gamep g, class LevelGen *lg, bpoint at) -> bool { return level_gen_is_room_secret(g, lg, at.x, at.y); }
 
 //
 // Is this room has_key?
 //
-auto level_gen_is_room_has_key(Gamep g, class LevelGen *l, int x, int y) -> bool
+auto level_gen_is_room_has_key(Gamep g, class LevelGen *lg, int x, int y) -> bool
 {
   TRACE();
 
-  if (l == nullptr) { // tests
+  if (lg == nullptr) { // tests
     return false;
   }
 
@@ -3824,25 +3824,25 @@ auto level_gen_is_room_has_key(Gamep g, class LevelGen *l, int x, int y) -> bool
     return false;
   }
 
-  auto *r = l->data[ x ][ y ].room;
+  auto *r = lg->data[ x ][ y ].room;
   return (r != nullptr) && (r->room_type == ROOM_TYPE_HAS_KEY);
 }
 
 //
 // Is this tile in the entrance?
 //
-auto level_gen_is_room_has_key(Gamep g, class LevelGen *l, bpoint at) -> bool { return level_gen_is_room_has_key(g, l, at.x, at.y); }
+auto level_gen_is_room_has_key(Gamep g, class LevelGen *lg, bpoint at) -> bool { return level_gen_is_room_has_key(g, lg, at.x, at.y); }
 
 //
 // Hide secret doors
 //
-static void level_gen_add_foliage_around_secret_doors(Gamep g, class LevelGen *l)
+static void level_gen_add_foliage_around_secret_doors(Gamep g, class LevelGen *lg)
 {
   TRACE();
 
   for (int y = 2; y < MAP_HEIGHT - 2; y++) {
     for (int x = 2; x < MAP_WIDTH - 2; x++) {
-      auto c = l->data[ x ][ y ].c;
+      auto c = lg->data[ x ][ y ].c;
       switch (c) {
         case CHARMAP_WATER :
         case CHARMAP_DEEP_WATER :
@@ -3870,10 +3870,10 @@ static void level_gen_add_foliage_around_secret_doors(Gamep g, class LevelGen *l
         case CHARMAP_DOOR_SECRET :
           for (int dy = -2; dy <= 2; dy++) {
             for (int dx = -2; dx <= 2; dx++) {
-              auto d = l->data[ x - dx ][ y - dy ].c;
+              auto d = lg->data[ x - dx ][ y - dy ].c;
               if ((d == CHARMAP_EMPTY) || (d == CHARMAP_FLOOR)) {
                 if (d100() < LEVEL_GEN_CHANCE_OF_FOLIAGE_AROUND_DOOR_SECRET) {
-                  l->data[ x - dx ][ y - dy ].c = CHARMAP_FOLIAGE;
+                  lg->data[ x - dx ][ y - dy ].c = CHARMAP_FOLIAGE;
                 }
               }
             }
@@ -3882,10 +3882,10 @@ static void level_gen_add_foliage_around_secret_doors(Gamep g, class LevelGen *l
         case CHARMAP_TRAP :
           for (int dy = -2; dy <= 2; dy++) {
             for (int dx = -2; dx <= 2; dx++) {
-              auto d = l->data[ x - dx ][ y - dy ].c;
+              auto d = lg->data[ x - dx ][ y - dy ].c;
               if ((d == CHARMAP_EMPTY) || (d == CHARMAP_FLOOR)) {
                 if (d100() < LEVEL_GEN_CHANCE_OF_FOLIAGE_AROUND_TRAPS) {
-                  l->data[ x - dx ][ y - dy ].c = CHARMAP_FOLIAGE;
+                  lg->data[ x - dx ][ y - dy ].c = CHARMAP_FOLIAGE;
                 }
               }
             }
@@ -3897,16 +3897,16 @@ static void level_gen_add_foliage_around_secret_doors(Gamep g, class LevelGen *l
           //
           // No foliage in starting rooms. Makes it harder to see
           //
-          if (level_gen_is_room_entrance(g, l, x, y)) {
+          if (level_gen_is_room_entrance(g, lg, x, y)) {
             continue;
           }
 
           for (int dy = -1; dy <= 1; dy++) {
             for (int dx = -1; dx <= 1; dx++) {
-              auto d = l->data[ x - dx ][ y - dy ].c;
+              auto d = lg->data[ x - dx ][ y - dy ].c;
               if ((d == CHARMAP_EMPTY) || (d == CHARMAP_FLOOR)) {
                 if (d100() < LEVEL_GEN_CHANCE_OF_FOLIAGE_AROUND_ITEMS) {
-                  l->data[ x - dx ][ y - dy ].c = CHARMAP_FOLIAGE;
+                  lg->data[ x - dx ][ y - dy ].c = CHARMAP_FOLIAGE;
                 }
               }
             }
@@ -3916,16 +3916,16 @@ static void level_gen_add_foliage_around_secret_doors(Gamep g, class LevelGen *l
           //
           // No foliage in starting rooms. Makes it harder to see
           //
-          if (level_gen_is_room_entrance(g, l, x, y)) {
+          if (level_gen_is_room_entrance(g, lg, x, y)) {
             continue;
           }
 
           for (int dy = -2; dy <= 2; dy++) {
             for (int dx = -2; dx <= 2; dx++) {
-              auto d = l->data[ x - dx ][ y - dy ].c;
+              auto d = lg->data[ x - dx ][ y - dy ].c;
               if ((d == CHARMAP_EMPTY) || (d == CHARMAP_FLOOR)) {
                 if (d100() < LEVEL_GEN_CHANCE_OF_FOLIAGE_AROUND_DOOR_LOCKED) {
-                  l->data[ x - dx ][ y - dy ].c = CHARMAP_FOLIAGE;
+                  lg->data[ x - dx ][ y - dy ].c = CHARMAP_FOLIAGE;
                 }
               }
             }
@@ -3935,16 +3935,16 @@ static void level_gen_add_foliage_around_secret_doors(Gamep g, class LevelGen *l
           //
           // No foliage in starting rooms. Makes it harder to see
           //
-          if (level_gen_is_room_entrance(g, l, x, y)) {
+          if (level_gen_is_room_entrance(g, lg, x, y)) {
             continue;
           }
 
           for (int dy = -1; dy <= 1; dy++) {
             for (int dx = -1; dx <= 1; dx++) {
-              auto d = l->data[ x - dx ][ y - dy ].c;
+              auto d = lg->data[ x - dx ][ y - dy ].c;
               if ((d == CHARMAP_EMPTY) || (d == CHARMAP_FLOOR)) {
                 if (d100() < LEVEL_GEN_CHANCE_OF_FOLIAGE_AROUND_CHASMS) {
-                  l->data[ x - dx ][ y - dy ].c = CHARMAP_FOLIAGE;
+                  lg->data[ x - dx ][ y - dy ].c = CHARMAP_FOLIAGE;
                 }
               }
             }
@@ -3953,10 +3953,10 @@ static void level_gen_add_foliage_around_secret_doors(Gamep g, class LevelGen *l
         case CHARMAP_TELEPORT :
           for (int dy = -1; dy <= 1; dy++) {
             for (int dx = -1; dx <= 1; dx++) {
-              auto d = l->data[ x - dx ][ y - dy ].c;
+              auto d = lg->data[ x - dx ][ y - dy ].c;
               if (d100() < LEVEL_GEN_CHANCE_OF_FOLIAGE_AROUND_TELEPORTS) {
                 if ((d == CHARMAP_EMPTY) || (d == CHARMAP_FLOOR)) {
-                  l->data[ x - dx ][ y - dy ].c = CHARMAP_FOLIAGE;
+                  lg->data[ x - dx ][ y - dy ].c = CHARMAP_FOLIAGE;
                 }
               }
             }
@@ -3965,10 +3965,10 @@ static void level_gen_add_foliage_around_secret_doors(Gamep g, class LevelGen *l
         case CHARMAP_KEY :
           for (int dy = -2; dy <= 2; dy++) {
             for (int dx = -2; dx <= 2; dx++) {
-              auto d = l->data[ x - dx ][ y - dy ].c;
+              auto d = lg->data[ x - dx ][ y - dy ].c;
               if (d100() < LEVEL_GEN_CHANCE_OF_FOLIAGE_AROUND_KEYS) {
                 if ((d == CHARMAP_EMPTY) || (d == CHARMAP_FLOOR)) {
-                  l->data[ x - dx ][ y - dy ].c = CHARMAP_FOLIAGE;
+                  lg->data[ x - dx ][ y - dy ].c = CHARMAP_FOLIAGE;
                 }
               }
             }
@@ -3982,7 +3982,7 @@ static void level_gen_add_foliage_around_secret_doors(Gamep g, class LevelGen *l
 //
 // e.g. chasm next to water
 //
-[[nodiscard]] static auto level_gen_remove_water_conflicts(class LevelGen *l) -> bool
+[[nodiscard]] static auto level_gen_remove_water_conflicts(class LevelGen *lg) -> bool
 {
   TRACE();
 
@@ -3990,39 +3990,39 @@ static void level_gen_add_foliage_around_secret_doors(Gamep g, class LevelGen *l
 
   for (int y = 1; y < MAP_HEIGHT - 1; y++) {
     for (int x = 1; x < MAP_WIDTH - 1; x++) {
-      auto c = l->data[ x ][ y ].c;
+      auto c = lg->data[ x ][ y ].c;
       if (c == CHARMAP_WATER) {
-        if ((l->data[ x - 1 ][ y - 1 ].c == CHARMAP_LAVA) || l->data[ x - 1 ][ y - 1 ].c == CHARMAP_CHASM) {
-          l->data[ x - 1 ][ y - 1 ].c = CHARMAP_WATER;
-          did_something               = true;
+        if ((lg->data[ x - 1 ][ y - 1 ].c == CHARMAP_LAVA) || lg->data[ x - 1 ][ y - 1 ].c == CHARMAP_CHASM) {
+          lg->data[ x - 1 ][ y - 1 ].c = CHARMAP_WATER;
+          did_something                = true;
         }
-        if ((l->data[ x - 1 ][ y + 1 ].c == CHARMAP_LAVA) || l->data[ x - 1 ][ y + 1 ].c == CHARMAP_CHASM) {
-          l->data[ x - 1 ][ y + 1 ].c = CHARMAP_WATER;
-          did_something               = true;
+        if ((lg->data[ x - 1 ][ y + 1 ].c == CHARMAP_LAVA) || lg->data[ x - 1 ][ y + 1 ].c == CHARMAP_CHASM) {
+          lg->data[ x - 1 ][ y + 1 ].c = CHARMAP_WATER;
+          did_something                = true;
         }
-        if ((l->data[ x + 1 ][ y - 1 ].c == CHARMAP_LAVA) || l->data[ x + 1 ][ y - 1 ].c == CHARMAP_CHASM) {
-          l->data[ x + 1 ][ y - 1 ].c = CHARMAP_WATER;
-          did_something               = true;
+        if ((lg->data[ x + 1 ][ y - 1 ].c == CHARMAP_LAVA) || lg->data[ x + 1 ][ y - 1 ].c == CHARMAP_CHASM) {
+          lg->data[ x + 1 ][ y - 1 ].c = CHARMAP_WATER;
+          did_something                = true;
         }
-        if ((l->data[ x + 1 ][ y + 1 ].c == CHARMAP_LAVA) || l->data[ x + 1 ][ y + 1 ].c == CHARMAP_CHASM) {
-          l->data[ x + 1 ][ y + 1 ].c = CHARMAP_WATER;
-          did_something               = true;
+        if ((lg->data[ x + 1 ][ y + 1 ].c == CHARMAP_LAVA) || lg->data[ x + 1 ][ y + 1 ].c == CHARMAP_CHASM) {
+          lg->data[ x + 1 ][ y + 1 ].c = CHARMAP_WATER;
+          did_something                = true;
         }
-        if ((l->data[ x - 1 ][ y ].c == CHARMAP_LAVA) || l->data[ x - 1 ][ y ].c == CHARMAP_CHASM) {
-          l->data[ x - 1 ][ y ].c = CHARMAP_WATER;
-          did_something           = true;
+        if ((lg->data[ x - 1 ][ y ].c == CHARMAP_LAVA) || lg->data[ x - 1 ][ y ].c == CHARMAP_CHASM) {
+          lg->data[ x - 1 ][ y ].c = CHARMAP_WATER;
+          did_something            = true;
         }
-        if ((l->data[ x + 1 ][ y ].c == CHARMAP_LAVA) || l->data[ x + 1 ][ y ].c == CHARMAP_CHASM) {
-          l->data[ x + 1 ][ y ].c = CHARMAP_WATER;
-          did_something           = true;
+        if ((lg->data[ x + 1 ][ y ].c == CHARMAP_LAVA) || lg->data[ x + 1 ][ y ].c == CHARMAP_CHASM) {
+          lg->data[ x + 1 ][ y ].c = CHARMAP_WATER;
+          did_something            = true;
         }
-        if ((l->data[ x ][ y - 1 ].c == CHARMAP_LAVA) || l->data[ x ][ y - 1 ].c == CHARMAP_CHASM) {
-          l->data[ x ][ y - 1 ].c = CHARMAP_WATER;
-          did_something           = true;
+        if ((lg->data[ x ][ y - 1 ].c == CHARMAP_LAVA) || lg->data[ x ][ y - 1 ].c == CHARMAP_CHASM) {
+          lg->data[ x ][ y - 1 ].c = CHARMAP_WATER;
+          did_something            = true;
         }
-        if ((l->data[ x ][ y + 1 ].c == CHARMAP_LAVA) || l->data[ x ][ y + 1 ].c == CHARMAP_CHASM) {
-          l->data[ x ][ y + 1 ].c = CHARMAP_WATER;
-          did_something           = true;
+        if ((lg->data[ x ][ y + 1 ].c == CHARMAP_LAVA) || lg->data[ x ][ y + 1 ].c == CHARMAP_CHASM) {
+          lg->data[ x ][ y + 1 ].c = CHARMAP_WATER;
+          did_something            = true;
         }
       }
     }
@@ -4033,7 +4033,7 @@ static void level_gen_add_foliage_around_secret_doors(Gamep g, class LevelGen *l
 //
 // e.g. chasm next to lava
 //
-[[nodiscard]] static auto level_gen_remove_lava_conflicts(class LevelGen *l) -> bool
+[[nodiscard]] static auto level_gen_remove_lava_conflicts(class LevelGen *lg) -> bool
 {
   TRACE();
 
@@ -4041,39 +4041,39 @@ static void level_gen_add_foliage_around_secret_doors(Gamep g, class LevelGen *l
 
   for (int y = 1; y < MAP_HEIGHT - 1; y++) {
     for (int x = 1; x < MAP_WIDTH - 1; x++) {
-      auto c = l->data[ x ][ y ].c;
+      auto c = lg->data[ x ][ y ].c;
       if (c == CHARMAP_LAVA) {
-        if ((l->data[ x - 1 ][ y - 1 ].c == CHARMAP_WATER) || l->data[ x - 1 ][ y - 1 ].c == CHARMAP_CHASM) {
-          l->data[ x - 1 ][ y - 1 ].c = CHARMAP_LAVA;
-          did_something               = true;
+        if ((lg->data[ x - 1 ][ y - 1 ].c == CHARMAP_WATER) || lg->data[ x - 1 ][ y - 1 ].c == CHARMAP_CHASM) {
+          lg->data[ x - 1 ][ y - 1 ].c = CHARMAP_LAVA;
+          did_something                = true;
         }
-        if ((l->data[ x - 1 ][ y + 1 ].c == CHARMAP_WATER) || l->data[ x - 1 ][ y + 1 ].c == CHARMAP_CHASM) {
-          l->data[ x - 1 ][ y + 1 ].c = CHARMAP_LAVA;
-          did_something               = true;
+        if ((lg->data[ x - 1 ][ y + 1 ].c == CHARMAP_WATER) || lg->data[ x - 1 ][ y + 1 ].c == CHARMAP_CHASM) {
+          lg->data[ x - 1 ][ y + 1 ].c = CHARMAP_LAVA;
+          did_something                = true;
         }
-        if ((l->data[ x + 1 ][ y - 1 ].c == CHARMAP_WATER) || l->data[ x + 1 ][ y - 1 ].c == CHARMAP_CHASM) {
-          l->data[ x + 1 ][ y - 1 ].c = CHARMAP_LAVA;
-          did_something               = true;
+        if ((lg->data[ x + 1 ][ y - 1 ].c == CHARMAP_WATER) || lg->data[ x + 1 ][ y - 1 ].c == CHARMAP_CHASM) {
+          lg->data[ x + 1 ][ y - 1 ].c = CHARMAP_LAVA;
+          did_something                = true;
         }
-        if ((l->data[ x + 1 ][ y + 1 ].c == CHARMAP_WATER) || l->data[ x + 1 ][ y + 1 ].c == CHARMAP_CHASM) {
-          l->data[ x + 1 ][ y + 1 ].c = CHARMAP_LAVA;
-          did_something               = true;
+        if ((lg->data[ x + 1 ][ y + 1 ].c == CHARMAP_WATER) || lg->data[ x + 1 ][ y + 1 ].c == CHARMAP_CHASM) {
+          lg->data[ x + 1 ][ y + 1 ].c = CHARMAP_LAVA;
+          did_something                = true;
         }
-        if ((l->data[ x - 1 ][ y ].c == CHARMAP_WATER) || l->data[ x - 1 ][ y ].c == CHARMAP_CHASM) {
-          l->data[ x - 1 ][ y ].c = CHARMAP_LAVA;
-          did_something           = true;
+        if ((lg->data[ x - 1 ][ y ].c == CHARMAP_WATER) || lg->data[ x - 1 ][ y ].c == CHARMAP_CHASM) {
+          lg->data[ x - 1 ][ y ].c = CHARMAP_LAVA;
+          did_something            = true;
         }
-        if ((l->data[ x + 1 ][ y ].c == CHARMAP_WATER) || l->data[ x + 1 ][ y ].c == CHARMAP_CHASM) {
-          l->data[ x + 1 ][ y ].c = CHARMAP_LAVA;
-          did_something           = true;
+        if ((lg->data[ x + 1 ][ y ].c == CHARMAP_WATER) || lg->data[ x + 1 ][ y ].c == CHARMAP_CHASM) {
+          lg->data[ x + 1 ][ y ].c = CHARMAP_LAVA;
+          did_something            = true;
         }
-        if ((l->data[ x ][ y - 1 ].c == CHARMAP_WATER) || l->data[ x ][ y - 1 ].c == CHARMAP_CHASM) {
-          l->data[ x ][ y - 1 ].c = CHARMAP_LAVA;
-          did_something           = true;
+        if ((lg->data[ x ][ y - 1 ].c == CHARMAP_WATER) || lg->data[ x ][ y - 1 ].c == CHARMAP_CHASM) {
+          lg->data[ x ][ y - 1 ].c = CHARMAP_LAVA;
+          did_something            = true;
         }
-        if ((l->data[ x ][ y + 1 ].c == CHARMAP_WATER) || l->data[ x ][ y + 1 ].c == CHARMAP_CHASM) {
-          l->data[ x ][ y + 1 ].c = CHARMAP_LAVA;
-          did_something           = true;
+        if ((lg->data[ x ][ y + 1 ].c == CHARMAP_WATER) || lg->data[ x ][ y + 1 ].c == CHARMAP_CHASM) {
+          lg->data[ x ][ y + 1 ].c = CHARMAP_LAVA;
+          did_something            = true;
         }
       }
     }
@@ -4084,7 +4084,7 @@ static void level_gen_add_foliage_around_secret_doors(Gamep g, class LevelGen *l
 //
 // e.g. water next to chasm
 //
-[[nodiscard]] static auto level_gen_remove_chasm_conflicts(class LevelGen *l) -> bool
+[[nodiscard]] static auto level_gen_remove_chasm_conflicts(class LevelGen *lg) -> bool
 {
   TRACE();
 
@@ -4092,39 +4092,39 @@ static void level_gen_add_foliage_around_secret_doors(Gamep g, class LevelGen *l
 
   for (int y = 1; y < MAP_HEIGHT - 1; y++) {
     for (int x = 1; x < MAP_WIDTH - 1; x++) {
-      auto c = l->data[ x ][ y ].c;
+      auto c = lg->data[ x ][ y ].c;
       if (c == CHARMAP_CHASM) {
-        if ((l->data[ x - 1 ][ y - 1 ].c == CHARMAP_WATER) || l->data[ x - 1 ][ y - 1 ].c == CHARMAP_LAVA) {
-          l->data[ x - 1 ][ y - 1 ].c = CHARMAP_CHASM;
-          did_something               = true;
+        if ((lg->data[ x - 1 ][ y - 1 ].c == CHARMAP_WATER) || lg->data[ x - 1 ][ y - 1 ].c == CHARMAP_LAVA) {
+          lg->data[ x - 1 ][ y - 1 ].c = CHARMAP_CHASM;
+          did_something                = true;
         }
-        if ((l->data[ x - 1 ][ y + 1 ].c == CHARMAP_WATER) || l->data[ x - 1 ][ y + 1 ].c == CHARMAP_LAVA) {
-          l->data[ x - 1 ][ y + 1 ].c = CHARMAP_CHASM;
-          did_something               = true;
+        if ((lg->data[ x - 1 ][ y + 1 ].c == CHARMAP_WATER) || lg->data[ x - 1 ][ y + 1 ].c == CHARMAP_LAVA) {
+          lg->data[ x - 1 ][ y + 1 ].c = CHARMAP_CHASM;
+          did_something                = true;
         }
-        if ((l->data[ x + 1 ][ y - 1 ].c == CHARMAP_WATER) || l->data[ x + 1 ][ y - 1 ].c == CHARMAP_LAVA) {
-          l->data[ x + 1 ][ y - 1 ].c = CHARMAP_CHASM;
-          did_something               = true;
+        if ((lg->data[ x + 1 ][ y - 1 ].c == CHARMAP_WATER) || lg->data[ x + 1 ][ y - 1 ].c == CHARMAP_LAVA) {
+          lg->data[ x + 1 ][ y - 1 ].c = CHARMAP_CHASM;
+          did_something                = true;
         }
-        if ((l->data[ x + 1 ][ y + 1 ].c == CHARMAP_WATER) || l->data[ x + 1 ][ y + 1 ].c == CHARMAP_LAVA) {
-          l->data[ x + 1 ][ y + 1 ].c = CHARMAP_CHASM;
-          did_something               = true;
+        if ((lg->data[ x + 1 ][ y + 1 ].c == CHARMAP_WATER) || lg->data[ x + 1 ][ y + 1 ].c == CHARMAP_LAVA) {
+          lg->data[ x + 1 ][ y + 1 ].c = CHARMAP_CHASM;
+          did_something                = true;
         }
-        if ((l->data[ x - 1 ][ y ].c == CHARMAP_WATER) || l->data[ x - 1 ][ y ].c == CHARMAP_LAVA) {
-          l->data[ x - 1 ][ y ].c = CHARMAP_CHASM;
-          did_something           = true;
+        if ((lg->data[ x - 1 ][ y ].c == CHARMAP_WATER) || lg->data[ x - 1 ][ y ].c == CHARMAP_LAVA) {
+          lg->data[ x - 1 ][ y ].c = CHARMAP_CHASM;
+          did_something            = true;
         }
-        if ((l->data[ x + 1 ][ y ].c == CHARMAP_WATER) || l->data[ x + 1 ][ y ].c == CHARMAP_LAVA) {
-          l->data[ x + 1 ][ y ].c = CHARMAP_CHASM;
-          did_something           = true;
+        if ((lg->data[ x + 1 ][ y ].c == CHARMAP_WATER) || lg->data[ x + 1 ][ y ].c == CHARMAP_LAVA) {
+          lg->data[ x + 1 ][ y ].c = CHARMAP_CHASM;
+          did_something            = true;
         }
-        if ((l->data[ x ][ y - 1 ].c == CHARMAP_WATER) || l->data[ x ][ y - 1 ].c == CHARMAP_LAVA) {
-          l->data[ x ][ y - 1 ].c = CHARMAP_CHASM;
-          did_something           = true;
+        if ((lg->data[ x ][ y - 1 ].c == CHARMAP_WATER) || lg->data[ x ][ y - 1 ].c == CHARMAP_LAVA) {
+          lg->data[ x ][ y - 1 ].c = CHARMAP_CHASM;
+          did_something            = true;
         }
-        if ((l->data[ x ][ y + 1 ].c == CHARMAP_WATER) || l->data[ x ][ y + 1 ].c == CHARMAP_LAVA) {
-          l->data[ x ][ y + 1 ].c = CHARMAP_CHASM;
-          did_something           = true;
+        if ((lg->data[ x ][ y + 1 ].c == CHARMAP_WATER) || lg->data[ x ][ y + 1 ].c == CHARMAP_LAVA) {
+          lg->data[ x ][ y + 1 ].c = CHARMAP_CHASM;
+          did_something            = true;
         }
       }
     }
@@ -4135,17 +4135,17 @@ static void level_gen_add_foliage_around_secret_doors(Gamep g, class LevelGen *l
 //
 // Remove tiles that do not go together, like water next to lava
 //
-static void level_gen_remove_conflicting_tiles(Gamep g, class LevelGen *l)
+static void level_gen_remove_conflicting_tiles(Gamep g, class LevelGen *lg)
 {
   TRACE();
 
-  while (level_gen_remove_water_conflicts(l)) {
+  while (level_gen_remove_water_conflicts(lg)) {
     ;
   }
-  while (level_gen_remove_lava_conflicts(l)) {
+  while (level_gen_remove_lava_conflicts(lg)) {
     ;
   }
-  while (level_gen_remove_chasm_conflicts(l)) {
+  while (level_gen_remove_chasm_conflicts(lg)) {
     ;
   }
 }
@@ -4153,7 +4153,7 @@ static void level_gen_remove_conflicting_tiles(Gamep g, class LevelGen *l)
 //
 // Change water to deep water if possible
 //
-static void level_gen_create_deep_water(class LevelGen *l)
+static void level_gen_create_deep_water(class LevelGen *lg)
 {
   TRACE();
 
@@ -4161,7 +4161,7 @@ static void level_gen_create_deep_water(class LevelGen *l)
 
   for (int y = 1; y < MAP_HEIGHT - 1; y++) {
     for (int x = 1; x < MAP_WIDTH - 1; x++) {
-      auto c = l->data[ x ][ y ].c;
+      auto c = lg->data[ x ][ y ].c;
 
       switch (c) {
         case CHARMAP_WATER :
@@ -4169,14 +4169,14 @@ static void level_gen_create_deep_water(class LevelGen *l)
             continue;
           }
 
-          if (/* top left  */ l->data[ x - 1 ][ y - 1 ].c == c &&
-              /* bot right */ l->data[ x - 1 ][ y + 1 ].c == c &&
-              /* top right */ l->data[ x + 1 ][ y - 1 ].c == c &&
-              /* bot right */ l->data[ x + 1 ][ y + 1 ].c == c &&
-              /* left      */ l->data[ x - 1 ][ y ].c == c &&
-              /* right     */ l->data[ x + 1 ][ y ].c == c &&
-              /* top       */ l->data[ x ][ y - 1 ].c == c &&
-              /* bot       */ l->data[ x ][ y + 1 ].c == c) {
+          if (/* top left  */ lg->data[ x - 1 ][ y - 1 ].c == c &&
+              /* bot right */ lg->data[ x - 1 ][ y + 1 ].c == c &&
+              /* top right */ lg->data[ x + 1 ][ y - 1 ].c == c &&
+              /* bot right */ lg->data[ x + 1 ][ y + 1 ].c == c &&
+              /* left      */ lg->data[ x - 1 ][ y ].c == c &&
+              /* right     */ lg->data[ x + 1 ][ y ].c == c &&
+              /* top       */ lg->data[ x ][ y - 1 ].c == c &&
+              /* bot       */ lg->data[ x ][ y + 1 ].c == c) {
             changed[ x ][ y ] = CHARMAP_DEEP_WATER;
           }
           break;
@@ -4188,7 +4188,7 @@ static void level_gen_create_deep_water(class LevelGen *l)
     for (int x = 1; x < MAP_WIDTH - 1; x++) {
       auto c = changed[ x ][ y ];
       if (c != 0) {
-        l->data[ x ][ y ].c = c;
+        lg->data[ x ][ y ].c = c;
       }
     }
   }
@@ -4197,51 +4197,51 @@ static void level_gen_create_deep_water(class LevelGen *l)
 //
 // See what's on the level
 //
-static void level_gen_count_items(class LevelGen *l)
+static void level_gen_count_items(class LevelGen *lg)
 {
   TRACE();
 
-  l->info.monst_count            = 0;
-  l->info.monst_group_easy_count = 0;
-  l->info.monst_group_hard_count = 0;
-  l->info.treasure_count         = 0;
-  l->info.teleport_count         = 0;
-  l->info.door_locked_count      = 0;
-  l->info.key_count              = 0;
+  lg->info.monst_count            = 0;
+  lg->info.monst_group_easy_count = 0;
+  lg->info.monst_group_hard_count = 0;
+  lg->info.treasure_count         = 0;
+  lg->info.teleport_count         = 0;
+  lg->info.door_locked_count      = 0;
+  lg->info.key_count              = 0;
 
   for (int y = 1; y < MAP_HEIGHT - 1; y++) {
     for (int x = 1; x < MAP_WIDTH - 1; x++) {
-      auto c = l->data[ x ][ y ].c;
+      auto c = lg->data[ x ][ y ].c;
 
       switch (c) {
         case CHARMAP_MONST_EASY :
-          l->info.monst_count++;
-          l->info.monst_group_easy_count++;
+          lg->info.monst_count++;
+          lg->info.monst_group_easy_count++;
           break;
         case CHARMAP_MONST_HARD :
-          l->info.monst_count++;
-          l->info.monst_group_hard_count++;
+          lg->info.monst_count++;
+          lg->info.monst_group_hard_count++;
           break;
         case CHARMAP_TREASURE : //
-          l->info.treasure_count++;
+          lg->info.treasure_count++;
           break;
         case CHARMAP_TELEPORT :
           //
           // Must have > 1 teleport
           //
-          l->info.teleport_count++;
+          lg->info.teleport_count++;
           break;
         case CHARMAP_DOOR_LOCKED :
           //
           // Must have > 1 key
           //
-          l->info.door_locked_count++;
+          lg->info.door_locked_count++;
           break;
         case CHARMAP_KEY :
           //
           // Must have > 1 key
           //
-          l->info.key_count++;
+          lg->info.key_count++;
           break;
       }
     }
@@ -4251,7 +4251,7 @@ static void level_gen_count_items(class LevelGen *l)
 //
 // Try to add some more content
 //
-static void level_gen_add_missing_monsts_and_treasure(class LevelGen *l, int nmonst, int ntreasure)
+static void level_gen_add_missing_monsts_and_treasure(class LevelGen *lg, int nmonst, int ntreasure)
 {
   TRACE();
 
@@ -4263,21 +4263,21 @@ static void level_gen_add_missing_monsts_and_treasure(class LevelGen *l, int nmo
   while (nmonst-- > 0) {
     auto x = PCG_RANDOM_RANGE(border, MAP_WIDTH - border);
     auto y = PCG_RANDOM_RANGE(border, MAP_HEIGHT - border);
-    auto c = l->data[ x ][ y ].c;
+    auto c = lg->data[ x ][ y ].c;
 
     switch (c) {
       case CHARMAP_FLOOR :
-        auto *r = l->data[ x ][ y ].room;
-        if ((r != nullptr) && (l->room_entrance == r)) {
+        auto *r = lg->data[ x ][ y ].room;
+        if ((r != nullptr) && (lg->room_entrance == r)) {
           continue;
         }
 
         if (d100() < 90) {
-          l->data[ x ][ y ].c = CHARMAP_MONST_EASY;
+          lg->data[ x ][ y ].c = CHARMAP_MONST_EASY;
         } else {
-          l->data[ x ][ y ].c = CHARMAP_MONST_HARD;
+          lg->data[ x ][ y ].c = CHARMAP_MONST_HARD;
         }
-        l->info.monst_count++;
+        lg->info.monst_count++;
     }
   }
 
@@ -4287,17 +4287,17 @@ static void level_gen_add_missing_monsts_and_treasure(class LevelGen *l, int nmo
   while (ntreasure-- > 0) {
     auto x = PCG_RANDOM_RANGE(border, MAP_WIDTH - border);
     auto y = PCG_RANDOM_RANGE(border, MAP_HEIGHT - border);
-    auto c = l->data[ x ][ y ].c;
+    auto c = lg->data[ x ][ y ].c;
 
     switch (c) {
       case CHARMAP_FLOOR :
-        auto *r = l->data[ x ][ y ].room;
-        if ((r != nullptr) && (l->room_entrance == r)) {
+        auto *r = lg->data[ x ][ y ].room;
+        if ((r != nullptr) && (lg->room_entrance == r)) {
           continue;
         }
 
-        l->data[ x ][ y ].c = CHARMAP_TREASURE;
-        l->info.treasure_count++;
+        lg->data[ x ][ y ].c = CHARMAP_TREASURE;
+        lg->info.treasure_count++;
     }
   }
 }
@@ -4305,21 +4305,21 @@ static void level_gen_add_missing_monsts_and_treasure(class LevelGen *l, int nmo
 //
 // For locked doors, need to add a corresponding key
 //
-static void level_gen_add_missing_keys_do(class LevelGen *l)
+static void level_gen_add_missing_keys_do(class LevelGen *lg)
 {
   TRACE();
 
   for (int y = 1; y < MAP_HEIGHT - 1; y++) {
     for (int x = 1; x < MAP_WIDTH - 1; x++) {
-      auto *r = l->data[ x ][ y ].room;
+      auto *r = lg->data[ x ][ y ].room;
 
       if ((r != nullptr) && ((r->flags & ROOM_FLAG_LOCKED) != 0U)) {
         continue;
       }
-      if ((r != nullptr) && (l->room_entrance == r)) {
+      if ((r != nullptr) && (lg->room_entrance == r)) {
         continue;
       }
-      if ((r != nullptr) && (l->room_exit == r)) {
+      if ((r != nullptr) && (lg->room_exit == r)) {
         continue;
       }
 
@@ -4329,9 +4329,9 @@ static void level_gen_add_missing_keys_do(class LevelGen *l)
       while (tries-- > 0) {
         auto kx = PCG_RANDOM_RANGE(border, MAP_WIDTH - border);
         auto ky = PCG_RANDOM_RANGE(border, MAP_HEIGHT - border);
-        auto c  = l->data[ kx ][ ky ].c;
+        auto c  = lg->data[ kx ][ ky ].c;
         if (c == CHARMAP_FLOOR) {
-          l->data[ kx ][ ky ].c = CHARMAP_KEY;
+          lg->data[ kx ][ ky ].c = CHARMAP_KEY;
           return;
         }
       }
@@ -4342,22 +4342,22 @@ static void level_gen_add_missing_keys_do(class LevelGen *l)
 //
 // For secret doors, need to add a corresponding key
 //
-static void level_gen_add_missing_keys(Gamep g, class LevelGen *l)
+static void level_gen_add_missing_keys(Gamep g, class LevelGen *lg)
 {
   TRACE();
 
-  int tries = l->info.door_locked_count;
-  tries -= l->info.key_count;
+  int tries = lg->info.door_locked_count;
+  tries -= lg->info.key_count;
 
   while (tries-- > 0) {
-    level_gen_add_missing_keys_do(l);
+    level_gen_add_missing_keys_do(lg);
   }
 }
 
 //
 // If too many keys, remove one
 //
-static void level_gen_remove_additional_keys_do(class LevelGen *l)
+static void level_gen_remove_additional_keys_do(class LevelGen *lg)
 {
   TRACE();
 
@@ -4368,7 +4368,7 @@ static void level_gen_remove_additional_keys_do(class LevelGen *l)
   //
   for (int y = 1; y < MAP_HEIGHT - 1; y++) {
     for (int x = 1; x < MAP_WIDTH - 1; x++) {
-      auto c = l->data[ x ][ y ].c;
+      auto c = lg->data[ x ][ y ].c;
 
       switch (c) {
         case CHARMAP_KEY : cands.push_back(bpoint(x, y)); break;
@@ -4380,39 +4380,39 @@ static void level_gen_remove_additional_keys_do(class LevelGen *l)
     return;
   }
 
-  auto cand                     = cands[ PCG_RAND() % cands.size() ];
-  l->data[ cand.x ][ cand.y ].c = CHARMAP_FLOOR;
+  auto cand                      = cands[ PCG_RAND() % cands.size() ];
+  lg->data[ cand.x ][ cand.y ].c = CHARMAP_FLOOR;
 }
 
 //
 // For secret doors, need to add a corresponding key
 //
-static void level_gen_remove_additional_keys(Gamep g, class LevelGen *l)
+static void level_gen_remove_additional_keys(Gamep g, class LevelGen *lg)
 {
   TRACE();
 
-  int tries = l->info.key_count;
-  tries -= l->info.door_locked_count;
+  int tries = lg->info.key_count;
+  tries -= lg->info.door_locked_count;
 
   while (tries-- > 0) {
-    level_gen_remove_additional_keys_do(l);
+    level_gen_remove_additional_keys_do(lg);
   }
 }
 
 //
 // Try to add some more content
 //
-static void level_gen_add_missing_monsts_and_treasure(Gamep g, class LevelGen *l)
+static void level_gen_add_missing_monsts_and_treasure(Gamep g, class LevelGen *lg)
 {
   TRACE();
 
   auto tries = MAX_LEVEL_GEN_MIN_MONST_PLACE_TRY;
   while (tries-- > 0) {
-    int const need_monsts   = MAX_LEVEL_GEN_MIN_MONST_PER_LEVEL - l->info.monst_count;
-    int const need_treasure = MAX_LEVEL_GEN_MIN_TREASURE_PER_LEVEL - l->info.treasure_count;
+    int const need_monsts   = MAX_LEVEL_GEN_MIN_MONST_PER_LEVEL - lg->info.monst_count;
+    int const need_treasure = MAX_LEVEL_GEN_MIN_TREASURE_PER_LEVEL - lg->info.treasure_count;
 
     if ((need_monsts > 0) || (need_treasure > 0)) {
-      level_gen_add_missing_monsts_and_treasure(l, need_monsts, need_treasure);
+      level_gen_add_missing_monsts_and_treasure(lg, need_monsts, need_treasure);
     }
   }
 }
@@ -4420,7 +4420,7 @@ static void level_gen_add_missing_monsts_and_treasure(Gamep g, class LevelGen *l
 //
 // Try to add a telport on the main path
 //
-[[nodiscard]] static auto level_gen_add_missing_teleport_do(class LevelGen *l, const std::vector< bpoint > &cands) -> bool
+[[nodiscard]] static auto level_gen_add_missing_teleport_do(class LevelGen *lg, const std::vector< bpoint > &cands) -> bool
 {
   TRACE();
 
@@ -4432,19 +4432,19 @@ static void level_gen_add_missing_monsts_and_treasure(Gamep g, class LevelGen *l
     auto  cand = cands[ PCG_RAND() % cands.size() ];
     auto  x    = cand.x;
     auto  y    = cand.y;
-    auto *r    = l->data[ x ][ y ].room;
+    auto *r    = lg->data[ x ][ y ].room;
 
-    if ((r != nullptr) && (l->room_entrance == r)) {
+    if ((r != nullptr) && (lg->room_entrance == r)) {
       continue;
     }
-    if ((r != nullptr) && (l->room_exit == r)) {
+    if ((r != nullptr) && (lg->room_exit == r)) {
       continue;
     }
-    if (l->info.on_path_entrance_to_exit[ x ][ y ] == 0U) {
+    if (lg->info.on_path_entrance_to_exit[ x ][ y ] == 0U) {
       continue;
     }
 
-    l->data[ x ][ y ].c = CHARMAP_TELEPORT;
+    lg->data[ x ][ y ].c = CHARMAP_TELEPORT;
     return true;
   }
 
@@ -4454,11 +4454,11 @@ static void level_gen_add_missing_monsts_and_treasure(Gamep g, class LevelGen *l
 //
 // Try to add some additional teleports if needed
 //
-static void level_gen_add_missing_teleports(Gamep g, class LevelGen *l)
+static void level_gen_add_missing_teleports(Gamep g, class LevelGen *lg)
 {
   TRACE();
 
-  if (l->info.teleport_count == 0) {
+  if (lg->info.teleport_count == 0) {
     return;
   }
 
@@ -4470,12 +4470,12 @@ static void level_gen_add_missing_teleports(Gamep g, class LevelGen *l)
   //
   for (int y = 1; y < MAP_HEIGHT - 1; y++) {
     for (int x = 1; x < MAP_WIDTH - 1; x++) {
-      auto c = l->data[ x ][ y ].c;
+      auto c = lg->data[ x ][ y ].c;
 
       //
       // Only place telports on tiles between the entrance and exit
       //
-      if (l->info.on_path_entrance_to_exit[ x ][ y ] == 0U) {
+      if (lg->info.on_path_entrance_to_exit[ x ][ y ] == 0U) {
         continue;
       }
 
@@ -4487,14 +4487,14 @@ static void level_gen_add_missing_teleports(Gamep g, class LevelGen *l)
           reachable_teleports++;
           break;
         case CHARMAP_FLOOR :
-          if (/* top left  */ l->data[ x - 1 ][ y - 1 ].c == CHARMAP_FLOOR &&
-              /* bot right */ l->data[ x - 1 ][ y + 1 ].c == CHARMAP_FLOOR &&
-              /* top right */ l->data[ x + 1 ][ y - 1 ].c == CHARMAP_FLOOR &&
-              /* bot right */ l->data[ x + 1 ][ y + 1 ].c == CHARMAP_FLOOR &&
-              /* left      */ l->data[ x - 1 ][ y ].c == CHARMAP_FLOOR &&
-              /* right     */ l->data[ x + 1 ][ y ].c == CHARMAP_FLOOR &&
-              /* top       */ l->data[ x ][ y - 1 ].c == CHARMAP_FLOOR &&
-              /* bot       */ l->data[ x ][ y + 1 ].c == CHARMAP_FLOOR) {
+          if (/* top left  */ lg->data[ x - 1 ][ y - 1 ].c == CHARMAP_FLOOR &&
+              /* bot right */ lg->data[ x - 1 ][ y + 1 ].c == CHARMAP_FLOOR &&
+              /* top right */ lg->data[ x + 1 ][ y - 1 ].c == CHARMAP_FLOOR &&
+              /* bot right */ lg->data[ x + 1 ][ y + 1 ].c == CHARMAP_FLOOR &&
+              /* left      */ lg->data[ x - 1 ][ y ].c == CHARMAP_FLOOR &&
+              /* right     */ lg->data[ x + 1 ][ y ].c == CHARMAP_FLOOR &&
+              /* top       */ lg->data[ x ][ y - 1 ].c == CHARMAP_FLOOR &&
+              /* bot       */ lg->data[ x ][ y + 1 ].c == CHARMAP_FLOOR) {
             cands.push_back(bpoint(x, y));
           }
           break;
@@ -4508,21 +4508,21 @@ static void level_gen_add_missing_teleports(Gamep g, class LevelGen *l)
     //
     for (int y = 1; y < MAP_HEIGHT - 1; y++) {
       for (int x = 1; x < MAP_WIDTH - 1; x++) {
-        auto c = l->data[ x ][ y ].c;
+        auto c = lg->data[ x ][ y ].c;
 
         //
         // Only place telports on tiles between the entrance and exit
         //
-        if (l->info.on_path_entrance_to_exit[ x ][ y ] == 0U) {
+        if (lg->info.on_path_entrance_to_exit[ x ][ y ] == 0U) {
           continue;
         }
 
         switch (c) {
           case CHARMAP_FLOOR :
-            if (/* left      */ l->data[ x - 1 ][ y ].c == CHARMAP_FLOOR &&
-                /* right     */ l->data[ x + 1 ][ y ].c == CHARMAP_FLOOR &&
-                /* top       */ l->data[ x ][ y - 1 ].c == CHARMAP_FLOOR &&
-                /* bot       */ l->data[ x ][ y + 1 ].c == CHARMAP_FLOOR) {
+            if (/* left      */ lg->data[ x - 1 ][ y ].c == CHARMAP_FLOOR &&
+                /* right     */ lg->data[ x + 1 ][ y ].c == CHARMAP_FLOOR &&
+                /* top       */ lg->data[ x ][ y - 1 ].c == CHARMAP_FLOOR &&
+                /* bot       */ lg->data[ x ][ y + 1 ].c == CHARMAP_FLOOR) {
               cands.push_back(bpoint(x, y));
             }
             break;
@@ -4536,12 +4536,12 @@ static void level_gen_add_missing_teleports(Gamep g, class LevelGen *l)
       //
       for (int y = 1; y < MAP_HEIGHT - 1; y++) {
         for (int x = 1; x < MAP_WIDTH - 1; x++) {
-          auto c = l->data[ x ][ y ].c;
+          auto c = lg->data[ x ][ y ].c;
 
           //
           // Only place telports on tiles between the entrance and exit
           //
-          if (l->info.on_path_entrance_to_exit[ x ][ y ] == 0U) {
+          if (lg->info.on_path_entrance_to_exit[ x ][ y ] == 0U) {
             continue;
           }
 
@@ -4560,10 +4560,10 @@ static void level_gen_add_missing_teleports(Gamep g, class LevelGen *l)
   //
   // Place an additional teleport
   //
-  if ((l->info.teleport_count > 0) || (reachable_teleports == 0)) {
+  if ((lg->info.teleport_count > 0) || (reachable_teleports == 0)) {
     auto tries = MAX_LEVEL_GEN_PLACE_ADDITIONAL_TELEPORT_TRIES;
     while (tries-- > 0) {
-      if (level_gen_add_missing_teleport_do(l, cands)) {
+      if (level_gen_add_missing_teleport_do(lg, cands)) {
         return;
       }
     }
@@ -4571,7 +4571,7 @@ static void level_gen_add_missing_teleports(Gamep g, class LevelGen *l)
 
   auto tries = MAX_LEVEL_GEN_PLACE_ADDITIONAL_TELEPORT_TRIES;
   while (tries-- > 0) {
-    if (level_gen_add_missing_teleport_do(l, cands)) {
+    if (level_gen_add_missing_teleport_do(lg, cands)) {
       return;
     }
   }
@@ -4580,7 +4580,7 @@ static void level_gen_add_missing_teleports(Gamep g, class LevelGen *l)
 //
 // Look for a single room we can add doors at the exits from it
 //
-static void level_gen_add_doors_do(class LevelGen *l)
+static void level_gen_add_doors_do(class LevelGen *lg)
 {
   TRACE();
 
@@ -4594,7 +4594,7 @@ static void level_gen_add_doors_do(class LevelGen *l)
     auto border = LEVEL_GEN_BORDER_FOR_ITEM_PLACEMENT;
     auto x      = PCG_RANDOM_RANGE(border, MAP_WIDTH - border);
     auto y      = PCG_RANDOM_RANGE(border, MAP_HEIGHT - border);
-    r           = l->data[ x ][ y ].room;
+    r           = lg->data[ x ][ y ].room;
 
     if (r == nullptr) {
       continue;
@@ -4605,10 +4605,10 @@ static void level_gen_add_doors_do(class LevelGen *l)
     if ((r->flags & ROOM_FLAG_SECRET) != 0U) {
       continue;
     }
-    if (l->room_entrance == r) {
+    if (lg->room_entrance == r) {
       continue;
     }
-    if (l->room_exit == r) {
+    if (lg->room_exit == r) {
       continue;
     }
     break;
@@ -4619,7 +4619,7 @@ static void level_gen_add_doors_do(class LevelGen *l)
   //
   for (auto y = 1; y < MAP_HEIGHT - 1; y++) {
     for (auto x = 1; x < MAP_WIDTH - 1; x++) {
-      auto *other_room = l->data[ x ][ y ].room;
+      auto *other_room = lg->data[ x ][ y ].room;
       if (other_room != r) {
         continue;
       }
@@ -4630,7 +4630,7 @@ static void level_gen_add_doors_do(class LevelGen *l)
       // Rooms which have been extended with corridors are not easily
       // enclosed in doors now.
       //
-      switch (l->data[ x ][ y ].c) {
+      switch (lg->data[ x ][ y ].c) {
         case CHARMAP_FLOOR :
         case CHARMAP_DIRT :
         case CHARMAP_GRASS :
@@ -4638,7 +4638,7 @@ static void level_gen_add_doors_do(class LevelGen *l)
         case CHARMAP_REEDS :
           for (int dy = -1; dy <= 1; dy++) {
             for (int dx = -1; dx <= 1; dx++) {
-              switch (l->data[ x + dx ][ y + dy ].c) {
+              switch (lg->data[ x + dx ][ y + dy ].c) {
                 case CHARMAP_CORRIDOR :
                 case CHARMAP_BRIDGE :   return;
               }
@@ -4655,12 +4655,12 @@ static void level_gen_add_doors_do(class LevelGen *l)
   //
   for (auto y = 1; y < MAP_HEIGHT - 1; y++) {
     for (auto x = 1; x < MAP_WIDTH - 1; x++) {
-      auto *other_room = l->data[ x ][ y ].room;
+      auto *other_room = lg->data[ x ][ y ].room;
       if (other_room != r) {
         continue;
       }
 
-      switch (l->data[ x ][ y ].c) {
+      switch (lg->data[ x ][ y ].c) {
         case CHARMAP_FLOOR :
         case CHARMAP_DIRT :
         case CHARMAP_GRASS :
@@ -4668,8 +4668,8 @@ static void level_gen_add_doors_do(class LevelGen *l)
         case CHARMAP_REEDS :
           for (int dy = -1; dy <= 1; dy++) {
             for (int dx = -1; dx <= 1; dx++) {
-              switch (l->data[ x + dx ][ y + dy ].c) {
-                case CHARMAP_JOIN : l->data[ x + dx ][ y + dy ].c = CHARMAP_DOOR_UNLOCKED; break;
+              switch (lg->data[ x + dx ][ y + dy ].c) {
+                case CHARMAP_JOIN : lg->data[ x + dx ][ y + dy ].c = CHARMAP_DOOR_UNLOCKED; break;
               }
             }
           }
@@ -4682,43 +4682,43 @@ static void level_gen_add_doors_do(class LevelGen *l)
 //
 // Chance of creating some doors for a room. We always add some doors, and then a chance of more.
 //
-static void level_gen_add_doors(Gamep g, class LevelGen *l)
+static void level_gen_add_doors(Gamep g, class LevelGen *lg)
 {
   TRACE();
 
   int tries = 0;
 
   while (tries++ < MAX_LEVEL_GEN_ADD_ROOM_WITH_DOOR_TRIES) {
-    level_gen_add_doors_do(l);
+    level_gen_add_doors_do(lg);
   }
 
   while (d100() < MAX_LEVEL_GEN_ADD_ADDITIONAL_ROOM_WITH_DOOR_TRIES) {
-    level_gen_add_doors_do(l);
+    level_gen_add_doors_do(lg);
   }
 }
 
 //
 // Remove doors that are right next to each other
 //
-static void level_gen_remove_doors_next_to_each_other(class LevelGen *l)
+static void level_gen_remove_doors_next_to_each_other(class LevelGen *lg)
 {
   TRACE();
 
   for (auto y = 1; y < MAP_HEIGHT - 1; y++) {
     for (auto x = 1; x < MAP_WIDTH - 1; x++) {
-      switch (l->data[ x ][ y ].c) {
+      switch (lg->data[ x ][ y ].c) {
         case CHARMAP_DOOR_UNLOCKED :
-          if (l->data[ x - 1 ][ y ].c == CHARMAP_DOOR_UNLOCKED) {
-            l->data[ x - 1 ][ y ].c = CHARMAP_CORRIDOR;
+          if (lg->data[ x - 1 ][ y ].c == CHARMAP_DOOR_UNLOCKED) {
+            lg->data[ x - 1 ][ y ].c = CHARMAP_CORRIDOR;
           }
-          if (l->data[ x + 1 ][ y ].c == CHARMAP_DOOR_UNLOCKED) {
-            l->data[ x + 1 ][ y ].c = CHARMAP_CORRIDOR;
+          if (lg->data[ x + 1 ][ y ].c == CHARMAP_DOOR_UNLOCKED) {
+            lg->data[ x + 1 ][ y ].c = CHARMAP_CORRIDOR;
           }
-          if (l->data[ x ][ y - 1 ].c == CHARMAP_DOOR_UNLOCKED) {
-            l->data[ x ][ y - 1 ].c = CHARMAP_CORRIDOR;
+          if (lg->data[ x ][ y - 1 ].c == CHARMAP_DOOR_UNLOCKED) {
+            lg->data[ x ][ y - 1 ].c = CHARMAP_CORRIDOR;
           }
-          if (l->data[ x ][ y + 1 ].c == CHARMAP_DOOR_UNLOCKED) {
-            l->data[ x ][ y + 1 ].c = CHARMAP_CORRIDOR;
+          if (lg->data[ x ][ y + 1 ].c == CHARMAP_DOOR_UNLOCKED) {
+            lg->data[ x ][ y + 1 ].c = CHARMAP_CORRIDOR;
           }
       }
     }
@@ -4728,54 +4728,54 @@ static void level_gen_remove_doors_next_to_each_other(class LevelGen *l)
 //
 // Recursive flood fill walkable tiles from the start
 //
-static void level_gen_mark_tiles_on_path_entrance_to_exit(Gamep g, class LevelGen *l, int x, int y)
+static void level_gen_mark_tiles_on_path_entrance_to_exit(Gamep g, class LevelGen *lg, int x, int y)
 {
   //
   // Already walked?
   //
-  if (l->walked[ x ][ y ]) {
+  if (lg->walked[ x ][ y ]) {
     return;
   }
-  l->walked[ x ][ y ] = true;
+  lg->walked[ x ][ y ] = true;
 
   //
   // Mark this tile as on the main path
   //
-  l->info.on_path_entrance_to_exit[ x ][ y ] = level_gen_tile_is_traversable(l, x, y) ? 1 : 0;
-  if (l->info.on_path_entrance_to_exit[ x ][ y ] == 0U) {
+  lg->info.on_path_entrance_to_exit[ x ][ y ] = level_gen_tile_is_traversable(lg, x, y) ? 1 : 0;
+  if (lg->info.on_path_entrance_to_exit[ x ][ y ] == 0U) {
     return;
   }
 
   if (x > 0) {
-    level_gen_mark_tiles_on_path_entrance_to_exit(g, l, x - 1, y);
+    level_gen_mark_tiles_on_path_entrance_to_exit(g, lg, x - 1, y);
   }
   if (x < MAP_WIDTH - 1) {
-    level_gen_mark_tiles_on_path_entrance_to_exit(g, l, x + 1, y);
+    level_gen_mark_tiles_on_path_entrance_to_exit(g, lg, x + 1, y);
   }
   if (y > 0) {
-    level_gen_mark_tiles_on_path_entrance_to_exit(g, l, x, y - 1);
+    level_gen_mark_tiles_on_path_entrance_to_exit(g, lg, x, y - 1);
   }
   if (y < MAP_HEIGHT - 1) {
-    level_gen_mark_tiles_on_path_entrance_to_exit(g, l, x, y + 1);
+    level_gen_mark_tiles_on_path_entrance_to_exit(g, lg, x, y + 1);
   }
 }
 
 //
 // Recursive flood fill walkable tiles from the start
 //
-static void level_gen_mark_tiles_on_path_entrance_to_exit(Gamep g, class LevelGen *l)
+static void level_gen_mark_tiles_on_path_entrance_to_exit(Gamep g, class LevelGen *lg)
 {
   TRACE();
 
-  memset(l->walked, 0, SIZEOF(l->walked));
-  memset(l->info.on_path_entrance_to_exit, 0, SIZEOF(l->info.on_path_entrance_to_exit));
-  level_gen_mark_tiles_on_path_entrance_to_exit(g, l, l->info.entrance_at.x, l->info.entrance_at.y);
+  memset(lg->walked, 0, SIZEOF(lg->walked));
+  memset(lg->info.on_path_entrance_to_exit, 0, SIZEOF(lg->info.on_path_entrance_to_exit));
+  level_gen_mark_tiles_on_path_entrance_to_exit(g, lg, lg->info.entrance_at.x, lg->info.entrance_at.y);
 }
 
 //
 // Can this bridge extension reach something useful?
 //
-[[nodiscard]] static auto level_gen_extend_bridge_direction_check(class LevelGen *l, int x, int y, int lr, int ud) -> bool
+[[nodiscard]] static auto level_gen_extend_bridge_direction_check(class LevelGen *lg, int x, int y, int lr, int ud) -> bool
 {
   for (;;) {
     x += lr;
@@ -4785,7 +4785,7 @@ static void level_gen_mark_tiles_on_path_entrance_to_exit(Gamep g, class LevelGe
       return false;
     }
 
-    if (l->info.on_path_entrance_to_exit[ x ][ y ] != 0U) {
+    if (lg->info.on_path_entrance_to_exit[ x ][ y ] != 0U) {
       return true;
     }
   }
@@ -4794,32 +4794,32 @@ static void level_gen_mark_tiles_on_path_entrance_to_exit(Gamep g, class LevelGe
 //
 // Extend a bridge left, right, up down
 //
-static void level_gen_extend_bridges_do(Gamep g, class LevelGen *l, int x, int y, int lr, int ud)
+static void level_gen_extend_bridges_do(Gamep g, class LevelGen *lg, int x, int y, int lr, int ud)
 {
   if (is_oob(x, y)) [[unlikely]] {
     return;
   }
 
-  if (l->debug) [[unlikely]] {
-    level_gen_dump(l, "extend bridge");
+  if (lg->debug) [[unlikely]] {
+    level_gen_dump(lg, "extend bridge");
   }
 
   //
   // Already walked?
   //
-  if (l->walked[ x ][ y ]) {
+  if (lg->walked[ x ][ y ]) {
     return;
   }
-  l->walked[ x ][ y ] = true;
+  lg->walked[ x ][ y ] = true;
 
   //
   // Keep going until we reach a tile on the main path
   //
-  if (l->info.on_path_entrance_to_exit[ x ][ y ] != 0U) {
+  if (lg->info.on_path_entrance_to_exit[ x ][ y ] != 0U) {
     return;
   }
 
-  switch (l->data[ x ][ y ].c) {
+  switch (lg->data[ x ][ y ].c) {
     case CHARMAP_CHASM_50 :   break;
     case CHARMAP_CORRIDOR :   break;
     case CHARMAP_DEEP_WATER : break;
@@ -4854,27 +4854,27 @@ static void level_gen_extend_bridges_do(Gamep g, class LevelGen *l, int x, int y
     case CHARMAP_CHASM :
     case CHARMAP_EMPTY :
 
-      if (l->data[ x ][ y ].c != CHARMAP_BRIDGE) {
-        l->data[ x ][ y ].c = CHARMAP_CORRIDOR;
+      if (lg->data[ x ][ y ].c != CHARMAP_BRIDGE) {
+        lg->data[ x ][ y ].c = CHARMAP_CORRIDOR;
       }
 
       if (lr > 0) {
         if (x >= 3) {
-          level_gen_extend_bridges_do(g, l, x + 1, y, lr, ud);
+          level_gen_extend_bridges_do(g, lg, x + 1, y, lr, ud);
         }
       } else if (lr < 0) {
         if (x <= MAP_WIDTH - 3) {
-          level_gen_extend_bridges_do(g, l, x - 1, y, lr, ud);
+          level_gen_extend_bridges_do(g, lg, x - 1, y, lr, ud);
         }
       }
 
       if (ud > 0) {
         if (y >= 3) {
-          level_gen_extend_bridges_do(g, l, x, y + 1, lr, ud);
+          level_gen_extend_bridges_do(g, lg, x, y + 1, lr, ud);
         }
       } else if (ud < 0) {
         if (y <= MAP_HEIGHT - 3) {
-          level_gen_extend_bridges_do(g, l, x, y - 1, lr, ud);
+          level_gen_extend_bridges_do(g, lg, x, y - 1, lr, ud);
         }
       }
       break;
@@ -4884,64 +4884,64 @@ static void level_gen_extend_bridges_do(Gamep g, class LevelGen *l, int x, int y
 //
 // Extend bridges that go nowhere - as long as they can go somewhere
 //
-static void level_gen_extend_bridges(Gamep g, class LevelGen *l, int x, int y, int lr, int ud)
+static void level_gen_extend_bridges(Gamep g, class LevelGen *lg, int x, int y, int lr, int ud)
 {
   TRACE();
 
-  if (! level_gen_extend_bridge_direction_check(l, x, y, lr, ud)) {
+  if (! level_gen_extend_bridge_direction_check(lg, x, y, lr, ud)) {
     return;
   }
 
-  level_gen_extend_bridges_do(g, l, x, y, lr, ud);
+  level_gen_extend_bridges_do(g, lg, x, y, lr, ud);
 }
 
 //
 // Extend bridges that go nowhere
 //
-static void level_gen_extend_bridges(Gamep g, class LevelGen *l)
+static void level_gen_extend_bridges(Gamep g, class LevelGen *lg)
 {
   TRACE();
 
-  memset(l->walked, 0, SIZEOF(l->walked));
+  memset(lg->walked, 0, SIZEOF(lg->walked));
 
   //
   // Find bridge tiles not on the main path
   //
   for (int y = 1; y < MAP_HEIGHT - 1; y++) {
     for (int x = 1; x < MAP_WIDTH - 1; x++) {
-      if (l->walked[ x ][ y ]) {
+      if (lg->walked[ x ][ y ]) {
         continue;
       }
 
-      if (l->data[ x ][ y ].c != CHARMAP_BRIDGE) {
+      if (lg->data[ x ][ y ].c != CHARMAP_BRIDGE) {
         continue;
       }
 
-      if (l->info.on_path_entrance_to_exit[ x ][ y ] != 0U) {
+      if (lg->info.on_path_entrance_to_exit[ x ][ y ] != 0U) {
         continue;
       }
 
       //
       // Get the bridge direction
       //
-      bool const lr = (l->data[ x - 1 ][ y ].c == CHARMAP_BRIDGE) || //
-                      (l->data[ x + 1 ][ y ].c == CHARMAP_BRIDGE);
+      bool const lr = (lg->data[ x - 1 ][ y ].c == CHARMAP_BRIDGE) || //
+                      (lg->data[ x + 1 ][ y ].c == CHARMAP_BRIDGE);
 
-      bool const ud = (l->data[ x ][ y - 1 ].c == CHARMAP_BRIDGE) || //
-                      (l->data[ x ][ y + 1 ].c == CHARMAP_BRIDGE);
+      bool const ud = (lg->data[ x ][ y - 1 ].c == CHARMAP_BRIDGE) || //
+                      (lg->data[ x ][ y + 1 ].c == CHARMAP_BRIDGE);
 
       if (lr && ud) {
         continue;
       }
 
       if (lr) {
-        level_gen_extend_bridges(g, l, x, y, 1, 0);
-        level_gen_extend_bridges(g, l, x, y, -1, 0);
+        level_gen_extend_bridges(g, lg, x, y, 1, 0);
+        level_gen_extend_bridges(g, lg, x, y, -1, 0);
       }
 
       if (ud) {
-        level_gen_extend_bridges(g, l, x, y, 0, 1);
-        level_gen_extend_bridges(g, l, x, y, 0, -1);
+        level_gen_extend_bridges(g, lg, x, y, 0, 1);
+        level_gen_extend_bridges(g, lg, x, y, 0, -1);
       }
     }
   }
@@ -4951,7 +4951,7 @@ static void level_gen_extend_bridges(Gamep g, class LevelGen *l)
 // Convert the level into a string and then populate all the things onto the
 // real level, assign tiles etc...
 //
-[[nodiscard]] static auto level_gen_populate_for_fixed_or_proc_gen_level(Gamep g, class LevelGen *l) -> bool
+[[nodiscard]] static auto level_gen_populate_for_fixed_or_proc_gen_level(Gamep g, class LevelGen *lg) -> bool
 {
   TRACE();
 
@@ -4963,8 +4963,8 @@ static void level_gen_extend_bridges(Gamep g, class LevelGen *l)
 
   LevelSelect const *s = &v->level_select;
 
-  auto *level = game_level_get(g, v, l->level_num);
-  level_init(g, v, level, l->level_num);
+  auto *level = game_level_get(g, v, lg->level_num);
+  level_init(g, v, level, lg->level_num);
 
   //
   // Create a string holding all the level chars
@@ -4977,7 +4977,7 @@ static void level_gen_extend_bridges(Gamep g, class LevelGen *l)
     //
     // Test level
     //
-    fixed_level = level_fixed_find_by_name(g_level_opt.level_name, l->level_num);
+    fixed_level = level_fixed_find_by_name(g_level_opt.level_name, lg->level_num);
     if (fixed_level == nullptr) {
       //
       // Unknown level
@@ -4986,26 +4986,26 @@ static void level_gen_extend_bridges(Gamep g, class LevelGen *l)
       return false;
     }
 
-    level_string = level_gen_string(l, fixed_level);
+    level_string = level_gen_string(lg, fixed_level);
     overrides    = fixed_level->overrides;
 
-  } else if (l->level_num == s->level_count - 1) {
+  } else if (lg->level_num == s->level_count - 1) {
     //
     // Final boss level
     //
     fixed_level = level_random_get(LEVEL_TYPE_BOSS);
     if (fixed_level == nullptr) {
-      ERR("no fixed boss level \"%u\" created", l->level_num);
+      ERR("no fixed boss level \"%u\" created", lg->level_num);
       return false;
     }
 
-    level_string = level_gen_string(l, fixed_level);
+    level_string = level_gen_string(lg, fixed_level);
     overrides    = fixed_level->overrides;
   } else {
     //
     // Procedurally generated level
     //
-    level_string = level_gen_string(l);
+    level_string = level_gen_string(lg);
   }
 
   if (level_string.empty()) {
@@ -5015,12 +5015,12 @@ static void level_gen_extend_bridges(Gamep g, class LevelGen *l)
   //
   // Final count
   //
-  level_gen_count_items(l);
+  level_gen_count_items(lg);
 
   //
   // Copy useful level stats for use in level_populate
   //
-  level->info = l->info;
+  level->info = lg->info;
 
   //
   // Save the fixed level name. Might be useful.
@@ -5033,7 +5033,7 @@ static void level_gen_extend_bridges(Gamep g, class LevelGen *l)
   //
   // Create things
   //
-  if (! level_populate(g, v, level, l, level_string.c_str(), overrides)) {
+  if (! level_populate(g, v, level, lg, level_string.c_str(), overrides)) {
     return false;
   }
 
@@ -5041,7 +5041,7 @@ static void level_gen_extend_bridges(Gamep g, class LevelGen *l)
   // Dump the level to the per thread output log file
   //
   if (g_opt_debug1) {
-    level_gen_dump(l);
+    level_gen_dump(lg);
   }
 
   //
@@ -5060,7 +5060,7 @@ static void level_gen_extend_bridges(Gamep g, class LevelGen *l)
 //
 // Flood the walkable areas
 //
-static void level_gen_test_flood(class LevelGen *l)
+static void level_gen_test_flood(class LevelGen *lg)
 {
   TRACE();
 
@@ -5069,15 +5069,15 @@ static void level_gen_test_flood(class LevelGen *l)
   //
   for (int y = 1; y < MAP_HEIGHT - 1; y++) {
     for (int x = 1; x < MAP_WIDTH - 1; x++) {
-      switch (l->data[ x ][ y ].c) {
+      switch (lg->data[ x ][ y ].c) {
         case CHARMAP_ENTRANCE :
         case CHARMAP_EXIT :     break;
         default :
           //
           // Only place telports on tiles between the entrance and exit
           //
-          if (l->info.on_path_entrance_to_exit[ x ][ y ] != 0U) {
-            l->data[ x ][ y ].c = CHARMAP_CORRIDOR;
+          if (lg->info.on_path_entrance_to_exit[ x ][ y ] != 0U) {
+            lg->data[ x ][ y ].c = CHARMAP_CORRIDOR;
           }
           break;
       }
@@ -5092,160 +5092,160 @@ static auto level_gen_create_proc_gen_level(Gamep g, Levelsp v, LevelNum level_n
 {
   TRACE();
 
-  LevelGen *l = level_proc_gen_create_rooms(g, level_num);
-  if (l == nullptr) {
-    return l;
+  LevelGen *lg = level_proc_gen_create_rooms(g, level_num);
+  if (lg == nullptr) {
+    return lg;
   }
 
   //
   // Get rid of tiles that go nowhere
   //
-  while (level_gen_trim_dead_tiles(g, l)) {}
+  while (level_gen_trim_dead_tiles(g, lg)) {}
 
   //
   // Keep track of which room is connected to another via a door
   //
-  level_gen_scan_connected_rooms(l);
+  level_gen_scan_connected_rooms(lg);
 
   //
   // Add corridors between rooms that are not connected
   //
-  level_gen_connect_adjacent_rooms(g, l);
+  level_gen_connect_adjacent_rooms(g, lg);
 
   //
   // Make bridges dramatic by adding chasms around them
   //
-  level_gen_add_chasms_around_bridges(l);
-  if (l->debug) [[unlikely]] {
-    level_gen_dump(l, "add chasms around bridges");
+  level_gen_add_chasms_around_bridges(lg);
+  if (lg->debug) [[unlikely]] {
+    level_gen_dump(lg, "add chasms around bridges");
   }
 
   //
   // Add islands of safety
   //
-  level_gen_add_islands(l);
-  if (l->debug) [[unlikely]] {
-    level_gen_dump(l, "add islands");
+  level_gen_add_islands(lg);
+  if (lg->debug) [[unlikely]] {
+    level_gen_dump(lg, "add islands");
   }
 
   //
   // Grow lakes, chasms etc...
   //
-  level_gen_grow_hazards(l);
-  if (l->debug) [[unlikely]] {
-    level_gen_dump(l, "grow hazards");
+  level_gen_grow_hazards(lg);
+  if (lg->debug) [[unlikely]] {
+    level_gen_dump(lg, "grow hazards");
   }
 
   //
   // Make islands bigger
   //
-  level_gen_grow_islands(l);
-  if (l->debug) [[unlikely]] {
-    level_gen_dump(l, "grown islands");
+  level_gen_grow_islands(lg);
+  if (lg->debug) [[unlikely]] {
+    level_gen_dump(lg, "grown islands");
   }
 
   //
   // Add some doors
   //
-  level_gen_add_doors(g, l);
-  if (l->debug) [[unlikely]] {
-    level_gen_dump(l, "add doors");
+  level_gen_add_doors(g, lg);
+  if (lg->debug) [[unlikely]] {
+    level_gen_dump(lg, "add doors");
   }
 
   //
   // Remove some doors!
   //
-  level_gen_remove_doors_next_to_each_other(l);
-  if (l->debug) [[unlikely]] {
-    level_gen_dump(l, "remove doors next to each other");
+  level_gen_remove_doors_next_to_each_other(lg);
+  if (lg->debug) [[unlikely]] {
+    level_gen_dump(lg, "remove doors next to each other");
   }
 
   //
   // Add fragments before we add walls
   //
-  level_gen_add_fragments(g, l);
+  level_gen_add_fragments(g, lg);
 
   //
   // Add walls
   //
-  level_gen_add_walls_around_rooms(l);
-  if (l->debug) [[unlikely]] {
-    level_gen_dump(l, "add walls around rooms");
+  level_gen_add_walls_around_rooms(lg);
+  if (lg->debug) [[unlikely]] {
+    level_gen_dump(lg, "add walls around rooms");
   }
 
   //
   // And add again after, in case some can now match
   //
-  level_gen_add_fragments(g, l);
+  level_gen_add_fragments(g, lg);
 
   //
   // Add walls again in case a fragment extended the room
   //
-  level_gen_add_walls_around_rooms(l);
+  level_gen_add_walls_around_rooms(lg);
 
   //
   // Remove tiles that do not go together, like water next to lava
   //
-  level_gen_remove_conflicting_tiles(g, l);
+  level_gen_remove_conflicting_tiles(g, lg);
 
   //
   // Create deep water
   //
-  level_gen_create_deep_water(l);
+  level_gen_create_deep_water(lg);
 
   //
   // Mark walkable tiles prior to adding content; as we want to check teleports are on the main path
   //
-  level_gen_mark_tiles_on_path_entrance_to_exit(g, l);
+  level_gen_mark_tiles_on_path_entrance_to_exit(g, lg);
 
   //
   // Extend dead end bridges
   //
-  level_gen_extend_bridges(g, l);
+  level_gen_extend_bridges(g, lg);
 
   //
   // See how much we generated
   //
-  level_gen_count_items(l);
+  level_gen_count_items(lg);
 
   //
   // If not enough monsters, add some randomly
   //
-  level_gen_add_missing_monsts_and_treasure(g, l);
+  level_gen_add_missing_monsts_and_treasure(g, lg);
 
   //
   // Secret doors need keys
   //
-  level_gen_add_missing_keys(g, l);
+  level_gen_add_missing_keys(g, lg);
 
   //
   // If not enough teleports
   //
-  level_gen_add_missing_teleports(g, l);
+  level_gen_add_missing_teleports(g, lg);
 
   //
   // Count the keys
   //
-  level_gen_count_items(l);
+  level_gen_count_items(lg);
 
   //
   // If too many keys, remove some
   //
-  level_gen_remove_additional_keys(g, l);
+  level_gen_remove_additional_keys(g, lg);
 
   //
   // Hide doors
   //
-  level_gen_add_foliage_around_secret_doors(g, l);
+  level_gen_add_foliage_around_secret_doors(g, lg);
 
   //
   // Show walkable areas
   //
   if (compiler_unused) {
-    level_gen_test_flood(l);
+    level_gen_test_flood(lg);
   }
 
-  return l;
+  return lg;
 }
 
 //
@@ -5282,24 +5282,24 @@ static void level_gen_create_fixed_or_proc_gen_level(Gamep g, LevelNum level_num
       break;
     }
 
-    LevelGen *l = nullptr;
+    LevelGen *lg = nullptr;
 
     if (level_gen_is_special_level(v, level_num)) {
       //
       // Fixed level of some kind
       //
-      l = level_gen_new_class(g, level_num);
+      lg = level_gen_new_class(g, level_num);
     } else {
       //
       // Procedurally generated levels
       //
-      l = level_gen_create_proc_gen_level(g, v, level_num);
+      lg = level_gen_create_proc_gen_level(g, v, level_num);
     }
 
     //
     // Check it was created
     //
-    if (l == nullptr) {
+    if (lg == nullptr) {
       if (! g_level_opt.level_name.empty()) {
         ERR("no level generated for level %s", g_level_opt.level_name.c_str());
       } else {
@@ -5312,7 +5312,7 @@ static void level_gen_create_fixed_or_proc_gen_level(Gamep g, LevelNum level_num
     // Populate the map with things from the level created
     //
     TRACE();
-    if (! level_gen_populate_for_fixed_or_proc_gen_level(g, l)) {
+    if (! level_gen_populate_for_fixed_or_proc_gen_level(g, lg)) {
       if (! g_level_opt.level_name.empty()) {
         ERR("no level created for level %s", g_level_opt.level_name.c_str());
       } else {
@@ -5324,7 +5324,7 @@ static void level_gen_create_fixed_or_proc_gen_level(Gamep g, LevelNum level_num
     //
     // Final check it worked
     //
-    levels_generated[ level_num ] = l;
+    levels_generated[ level_num ] = lg;
 
     TRACE();
     auto *level = game_level_get(g, v, level_num);
@@ -5371,9 +5371,9 @@ void level_gen_create_levels(Gamep g, Levelsp v)
 
   if (g_opt_debug2) {
     for (auto i = 0; i < max_threads; i++) {
-      auto *l = levels_generated[ i ];
-      if (l != nullptr) {
-        level_gen_dump(l);
+      auto *lg = levels_generated[ i ];
+      if (lg != nullptr) {
+        level_gen_dump(lg);
       }
     }
   }

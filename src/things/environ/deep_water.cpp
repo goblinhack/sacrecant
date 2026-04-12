@@ -3,6 +3,7 @@
 //
 
 #include "my_callstack.hpp"
+#include "my_level.hpp"
 #include "my_thing_callbacks.hpp"
 #include "my_tile.hpp"
 #include "my_tp.hpp"
@@ -13,7 +14,15 @@ static auto tp_deep_water_description_get(Gamep g, Levelsp v, Levelp l, Thingp t
 {
   TRACE();
 
-  return "deep water";
+  switch (l->biome) {
+    case BIOME_BOGLAND :    return "deep murky water";
+    case BIOME_NETHERVOID : return "dark water that reflects starlight";
+    case BIOME_GRAVEYARD :  return "foul smelling water";
+    case BIOME_UNDERHELL :  return "unexpected water";
+    case BIOME_DUNGEON :    [[fallthrough]];
+    case BIOME_NONE :       [[fallthrough]];
+    case BIOME_ENUM_MAX :   return "deep water";
+  }
 }
 
 auto tp_load_deep_water() -> bool

@@ -11,6 +11,10 @@ auto level_to_biome(Gamep g, Levelsp v, Levelp l) -> Biome
 {
   TRACE();
 
+  if (l->biome) {
+    return l->biome;
+  }
+
   switch (l->level_num) {
     case 0 :  return BIOME_DUNGEON;
     case 1 :  return BIOME_DUNGEON;

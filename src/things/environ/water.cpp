@@ -3,18 +3,26 @@
 //
 
 #include "my_callstack.hpp"
+#include "my_level.hpp"
+#include "my_thing_callbacks.hpp"
 #include "my_tile.hpp"
 #include "my_tp.hpp"
 #include "my_tps.hpp"
 #include "my_types.hpp"
 
-#include "my_thing_callbacks.hpp"
-
 static auto tp_water_description_get(Gamep g, Levelsp v, Levelp l, Thingp t) -> std::string
 {
   TRACE();
 
-  return "shallow water";
+  switch (l->biome) {
+    case BIOME_BOGLAND :    return "murky smelly water";
+    case BIOME_NETHERVOID : return "water that reflects starlight";
+    case BIOME_GRAVEYARD :  return "foul smelling water";
+    case BIOME_UNDERHELL :  return "unexpected water";
+    case BIOME_DUNGEON :    [[fallthrough]];
+    case BIOME_NONE :       [[fallthrough]];
+    case BIOME_ENUM_MAX :   return "shallow water";
+  }
 }
 
 auto tp_load_water() -> bool

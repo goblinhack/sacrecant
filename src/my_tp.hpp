@@ -280,7 +280,7 @@ ENUM_DEF_H(MONST_GROUP_ENUM, ThingMonstGroup)
 //
 #define BIOME_ENUM(list_macro)                                                                                                             \
   CLANG_FORMAT_INDENT()                           /* dummy line for clang indentation fixup */                                             \
-  list_macro(BIOME_ANY, "ANY"),                   /* newline */                                                                            \
+  list_macro(BIOME_NONE, "NONE"),                 /* newline */                                                                            \
       list_macro(BIOME_DUNGEON, "DUNGEON"),       /* newline */                                                                            \
       list_macro(BIOME_BOGLAND, "BOGLAND"),       /* newline */                                                                            \
       list_macro(BIOME_NETHERVOID, "NETHERVOID"), /* newline */                                                                            \

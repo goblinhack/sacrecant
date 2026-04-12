@@ -57,6 +57,7 @@ void level_init(Gamep g, Levelsp v, Levelp l, LevelNum n)
 
   l->is_initialized = true;
   l->level_num      = n;
+  l->biome          = level_to_biome(g, v, l);
 }
 
 auto levels_memory_alloc(Gamep g) -> Levelsp
@@ -202,7 +203,7 @@ auto level_change(Gamep g, Levelsp v, LevelNum level_num) -> Levelp
     //
   } else if ((level_num > s->level_count) && (static_cast< bool >(s->level_count))) {
     //
-    // Jump tot the last real level
+    // Jump to the last real level
     //
     level_num = s->level_count - 1;
     log("level change to %u (max level)", level_num);
