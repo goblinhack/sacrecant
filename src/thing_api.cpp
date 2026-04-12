@@ -1769,7 +1769,7 @@ auto thing_is_unused38(Thingp t) -> bool
   return tp_flag(thing_tp(t), is_unused38) != 0;
 }
 
-auto thing_is_unused39(Thingp t) -> bool
+auto thing_is_reeds(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1777,7 +1777,7 @@ auto thing_is_unused39(Thingp t) -> bool
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused39) != 0;
+  return tp_flag(thing_tp(t), is_reeds) != 0;
 }
 
 auto thing_is_vault(Thingp t) -> bool

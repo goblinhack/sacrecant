@@ -170,7 +170,7 @@
       list_macro(is_unused36, "is_unused36"),                                               /* newline */                                  \
       list_macro(is_unused37, "is_unused37"),                                               /* newline */                                  \
       list_macro(is_unused38, "is_unused38"),                                               /* newline */                                  \
-      list_macro(is_unused39, "is_unused39"),                                               /* newline */                                  \
+      list_macro(is_reeds, "is_reeds"),                                                     /* newline */                                  \
       list_macro(is_vault, "is_vault"),                                                     /* newline */                                  \
       list_macro(is_biome_underhell, "is_biome_underhell"),                                 /* newline */                                  \
       list_macro(is_biome_graveyard, "is_biome_graveyard"),                                 /* newline */                                  \
@@ -852,6 +852,7 @@ void tp_monst_group_add(Tpp tp, ThingMonstGroup val);
 [[nodiscard]] auto tp_is_plant(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_player(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_projectile(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_reeds(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_removable_on_err(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_removable_when_dead_on_err(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_rock(Tpp tp) -> bool;
@@ -901,7 +902,6 @@ void tp_monst_group_add(Tpp tp, ThingMonstGroup val);
 [[nodiscard]] auto tp_is_unused36(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused37(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused38(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused39(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused4(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused46(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused47(Tpp tp) -> bool;

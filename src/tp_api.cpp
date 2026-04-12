@@ -1079,10 +1079,10 @@ auto tp_is_unused38(Tpp tp) -> bool
   return tp_flag(tp, is_unused38) != 0;
 }
 
-auto tp_is_unused39(Tpp tp) -> bool
+auto tp_is_reeds(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused39) != 0;
+  return tp_flag(tp, is_reeds) != 0;
 }
 
 auto tp_is_unused4(Tpp tp) -> bool

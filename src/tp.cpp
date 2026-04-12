@@ -120,6 +120,7 @@ static std::initializer_list< std::string > tps = {
     "pillar",
     "player",
     "potion",
+    "reeds",
     "smoke",
     "steam",
     "teleport",

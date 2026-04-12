@@ -1079,10 +1079,10 @@ auto level_count_is_unused38(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> u
   return level_count(g, v, l, is_unused38, p);
 }
 
-auto level_count_is_unused39(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+auto level_count_is_reeds(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused39, p);
+  return level_count(g, v, l, is_reeds, p);
 }
 
 auto level_count_is_unused4(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t

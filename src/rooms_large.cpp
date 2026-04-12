@@ -1980,5 +1980,4 @@ void rooms_large(Gamep g)
            /* line */ (const char *) " ................xx ",
            /* line */ (const char *) "            ^       ",
            /* end */ nullptr);
-
 }

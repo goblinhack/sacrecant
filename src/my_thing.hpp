@@ -769,6 +769,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_pillar(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_plant(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_projectile(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_reeds(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_removable_on_err(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_removable_when_dead_on_err(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_rock(Thingp t) -> bool;
@@ -822,7 +823,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused36(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused37(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused38(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused39(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused4(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused46(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused47(Thingp t) -> bool;

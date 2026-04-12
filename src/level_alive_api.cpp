@@ -1079,10 +1079,10 @@ auto level_alive_is_unused38(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> T
   return level_alive(g, v, l, is_unused38, p);
 }
 
-auto level_alive_is_unused39(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+auto level_alive_is_reeds(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_alive(g, v, l, is_unused39, p);
+  return level_alive(g, v, l, is_reeds, p);
 }
 
 auto level_alive_is_unused4(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp

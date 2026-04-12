@@ -671,6 +671,7 @@ void room_add(Gamep g, int chance, int room_flags, const char *file, int line, .
         case CHARMAP_FLOOR :         break;
         case CHARMAP_FLOOR_50 :      break;
         case CHARMAP_FOLIAGE :       break;
+        case CHARMAP_REEDS :         break;
         case CHARMAP_GRASS :         break;
         case CHARMAP_JOIN :          break;
         case CHARMAP_KEY :           break;
@@ -1261,6 +1262,7 @@ auto fragment_alt_add(Gamep g, int chance, uint32_t room_flags, const char *file
         case CHARMAP_FLOOR :         break;
         case CHARMAP_FLOOR_50 :      break;
         case CHARMAP_FOLIAGE :       break;
+        case CHARMAP_REEDS :         break;
         case CHARMAP_GRASS :         break;
         case CHARMAP_JOIN :          break;
         case CHARMAP_KEY :           break;
@@ -1634,6 +1636,7 @@ auto fragment_add(Gamep g, int chance, const char *file, int line, ...) -> bool
         case CHARMAP_FLOOR :         break;
         case CHARMAP_FLOOR_50 :      break;
         case CHARMAP_FOLIAGE :       break;
+        case CHARMAP_REEDS :         break;
         case CHARMAP_GRASS :         break;
         case CHARMAP_JOIN :          break;
         case CHARMAP_KEY :           break;
@@ -1992,6 +1995,7 @@ void level_fixed_add(Gamep g, int chance, LevelType level_type, const std::strin
         case CHARMAP_FLOOR :         break;
         case CHARMAP_FLOOR_50 :      break;
         case CHARMAP_FOLIAGE :       break;
+        case CHARMAP_REEDS :         break;
         case CHARMAP_GRASS :         break;
         case CHARMAP_JOIN :          break;
         case CHARMAP_KEY :           break;
@@ -2280,6 +2284,7 @@ static void level_gen_dump(class LevelGen *l, const char *msg)
           case CHARMAP_FLOOR :
           case CHARMAP_TREASURE :
           case CHARMAP_FOLIAGE :
+          case CHARMAP_REEDS :
           case CHARMAP_GRASS :
             if (l->info.on_path_entrance_to_exit[ x ][ y ] != 0U) {
               c = '_';
@@ -2788,6 +2793,7 @@ static void level_gen_single_large_blob_in_center(Gamep g, class LevelGen *l, ch
           case CHARMAP_EXIT :
           case CHARMAP_FLOOR :
           case CHARMAP_FOLIAGE :
+          case CHARMAP_REEDS :
           case CHARMAP_GRASS :
           case CHARMAP_JOIN :
           case CHARMAP_KEY :
@@ -2865,6 +2871,7 @@ static void level_gen_blob(Gamep g, class LevelGen *l, char c)
           case CHARMAP_EXIT :
           case CHARMAP_FLOOR_50 :
           case CHARMAP_FOLIAGE :
+          case CHARMAP_REEDS :
           case CHARMAP_GRASS :
           case CHARMAP_JOIN :
           case CHARMAP_KEY :
@@ -2891,6 +2898,9 @@ static void level_gen_blob(Gamep g, class LevelGen *l, char c)
             // Place the item
             //
             if (c == CHARMAP_FOLIAGE) {
+              //
+              // Don't place obscuring foliage in the entrance room
+              //
               if (! level_gen_is_room_entrance(g, l, x, y)) {
                 l->data[ x ][ y ].c = c;
               }
@@ -3092,6 +3102,7 @@ static auto level_proc_gen_create_rooms(Gamep g, LevelNum level_num) -> class Le
     case CHARMAP_EXIT :          return true;
     case CHARMAP_FLOOR :         return true;
     case CHARMAP_FOLIAGE :       return true;
+    case CHARMAP_REEDS :         return true;
     case CHARMAP_GRASS :         return true;
     case CHARMAP_JOIN :          return true;
     case CHARMAP_KEY :           return true;
@@ -3658,6 +3669,7 @@ static void level_gen_add_walls_around_rooms(class LevelGen *l)
         case CHARMAP_ENTRANCE :
         case CHARMAP_EXIT :
         case CHARMAP_FOLIAGE :
+        case CHARMAP_REEDS :
         case CHARMAP_KEY :
         case CHARMAP_MOB1 :
         case CHARMAP_MOB2 :
@@ -3846,6 +3858,7 @@ static void level_gen_add_foliage_around_secret_doors(Gamep g, class LevelGen *l
         case CHARMAP_FLOOR :
         case CHARMAP_FLOOR_50 :
         case CHARMAP_FOLIAGE :
+        case CHARMAP_REEDS :
         case CHARMAP_GRASS :
         case CHARMAP_JOIN :
         case CHARMAP_MOB1 :
@@ -4622,6 +4635,7 @@ static void level_gen_add_doors_do(class LevelGen *l)
         case CHARMAP_DIRT :
         case CHARMAP_GRASS :
         case CHARMAP_FOLIAGE :
+        case CHARMAP_REEDS :
           for (int dy = -1; dy <= 1; dy++) {
             for (int dx = -1; dx <= 1; dx++) {
               switch (l->data[ x + dx ][ y + dy ].c) {
@@ -4651,6 +4665,7 @@ static void level_gen_add_doors_do(class LevelGen *l)
         case CHARMAP_DIRT :
         case CHARMAP_GRASS :
         case CHARMAP_FOLIAGE :
+        case CHARMAP_REEDS :
           for (int dy = -1; dy <= 1; dy++) {
             for (int dx = -1; dx <= 1; dx++) {
               switch (l->data[ x + dx ][ y + dy ].c) {
@@ -4828,6 +4843,7 @@ static void level_gen_extend_bridges_do(Gamep g, class LevelGen *l, int x, int y
     case CHARMAP_GRASS :
     case CHARMAP_TREASURE :
     case CHARMAP_FOLIAGE :
+    case CHARMAP_REEDS :
     case CHARMAP_BARREL :
     case CHARMAP_BRAZIER :
     case CHARMAP_VAULT :

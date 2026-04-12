@@ -2984,5 +2984,4 @@ void rooms_tall(Gamep g)
            /* line */ (const char *) " ... ",
            /* line */ (const char *) " ^   ",
            /* end */ nullptr);
-
 }

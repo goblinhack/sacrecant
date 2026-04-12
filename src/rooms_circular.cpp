@@ -1278,5 +1278,4 @@ void rooms_circular(Gamep g)
            /* line */ (const char *) "      ^     ~ ",
            /* line */ (const char *) "           ~ ~",
            /* end */ nullptr);
-
 }

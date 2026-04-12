@@ -58,6 +58,7 @@ auto templates_init() -> bool
   if (!tp_load_pillar()) { return false; }
   if (!tp_load_player()) { return false; }
   if (!tp_load_potion()) { return false; }
+  if (!tp_load_reeds()) { return false; }
   if (!tp_load_rock()) { return false; }
   if (!tp_load_smoke()) { return false; }
   if (!tp_load_steam()) { return false; }

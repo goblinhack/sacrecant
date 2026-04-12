@@ -60,6 +60,7 @@ public:
   Tpp    tp_barrel             = {};
   Tpp    tp_teleport           = {};
   Tpp    tp_foliage            = {};
+  Tpp    tp_reeds              = {};
   Tpp    tp_corridor           = {};
   Tpp    tp_grass              = {};
   Tpp    tp_floor              = {};
@@ -76,6 +77,7 @@ public:
   bool   need_water            = {};
   bool   need_dirt             = {};
   bool   need_foliage          = {};
+  bool   need_reeds            = {};
   bool   need_border           = {};
   bool   is_room_entrance      = {};
   bool   is_room_exit          = {};
@@ -137,6 +139,7 @@ static auto level_populate_biome_dungeon(Gamep g, Levelsp v, Levelp l, class Lev
       tp            = lp.tp_teleport;
       break;
     case CHARMAP_FOLIAGE : lp.need_foliage = true; break;
+    case CHARMAP_REEDS :   lp.need_reeds = true; break;
     case CHARMAP_DEEP_WATER :
       lp.need_dirt  = true;
       tp            = lp.tp_deep_water;
@@ -292,8 +295,12 @@ static auto level_populate_biome_bogland(Gamep g, Levelsp v, Levelp l, class Lev
       if (d100() < 50) {
         lp.need_foliage = true;
       }
+
       if (d100() < 10) {
         lp.need_water = true;
+        if (lp.need_foliage) {
+          lp.need_reeds = true;
+        }
       }
       break;
     case CHARMAP_JOIN :     lp.need_corridor = true; break;
@@ -312,6 +319,9 @@ static auto level_populate_biome_bogland(Gamep g, Levelsp v, Levelp l, class Lev
         if (d100() < 50) {
           lp.need_foliage = true;
         }
+        if (d100() < 50) {
+          lp.need_reeds = true;
+        }
       }
       break;
     case CHARMAP_ROCK :
@@ -319,6 +329,9 @@ static auto level_populate_biome_bogland(Gamep g, Levelsp v, Levelp l, class Lev
       lp.need_water = true;
       if (d100() < 50) {
         lp.need_foliage = true;
+      }
+      if (d100() < 50) {
+        lp.need_reeds = true;
       }
       break;
     case CHARMAP_LAVA :
@@ -331,18 +344,27 @@ static auto level_populate_biome_bogland(Gamep g, Levelsp v, Levelp l, class Lev
       lp.need_dirt  = true;
       lp.need_water = true;
       if (d100() < 50) {
-        lp.need_foliage = true;
+        lp.need_reeds = true;
       }
       break;
-    case CHARMAP_BRAZIER :     [[fallthrough]];
+    case CHARMAP_WATER :
+      lp.need_dirt  = true;
+      lp.need_water = true;
+      if (lp.is_decoration_allowed) {
+        if (d100() < 5) {
+          lp.need_reeds = true;
+        }
+      }
+      break;
+    case CHARMAP_BRAZIER :     lp.need_dirt = true; break;
+    case CHARMAP_DEEP_WATER :  [[fallthrough]];
     case CHARMAP_DIRT :        [[fallthrough]];
     case CHARMAP_CHASM :       [[fallthrough]];
     case CHARMAP_BRIDGE :      [[fallthrough]];
     case CHARMAP_TREASURE :    [[fallthrough]];
     case CHARMAP_TELEPORT :    [[fallthrough]];
     case CHARMAP_FOLIAGE :     [[fallthrough]];
-    case CHARMAP_DEEP_WATER :  [[fallthrough]];
-    case CHARMAP_WATER :       [[fallthrough]];
+    case CHARMAP_REEDS :       [[fallthrough]];
     case CHARMAP_BARREL :      [[fallthrough]];
     case CHARMAP_PILLAR :      [[fallthrough]];
     case CHARMAP_TRAP :        [[fallthrough]];
@@ -394,6 +416,7 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *level_gen, int
   lp.tp_barrel     = tp_random(g, v, l, is_barrel);
   lp.tp_teleport   = tp_random(g, v, l, is_teleport);
   lp.tp_foliage    = tp_random(g, v, l, is_foliage);
+  lp.tp_reeds      = tp_random(g, v, l, is_reeds);
   lp.tp_corridor   = tp_random(g, v, l, is_corridor);
   lp.tp_grass      = tp_random(g, v, l, is_grass);
   lp.tp_floor      = tp_random(g, v, l, is_floor);
@@ -436,6 +459,7 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *level_gen, int
       lp.need_water    = false;
       lp.need_dirt     = false;
       lp.need_foliage  = false;
+      lp.need_reeds    = false;
       lp.need_border   = ! lp.is_test_level && ((x == 0) || (x == MAP_WIDTH - 1) || (y == 0) || (y == MAP_HEIGHT - 1));
 
       auto o = overrides.find(lp.c);
@@ -482,6 +506,11 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *level_gen, int
         lp.need_dirt  = true;
       }
 
+      if (lp.need_reeds) {
+        lp.need_floor = false;
+        lp.need_dirt  = true;
+      }
+
       if (lp.need_floor) {
         auto *tp_add = lp.tp_floor;
         if (thing_spawn(g, v, l, tp_add, lp.at) == nullptr) {
@@ -511,6 +540,13 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *level_gen, int
 
       if (lp.need_foliage) {
         auto *tp_add = lp.tp_foliage;
+        if (thing_spawn(g, v, l, tp_add, lp.at) == nullptr) {
+          return false;
+        }
+      }
+
+      if (lp.need_reeds) {
+        auto *tp_add = lp.tp_reeds;
         if (thing_spawn(g, v, l, tp_add, lp.at) == nullptr) {
           return false;
         }

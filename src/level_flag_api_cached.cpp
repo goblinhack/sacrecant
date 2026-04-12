@@ -1079,10 +1079,10 @@ auto level_is_unused38_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> 
   return level_flag_cached(g, v, l, is_unused38, p);
 }
 
-auto level_is_unused39_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+auto level_is_reeds_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused39, p);
+  return level_flag_cached(g, v, l, is_reeds, p);
 }
 
 auto level_is_unused4_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

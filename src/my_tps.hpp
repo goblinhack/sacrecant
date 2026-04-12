@@ -56,6 +56,7 @@ auto tp_load_mantisman() -> bool;
 auto tp_load_pillar() -> bool;
 auto tp_load_player() -> bool;
 auto tp_load_potion() -> bool;
+auto tp_load_reeds() -> bool;
 auto tp_load_rock() -> bool;
 auto tp_load_smoke() -> bool;
 auto tp_load_steam() -> bool;
