@@ -8,7 +8,7 @@
 //
 // Create all start rooms
 //
-void rooms_entrance(Gamep g)
+void rooms_prefab_entrance(Gamep g)
 {
   TRACE();
 

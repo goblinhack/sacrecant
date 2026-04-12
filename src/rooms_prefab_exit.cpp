@@ -8,7 +8,7 @@
 //
 // Create all exit rooms
 //
-void rooms_exit(Gamep g)
+void rooms_prefab_exit(Gamep g)
 {
   TRACE();
 

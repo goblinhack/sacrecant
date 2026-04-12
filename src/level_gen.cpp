@@ -2173,7 +2173,7 @@ static auto level_fixed_find_by_name(const std::string &alias, LevelNum level_nu
 //
 // Convert a level into a single string
 //
-static auto level_gen_string(class LevelGen *o, class LevelFixed *lf) -> std::string
+static auto level_gen_string(class LevelGen *lg, class LevelFixed *lf) -> std::string
 {
   TRACE();
 
@@ -2189,7 +2189,7 @@ static auto level_gen_string(class LevelGen *o, class LevelFixed *lf) -> std::st
     return "";
   }
 
-  if (o == nullptr) {
+  if (lg == nullptr) {
     ERR("no destination level provided");
     return "";
   }
@@ -2204,7 +2204,7 @@ static auto level_gen_string(class LevelGen *o, class LevelFixed *lf) -> std::st
       if (c == 0) {
         c = CHARMAP_CHASM;
       }
-      o->data[ x ][ y ].c = c;
+      lg->data[ x ][ y ].c = c;
       out += c;
     }
   }

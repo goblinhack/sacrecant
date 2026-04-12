@@ -12,7 +12,7 @@ void rooms_init(Gamep g)
 {
   TRACE();
 
-  rooms_entrance(g);
+  rooms_prefab_entrance(g);
   rooms_blend1(g);
   rooms_blend2(g);
   rooms_chunky(g);
@@ -24,8 +24,8 @@ void rooms_init(Gamep g)
   rooms_large(g);
   rooms_tall(g);
   rooms_long(g);
-  rooms_exit(g);
-  rooms_key(g);
+  rooms_prefab_exit(g);
+  rooms_prefab_key(g);
   rooms_prefab(g);
   rooms_prefab_secret(g);
   rooms_prefab_locked(g);
