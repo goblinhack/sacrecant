@@ -23,6 +23,7 @@ static auto tp_deep_water_description_get(Gamep g, Levelsp v, Levelp l, Thingp t
     case BIOME_NONE :       [[fallthrough]];
     case BIOME_ENUM_MAX :   return "deep water";
   }
+  return "deep water";
 }
 
 auto tp_load_deep_water() -> bool

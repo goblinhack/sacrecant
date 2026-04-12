@@ -402,8 +402,8 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, int w, int
   LevelPopulate lp;
 
   lp.biome         = level_to_biome(g, v, l);
-  lp.tp_wall       = tp_random(g, v, l, is_wall);
   lp.tp_border     = tp_first(is_border);
+  lp.tp_wall       = tp_random(g, v, l, is_wall);
   lp.tp_rock       = tp_random(g, v, l, is_rock);
   lp.tp_water      = tp_random(g, v, l, is_water);
   lp.tp_lava       = tp_random(g, v, l, is_lava);
@@ -415,7 +415,7 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, int w, int
   lp.tp_barrel     = tp_random(g, v, l, is_barrel);
   lp.tp_teleport   = tp_random(g, v, l, is_teleport);
   lp.tp_foliage    = tp_random(g, v, l, is_foliage);
-  lp.tp_reeds      = tp_first(is_reeds);
+  lp.tp_reeds      = tp_random(g, v, l, is_reeds);
   lp.tp_corridor   = tp_random(g, v, l, is_corridor);
   lp.tp_grass      = tp_random(g, v, l, is_grass);
   lp.tp_floor      = tp_random(g, v, l, is_floor);

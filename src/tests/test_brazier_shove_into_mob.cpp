@@ -34,7 +34,7 @@
         "......."
         "......."
         "..@B!.."
-        "...m..."
+        ".....m."
         "......."
         ".......";
   std::string const expect2 // second shove, mob should be dead by now

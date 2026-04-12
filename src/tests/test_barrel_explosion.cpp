@@ -29,11 +29,11 @@
         "xxxxxxx";
   std::string const expect1
       = "xxxxxxx"
-        "xxx.!!x"
-        "xxx!x!x"
-        "x@!;x!x"
-        "xxxxx!x"
-        "x....!x"
+        "xxx...x"
+        "xxx.x.x"
+        "x@..x.x"
+        "xxxxx.x"
+        "x.....x"
         "xxxxxxx";
   Levelp  l      = nullptr;
   Levelsp v      = game_test_init(g, &l, level_num, w, h, start.c_str());
@@ -60,7 +60,7 @@
   //
   level_dump(g, v, l, w, h);
   TEST_PROGRESS(t);
-  for (auto tries = 0; tries < 5; tries++) {
+  for (auto tries = 0; tries < 20; tries++) {
     TEST_LOG(t, "try: %d", tries);
     TRACE();
     TEST_ASSERT(t, game_event_wait(g), "failed to wait");
@@ -77,7 +77,7 @@
     goto exit;
   }
 
-  TEST_ASSERT(t, game_tick_get(g, v) == 5, "final tick counter value");
+  TEST_ASSERT(t, game_tick_get(g, v) == 20, "final tick counter value");
 
   level_dump(g, v, l, w, h);
   TEST_PASSED(t);

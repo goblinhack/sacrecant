@@ -48,12 +48,12 @@ auto tp_load_reeds() -> bool
   tp_flag_set(tp, is_collision_circle_large);
   tp_flag_set(tp, is_corpse_on_death);
   tp_flag_set(tp, is_described_cursor);
-  tp_flag_set(tp, is_reeds);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_obs_to_vision);
   tp_flag_set(tp, is_physics_explosion);
   tp_flag_set(tp, is_physics_temperature);
   tp_flag_set(tp, is_plant);
+  tp_flag_set(tp, is_reeds);
   tp_flag_set(tp, is_removable_when_dead_on_err);
   tp_flag_set(tp, is_submergible);
   tp_flag_set(tp, is_teleport_blocked);

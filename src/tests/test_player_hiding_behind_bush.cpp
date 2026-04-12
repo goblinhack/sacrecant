@@ -21,26 +21,26 @@
   //
   std::string const start
       = "XXXXXXX"
-        "X@`..mX"
+        "X@`...X"
         "X``...X"
         "X.....X"
         "X.....X"
-        "X.....X"
+        "X....mX"
         "XXXXXXX";
   std::string const expect1
       = "XXXXXXX"
         "X@`...X"
         "X``...X"
         "X.....X"
-        "X.m...X"
+        "X..m..X"
         "X.....X"
         "XXXXXXX";
   std::string const expect2
       = "XXXXXXX"
-        "X@`.m.X"
+        "X@`...X"
         "X``...X"
         "X.....X"
-        "X.....X"
+        "Xm....X"
         "X.....X"
         "XXXXXXX";
   std::string const expect3
@@ -48,16 +48,16 @@
         "X@`...X"
         "X``...X"
         "X.....X"
-        "X....mX"
         "X.....X"
+        "Xm....X"
         "XXXXXXX";
   std::string const expect4
       = "XXXXXXX"
         "X@`...X"
-        "X`m...X"
+        "X``...X"
         "X.....X"
         "X.....X"
-        "X.....X"
+        "X....mX"
         "XXXXXXX";
 
   //
@@ -193,11 +193,11 @@ exit:
   return result;
 }
 
-auto test_load_monst_hiding_behind_bush() -> bool // NOLINT
+auto test_load_player_hiding_behind_bush() -> bool // NOLINT
 {
   TRACE();
 
-  Testp test = test_load("monst_hiding_behind_bush");
+  Testp test = test_load("player_hiding_behind_bush");
 
   // begin sort marker1 {
   test_callback_set(test, test_player_hiding_behind_bush);

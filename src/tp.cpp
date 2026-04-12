@@ -484,6 +484,11 @@ auto tp_random(Gamep g, Levelsp v, Levelp l, ThingFlag f) -> Tpp
     ERR("tp_random: no tp found for ThingFlag %d/%s", f, ThingFlag_to_c_str(f));
     return nullptr;
   }
+
+  if (g_opt_tests) {
+    return tp_first(f);
+  }
+
   return tp_random(g, v, l, tp_flag_vec[ f ]);
 }
 

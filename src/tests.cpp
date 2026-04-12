@@ -45,8 +45,6 @@ auto tests_init() -> bool
   if (!test_load_monst_door_locked()) { return false; }
   if (!test_load_monst_door_unlocked()) { return false; }
   if (!test_load_monst_fast()) { return false; }
-  if (!test_load_monst_hiding_behind_bush()) { return false; }
-  if (!test_load_monst_hiding_in_bush()) { return false; }
   if (!test_load_monst_jump_over_chasm()) { return false; }
   if (!test_load_monst_maze()) { return false; }
   if (!test_load_monst_mob_leash()) { return false; }
@@ -66,6 +64,8 @@ auto tests_init() -> bool
   if (!test_load_player_fall_chasm_twice_into_lava()) { return false; }
   if (!test_load_player_fall_chasm_twice()) { return false; }
   if (!test_load_player_fall_while_on_fire()) { return false; }
+  if (!test_load_player_hiding_behind_bush()) { return false; }
+  if (!test_load_player_hiding_in_bush()) { return false; }
   if (!test_load_player_in_steam()) { return false; }
   if (!test_load_player_lava()) { return false; }
   if (!test_load_player_on_fire_move_into_water()) { return false; }

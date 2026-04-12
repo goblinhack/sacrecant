@@ -66,7 +66,7 @@ auto tp_load_rock() -> bool
     tp_priority_set(tp, THING_PRIORITY_WALL);
     tp_temperature_damage_at_set(tp, 50); // celsius
     tp_temperature_initial_set(tp, 20);   // celsius
-    tp_temperature_melts_at_set(tp, 300); // celsius
+    tp_temperature_melts_at_set(tp, 250); // celsius
     tp_variant_set(tp, variant);
     tp_weight_set(tp, WEIGHT_VVVHEAVY); // grams
     tp_z_depth_set(tp, MAP_Z_DEPTH_WALL);

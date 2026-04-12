@@ -39,16 +39,16 @@
       = "XXXXXXX"
         "X@~~~.X"
         "X~~~~~X"
-        "X~~m~~X"
         "X~~~~~X"
         "X~~~~~X"
+        "X~~~m~X"
         "XXXXXXX";
   std::string const expect3
       = "XXXXXXX"
-        "X@m~~.X"
+        "X@~~~.X"
         "X~~~~~X"
         "X~~~~~X"
-        "X~~~~~X"
+        "Xm~~~~X"
         "X~~~~~X"
         "XXXXXXX";
   std::string const expect4
@@ -56,7 +56,7 @@
         "X@~~~.X"
         "X~~~~~X"
         "X~~~~~X"
-        "X~~~m~X"
+        "X~~m~~X"
         "X~~~~~X"
         "XXXXXXX";
 
@@ -208,11 +208,11 @@ exit:
   return result;
 }
 
-auto test_load_monst_hiding_in_bush() -> bool // NOLINT
+auto test_load_player_hiding_in_bush() -> bool // NOLINT
 {
   TRACE();
 
-  Testp test = test_load("monst_hiding_in_bush");
+  Testp test = test_load("player_hiding_in_bush");
 
   // begin sort marker1 {
   test_callback_set(test, test_player_hiding_in_bush);

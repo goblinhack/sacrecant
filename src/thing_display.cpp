@@ -567,7 +567,7 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
         case BIOME_NETHERVOID : break;
         case BIOME_GRAVEYARD :  break;
         case BIOME_UNDERHELL :  break;
-        case BIOME_NONE :        [[fallthrough]];
+        case BIOME_NONE :       [[fallthrough]];
         case BIOME_ENUM_MAX :   break;
       }
     }
@@ -579,7 +579,7 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
         case BIOME_NETHERVOID : break;
         case BIOME_GRAVEYARD :  break;
         case BIOME_UNDERHELL :  break;
-        case BIOME_NONE :        [[fallthrough]];
+        case BIOME_NONE :       [[fallthrough]];
         case BIOME_ENUM_MAX :   break;
       }
     }

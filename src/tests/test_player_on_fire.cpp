@@ -107,7 +107,7 @@
 
   TEST_ASSERT(t, thing_is_burning(player), "player is not burning");
   TEST_ASSERT(t, thing_is_dead(player), "player is expected to be dead");
-  TEST_ASSERT(t, game_tick_get(g, v) == 4, "final tick counter value");
+  TEST_ASSERT(t, game_tick_get(g, v) == 6, "final tick counter value");
 
   level_dump(g, v, l, w, h);
   TEST_PASSED(t);

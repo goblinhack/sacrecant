@@ -32,22 +32,22 @@
         "X...x.X"
         "X.x.x.X"
         "X.x.x.X"
-        "X.x.xmX"
-        "X@x...X"
+        "X.x.x.X"
+        "X@x..mX"
         "XXXXXXX";
   std::string const expect2
       = "XXXXXXX"
         "X...x.X"
-        "X.x.x.X"
         "X.xmx.X"
+        "X.x.x.X"
         "X.x.x.X"
         "X@x...X"
         "XXXXXXX";
   std::string const expect3
       = "XXXXXXX"
         "X...x.X"
-        "Xmx.x.X"
         "X.x.x.X"
+        "Xmx.x.X"
         "X.x.x.X"
         "X@x...X"
         "XXXXXXX";

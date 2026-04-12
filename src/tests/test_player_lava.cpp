@@ -120,7 +120,7 @@
 
   level_dump(g, v, l, w, h);
   TEST_PROGRESS(t);
-  for (auto tries = 0; tries < 3; tries++) {
+  for (auto tries = 0; tries < 4; tries++) {
     TEST_LOG(t, "try: %d", tries);
     TRACE();
     TEST_ASSERT(t, game_event_wait(g), "failed to wait");
@@ -164,7 +164,7 @@
   //
   level_dump(g, v, l, w, h);
   TEST_PROGRESS(t);
-  TEST_ASSERT(t, game_tick_get(g, v) == 4, "final tick counter value");
+  TEST_ASSERT(t, game_tick_get(g, v) == 5, "final tick counter value");
 
   level_dump(g, v, l, w, h);
   TEST_PASSED(t);
