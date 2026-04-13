@@ -1581,7 +1581,8 @@ void rooms_prefab(Gamep g)
 
   room_add(g, CHANCE_NORMAL, ROOM_FLAG_CHECK_EXITS, __FUNCTION__, __LINE__,
            /* line */ (const char *) "     ^     ",
-           /* line */ (const char *) "... .CCm   ",
+           /* line */ (const char *) "... ....   ",
+           /* line */ (const char *) "... CCCm   ",
            /* line */ (const char *) "m.. .... .$",
            /* line */ (const char *) " .   .   ..",
            /* line */ (const char *) "...... ....",
@@ -1664,7 +1665,7 @@ void rooms_prefab(Gamep g)
            /* end */ nullptr);
 
   room_add(g, CHANCE_NORMAL, ROOM_FLAG_CHECK_EXITS, __FUNCTION__, __LINE__,
-           /* line */ (const char *) "       ^   ",
+           /* line */ (const char *) "      ^    ",
            /* line */ (const char *) "      .    ",
            /* line */ (const char *) "      .    ",
            /* line */ (const char *) " $CC``.....",
@@ -2484,7 +2485,7 @@ void rooms_prefab(Gamep g)
            /* line */ (const char *) "   ...=... ",
            /* line */ (const char *) "   CCC=CCC ",
            /* line */ (const char *) "   CCC=CCC ",
-           /* line */ (const char *) "     ^     ",
+           /* line */ (const char *) "      ^    ",
            /* end */ nullptr);
 
   room_add(g, CHANCE_NORMAL, ROOM_FLAG_CHECK_EXITS, __FUNCTION__, __LINE__,
@@ -2901,14 +2902,14 @@ void rooms_prefab(Gamep g)
 
   room_add(g, CHANCE_NORMAL, ROOM_FLAG_CHECK_EXITS, __FUNCTION__, __LINE__,
            /* line */ (const char *) "       ^   ",
-           /* line */ (const char *) "  ....~~~~ ",
-           /* line */ (const char *) "  ......~~ ",
-           /* line */ (const char *) " C........ ",
-           /* line */ (const char *) "^C........^",
-           /* line */ (const char *) " C........ ",
-           /* line */ (const char *) "  ........ ",
-           /* line */ (const char *) "  ~.....~~ ",
-           /* line */ (const char *) "  ~~...~~  ",
+           /* line */ (const char *) "   ...~~~~ ",
+           /* line */ (const char *) "   .....~~ ",
+           /* line */ (const char *) " .C....... ",
+           /* line */ (const char *) "^.C.......^",
+           /* line */ (const char *) " .C....... ",
+           /* line */ (const char *) "   ....... ",
+           /* line */ (const char *) "    ....~~ ",
+           /* line */ (const char *) "     ..~~  ",
            /* line */ (const char *) "      m    ",
            /* end */ nullptr);
 
@@ -2958,7 +2959,7 @@ void rooms_prefab(Gamep g)
            /* line */ (const char *) " .LL..|.|. ",
            /* line */ (const char *) " LLL...... ",
            /* line */ (const char *) " LL......| ",
-           /* line */ (const char *) "^L........^",
+           /* line */ (const char *) "^.L.......^",
            /* line */ (const char *) " LL......| ",
            /* line */ (const char *) " LLL...... ",
            /* line */ (const char *) " LLLL....L ",
@@ -3071,7 +3072,7 @@ void rooms_prefab(Gamep g)
            /* line */ (const char *) "  C.....C  ",
            /* line */ (const char *) "  C.....C  ",
            /* line */ (const char *) "    ...    ",
-           /* line */ (const char *) "^C........^",
+           /* line */ (const char *) "^.C.......^",
            /* line */ (const char *) "           ",
            /* end */ nullptr);
 
@@ -3079,9 +3080,9 @@ void rooms_prefab(Gamep g)
            /* line */ (const char *) "      ^    ",
            /* line */ (const char *) " CCCCC.CCC ",
            /* line */ (const char *) " C......CC ",
-           /* line */ (const char *) " C.......C ",
-           /* line */ (const char *) "^..b.....C^",
-           /* line */ (const char *) " C.......C ",
+           /* line */ (const char *) " C......CC ",
+           /* line */ (const char *) "^..b....C.^",
+           /* line */ (const char *) " C......CC ",
            /* line */ (const char *) " CC......C ",
            /* line */ (const char *) " CCCCCC.CC ",
            /* line */ (const char *) " CCCCC.... ",
@@ -4486,16 +4487,16 @@ void rooms_prefab(Gamep g)
            /* end */ nullptr);
 
   room_add(g, CHANCE_NORMAL, ROOM_FLAG_CHECK_EXITS, __FUNCTION__, __LINE__,
-           /* line */ (const char *) "   ....... ",
-           /* line */ (const char *) "   ..CCCCC ",
-           /* line */ (const char *) "   ..Cg..C ",
-           /* line */ (const char *) "^.t..C$C.C ",
-           /* line */ (const char *) "   ..CCC.C^",
-           /* line */ (const char *) "   ......C ",
-           /* line */ (const char *) " ..CCCCCCC ",
-           /* line */ (const char *) " .$.   .   ",
-           /* line */ (const char *) " ...   .   ",
-           /* line */ (const char *) "       ^   ",
+           /* line */ (const char *) "   .......  ",
+           /* line */ (const char *) "   ..CCCCC  ",
+           /* line */ (const char *) "   ..Cg..C  ",
+           /* line */ (const char *) "^.t..C$C.C  ",
+           /* line */ (const char *) "   ..CCC.C.^",
+           /* line */ (const char *) "   ......C  ",
+           /* line */ (const char *) " ..CCCCCCC  ",
+           /* line */ (const char *) " .$.   .    ",
+           /* line */ (const char *) " ...   .    ",
+           /* line */ (const char *) "       ^    ",
            /* end */ nullptr);
 
   room_add(g, CHANCE_NORMAL, ROOM_FLAG_CHECK_EXITS, __FUNCTION__, __LINE__,
@@ -4979,7 +4980,7 @@ void rooms_prefab(Gamep g)
            /* line */ (const char *) "  CC...C   ",
            /* line */ (const char *) "    C...C  ",
            /* line */ (const char *) "     C...C ",
-           /* line */ (const char *) "         ^ ",
+           /* line */ (const char *) "        ^  ",
            /* end */ nullptr);
 
   room_add(g, CHANCE_NORMAL, ROOM_FLAG_CHECK_EXITS, __FUNCTION__, __LINE__,
@@ -5047,7 +5048,7 @@ void rooms_prefab(Gamep g)
            /* line */ (const char *) " C..mCC    ",
            /* line */ (const char *) "    C...C  ",
            /* line */ (const char *) "     C...C ",
-           /* line */ (const char *) "         ^ ",
+           /* line */ (const char *) "        ^  ",
            /* end */ nullptr);
 
   room_add(g, CHANCE_NORMAL, ROOM_FLAG_CHECK_EXITS, __FUNCTION__, __LINE__,
@@ -5238,9 +5239,9 @@ void rooms_prefab(Gamep g)
            /* line */ (const char *) " ...CC     ",
            /* line */ (const char *) " m..CCC    ",
            /* line */ (const char *) " ...CCCC   ",
-           /* line */ (const char *) " ......... ",
-           /* line */ (const char *) " CCCCCCCCC^",
-           /* line */ (const char *) " ......... ",
+           /* line */ (const char *) " ......CC. ",
+           /* line */ (const char *) " CCCCCCCC.^",
+           /* line */ (const char *) " .......C. ",
            /* line */ (const char *) " .....     ",
            /* line */ (const char *) "  .....    ",
            /* line */ (const char *) "   .....   ",
@@ -6165,9 +6166,11 @@ void rooms_prefab(Gamep g)
 
   room_add(g, CHANCE_NORMAL, ROOM_FLAG_CHECK_EXITS, __FUNCTION__, __LINE__,
            /* line */ (const char *) "       ^   ",
+           /* line */ (const char *) "       .   ",
            /* line */ (const char *) "   ..LLL.. ",
            /* line */ (const char *) " m..L.L...^",
            /* line */ (const char *) " $.LLLL..$ ",
+           /* line */ (const char *) "    .      ",
            /* line */ (const char *) "    ^      ",
            /* end */ nullptr);
 

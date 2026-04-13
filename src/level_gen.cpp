@@ -602,6 +602,39 @@ static auto room_flip_horiz(Gamep g, class Room *r) -> class Room *
 }
 
 //
+// Has to be a tile you could walk or swim on
+//
+[[nodiscard]] static auto room_tile_is_traversable(class Room *r, int x, int y) -> bool
+{
+  auto c = r->data[ (y * r->width) + x ];
+  switch (c) {
+    case CHARMAP_BARREL :        return true;
+    case CHARMAP_BRIDGE :        return true;
+    case CHARMAP_CORRIDOR :      return true;
+    case CHARMAP_DEEP_WATER :    return true;
+    case CHARMAP_DOOR_LOCKED :   return true;
+    case CHARMAP_DOOR_UNLOCKED : return true;
+    case CHARMAP_DOOR_SECRET :   return true; // needed
+    case CHARMAP_ENTRANCE :      return true;
+    case CHARMAP_EXIT :          return true;
+    case CHARMAP_FLOOR :         return true;
+    case CHARMAP_FOLIAGE :       return true;
+    case CHARMAP_REEDS :         return true;
+    case CHARMAP_GRASS :         return true;
+    case CHARMAP_JOIN :          return true;
+    case CHARMAP_KEY :           return true;
+    case CHARMAP_MOB1 :          return true;
+    case CHARMAP_MOB2 :          return true;
+    case CHARMAP_MONST_EASY :    return true;
+    case CHARMAP_MONST_HARD :    return true;
+    case CHARMAP_TRAP :          return true;
+    case CHARMAP_TREASURE :      return true;
+    case CHARMAP_WATER :         return true;
+    default :                    return false;
+  }
+}
+
+//
 // Add a room and copies with all possible rotations
 //
 void room_add(Gamep g, int chance, int room_flags, const char *file, int line, ...)
@@ -813,8 +846,40 @@ void room_add(Gamep g, int chance, int room_flags, const char *file, int line, .
     for (int y = 0; y < r->height; y++) {
       for (int x = 0; x < r->width; x++) {
         auto c = r->data[ (y * r->width) + x ];
-        if ((c != CHARMAP_EMPTY) && (c != CHARMAP_JOIN)) {
-
+        if (c == CHARMAP_JOIN) {
+          if ((x == 0) && (y == 0)) {
+            CROAK("room has corner exit @ %s:%d", file, line);
+          }
+          if ((x == 0) && (y == r->height - 1)) {
+            CROAK("room has corner exit @ %s:%d", file, line);
+          }
+          if ((x == r->width - 1) && (y == 0)) {
+            CROAK("room has corner exit @ %s:%d", file, line);
+          }
+          if ((x == r->width - 1) && (y == r->height - 1)) {
+            CROAK("room has corner exit @ %s:%d", file, line);
+          }
+          if (x == 0) {
+            if (! room_tile_is_traversable(r, x + 1, y)) {
+              CROAK("room has left exit but adjacent tile is not traversible @ %s:%d", file, line);
+            }
+          }
+          if (x == r->width - 1) {
+            if (! room_tile_is_traversable(r, r->width - 2, y)) {
+              CROAK("room has right exit but adjacent tile is not traversible @ %s:%d", file, line);
+            }
+          }
+          if (y == 0) {
+            if (! room_tile_is_traversable(r, x, y + 1)) {
+              CROAK("room has up exit but adjacent tile is not traversible @ %s:%d", file, line);
+            }
+          }
+          if (y == r->height - 1) {
+            if (! room_tile_is_traversable(r, x, r->height - 2)) {
+              CROAK("room has down exit but adjacent tile is not traversible @ %s:%d", file, line);
+            }
+          }
+        } else if (c != CHARMAP_EMPTY) {
           //
           // Exclude corners
           //

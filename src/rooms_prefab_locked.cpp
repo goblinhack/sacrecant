@@ -191,7 +191,7 @@ void rooms_prefab_locked(Gamep g)
            /* line */ (const char *) "        ",
            /* line */ (const char *) "vvvvvvv ",
            /* line */ (const char *) "v.s...+^",
-           /* line */ (const char *) "v.v...v^",
+           /* line */ (const char *) "v.v...v ",
            /* line */ (const char *) "v.vvvvv ",
            /* line */ (const char *) "v.`$$$v ",
            /* line */ (const char *) "vvvvvvv ",
