@@ -281,11 +281,11 @@ ENUM_DEF_H(MONST_GROUP_ENUM, ThingMonstGroup)
 #define BIOME_ENUM(list_macro)                                                                                                             \
   CLANG_FORMAT_INDENT()                           /* dummy line for clang indentation fixup */                                             \
   list_macro(BIOME_NONE, "NONE"),                 /* newline */                                                                            \
-      list_macro(BIOME_DUNGEON, "DUNGEON"),       /* newline */                                                                            \
-      list_macro(BIOME_BOGLAND, "BOGLAND"),       /* newline */                                                                            \
-      list_macro(BIOME_NETHERVOID, "NETHERVOID"), /* newline */                                                                            \
-      list_macro(BIOME_GRAVEYARD, "GRAVEYARD"),   /* newline */                                                                            \
-      list_macro(BIOME_UNDERHELL, "UNDERHELL"),   /* newline */
+      list_macro(BIOME_DUNGEON, "Dungeon"),       /* newline */                                                                            \
+      list_macro(BIOME_BOGLAND, "Bogland"),       /* newline */                                                                            \
+      list_macro(BIOME_NETHERVOID, "Nethervoid"), /* newline */                                                                            \
+      list_macro(BIOME_GRAVEYARD, "Graveyard"),   /* newline */                                                                            \
+      list_macro(BIOME_UNDERHELL, "Underhell"),   /* newline */
 
 ENUM_DEF_H(BIOME_ENUM, Biome)
 
