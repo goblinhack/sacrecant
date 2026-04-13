@@ -519,7 +519,7 @@ static void room_gen_design_medium_room(Gamep g, RoomGen *grid)
   int height = 0;
 
   width  = PCG_RANDOM_RANGE(6, 10);
-  height = PCG_RANDOM_RANGE(4, 10);
+  height = PCG_RANDOM_RANGE(6, 10);
 
   room_gen_draw_rectangle(grid, (MAP_WIDTH - width) / 2, (MAP_HEIGHT - height) / 2, width, height, CHARMAP_FLOOR);
 }
