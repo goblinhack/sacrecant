@@ -191,15 +191,16 @@ void music_load(Gamep g)
 {
   TRACE();
 
-  (void) music_load(g, 44100, "data/music/DST-Razornest.ogg", /*          */ "intro");
   (void) music_load(g, 44100, "data/music/DST-XToFly.ogg", /*             */ "end");
-  (void) music_load(g, 44100, "data/music/DST-Incantation.ogg", /*        */ "dead");
+  (void) music_load(g, 44100, "data/music/Spooky Bass.ogg", /*            */ "dead");
+  (void) music_load(g, 44100, "data/music/Sacrificant - Intro.ogg", /*    */ "intro");
 
   (void) music_load(g, 44100, "data/music/DST-0mnis.ogg", /*              */ "dungeon.1");
   (void) music_load(g, 44100, "data/music/DST-OldCavern.ogg", /*          */ "dungeon.1");
   (void) music_load(g, 44100, "data/music/DST-Escape.ogg", /*             */ "dungeon.1");
   (void) music_load(g, 44100, "data/music/DST-OmegaCenturion.ogg", /*     */ "dungeon.1");
   (void) music_load(g, 44100, "data/music/DST-ThreeWorlds.ogg", /*        */ "dungeon.1");
+  (void) music_load(g, 44100, "data/music/DST-Razornest.ogg", /*          */ "dungeon.1");
   (void) music_load(g, 44100, "data/music/DST-Arch-Delerium.ogg", /*      */ "dungeon.2");
   (void) music_load(g, 44100, "data/music/DST-WaitingfortheEnemy.ogg", /* */ "dungeon.2");
   (void) music_load(g, 44100, "data/music/DST-Psykick.ogg", /*            */ "dungeon.2");

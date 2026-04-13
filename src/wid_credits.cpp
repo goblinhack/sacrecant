@@ -53,7 +53,7 @@ static void wid_credits_destroy(Gamep g)
       }
   }
 
-  return true;
+  return false;
 }
 
 [[nodiscard]] static auto wid_credits_mouse_up(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
@@ -72,10 +72,14 @@ void wid_credits_select(Gamep g)
     wid_credits_destroy(g);
   }
 
-  int const    menu_height = 18;
-  int const    menu_width  = UI_WID_POPUP_WIDTH_NORMAL * 2;
-  spoint const outer_tl((TERM_WIDTH / 2) - (menu_width / 2), (TERM_HEIGHT / 2) - (menu_height / 2));
-  spoint const outer_br((TERM_WIDTH / 2) + (menu_width / 2), (TERM_HEIGHT / 2) + (menu_height / 2));
+  int const menu_height = 24;
+  int const menu_width  = UI_WID_POPUP_WIDTH_NORMAL * 2;
+  spoint    outer_tl((TERM_WIDTH / 2) - (menu_width / 2), (TERM_HEIGHT / 2) - (menu_height / 2));
+  spoint    outer_br((TERM_WIDTH / 2) + (menu_width / 2), (TERM_HEIGHT / 2) + (menu_height / 2));
+
+  outer_tl.y += 4;
+  outer_br.y += 4;
+
   wid_credits_window = new WidPopup(g, "Credits", outer_tl, outer_br, nullptr, "", false, false);
 
   wid_set_on_key_down(wid_credits_window->wid_popup_container, wid_credits_key_down);
@@ -83,13 +87,19 @@ void wid_credits_select(Gamep g)
   wid_credits_window->log(g, UI_HIGHLIGHT_FMT_STR "Development");
   wid_credits_window->log(g, "goblinhack@gmail.com");
   wid_credits_window->log_empty_line(g);
+  wid_credits_window->log_empty_line(g);
   wid_credits_window->log(g, UI_HIGHLIGHT_FMT_STR "Graphics");
   wid_credits_window->log(g, "Urizen 1 bit tileset");
   wid_credits_window->log(g, "goblinhack@gmail.com");
   wid_credits_window->log_empty_line(g);
-  wid_credits_window->log(g, UI_HIGHLIGHT_FMT_STR "Music");
-  wid_credits_window->log(g, "Markus Heichelbech");
+  wid_credits_window->log_empty_line(g);
+  wid_credits_window->log(g, UI_HIGHLIGHT_FMT_STR "Intro and death Music");
   wid_credits_window->log(g, "C.E.McGill");
+  wid_credits_window->log_empty_line(g);
+  wid_credits_window->log_empty_line(g);
+  wid_credits_window->log(g, UI_HIGHLIGHT_FMT_STR "In game level music");
+  wid_credits_window->log(g, "Markus Heichelbech");
+  wid_credits_window->log_empty_line(g);
   wid_credits_window->log_empty_line(g);
   wid_credits_window->log(g, UI_HIGHLIGHT_FMT_STR "Sounds");
   wid_credits_window->log(g, "See README.md");
