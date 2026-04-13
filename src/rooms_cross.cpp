@@ -2010,5 +2010,4 @@ void rooms_cross(Gamep g)
            /* line */ (const char *) "        ........     ",
            /* line */ (const char *) "          ^          ",
            /* end */ nullptr);
-
 }

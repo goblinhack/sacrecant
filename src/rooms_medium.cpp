@@ -5311,5 +5311,4 @@ void rooms_medium(Gamep g)
            /* line */ (const char *) " ......... ",
            /* line */ (const char *) "   ^       ",
            /* end */ nullptr);
-
 }

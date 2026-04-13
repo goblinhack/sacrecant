@@ -4581,5 +4581,4 @@ void rooms_long(Gamep g)
            /* line */ (const char *) "         .         ",
            /* line */ (const char *) "         ^         ",
            /* end */ nullptr);
-
 }

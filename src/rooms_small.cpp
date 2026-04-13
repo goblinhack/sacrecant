@@ -5808,5 +5808,4 @@ void rooms_small(Gamep g)
            /* line */ (const char *) " ... ",
            /* line */ (const char *) "  ^  ",
            /* end */ nullptr);
-
 }

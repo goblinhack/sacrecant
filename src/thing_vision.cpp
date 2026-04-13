@@ -52,11 +52,7 @@ auto thing_vision_blocker(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp it) ->
     //
     // Things that are submerged should not block you, if you are less submerged
     //
-    if (thing_submerged_pct(it) > thing_submerged_pct(me)) {
-      return false;
-    }
-
-    return true;
+    return thing_submerged_pct(it) <= thing_submerged_pct(me);
   }
 
   return false;

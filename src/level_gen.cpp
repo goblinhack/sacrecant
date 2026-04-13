@@ -1103,7 +1103,7 @@ static void room_place_at(class LevelGen *lg, class Room *r, bpoint at)
   TRACE_DEBUG();
 
   if (lg->debug) [[unlikely]] {
-    if (r->file) {
+    if (r->file != nullptr) {
       log("place room %s:%d", r->file, r->line);
     }
   }

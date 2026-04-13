@@ -44,7 +44,7 @@ class LevelPopulate
 {
 public:
   char   c = {};
-  bpoint at;
+  bpoint at {};
   Biome  biome                 = {BIOME_DUNGEON};
   Tpp    tp_wall               = {};
   Tpp    tp_vault              = {};
