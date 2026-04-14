@@ -256,7 +256,7 @@ auto thing_distance_vision(Gamep g, Levelsp v, Levelp l, Thingp t) -> int
   }
 
   auto d = t->_distance_vision;
-  if (! d) {
+  if (d == 0) {
     return d;
   }
 
@@ -274,7 +274,7 @@ auto thing_distance_vision(Gamep g, Levelsp v, Levelp l, Thingp t) -> int
       case BIOME_ENUM_MAX :   break;
     }
 
-    if (! d) {
+    if (d == 0) {
       d = 1;
     }
   }
@@ -339,4 +339,3 @@ auto thing_is_vision_180_degrees(Thingp t) -> bool
   }
   return tp_flag(thing_tp(t), is_vision_180_degrees) != 0;
 }
-

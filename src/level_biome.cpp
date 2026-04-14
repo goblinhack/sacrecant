@@ -11,7 +11,7 @@ auto level_to_biome(Gamep g, Levelsp v, Levelp l) -> Biome
 {
   TRACE();
 
-  if (l->biome != 0u) {
+  if (l->biome != 0U) {
     return l->biome;
   }
 

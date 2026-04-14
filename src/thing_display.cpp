@@ -272,7 +272,7 @@ static void thing_display_blit(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tp
   // Cannot use quantized values of fg if the light_pixels is set, else the lighting
   // appears in blocks of squares
   //
-  if (light_pixels) {
+  if (light_pixels != nullptr) {
     fg = WHITE;
 
     if (thing_is_water(t_maybe_null)) {

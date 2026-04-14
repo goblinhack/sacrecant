@@ -486,7 +486,7 @@ auto player_check_if_target_needs_move_confirm(Gamep g, Levelsp v, Levelp l, con
     return false;
   }
 
-  if (! thing_move_path_size(g, v, l, me)) {
+  if (thing_move_path_size(g, v, l, me) == 0) {
     player_state_change(g, v, l, PLAYER_STATE_NORMAL);
 
     if (level_is_cursor_path_hazard(g, v, l, to) != nullptr) {

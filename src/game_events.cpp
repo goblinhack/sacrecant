@@ -352,7 +352,7 @@ static auto game_event_jump(Gamep g) -> bool
     // If trying to jump diagonally between walls, the move path will be zero
     // in size. However we want to allow the jump.
     //
-    if (! thing_move_path_size(g, v, l, player)) {
+    if (thing_move_path_size(g, v, l, player) == 0) {
       if (adjacent(to, at)) {
         std::vector< bpoint > move_path;
         move_path.push_back(to);
@@ -360,7 +360,7 @@ static auto game_event_jump(Gamep g) -> bool
       }
     }
 
-    if (! thing_move_path_size(g, v, l, player)) {
+    if (thing_move_path_size(g, v, l, player) == 0) {
       topcon("I can't jump there.");
       return false;
     }

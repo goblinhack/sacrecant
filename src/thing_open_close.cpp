@@ -181,7 +181,7 @@ auto thing_can_move_to_attempt_by_opening(Gamep g, Levelsp v, Levelp l, Thingp m
   //
   // Needs to be something we can shove
   //
-  if (! level_is_openable(g, v, l, to)) {
+  if (level_is_openable(g, v, l, to) == nullptr) {
     return false;
   }
 
