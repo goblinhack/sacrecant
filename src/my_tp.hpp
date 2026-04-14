@@ -74,7 +74,7 @@
       list_macro(is_gaseous, "is_gaseous"),                                                 /* newline */                                  \
       list_macro(is_ghost, "is_ghost"),                                                     /* newline */                                  \
       list_macro(is_grass, "is_grass"),                                                     /* newline */                                  \
-      list_macro(is_health_bar_shown, "is_health_bar_shown"),                               /* newline */                                  \
+      list_macro(is_health_visible, "is_health_visible"),                               /* newline */                                  \
       list_macro(is_indestructible, "is_indestructible"),                                   /* newline */                                  \
       list_macro(is_inventory_item, "is_inventory_item"),                                   /* newline */                                  \
       list_macro(is_item_droppable, "is_item_droppable"),                                   /* newline */                                  \
@@ -169,7 +169,7 @@
       list_macro(is_unused35, "is_unused35"),                                               /* newline */                                  \
       list_macro(is_unused36, "is_unused36"),                                               /* newline */                                  \
       list_macro(is_unused37, "is_unused37"),                                               /* newline */                                  \
-      list_macro(is_unused38, "is_unused38"),                                               /* newline */                                  \
+      list_macro(is_stamina_visible, "is_stamina_visible"),                             /* newline */                                  \
       list_macro(is_reeds, "is_reeds"),                                                     /* newline */                                  \
       list_macro(is_vault, "is_vault"),                                                     /* newline */                                  \
       list_macro(is_biome_underhell, "is_biome_underhell"),                                 /* newline */                                  \
@@ -482,6 +482,8 @@ class Tp;
 [[nodiscard]] auto tp_first(ThingFlag f) -> Tpp;
 [[nodiscard]] auto tp_health_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_health_max_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_stamina_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_stamina_max_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_id_get(Tpp tp) -> TpId;
 [[nodiscard]] auto tp_init() -> bool;
 [[nodiscard]] auto tp_light_color(Tpp tp) -> color;
@@ -513,6 +515,7 @@ class Tp;
 
 void tp_flag_set(Tpp tp, ThingFlag f, int val = 1);
 void tp_health_set(Tpp tp, const std::string &val);
+void tp_stamina_set(Tpp tp, const std::string &val);
 void tp_speed_set(Tpp tp, int val);
 void tp_temperature_burns_at_set(Tpp tp, int val);
 void tp_temperature_damage_at_set(Tpp tp, int val);
@@ -661,8 +664,8 @@ void               tp_value17_set(Tpp tp, int val);
 void               tp_value18_set(Tpp tp, int val);
 [[nodiscard]] auto tp_value18_get(Tpp tp) -> int;
 
-void               tp_value19_set(Tpp tp, int val);
-[[nodiscard]] auto tp_value19_get(Tpp tp) -> int;
+void               tp_stamina_set(Tpp tp, int val);
+[[nodiscard]] auto tp_stamina_get(Tpp tp) -> int;
 
 void               tp_score_value_set(Tpp tp, int val);
 [[nodiscard]] auto tp_score_value_get(Tpp tp) -> int;
@@ -796,7 +799,7 @@ void tp_monst_group_add(Tpp tp, ThingMonstGroup val);
 [[nodiscard]] auto tp_is_gold(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_grass(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_grouped_thing(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_health_bar_shown(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_health_visible(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_hit_when_dead(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_indestructible(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_insectoid(Tpp tp) -> bool;
@@ -901,7 +904,7 @@ void tp_monst_group_add(Tpp tp, ThingMonstGroup val);
 [[nodiscard]] auto tp_is_unused35(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused36(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused37(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused38(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_stamina_visible(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused4(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused46(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused47(Tpp tp) -> bool;

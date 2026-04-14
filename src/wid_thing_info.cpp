@@ -129,10 +129,6 @@
     return false;
   }
 
-  if (! tp_is_health_bar_shown(tp)) {
-    return false;
-  }
-
   auto *player_struct = thing_player_struct(g);
   if (player_struct == nullptr) {
     return false;
@@ -168,11 +164,7 @@
 {
   TRACE();
 
-  if (thing_is_dead(t)) {
-    return false;
-  }
-
-  if (! tp_is_health_bar_shown(tp)) {
+  if (! tp_is_health_visible(tp)) {
     return false;
   }
 
@@ -208,10 +200,66 @@
   auto *w = parent->log(g, std::string(tmp));
   if (w != nullptr) {
     int health_how_much = static_cast< int >((static_cast< float >(thing_health(t)) / static_cast< float >(health_max))
-                                             * (static_cast< float > UI_HEALTH_BAR_STEPS - 1));
-    health_how_much     = std::min(health_how_much, UI_HEALTH_BAR_STEPS - 1);
+                                             * (static_cast< float > UI_STAT_BAR_STEPS - 1));
+    health_how_much     = std::min(health_how_much, UI_STAT_BAR_STEPS - 1);
     health_how_much     = std::max(health_how_much, 0);
-    auto icon           = "health_bar." + std::to_string(health_how_much + 1);
+    auto icon           = "stat_bar." + std::to_string(health_how_much + 1);
+
+    wid_set_shape_square(w);
+    wid_set_style(w, UI_WID_STYLE_SPARSE_NONE);
+    wid_set_color(w, WID_COLOR_TEXT_FG, UI_HIGHLIGHT_COLOR);
+    wid_set_tilename(TILE_LAYER_BG_0, w, icon);
+    wid_set_text_lhs(w, 1u);
+  }
+
+  return true;
+}
+
+//
+// Stamina bar
+//
+[[nodiscard]] static auto wid_thing_info_stamina_bar(Gamep g, Thingp t, Tpp tp, WidPopup *parent, int width) -> bool
+{
+  TRACE();
+
+  if (thing_is_dead(t)) {
+    return false;
+  }
+
+  if (! tp_is_stamina_visible(tp)) {
+    return false;
+  }
+
+  char tmp[ MAXSHORTSTR ];
+
+  //
+  // "Stamina           "
+  //
+  memset(tmp, 0, sizeof(tmp));
+  memset(tmp, ' ', sizeof(tmp) - 1);
+
+  //
+  // "Stamina        a/b"
+  //
+  auto stamina_max = tp_stamina_max_get(tp);
+  auto h           = thing_stamina(t);
+  h                = std::max(h, 0);
+
+  std::string const stamina_str = std::to_string(h) + "/" + std::to_string(stamina_max);
+  my_strlcpy(tmp + width - stamina_str.size() - 3, stamina_str.c_str(), width - stamina_str.size());
+  tmp[ strlen(tmp) ] = ' ';
+
+  //
+  // "Stamina        a/b"
+  // "xxxxxxxxxxxxxxxxxx"
+  //
+  auto *w = parent->log(g, std::string(tmp));
+  if (w != nullptr) {
+    int stamina_how_much = static_cast< int >((static_cast< float >(thing_stamina(t)) / static_cast< float >(stamina_max))
+                                              * (static_cast< float > UI_STAT_BAR_STEPS - 1));
+    stamina_how_much     = std::min(stamina_how_much, UI_STAT_BAR_STEPS - 1);
+    stamina_how_much     = std::max(stamina_how_much, 0);
+    auto icon            = "stat_bar." + std::to_string(stamina_how_much + 1);
 
     wid_set_shape_square(w);
     wid_set_style(w, UI_WID_STYLE_SPARSE_NONE);
@@ -335,7 +383,12 @@ void wid_thing_info(Gamep g, Levelsp v, Levelp l, Thingp t, WidPopup *parent, in
   if (wid_thing_info_score(g, t, tp, parent, width)) {
     parent->log_empty_line(g);
   }
+
   if (wid_thing_info_health_bar(g, t, tp, parent, width)) {
+    parent->log_empty_line(g);
+  }
+
+  if (wid_thing_info_stamina_bar(g, t, tp, parent, width)) {
     parent->log_empty_line(g);
   }
 

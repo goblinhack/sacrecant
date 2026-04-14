@@ -213,64 +213,6 @@ auto thing_weight_set(Gamep g, Levelsp v, Levelp l, Thingp t, uint32_t val) -> i
   return t->_weight = val;
 }
 
-auto thing_health(Thingp t) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-  return t->_health;
-}
-
-auto thing_health_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-
-  if (val > std::numeric_limits< decltype(t->_health) >::max()) {
-    thing_err(t, "value overflow: %d", val);
-    return 0;
-  }
-
-  game_request_to_remake_ui_set(g);
-  return t->_health = val;
-}
-
-auto thing_health_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-  game_request_to_remake_ui_set(g);
-  return t->_health += val;
-}
-
-auto thing_health_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-  game_request_to_remake_ui_set(g);
-
-  if (static_cast< int >(t->_health) - val <= 0) {
-    return t->_health = 0;
-  }
-
-  return t->_health -= val;
-}
-
 void thing_is_falling_set(Gamep g, Levelsp v, Levelp l, Thingp t, bool val)
 {
   TRACE_DEBUG();
@@ -1736,17 +1678,6 @@ auto thing_is_unused37(Thingp t) -> bool
   return tp_flag(thing_tp(t), is_unused37) != 0;
 }
 
-auto thing_is_unused38(Thingp t) -> bool
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return false;
-  }
-  return tp_flag(thing_tp(t), is_unused38) != 0;
-}
-
 auto thing_is_vault(Thingp t) -> bool
 {
   TRACE_DEBUG();
@@ -2372,17 +2303,6 @@ auto thing_is_projectile(Thingp t) -> bool
     return false;
   }
   return tp_flag(thing_tp(t), is_projectile) != 0;
-}
-
-auto thing_is_health_bar_shown(Thingp t) -> bool
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return false;
-  }
-  return tp_flag(thing_tp(t), is_health_bar_shown) != 0;
 }
 
 auto thing_is_item_mergeable(Thingp t) -> bool
@@ -3904,52 +3824,6 @@ auto thing_value18_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
     return t->_value18 = 0;
   }
   return t->_value18 -= val;
-}
-auto thing_value19(Thingp t) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-  return t->_value19;
-}
-
-auto thing_value19_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-  return t->_value19 = val;
-}
-
-auto thing_value19_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-  return t->_value19 += val;
-}
-
-auto thing_value19_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-  if (static_cast< int >(t->_value19) - val <= 0) {
-    return t->_value19 = 0;
-  }
-  return t->_value19 -= val;
 }
 
 auto thing_minion_max(Thingp t) -> int

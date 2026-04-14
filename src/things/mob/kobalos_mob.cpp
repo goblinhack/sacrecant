@@ -73,7 +73,7 @@ auto tp_load_kobalos_mob() -> bool
   tp_flag_set(tp, is_cursor_path_hazard);
   tp_flag_set(tp, is_described_cursor);
   tp_flag_set(tp, is_dmap);
-  tp_flag_set(tp, is_health_bar_shown);
+  tp_flag_set(tp, is_health_visible);
   tp_flag_set(tp, is_light_source, 3);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_mob);

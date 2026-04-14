@@ -85,7 +85,7 @@ enum { UI_WID_POPUP_WIDTH_NORMAL = 18, UI_WID_POPUP_WIDTH_WIDE = 60 };
 //
 // Left and right bar sizes
 //
-#define UI_HEALTH_BAR_STEPS (UI_LEFTBAR_WIDTH - 2)
+#define UI_STAT_BAR_STEPS (UI_LEFTBAR_WIDTH - 2)
 enum {
   UI_LEFTBAR_WIDTH  = 34, // In characters
   UI_RIGHTBAR_WIDTH = 34  // In characters

@@ -70,6 +70,11 @@ public:
   Dice health_initial;
 
   //
+  // Starting stamina.
+  //
+  Dice stamina_initial;
+
+  //
   // Temperature in celsius
   //
   int temperature_initial {0};
@@ -127,7 +132,7 @@ public:
   int value16 {0};
   int value17 {0};
   int value18 {0};
-  int value19 {0};
+  int stamina {0};
   int score_value {0};
 
   //

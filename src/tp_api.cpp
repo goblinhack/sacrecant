@@ -461,10 +461,10 @@ auto tp_is_grass(Tpp tp) -> bool
   return tp_flag(tp, is_grass) != 0;
 }
 
-auto tp_is_health_bar_shown(Tpp tp) -> bool
+auto tp_is_health_visible(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_health_bar_shown) != 0;
+  return tp_flag(tp, is_health_visible) != 0;
 }
 
 auto tp_is_indestructible(Tpp tp) -> bool
@@ -1073,10 +1073,10 @@ auto tp_is_unused37(Tpp tp) -> bool
   return tp_flag(tp, is_unused37) != 0;
 }
 
-auto tp_is_unused38(Tpp tp) -> bool
+auto tp_is_stamina_visible(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused38) != 0;
+  return tp_flag(tp, is_stamina_visible) != 0;
 }
 
 auto tp_is_reeds(Tpp tp) -> bool

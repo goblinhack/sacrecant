@@ -400,7 +400,6 @@ using Thing = struct Thing {
   int16_t _value16;
   int16_t _value17;
   int16_t _value18;
-  int16_t _value19;
   int16_t _score_value;
   //
   // How many minions this mob can spawn
@@ -430,6 +429,10 @@ using Thing = struct Thing {
   // Health of the item.
   //
   int16_t _health;
+  //
+  // Stamina of the item.
+  //
+  int16_t _stamina;
   //
   // Accumulates and holds the amount of time we've been falling.
   //
@@ -709,7 +712,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_gold(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_grass(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_grouped_thing(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_health_bar_shown(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_health_visible(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_hit_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_is_hit_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_is_hit_when_dead(Thingp t) -> bool;
@@ -820,7 +823,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused35(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused36(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused37(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused38(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_stamina_visible(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused4(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused46(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused47(Thingp t) -> bool;
@@ -975,10 +978,10 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_value18_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_value18_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
 [[nodiscard]] auto thing_value18(Thingp t) -> int;
-[[nodiscard]] auto thing_value19_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
-[[nodiscard]] auto thing_value19_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
-[[nodiscard]] auto thing_value19_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
-[[nodiscard]] auto thing_value19(Thingp t) -> int;
+[[nodiscard]] auto thing_stamina_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
+[[nodiscard]] auto thing_stamina_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
+[[nodiscard]] auto thing_stamina_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
+[[nodiscard]] auto thing_stamina(Thingp t) -> int;
 [[nodiscard]] auto thing_value2_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_value2_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_value2_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;

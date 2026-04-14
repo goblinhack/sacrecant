@@ -61,6 +61,7 @@ auto thing_init(Gamep g, Levelsp v, Levelp l, Tpp tp, const fpoint &real_at) -> 
   (void) thing_distance_minion_from_mob_max_set(g, v, l, t, tp_distance_minion_from_mob_max_get(tp));
   (void) thing_distance_vision_set(g, v, l, t, tp_distance_vision_get(tp));
   (void) thing_health_set(g, v, l, t, tp_health_max_get(tp));
+  (void) thing_stamina_set(g, v, l, t, tp_stamina_max_get(tp));
   (void) thing_distance_jump_set(g, v, l, t, tp_distance_jump_get(tp));
   (void) thing_minion_max_set(g, v, l, t, tp_minion_max_get(tp));
   (void) thing_projectile_max_set(g, v, l, t, tp_projectile_max_get(tp));
@@ -77,7 +78,7 @@ auto thing_init(Gamep g, Levelsp v, Levelp l, Tpp tp, const fpoint &real_at) -> 
   (void) thing_value16_set(g, v, l, t, tp_value16_get(tp));
   (void) thing_value17_set(g, v, l, t, tp_value17_get(tp));
   (void) thing_value18_set(g, v, l, t, tp_value18_get(tp));
-  (void) thing_value19_set(g, v, l, t, tp_value19_get(tp));
+  (void) thing_stamina_set(g, v, l, t, tp_stamina_get(tp));
   (void) thing_value2_set(g, v, l, t, tp_value2_get(tp));
   (void) thing_score_value_set(g, v, l, t, tp_score_value_get(tp));
   (void) thing_value3_set(g, v, l, t, tp_value3_get(tp));

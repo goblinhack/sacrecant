@@ -461,10 +461,10 @@ auto level_alive_is_grass(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thin
   return level_alive(g, v, l, is_grass, p);
 }
 
-auto level_alive_is_health_bar_shown(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+auto level_alive_is_health_visible(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_alive(g, v, l, is_health_bar_shown, p);
+  return level_alive(g, v, l, is_health_visible, p);
 }
 
 auto level_alive_is_indestructible(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
@@ -1073,10 +1073,10 @@ auto level_alive_is_unused37(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> T
   return level_alive(g, v, l, is_unused37, p);
 }
 
-auto level_alive_is_unused38(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+auto level_alive_is_stamina_visible(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_alive(g, v, l, is_unused38, p);
+  return level_alive(g, v, l, is_stamina_visible, p);
 }
 
 auto level_alive_is_reeds(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp

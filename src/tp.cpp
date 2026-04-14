@@ -1050,6 +1050,26 @@ auto tp_health_max_get(Tpp tp) -> int
   return tp->health_initial.max_roll();
 }
 
+void tp_stamina_set(Tpp tp, const std::string &val)
+{
+  TRACE();
+  if (tp == nullptr) [[unlikely]] {
+    tp_err(tp, "no thing template pointer");
+    return;
+  }
+  tp->stamina_initial = Dice(std::string(val));
+}
+
+auto tp_stamina_max_get(Tpp tp) -> int
+{
+  TRACE();
+  if (tp == nullptr) [[unlikely]] {
+    tp_err(tp, "no thing template pointer");
+    return 0;
+  }
+  return tp->stamina_initial.max_roll();
+}
+
 void tp_temperature_initial_set(Tpp tp, int val)
 {
   TRACE();
@@ -1490,24 +1510,24 @@ auto tp_value18_get(Tpp tp) -> int
   return tp->value18;
 }
 
-void tp_value19_set(Tpp tp, int val)
+void tp_stamina_set(Tpp tp, int val)
 {
   TRACE();
   if (tp == nullptr) [[unlikely]] {
     tp_err(tp, "no thing template pointer");
     return;
   }
-  tp->value19 = val;
+  tp->stamina = val;
 }
 
-auto tp_value19_get(Tpp tp) -> int
+auto tp_stamina_get(Tpp tp) -> int
 {
   TRACE();
   if (tp == nullptr) [[unlikely]] {
     tp_err(tp, "no thing template pointer");
     return 0;
   }
-  return tp->value19;
+  return tp->stamina;
 }
 
 void tp_score_value_set(Tpp tp, int val)

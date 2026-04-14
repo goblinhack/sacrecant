@@ -744,16 +744,16 @@ static void gfx_ui_init_progress_bar()
   tile_load_arr("data/gfx/ui/progress_bar.tga", "progress_bar", 256, 32, ARRAY_SIZE(tiles), tiles);
 }
 
-static void gfx_ui_init_health_bar()
+static void gfx_ui_init_stat_bar()
 {
   const char *tiles[] = {
-      "health_bar.32", "health_bar.31", "health_bar.30", "health_bar.29", "health_bar.28", "health_bar.27", "health_bar.26",
-      "health_bar.25", "health_bar.24", "health_bar.23", "health_bar.22", "health_bar.21", "health_bar.20", "health_bar.19",
-      "health_bar.18", "health_bar.17", "health_bar.16", "health_bar.15", "health_bar.14", "health_bar.13", "health_bar.12",
-      "health_bar.11", "health_bar.10", "health_bar.9",  "health_bar.8",  "health_bar.7",  "health_bar.6",  "health_bar.5",
-      "health_bar.4",  "health_bar.3",  "health_bar.2",  "health_bar.1",
+      "stat_bar.32", "stat_bar.31", "stat_bar.30", "stat_bar.29", "stat_bar.28", "stat_bar.27", "stat_bar.26",
+      "stat_bar.25", "stat_bar.24", "stat_bar.23", "stat_bar.22", "stat_bar.21", "stat_bar.20", "stat_bar.19",
+      "stat_bar.18", "stat_bar.17", "stat_bar.16", "stat_bar.15", "stat_bar.14", "stat_bar.13", "stat_bar.12",
+      "stat_bar.11", "stat_bar.10", "stat_bar.9",  "stat_bar.8",  "stat_bar.7",  "stat_bar.6",  "stat_bar.5",
+      "stat_bar.4",  "stat_bar.3",  "stat_bar.2",  "stat_bar.1",
   };
-  tile_load_arr("data/gfx/ui/health_bar.tga", "health_bar", 192, 8, ARRAY_SIZE(tiles), tiles);
+  tile_load_arr("data/gfx/ui/stat_bar.tga", "stat_bar", 192, 8, ARRAY_SIZE(tiles), tiles);
 }
 
 static void gfx_ui_init_solid()
@@ -3811,7 +3811,7 @@ void gfx_init()
   gfx_ui_init_7();
   gfx_ui_init_8();
   gfx_ui_init_9();
-  gfx_ui_init_health_bar();
+  gfx_ui_init_stat_bar();
   gfx_ui_init_intro_bg();
   gfx_ui_init_main_bg();
   gfx_ui_init_main_fg();

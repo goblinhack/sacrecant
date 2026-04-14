@@ -461,10 +461,10 @@ auto level_is_grass_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> boo
   return level_flag_cached(g, v, l, is_grass, p);
 }
 
-auto level_is_health_bar_shown_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+auto level_is_health_visible_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_health_bar_shown, p);
+  return level_flag_cached(g, v, l, is_health_visible, p);
 }
 
 auto level_is_indestructible_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
@@ -1073,10 +1073,10 @@ auto level_is_unused37_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> 
   return level_flag_cached(g, v, l, is_unused37, p);
 }
 
-auto level_is_unused38_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+auto level_is_stamina_visible_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused38, p);
+  return level_flag_cached(g, v, l, is_stamina_visible, p);
 }
 
 auto level_is_reeds_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

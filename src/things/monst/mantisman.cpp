@@ -108,7 +108,7 @@ auto tp_load_mantisman() -> bool
   tp_flag_set(tp, is_collision_circle_large);
   tp_flag_set(tp, is_corpse_on_death);
   tp_flag_set(tp, is_described_cursor);
-  tp_flag_set(tp, is_health_bar_shown);
+  tp_flag_set(tp, is_health_visible);
   tp_flag_set(tp, is_hit_when_dead);
   tp_flag_set(tp, is_insectoid);
   tp_flag_set(tp, is_loggable);
