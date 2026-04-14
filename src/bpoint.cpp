@@ -73,10 +73,9 @@ auto adjacent_vert_or_horiz(const bpoint &a, const bpoint &b) -> bool
 //
 auto adjacent(const bpoint &a, const bpoint &b) -> bool
 {
-  if (0)
-    if (a == b) {
-      return false;
-    }
+  if (a == b) {
+    return false;
+  }
   if (abs(a.x - b.x) > 1) {
     return false;
   }

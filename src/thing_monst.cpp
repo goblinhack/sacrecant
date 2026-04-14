@@ -433,7 +433,8 @@ void thing_monst_event_loop(Gamep g, Levelsp v, Levelp l, Thingp me)
         //
         // To avoid one move of sitting idle, can we choose a new target and keep on moving?
         //
-        if (adjacent(thing_at(me), old_target)) {
+        auto at = thing_at(me);
+        if ((at == old_target) || adjacent(at, old_target)) {
           //
           // We're probably lunging at the player right now. No need to try to move again.
           //
