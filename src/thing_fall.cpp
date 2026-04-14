@@ -252,8 +252,30 @@ void thing_fall_end_check(Gamep g, Levelsp v, Levelp l, Thingp t)
     TRACE_INDENT();
   }
 
-  if (thing_is_falling(t) >= THING_FALL_TIME_MS) {
+  //
+  // Fallen for long enough?
+  //
+  bool fall_finished = thing_is_falling(t) >= THING_FALL_TIME_MS;
 
+  //
+  // If the player cannot see the thing fall, then complete the fall to avoid
+  // any stuttering in frame rate
+  //
+  if (! fall_finished) {
+    auto *player = thing_player(g);
+    if (player != nullptr) {
+      if (t != player) {
+        if (! thing_vision_can_see_tile(g, v, l, player, thing_at(t))) {
+          fall_finished = true;
+        }
+      }
+    }
+  }
+
+  //
+  // Fall complete?
+  //
+  if (fall_finished) {
     thing_fall_end(g, v, l, t);
 
     auto *t_level = game_level_get(g, v, t->level_num);

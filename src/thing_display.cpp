@@ -285,9 +285,7 @@ static void thing_display_blit(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tp
         case BIOME_NONE :       [[fallthrough]];
         case BIOME_ENUM_MAX :   break;
       }
-    }
-
-    if (thing_is_wall(t_maybe_null)) {
+    } else if (thing_is_wall(t_maybe_null)) {
       switch (level_to_biome(g, v, l)) {
         case BIOME_DUNGEON :    break;
         case BIOME_BOGLAND :    fg = GREEN; break;

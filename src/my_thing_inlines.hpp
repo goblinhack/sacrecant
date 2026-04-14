@@ -221,6 +221,71 @@ static inline auto thing_is_player(const Thingp t) -> bool
   return t->_is_player;
 }
 
+static inline auto thing_is_water(Thingp t) -> bool
+{
+#ifdef DEBUG_BUILD
+  TRACE_DEBUG();
+
+  if (t == nullptr) {
+    ERR("no thing pointer");
+    return false;
+  }
+#endif
+  return tp_flag(thing_tp(t), is_water) != 0;
+}
+
+static inline auto thing_is_foliage(Thingp t) -> bool
+{
+#ifdef DEBUG_BUILD
+  TRACE_DEBUG();
+
+  if (t == nullptr) {
+    ERR("no thing pointer");
+    return false;
+  }
+#endif
+  return tp_flag(thing_tp(t), is_foliage) != 0;
+}
+
+static inline auto thing_is_reeds(Thingp t) -> bool
+{
+#ifdef DEBUG_BUILD
+  TRACE_DEBUG();
+
+  if (t == nullptr) {
+    ERR("no thing pointer");
+    return false;
+  }
+#endif
+  return tp_flag(thing_tp(t), is_reeds) != 0;
+}
+
+static inline auto thing_is_wall(Thingp t) -> bool
+{
+#ifdef DEBUG_BUILD
+  TRACE_DEBUG();
+
+  if (t == nullptr) {
+    ERR("no thing pointer");
+    return false;
+  }
+#endif
+  return tp_flag(thing_tp(t), is_wall) != 0;
+}
+
+static inline auto thing_is_floor(Thingp t) -> bool
+{
+#ifdef DEBUG_BUILD
+  TRACE_DEBUG();
+
+  if (t == nullptr) {
+    ERR("no thing pointer");
+    return false;
+  }
+#endif
+  return tp_flag(thing_tp(t), is_floor) != 0;
+}
+
 static inline auto thing_is_obs_to_vision(Thingp t) -> bool
 {
 #ifdef DEBUG_BUILD

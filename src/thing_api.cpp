@@ -1000,28 +1000,6 @@ auto thing_is_exit(Thingp t) -> bool
   return tp_flag(thing_tp(t), is_exit) != 0;
 }
 
-auto thing_is_floor(Thingp t) -> bool
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return false;
-  }
-  return tp_flag(thing_tp(t), is_floor) != 0;
-}
-
-auto thing_is_foliage(Thingp t) -> bool
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return false;
-  }
-  return tp_flag(thing_tp(t), is_foliage) != 0;
-}
-
 auto thing_is_ghost(Thingp t) -> bool
 {
   TRACE_DEBUG();
@@ -1767,17 +1745,6 @@ auto thing_is_unused38(Thingp t) -> bool
     return false;
   }
   return tp_flag(thing_tp(t), is_unused38) != 0;
-}
-
-auto thing_is_reeds(Thingp t) -> bool
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return false;
-  }
-  return tp_flag(thing_tp(t), is_reeds) != 0;
 }
 
 auto thing_is_vault(Thingp t) -> bool
@@ -3130,28 +3097,6 @@ auto thing_is_able_to_walk_through_walls(Thingp t) -> bool
     return false;
   }
   return tp_flag(thing_tp(t), is_able_to_walk_through_walls) != 0;
-}
-
-auto thing_is_wall(Thingp t) -> bool
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return false;
-  }
-  return tp_flag(thing_tp(t), is_wall) != 0;
-}
-
-auto thing_is_water(Thingp t) -> bool
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return false;
-  }
-  return tp_flag(thing_tp(t), is_water) != 0;
 }
 
 auto thing_value1(Thingp t) -> int

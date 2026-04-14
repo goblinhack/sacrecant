@@ -173,7 +173,7 @@ auto music_play(Gamep g, const std::string &name) -> bool
 
   music_update_volume(g);
 
-  topcon("Playing %s volume %d", m->name.c_str(), game_music_volume_get(g));
+  log("Playing %s volume %d", m->name.c_str(), game_music_volume_get(g));
 
   return true;
 }

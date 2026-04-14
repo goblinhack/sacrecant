@@ -702,9 +702,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_fireball(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_flesh(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_floating(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_floor(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_flying(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_foliage(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_gaseous(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_ghost(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_glass(Thingp t) -> bool;
@@ -770,7 +768,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_pillar(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_plant(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_projectile(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_reeds(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_removable_on_err(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_removable_when_dead_on_err(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_rock(Thingp t) -> bool;
@@ -837,8 +834,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_vision_180_degrees(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_vision_360_degrees(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_wait_on_dead_anim(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_wall(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_water(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_wood(Thingp t) -> bool;
 [[nodiscard]] auto thing_jump_to(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to, bool warn = true) -> bool;
 [[nodiscard]] auto thing_keys_carried_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
