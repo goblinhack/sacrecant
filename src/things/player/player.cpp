@@ -307,7 +307,7 @@ auto tp_load_player() -> bool
   tp_chance_set(tp, THING_CHANCE_CONTINUE_TO_BURN, "1d6"); // roll max to stop burning
   tp_chance_set(tp, THING_CHANCE_START_BURNING, "1d100");  // roll max to continue burning
   tp_distance_jump_set(tp, 3);
-  tp_distance_vision_set(tp, MAP_WIDTH / 4); // tiles
+  tp_distance_vision_set(tp, MAP_WIDTH / 2); // tiles
   tp_flag_set(tp, is_able_to_collect_items);
   tp_flag_set(tp, is_able_to_collect_keys);
   tp_flag_set(tp, is_able_to_crush_grass);

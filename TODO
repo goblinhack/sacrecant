@@ -1,6 +1,8 @@
 bugs
 ----
+stutter when moving right in bogland --seed weekly --level 6 --seed maniac --debug
 stamina needed to avoid fast jump loops
+in bogland decrease vision for player
 
 todo
 ----

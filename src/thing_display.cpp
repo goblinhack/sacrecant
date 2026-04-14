@@ -265,9 +265,42 @@ static void thing_display_blit(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tp
 
   if (tp_is_blit_outlined(tp) || tp_is_blit_square_outlined(tp)) {
     thing_display_outlined_blit(g, tp, tl, br, tile, x1, x2, y1, y2, fg, BLACK);
-  } else {
-    tile_blit(tile, x1, x2, y1, y2, tl, br, fg, light_pixels, blit_flush_per_line);
+    return;
   }
+
+  //
+  // Cannot use quantized values of fg if the light_pixels is set, else the lighting
+  // appears in blocks of squares
+  //
+  if (light_pixels) {
+    fg = WHITE;
+
+    if (thing_is_water(t_maybe_null)) {
+      switch (level_to_biome(g, v, l)) {
+        case BIOME_DUNGEON :    break;
+        case BIOME_BOGLAND :    fg = GREEN2; break;
+        case BIOME_NETHERVOID : break;
+        case BIOME_GRAVEYARD :  break;
+        case BIOME_UNDERHELL :  break;
+        case BIOME_NONE :       [[fallthrough]];
+        case BIOME_ENUM_MAX :   break;
+      }
+    }
+
+    if (thing_is_wall(t_maybe_null)) {
+      switch (level_to_biome(g, v, l)) {
+        case BIOME_DUNGEON :    break;
+        case BIOME_BOGLAND :    fg = GREEN; break;
+        case BIOME_NETHERVOID : break;
+        case BIOME_GRAVEYARD :  break;
+        case BIOME_UNDERHELL :  break;
+        case BIOME_NONE :       [[fallthrough]];
+        case BIOME_ENUM_MAX :   break;
+      }
+    }
+  }
+
+  tile_blit(tile, x1, x2, y1, y2, tl, br, fg, light_pixels, blit_flush_per_line);
 }
 
 //
@@ -558,30 +591,6 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
     if (is_falling) {
       thing_display_falling(g, v, l, p, tp, t_maybe_null, tl, br, tile, x1, x2, y1, y2, fbo, fg);
       return;
-    }
-
-    if (thing_is_water(t_maybe_null)) {
-      switch (level_to_biome(g, v, l)) {
-        case BIOME_DUNGEON :    break;
-        case BIOME_BOGLAND :    fg = GREEN2; break;
-        case BIOME_NETHERVOID : break;
-        case BIOME_GRAVEYARD :  break;
-        case BIOME_UNDERHELL :  break;
-        case BIOME_NONE :       [[fallthrough]];
-        case BIOME_ENUM_MAX :   break;
-      }
-    }
-
-    if (thing_is_wall(t_maybe_null)) {
-      switch (level_to_biome(g, v, l)) {
-        case BIOME_DUNGEON :    break;
-        case BIOME_BOGLAND :    fg = GREEN; break;
-        case BIOME_NETHERVOID : break;
-        case BIOME_GRAVEYARD :  break;
-        case BIOME_UNDERHELL :  break;
-        case BIOME_NONE :       [[fallthrough]];
-        case BIOME_ENUM_MAX :   break;
-      }
     }
 
     int submerged_pct = 0;
