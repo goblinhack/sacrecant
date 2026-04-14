@@ -58,16 +58,20 @@ auto thing_init(Gamep g, Levelsp v, Levelp l, Tpp tp, const fpoint &real_at) -> 
     }
   }
 
+  (void) thing_distance_jump_set(g, v, l, t, tp_distance_jump_get(tp));
   (void) thing_distance_minion_from_mob_max_set(g, v, l, t, tp_distance_minion_from_mob_max_get(tp));
   (void) thing_distance_vision_set(g, v, l, t, tp_distance_vision_get(tp));
   (void) thing_health_set(g, v, l, t, tp_health_max_get(tp));
-  (void) thing_stamina_set(g, v, l, t, tp_stamina_max_get(tp));
-  (void) thing_distance_jump_set(g, v, l, t, tp_distance_jump_get(tp));
   (void) thing_minion_max_set(g, v, l, t, tp_minion_max_get(tp));
-  (void) thing_projectile_max_set(g, v, l, t, tp_projectile_max_get(tp));
   (void) thing_priority_set(g, v, l, t, tp_priority_get(tp));
+  (void) thing_projectile_max_set(g, v, l, t, tp_projectile_max_get(tp));
+  (void) thing_score_value_set(g, v, l, t, tp_score_value_get(tp));
   (void) thing_speed_set(g, v, l, t, tp_speed_get(tp));
+  (void) thing_stamina_set(g, v, l, t, tp_stamina_max_get(tp));
   (void) thing_temperature_set(g, v, l, t, tp_temperature_initial_get(tp));
+  (void) thing_variant_set(g, v, l, t, tp_variant_get(tp));
+  (void) thing_weight_set(g, v, l, t, tp_weight_get(tp));
+
   (void) thing_value1_set(g, v, l, t, tp_value1_get(tp));
   (void) thing_value10_set(g, v, l, t, tp_value10_get(tp));
   (void) thing_value11_set(g, v, l, t, tp_value11_get(tp));
@@ -78,9 +82,7 @@ auto thing_init(Gamep g, Levelsp v, Levelp l, Tpp tp, const fpoint &real_at) -> 
   (void) thing_value16_set(g, v, l, t, tp_value16_get(tp));
   (void) thing_value17_set(g, v, l, t, tp_value17_get(tp));
   (void) thing_value18_set(g, v, l, t, tp_value18_get(tp));
-  (void) thing_stamina_set(g, v, l, t, tp_stamina_get(tp));
   (void) thing_value2_set(g, v, l, t, tp_value2_get(tp));
-  (void) thing_score_value_set(g, v, l, t, tp_score_value_get(tp));
   (void) thing_value3_set(g, v, l, t, tp_value3_get(tp));
   (void) thing_value4_set(g, v, l, t, tp_value4_get(tp));
   (void) thing_value5_set(g, v, l, t, tp_value5_get(tp));
@@ -88,9 +90,7 @@ auto thing_init(Gamep g, Levelsp v, Levelp l, Tpp tp, const fpoint &real_at) -> 
   (void) thing_value7_set(g, v, l, t, tp_value7_get(tp));
   (void) thing_value8_set(g, v, l, t, tp_value8_get(tp));
   (void) thing_value9_set(g, v, l, t, tp_value9_get(tp));
-  (void) thing_variant_set(g, v, l, t, tp_variant_get(tp));
-  (void) thing_distance_vision_set(g, v, l, t, tp_distance_vision_get(tp));
-  (void) thing_weight_set(g, v, l, t, tp_weight_get(tp));
+
   //
   // More consistent for tests to use max values
   //

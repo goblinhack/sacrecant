@@ -238,6 +238,8 @@
   memset(tmp, 0, sizeof(tmp));
   memset(tmp, ' ', sizeof(tmp) - 1);
 
+  my_strlcpy(tmp + 1, "Stamina", sizeof("Stamina "));
+
   //
   // "Stamina        a/b"
   //
