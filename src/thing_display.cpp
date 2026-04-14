@@ -601,15 +601,17 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
         // Add a reflection
         //
         if (fbo != FBO_MAP_FG_OVERLAY) {
-          fg.a /= 8;
-          fg.r /= 2;
-          fg.g /= 2;
-          fg.b /= 2;
-          light_pixels = nullptr;
-          auto h       = br.y - tl.y;
-          std::swap(br.y, tl.y);
-          tl.y += h;
-          br.y += h;
+          if (level_is_water_cached(g, v, l, p)) {
+            fg.a /= 8;
+            fg.r /= 2;
+            fg.g /= 2;
+            fg.b /= 2;
+            light_pixels = nullptr;
+            auto h       = br.y - tl.y;
+            std::swap(br.y, tl.y);
+            tl.y += h;
+            br.y += h;
+          }
         }
       }
     }

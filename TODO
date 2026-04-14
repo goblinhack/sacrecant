@@ -1,5 +1,10 @@
 bugs
 ----
+no message if trying to jump diagonally and that fails
+
+todo
+----
+multiple boss levels
 brazier kick over sound
 rustle noise in bushes
 shoot from behind double damage
@@ -89,8 +94,8 @@ ui
   - play weekly/daily seed - generated from date
   - random player name e.g. galatrex the dark
 
-not sure
---------
+future
+------
 debug shell "add monst"
 sacrifices
 sacrifice a leg / soul to progress
