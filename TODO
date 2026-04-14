@@ -1,6 +1,6 @@
 bugs
 ----
-no message if trying to jump diagonally and that fails
+stamina needed to avoid fast jump loops
 
 todo
 ----
@@ -56,8 +56,6 @@ abilities
 weapon slots
   - etherblast to hit ghosts in walls
   - emergency teleport
-player
-  - stamina needed to avoid fast jump loops
 gameplay
   - hard coded to fire fireball
   - traps must do something / gas effects

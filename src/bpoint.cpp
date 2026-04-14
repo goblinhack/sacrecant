@@ -53,6 +53,9 @@ void bpoint::unit()
 //
 auto adjacent_vert_or_horiz(const bpoint &a, const bpoint &b) -> bool
 {
+  if (a == b) {
+    return false;
+  }
   if ((a.x != b.x) && (a.y != b.y)) {
     return false;
   }
@@ -66,10 +69,14 @@ auto adjacent_vert_or_horiz(const bpoint &a, const bpoint &b) -> bool
 }
 
 //
-// Are points adjacent to each other?
+// Are points adjacent to each other? (includes diagonal)
 //
 auto adjacent(const bpoint &a, const bpoint &b) -> bool
 {
+  if (0)
+    if (a == b) {
+      return false;
+    }
   if (abs(a.x - b.x) > 1) {
     return false;
   }
@@ -77,6 +84,20 @@ auto adjacent(const bpoint &a, const bpoint &b) -> bool
     return false;
   }
   return true;
+}
+
+//
+// Are points diagonally adjacent to each other?
+//
+auto adjacent_diagonal(const bpoint &a, const bpoint &b) -> bool
+{
+  if (a == b) {
+    return false;
+  }
+  if ((abs(a.x - b.x) == 1) && (abs(a.y - b.y) == 1)) {
+    return true;
+  }
+  return false;
 }
 
 auto unit(const bpoint &p) -> bpoint

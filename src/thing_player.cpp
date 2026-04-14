@@ -479,11 +479,26 @@ auto player_check_if_target_needs_move_confirm(Gamep g, Levelsp v, Levelp l, con
     return false;
   }
 
-  THING_DBG(me, "player move");
+  THING_DBG(me, "player move: move path size %d", thing_move_path_size(g, v, l, me));
   TRACE_INDENT();
 
   if (! adjacent(thing_at(me), to)) {
     return false;
+  }
+
+  if (! thing_move_path_size(g, v, l, me)) {
+    player_state_change(g, v, l, PLAYER_STATE_NORMAL);
+
+    if (level_is_cursor_path_hazard(g, v, l, to) != nullptr) {
+      THING_DBG(me, "player move: cursor path is a hazard and have no move path");
+      TRACE_INDENT();
+
+      std::vector< bpoint > move_path;
+      move_path.push_back(to);
+      level_cursor_copy_path_to_player(g, v, l, move_path);
+      player_state_change(g, v, l, PLAYER_STATE_FOLLOWING_PATH);
+      THING_DBG(me, "player move: move path size %d", thing_move_path_size(g, v, l, me));
+    }
   }
 
   //
@@ -631,6 +646,17 @@ auto player_check_if_target_needs_move_confirm(Gamep g, Levelsp v, Levelp l, con
     }
     (void) level_tick_begin_requested(g, v, l, "player failed to open something in the way");
 
+  } else if (thing_can_move_to_diagonal_is_blocked(g, v, l, me, to)) {
+    //
+    // Can we jump diagonally?
+    //
+    THING_DBG(me, "diagonal move blocked; try to jump");
+
+    if (thing_jump_to(g, v, l, me, to, false)) {
+      (void) level_tick_begin_requested(g, v, l, "player jumped");
+    } else {
+      (void) level_tick_begin_requested(g, v, l, "player could not pass diagonal obstacle");
+    }
   } else {
     (void) level_tick_begin_requested(g, v, l, "player bumped into obstacle");
   }
@@ -1031,6 +1057,7 @@ void player_collision_handle(Gamep g, Levelsp v, Levelp l, Thingp me)
 auto player_jump(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool
 {
   TRACE();
+  THING_DBG(me, "player jump");
 
   auto *player_struct = thing_player_struct(g);
   if (player_struct == nullptr) {
@@ -1059,9 +1086,6 @@ auto player_jump(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool
 //
 auto player_move_to_next(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool
 {
-  THING_DBG(me, "player move to next");
-  TRACE_INDENT();
-
   //
   // If already moving, do not pop the next path tile
   //
@@ -1106,6 +1130,9 @@ auto player_move_to_next(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool
       break;
     case PLAYER_STATE_ENUM_MAX : break;
   }
+
+  THING_DBG(me, "player move to next");
+  TRACE_INDENT();
 
   //
   // Get the next tile to move to

@@ -334,14 +334,38 @@ static auto game_event_jump(Gamep g) -> bool
     return false;
   }
 
-  if (level_is_cursor_path_hazard(g, v, l, v->cursor_at) != nullptr) {
+  auto to = v->cursor_at;
+  auto at = thing_at(player);
+
+  THING_DBG(player, "jump attempt to %d,%d", to.x, to.y);
+
+  if (level_is_cursor_path_hazard(g, v, l, to) != nullptr) {
     //
     // If there is a hazard at the target, then go through the normal mouse
     // code which will walk up to the edge of the chasm and then jump, and
     // can offer a confirm box.
     //
-    player_state_change(g, v, l, PLAYER_STATE_PATH_REQUESTED);
+    THING_DBG(player, "trying to jump into hazard");
     level_cursor_copy_mouse_path_to_player(g, v, l);
+
+    //
+    // If trying to jump diagonally between walls, the move path will be zero
+    // in size. However we want to allow the jump.
+    //
+    if (! thing_move_path_size(g, v, l, player)) {
+      if (adjacent(to, at)) {
+        std::vector< bpoint > move_path;
+        move_path.push_back(to);
+        level_cursor_copy_path_to_player(g, v, l, move_path);
+      }
+    }
+
+    if (! thing_move_path_size(g, v, l, player)) {
+      topcon("I can't jump there.");
+      return false;
+    }
+
+    player_state_change(g, v, l, PLAYER_STATE_PATH_REQUESTED);
     return player_check_if_target_needs_move_confirm(g, v, l, v->cursor_at);
   }
 

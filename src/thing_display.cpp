@@ -601,6 +601,9 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
         // Add a reflection
         //
         if (fbo != FBO_MAP_FG_OVERLAY) {
+          //
+          // Reflections only in water. Not lava!
+          //
           if (level_is_water_cached(g, v, l, p)) {
             fg.a /= 8;
             fg.r /= 2;
