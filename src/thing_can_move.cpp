@@ -27,10 +27,7 @@ auto thing_can_move_to_diagonal_is_blocked(Gamep g, Levelsp v, Levelp l, Thingp 
     return false;
   }
 
-  THING_DBG(me, "check diagonal move to %d,%d", to.x, to.y);
-
   if (! adjacent_diagonal(at, to)) {
-    THING_DBG(me, "check diagonal move to %d,%d; not diagonally adjacent", to.x, to.y);
     return false;
   }
 
@@ -39,54 +36,67 @@ auto thing_can_move_to_diagonal_is_blocked(Gamep g, Levelsp v, Levelp l, Thingp 
   //
   // Don't allow shortcuts across chasms, hence _possible instead of _ai
   //
-  if (! thing_can_move_to_possible(g, v, l, me, bpoint(at.x - 1, at.y))
-      && ! thing_can_move_to_possible(g, v, l, me, bpoint(at.x, at.y - 1))) {
-    //
-    // Block these paths
-    //
+  if ((to.x == at.x - 1) && (to.y == at.y - 1)) {
+    if (! thing_can_move_to_possible(g, v, l, me, bpoint(at.x - 1, at.y))
+        && ! thing_can_move_to_possible(g, v, l, me, bpoint(at.x, at.y - 1))) {
+      //
+      // Block these paths
+      //
 
-    // b#.
-    // #a.
-    // ...
-    return true;
+      // b#.
+      // #a.
+      // ...
+      THING_DBG(me, "check diagonal move to %d,%d; blocked (a)", to.x, to.y);
+      return true;
+    }
   }
 
-  if (! thing_can_move_to_possible(g, v, l, me, bpoint(at.x - 1, at.y))
-      && ! thing_can_move_to_possible(g, v, l, me, bpoint(at.x, at.y + 1))) {
-    //
-    // Block these paths
-    //
+  if ((to.x == at.x - 1) && (to.y == at.y + 1)) {
+    if (! thing_can_move_to_possible(g, v, l, me, bpoint(at.x - 1, at.y))
+        && ! thing_can_move_to_possible(g, v, l, me, bpoint(at.x, at.y + 1))) {
+      //
+      // Block these paths
+      //
 
-    // ...
-    // #a.
-    // .#.
-    return true;
+      // ...
+      // #a.
+      // b#.
+      THING_DBG(me, "check diagonal move to %d,%d; blocked (b)", to.x, to.y);
+      return true;
+    }
   }
 
-  if (! thing_can_move_to_possible(g, v, l, me, bpoint(at.x + 1, at.y))
-      && ! thing_can_move_to_possible(g, v, l, me, bpoint(at.x, at.y - 1))) {
-    //
-    // Block these paths
-    //
+  if ((to.x == at.x + 1) && (to.y == at.y - 1)) {
+    if (! thing_can_move_to_possible(g, v, l, me, bpoint(at.x + 1, at.y))
+        && ! thing_can_move_to_possible(g, v, l, me, bpoint(at.x, at.y - 1))) {
+      //
+      // Block these paths
+      //
 
-    // .#.
-    // .a#
-    // ...
-    return true;
+      // .#b
+      // .a#
+      // ...
+      THING_DBG(me, "check diagonal move to %d,%d; blocked (c)", to.x, to.y);
+      return true;
+    }
   }
 
-  if (! thing_can_move_to_possible(g, v, l, me, bpoint(at.x + 1, at.y))
-      && ! thing_can_move_to_possible(g, v, l, me, bpoint(at.x, at.y + 1))) {
-    //
-    // Block these paths
-    //
+  if ((to.x == at.x + 1) && (to.y == at.y + 1)) {
+    if (! thing_can_move_to_possible(g, v, l, me, bpoint(at.x + 1, at.y))
+        && ! thing_can_move_to_possible(g, v, l, me, bpoint(at.x, at.y + 1))) {
+      //
+      // Block these paths
+      //
 
-    // ...
-    // .a#
-    // .#.
-    return true;
+      // ...
+      // .a#
+      // .#b
+      THING_DBG(me, "check diagonal move to %d,%d; blocked (d)", to.x, to.y);
+      return true;
+    }
   }
 
+  THING_DBG(me, "check diagonal move to %d,%d; ok", to.x, to.y);
   return false;
 }
 
@@ -123,7 +133,7 @@ auto thing_can_move_to_attempt(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint t
   //
   // Don't allow shortcuts across chasms, hence _possible instead of _ai
   //
-  if (0 && thing_can_move_to_diagonal_is_blocked(g, v, l, me, to)) {
+  if (thing_can_move_to_diagonal_is_blocked(g, v, l, me, to)) {
     (void) thing_lunge(g, v, l, me, to);
     return false;
   }
