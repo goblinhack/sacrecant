@@ -2022,28 +2022,6 @@ auto thing_is_grouped_thing(Thingp t) -> bool
   return tp_flag(thing_tp(t), is_grouped_thing) != 0;
 }
 
-auto thing_is_vision_360_degrees(Thingp t) -> bool
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return false;
-  }
-  return tp_flag(thing_tp(t), is_vision_360_degrees) != 0;
-}
-
-auto thing_is_vision_180_degrees(Thingp t) -> bool
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return false;
-  }
-  return tp_flag(thing_tp(t), is_vision_180_degrees) != 0;
-}
-
 auto thing_is_able_to_lunge(Thingp t) -> bool
 {
   TRACE_DEBUG();
@@ -4110,53 +4088,6 @@ auto thing_distance_minion_from_mob_max_set(Gamep g, Levelsp v, Levelp l, Thingp
     return 0;
   }
   return t->_distance_minion_from_mob_max = val;
-}
-
-auto thing_distance_vision(Thingp t) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-  return t->_distance_vision;
-}
-
-auto thing_distance_vision_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-  return t->_distance_vision = val;
-}
-
-auto thing_distance_vision_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-  return t->_distance_vision += val;
-}
-
-auto thing_distance_vision_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-  if (static_cast< int >(t->_distance_vision) - val <= 0) {
-    return t->_distance_vision = 0;
-  }
-  return t->_distance_vision -= val;
 }
 
 auto thing_variant(Thingp t) -> int

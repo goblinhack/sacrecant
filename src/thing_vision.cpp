@@ -192,7 +192,7 @@ void thing_vision_calculate(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
 
-  auto max_radius = thing_distance_vision(me);
+  auto max_radius = thing_distance_vision(g, v, l, me);
   if (max_radius == 0) {
     return;
   }
@@ -245,3 +245,98 @@ void thing_vision_calculate(Gamep g, Levelsp v, Levelp l, Thingp me)
     close_stderr();
   }
 }
+
+auto thing_distance_vision(Gamep g, Levelsp v, Levelp l, Thingp t) -> int
+{
+  TRACE_DEBUG();
+
+  if (t == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+
+  auto d = t->_distance_vision;
+  if (! d) {
+    return d;
+  }
+
+  //
+  // Reduce vision in bogland
+  //
+  if (thing_is_player(t)) {
+    switch (level_to_biome(g, v, l)) {
+      case BIOME_DUNGEON :    break;
+      case BIOME_BOGLAND :    d /= 4; break;
+      case BIOME_NETHERVOID : break;
+      case BIOME_GRAVEYARD :  break;
+      case BIOME_UNDERHELL :  d /= 4; break;
+      case BIOME_NONE :       [[fallthrough]];
+      case BIOME_ENUM_MAX :   break;
+    }
+
+    if (! d) {
+      d = 1;
+    }
+  }
+
+  return d;
+}
+
+auto thing_distance_vision_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+{
+  TRACE_DEBUG();
+
+  if (t == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+  return t->_distance_vision = val;
+}
+
+auto thing_distance_vision_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+{
+  TRACE_DEBUG();
+
+  if (t == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+  return t->_distance_vision += val;
+}
+
+auto thing_distance_vision_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+{
+  TRACE_DEBUG();
+
+  if (t == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+  if (static_cast< int >(t->_distance_vision) - val <= 0) {
+    return t->_distance_vision = 0;
+  }
+  return t->_distance_vision -= val;
+}
+
+auto thing_is_vision_360_degrees(Thingp t) -> bool
+{
+  TRACE_DEBUG();
+
+  if (t == nullptr) {
+    ERR("no thing pointer");
+    return false;
+  }
+  return tp_flag(thing_tp(t), is_vision_360_degrees) != 0;
+}
+
+auto thing_is_vision_180_degrees(Thingp t) -> bool
+{
+  TRACE_DEBUG();
+
+  if (t == nullptr) {
+    ERR("no thing pointer");
+    return false;
+  }
+  return tp_flag(thing_tp(t), is_vision_180_degrees) != 0;
+}
+

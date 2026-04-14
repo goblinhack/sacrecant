@@ -580,7 +580,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_distance_vision_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_distance_vision_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_distance_vision_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
-[[nodiscard]] auto thing_distance_vision(Thingp t) -> int;
+[[nodiscard]] auto thing_distance_vision(Gamep g, Levelsp v, Levelp l, Thingp t) -> int;
 [[nodiscard]] auto thing_drop_item(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp dropper) -> bool;
 [[nodiscard]] auto thing_ext_struct(Gamep g, Thingp t) -> ThingExtp;
 [[nodiscard]] auto thing_find_non_inline(Gamep g, Levelsp v, ThingId id) -> Thingp;

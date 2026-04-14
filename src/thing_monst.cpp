@@ -48,7 +48,7 @@ static auto thing_monst_choose_target_player(Gamep g, Levelsp v, Levelp l, Thing
 
   auto monst_at = thing_at(me);
   auto dist     = distance(monst_at, target);
-  auto v_dist   = thing_distance_vision(me);
+  auto v_dist   = thing_distance_vision(g, v, l, me);
   if (v_dist == 0) {
     thing_err(me, "choose target: monst has no vision distance");
     return false;
@@ -100,7 +100,7 @@ static auto thing_monst_choose_something_we_can_see(Gamep g, Levelsp v, Levelp l
   //
   int radius = 0;
   if (mob == nullptr) {
-    radius = thing_distance_vision(me) * 2;
+    radius = thing_distance_vision(g, v, l, me) * 2;
   } else {
     radius = thing_distance_minion_from_mob_max(me);
   }

@@ -41,16 +41,12 @@ void level_vision_calculate_all(Gamep g, Levelsp v, Levelp l)
   //
   FOR_ALL_THINGS_ON_LEVEL(g, v, l, t)
   {
-    auto max_radius = thing_distance_vision(t);
+    auto max_radius = thing_distance_vision(g, v, l, t);
     if (max_radius == 0) {
       continue;
     }
 
     if ((thing_is_player(t))) [[unlikely]] {
-      continue;
-    }
-
-    if (thing_distance_vision(t) == 0) {
       continue;
     }
 

@@ -557,11 +557,9 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
       fg.b        = std::max(pixel->b, pixel->player_b);
 
       //
-      // Too many tiny tiles
+      // Note if this is disabled in full map mode, the bogland water color will be missing
       //
-      if (! game_map_zoom_is_full_map_visible(g)) {
-        light_pixels = &v->light_map.tile[ p.x ][ p.y ].pixels;
-      }
+      light_pixels = &v->light_map.tile[ p.x ][ p.y ].pixels;
 
       //
       // Can only light things that are exactly on pixel boundaries

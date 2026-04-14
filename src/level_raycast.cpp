@@ -639,7 +639,7 @@ void level_raycast(Gamep g, Levelsp v, Levelp l, FboEnum fbo)
     //
     // This is how far the light rays reach
     //
-    auto ray_max_length_in_pixels = thing_distance_vision(player) * TILE_WIDTH;
+    auto ray_max_length_in_pixels = thing_distance_vision(g, v, l, player) * TILE_WIDTH;
 
     player_raycast = raycast_new(ray_max_length_in_pixels, fbo);
     if (player_raycast == nullptr) {
