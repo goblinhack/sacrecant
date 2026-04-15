@@ -337,7 +337,6 @@ auto tp_load_player() -> bool
   tp_flag_set(tp, is_dmap);
   tp_flag_set(tp, is_flesh);
   tp_flag_set(tp, is_health_visible);
-  tp_flag_set(tp, is_stamina_visible);
   tp_flag_set(tp, is_light_source, MAP_WIDTH / 2);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_obs_to_jumping_onto);
@@ -345,15 +344,16 @@ auto tp_load_player() -> bool
   tp_flag_set(tp, is_physics_explosion);
   tp_flag_set(tp, is_physics_temperature);
   tp_flag_set(tp, is_player);
+  tp_flag_set(tp, is_stamina_visible);
   tp_flag_set(tp, is_submergible); // is seen submerged when in water
   tp_flag_set(tp, is_tickable);
   tp_health_set(tp, "100");
-  tp_stamina_set(tp, "100");
   tp_is_immunity_add(tp, THING_EVENT_WATER_DAMAGE);
   tp_light_color_set(tp, "white");
   tp_priority_set(tp, THING_PRIORITY_PLAYER);
   tp_projectile_max_set(tp, THING_PROJECTILE_MAX);
   tp_speed_set(tp, 100);
+  tp_stamina_set(tp, "100");
   tp_temperature_burns_at_set(tp, 50);  // celsius
   tp_temperature_damage_at_set(tp, 35); // celsius
   tp_temperature_initial_set(tp, 20);   // celsius

@@ -74,7 +74,7 @@
       list_macro(is_gaseous, "is_gaseous"),                                                 /* newline */                                  \
       list_macro(is_ghost, "is_ghost"),                                                     /* newline */                                  \
       list_macro(is_grass, "is_grass"),                                                     /* newline */                                  \
-      list_macro(is_health_visible, "is_health_visible"),                               /* newline */                                  \
+      list_macro(is_health_visible, "is_health_visible"),                                   /* newline */                                  \
       list_macro(is_indestructible, "is_indestructible"),                                   /* newline */                                  \
       list_macro(is_inventory_item, "is_inventory_item"),                                   /* newline */                                  \
       list_macro(is_item_droppable, "is_item_droppable"),                                   /* newline */                                  \
@@ -169,7 +169,7 @@
       list_macro(is_unused35, "is_unused35"),                                               /* newline */                                  \
       list_macro(is_unused36, "is_unused36"),                                               /* newline */                                  \
       list_macro(is_unused37, "is_unused37"),                                               /* newline */                                  \
-      list_macro(is_stamina_visible, "is_stamina_visible"),                             /* newline */                                  \
+      list_macro(is_stamina_visible, "is_stamina_visible"),                                 /* newline */                                  \
       list_macro(is_reeds, "is_reeds"),                                                     /* newline */                                  \
       list_macro(is_vault, "is_vault"),                                                     /* newline */                                  \
       list_macro(is_biome_underhell, "is_biome_underhell"),                                 /* newline */                                  \
@@ -470,11 +470,16 @@ ENUM_DEF_H(THING_DIR_ENUM, ThingDir)
 
 class Tp;
 
+// begin sort marker1 {
 [[nodiscard]] auto string2tp(const char **s, int *len = nullptr) -> Tpp;
 [[nodiscard]] auto tp_chance_fail(Tpp tp, ThingChanceType val) -> bool;
 [[nodiscard]] auto tp_chance_success(Tpp tp, ThingChanceType val) -> bool;
 [[nodiscard]] auto tp_chance(Tpp tp, ThingChanceType val) -> int;
+[[nodiscard]] auto tp_collision_radius(Tpp t) -> float;
 [[nodiscard]] auto tp_damage(Tpp tp, ThingEventType val) -> int;
+[[nodiscard]] auto tp_distance_jump_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_distance_minion_from_mob_max_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_distance_vision_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_find_mand(const std::string &val) -> Tpp;
 [[nodiscard]] auto tp_find_opt(const std::string &val) -> Tpp;
 [[nodiscard]] auto tp_find(TpId id) -> Tpp;
@@ -482,227 +487,8 @@ class Tp;
 [[nodiscard]] auto tp_first(ThingFlag f) -> Tpp;
 [[nodiscard]] auto tp_health_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_health_max_get(Tpp tp) -> int;
-[[nodiscard]] auto tp_stamina_get(Tpp tp) -> int;
-[[nodiscard]] auto tp_stamina_max_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_id_get(Tpp tp) -> TpId;
 [[nodiscard]] auto tp_init() -> bool;
-[[nodiscard]] auto tp_light_color(Tpp tp) -> color;
-[[nodiscard]] auto tp_load(const std::string &val) -> Tpp;
-[[nodiscard]] auto tp_name_apostrophize(Tpp tp) -> std::string;
-[[nodiscard]] auto tp_name_a_or_an(Tpp tp) -> std::string;
-[[nodiscard]] auto tp_name_long(Tpp tp) -> std::string;
-[[nodiscard]] auto tp_name_pluralize(Tpp tp) -> std::string;
-[[nodiscard]] auto tp_name_real(Tpp tp) -> std::string;
-[[nodiscard]] auto tp_name_short(Tpp tp) -> std::string;
-[[nodiscard]] auto tp_name(Tpp tp) -> std::string;
-[[nodiscard]] auto tp_tile_name(Tpp tp) -> std::string;
-[[nodiscard]] auto tp_random_dungeon_entrance() -> Tpp;
-[[nodiscard]] auto tp_random_exit() -> Tpp;
-[[nodiscard]] auto tp_random_key() -> Tpp;
-[[nodiscard]] auto tp_random_monst(Gamep g, Levelsp v, Levelp l, int c) -> Tpp;
-[[nodiscard]] auto tp_random_player() -> Tpp;
-[[nodiscard]] auto tp_random_wall() -> Tpp;
-[[nodiscard]] auto tp_random(Gamep g, Levelsp v, Levelp l, ThingFlag f) -> Tpp;
-[[nodiscard]] auto tp_speed_get(Tpp tp) -> int;
-[[nodiscard]] auto tp_temperature_burns_at_get(Tpp tp) -> int;
-[[nodiscard]] auto tp_temperature_damage_at_get(Tpp tp) -> int;
-[[nodiscard]] auto tp_temperature_initial_get(Tpp tp) -> int;
-[[nodiscard]] auto tp_temperature_melts_at_get(Tpp tp) -> int;
-[[nodiscard]] auto tp_tiles_get(Tpp tp, ThingAnim val, int index) -> Tilep;
-[[nodiscard]] auto tp_tiles_size(Tpp tp, ThingAnim val) -> int;
-[[nodiscard]] auto tp_variant(ThingFlag f, int /*variant*/) -> Tpp;
-[[nodiscard]] auto tp_z_depth_get(Tpp tp) -> MapZDepth;
-
-void tp_flag_set(Tpp tp, ThingFlag f, int val = 1);
-void tp_health_set(Tpp tp, const std::string &val);
-void tp_stamina_set(Tpp tp, const std::string &val);
-void tp_speed_set(Tpp tp, int val);
-void tp_temperature_burns_at_set(Tpp tp, int val);
-void tp_temperature_damage_at_set(Tpp tp, int val);
-void tp_temperature_initial_set(Tpp tp, int val);
-void tp_temperature_melts_at_set(Tpp tp, int val);
-void tp_z_depth_set(Tpp tp, MapZDepth val);
-void tp_chance_set(Tpp tp, ThingChanceType e, const std::string &val);
-void tp_con_(Tpp tp, const char *fmt, va_list args); // compile error without
-void tp_con(Tpp tp, const char *fmt, ...) CHECK_FORMAT_STR(printf, 2, 3);
-void tp_damage_set(Tpp tp, ThingEventType e, const std::string &val);
-void tp_dbg_(Tpp tp, const char *fmt, ...) CHECK_FORMAT_STR(printf, 2, 3);
-void tp_die_(Tpp tp, const char *fmt, va_list args); // compile error without
-void tp_die(Tpp tp, const char *fmt, ...) CHECK_FORMAT_STR(printf, 2, 3);
-void tp_err_(Tpp tp, const char *fmt, va_list args); // compile error without
-void tp_err(Tpp tp, const char *fmt, ...) CHECK_FORMAT_STR(printf, 2, 3);
-void tp_fini();
-void tp_get_id(const char *, int *id);
-void tp_light_color_apply(Tpp tp);
-void tp_light_color_set(Tpp tp, const std::string &val);
-void tp_log_(Tpp tp, const char *fmt, va_list args); // compile error without
-void tp_log(Tpp tp, const char *fmt, ...) CHECK_FORMAT_STR(printf, 2, 3);
-void tp_name_apostrophize_set(Tpp tp, const std::string &val);
-void tp_name_a_or_an_set(Tpp tp, const std::string &val);
-void tp_name_long_set(Tpp tp, const std::string &val);
-void tp_name_pluralize_set(Tpp tp, const std::string &val);
-void tp_name_real_set(Tpp tp, const std::string &val);
-void tp_name_short_set(Tpp tp, const std::string &val);
-void tp_tile_name_set(Tpp tp, const std::string &val);
-void tp_tiles_push_back(Tpp tp, ThingAnim val, Tilep tile_p);
-
-//
-// Heat capacity indicates the amount of heat energy required to
-// change a material's temperature.
-//
-// Thermal conductivity measures how well a material can conduct heat.
-//
-// Both properties are essential for understanding heat transfer in materials.
-//
-
-//
-// Unit is in joules per kelvin per gram
-//
-#define HEAT_CAPACITY_AIR   1.0f
-#define HEAT_CAPACITY_FLESH 3.0f
-#define HEAT_CAPACITY_GAS   14.0f
-#define HEAT_CAPACITY_GEL   0.02f
-#define HEAT_CAPACITY_GLASS 0.8f
-#define HEAT_CAPACITY_GOLD  0.1f
-#define HEAT_CAPACITY_STEEL 0.5f
-#define HEAT_CAPACITY_STONE 0.8f
-#define HEAT_CAPACITY_WALL  0.8f
-#define HEAT_CAPACITY_WATER 4.0f
-#define HEAT_CAPACITY_WOOD  2.0f
-#define HEAT_CAPACITY_MAX   15.0f
-
-//
-// Unit is weight per mass per kelvin
-//
-#define THERMAL_CONDUCTIVITY_AIR   0.025f
-#define THERMAL_CONDUCTIVITY_FLESH 10.0f
-#define THERMAL_CONDUCTIVITY_GAS   0.01f
-#define THERMAL_CONDUCTIVITY_GEL   0.2f
-#define THERMAL_CONDUCTIVITY_GLASS 1.1f
-#define THERMAL_CONDUCTIVITY_STEEL 32.0f
-#define THERMAL_CONDUCTIVITY_STONE 70.0f
-#define THERMAL_CONDUCTIVITY_WALL  70.0f
-#define THERMAL_CONDUCTIVITY_WATER 0.6f
-#define THERMAL_CONDUCTIVITY_WOOD  0.1f
-#define THERMAL_CONDUCTIVITY_GOLD  310.0f
-#define THERMAL_CONDUCTIVITY_HIGH  70.0f
-
-//
-// Unit is in grams
-//
-#define ONE_KG          1000
-#define WEIGHT_VVVHEAVY (ONE_KG * 500)
-#define WEIGHT_VVHEAVY  (ONE_KG * 200)
-#define WEIGHT_VHEAVY   (ONE_KG * 100)
-#define WEIGHT_HEAVY    (ONE_KG * 50)
-#define WEIGHT_HUMAN    (ONE_KG * 50)
-#define WEIGHT_MEDIUM   (ONE_KG * 10)
-#define WEIGHT_LIGHT    (ONE_KG * 1)
-#define WEIGHT_FEATHER  (1)
-#define WEIGHT_NONE     (0)
-
-void               tp_weight_set(Tpp tp, uint32_t val);
-[[nodiscard]] auto tp_weight_get(Tpp tp) -> uint32_t;
-
-void               tp_temperature_thermal_conductivity_set(Tpp tp, float val);
-[[nodiscard]] auto tp_temperature_thermal_conductivity_get(Tpp tp) -> float;
-
-void               tp_temperature_heat_capacity_set(Tpp tp, float val);
-[[nodiscard]] auto tp_temperature_heat_capacity_get(Tpp tp) -> float;
-
-void               tp_value1_set(Tpp tp, int val);
-[[nodiscard]] auto tp_value1_get(Tpp tp) -> int;
-
-void               tp_value2_set(Tpp tp, int val);
-[[nodiscard]] auto tp_value2_get(Tpp tp) -> int;
-
-void               tp_value3_set(Tpp tp, int val);
-[[nodiscard]] auto tp_value3_get(Tpp tp) -> int;
-
-void               tp_value4_set(Tpp tp, int val);
-[[nodiscard]] auto tp_value4_get(Tpp tp) -> int;
-
-void               tp_value5_set(Tpp tp, int val);
-[[nodiscard]] auto tp_value5_get(Tpp tp) -> int;
-
-void               tp_value6_set(Tpp tp, int val);
-[[nodiscard]] auto tp_value6_get(Tpp tp) -> int;
-
-void               tp_value7_set(Tpp tp, int val);
-[[nodiscard]] auto tp_value7_get(Tpp tp) -> int;
-
-void               tp_value8_set(Tpp tp, int val);
-[[nodiscard]] auto tp_value8_get(Tpp tp) -> int;
-
-void               tp_value9_set(Tpp tp, int val);
-[[nodiscard]] auto tp_value9_get(Tpp tp) -> int;
-
-void               tp_value10_set(Tpp tp, int val);
-[[nodiscard]] auto tp_value10_get(Tpp tp) -> int;
-
-void               tp_value11_set(Tpp tp, int val);
-[[nodiscard]] auto tp_value11_get(Tpp tp) -> int;
-
-void               tp_value12_set(Tpp tp, int val);
-[[nodiscard]] auto tp_value12_get(Tpp tp) -> int;
-
-void               tp_value13_set(Tpp tp, int val);
-[[nodiscard]] auto tp_value13_get(Tpp tp) -> int;
-
-void               tp_value14_set(Tpp tp, int val);
-[[nodiscard]] auto tp_value14_get(Tpp tp) -> int;
-
-void               tp_value15_set(Tpp tp, int val);
-[[nodiscard]] auto tp_value15_get(Tpp tp) -> int;
-
-void               tp_value16_set(Tpp tp, int val);
-[[nodiscard]] auto tp_value16_get(Tpp tp) -> int;
-
-void               tp_value17_set(Tpp tp, int val);
-[[nodiscard]] auto tp_value17_get(Tpp tp) -> int;
-
-void               tp_value18_set(Tpp tp, int val);
-[[nodiscard]] auto tp_value18_get(Tpp tp) -> int;
-
-void               tp_stamina_set(Tpp tp, int val);
-[[nodiscard]] auto tp_stamina_get(Tpp tp) -> int;
-
-void               tp_score_value_set(Tpp tp, int val);
-[[nodiscard]] auto tp_score_value_get(Tpp tp) -> int;
-
-void               tp_minion_max_set(Tpp tp, int val);
-[[nodiscard]] auto tp_minion_max_get(Tpp tp) -> int;
-
-void               tp_projectile_max_set(Tpp tp, int val);
-[[nodiscard]] auto tp_projectile_max_get(Tpp tp) -> int;
-
-void               tp_distance_minion_from_mob_max_set(Tpp tp, int val);
-[[nodiscard]] auto tp_distance_minion_from_mob_max_get(Tpp tp) -> int;
-
-void               tp_distance_vision_set(Tpp tp, int val);
-[[nodiscard]] auto tp_distance_vision_get(Tpp tp) -> int;
-
-void               tp_variant_set(Tpp tp, int val);
-[[nodiscard]] auto tp_variant_get(Tpp tp) -> int;
-
-void tp_priority_set(Tpp tp, ThingPriorityType val);
-auto tp_priority_get(Tpp tp) -> ThingPriorityType;
-
-void               tp_distance_jump_set(Tpp tp, int val);
-[[nodiscard]] auto tp_distance_jump_get(Tpp tp) -> int;
-
-void               tp_lifespan_set(Tpp tp, const std::string &val);
-[[nodiscard]] auto tp_lifespan_get(Tpp tp) -> int;
-[[nodiscard]] auto tp_lifespan_max_get(Tpp tp) -> int;
-
-void               tp_is_immunity_add(Tpp tp, ThingEventType val);
-[[nodiscard]] auto tp_is_immune_to(Tpp tp, ThingEventType val) -> bool;
-
-void tp_monst_group_add(Tpp tp, ThingMonstGroup val);
-
-[[nodiscard]] auto tp_collision_radius(Tpp t) -> float;
-
-// begin sort marker1 {
 [[nodiscard]] auto tp_is_able_to_collect_items(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_able_to_collect_keys(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_able_to_crush_grass(Tpp tp) -> bool;
@@ -801,6 +587,7 @@ void tp_monst_group_add(Tpp tp, ThingMonstGroup val);
 [[nodiscard]] auto tp_is_grouped_thing(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_health_visible(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_hit_when_dead(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_immune_to(Tpp tp, ThingEventType val) -> bool;
 [[nodiscard]] auto tp_is_indestructible(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_insectoid(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_inventory_item(Tpp tp) -> bool;
@@ -862,6 +649,7 @@ void tp_monst_group_add(Tpp tp, ThingMonstGroup val);
 [[nodiscard]] auto tp_is_shovable(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_slime(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_smoke(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_stamina_visible(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_steam(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_stone(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_submergible(Tpp tp) -> bool;
@@ -904,7 +692,6 @@ void tp_monst_group_add(Tpp tp, ThingMonstGroup val);
 [[nodiscard]] auto tp_is_unused35(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused36(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused37(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_stamina_visible(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused4(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused46(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused47(Tpp tp) -> bool;
@@ -921,6 +708,184 @@ void tp_monst_group_add(Tpp tp, ThingMonstGroup val);
 [[nodiscard]] auto tp_is_wall(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_water(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_wood(Tpp tp) -> bool;
+[[nodiscard]] auto tp_lifespan_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_lifespan_max_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_light_color(Tpp tp) -> color;
+[[nodiscard]] auto tp_load(const std::string &val) -> Tpp;
+[[nodiscard]] auto tp_minion_max_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_name_a_or_an(Tpp tp) -> std::string;
+[[nodiscard]] auto tp_name_apostrophize(Tpp tp) -> std::string;
+[[nodiscard]] auto tp_name_long(Tpp tp) -> std::string;
+[[nodiscard]] auto tp_name_pluralize(Tpp tp) -> std::string;
+[[nodiscard]] auto tp_name_real(Tpp tp) -> std::string;
+[[nodiscard]] auto tp_name_short(Tpp tp) -> std::string;
+[[nodiscard]] auto tp_name(Tpp tp) -> std::string;
+[[nodiscard]] auto tp_projectile_max_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_random_dungeon_entrance() -> Tpp;
+[[nodiscard]] auto tp_random_exit() -> Tpp;
+[[nodiscard]] auto tp_random_key() -> Tpp;
+[[nodiscard]] auto tp_random_monst(Gamep g, Levelsp v, Levelp l, int c) -> Tpp;
+[[nodiscard]] auto tp_random_player() -> Tpp;
+[[nodiscard]] auto tp_random_wall() -> Tpp;
+[[nodiscard]] auto tp_random(Gamep g, Levelsp v, Levelp l, ThingFlag f) -> Tpp;
+[[nodiscard]] auto tp_score_value_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_speed_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_stamina_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_stamina_max_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_temperature_burns_at_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_temperature_damage_at_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_temperature_heat_capacity_get(Tpp tp) -> float;
+[[nodiscard]] auto tp_temperature_initial_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_temperature_melts_at_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_temperature_thermal_conductivity_get(Tpp tp) -> float;
+[[nodiscard]] auto tp_tile_name(Tpp tp) -> std::string;
+[[nodiscard]] auto tp_tiles_get(Tpp tp, ThingAnim val, int index) -> Tilep;
+[[nodiscard]] auto tp_tiles_size(Tpp tp, ThingAnim val) -> int;
+[[nodiscard]] auto tp_value1_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_value10_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_value11_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_value12_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_value13_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_value14_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_value15_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_value16_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_value17_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_value18_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_value2_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_value3_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_value4_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_value5_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_value6_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_value7_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_value8_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_value9_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_variant_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_variant(ThingFlag f, int /*variant*/) -> Tpp;
+[[nodiscard]] auto tp_weight_get(Tpp tp) -> uint32_t;
+[[nodiscard]] auto tp_z_depth_get(Tpp tp) -> MapZDepth;
 // end sort marker1 }
+
+// begin sort marker2 {
+auto tp_priority_get(Tpp tp) -> ThingPriorityType;
+void tp_chance_set(Tpp tp, ThingChanceType e, const std::string &val);
+void tp_con_(Tpp tp, const char *fmt, va_list args); // compile error without
+void tp_con(Tpp tp, const char *fmt, ...) CHECK_FORMAT_STR(printf, 2, 3);
+void tp_damage_set(Tpp tp, ThingEventType e, const std::string &val);
+void tp_dbg_(Tpp tp, const char *fmt, ...) CHECK_FORMAT_STR(printf, 2, 3);
+void tp_die_(Tpp tp, const char *fmt, va_list args); // compile error without
+void tp_die(Tpp tp, const char *fmt, ...) CHECK_FORMAT_STR(printf, 2, 3);
+void tp_distance_jump_set(Tpp tp, int val);
+void tp_distance_minion_from_mob_max_set(Tpp tp, int val);
+void tp_distance_vision_set(Tpp tp, int val);
+void tp_err_(Tpp tp, const char *fmt, va_list args); // compile error without
+void tp_err(Tpp tp, const char *fmt, ...) CHECK_FORMAT_STR(printf, 2, 3);
+void tp_fini();
+void tp_flag_set(Tpp tp, ThingFlag f, int val = 1);
+void tp_get_id(const char *, int *id);
+void tp_health_set(Tpp tp, const std::string &val);
+void tp_is_immunity_add(Tpp tp, ThingEventType val);
+void tp_lifespan_set(Tpp tp, const std::string &val);
+void tp_light_color_apply(Tpp tp);
+void tp_light_color_set(Tpp tp, const std::string &val);
+void tp_log_(Tpp tp, const char *fmt, va_list args); // compile error without
+void tp_log(Tpp tp, const char *fmt, ...) CHECK_FORMAT_STR(printf, 2, 3);
+void tp_minion_max_set(Tpp tp, int val);
+void tp_monst_group_add(Tpp tp, ThingMonstGroup val);
+void tp_name_a_or_an_set(Tpp tp, const std::string &val);
+void tp_name_apostrophize_set(Tpp tp, const std::string &val);
+void tp_name_long_set(Tpp tp, const std::string &val);
+void tp_name_pluralize_set(Tpp tp, const std::string &val);
+void tp_name_real_set(Tpp tp, const std::string &val);
+void tp_name_short_set(Tpp tp, const std::string &val);
+void tp_priority_set(Tpp tp, ThingPriorityType val);
+void tp_projectile_max_set(Tpp tp, int val);
+void tp_score_value_set(Tpp tp, int val);
+void tp_speed_set(Tpp tp, int val);
+void tp_stamina_set(Tpp tp, const std::string &val);
+void tp_temperature_burns_at_set(Tpp tp, int val);
+void tp_temperature_damage_at_set(Tpp tp, int val);
+void tp_temperature_heat_capacity_set(Tpp tp, float val);
+void tp_temperature_initial_set(Tpp tp, int val);
+void tp_temperature_melts_at_set(Tpp tp, int val);
+void tp_temperature_thermal_conductivity_set(Tpp tp, float val);
+void tp_tile_name_set(Tpp tp, const std::string &val);
+void tp_tiles_push_back(Tpp tp, ThingAnim val, Tilep tile_p);
+void tp_value1_set(Tpp tp, int val);
+void tp_value10_set(Tpp tp, int val);
+void tp_value11_set(Tpp tp, int val);
+void tp_value12_set(Tpp tp, int val);
+void tp_value13_set(Tpp tp, int val);
+void tp_value14_set(Tpp tp, int val);
+void tp_value15_set(Tpp tp, int val);
+void tp_value16_set(Tpp tp, int val);
+void tp_value17_set(Tpp tp, int val);
+void tp_value18_set(Tpp tp, int val);
+void tp_value2_set(Tpp tp, int val);
+void tp_value3_set(Tpp tp, int val);
+void tp_value4_set(Tpp tp, int val);
+void tp_value5_set(Tpp tp, int val);
+void tp_value6_set(Tpp tp, int val);
+void tp_value7_set(Tpp tp, int val);
+void tp_value8_set(Tpp tp, int val);
+void tp_value9_set(Tpp tp, int val);
+void tp_variant_set(Tpp tp, int val);
+void tp_weight_set(Tpp tp, uint32_t val);
+void tp_z_depth_set(Tpp tp, MapZDepth val);
+// end sort marker2 }
+
+//
+// Heat capacity indicates the amount of heat energy required to
+// change a material's temperature.
+//
+// Thermal conductivity measures how well a material can conduct heat.
+//
+// Both properties are essential for understanding heat transfer in materials.
+//
+
+//
+// Unit is in joules per kelvin per gram
+//
+#define HEAT_CAPACITY_AIR   1.0f
+#define HEAT_CAPACITY_FLESH 3.0f
+#define HEAT_CAPACITY_GAS   14.0f
+#define HEAT_CAPACITY_GEL   0.02f
+#define HEAT_CAPACITY_GLASS 0.8f
+#define HEAT_CAPACITY_GOLD  0.1f
+#define HEAT_CAPACITY_STEEL 0.5f
+#define HEAT_CAPACITY_STONE 0.8f
+#define HEAT_CAPACITY_WALL  0.8f
+#define HEAT_CAPACITY_WATER 4.0f
+#define HEAT_CAPACITY_WOOD  2.0f
+#define HEAT_CAPACITY_MAX   15.0f
+
+//
+// Unit is weight per mass per kelvin
+//
+#define THERMAL_CONDUCTIVITY_AIR   0.025f
+#define THERMAL_CONDUCTIVITY_FLESH 10.0f
+#define THERMAL_CONDUCTIVITY_GAS   0.01f
+#define THERMAL_CONDUCTIVITY_GEL   0.2f
+#define THERMAL_CONDUCTIVITY_GLASS 1.1f
+#define THERMAL_CONDUCTIVITY_STEEL 32.0f
+#define THERMAL_CONDUCTIVITY_STONE 70.0f
+#define THERMAL_CONDUCTIVITY_WALL  70.0f
+#define THERMAL_CONDUCTIVITY_WATER 0.6f
+#define THERMAL_CONDUCTIVITY_WOOD  0.1f
+#define THERMAL_CONDUCTIVITY_GOLD  310.0f
+#define THERMAL_CONDUCTIVITY_HIGH  70.0f
+
+//
+// Unit is in grams
+//
+#define ONE_KG          1000
+#define WEIGHT_VVVHEAVY (ONE_KG * 500)
+#define WEIGHT_VVHEAVY  (ONE_KG * 200)
+#define WEIGHT_VHEAVY   (ONE_KG * 100)
+#define WEIGHT_HEAVY    (ONE_KG * 50)
+#define WEIGHT_HUMAN    (ONE_KG * 50)
+#define WEIGHT_MEDIUM   (ONE_KG * 10)
+#define WEIGHT_LIGHT    (ONE_KG * 1)
+#define WEIGHT_FEATHER  (1)
+#define WEIGHT_NONE     (0)
 
 #endif // MY_THING_TEMPLATE_HPP

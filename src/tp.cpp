@@ -1060,6 +1060,16 @@ void tp_stamina_set(Tpp tp, const std::string &val)
   tp->stamina_initial = Dice(std::string(val));
 }
 
+auto tp_stamina_get(Tpp tp) -> int
+{
+  TRACE();
+  if (tp == nullptr) [[unlikely]] {
+    tp_err(tp, "no thing template pointer");
+    return 0;
+  }
+  return tp->stamina;
+}
+
 auto tp_stamina_max_get(Tpp tp) -> int
 {
   TRACE();
@@ -1508,26 +1518,6 @@ auto tp_value18_get(Tpp tp) -> int
     return 0;
   }
   return tp->value18;
-}
-
-void tp_stamina_set(Tpp tp, int val)
-{
-  TRACE();
-  if (tp == nullptr) [[unlikely]] {
-    tp_err(tp, "no thing template pointer");
-    return;
-  }
-  tp->stamina = val;
-}
-
-auto tp_stamina_get(Tpp tp) -> int
-{
-  TRACE();
-  if (tp == nullptr) [[unlikely]] {
-    tp_err(tp, "no thing template pointer");
-    return 0;
-  }
-  return tp->stamina;
 }
 
 void tp_score_value_set(Tpp tp, int val)

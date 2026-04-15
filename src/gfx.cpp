@@ -747,11 +747,10 @@ static void gfx_ui_init_progress_bar()
 static void gfx_ui_init_stat_bar()
 {
   const char *tiles[] = {
-      "stat_bar.32", "stat_bar.31", "stat_bar.30", "stat_bar.29", "stat_bar.28", "stat_bar.27", "stat_bar.26",
-      "stat_bar.25", "stat_bar.24", "stat_bar.23", "stat_bar.22", "stat_bar.21", "stat_bar.20", "stat_bar.19",
-      "stat_bar.18", "stat_bar.17", "stat_bar.16", "stat_bar.15", "stat_bar.14", "stat_bar.13", "stat_bar.12",
-      "stat_bar.11", "stat_bar.10", "stat_bar.9",  "stat_bar.8",  "stat_bar.7",  "stat_bar.6",  "stat_bar.5",
-      "stat_bar.4",  "stat_bar.3",  "stat_bar.2",  "stat_bar.1",
+      "stat_bar.32", "stat_bar.31", "stat_bar.30", "stat_bar.29", "stat_bar.28", "stat_bar.27", "stat_bar.26", "stat_bar.25",
+      "stat_bar.24", "stat_bar.23", "stat_bar.22", "stat_bar.21", "stat_bar.20", "stat_bar.19", "stat_bar.18", "stat_bar.17",
+      "stat_bar.16", "stat_bar.15", "stat_bar.14", "stat_bar.13", "stat_bar.12", "stat_bar.11", "stat_bar.10", "stat_bar.9",
+      "stat_bar.8",  "stat_bar.7",  "stat_bar.6",  "stat_bar.5",  "stat_bar.4",  "stat_bar.3",  "stat_bar.2",  "stat_bar.1",
   };
   tile_load_arr("data/gfx/ui/stat_bar.tga", "stat_bar", 192, 8, ARRAY_SIZE(tiles), tiles);
 }
@@ -3811,12 +3810,12 @@ void gfx_init()
   gfx_ui_init_7();
   gfx_ui_init_8();
   gfx_ui_init_9();
-  gfx_ui_init_stat_bar();
   gfx_ui_init_intro_bg();
   gfx_ui_init_main_bg();
   gfx_ui_init_main_fg();
   gfx_ui_init_progress_bar();
   gfx_ui_init_solid();
+  gfx_ui_init_stat_bar();
   gfx_ui_init_worlds();
   // end sort marker1 }
 }
