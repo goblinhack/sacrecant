@@ -120,6 +120,7 @@ auto tp_load_ghost_mob() -> bool
     auto *tile = tile_find_mand(name + std::string(".idle.") + std::to_string(frame));
     tile_delay_ms_set(tile, delay);
     tp_tiles_push_back(tp, THING_ANIM_IDLE, tile);
+    tile_size_set(tile, OUTLINE_TILE_WIDTH, OUTLINE_TILE_HEIGHT);
   }
 
   delay = 200;
@@ -128,6 +129,7 @@ auto tp_load_ghost_mob() -> bool
     auto *tile = tile_find_mand(name + std::string(".dead.") + std::to_string(frame));
     tile_delay_ms_set(tile, delay);
     tp_tiles_push_back(tp, THING_ANIM_DEAD, tile);
+    tile_size_set(tile, OUTLINE_TILE_WIDTH, OUTLINE_TILE_HEIGHT);
 
     if (frame == 5) {
       tile_is_cleanup_on_end_of_anim_set(tile);

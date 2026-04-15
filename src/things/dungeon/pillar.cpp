@@ -65,6 +65,7 @@ auto tp_load_pillar() -> bool
   for (auto frame = 0; frame < 16; frame++) {
     auto *tile = tile_find_mand(name + std::string(".") + std::to_string(frame));
     tp_tiles_push_back(tp, THING_ANIM_IDLE, tile);
+    tile_size_set(tile, OUTLINE_TILE_WIDTH, OUTLINE_TILE_HEIGHT);
   }
 
   return true;
