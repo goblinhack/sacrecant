@@ -4011,53 +4011,6 @@ auto thing_priority_set(Gamep g, Levelsp v, Levelp l, Thingp t, ThingPriorityTyp
   return t->_priority = val;
 }
 
-auto thing_distance_jump(Thingp t) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-  return t->_distance_jump;
-}
-
-auto thing_distance_jump_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-  return t->_distance_jump = val;
-}
-
-auto thing_distance_jump_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-  return t->_distance_jump += val;
-}
-
-auto thing_distance_jump_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-  if (static_cast< int >(t->_distance_jump) - val <= 0) {
-    return t->_distance_jump = 0;
-  }
-  return t->_distance_jump -= val;
-}
-
 auto thing_lifespan(Thingp t) -> int
 {
   TRACE_DEBUG();

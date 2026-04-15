@@ -423,7 +423,7 @@ static void thing_display_it(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp 
       //
       // If low on health, orange outline
       //
-      auto h_max = tp_health_max_get(tp);
+      auto h_max = thing_health_max(t_maybe_null);
       auto h     = thing_health(t_maybe_null);
 
       if (h < h_max) {

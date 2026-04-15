@@ -58,16 +58,17 @@ auto thing_init(Gamep g, Levelsp v, Levelp l, Tpp tp, const fpoint &real_at) -> 
     }
   }
 
+  (void) thing_health_max_set(g, v, l, t, thing_health_set(g, v, l, t, tp_health_max_get(tp)));
+  (void) thing_stamina_max_set(g, v, l, t, thing_stamina_set(g, v, l, t, tp_stamina_max_get(tp)));
+
   (void) thing_distance_jump_set(g, v, l, t, tp_distance_jump_get(tp));
   (void) thing_distance_minion_from_mob_max_set(g, v, l, t, tp_distance_minion_from_mob_max_get(tp));
   (void) thing_distance_vision_set(g, v, l, t, tp_distance_vision_get(tp));
-  (void) thing_health_set(g, v, l, t, tp_health_max_get(tp));
   (void) thing_minion_max_set(g, v, l, t, tp_minion_max_get(tp));
   (void) thing_priority_set(g, v, l, t, tp_priority_get(tp));
   (void) thing_projectile_max_set(g, v, l, t, tp_projectile_max_get(tp));
   (void) thing_score_value_set(g, v, l, t, tp_score_value_get(tp));
   (void) thing_speed_set(g, v, l, t, tp_speed_get(tp));
-  (void) thing_stamina_set(g, v, l, t, tp_stamina_max_get(tp));
   (void) thing_temperature_set(g, v, l, t, tp_temperature_initial_get(tp));
   (void) thing_variant_set(g, v, l, t, tp_variant_get(tp));
   (void) thing_weight_set(g, v, l, t, tp_weight_get(tp));

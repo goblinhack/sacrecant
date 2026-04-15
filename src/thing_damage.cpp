@@ -15,14 +15,14 @@
 //
 // The player has been attacked
 //
-static void thing_damage_to_player(Gamep g, Levelsp v, Levelp l, Thingp t, ThingEvent &e)
+static void thing_damage_to_player(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
 {
   TRACE();
 
   auto *it = e.source;
 
   std::string const msg = "-" + std::to_string(e.damage);
-  auto              at  = thing_at(t);
+  auto              at  = thing_at(me);
   game_popup_text_add(g, at.x, at.y, msg, RED);
 
   if (it != nullptr) {
@@ -112,18 +112,18 @@ static void thing_damage_to_player(Gamep g, Levelsp v, Levelp l, Thingp t, Thing
 //
 // The player has attacked
 //
-static void thing_damage_by_player(Gamep g, Levelsp v, Levelp l, Thingp t, ThingEvent &e)
+static void thing_damage_by_player(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
 {
   TRACE();
   auto *the_player = e.source;
 
   std::string const msg = "-" + std::to_string(e.damage);
-  auto              at  = thing_at(t);
+  auto              at  = thing_at(me);
   game_popup_text_add(g, at.x, at.y, msg, WHITE);
 
-  if ((the_player != nullptr) && thing_is_loggable(t)) {
-    auto the_thing_name_long  = capitalize_first(thing_name_long_the(g, v, l, t));
-    auto the_thing_name_short = capitalize_first(thing_name_short_the(g, v, l, t));
+  if ((the_player != nullptr) && thing_is_loggable(me)) {
+    auto the_thing_name_long  = capitalize_first(thing_name_long_the(g, v, l, me));
+    auto the_thing_name_short = capitalize_first(thing_name_short_the(g, v, l, me));
     auto by_player            = thing_name_long(g, v, l, the_player);
 
     switch (e.event_type) {
@@ -150,7 +150,7 @@ static void thing_damage_by_player(Gamep g, Levelsp v, Levelp l, Thingp t, Thing
           //
           // The player is burning.
           //
-          if (thing_is_burning(t)) {
+          if (thing_is_burning(me)) {
             topcon("Your burning body burns %s", the_thing_name_short.c_str());
           } else {
             topcon("Your burning body sets fire to %s", the_thing_name_short.c_str());
@@ -159,7 +159,7 @@ static void thing_damage_by_player(Gamep g, Levelsp v, Levelp l, Thingp t, Thing
           //
           // The player is not burning.
           //
-          if (thing_is_burning(t)) {
+          if (thing_is_burning(me)) {
             topcon("You burn %s", the_thing_name_short.c_str());
           } else {
             topcon("You set fire to %s", the_thing_name_short.c_str());
@@ -183,12 +183,11 @@ static void thing_damage_by_player(Gamep g, Levelsp v, Levelp l, Thingp t, Thing
 //
 // Do not apply too much for one event
 //
-static void thing_damage_cap_for_this_event(Gamep g, Levelsp v, Levelp l, Thingp t, ThingEvent &e)
+static void thing_damage_cap_for_this_event(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
 {
   TRACE();
 
-  auto      *tp = thing_tp(t);
-  const auto h  = tp_health_max_get(tp);
+  const auto h = thing_health_max(me);
 
   //
   // Limit the damage that can occur this event.
@@ -199,19 +198,18 @@ static void thing_damage_cap_for_this_event(Gamep g, Levelsp v, Levelp l, Thingp
   if (e.damage > max_damage_this_time) {
     auto old_d = e.damage;
     e.damage   = max_damage_this_time;
-    THING_DBG(t, "%s: limit damage %d -> %d", to_string(g, v, l, e).c_str(), old_d, e.damage);
+    THING_DBG(me, "%s: limit damage %d -> %d", to_string(g, v, l, e).c_str(), old_d, e.damage);
   }
 }
 
 //
 // Do not apply too much damage per tick
 //
-static void thing_damage_cap_for_this_tick(Gamep g, Levelsp v, Levelp l, Thingp t, ThingEvent &e)
+static void thing_damage_cap_for_this_tick(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
 {
   TRACE();
 
-  auto      *tp = thing_tp(t);
-  const auto h  = tp_health_max_get(tp);
+  const auto h = thing_health_max(me);
 
   //
   // Limit the total damage that can occur per tick.
@@ -219,72 +217,72 @@ static void thing_damage_cap_for_this_tick(Gamep g, Levelsp v, Levelp l, Thingp 
   auto max_damage_per_tick = h / 3;
   max_damage_per_tick      = std::max(max_damage_per_tick, 1);
 
-  auto d_total = thing_damage_this_tick_incr(g, v, l, t, e.damage);
+  auto d_total = thing_damage_this_tick_incr(g, v, l, me, e.damage);
   if (d_total > max_damage_per_tick) {
     auto old_d = e.damage;
     e.damage -= d_total - max_damage_per_tick;
-    THING_DBG(t, "%s: limit per tick damage %d -> %d", to_string(g, v, l, e).c_str(), old_d, e.damage);
+    THING_DBG(me, "%s: limit per tick damage %d -> %d", to_string(g, v, l, e).c_str(), old_d, e.damage);
   }
 }
 
 //
 // Do not apply too much damage per tick
 //
-static void thing_damage_cap(Gamep g, Levelsp v, Levelp l, Thingp t, ThingEvent &e)
+static void thing_damage_cap(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
 {
   TRACE();
 
-  if (! thing_is_damage_capped(t)) {
+  if (! thing_is_damage_capped(me)) {
     return;
   }
 
-  thing_damage_cap_for_this_event(g, v, l, t, e);
-  thing_damage_cap_for_this_tick(g, v, l, t, e);
+  thing_damage_cap_for_this_event(g, v, l, me, e);
+  thing_damage_cap_for_this_tick(g, v, l, me, e);
 }
 
 //
 // Apply a damage type to a thing
 //
-void thing_damage(Gamep g, Levelsp v, Levelp l, Thingp t, ThingEvent &e)
+void thing_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
 {
   TRACE();
 
-  auto *tp = thing_tp(t);
+  auto *tp = thing_tp(me);
 
   //
   // Indestructible?
   //
-  if (thing_is_indestructible(t)) {
-    THING_DBG(t, "%s: no damage as indestructible", to_string(g, v, l, e).c_str());
+  if (thing_is_indestructible(me)) {
+    THING_DBG(me, "%s: no damage as indestructible", to_string(g, v, l, e).c_str());
     return;
   }
 
   //
   // Already dead?
   //
-  if (thing_is_dead(t)) {
-    THING_DBG(t, "%s: no damage as already dead", to_string(g, v, l, e).c_str());
+  if (thing_is_dead(me)) {
+    THING_DBG(me, "%s: no damage as already dead", to_string(g, v, l, e).c_str());
     return;
   }
 
   //
   // Immune to this attack?
   //
-  if (thing_is_immune_to(t, e.event_type)) {
-    THING_DBG(t, "%s: no damage as immune", to_string(g, v, l, e).c_str());
+  if (thing_is_immune_to(me, e.event_type)) {
+    THING_DBG(me, "%s: no damage as immune", to_string(g, v, l, e).c_str());
     return;
   }
 
   //
   // Limit damage?
   //
-  thing_damage_cap(g, v, l, t, e);
+  thing_damage_cap(g, v, l, me, e);
 
   //
   // Per thing callback
   //
-  if (! thing_on_damage(g, v, l, t, e)) {
-    THING_DBG(t, "%s: no damage due to callback", to_string(g, v, l, e).c_str());
+  if (! thing_on_damage(g, v, l, me, e)) {
+    THING_DBG(me, "%s: no damage due to callback", to_string(g, v, l, e).c_str());
     return;
   }
 
@@ -292,26 +290,26 @@ void thing_damage(Gamep g, Levelsp v, Levelp l, Thingp t, ThingEvent &e)
   // No damage?
   //
   if (e.damage <= 0) {
-    THING_DBG(t, "%s: no damage to apply", to_string(g, v, l, e).c_str());
+    THING_DBG(me, "%s: no damage to apply", to_string(g, v, l, e).c_str());
     return;
   }
 
   //
   // Log the reason for attack?
   //
-  THING_DBG(t, "%s: apply damage", to_string(g, v, l, e).c_str());
+  THING_DBG(me, "%s: apply damage", to_string(g, v, l, e).c_str());
   TRACE_INDENT();
 
-  if (thing_is_player(t)) {
-    thing_damage_to_player(g, v, l, t, e);
+  if (thing_is_player(me)) {
+    thing_damage_to_player(g, v, l, me, e);
   } else if ((e.source != nullptr) && thing_is_player(e.source)) {
-    thing_damage_by_player(g, v, l, t, e);
+    thing_damage_by_player(g, v, l, me, e);
   }
 
   //
   // Change the health
   //
-  if (thing_health_decr(g, v, l, t, e.damage) <= 0) {
+  if (thing_health_decr(g, v, l, me, e.damage) <= 0) {
     //
     // Damage type specifics
     //
@@ -331,11 +329,11 @@ void thing_damage(Gamep g, Levelsp v, Levelp l, Thingp t, ThingEvent &e)
       case THING_EVENT_HEAT_DAMAGE : //
         {
           auto temp_burn = tp_temperature_burns_at_get(tp);
-          if ((temp_burn != 0) && (thing_temperature(t) > temp_burn)) {
-            if (level_is_water(g, v, l, thing_at(t)) != nullptr) {
-              if (level_is_steam(g, v, l, thing_at(t)) == nullptr) {
-                THING_DBG(t, "spawn steam over water due to fire damage");
-                (void) thing_spawn(g, v, l, tp_first(is_steam), t);
+          if ((temp_burn != 0) && (thing_temperature(me) > temp_burn)) {
+            if (level_is_water(g, v, l, thing_at(me)) != nullptr) {
+              if (level_is_steam(g, v, l, thing_at(me)) == nullptr) {
+                THING_DBG(me, "spawn steam over water due to fire damage");
+                (void) thing_spawn(g, v, l, tp_first(is_steam), me);
               }
             }
           }
@@ -343,32 +341,32 @@ void thing_damage(Gamep g, Levelsp v, Levelp l, Thingp t, ThingEvent &e)
 
         {
           auto temp_melt = tp_temperature_melts_at_get(tp);
-          if ((temp_melt != 0) && (thing_temperature(t) > temp_melt)) {
-            thing_melt(g, v, l, t);
+          if ((temp_melt != 0) && (thing_temperature(me) > temp_melt)) {
+            thing_melt(g, v, l, me);
           }
         }
         break;
       case THING_EVENT_FIRE_DAMAGE :
-        if (level_is_fire(g, v, l, thing_at(t)) == nullptr) {
-          if (level_is_combustible(g, v, l, thing_at(t)) != nullptr) {
-            THING_DBG(t, "spawn flames due to fire damage");
-            (void) thing_spawn(g, v, l, tp_first(is_fire), t);
+        if (level_is_fire(g, v, l, thing_at(me)) == nullptr) {
+          if (level_is_combustible(g, v, l, thing_at(me)) != nullptr) {
+            THING_DBG(me, "spawn flames due to fire damage");
+            (void) thing_spawn(g, v, l, tp_first(is_fire), me);
           }
         }
 
-        if (level_is_water(g, v, l, thing_at(t)) != nullptr) {
-          if (level_is_steam(g, v, l, thing_at(t)) == nullptr) {
-            THING_DBG(t, "spawn steam over water due to fire damage");
-            (void) thing_spawn(g, v, l, tp_first(is_steam), t);
+        if (level_is_water(g, v, l, thing_at(me)) != nullptr) {
+          if (level_is_steam(g, v, l, thing_at(me)) == nullptr) {
+            THING_DBG(me, "spawn steam over water due to fire damage");
+            (void) thing_spawn(g, v, l, tp_first(is_steam), me);
           }
         }
 
-        thing_is_burning_set(g, v, l, t);
+        thing_is_burning_set(g, v, l, me);
         break;
       case THING_EVENT_WATER_DAMAGE : //
-        if (level_is_steam(g, v, l, thing_at(t)) == nullptr) {
-          THING_DBG(t, "spawn steam due to water damage");
-          (void) thing_spawn(g, v, l, tp_first(is_steam), t);
+        if (level_is_steam(g, v, l, thing_at(me)) == nullptr) {
+          THING_DBG(me, "spawn steam due to water damage");
+          (void) thing_spawn(g, v, l, tp_first(is_steam), me);
         }
         break;
       case THING_EVENT_EXPLOSION_DAMAGE : //
@@ -382,7 +380,7 @@ void thing_damage(Gamep g, Levelsp v, Levelp l, Thingp t, ThingEvent &e)
         break;
     }
 
-    thing_dead(g, v, l, t, e);
+    thing_dead(g, v, l, me, e);
   } else {
     //
     // Damage type specifics
@@ -408,7 +406,7 @@ void thing_damage(Gamep g, Levelsp v, Levelp l, Thingp t, ThingEvent &e)
         if (e.source != nullptr) {
           if (! l->is_handling_temperature_changes) {
             l->is_handling_temperature_changes = true;
-            level_thing_pair_temperature_handle(g, v, l, t, e.source);
+            level_thing_pair_temperature_handle(g, v, l, me, e.source);
             l->is_handling_temperature_changes = false;
           }
         }
@@ -426,5 +424,5 @@ void thing_damage(Gamep g, Levelsp v, Levelp l, Thingp t, ThingEvent &e)
     }
   }
 
-  THING_DBG(t, "post damage");
+  THING_DBG(me, "post damage");
 }

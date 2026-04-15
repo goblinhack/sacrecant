@@ -115,6 +115,12 @@ auto thing_jump_to(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to, bool warn
   // If jumping too far, truncate the jump
   //
   auto how_far_i_can_jump = thing_distance_jump(me);
+  if (! how_far_i_can_jump) {
+    if (thing_is_player(me)) {
+      topcon("You are too tired to jump.");
+    }
+    return false;
+  }
 
   thing_jump_truncate(g, v, l, me, to, how_far_i_can_jump);
 
@@ -175,5 +181,90 @@ auto thing_jump_to(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to, bool warn
 
   thing_is_jumping_set(g, v, l, me);
 
+  //
+  // Halve stamina for successfiul jumps
+  //
+  auto stamina = (int) ((float) thing_stamina(me) * 0.8);
+  (void) thing_stamina_set(g, v, l, me, stamina);
+
   return true;
+}
+
+auto thing_distance_jump_max(Thingp me) -> int
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+
+  return me->_distance_jump;
+}
+
+auto thing_distance_jump(Thingp me) -> int
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+
+  auto d = me->_distance_jump;
+
+  auto stamina     = thing_stamina(me);
+  auto stamina_max = thing_stamina_max(me);
+
+  if (stamina < stamina_max / 2) {
+    d /= 2;
+  }
+
+  if (stamina < stamina_max / 4) {
+    d /= 4;
+  }
+
+  if (stamina) {
+    if (! d) {
+      d = 1;
+    }
+  }
+
+  return d;
+}
+
+auto thing_distance_jump_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+  return me->_distance_jump = val;
+}
+
+auto thing_distance_jump_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+  return me->_distance_jump += val;
+}
+
+auto thing_distance_jump_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+  if (static_cast< int >(me->_distance_jump) - val <= 0) {
+    return me->_distance_jump = 0;
+  }
+  return me->_distance_jump -= val;
 }

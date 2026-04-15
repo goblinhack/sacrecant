@@ -42,14 +42,14 @@
   return true;
 }
 
-[[nodiscard]] static auto wid_thing_info_keys(Gamep g, Thingp t, WidPopup *parent) -> bool
+[[nodiscard]] static auto wid_thing_info_keys(Gamep g, Thingp me, WidPopup *parent) -> bool
 {
   TRACE();
 
   auto *text = parent->wid_text_area;
   auto *b    = parent->wid_text_area->wid_text_area;
 
-  auto key_count = thing_keys_carried(t);
+  auto key_count = thing_keys_carried(me);
   if (key_count == 0) {
     return false;
   }
@@ -85,15 +85,15 @@
 //
 // The thing name
 //
-[[nodiscard]] static auto wid_thing_info_name(Gamep g, Levelsp v, Levelp l, Thingp t, Tpp tp, WidPopup *parent) -> bool
+[[nodiscard]] static auto wid_thing_info_name(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp tp, WidPopup *parent) -> bool
 {
   TRACE();
 
   std::string name_str;
-  if (thing_is_player(t)) {
+  if (thing_is_player(me)) {
     name_str = game_player_name_get(g);
   } else {
-    name_str = thing_name_long(g, v, l, t);
+    name_str = thing_name_long(g, v, l, me);
   }
   name_str = capitalize(name_str);
 
@@ -105,15 +105,15 @@
 //
 // The thing description
 //
-[[nodiscard]] static auto wid_thing_info_detail(Gamep g, Levelsp v, Levelp l, Thingp t, WidPopup *parent) -> bool
+[[nodiscard]] static auto wid_thing_info_detail(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent) -> bool
 {
   TRACE();
 
-  if (thing_is_dead(t)) {
+  if (thing_is_dead(me)) {
     return false;
   }
 
-  parent->log(g, thing_detail_get(g, v, l, t), TEXT_FORMAT_LHS);
+  parent->log(g, thing_detail_get(g, v, l, me), TEXT_FORMAT_LHS);
 
   return true;
 }
@@ -121,11 +121,11 @@
 //
 // Score
 //
-[[nodiscard]] static auto wid_thing_info_score(Gamep g, Thingp t, Tpp tp, WidPopup *parent, int width) -> bool
+[[nodiscard]] static auto wid_thing_info_score(Gamep g, Thingp me, Tpp tp, WidPopup *parent, int width) -> bool
 {
   TRACE();
 
-  if (! thing_is_player(t)) {
+  if (! thing_is_player(me)) {
     return false;
   }
 
@@ -160,7 +160,7 @@
 //
 // Health bar
 //
-[[nodiscard]] static auto wid_thing_info_health_bar(Gamep g, Thingp t, Tpp tp, WidPopup *parent, int width) -> bool
+[[nodiscard]] static auto wid_thing_info_health_bar(Gamep g, Thingp me, Tpp tp, WidPopup *parent, int width) -> bool
 {
   TRACE();
 
@@ -176,7 +176,7 @@
   memset(tmp, 0, sizeof(tmp));
   memset(tmp, ' ', sizeof(tmp) - 1);
 
-  if (thing_is_dead(t)) {
+  if (thing_is_dead(me)) {
     my_strlcpy(tmp + 1, "Dead", sizeof("Dead "));
   } else {
     my_strlcpy(tmp + 1, "Health", sizeof("Health "));
@@ -185,8 +185,8 @@
   //
   // "Health         a/b"
   //
-  auto health_max = tp_health_max_get(tp);
-  auto h          = thing_health(t);
+  auto health_max = thing_health_max(me);
+  auto h          = thing_health(me);
   h               = std::max(h, 0);
 
   std::string const health_str = std::to_string(h) + "/" + std::to_string(health_max);
@@ -199,7 +199,7 @@
   //
   auto *w = parent->log(g, std::string(tmp));
   if (w != nullptr) {
-    int health_how_much = static_cast< int >((static_cast< float >(thing_health(t)) / static_cast< float >(health_max))
+    int health_how_much = static_cast< int >((static_cast< float >(thing_health(me)) / static_cast< float >(health_max))
                                              * (static_cast< float > UI_STAT_BAR_STEPS - 1));
     health_how_much     = std::min(health_how_much, UI_STAT_BAR_STEPS - 1);
     health_how_much     = std::max(health_how_much, 0);
@@ -218,11 +218,11 @@
 //
 // Stamina bar
 //
-[[nodiscard]] static auto wid_thing_info_stamina_bar(Gamep g, Thingp t, Tpp tp, WidPopup *parent, int width) -> bool
+[[nodiscard]] static auto wid_thing_info_stamina_bar(Gamep g, Thingp me, Tpp tp, WidPopup *parent, int width) -> bool
 {
   TRACE();
 
-  if (thing_is_dead(t)) {
+  if (thing_is_dead(me)) {
     return false;
   }
 
@@ -238,13 +238,17 @@
   memset(tmp, 0, sizeof(tmp));
   memset(tmp, ' ', sizeof(tmp) - 1);
 
-  my_strlcpy(tmp + 1, "Stamina", sizeof("Stamina "));
+  if (thing_distance_jump(me) != thing_distance_jump_max(me)) {
+    my_strlcpy(tmp + 1, "Jumping impacted", sizeof("Jumping impacted "));
+  } else {
+    my_strlcpy(tmp + 1, "Stamina", sizeof("Stamina "));
+  }
 
   //
   // "Stamina        a/b"
   //
-  auto stamina_max = tp_stamina_max_get(tp);
-  auto h           = thing_stamina(t);
+  auto stamina_max = thing_stamina_max(me);
+  auto h           = thing_stamina(me);
   h                = std::max(h, 0);
 
   std::string const stamina_str = std::to_string(h) + "/" + std::to_string(stamina_max);
@@ -257,7 +261,7 @@
   //
   auto *w = parent->log(g, std::string(tmp));
   if (w != nullptr) {
-    int stamina_how_much = static_cast< int >((static_cast< float >(thing_stamina(t)) / static_cast< float >(stamina_max))
+    int stamina_how_much = static_cast< int >((static_cast< float >(thing_stamina(me)) / static_cast< float >(stamina_max))
                                               * (static_cast< float > UI_STAT_BAR_STEPS - 1));
     stamina_how_much     = std::min(stamina_how_much, UI_STAT_BAR_STEPS - 1);
     stamina_how_much     = std::max(stamina_how_much, 0);
@@ -276,7 +280,7 @@
 //
 // Add immunities
 //
-[[nodiscard]] static auto wid_thing_info_immunities(Gamep g, Thingp t, WidPopup *parent, int width) -> bool
+[[nodiscard]] static auto wid_thing_info_immunities(Gamep g, Thingp me, WidPopup *parent, int width) -> bool
 {
   TRACE();
 
@@ -284,7 +288,7 @@
 
   FOR_ALL_THING_EVENT(e)
   {
-    if (! thing_is_immune_to(t, e)) {
+    if (! thing_is_immune_to(me, e)) {
       continue;
     }
 
@@ -333,13 +337,13 @@
 //
 // Add special damage
 //
-[[nodiscard]] static auto wid_thing_info_special_damage(Gamep g, Thingp t, WidPopup *parent) -> bool
+[[nodiscard]] static auto wid_thing_info_special_damage(Gamep g, Thingp me, WidPopup *parent) -> bool
 {
   TRACE();
 
   bool printed_something = false;
 
-  if (! thing_is_immune_to(t, THING_EVENT_WATER_DAMAGE)) {
+  if (! thing_is_immune_to(me, THING_EVENT_WATER_DAMAGE)) {
     parent->log(g, "Takes damage from water.", TEXT_FORMAT_LHS);
     printed_something = true;
   }
@@ -350,7 +354,7 @@
 //
 // Display detailed thing information
 //
-void wid_thing_info(Gamep g, Levelsp v, Levelp l, Thingp t, WidPopup *parent, int width)
+void wid_thing_info(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, int width)
 {
   ////////////////////////////////////////////////////////////////////////////////
   // Careful here. If we invoked the random number generator in here it can throw
@@ -359,11 +363,11 @@ void wid_thing_info(Gamep g, Levelsp v, Levelp l, Thingp t, WidPopup *parent, in
 
   TRACE();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     return;
   }
 
-  auto *tp = thing_tp(t);
+  auto *tp = thing_tp(me);
   if (tp == nullptr) [[unlikely]] {
     return;
   }
@@ -372,47 +376,47 @@ void wid_thing_info(Gamep g, Levelsp v, Levelp l, Thingp t, WidPopup *parent, in
     parent->log_empty_line(g);
   }
 
-  (void) wid_thing_info_keys(g, t, parent);
+  (void) wid_thing_info_keys(g, me, parent);
 
-  if (wid_thing_info_name(g, v, l, t, tp, parent)) {
+  if (wid_thing_info_name(g, v, l, me, tp, parent)) {
     parent->log_empty_line(g);
   }
 
-  if (wid_thing_info_detail(g, v, l, t, parent)) {
+  if (wid_thing_info_detail(g, v, l, me, parent)) {
     parent->log_empty_line(g);
   }
 
-  if (wid_thing_info_score(g, t, tp, parent, width)) {
+  if (wid_thing_info_score(g, me, tp, parent, width)) {
     parent->log_empty_line(g);
   }
 
-  if (wid_thing_info_health_bar(g, t, tp, parent, width)) {
+  if (wid_thing_info_health_bar(g, me, tp, parent, width)) {
     parent->log_empty_line(g);
   }
 
-  if (wid_thing_info_stamina_bar(g, t, tp, parent, width)) {
+  if (wid_thing_info_stamina_bar(g, me, tp, parent, width)) {
     parent->log_empty_line(g);
   }
 
-  if (wid_thing_info_immunities(g, t, parent, width)) {
+  if (wid_thing_info_immunities(g, me, parent, width)) {
     parent->log_empty_line(g);
   }
 
-  if (wid_thing_info_special_damage(g, t, parent)) {
+  if (wid_thing_info_special_damage(g, me, parent)) {
     parent->log_empty_line(g);
   }
 
   IF_DEBUG
   {
     parent->log(g, "Thing:");
-    parent->log(g, to_string(g, v, l, t), TEXT_FORMAT_LHS);
+    parent->log(g, to_string(g, v, l, me), TEXT_FORMAT_LHS);
     parent->log_empty_line(g);
     parent->log(g, "Things:");
 
     //
     // Dump the contents at this tile
     //
-    auto at = thing_at(t);
+    auto at = thing_at(me);
     FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, at)
     {
       auto s = std::format("- {}", thing_name_short(g, v, l, it));

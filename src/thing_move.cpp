@@ -329,7 +329,7 @@ auto thing_move_to(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool
 }
 
 //
-// Handles shoving to a location. We can'me move there yet.
+// Handles shoving to a location. We can't move there yet.
 //
 auto thing_shove_to(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool
 {

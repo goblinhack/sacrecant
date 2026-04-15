@@ -210,6 +210,8 @@ auto game_event_wait(Gamep g) -> bool
 
   if (level_tick_begin_requested(g, v, l, "player waiting")) {
     topcon("You wait...");
+
+    (void) thing_stamina_incr(g, v, l, player, 1);
   }
 
   return true;

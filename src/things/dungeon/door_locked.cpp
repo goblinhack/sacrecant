@@ -17,18 +17,17 @@ static Tilep door_locked_idle_damaged;
 static Tilep door_locked_open_damaged;
 static Tilep door_locked_open;
 
-static auto tp_door_locked_description_get(Gamep g, Levelsp v, Levelp l, Thingp t) -> std::string
+static auto tp_door_locked_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
 {
   TRACE();
 
-  if (thing_is_open(t)) {
+  if (thing_is_open(me)) {
     return "open door";
   }
-  if (thing_is_dead(t)) {
+  if (thing_is_dead(me)) {
     return "broken door";
   }
-  auto *tp = thing_tp(t);
-  if (thing_health(t) < tp_health_max_get(tp)) {
+  if (thing_health(me) < thing_health_max(me)) {
     return "damaged locked door";
   }
   return "locked door";
@@ -42,7 +41,7 @@ static auto tp_door_locked_at_display_get_tile_info(Gamep g, Levelsp v, Levelp l
     return nullptr;
   }
 
-  if (thing_health(t_maybe_null) < tp_health_max_get(tp)) {
+  if (thing_health(t_maybe_null) < thing_health_max(t_maybe_null)) {
     if (thing_is_open(t_maybe_null)) {
       return door_locked_idle_damaged;
     }
@@ -63,7 +62,7 @@ static auto tp_door_locked_at_display_get_tile_info(Gamep g, Levelsp v, Levelp l
 //
 // Return true on processing the mouse event
 //
-[[nodiscard]] static auto tp_door_locked_mouse_down(Gamep g, Levelsp v, Levelp l, Thingp t, int x, int y, int button) -> bool
+[[nodiscard]] static auto tp_door_locked_mouse_down(Gamep g, Levelsp v, Levelp l, Thingp me, int x, int y, int button) -> bool
 {
   TRACE();
 
@@ -76,15 +75,15 @@ static auto tp_door_locked_at_display_get_tile_info(Gamep g, Levelsp v, Levelp l
     return false;
   }
 
-  if (distance(thing_at(t), thing_at(player)) <= 1) {
-    if (thing_is_open(t)) {
-      if (thing_close(g, v, l, t, player /* opener */)) {
+  if (distance(thing_at(me), thing_at(player)) <= 1) {
+    if (thing_is_open(me)) {
+      if (thing_close(g, v, l, me, player /* opener */)) {
         topcon("The door closes.");
       } else {
         topcon("The door wont close!");
       }
     } else {
-      if (thing_open(g, v, l, t, player /* opener */)) {
+      if (thing_open(g, v, l, me, player /* opener */)) {
         topcon("The door opens.");
       } else {
         topcon("The door wont open!");
@@ -97,20 +96,18 @@ static auto tp_door_locked_at_display_get_tile_info(Gamep g, Levelsp v, Levelp l
   return false;
 }
 
-[[nodiscard]] static auto tp_door_locked_on_open_request(Gamep g, Levelsp v, Levelp l, Thingp t, Thingp opener) -> bool
+[[nodiscard]] static auto tp_door_locked_on_open_request(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp opener) -> bool
 {
   TRACE();
 
-  auto *tp = thing_tp(t);
-
-  if (thing_health(t) < tp_health_max_get(tp)) {
+  if (thing_health(me) < thing_health_max(me)) {
     if (thing_is_player(opener)) {
       topcon("The door is damaged and won't open!");
     }
     return false;
   }
 
-  if (thing_is_hot(t) != 0) {
+  if (thing_is_hot(me) != 0) {
     if (thing_is_player(opener)) {
       topcon("The door is too hot to touch!");
     }
@@ -124,7 +121,7 @@ static auto tp_door_locked_at_display_get_tile_info(Gamep g, Levelsp v, Levelp l
     //
     // No keys are carried
     //
-    if (thing_is_unlocked(t)) {
+    if (thing_is_unlocked(me)) {
       //
       // Door was unlocked already. No need to decrement keys.
       //
@@ -140,7 +137,7 @@ static auto tp_door_locked_at_display_get_tile_info(Gamep g, Levelsp v, Levelp l
     }
   }
 
-  if (thing_is_unlocked(t)) {
+  if (thing_is_unlocked(me)) {
     //
     // No need to decrement keys
     //
@@ -154,15 +151,15 @@ static auto tp_door_locked_at_display_get_tile_info(Gamep g, Levelsp v, Levelp l
   if (thing_is_player(opener)) {
     topcon("The locked door opens.");
 
-    thing_is_unlocked_set(g, v, l, t);
+    thing_is_unlocked_set(g, v, l, me);
   }
 
-  thing_sound_play(g, v, l, t, "door_open");
+  thing_sound_play(g, v, l, me, "door_open");
 
   return true;
 }
 
-[[nodiscard]] static auto tp_door_locked_on_close_request(Gamep g, Levelsp v, Levelp l, Thingp t, Thingp opener) -> bool
+[[nodiscard]] static auto tp_door_locked_on_close_request(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp opener) -> bool
 {
   TRACE();
 
@@ -170,19 +167,19 @@ static auto tp_door_locked_at_display_get_tile_info(Gamep g, Levelsp v, Levelp l
     topcon("The locked door closes.");
   }
 
-  thing_sound_play(g, v, l, t, "door_open");
+  thing_sound_play(g, v, l, me, "door_open");
 
   return true;
 }
 
-static void tp_door_locked_on_death(Gamep g, Levelsp v, Levelp l, Thingp t, ThingEvent &e)
+static void tp_door_locked_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
 {
   TRACE();
 
   auto *player = thing_player(g);
   if (player != nullptr) {
     auto at = thing_at(player);
-    if (thing_on_same_level_as_player(g, v, t)) {
+    if (thing_on_same_level_as_player(g, v, me)) {
       if (thing_vision_can_see_tile(g, v, l, player, at)) {
         topcon("The locked door breaks!");
       } else {
