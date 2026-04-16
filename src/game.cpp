@@ -1082,6 +1082,7 @@ void Game::state_change(GameState new_state, const std::string &why)
         case STATE_GENERATED :         [[fallthrough]];
         case GAME_STATE_ENUM_MAX :     break;
       }
+      break;
     case STATE_QUITTING :          [[fallthrough]];
     case STATE_INIT :              [[fallthrough]];
     case STATE_DEAD_MENU :         [[fallthrough]];
