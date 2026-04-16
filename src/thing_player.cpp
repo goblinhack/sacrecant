@@ -1115,7 +1115,7 @@ auto player_jump(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool
   // If jumping too far, truncate the jump
   //
   auto how_far_i_can_jump = thing_distance_jump(me);
-  if (! how_far_i_can_jump) {
+  if (how_far_i_can_jump == 0) {
     if (thing_is_player(me)) {
       topcon("You are too tired to jump.");
     }

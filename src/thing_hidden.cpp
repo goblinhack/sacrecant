@@ -20,7 +20,7 @@ void thing_hidden_time_step(Gamep g, Levelsp v, Levelp l, Thingp me, int time_st
   if (n > mid) {
     n = mid - n;
   }
-  if (! n) {
+  if (n == 0) {
     n = -1;
   }
 

@@ -37,7 +37,7 @@ auto thing_health_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
 
   game_request_to_remake_ui_set(g);
   t->_health = val;
-  if (t->_health_max) {
+  if (t->_health_max != 0) {
     t->_health = std::min(t->_health_max, t->_health);
   }
   return t->_health;
@@ -53,7 +53,7 @@ auto thing_health_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
   }
   game_request_to_remake_ui_set(g);
   t->_health += val;
-  if (t->_health_max) {
+  if (t->_health_max != 0) {
     t->_health = std::min(t->_health_max, t->_health);
   }
   return t->_health;

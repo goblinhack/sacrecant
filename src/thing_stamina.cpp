@@ -37,7 +37,7 @@ auto thing_stamina_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
 
   game_request_to_remake_ui_set(g);
   t->_stamina = val;
-  if (t->_stamina_max) {
+  if (t->_stamina_max != 0) {
     t->_stamina = std::min(t->_stamina_max, t->_stamina);
   }
   return t->_stamina;
@@ -53,7 +53,7 @@ auto thing_stamina_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
   }
   game_request_to_remake_ui_set(g);
   t->_stamina += val;
-  if (t->_stamina_max) {
+  if (t->_stamina_max != 0) {
     t->_stamina = std::min(t->_stamina_max, t->_stamina);
   }
   return t->_stamina;

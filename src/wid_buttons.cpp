@@ -46,12 +46,12 @@ static void wid_button_pulse(Gamep g, Widp w)
   if (n > mid) {
     n = mid - n;
   }
-  if (! n) {
+  if (n == 0) {
     n = -1;
   }
 
-  float i = static_cast< int >((255 / static_cast< float >(mid)) * static_cast< float >(n));
-  auto  a = ((static_cast< uint8_t >((int) i)) / 2) + 120;
+  float const i = static_cast< int >((255 / static_cast< float >(mid)) * static_cast< float >(n));
+  auto        a = ((static_cast< uint8_t >(static_cast< int >(i))) / 2) + 120;
 
   color c = wid_get_color(w, WID_COLOR_BG);
   c.a     = a;

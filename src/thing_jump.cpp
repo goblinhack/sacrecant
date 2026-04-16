@@ -117,7 +117,7 @@ auto thing_jump_to(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to, bool warn
   // If jumping too far, truncate the jump
   //
   auto how_far_i_can_jump = thing_distance_jump(me);
-  if (! how_far_i_can_jump) {
+  if (how_far_i_can_jump == 0) {
     if (thing_is_player(me)) {
       topcon("You are too tired to jump.");
     }
@@ -186,7 +186,7 @@ auto thing_jump_to(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to, bool warn
   //
   // Halve stamina for successfiul jumps
   //
-  auto stamina = (int) ((float) thing_stamina(me) * 0.8);
+  auto stamina = static_cast< int >(static_cast< float >(thing_stamina(me)) * 0.8);
   (void) thing_stamina_set(g, v, l, me, stamina);
 
   THING_DBG(me, "jump begin");
@@ -228,8 +228,8 @@ auto thing_distance_jump(Thingp me) -> int
     d /= 4;
   }
 
-  if (stamina) {
-    if (! d) {
+  if (stamina != 0) {
+    if (d == 0) {
       d = 1;
     }
   }
