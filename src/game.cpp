@@ -225,6 +225,16 @@ public:
   bool request_to_update_cursor {};
 
   //
+  // Set when the player reaches the exit
+  //
+  bool request_reached_exit {};
+
+  //
+  // Set when the player reaches the entrance
+  //
+  bool request_reached_entrance {};
+
+  //
   // Player is dead
   //
   bool        request_to_end_game {};
@@ -919,7 +929,11 @@ void Game::state_reset(const std::string &why)
   if (v != nullptr) {
     auto *l = game_level_get(g, v);
     if (l != nullptr) {
-      state_change(STATE_PLAYING, why);
+      if (level_is_level_select(g, v, l)) {
+        state_change(STATE_LEVEL_SELECT_MENU, why);
+      } else {
+        state_change(STATE_PLAYING, why);
+      }
     } else {
       state_change(STATE_MAIN_MENU, why);
     }
@@ -956,8 +970,8 @@ void Game::state_change(GameState new_state, const std::string &why)
   // Cleanup actions for the new state
   //
   switch (new_state) {
-    case STATE_INIT :
-    case STATE_MAIN_MENU :
+    case STATE_INIT :      [[fallthrough]];
+    case STATE_MAIN_MENU : [[fallthrough]];
     case STATE_QUITTING :
       wid_load_destroy(g);
       wid_main_menu_destroy(g);
@@ -973,7 +987,10 @@ void Game::state_change(GameState new_state, const std::string &why)
       game_request_to_remake_ui_unset(g);
       game_request_to_save_game_unset(g);
       game_request_to_update_cursor_unset(g);
+      game_request_reached_entrance_unset(g);
+      game_request_reached_exit_unset(g);
       break;
+    case STATE_LEVEL_SELECT_MENU : [[fallthrough]];
     case STATE_PLAYING :
       wid_load_destroy(g);
       wid_main_menu_destroy(g);
@@ -999,16 +1016,16 @@ void Game::state_change(GameState new_state, const std::string &why)
       //
       g_opt_level_select_menu = false;
       break;
-    case STATE_MOVE_WARNING_MENU :
-    case STATE_KEYBOARD_MENU :
-    case STATE_LOAD_MENU :
-    case STATE_LOADED :
-    case STATE_SAVE_MENU :
-    case STATE_QUIT_MENU :
-    case STATE_INVENTORY_MENU :
+    case STATE_MOVE_WARNING_MENU : [[fallthrough]];
+    case STATE_KEYBOARD_MENU :     [[fallthrough]];
+    case STATE_LOAD_MENU :         [[fallthrough]];
+    case STATE_LOADED :            [[fallthrough]];
+    case STATE_SAVE_MENU :         [[fallthrough]];
+    case STATE_QUIT_MENU :         [[fallthrough]];
+    case STATE_INVENTORY_MENU :    [[fallthrough]];
     case STATE_ITEM_MENU :         wid_actionbar_fini(g); break;
-    case STATE_GENERATING :        break;
-    case STATE_GENERATED :         break;
+    case STATE_GENERATING :        [[fallthrough]];
+    case STATE_GENERATED :         [[fallthrough]];
     case GAME_STATE_ENUM_MAX :     break;
   }
 
@@ -1016,7 +1033,6 @@ void Game::state_change(GameState new_state, const std::string &why)
   // Enter the new state
   //
   switch (new_state) {
-    case STATE_INIT : break;
     case STATE_MAIN_MENU :
       if (g_opt_quick_start) {
         //
@@ -1033,11 +1049,9 @@ void Game::state_change(GameState new_state, const std::string &why)
         wid_main_menu_select(g);
       }
       break;
-    case STATE_QUITTING : break;
+    case STATE_LEVEL_SELECT_MENU : [[fallthrough]];
     case STATE_PLAYING :
       switch (old_state) {
-        case STATE_INIT :     break;
-        case STATE_QUITTING : break;
         case STATE_LOADED :
           wid_leftbar_init(g);
           wid_rightbar_init(g);
@@ -1047,35 +1061,40 @@ void Game::state_change(GameState new_state, const std::string &why)
           wid_actionbar_init(g);
           thing_player_init(g);
           break;
-        case STATE_QUIT_MENU :
-        case STATE_MOVE_WARNING_MENU :
-        case STATE_LOAD_MENU :
-        case STATE_SAVE_MENU :
-        case STATE_KEYBOARD_MENU :
-        case STATE_MAIN_MENU :
-        case STATE_INVENTORY_MENU :
+        case STATE_QUIT_MENU :         [[fallthrough]];
+        case STATE_MOVE_WARNING_MENU : [[fallthrough]];
+        case STATE_LOAD_MENU :         [[fallthrough]];
+        case STATE_SAVE_MENU :         [[fallthrough]];
+        case STATE_KEYBOARD_MENU :     [[fallthrough]];
+        case STATE_MAIN_MENU :         [[fallthrough]];
+        case STATE_INVENTORY_MENU :    [[fallthrough]];
         case STATE_ITEM_MENU :
           wid_leftbar_init(g);
           wid_rightbar_init(g);
           wid_actionbar_init(g);
           break;
-        case STATE_DEAD_MENU :
-        case STATE_PLAYING :
-        case STATE_GENERATING :    break;
-        case STATE_GENERATED :     break;
-        case GAME_STATE_ENUM_MAX : break;
+        case STATE_INIT :              [[fallthrough]];
+        case STATE_QUITTING :          [[fallthrough]];
+        case STATE_DEAD_MENU :         [[fallthrough]];
+        case STATE_PLAYING :           [[fallthrough]];
+        case STATE_LEVEL_SELECT_MENU : [[fallthrough]];
+        case STATE_GENERATING :        [[fallthrough]];
+        case STATE_GENERATED :         [[fallthrough]];
+        case GAME_STATE_ENUM_MAX :     break;
       }
-    case STATE_DEAD_MENU :
-    case STATE_MOVE_WARNING_MENU :
-    case STATE_KEYBOARD_MENU :
-    case STATE_LOAD_MENU :
-    case STATE_LOADED :
-    case STATE_SAVE_MENU :
-    case STATE_QUIT_MENU :         break;
-    case STATE_INVENTORY_MENU :    break;
-    case STATE_ITEM_MENU :         break;
-    case STATE_GENERATING :        break;
-    case STATE_GENERATED :         break;
+    case STATE_QUITTING :          [[fallthrough]];
+    case STATE_INIT :              [[fallthrough]];
+    case STATE_DEAD_MENU :         [[fallthrough]];
+    case STATE_MOVE_WARNING_MENU : [[fallthrough]];
+    case STATE_KEYBOARD_MENU :     [[fallthrough]];
+    case STATE_LOAD_MENU :         [[fallthrough]];
+    case STATE_LOADED :            [[fallthrough]];
+    case STATE_SAVE_MENU :         [[fallthrough]];
+    case STATE_QUIT_MENU :         [[fallthrough]];
+    case STATE_INVENTORY_MENU :    [[fallthrough]];
+    case STATE_ITEM_MENU :         [[fallthrough]];
+    case STATE_GENERATING :        [[fallthrough]];
+    case STATE_GENERATED :         [[fallthrough]];
     case GAME_STATE_ENUM_MAX :     break;
   }
 
@@ -1111,11 +1130,9 @@ void Game::handle_game_request_to_remake_ui()
   auto *v = game_levels_get(g);
 
   switch (state) {
-    case STATE_INIT :      break;
-    case STATE_MAIN_MENU : break;
-    case STATE_QUITTING :  break;
-    case STATE_DEAD_MENU :
-    case STATE_PLAYING :
+    case STATE_DEAD_MENU :         [[fallthrough]];
+    case STATE_PLAYING :           [[fallthrough]];
+    case STATE_LEVEL_SELECT_MENU : [[fallthrough]];
     case STATE_INVENTORY_MENU :
       if (v != nullptr) {
         wid_leftbar_init(g);
@@ -1123,15 +1140,18 @@ void Game::handle_game_request_to_remake_ui()
         wid_actionbar_init(g);
       }
       break;
-    case STATE_ITEM_MENU :         break;
-    case STATE_MOVE_WARNING_MENU : break;
-    case STATE_KEYBOARD_MENU :     break;
-    case STATE_LOAD_MENU :         break;
-    case STATE_LOADED :            break;
-    case STATE_SAVE_MENU :         break;
-    case STATE_QUIT_MENU :         break;
-    case STATE_GENERATING :        break;
-    case STATE_GENERATED :         break;
+    case STATE_INIT :              [[fallthrough]];
+    case STATE_MAIN_MENU :         [[fallthrough]];
+    case STATE_QUITTING :          [[fallthrough]];
+    case STATE_ITEM_MENU :         [[fallthrough]];
+    case STATE_MOVE_WARNING_MENU : [[fallthrough]];
+    case STATE_KEYBOARD_MENU :     [[fallthrough]];
+    case STATE_LOAD_MENU :         [[fallthrough]];
+    case STATE_LOADED :            [[fallthrough]];
+    case STATE_SAVE_MENU :         [[fallthrough]];
+    case STATE_QUIT_MENU :         [[fallthrough]];
+    case STATE_GENERATING :        [[fallthrough]];
+    case STATE_GENERATED :         [[fallthrough]];
     case GAME_STATE_ENUM_MAX :     break;
   }
 
@@ -1159,19 +1179,20 @@ void Game::tick()
         //
         [[fallthrough]];
       case STATE_PLAYING :           levels_tick(g, v); break;
-      case STATE_INIT :              break;
-      case STATE_MAIN_MENU :         break;
-      case STATE_QUITTING :          break;
-      case STATE_MOVE_WARNING_MENU : break;
-      case STATE_KEYBOARD_MENU :     break;
-      case STATE_LOAD_MENU :         break;
-      case STATE_LOADED :            break;
-      case STATE_SAVE_MENU :         break;
-      case STATE_QUIT_MENU :         break;
-      case STATE_INVENTORY_MENU :    break;
-      case STATE_ITEM_MENU :         break;
-      case STATE_GENERATING :        break;
-      case STATE_GENERATED :         break;
+      case STATE_LEVEL_SELECT_MENU : [[fallthrough]];
+      case STATE_INIT :              [[fallthrough]];
+      case STATE_MAIN_MENU :         [[fallthrough]];
+      case STATE_QUITTING :          [[fallthrough]];
+      case STATE_MOVE_WARNING_MENU : [[fallthrough]];
+      case STATE_KEYBOARD_MENU :     [[fallthrough]];
+      case STATE_LOAD_MENU :         [[fallthrough]];
+      case STATE_LOADED :            [[fallthrough]];
+      case STATE_SAVE_MENU :         [[fallthrough]];
+      case STATE_QUIT_MENU :         [[fallthrough]];
+      case STATE_INVENTORY_MENU :    [[fallthrough]];
+      case STATE_ITEM_MENU :         [[fallthrough]];
+      case STATE_GENERATING :        [[fallthrough]];
+      case STATE_GENERATED :         [[fallthrough]];
       case GAME_STATE_ENUM_MAX :     break;
     }
   }
@@ -1292,9 +1313,10 @@ void Game::display()
   }
 
   switch (state) {
-    case STATE_INIT :      break;
-    case STATE_MAIN_MENU : break;
-    case STATE_QUITTING :  break;
+    case STATE_LEVEL_SELECT_MENU :
+      //
+      // Needed else we can't see the level select things
+      //
     case STATE_INVENTORY_MENU :
     case STATE_ITEM_MENU :
     case STATE_PLAYING :
@@ -1303,14 +1325,17 @@ void Game::display()
       level_display(g, v, l);
       thing_player_event_loop(g, v, l);
       break;
-    case STATE_MOVE_WARNING_MENU : break;
-    case STATE_KEYBOARD_MENU :     break;
-    case STATE_LOAD_MENU :         break;
-    case STATE_LOADED :            break;
-    case STATE_SAVE_MENU :         break;
-    case STATE_QUIT_MENU :         break;
-    case STATE_GENERATING :        break;
-    case STATE_GENERATED :         break;
+    case STATE_INIT :              [[fallthrough]];
+    case STATE_MAIN_MENU :         [[fallthrough]];
+    case STATE_QUITTING :          [[fallthrough]];
+    case STATE_MOVE_WARNING_MENU : [[fallthrough]];
+    case STATE_KEYBOARD_MENU :     [[fallthrough]];
+    case STATE_LOAD_MENU :         [[fallthrough]];
+    case STATE_LOADED :            [[fallthrough]];
+    case STATE_SAVE_MENU :         [[fallthrough]];
+    case STATE_QUIT_MENU :         [[fallthrough]];
+    case STATE_GENERATING :        [[fallthrough]];
+    case STATE_GENERATED :         [[fallthrough]];
     case GAME_STATE_ENUM_MAX :     break;
   }
 }
@@ -3010,6 +3035,70 @@ void game_request_to_update_cursor_unset(Gamep g)
     return;
   }
   g->request_to_update_cursor = false;
+}
+
+auto game_request_reached_exit_get(Gamep g) -> bool
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return true;
+  }
+
+  return g->request_reached_exit;
+}
+void game_request_reached_exit_set(Gamep g)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->request_reached_exit = true;
+}
+void game_request_reached_exit_unset(Gamep g)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->request_reached_exit = false;
+}
+
+auto game_request_reached_entrance_get(Gamep g) -> bool
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return true;
+  }
+
+  return g->request_reached_entrance;
+}
+void game_request_reached_entrance_set(Gamep g)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->request_reached_entrance = true;
+}
+void game_request_reached_entrance_unset(Gamep g)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->request_reached_entrance = false;
 }
 
 auto game_request_to_end_game_get(Gamep g) -> bool

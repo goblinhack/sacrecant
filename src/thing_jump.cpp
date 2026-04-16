@@ -35,6 +35,8 @@ void thing_is_jumping_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE_DEBUG();
 
+  THING_DBG(me, "jump end");
+
   thing_is_jumping_set(g, v, l, me, false);
 }
 
@@ -186,6 +188,8 @@ auto thing_jump_to(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to, bool warn
   //
   auto stamina = (int) ((float) thing_stamina(me) * 0.8);
   (void) thing_stamina_set(g, v, l, me, stamina);
+
+  THING_DBG(me, "jump begin");
 
   return true;
 }

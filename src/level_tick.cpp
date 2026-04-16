@@ -618,6 +618,14 @@ static void level_tick_end(Gamep g, Levelsp v, Levelp l)
     }
   }
 
+  if (game_request_reached_exit_get(g)) {
+    player_reached_exit_do(g, v, l);
+  }
+
+  if (game_request_reached_entrance_get(g)) {
+    player_reached_entrance_do(g, v, l);
+  }
+
   if (level_is_player_level(g, v, l)) {
     LEVEL_DBG(g, v, l, "Tick %u: end", v->tick);
   }

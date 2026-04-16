@@ -124,6 +124,7 @@ static void tp_player_on_fall_end(Gamep g, Levelsp v, Levelp l, Thingp t)
 static void tp_player_level_leave(Gamep g, Levelsp v, Levelp l, Thingp t)
 {
   TRACE();
+
   thing_vision_reset(g, v, l, t);
 
   sound_fade_out(g);

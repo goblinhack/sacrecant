@@ -193,9 +193,6 @@ void thing_player_event_loop(Gamep g, Levelsp v, Levelp l)
   TRACE();
 
   switch (game_state(g)) {
-    case STATE_INIT :      break;
-    case STATE_MAIN_MENU : break;
-    case STATE_QUITTING :  break;
     case STATE_PLAYING :
       //
       // If the me pressed the mouse, we need to apply the current cursor path and start moving.
@@ -247,16 +244,20 @@ void thing_player_event_loop(Gamep g, Levelsp v, Levelp l)
       //
       thing_player_cursor_loop(g, v, l);
       break;
-    case STATE_MOVE_WARNING_MENU : break;
-    case STATE_KEYBOARD_MENU :     break;
-    case STATE_LOAD_MENU :         break;
-    case STATE_LOADED :            break;
-    case STATE_SAVE_MENU :         break;
-    case STATE_QUIT_MENU :         break;
-    case STATE_INVENTORY_MENU :    break;
-    case STATE_ITEM_MENU :         break;
-    case STATE_GENERATING :        break;
-    case STATE_GENERATED :         break;
+    case STATE_LEVEL_SELECT_MENU : [[fallthrough]];
+    case STATE_INIT :              [[fallthrough]];
+    case STATE_MAIN_MENU :         [[fallthrough]];
+    case STATE_QUITTING :          [[fallthrough]];
+    case STATE_MOVE_WARNING_MENU : [[fallthrough]];
+    case STATE_KEYBOARD_MENU :     [[fallthrough]];
+    case STATE_LOAD_MENU :         [[fallthrough]];
+    case STATE_LOADED :            [[fallthrough]];
+    case STATE_SAVE_MENU :         [[fallthrough]];
+    case STATE_QUIT_MENU :         [[fallthrough]];
+    case STATE_INVENTORY_MENU :    [[fallthrough]];
+    case STATE_ITEM_MENU :         [[fallthrough]];
+    case STATE_GENERATING :        [[fallthrough]];
+    case STATE_GENERATED :         [[fallthrough]];
     case GAME_STATE_ENUM_MAX :     break;
   }
 }
@@ -945,11 +946,53 @@ void player_warp_to_specific_level(Gamep g, Levelsp v, LevelNum level_num)
 //
 // Handle level exit interactions
 //
+void player_reached_exit_do(Gamep g, Levelsp v, Levelp l)
+{
+  TRACE();
+
+  if (! game_request_reached_exit_get(g)) {
+    return;
+  }
+
+  level_log(g, v, l, "player reached exit handler");
+  TRACE_INDENT();
+
+  game_request_reached_exit_unset(g);
+
+  level_is_completed_by_player_exiting(g, v, l);
+
+  player_leave_current_level_and_change_to_level_num(g, v, LEVEL_SELECT_ID);
+}
+
+//
+// Handle level exit interactions
+//
 void player_reached_exit(Gamep g, Levelsp v, Levelp l)
 {
   TRACE();
 
-  level_is_completed_by_player_exiting(g, v, l);
+  level_log(g, v, l, "player reached exit");
+  TRACE_INDENT();
+
+  game_request_reached_exit_set(g);
+}
+
+//
+// Handle level entrance interactions
+//
+void player_reached_entrance_do(Gamep g, Levelsp v, Levelp l)
+{
+  TRACE();
+
+  if (! game_request_reached_entrance_get(g)) {
+    return;
+  }
+
+  game_request_reached_entrance_unset(g);
+
+  level_log(g, v, l, "player reached entrance handler");
+  TRACE_INDENT();
+
   player_leave_current_level_and_change_to_level_num(g, v, LEVEL_SELECT_ID);
 }
 
@@ -960,7 +1003,10 @@ void player_reached_entrance(Gamep g, Levelsp v, Levelp l)
 {
   TRACE();
 
-  player_leave_current_level_and_change_to_level_num(g, v, LEVEL_SELECT_ID);
+  level_log(g, v, l, "player reached entrance");
+  TRACE_INDENT();
+
+  game_request_reached_entrance_set(g);
 }
 
 //

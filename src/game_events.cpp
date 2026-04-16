@@ -31,11 +31,6 @@ auto game_mouse_down(Gamep g, int x, int y, uint32_t button) -> bool
     return false;
   }
 
-  if (game_state(g) != STATE_PLAYING) {
-    DBG("game mouse down, ignore, not playing");
-    return false;
-  }
-
   //
   // Follow the mouse path?
   //
@@ -68,6 +63,11 @@ auto game_mouse_down(Gamep g, int x, int y, uint32_t button) -> bool
   if (level_is_level_select(g, v, l)) {
     level_select_mouse_down(g, v, l);
     return true;
+  }
+
+  if (game_state(g) != STATE_PLAYING) {
+    DBG("game mouse down, ignore, not playing");
+    return false;
   }
 
   //
@@ -156,9 +156,12 @@ auto game_event_save(Gamep g) -> bool
   if (! level_is_level_select(g, v, l)) {
     if (g_opt_debug1) {
       //
-      // Allow when debugging
+      // Allow saves when debugging
       //
     } else {
+      //
+      // No saves
+      //
       topcon(UI_WARNING_FMT_STR "You can only save games when you exit the level." UI_RESET_FMT);
       sound_play(g, "error");
       return true;
@@ -199,6 +202,10 @@ auto game_event_wait(Gamep g) -> bool
     return false;
   }
 
+  if (level_is_level_select(g, v, l)) {
+    return false;
+  }
+
   auto *player = thing_player(g);
   if (player == nullptr) [[unlikely]] {
     return false;
@@ -232,6 +239,10 @@ auto game_event_inventory(Gamep g) -> bool
     return false;
   }
 
+  if (level_is_level_select(g, v, l)) {
+    return false;
+  }
+
   auto *player = thing_player(g);
   if (player == nullptr) [[unlikely]] {
     return false;
@@ -254,6 +265,10 @@ auto game_event_descend(Gamep g) -> bool
 
   auto *l = game_level_get(g, v);
   if (l == nullptr) {
+    return false;
+  }
+
+  if (level_is_level_select(g, v, l)) {
     return false;
   }
 
@@ -292,6 +307,10 @@ auto game_event_ascend(Gamep g) -> bool
     return false;
   }
 
+  if (level_is_level_select(g, v, l)) {
+    return false;
+  }
+
   auto *player = thing_player(g);
   if (player == nullptr) [[unlikely]] {
     return false;
@@ -324,6 +343,10 @@ static auto game_event_jump(Gamep g) -> bool
 
   auto *l = game_level_get(g, v);
   if (l == nullptr) {
+    return false;
+  }
+
+  if (level_is_level_select(g, v, l)) {
     return false;
   }
 
@@ -429,10 +452,6 @@ auto game_input(Gamep g, const SDL_Keysym *key) -> bool
     return false;
   }
 
-  if (game_state(g) != STATE_PLAYING) {
-    return false;
-  }
-
   auto *v = game_levels_get(g);
   if (v == nullptr) {
     DBG("Pressed a key; no levels");
@@ -448,6 +467,42 @@ auto game_input(Gamep g, const SDL_Keysym *key) -> bool
   if (sdlk_eq(*key, game_key_console_get(g))) {
     DBG("Pressed a key; over console, ignore");
     sound_play(g, "keypress");
+    return false;
+  }
+
+  if (sdlk_eq(*key, game_key_quit_get(g))) {
+    DBG("Pressed quit key");
+    sound_play(g, "keypress");
+    (void) game_event_quit(g);
+    return true;
+  }
+
+  if (sdlk_eq(*key, game_key_help_get(g))) {
+    DBG("Pressed help key");
+    TRACE_INDENT();
+    sound_play(g, "keypress");
+    (void) game_event_help(g);
+    return true;
+  }
+
+  if (sdlk_eq(*key, game_key_load_get(g))) {
+    DBG("Pressed load key");
+    TRACE_INDENT();
+    DBG("Loading game");
+    sound_play(g, "keypress");
+    (void) game_event_load(g);
+    return true;
+  }
+
+  if (sdlk_eq(*key, game_key_save_get(g))) {
+    DBG("Pressed save key");
+    TRACE_INDENT();
+    sound_play(g, "keypress");
+    (void) game_event_save(g);
+    return true;
+  }
+
+  if (game_state(g) != STATE_PLAYING) {
     return false;
   }
 
@@ -482,38 +537,6 @@ auto game_input(Gamep g, const SDL_Keysym *key) -> bool
     sound_play(g, "keypress");
     (void) game_event_descend(g);
     return false; // To avoid click noise
-  }
-
-  if (sdlk_eq(*key, game_key_quit_get(g))) {
-    DBG("Pressed quit key");
-    sound_play(g, "keypress");
-    (void) game_event_quit(g);
-    return true;
-  }
-
-  if (sdlk_eq(*key, game_key_help_get(g))) {
-    DBG("Pressed help key");
-    TRACE_INDENT();
-    sound_play(g, "keypress");
-    (void) game_event_help(g);
-    return true;
-  }
-
-  if (sdlk_eq(*key, game_key_load_get(g))) {
-    DBG("Pressed load key");
-    TRACE_INDENT();
-    DBG("Loading game");
-    sound_play(g, "keypress");
-    (void) game_event_load(g);
-    return true;
-  }
-
-  if (sdlk_eq(*key, game_key_save_get(g))) {
-    DBG("Pressed save key");
-    TRACE_INDENT();
-    sound_play(g, "keypress");
-    (void) game_event_save(g);
-    return true;
   }
 
   if (sdlk_eq(*key, game_key_jump_get(g))) {
