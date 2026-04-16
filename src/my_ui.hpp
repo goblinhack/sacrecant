@@ -151,7 +151,7 @@ enum { UI_EVENT_LOOP_FREQ_VERY_SLOW_MS = 20 };
 
 enum {
   UI_WID_STYLE_SPARSE_NONE = -1, // Used for widgets with their own backgrounds
-  UI_WID_STYLE_SOLID_GRAY,
+  UI_WID_STYLE_SOLID_WHITE,
   UI_WID_STYLE_GREEN,
   UI_WID_STYLE_RED,
   UI_WID_STYLE_NORMAL,

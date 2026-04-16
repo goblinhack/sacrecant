@@ -35,7 +35,7 @@ static void wid_inventory_mouse_over_begin(Gamep g, Widp w, int relx, int rely, 
   for (auto &n : wid_item) {
     w = n;
     if (w != wid_over) {
-      wid_set_style(w, UI_WID_STYLE_SOLID_GRAY);
+      wid_set_style(w, UI_WID_STYLE_SOLID_WHITE);
       wid_set_color(w, WID_COLOR_BG, GRAY20);
     }
   }
@@ -138,7 +138,7 @@ static void wid_inventory_mouse_over_end(Gamep g, Widp w)
                 for (auto &n : wid_item) {
                   w = n;
                   if (w != nullptr) {
-                    wid_set_style(w, UI_WID_STYLE_SOLID_GRAY);
+                    wid_set_style(w, UI_WID_STYLE_SOLID_WHITE);
                     wid_set_color(w, WID_COLOR_BG, GRAY20);
                   }
                 }
@@ -152,7 +152,7 @@ static void wid_inventory_mouse_over_end(Gamep g, Widp w)
 
                 w = wid_item[ c - 'a' ];
                 if (w != nullptr) {
-                  wid_set_style(w, UI_WID_STYLE_SOLID_GRAY);
+                  wid_set_style(w, UI_WID_STYLE_SOLID_WHITE);
                   wid_set_color(w, WID_COLOR_BG, GREEN);
                   wid_set_color(w, WID_COLOR_TEXT_FG, WHITE);
                 }

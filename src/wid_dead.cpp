@@ -266,7 +266,7 @@ void wid_dead_select(Gamep g, const std::string &reason)
   wid_dead_window->log_empty_line(g);
 
   auto *p = wid_dead_window->wid_text_area->wid_text_area;
-  auto *w = wid_new_menu_button(g, p, "dead");
+  auto *w = wid_new_continue_button(g, p, "dead");
 
   {
     spoint const tl2(9, h - 7);
@@ -274,7 +274,6 @@ void wid_dead_select(Gamep g, const std::string &reason)
 
     wid_set_pos(w, tl2, br2);
     wid_set_on_mouse_up(w, wid_dead_mouse_up);
-    wid_set_text(w, "Continue");
   }
 
   wid_update(g, wid_dead_window->wid_text_area->wid_text_area);
