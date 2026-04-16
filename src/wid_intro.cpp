@@ -28,35 +28,21 @@ static void wid_intro_destroy(Gamep g)
     return false;
   }
 
-  switch (key->mod) {
-    case KMOD_LCTRL :
-    case KMOD_RCTRL :
-    default :
-      switch (key->sym) {
-        default :
-          {
-            TRACE();
-            auto c = wid_event_to_char(key);
-            switch (c) {
-              case 'b' :
-              case 'B' :
-                wid_intro_destroy(g);
-                wid_main_menu_select(g);
-                return true;
+  auto s = to_string(*key);
 
-              case 'n' :
-              case SDLK_RETURN :
-              case SDLK_ESCAPE :
-                {
-                  TRACE();
-                  sound_play(g, "keypress");
-                  wid_intro_destroy(g);
-                  wid_new_game(g);
-                  return true;
-                }
-            }
-          }
-      }
+  if (s == "<Return>" || s == "n" || s == "N") {
+    TRACE();
+    sound_play(g, "keypress");
+    wid_intro_destroy(g);
+    wid_new_game(g);
+    return true;
+  }
+
+  if (s == "<Escape>" || s == "b" || s == "B") {
+    TRACE();
+    wid_intro_destroy(g);
+    wid_main_menu_select(g);
+    return true;
   }
 
   return false;

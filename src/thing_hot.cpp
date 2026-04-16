@@ -78,7 +78,7 @@ void thing_hot_time_step(Gamep g, Levelsp v, Levelp l, Thingp me, int time_step)
   }
 
   auto i      = static_cast< int >((255 / static_cast< float >(mid)) * static_cast< float >(n));
-  me->_is_hot = ((static_cast< uint8_t >(i)) / 2) + 100;
+  me->_is_hot = ((static_cast< uint8_t >(i)) / 2) + 120;
 }
 
 //

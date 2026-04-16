@@ -92,46 +92,37 @@ static void wid_main_menu_hide(Gamep g)
     return false;
   }
 
-  switch (key->mod) {
-    case KMOD_LCTRL :
-    case KMOD_RCTRL :
-    default :
-      switch (key->sym) {
-        default :
-          {
-            TRACE();
-            auto c = wid_event_to_char(key);
-            switch (c) {
-              case SDLK_RETURN :
-              case ' ' :
-              case 'n' :
-              case 'N' :
-                sound_play(g, "keypress");
-                (void) game_menu_new_game(g, nullptr, 0, 0, 0);
-                return true;
-              case 'l' :
-              case 'L' :
-                sound_play(g, "keypress");
-                (void) wid_main_menu_load(g, nullptr, 0, 0, 0);
-                return true;
-              case 'o' :
-              case 'O' :
-                sound_play(g, "keypress");
-                (void) wid_main_menu_cfg(g, nullptr, 0, 0, 0);
-                return true;
-              case 'm' :
-              case 'M' :
-                sound_play(g, "keypress");
-                (void) wid_main_menu_more(g, nullptr, 0, 0, 0);
-                return true;
-              case 'q' :
-              case 'Q' :
-                sound_play(g, "keypress");
-                (void) wid_main_menu_quit(g, nullptr, 0, 0, 0);
-                return true;
-            }
-          }
-      }
+  auto s = to_string(*key);
+
+  if (s == "<Return>" || s == "n" || s == "N") {
+    TRACE();
+    sound_play(g, "keypress");
+    (void) game_menu_new_game(g, nullptr, 0, 0, 0);
+    return true;
+  }
+
+  if (s == "l" || s == "L") {
+    sound_play(g, "keypress");
+    (void) wid_main_menu_load(g, nullptr, 0, 0, 0);
+    return true;
+  }
+
+  if (s == "o" || s == "O") {
+    sound_play(g, "keypress");
+    (void) wid_main_menu_cfg(g, nullptr, 0, 0, 0);
+    return true;
+  }
+
+  if (s == "m" || s == "M") {
+    sound_play(g, "keypress");
+    (void) wid_main_menu_more(g, nullptr, 0, 0, 0);
+    return true;
+  }
+
+  if (s == "q" || s == "Q") {
+    sound_play(g, "keypress");
+    (void) wid_main_menu_quit(g, nullptr, 0, 0, 0);
+    return true;
   }
 
   return false;
