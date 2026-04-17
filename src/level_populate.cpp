@@ -442,6 +442,24 @@ static auto level_populate_biome_nethervoid(Gamep g, Levelsp v, Levelp l, class 
   return tp;
 }
 
+static void level_populate_fixup_biome_nethervoid(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, class LevelPopulate &lp)
+{
+  TRACE();
+
+  if (lp.need_foliage) {
+    lp.need_foliage = false;
+    lp.need_floor   = true;
+  }
+  if (lp.need_reeds) {
+    lp.need_reeds = false;
+    lp.need_floor = true;
+  }
+  if (lp.need_water) {
+    lp.need_reeds = false;
+    lp.need_floor = true;
+  }
+}
+
 auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, int w, int h, const char *in, const Overrides &overrides) -> bool
 {
   TRACE();
@@ -555,27 +573,15 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, int w, int
       }
 
       switch (lp.biome) {
-        case BIOME_DUNGEON : break;
-        case BIOME_BOGLAND : break;
-        case BIOME_NETHERVOID :
-          if (lp.need_foliage) {
-            lp.need_foliage = false;
-            lp.need_floor   = true;
-          }
-          if (lp.need_reeds) {
-            lp.need_reeds = false;
-            lp.need_floor = true;
-          }
-          if (lp.need_water) {
-            lp.need_reeds = false;
-            lp.need_floor = true;
-          }
-          break;
-        case BIOME_GRAVEYARD : break;
-        case BIOME_UNDERHELL : break;
-        case BIOME_NONE :      break;
-        case BIOME_ENUM_MAX :  break;
+        case BIOME_DUNGEON :    break;
+        case BIOME_BOGLAND :    break;
+        case BIOME_NETHERVOID : level_populate_fixup_biome_nethervoid(g, v, l, lg, lp); break;
+        case BIOME_GRAVEYARD :  break;
+        case BIOME_UNDERHELL :  break;
+        case BIOME_NONE :       [[fallthrough]];
+        case BIOME_ENUM_MAX :   break;
       }
+
       //
       // Makes more sense plants grow from dirt
       //
