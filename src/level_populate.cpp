@@ -772,14 +772,16 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, int w, int
         }
       }
 
-      switch (lp.biome) {
-        case BIOME_DUNGEON :    break;
-        case BIOME_BOGLAND :    break;
-        case BIOME_NETHERVOID : tp = level_populate_fixup_biome_nethervoid(g, v, l, lg, lp, tp); break;
-        case BIOME_GRAVEYARD :  tp = level_populate_fixup_biome_graveyard(g, v, l, lg, lp, tp); break;
-        case BIOME_UNDERHELL :  tp = level_populate_fixup_biome_underhell(g, v, l, lg, lp, tp); break;
-        case BIOME_NONE :       [[fallthrough]];
-        case BIOME_ENUM_MAX :   break;
+      if (! lp.is_test_level) {
+        switch (lp.biome) {
+          case BIOME_DUNGEON :    break;
+          case BIOME_BOGLAND :    break;
+          case BIOME_NETHERVOID : tp = level_populate_fixup_biome_nethervoid(g, v, l, lg, lp, tp); break;
+          case BIOME_GRAVEYARD :  tp = level_populate_fixup_biome_graveyard(g, v, l, lg, lp, tp); break;
+          case BIOME_UNDERHELL :  tp = level_populate_fixup_biome_underhell(g, v, l, lg, lp, tp); break;
+          case BIOME_NONE :       [[fallthrough]];
+          case BIOME_ENUM_MAX :   break;
+        }
       }
 
       //

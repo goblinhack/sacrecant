@@ -159,7 +159,7 @@ auto music_play(Gamep g, const std::string &name) -> bool
 
   auto *m = find_one(name);
   if (m == nullptr) {
-    if (! g_opt_tests) {
+    if (! g_opt_tests && ! g_opt_do_level_gen && ! g_opt_do_level_select_gen && ! g_opt_do_room_gen) {
       ERR("cannot find music %s", name.c_str());
     }
     return false;

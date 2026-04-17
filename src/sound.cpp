@@ -226,7 +226,7 @@ auto sound_play(Gamep g, const std::string &name_alias, float scale, int loops) 
 
   auto *sound = find_one(name_alias);
   if (sound == nullptr) {
-    if (! g_opt_tests) {
+    if (! g_opt_tests && ! g_opt_do_level_gen && ! g_opt_do_level_select_gen && ! g_opt_do_room_gen) {
       ERR("cannot find sound %s", name_alias.c_str());
     }
     return false;
