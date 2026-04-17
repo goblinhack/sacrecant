@@ -151,6 +151,9 @@ static void tp_fire_on_fall_begin(Gamep g, Levelsp v, Levelp l, Thingp t)
         .event_type = THING_EVENT_FALL, //
     };
 
+    THING_DBG(t, "dead due to falling");
+    TRACE_INDENT();
+
     thing_dead(g, v, l, t, e);
     return;
   }

@@ -81,6 +81,10 @@ static void tp_barrel_on_fall_end(Gamep g, Levelsp v, Levelp l, Thingp t)
       .reason     = "by barrel falling", //
       .event_type = THING_EVENT_FALL,    //
   };
+
+  THING_DBG(t, "dead due to fall end");
+  TRACE_INDENT();
+
   thing_dead(g, v, l, t, e);
 }
 

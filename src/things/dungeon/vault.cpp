@@ -3,6 +3,7 @@
 //
 
 #include "my_callstack.hpp"
+#include "my_main.hpp"
 #include "my_thing_callbacks.hpp"
 #include "my_tile.hpp"
 #include "my_tp.hpp"
@@ -17,6 +18,9 @@ static void tp_vault_melt(Gamep g, Levelsp v, Levelp l, Thingp t)
       .reason     = "by melting",     //
       .event_type = THING_EVENT_MELT, //
   };
+
+  THING_DBG(t, "dead due to melting");
+  TRACE_INDENT();
 
   thing_dead(g, v, l, t, e);
   (void) thing_spawn(g, v, l, tp_first(is_lava), t);

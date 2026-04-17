@@ -147,6 +147,8 @@ static auto thing_spawn_a_projectile(Gamep g, Levelsp v, Levelp l, Thingp me, Tp
     return false;
   }
 
+  bool got_one = false;
+
   FOR_ALL_PROJECTILE_SLOTS(g, v, l, me, slot, projectile)
   {
     if (projectile == nullptr) {
@@ -175,13 +177,20 @@ static auto thing_spawn_a_projectile(Gamep g, Levelsp v, Levelp l, Thingp me, Tp
 
     if (e.event_type != THING_EVENT_NONE) {
       THING_DBG(me, "kill projectile %s", to_string(g, v, l, projectile).c_str());
+      TRACE_INDENT();
       thing_dead(g, v, l, projectile, e);
+      got_one = true;
     } else {
       THING_DBG(me, "detach projectile %s", to_string(g, v, l, projectile).c_str());
+      got_one = true;
     }
   }
 
-  return true;
+  if (! got_one) {
+    THING_DBG(me, "could not detach");
+  }
+
+  return got_one;
 }
 
 //
@@ -365,11 +374,13 @@ auto thing_projectile_fire_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what,
   return thing_projectile_fire_at(g, v, l, me, what, make_fpoint(target));
 }
 
-void thing_projectile_move(Gamep g, Levelsp v, Levelp l, Thingp t, float dt)
+void thing_projectile_move(Gamep g, Levelsp v, Levelp l, Thingp me, float dt)
 {
   TRACE();
 
-  fpoint const old_at = thing_real_at(t);
+  THING_DBG(me, "move");
+
+  fpoint const old_at = thing_real_at(me);
   auto         at     = old_at;
 
   auto *player = thing_player(g);
@@ -378,17 +389,23 @@ void thing_projectile_move(Gamep g, Levelsp v, Levelp l, Thingp t, float dt)
     return;
   }
 
-  auto delta = thing_projectile_get_delta_from_dt(g, t, dt);
+  auto delta = thing_projectile_get_delta_from_dt(g, me, dt);
   at.x += delta.x;
   at.y += delta.y;
 
   if (is_oob(at)) [[unlikely]] {
+    THING_DBG(me, "is oob");
+    TRACE_INDENT();
+
     ThingEvent e {
         .reason     = "oob",                        //
         .event_type = THING_EVENT_LIFESPAN_EXPIRED, //
     };
 
-    thing_dead(g, v, l, t, e);
+    THING_DBG(me, "dead due to oob");
+    TRACE_INDENT();
+
+    thing_dead(g, v, l, me, e);
     return;
   }
 
@@ -396,19 +413,31 @@ void thing_projectile_move(Gamep g, Levelsp v, Levelp l, Thingp t, float dt)
   // No need to push/pop if on the same tile
   //
   if (at != old_at) {
-    (void) thing_pop(g, v, t);
-    thing_at_set(g, v, l, t, at);
-    thing_update_pos(g, v, l, t);
-    if (! thing_push(g, v, l, t)) {
+    (void) thing_pop(g, v, me);
+    thing_at_set(g, v, l, me, at);
+    thing_update_pos(g, v, l, me);
+    if (! thing_push(g, v, l, me)) {
+      THING_DBG(me, "could not push, oob?");
+      TRACE_INDENT();
+
+      ThingEvent e {
+          .reason     = "oob",                        //
+          .event_type = THING_EVENT_LIFESPAN_EXPIRED, //
+      };
+
+      THING_DBG(me, "dead due to oob on push");
+      TRACE_INDENT();
+
+      thing_dead(g, v, l, me, e);
       return;
     }
   } else {
-    thing_at_set(g, v, l, t, at);
-    thing_update_pos(g, v, l, t);
+    thing_at_set(g, v, l, me, at);
+    thing_update_pos(g, v, l, me);
   }
 
-  thing_on_moved(g, v, l, t);
+  thing_on_moved(g, v, l, me);
 
-  thing_collision_handle_interpolated(g, v, l, t, old_at);
-  THING_DBG(t, "post move of delta %f,%f dt %f", delta.x, delta.y, (float) t->thing_dt);
+  thing_collision_handle_interpolated(g, v, l, me, old_at);
+  THING_DBG(me, "post move of delta %f,%f dt %f", delta.x, delta.y, (float) me->thing_dt);
 }

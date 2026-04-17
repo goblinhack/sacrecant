@@ -35,6 +35,10 @@ auto thing_crush(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp crusher) -> boo
       .event_type = THING_EVENT_CRUSH, //
       .source     = crusher            //
   };
+
+  THING_DBG(me, "dead due to crushing");
+  TRACE_INDENT();
+
   thing_dead(g, v, l, me, e);
   return true;
 }

@@ -180,11 +180,11 @@ static auto thing_get_killer(Gamep g, Levelsp v, Levelp l, ThingEvent &e) -> Thi
 //
 void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
 {
-  TRACE();
-
-  THING_DBG(me, "thing_dead");
+  THING_DBG(me, "is dead");
+  TRACE_INDENT();
 
   if (thing_is_dead(me)) {
+    THING_DBG(me, "is already dead");
     return;
   }
 

@@ -31,6 +31,9 @@ auto thing_collect_key(Gamep g, Levelsp v, Levelp l, Thingp it, Thingp carrier) 
       .source     = carrier              //
   };
 
+  THING_DBG(it, "dead due to carrying");
+  TRACE_INDENT();
+
   thing_dead(g, v, l, it, e);
 
   (void) thing_keys_carried_incr(g, v, l, carrier, 1);

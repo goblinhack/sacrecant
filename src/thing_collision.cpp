@@ -86,6 +86,9 @@ static void thing_collision_handle_dead_thing(Gamep g, Levelsp v, Levelp l, Thin
         .event_type = THING_EVENT_LIFESPAN_EXPIRED, //
     };
 
+    THING_DBG(me, "dead due to lifespan");
+    TRACE_INDENT();
+
     thing_dead(g, v, l, me, e);
     stop = true;
   }
@@ -148,6 +151,9 @@ static void thing_collision_handle_alive_thing(Gamep g, Levelsp v, Levelp l, Thi
         .reason     = "collided",                   //
         .event_type = THING_EVENT_LIFESPAN_EXPIRED, //
     };
+
+    THING_DBG(me, "dead due to collision");
+    TRACE_INDENT();
 
     thing_dead(g, v, l, me, e);
     stop = true;

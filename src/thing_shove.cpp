@@ -103,6 +103,10 @@ static void thing_shoved_by_player(Gamep g, Levelsp v, Levelp l, Thingp t, Thing
   //
   if (thing_is_dead_on_shoving(t)) {
     thing_on_shoved(g, v, l, t, shover);
+
+    THING_DBG(t, "dead due to shoving");
+    TRACE_INDENT();
+
     thing_dead(g, v, l, t, e);
     return true;
   }

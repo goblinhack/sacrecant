@@ -143,6 +143,10 @@ static void tp_bridge_on_fall_end(Gamep g, Levelsp v, Levelp l, Thingp t)
       .reason     = "by bridge break", //
       .event_type = THING_EVENT_FALL,  //
   };
+
+  THING_DBG(t, "dead due to bridge breaking");
+  TRACE_INDENT();
+
   thing_dead(g, v, l, t, e);
 }
 

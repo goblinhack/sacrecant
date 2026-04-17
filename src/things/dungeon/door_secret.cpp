@@ -39,6 +39,9 @@ static auto tp_door_secret_description_get(Gamep g, Levelsp v, Levelp l, Thingp 
 
   thing_sound_play(g, v, l, t, "door_open_secret");
 
+  THING_DBG(t, "dead due to opening");
+  TRACE_INDENT();
+
   thing_dead(g, v, l, t, e);
 
   return true;

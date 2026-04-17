@@ -147,6 +147,10 @@ static void thing_fall_end(Gamep g, Levelsp v, Levelp l, Thingp t)
         .event_type = THING_EVENT_FALL,              //
         .damage     = thing_fall_damage(g, v, l, t), //
     };
+
+    THING_DBG(t, "dead due to falling into nothing");
+    TRACE_INDENT();
+
     thing_dead(g, v, l, t, e);
     return;
   }
@@ -195,6 +199,10 @@ static void thing_fall_end(Gamep g, Levelsp v, Levelp l, Thingp t)
     if (thing_is_falling_continues(t)) {
       if (! thing_is_able_to_fall_repeatedly(t)) {
         e.reason = "repeated falling";
+
+        THING_DBG(t, "dead due to repeated falling");
+        TRACE_INDENT();
+
         thing_dead(g, v, l, t, e);
       }
     }

@@ -161,6 +161,7 @@ auto thing_mob_spawn_a_minion(Gamep g, Levelsp v, Levelp l, Thingp mob, Tpp tp_m
 
     if (e.event_type != THING_EVENT_NONE) {
       THING_DBG(mob, "kill minion %s", to_string(g, v, l, minion).c_str());
+      TRACE_INDENT();
       thing_dead(g, v, l, minion, e);
     } else {
       THING_DBG(mob, "detach minion %s", to_string(g, v, l, minion).c_str());

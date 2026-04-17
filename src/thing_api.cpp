@@ -292,7 +292,7 @@ void thing_is_falling_continues_set(Gamep g, Levelsp v, Levelp l, Thingp t, bool
   t->_is_falling_continues = val;
 
   if (val) {
-    THING_DBG(t, "is scheduled for cleanup");
+    THING_DBG(t, "is falling continues set");
   }
 
   level_request_to_cleanup_things_set(g, v, l);
@@ -493,7 +493,7 @@ void thing_is_dead_set(Gamep g, Levelsp v, Levelp l, Thingp t, bool val)
   t->_is_dead = val;
 
   if (val) {
-    THING_DBG(t, "is dead");
+    THING_DBG(t, "is dead set");
   }
 }
 
@@ -530,7 +530,7 @@ void thing_is_burning_set(Gamep g, Levelsp v, Levelp l, Thingp t, bool val)
   t->_is_burning = val;
 
   if (val) {
-    THING_DBG(t, "is burning, %u degrees", thing_temperature(t));
+    THING_DBG(t, "is burning set, %u degrees", thing_temperature(t));
   } else {
     //
     // Reset the temperature
@@ -577,7 +577,7 @@ void thing_is_corpse_set(Gamep g, Levelsp v, Levelp l, Thingp t, bool val)
   t->_is_corpse = val;
 
   if (val) {
-    THING_DBG(t, "is corpse");
+    THING_DBG(t, "is corpse set");
   }
 }
 
@@ -615,7 +615,7 @@ void thing_is_scheduled_for_cleanup_set(Gamep g, Levelsp v, Levelp l, Thingp t, 
   t->_is_scheduled_for_cleanup = val;
 
   if (val) {
-    THING_DBG(t, "is scheduled for cleanup");
+    THING_DBG(t, "is scheduled for cleanup set");
   }
 
   level_request_to_cleanup_things_set(g, v, l);

@@ -380,6 +380,9 @@ void thing_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
         break;
     }
 
+    THING_DBG(me, "dead due to damage");
+    TRACE_INDENT();
+
     thing_dead(g, v, l, me, e);
   } else {
     //

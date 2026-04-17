@@ -82,6 +82,9 @@
       break;
     }
 
+    THING_DBG(m, "dead due to spawning");
+    TRACE_INDENT();
+
     ThingEvent e;
     thing_dead(g, v, l, m, e);
   }

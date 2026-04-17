@@ -86,6 +86,9 @@ auto thing_inventory_add(Gamep g, Levelsp v, Levelp l, Thingp new_item, Thingp c
         .source     = carrier                     //
     };
 
+    THING_DBG(new_item, "dead due to merging");
+    TRACE_INDENT();
+
     thing_dead(g, v, l, new_item, e);
 
     return true;
