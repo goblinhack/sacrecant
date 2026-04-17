@@ -269,7 +269,7 @@ auto thing_distance_vision(Gamep g, Levelsp v, Levelp l, Thingp t) -> int
       case BIOME_BOGLAND :    d /= 4; break;
       case BIOME_NETHERVOID : break;
       case BIOME_GRAVEYARD :  break;
-      case BIOME_UNDERHELL :  d /= 4; break;
+      case BIOME_UNDERHELL :  d /= 2; break;
       case BIOME_NONE :       [[fallthrough]];
       case BIOME_ENUM_MAX :   break;
     }

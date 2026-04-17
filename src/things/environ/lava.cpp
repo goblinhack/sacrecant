@@ -47,7 +47,7 @@ auto tp_load_lava() -> bool
   tp_is_immunity_add(tp, THING_EVENT_FIRE_DAMAGE);
   tp_is_immunity_add(tp, THING_EVENT_HEAT_DAMAGE);
   tp_is_immunity_add(tp, THING_EVENT_MELEE_DAMAGE);
-  tp_light_color_set(tp, "orange");
+  tp_light_color_set(tp, "red");
   tp_name_a_or_an_set(tp, "lava");
   tp_name_apostrophize_set(tp, "lavas'");
   tp_name_long_set(tp, "lava");

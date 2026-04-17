@@ -415,6 +415,7 @@ static auto level_populate_biome_nethervoid(Gamep g, Levelsp v, Levelp l, class 
     case CHARMAP_FOLIAGE :       lp.need_floor = true; break;
     case CHARMAP_REEDS :         lp.need_floor = true; break;
     case CHARMAP_GRASS :         lp.need_floor = true; break;
+    case CHARMAP_BORDER :        tp = lp.tp_chasm; break;
     case CHARMAP_CHASM :         [[fallthrough]];
     case CHARMAP_BRIDGE :        [[fallthrough]];
     case CHARMAP_TREASURE :      [[fallthrough]];
@@ -430,9 +431,8 @@ static auto level_populate_biome_nethervoid(Gamep g, Levelsp v, Levelp l, class 
     case CHARMAP_MOB2 :          [[fallthrough]];
     case CHARMAP_FIRE :          [[fallthrough]];
     case CHARMAP_KEY :           [[fallthrough]];
-    case CHARMAP_ENTRANCE :      return level_populate_biome_dungeon(g, v, l, lg, lp);
+    case CHARMAP_ENTRANCE :      [[fallthrough]];
     case CHARMAP_EXIT :          return level_populate_biome_dungeon(g, v, l, lg, lp);
-    case CHARMAP_BORDER :        tp = lp.tp_chasm; break;
     default :
       if (! g_opt_do_level_gen) {
         CROAK("unexpected map char '%c'", lp.c);
@@ -442,7 +442,7 @@ static auto level_populate_biome_nethervoid(Gamep g, Levelsp v, Levelp l, class 
   return tp;
 }
 
-static void level_populate_fixup_biome_nethervoid(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, class LevelPopulate &lp)
+static Tpp level_populate_fixup_biome_nethervoid(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, class LevelPopulate &lp, Tpp tp)
 {
   TRACE();
 
@@ -455,9 +455,209 @@ static void level_populate_fixup_biome_nethervoid(Gamep g, Levelsp v, Levelp l, 
     lp.need_floor = true;
   }
   if (lp.need_water) {
-    lp.need_reeds = false;
-    lp.need_floor = true;
+    lp.need_water = false;
+    tp            = lp.tp_chasm;
   }
+  if (lp.need_corridor) {
+    lp.need_corridor = false;
+    tp               = lp.tp_chasm;
+  }
+
+  if ((tp == lp.tp_water) || (tp == lp.tp_deep_water) || (tp == lp.tp_lava) || (tp == lp.tp_bridge) || (tp == lp.tp_corridor)) {
+    tp = lp.tp_chasm;
+  }
+
+  return tp;
+}
+
+static auto level_populate_biome_graveyard(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, class LevelPopulate &lp) -> Tpp
+{
+  TRACE();
+
+  Tpp tp = {};
+
+  switch (lp.c) {
+    case CHARMAP_FLOOR :    lp.need_dirt = true; break;
+    case CHARMAP_JOIN :     lp.need_foliage = true; break;
+    case CHARMAP_CORRIDOR : lp.need_foliage = true; break;
+    case CHARMAP_VAULT :
+      lp.need_dirt = true;
+      tp           = lp.tp_vault;
+      break;
+    case CHARMAP_EMPTY : lp.need_dirt = true; break;
+    case CHARMAP_WALL :
+      if (d100() < 30) {
+        lp.need_floor = true;
+        tp            = lp.tp_wall;
+      } else {
+        lp.need_dirt = true;
+        if (d100() < 50) {
+          lp.need_foliage = true;
+        }
+      }
+      break;
+    case CHARMAP_ROCK :
+      lp.need_dirt = true;
+      if (d100() < 50) {
+        lp.need_foliage = true;
+      }
+      break;
+    case CHARMAP_LAVA :          lp.need_dirt = true; break;
+    case CHARMAP_DOOR_UNLOCKED : lp.need_dirt = true; break;
+    case CHARMAP_BRAZIER :       lp.need_dirt = true; break;
+    case CHARMAP_DEEP_WATER :    lp.need_dirt = true; break;
+    case CHARMAP_WATER :         lp.need_dirt = true; break;
+    case CHARMAP_DIRT :          lp.need_dirt = true; break;
+    case CHARMAP_FOLIAGE :       lp.need_dirt = true; break;
+    case CHARMAP_REEDS :         lp.need_dirt = true; break;
+    case CHARMAP_GRASS :         lp.need_dirt = true; break;
+    case CHARMAP_BORDER :        [[fallthrough]];
+    case CHARMAP_CHASM :         [[fallthrough]];
+    case CHARMAP_BRIDGE :        [[fallthrough]];
+    case CHARMAP_TREASURE :      [[fallthrough]];
+    case CHARMAP_TELEPORT :      [[fallthrough]];
+    case CHARMAP_BARREL :        [[fallthrough]];
+    case CHARMAP_PILLAR :        [[fallthrough]];
+    case CHARMAP_TRAP :          [[fallthrough]];
+    case CHARMAP_DOOR_LOCKED :   [[fallthrough]];
+    case CHARMAP_DOOR_SECRET :   [[fallthrough]];
+    case CHARMAP_MONST_EASY :    [[fallthrough]];
+    case CHARMAP_MONST_HARD :    [[fallthrough]];
+    case CHARMAP_MOB1 :          [[fallthrough]];
+    case CHARMAP_MOB2 :          [[fallthrough]];
+    case CHARMAP_FIRE :          [[fallthrough]];
+    case CHARMAP_KEY :           [[fallthrough]];
+    case CHARMAP_ENTRANCE :      [[fallthrough]];
+    case CHARMAP_EXIT :          return level_populate_biome_dungeon(g, v, l, lg, lp);
+    default :
+      if (! g_opt_do_level_gen) {
+        CROAK("unexpected map char '%c'", lp.c);
+      }
+  }
+
+  return tp;
+}
+
+static Tpp level_populate_fixup_biome_graveyard(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, class LevelPopulate &lp, Tpp tp)
+{
+  TRACE();
+
+  if (lp.need_floor) {
+    lp.need_dirt = true;
+  }
+
+  if (lp.need_water) {
+    lp.need_dirt = true;
+  }
+
+  if ((tp == lp.tp_water) || (tp == lp.tp_deep_water) || (tp == lp.tp_lava) || (tp == lp.tp_chasm) || (tp == lp.tp_bridge)) {
+    tp              = nullptr;
+    lp.need_foliage = true;
+  }
+
+  if (! tp) {
+    if (d100() < 20) {
+      lp.need_foliage = true;
+    }
+  }
+
+  return tp;
+}
+
+static auto level_populate_biome_underhell(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, class LevelPopulate &lp) -> Tpp
+{
+  TRACE();
+
+  Tpp tp = {};
+
+  switch (lp.c) {
+    case CHARMAP_FLOOR :    lp.need_dirt = true; break;
+    case CHARMAP_JOIN :     lp.need_foliage = true; break;
+    case CHARMAP_CORRIDOR : lp.need_foliage = true; break;
+    case CHARMAP_VAULT :
+      lp.need_dirt = true;
+      tp           = lp.tp_vault;
+      break;
+    case CHARMAP_EMPTY : lp.need_dirt = true; break;
+    case CHARMAP_WALL :
+      lp.need_dirt = true;
+      if (d100() < 30) {
+        tp = lp.tp_lava;
+      } else {
+        tp = lp.tp_wall;
+      }
+      break;
+    case CHARMAP_ROCK :
+      lp.need_dirt = true;
+      tp           = lp.tp_rock;
+      break;
+    case CHARMAP_LAVA :          lp.need_dirt = true; break;
+    case CHARMAP_DOOR_UNLOCKED : lp.need_dirt = true; break;
+    case CHARMAP_BRAZIER :       lp.need_dirt = true; break;
+    case CHARMAP_DEEP_WATER :    tp = lp.tp_lava; break;
+    case CHARMAP_WATER :         tp = lp.tp_lava; break;
+    case CHARMAP_DIRT :          lp.need_dirt = true; break;
+    case CHARMAP_FOLIAGE :       lp.need_dirt = true; break;
+    case CHARMAP_REEDS :         lp.need_dirt = true; break;
+    case CHARMAP_GRASS :         lp.need_dirt = true; break;
+    case CHARMAP_CHASM :         tp = lp.tp_lava; break;
+    case CHARMAP_BRIDGE :        lp.need_dirt = true; break;
+    case CHARMAP_BARREL :        lp.need_dirt = true; break;
+    case CHARMAP_PILLAR :        lp.need_dirt = true; break;
+    case CHARMAP_BORDER :        tp = lp.tp_lava; break;
+    case CHARMAP_TREASURE :      [[fallthrough]];
+    case CHARMAP_TELEPORT :      [[fallthrough]];
+    case CHARMAP_TRAP :          [[fallthrough]];
+    case CHARMAP_DOOR_LOCKED :   [[fallthrough]];
+    case CHARMAP_DOOR_SECRET :   [[fallthrough]];
+    case CHARMAP_MONST_EASY :    [[fallthrough]];
+    case CHARMAP_MONST_HARD :    [[fallthrough]];
+    case CHARMAP_MOB1 :          [[fallthrough]];
+    case CHARMAP_MOB2 :          [[fallthrough]];
+    case CHARMAP_FIRE :          [[fallthrough]];
+    case CHARMAP_KEY :           [[fallthrough]];
+    case CHARMAP_ENTRANCE :      [[fallthrough]];
+    case CHARMAP_EXIT :          return level_populate_biome_dungeon(g, v, l, lg, lp);
+    default :
+      if (! g_opt_do_level_gen) {
+        CROAK("unexpected map char '%c'", lp.c);
+      }
+  }
+
+  return tp;
+}
+
+static Tpp level_populate_fixup_biome_underhell(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, class LevelPopulate &lp, Tpp tp)
+{
+  TRACE();
+
+  if (lp.need_floor) {
+    lp.need_dirt = true;
+  }
+
+  if (lp.need_water) {
+    lp.need_dirt = true;
+  }
+
+  if (lp.need_foliage) {
+    lp.need_dirt    = true;
+    lp.need_foliage = false;
+  }
+
+  if ((tp == lp.tp_water) || (tp == lp.tp_deep_water) || (tp == lp.tp_chasm) || (tp == lp.tp_bridge)) {
+    tp = lp.tp_lava;
+  }
+
+  if (! tp) {
+    if (d100() < 10) {
+      tp = lp.tp_lava;
+    }
+    if (d100() < 10) {
+      tp = lp.tp_rock;
+    }
+  }
+
+  return tp;
 }
 
 auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, int w, int h, const char *in, const Overrides &overrides) -> bool
@@ -565,8 +765,8 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, int w, int
           case BIOME_DUNGEON :    tp = level_populate_biome_dungeon(g, v, l, lg, lp); break;
           case BIOME_BOGLAND :    tp = level_populate_biome_bogland(g, v, l, lg, lp); break;
           case BIOME_NETHERVOID : tp = level_populate_biome_nethervoid(g, v, l, lg, lp); break;
-          case BIOME_GRAVEYARD :  tp = level_populate_biome_dungeon(g, v, l, lg, lp); break;
-          case BIOME_UNDERHELL :  tp = level_populate_biome_dungeon(g, v, l, lg, lp); break;
+          case BIOME_GRAVEYARD :  tp = level_populate_biome_graveyard(g, v, l, lg, lp); break;
+          case BIOME_UNDERHELL :  tp = level_populate_biome_underhell(g, v, l, lg, lp); break;
           case BIOME_NONE :       [[fallthrough]];
           case BIOME_ENUM_MAX :   break;
         }
@@ -575,9 +775,9 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, int w, int
       switch (lp.biome) {
         case BIOME_DUNGEON :    break;
         case BIOME_BOGLAND :    break;
-        case BIOME_NETHERVOID : level_populate_fixup_biome_nethervoid(g, v, l, lg, lp); break;
-        case BIOME_GRAVEYARD :  break;
-        case BIOME_UNDERHELL :  break;
+        case BIOME_NETHERVOID : tp = level_populate_fixup_biome_nethervoid(g, v, l, lg, lp, tp); break;
+        case BIOME_GRAVEYARD :  tp = level_populate_fixup_biome_graveyard(g, v, l, lg, lp, tp); break;
+        case BIOME_UNDERHELL :  tp = level_populate_fixup_biome_underhell(g, v, l, lg, lp, tp); break;
         case BIOME_NONE :       [[fallthrough]];
         case BIOME_ENUM_MAX :   break;
       }
