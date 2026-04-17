@@ -247,6 +247,10 @@ auto level_change(Gamep g, Levelsp v, LevelNum level_num) -> Levelp
     topcon_newline();
     topcon("You enter level %u of dungeon %s.", new_level->level_num + 1, game_seed_name_get(g));
     game_state_change(g, STATE_PLAYING, "new level");
+  } else {
+    topcon_newline();
+    topcon("You re-enter the dungeon %s.", game_seed_name_get(g));
+    game_state_change(g, STATE_PLAYING, "new level");
   }
 
   level_update_visibility(g, v, new_level);
