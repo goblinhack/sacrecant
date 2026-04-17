@@ -20,6 +20,13 @@ static auto tp_cursor_path_display_get_tile_info(Gamep g, Levelsp v, Levelp l, c
   //
   Tilep tile = tp_tiles_get(tp, THING_ANIM_CURSOR_NOPATH, 0);
 
+  auto *player = thing_player(g);
+  if (player) {
+    if (! level_has_seen(g, v, l, p)) {
+      return tile;
+    }
+  }
+
   if (level_is_cursor_path_warning(g, v, l, p) != nullptr) {
     return tp_tiles_get(tp, THING_ANIM_CURSOR_WARNING, 0);
   }

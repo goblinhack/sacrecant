@@ -26,6 +26,10 @@ static auto tp_cursor_at_display_get_tile_info(Gamep g, Levelsp v, Levelp l, con
     return tile;
   }
 
+  if (! level_has_seen(g, v, l, p)) {
+    return tile;
+  }
+
   //
   // Non zero cursor path, change the cursor to a positive color
   //

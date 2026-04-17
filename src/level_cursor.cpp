@@ -7,6 +7,7 @@
 #include "my_globals.hpp"
 #include "my_level.hpp"
 #include "my_level_inlines.hpp"
+#include "my_line.hpp"
 #include "my_main.hpp"
 
 #include <algorithm>
@@ -387,7 +388,7 @@ static auto level_cursor_path_draw_line(Gamep g, Levelsp v, Levelp l, const bpoi
   }
 
   if (paths.empty()) {
-    return empty;
+    return draw_line(start, end);
   }
 
   std::ranges::sort(paths, [](const PathCost &a, const PathCost &b) -> bool { return (a.cost < b.cost); });
