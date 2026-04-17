@@ -442,7 +442,7 @@ static auto level_populate_biome_nethervoid(Gamep g, Levelsp v, Levelp l, class 
   return tp;
 }
 
-static Tpp level_populate_fixup_biome_nethervoid(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, class LevelPopulate &lp, Tpp tp)
+static auto level_populate_fixup_biome_nethervoid(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, class LevelPopulate &lp, Tpp tp) -> Tpp
 {
   TRACE();
 
@@ -538,7 +538,7 @@ static auto level_populate_biome_graveyard(Gamep g, Levelsp v, Levelp l, class L
   return tp;
 }
 
-static Tpp level_populate_fixup_biome_graveyard(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, class LevelPopulate &lp, Tpp tp)
+static auto level_populate_fixup_biome_graveyard(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, class LevelPopulate &lp, Tpp tp) -> Tpp
 {
   TRACE();
 
@@ -555,7 +555,7 @@ static Tpp level_populate_fixup_biome_graveyard(Gamep g, Levelsp v, Levelp l, cl
     lp.need_foliage = true;
   }
 
-  if (! tp) {
+  if (tp == nullptr) {
     if (d100() < 20) {
       lp.need_foliage = true;
     }
@@ -627,7 +627,7 @@ static auto level_populate_biome_underhell(Gamep g, Levelsp v, Levelp l, class L
   return tp;
 }
 
-static Tpp level_populate_fixup_biome_underhell(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, class LevelPopulate &lp, Tpp tp)
+static auto level_populate_fixup_biome_underhell(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, class LevelPopulate &lp, Tpp tp) -> Tpp
 {
   TRACE();
 
@@ -648,7 +648,7 @@ static Tpp level_populate_fixup_biome_underhell(Gamep g, Levelsp v, Levelp l, cl
     tp = lp.tp_lava;
   }
 
-  if (! tp) {
+  if (tp == nullptr) {
     if (d100() < 10) {
       tp = lp.tp_lava;
     }
