@@ -81,6 +81,10 @@ static auto thing_spawn_a_projectile(Gamep g, Levelsp v, Levelp l, Thingp me, Tp
   // Too many projectiles
   //
   if (thing_projectile_count_get(g, v, l, me) >= thing_projectile_max(me)) {
+    if (thing_is_player(me)) {
+      topcon("Trying to fire too many projectiles!");
+      return nullptr;
+    }
     THING_DBG(me, "trying to fire too many projectiles");
     return nullptr;
   }

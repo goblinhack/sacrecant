@@ -389,6 +389,59 @@ static auto level_populate_biome_bogland(Gamep g, Levelsp v, Levelp l, class Lev
   return tp;
 }
 
+static auto level_populate_biome_nethervoid(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, class LevelPopulate &lp) -> Tpp
+{
+  TRACE();
+
+  Tpp tp = {};
+
+  switch (lp.c) {
+    case CHARMAP_FLOOR :    lp.need_floor = true; break;
+    case CHARMAP_JOIN :     lp.need_corridor = true; break;
+    case CHARMAP_CORRIDOR : tp = lp.tp_bridge; break;
+    case CHARMAP_VAULT :
+      lp.need_floor = true;
+      tp            = lp.tp_vault;
+      break;
+    case CHARMAP_EMPTY :         tp = lp.tp_chasm; break;
+    case CHARMAP_WALL :          tp = lp.tp_chasm; break;
+    case CHARMAP_ROCK :          tp = lp.tp_chasm; break;
+    case CHARMAP_LAVA :          tp = lp.tp_chasm; break;
+    case CHARMAP_DOOR_UNLOCKED : lp.need_floor = true; break;
+    case CHARMAP_BRAZIER :       lp.need_floor = true; break;
+    case CHARMAP_DEEP_WATER :    tp = lp.tp_chasm; break;
+    case CHARMAP_WATER :         tp = lp.tp_chasm; break;
+    case CHARMAP_DIRT :          lp.need_floor = true; break;
+    case CHARMAP_FOLIAGE :       lp.need_floor = true; break;
+    case CHARMAP_REEDS :         lp.need_floor = true; break;
+    case CHARMAP_GRASS :         lp.need_floor = true; break;
+    case CHARMAP_CHASM :         [[fallthrough]];
+    case CHARMAP_BRIDGE :        [[fallthrough]];
+    case CHARMAP_TREASURE :      [[fallthrough]];
+    case CHARMAP_TELEPORT :      [[fallthrough]];
+    case CHARMAP_BARREL :        [[fallthrough]];
+    case CHARMAP_PILLAR :        [[fallthrough]];
+    case CHARMAP_TRAP :          [[fallthrough]];
+    case CHARMAP_DOOR_LOCKED :   [[fallthrough]];
+    case CHARMAP_DOOR_SECRET :   [[fallthrough]];
+    case CHARMAP_MONST_EASY :    [[fallthrough]];
+    case CHARMAP_MONST_HARD :    [[fallthrough]];
+    case CHARMAP_MOB1 :          [[fallthrough]];
+    case CHARMAP_MOB2 :          [[fallthrough]];
+    case CHARMAP_FIRE :          [[fallthrough]];
+    case CHARMAP_KEY :           [[fallthrough]];
+    case CHARMAP_ENTRANCE :      return level_populate_biome_dungeon(g, v, l, lg, lp);
+    case CHARMAP_EXIT :          return level_populate_biome_dungeon(g, v, l, lg, lp);
+    case CHARMAP_BORDER :        tp = lp.tp_chasm; break;
+    default :
+      if (! g_opt_do_level_gen) {
+        CROAK("unexpected map char '%c'", lp.c);
+      }
+  }
+
+  return tp;
+}
+
 auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, int w, int h, const char *in, const Overrides &overrides) -> bool
 {
   TRACE();
@@ -461,6 +514,10 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, int w, int
       lp.need_reeds    = false;
       lp.need_border   = ! lp.is_test_level && ((x == 0) || (x == MAP_WIDTH - 1) || (y == 0) || (y == MAP_HEIGHT - 1));
 
+      if (lp.biome == BIOME_NETHERVOID) {
+        lp.need_border = false;
+      }
+
       auto o = overrides.find(lp.c);
       if (o != overrides.end()) {
         //
@@ -489,7 +546,7 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, int w, int
         switch (lp.biome) {
           case BIOME_DUNGEON :    tp = level_populate_biome_dungeon(g, v, l, lg, lp); break;
           case BIOME_BOGLAND :    tp = level_populate_biome_bogland(g, v, l, lg, lp); break;
-          case BIOME_NETHERVOID : tp = level_populate_biome_dungeon(g, v, l, lg, lp); break;
+          case BIOME_NETHERVOID : tp = level_populate_biome_nethervoid(g, v, l, lg, lp); break;
           case BIOME_GRAVEYARD :  tp = level_populate_biome_dungeon(g, v, l, lg, lp); break;
           case BIOME_UNDERHELL :  tp = level_populate_biome_dungeon(g, v, l, lg, lp); break;
           case BIOME_NONE :       [[fallthrough]];
@@ -497,6 +554,28 @@ auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, int w, int
         }
       }
 
+      switch (lp.biome) {
+        case BIOME_DUNGEON : break;
+        case BIOME_BOGLAND : break;
+        case BIOME_NETHERVOID :
+          if (lp.need_foliage) {
+            lp.need_foliage = false;
+            lp.need_floor   = true;
+          }
+          if (lp.need_reeds) {
+            lp.need_reeds = false;
+            lp.need_floor = true;
+          }
+          if (lp.need_water) {
+            lp.need_reeds = false;
+            lp.need_floor = true;
+          }
+          break;
+        case BIOME_GRAVEYARD : break;
+        case BIOME_UNDERHELL : break;
+        case BIOME_NONE :      break;
+        case BIOME_ENUM_MAX :  break;
+      }
       //
       // Makes more sense plants grow from dirt
       //
