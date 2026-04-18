@@ -29,13 +29,13 @@ TARGET=sacrecant
 # is only known to be present on Windows 10. It should produce binaries more
 # compatible with MSVC-compiled binaries, but not with the MSVCRT environment.
 #
-MSYS_PATH=mingw64 	
+MSYS_PATH=mingw64   
 MINGW_PKG_TYPE=mingw-w64
 
 MSYS_PATH=clang64
 MINGW_PKG_TYPE=mingw-w64-clang
 
-MSYS_PATH=ucrt64 	
+MSYS_PATH=ucrt64  
 MINGW_PKG_TYPE=mingw-w64-ucrt
 
 # Prefer gnu over freebsd coreutils
@@ -874,6 +874,12 @@ if [[ $OPT_GITHUB_BUILD != "" ]]; then
 
     LSAN_OPTIONS=max_leaks=10 ./${TARGET} --tests --debug
     if [[ $? -ne 0 ]]; then
+        if [[ "$APPDATA" != "" ]]; then
+          ls -la $APPDATA
+          mkdir -p appdata
+          cp -r $APPDATA/${TARGET} appdata
+        fi
+
         ls -la
         cat appdata/${TARGET}/stdout.txt
         exit 1

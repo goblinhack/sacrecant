@@ -228,6 +228,7 @@ void tests_run(Gamep g)
   }
 
   term_log("Running tests\n");
+  term_log("-------------\n");
 
   for (auto &test : test_name_map) {
 

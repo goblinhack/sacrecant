@@ -211,7 +211,7 @@ auto sound_load(float volume, const std::string &name, const std::string &name_a
   p.volume                = static_cast< int >(volume);
   already_playing[ chan ] = p;
 
-  DBG("Play sound %s volume %d channel %d", name_alias.c_str(), static_cast< int >(volume), chan);
+  DBG("play sound %s volume %d channel %d", name_alias.c_str(), static_cast< int >(volume), chan);
 
   return false;
 }

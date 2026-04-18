@@ -265,6 +265,14 @@ auto main(int argc, char *argv[]) -> int
   TRACE_DEBUG();
   parse_args(argc, argv);
 
+  if (g_opt_tests) {
+    printf("Test info:\n");
+    printf("----------\n");
+    printf("- APPDATA as '%s'\n", appdata.c_str());
+    printf("- STDOUT as '%s'\n", g_log_stdout_filename.c_str());
+    printf("- STDERR as '%s'\n", g_log_stderr_filename.c_str());
+  }
+
   //////////////////////////////////////////////////////////////////////////////
   // Use LOG instead of CON until we set stdout or you see two logs
   // v v v v v v v v v v v v v v v v v v v v v v v v v v v v v v v

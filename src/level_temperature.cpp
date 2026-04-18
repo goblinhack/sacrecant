@@ -180,8 +180,10 @@ static void thing_heat_exchange(Levelsp v, Thingp a, Thingp b, int &finalT)
   float const final_dT = (Q / (m * c));
   finalT               = static_cast< int >(ceilf((Ta) + final_dT));
 
-  //  THING_DBG(a, "b");
-  // THING_DBG(b, "b");
+  if (compiler_unused) {
+    THING_DBG(a, "b");
+    THING_DBG(b, "b");
+  }
   THING_DBG(a, "Ta %f Tb %f dT %f K %f m %f c %f Q %f final dT %f => %d", Ta, Tb, dT, K, m, c, Q, final_dT, finalT);
 }
 

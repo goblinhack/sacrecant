@@ -72,6 +72,15 @@ static void tp_fire_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp t)
       continue;
     }
 
+    //
+    // It's no fun to spawn fire on the player all the time
+    //
+    if (level_is_player(g, v, l, p)) {
+      if (d100() < 95) {
+        continue;
+      }
+    }
+
     if (d100() < 20 + (thing_age(t) * 10)) {
       //
       // The older the fire gets, the more chance of spreading
@@ -107,6 +116,7 @@ static void tp_fire_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp t)
     }
 
     THING_DBG(t, "spawn spreading fire");
+
     (void) thing_spawn(g, v, l, tp_first(is_fire), p);
   }
 }
