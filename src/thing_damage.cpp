@@ -62,6 +62,7 @@ static void thing_damage_to_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
         break;
       case THING_EVENT_NONE :             //
       case THING_EVENT_OPEN :             //
+      case THING_EVENT_THE_END :          //
       case THING_EVENT_LIFESPAN_EXPIRED : //
       case THING_EVENT_FALL :             //
       case THING_EVENT_CARRIED :          //
@@ -100,6 +101,7 @@ static void thing_damage_to_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
       case THING_EVENT_NONE :             //
       case THING_EVENT_OPEN :             //
       case THING_EVENT_LIFESPAN_EXPIRED : //
+      case THING_EVENT_THE_END :          //
       case THING_EVENT_CARRIED :          //
       case THING_EVENT_CARRIED_MERGED :   //
       case THING_EVENT_MELT :             //
@@ -170,6 +172,7 @@ static void thing_damage_by_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
       case THING_EVENT_OPEN :             //
       case THING_EVENT_LIFESPAN_EXPIRED : //
       case THING_EVENT_FALL :             //
+      case THING_EVENT_THE_END :          //
       case THING_EVENT_CARRIED :          //
       case THING_EVENT_CARRIED_MERGED :   //
       case THING_EVENT_MELT :             //
@@ -373,6 +376,7 @@ void thing_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
         break;
       case THING_EVENT_OPEN :           //
       case THING_EVENT_CARRIED :        //
+      case THING_EVENT_THE_END :        //
       case THING_EVENT_CARRIED_MERGED : //
       case THING_EVENT_MELT :           //
       case THING_EVENT_ENUM_MAX :       //
@@ -418,6 +422,7 @@ void thing_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
       case THING_EVENT_EXPLOSION_DAMAGE : //
       case THING_EVENT_OPEN :             //
       case THING_EVENT_CARRIED :          //
+      case THING_EVENT_THE_END :          //
       case THING_EVENT_CARRIED_MERGED :   //
       case THING_EVENT_MELT :             //
         break;

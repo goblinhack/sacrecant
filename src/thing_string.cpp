@@ -141,6 +141,9 @@ auto to_death_reason_string(Gamep g, Levelsp v, Levelp l, Thingp t, ThingEvent &
     case THING_EVENT_CARRIED_MERGED : //
       s += "carried-merged";
       break;
+    case THING_EVENT_THE_END : //
+      s += "became the new even darker dark lord";
+      break;
     case THING_EVENT_ENUM_MAX : break;
   }
 

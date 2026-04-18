@@ -786,6 +786,12 @@ static void gfx_ui_init_intro_bg()
   tile_load_arr("data/gfx/ui/intro.tga", "intro", 512, 384, ARRAY_SIZE(tiles), tiles);
 }
 
+static void gfx_ui_init_the_end_bg()
+{
+  const char *tiles[] = {"the_end"};
+  tile_load_arr("data/gfx/ui/the_end.tga", "the_end", 256, 192, ARRAY_SIZE(tiles), tiles);
+}
+
 static void gfx_init_tiles()
 {
   const char *tiles[] = {
@@ -3811,6 +3817,7 @@ void gfx_init()
   gfx_ui_init_8();
   gfx_ui_init_9();
   gfx_ui_init_intro_bg();
+  gfx_ui_init_the_end_bg();
   gfx_ui_init_main_bg();
   gfx_ui_init_main_fg();
   gfx_ui_init_progress_bar();

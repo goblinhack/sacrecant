@@ -191,7 +191,7 @@ void music_load(Gamep g)
 {
   TRACE();
 
-  (void) music_load(g, 44100, "data/music/DST-XToFly.ogg", /*             */ "end");
+  (void) music_load(g, 44100, "data/music/DST-XToFly.ogg", /*             */ "the end");
   (void) music_load(g, 44100, "data/music/Spooky Bass.ogg", /*            */ "dead");
   (void) music_load(g, 44100, "data/music/Sacrificant - Intro.ogg", /*    */ "intro");
 

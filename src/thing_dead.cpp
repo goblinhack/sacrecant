@@ -57,6 +57,7 @@ static void thing_killed_player(Gamep g, Levelsp v, Levelp l, ThingEvent &e)
       case THING_EVENT_OPEN :             //
       case THING_EVENT_NONE :             //
       case THING_EVENT_FALL :             //
+      case THING_EVENT_THE_END :          //
       case THING_EVENT_LIFESPAN_EXPIRED : //
       case THING_EVENT_CARRIED :          //
       case THING_EVENT_CARRIED_MERGED :   //
@@ -94,6 +95,8 @@ static void thing_killed_player(Gamep g, Levelsp v, Levelp l, ThingEvent &e)
         break;
       case THING_EVENT_FIRE_DAMAGE : //
         topcon(UI_IMPORTANT_FMT_STR "You are burnt to death." UI_RESET_FMT);
+        break;
+      case THING_EVENT_THE_END : //
         break;
       case THING_EVENT_OPEN :           //
       case THING_EVENT_CARRIED :        //
@@ -146,6 +149,7 @@ static void thing_killed_by_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
         break;
       case THING_EVENT_OPEN :             //
       case THING_EVENT_NONE :             //
+      case THING_EVENT_THE_END :          //
       case THING_EVENT_FALL :             //
       case THING_EVENT_LIFESPAN_EXPIRED : //
       case THING_EVENT_MELT :             //

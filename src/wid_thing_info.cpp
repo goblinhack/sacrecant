@@ -311,6 +311,7 @@
         break;
       case THING_EVENT_WATER_DAMAGE :     //
       case THING_EVENT_NONE :             //
+      case THING_EVENT_THE_END :          //
       case THING_EVENT_MELT :             //
       case THING_EVENT_OPEN :             //
       case THING_EVENT_LIFESPAN_EXPIRED : //

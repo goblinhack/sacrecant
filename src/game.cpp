@@ -973,6 +973,7 @@ void Game::state_change(GameState new_state, const std::string &why)
     case STATE_INIT :      [[fallthrough]];
     case STATE_MAIN_MENU : [[fallthrough]];
     case STATE_QUITTING :
+    case STATE_THE_END_MENU :
       wid_load_destroy(g);
       wid_main_menu_destroy(g);
       wid_quit_destroy(g);
@@ -1076,6 +1077,7 @@ void Game::state_change(GameState new_state, const std::string &why)
         case STATE_INIT :              [[fallthrough]];
         case STATE_QUITTING :          [[fallthrough]];
         case STATE_DEAD_MENU :         [[fallthrough]];
+        case STATE_THE_END_MENU :      [[fallthrough]];
         case STATE_PLAYING :           [[fallthrough]];
         case STATE_LEVEL_SELECT_MENU : [[fallthrough]];
         case STATE_GENERATING :        [[fallthrough]];
@@ -1086,6 +1088,7 @@ void Game::state_change(GameState new_state, const std::string &why)
     case STATE_QUITTING :          [[fallthrough]];
     case STATE_INIT :              [[fallthrough]];
     case STATE_DEAD_MENU :         [[fallthrough]];
+    case STATE_THE_END_MENU :      [[fallthrough]];
     case STATE_MOVE_WARNING_MENU : [[fallthrough]];
     case STATE_KEYBOARD_MENU :     [[fallthrough]];
     case STATE_LOAD_MENU :         [[fallthrough]];
@@ -1132,6 +1135,7 @@ void Game::handle_game_request_to_remake_ui()
 
   switch (state) {
     case STATE_DEAD_MENU :         [[fallthrough]];
+    case STATE_THE_END_MENU :      [[fallthrough]];
     case STATE_PLAYING :           [[fallthrough]];
     case STATE_LEVEL_SELECT_MENU : [[fallthrough]];
     case STATE_INVENTORY_MENU :
@@ -1174,6 +1178,7 @@ void Game::tick()
   if (v != nullptr) {
     switch (state) {
       case STATE_DEAD_MENU :
+      case STATE_THE_END_MENU :
         //
         // We want things to finish their animations when the player is dead,
         // so need to allow ticking to complete
@@ -1322,6 +1327,7 @@ void Game::display()
     case STATE_ITEM_MENU :
     case STATE_PLAYING :
     case STATE_DEAD_MENU :
+    case STATE_THE_END_MENU :
       level_mouse_position_get(g, v, l);
       level_display(g, v, l);
       thing_player_event_loop(g, v, l);

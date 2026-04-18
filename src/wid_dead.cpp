@@ -95,6 +95,12 @@ void wid_dead_select(Gamep g, const std::string &reason)
   TRACE();
 
   sound_fade_out(g);
+
+  if (game_request_to_end_game_reason_get(g) == "the end") {
+    wid_the_end_select(g);
+    return;
+  }
+
   music_play(g, "dead");
 
   log("open dead select: %s", reason.c_str());

@@ -238,6 +238,7 @@ void thing_player_event_loop(Gamep g, Levelsp v, Levelp l)
         case PLAYER_STATE_ENUM_MAX : break;
       }
       break;
+    case STATE_THE_END_MENU :
     case STATE_DEAD_MENU :
       //
       // If the cursor moved, update what we see
@@ -964,7 +965,24 @@ void player_reached_exit_do(Gamep g, Levelsp v, Levelp l)
 
   level_is_completed_by_player_exiting(g, v, l);
 
-  player_leave_current_level_and_change_to_level_num(g, v, LEVEL_SELECT_ID);
+  if (l->level_num == LEVEL_SELECT_ID - 1) {
+    auto *player = thing_player(g);
+    if (player) {
+      ThingEvent e {
+          .reason     = "excaped the dungeon", //
+          .event_type = THING_EVENT_THE_END,   //
+      };
+
+      (void) thing_score_incr(g, v, l, player, 10000);
+      THING_DBG(player, "reached the final exit");
+      thing_dead(g, v, l, player, e);
+    }
+
+    game_request_to_end_game_set(g);
+    game_request_to_end_game_reason_set(g, "the end");
+  } else {
+    player_leave_current_level_and_change_to_level_num(g, v, LEVEL_SELECT_ID);
+  }
 }
 
 //
