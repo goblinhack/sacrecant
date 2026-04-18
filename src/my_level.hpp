@@ -728,6 +728,7 @@ enum {
 [[nodiscard]] auto      level_tick_is_in_progress(Gamep g, Levelsp v, Levelp l) -> bool;
 [[nodiscard]] auto      level_to_biome(Gamep g, Levelsp v, Levelp l) -> Biome;
 [[nodiscard]] LevelType level_type(LevelNum level_num);
+[[nodiscard]] bool      level_is_boss_level(Gamep g, Levelsp v, Levelp l);
 [[nodiscard]] auto      levels_memory_alloc(Gamep g) -> Levelsp;
 [[nodiscard]] auto      levels_thing_count(Gamep g, Levelsp v) -> int;
 [[nodiscard]] auto      levels_thing_ext_count(Gamep g, Levelsp v) -> int;

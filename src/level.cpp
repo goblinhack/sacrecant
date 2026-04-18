@@ -247,6 +247,10 @@ auto level_change(Gamep g, Levelsp v, LevelNum level_num) -> Levelp
     topcon_newline();
     topcon("You enter level %u of dungeon %s.", new_level->level_num + 1, game_seed_name_get(g));
     game_state_change(g, STATE_PLAYING, "new level");
+    if (level_is_boss_level(g, v, new_level)) {
+      topcon_newline();
+      topcon(UI_IMPORTANT_FMT_STR "Prepare thyself sinner!" UI_RESET_FMT);
+    }
   } else {
     topcon_newline();
     topcon("You re-enter the dungeon %s.", game_seed_name_get(g));

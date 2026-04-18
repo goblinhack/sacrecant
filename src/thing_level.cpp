@@ -52,11 +52,6 @@ void thing_level_warp_to_entrance(Gamep g, Levelsp v, Levelp new_level, Thingp t
     return;
   }
 
-  auto *old_level = game_level_get(g, v, t->level_num);
-  if (old_level == new_level) {
-    return;
-  }
-
   //
   // Now move to the correct location
   //
@@ -73,11 +68,6 @@ void thing_level_warp_to_exit(Gamep g, Levelsp v, Levelp new_level, Thingp t)
   TRACE();
 
   if (t == nullptr) {
-    return;
-  }
-
-  auto *old_level = game_level_get(g, v, t->level_num);
-  if (old_level == new_level) {
     return;
   }
 

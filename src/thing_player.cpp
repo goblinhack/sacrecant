@@ -508,6 +508,9 @@ auto player_check_if_target_needs_move_confirm(Gamep g, Levelsp v, Levelp l, con
   if (level_is_needs_move_confirm(g, v, l, to) != nullptr) {
     if (! thing_is_ethereal(me) && ! thing_is_floating(me) && ! thing_is_flying(me)) {
       if (level_is_chasm(g, v, l, to) != nullptr) {
+        if (level_is_boss_level(g, v, l)) {
+          return true;
+        }
         std::string const msg = "Do you really want to leap into a chasm?";
         player_state_change(g, v, l, PLAYER_STATE_MOVE_CONFIRM_REQUESTED);
         game_state_change(g, STATE_MOVE_WARNING_MENU, "need warning confirmation");

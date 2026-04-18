@@ -156,15 +156,38 @@ static void thing_fall_end(Gamep g, Levelsp v, Levelp l, Thingp t)
   }
 
   //
-  // Choose a new landing spot for the thing
+  // You cannot fall out of boss levels
   //
-  auto new_location = thing_choose_landing_spot(g, v, next_level, t);
+  switch (level_type(l->level_num + 1)) {
+    case LEVEL_TYPE_NONE :   [[fallthrough]];
+    case LEVEL_TYPE_NORMAL : [[fallthrough]];
+    case LEVEL_TYPE_TEST :   [[fallthrough]];
+    case LEVEL_TYPE_ENUM_MAX :
+      //
+      // Choose a new landing spot for the thing
+      //
+      if (! thing_warp_to(g, v, next_level, t, thing_choose_landing_spot(g, v, next_level, t))) {
+        topcon("You fail to find the ground!");
+      }
+      break;
+
+    case LEVEL_TYPE_BOSS1 : [[fallthrough]];
+    case LEVEL_TYPE_BOSS2 : [[fallthrough]];
+    case LEVEL_TYPE_BOSS3 : [[fallthrough]];
+    case LEVEL_TYPE_BOSS4 : [[fallthrough]];
+    case LEVEL_TYPE_BOSS5 :
+      //
+      // Back to the entrance
+      //
+      next_level = l;
+      break;
+  }
 
   //
-  // Move the thing there
+  // Ensure we always land at the entrance for boss levels
   //
-  if (! thing_warp_to(g, v, next_level, t, new_location)) {
-    topcon("You fail to find the ground!");
+  if (level_is_boss_level(g, v, next_level)) {
+    thing_level_warp_to_entrance(g, v, next_level, t);
   }
 
   if (thing_is_player(t)) {
