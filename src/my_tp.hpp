@@ -276,6 +276,24 @@ ENUM_DEF_H(MAP_Z_DEPTH_ENUM, MapZDepth)
 ENUM_DEF_H(MONST_GROUP_ENUM, ThingMonstGroup)
 
 //
+// Level Type
+//
+#define LEVEL_TYPE_ENUM(list_macro)                                                                                                        \
+  CLANG_FORMAT_INDENT()                        /* dummy line for clang indentation fixup */                                                \
+  list_macro(LEVEL_TYPE_NONE, "none"),         /* newline */                                                                               \
+      list_macro(LEVEL_TYPE_NORMAL, "normal"), /* newline */                                                                               \
+      list_macro(LEVEL_TYPE_TEST, "test"),     /* newline */                                                                               \
+      list_macro(LEVEL_TYPE_BOSS1, "boss1"),   /* newline */                                                                               \
+      list_macro(LEVEL_TYPE_BOSS2, "boss2"),   /* newline */                                                                               \
+      list_macro(LEVEL_TYPE_BOSS3, "boss3"),   /* newline */                                                                               \
+      list_macro(LEVEL_TYPE_BOSS4, "boss4"),   /* newline */                                                                               \
+      list_macro(LEVEL_TYPE_BOSS5, "boss5"),   /* newline */
+
+ENUM_DEF_H(LEVEL_TYPE_ENUM, LevelType)
+
+#define LEVEL_TYPE_FIRST LEVEL_TYPE_NORMAL
+
+//
 // Biome
 //
 #define BIOME_ENUM(list_macro)                                                                                                             \

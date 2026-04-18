@@ -679,61 +679,62 @@ enum {
 };
 
 // begin sort marker1 {
-[[nodiscard]] auto fragment_add(Gamep g, int chance, const char *file, int line, ...) -> bool;
-[[nodiscard]] auto fragment_alt_add(Gamep g, int chance, uint32_t flags, const char *file, int line, ...) -> bool;
-[[nodiscard]] auto level_alive(Gamep g, Levelsp v, Levelp l, ThingFlag f, bpoint p, Thingp me = nullptr) -> Thingp;
-[[nodiscard]] auto level_alive(Gamep g, Levelsp v, Levelp l, ThingFlag f, Thingp me) -> Thingp;
-[[nodiscard]] auto level_change(Gamep g, Levelsp v, LevelNum level_num) -> Levelp;
-[[nodiscard]] auto level_count(Gamep g, Levelsp v, Levelp l, ThingFlag f, bpoint p) -> int;
-[[nodiscard]] auto level_count(Gamep g, Levelsp v, Levelp l, ThingFlag f, Thingp t) -> int;
-[[nodiscard]] auto level_cursor_describe_add(Gamep g, Levelsp v, Thingp t) -> bool;
-[[nodiscard]] auto level_cursor_describe_remove(Gamep g, Levelsp v, Thingp t) -> bool;
-[[nodiscard]] auto level_cursor_is_valid(Gamep g, Levelsp v) -> bool;
-[[nodiscard]] auto level_cursor_path_size(Gamep g) -> int;
-[[nodiscard]] auto level_find_all(Gamep g, Levelsp v, Levelp l, ThingFlag f, bpoint p) -> std::vector< Thingp >;
-[[nodiscard]] auto level_find_all(Gamep g, Levelsp v, Levelp l, ThingFlag f) -> std::vector< Thingp >;
-[[nodiscard]] auto level_flag_cached(Gamep g, Levelsp v, Levelp l, ThingFlag f, bpoint p) -> bool;
-[[nodiscard]] auto level_flag(Gamep g, Levelsp v, Levelp l, ThingFlag f, bpoint p, Thingp me = nullptr) -> Thingp;
-[[nodiscard]] auto level_flag(Gamep g, Levelsp v, Levelp l, ThingFlag f, Thingp me) -> Thingp;
-[[nodiscard]] auto level_gen_is_room_entrance(Gamep g, class LevelGen *lg, bpoint at) -> bool;
-[[nodiscard]] auto level_gen_is_room_entrance(Gamep g, class LevelGen *lg, int x, int y) -> bool;
-[[nodiscard]] auto level_gen_is_room_exit(Gamep g, class LevelGen *lg, bpoint at) -> bool;
-[[nodiscard]] auto level_gen_is_room_exit(Gamep g, class LevelGen *lg, int x, int y) -> bool;
-[[nodiscard]] auto level_gen_is_room_has_key(Gamep g, class LevelGen *lg, bpoint at) -> bool;
-[[nodiscard]] auto level_gen_is_room_has_key(Gamep g, class LevelGen *lg, int x, int y) -> bool;
-[[nodiscard]] auto level_gen_is_room_locked(Gamep g, class LevelGen *lg, bpoint at) -> bool;
-[[nodiscard]] auto level_gen_is_room_locked(Gamep g, class LevelGen *lg, int x, int y) -> bool;
-[[nodiscard]] auto level_gen_is_room_secret(Gamep g, class LevelGen *lg, bpoint at) -> bool;
-[[nodiscard]] auto level_gen_is_room_secret(Gamep g, class LevelGen *lg, int x, int y) -> bool;
-[[nodiscard]] auto level_get_thing_id_at(Gamep g, Levelsp v, Levelp l, const bpoint &p, int slot) -> ThingId;
-[[nodiscard]] auto level_is_level_select(Gamep g, Levelsp v, Levelp l) -> bool;
-[[nodiscard]] auto level_is_player_level(Gamep g, Levelsp v, Levelp l) -> bool;
-[[nodiscard]] auto level_is_same_obj_type_at(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp) -> bool;
-[[nodiscard]] auto level_light_blocker_at(Gamep g, Levelsp v, Levelp l, const bpoint &pov, Thingp me) -> Thingp;
-[[nodiscard]] auto level_match_contents(Gamep g, Levelsp v, Levelp l, Testp t, int w, int h, const char *expected) -> bool;
-[[nodiscard]] auto level_open(Gamep g, Levelsp v, Levelp l, ThingFlag f, bpoint p, Thingp me = nullptr) -> Thingp;
-[[nodiscard]] auto level_open(Gamep g, Levelsp v, Levelp l, ThingFlag f, Thingp me) -> Thingp;
-[[nodiscard]] auto level_populate_thing_id_at(Gamep g, Levelsp v, Levelp l, const bpoint &p, int slot, ThingId id) -> bool;
-[[nodiscard]] auto level_request_to_cleanup_things(Gamep g, Levelsp v, Levelp l) -> bool;
-[[nodiscard]] auto level_select_calculate_next_level_down(Gamep g, Levelsp v, Levelp l, bool redo = false) -> Levelp;
-[[nodiscard]] auto level_select_get_level_at_tile_coords(Gamep g, Levelsp v, bpoint p) -> Levelp;
-[[nodiscard]] auto level_select_get_level(Gamep, Levelsp, Levelp l, const bpoint &) -> Levelp;
-[[nodiscard]] auto level_select_get_next_level_down(Gamep g, Levelsp v, Levelp l) -> Levelp;
-[[nodiscard]] auto level_select_get(Gamep g, Levelsp v, bpoint p) -> LevelSelectCell *;
-[[nodiscard]] auto level_select_is_oob(bpoint p) -> bool;
-[[nodiscard]] auto level_select_is_oob(int x, int y) -> bool;
-[[nodiscard]] auto level_string(Gamep g, Levelsp v, Levelp l, int w, int h) -> std::string;
-[[nodiscard]] auto level_tick_begin_is_requested_cached(Gamep g, Levelsp v, Levelp l) -> bool;
-[[nodiscard]] auto level_tick_begin_requested_cached(Gamep g, Levelsp v, Levelp l, const char *why) -> bool;
-[[nodiscard]] auto level_tick_is_in_progress(Gamep g, Levelsp v, Levelp l) -> bool;
-[[nodiscard]] auto level_to_biome(Gamep g, Levelsp v, Levelp l) -> Biome;
-[[nodiscard]] auto levels_memory_alloc(Gamep g) -> Levelsp;
-[[nodiscard]] auto levels_thing_count(Gamep g, Levelsp v) -> int;
-[[nodiscard]] auto levels_thing_ext_count(Gamep g, Levelsp v) -> int;
-[[nodiscard]] auto player_state_to_string(PlayerState state) -> std::string;
-[[nodiscard]] auto player_state(Gamep g, Levelsp v) -> PlayerState;
-[[nodiscard]] auto thing_level_select(Gamep g) -> Thingp;
-[[nodiscard]] auto to_string(Gamep g, Levelsp v, Levelp l) -> std::string;
+[[nodiscard]] auto      fragment_add(Gamep g, int chance, const char *file, int line, ...) -> bool;
+[[nodiscard]] auto      fragment_alt_add(Gamep g, int chance, uint32_t flags, const char *file, int line, ...) -> bool;
+[[nodiscard]] auto      level_alive(Gamep g, Levelsp v, Levelp l, ThingFlag f, bpoint p, Thingp me = nullptr) -> Thingp;
+[[nodiscard]] auto      level_alive(Gamep g, Levelsp v, Levelp l, ThingFlag f, Thingp me) -> Thingp;
+[[nodiscard]] auto      level_change(Gamep g, Levelsp v, LevelNum level_num) -> Levelp;
+[[nodiscard]] auto      level_count(Gamep g, Levelsp v, Levelp l, ThingFlag f, bpoint p) -> int;
+[[nodiscard]] auto      level_count(Gamep g, Levelsp v, Levelp l, ThingFlag f, Thingp t) -> int;
+[[nodiscard]] auto      level_cursor_describe_add(Gamep g, Levelsp v, Thingp t) -> bool;
+[[nodiscard]] auto      level_cursor_describe_remove(Gamep g, Levelsp v, Thingp t) -> bool;
+[[nodiscard]] auto      level_cursor_is_valid(Gamep g, Levelsp v) -> bool;
+[[nodiscard]] auto      level_cursor_path_size(Gamep g) -> int;
+[[nodiscard]] auto      level_find_all(Gamep g, Levelsp v, Levelp l, ThingFlag f, bpoint p) -> std::vector< Thingp >;
+[[nodiscard]] auto      level_find_all(Gamep g, Levelsp v, Levelp l, ThingFlag f) -> std::vector< Thingp >;
+[[nodiscard]] auto      level_flag_cached(Gamep g, Levelsp v, Levelp l, ThingFlag f, bpoint p) -> bool;
+[[nodiscard]] auto      level_flag(Gamep g, Levelsp v, Levelp l, ThingFlag f, bpoint p, Thingp me = nullptr) -> Thingp;
+[[nodiscard]] auto      level_flag(Gamep g, Levelsp v, Levelp l, ThingFlag f, Thingp me) -> Thingp;
+[[nodiscard]] auto      level_gen_is_room_entrance(Gamep g, class LevelGen *lg, bpoint at) -> bool;
+[[nodiscard]] auto      level_gen_is_room_entrance(Gamep g, class LevelGen *lg, int x, int y) -> bool;
+[[nodiscard]] auto      level_gen_is_room_exit(Gamep g, class LevelGen *lg, bpoint at) -> bool;
+[[nodiscard]] auto      level_gen_is_room_exit(Gamep g, class LevelGen *lg, int x, int y) -> bool;
+[[nodiscard]] auto      level_gen_is_room_has_key(Gamep g, class LevelGen *lg, bpoint at) -> bool;
+[[nodiscard]] auto      level_gen_is_room_has_key(Gamep g, class LevelGen *lg, int x, int y) -> bool;
+[[nodiscard]] auto      level_gen_is_room_locked(Gamep g, class LevelGen *lg, bpoint at) -> bool;
+[[nodiscard]] auto      level_gen_is_room_locked(Gamep g, class LevelGen *lg, int x, int y) -> bool;
+[[nodiscard]] auto      level_gen_is_room_secret(Gamep g, class LevelGen *lg, bpoint at) -> bool;
+[[nodiscard]] auto      level_gen_is_room_secret(Gamep g, class LevelGen *lg, int x, int y) -> bool;
+[[nodiscard]] auto      level_get_thing_id_at(Gamep g, Levelsp v, Levelp l, const bpoint &p, int slot) -> ThingId;
+[[nodiscard]] auto      level_is_level_select(Gamep g, Levelsp v, Levelp l) -> bool;
+[[nodiscard]] auto      level_is_player_level(Gamep g, Levelsp v, Levelp l) -> bool;
+[[nodiscard]] auto      level_is_same_obj_type_at(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp) -> bool;
+[[nodiscard]] auto      level_light_blocker_at(Gamep g, Levelsp v, Levelp l, const bpoint &pov, Thingp me) -> Thingp;
+[[nodiscard]] auto      level_match_contents(Gamep g, Levelsp v, Levelp l, Testp t, int w, int h, const char *expected) -> bool;
+[[nodiscard]] auto      level_open(Gamep g, Levelsp v, Levelp l, ThingFlag f, bpoint p, Thingp me = nullptr) -> Thingp;
+[[nodiscard]] auto      level_open(Gamep g, Levelsp v, Levelp l, ThingFlag f, Thingp me) -> Thingp;
+[[nodiscard]] auto      level_populate_thing_id_at(Gamep g, Levelsp v, Levelp l, const bpoint &p, int slot, ThingId id) -> bool;
+[[nodiscard]] auto      level_request_to_cleanup_things(Gamep g, Levelsp v, Levelp l) -> bool;
+[[nodiscard]] auto      level_select_calculate_next_level_down(Gamep g, Levelsp v, Levelp l, bool redo = false) -> Levelp;
+[[nodiscard]] auto      level_select_get_level_at_tile_coords(Gamep g, Levelsp v, bpoint p) -> Levelp;
+[[nodiscard]] auto      level_select_get_level(Gamep, Levelsp, Levelp l, const bpoint &) -> Levelp;
+[[nodiscard]] auto      level_select_get_next_level_down(Gamep g, Levelsp v, Levelp l) -> Levelp;
+[[nodiscard]] auto      level_select_get(Gamep g, Levelsp v, bpoint p) -> LevelSelectCell *;
+[[nodiscard]] auto      level_select_is_oob(bpoint p) -> bool;
+[[nodiscard]] auto      level_select_is_oob(int x, int y) -> bool;
+[[nodiscard]] auto      level_string(Gamep g, Levelsp v, Levelp l, int w, int h) -> std::string;
+[[nodiscard]] auto      level_tick_begin_is_requested_cached(Gamep g, Levelsp v, Levelp l) -> bool;
+[[nodiscard]] auto      level_tick_begin_requested_cached(Gamep g, Levelsp v, Levelp l, const char *why) -> bool;
+[[nodiscard]] auto      level_tick_is_in_progress(Gamep g, Levelsp v, Levelp l) -> bool;
+[[nodiscard]] auto      level_to_biome(Gamep g, Levelsp v, Levelp l) -> Biome;
+[[nodiscard]] LevelType level_type(LevelNum level_num);
+[[nodiscard]] auto      levels_memory_alloc(Gamep g) -> Levelsp;
+[[nodiscard]] auto      levels_thing_count(Gamep g, Levelsp v) -> int;
+[[nodiscard]] auto      levels_thing_ext_count(Gamep g, Levelsp v) -> int;
+[[nodiscard]] auto      player_state_to_string(PlayerState state) -> std::string;
+[[nodiscard]] auto      player_state(Gamep g, Levelsp v) -> PlayerState;
+[[nodiscard]] auto      thing_level_select(Gamep g) -> Thingp;
+[[nodiscard]] auto      to_string(Gamep g, Levelsp v, Levelp l) -> std::string;
 // end sort marker1 }
 
 // begin sort marker2 {
@@ -867,14 +868,6 @@ using FovContext = struct FovContext {
 };
 
 void level_fov(const FovContext & /*ctx*/);
-
-using LevelType = enum LevelType_ {
-  LEVEL_TYPE_NORMAL,
-  LEVEL_TYPE_TEST,
-  LEVEL_TYPE_BOSS,
-#define LEVEL_TYPE_FIRST LEVEL_TYPE_NORMAL
-  LEVEL_TYPE_MAX
-};
 
 // begin sort marker3 {
 [[nodiscard]] auto level_is_able_to_collect_items(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;

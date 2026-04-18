@@ -388,7 +388,7 @@ public:
 };
 
 static int                                                   level_fixed_no;
-static std::vector< class LevelFixed * >                     level_fixed_all[ LEVEL_TYPE_MAX ];
+static std::vector< class LevelFixed * >                     level_fixed_all[ LEVEL_TYPE_ENUM_MAX ];
 static std::unordered_map< std::string, class LevelFixed * > level_alias_all;
 
 class FragmentAlt
@@ -2188,7 +2188,7 @@ void levels_fini(Gamep g)
 {
   TRACE();
 
-  for (auto level_type = static_cast< int >(LEVEL_TYPE_FIRST); level_type < static_cast< int >(LEVEL_TYPE_MAX); level_type++) {
+  for (auto level_type = static_cast< int >(LEVEL_TYPE_FIRST); level_type < static_cast< int >(LEVEL_TYPE_ENUM_MAX); level_type++) {
     for (auto *lf : level_fixed_all[ level_type ]) {
       delete lf;
     }
@@ -5026,8 +5026,6 @@ static void level_gen_extend_bridges(Gamep g, class LevelGen *lg)
     return false;
   }
 
-  LevelSelect const *s = &v->level_select;
-
   auto *level = game_level_get(g, v, lg->level_num);
   level_init(g, v, level, lg->level_num);
 
@@ -5037,6 +5035,7 @@ static void level_gen_extend_bridges(Gamep g, class LevelGen *lg)
   std::string level_string;
   LevelFixed *fixed_level = nullptr;
   Overrides   overrides   = no_overrides;
+  auto        lt          = level_type(lg->level_num + 1);
 
   if (! g_level_opt.level_name.empty()) {
     //
@@ -5054,13 +5053,13 @@ static void level_gen_extend_bridges(Gamep g, class LevelGen *lg)
     level_string = level_gen_string(lg, fixed_level);
     overrides    = fixed_level->overrides;
 
-  } else if (lg->level_num == s->level_count - 1) {
+  } else if (lt != LEVEL_TYPE_NORMAL) {
     //
-    // Final boss level
+    // Boss level
     //
-    fixed_level = level_random_get(LEVEL_TYPE_BOSS);
+    fixed_level = level_random_get(lt);
     if (fixed_level == nullptr) {
-      ERR("no fixed boss level \"%u\" created", lg->level_num);
+      ERR("no fixed boss level \"%s\" level %u created", LevelType_to_string(lt).c_str(), lg->level_num);
       return false;
     }
 
