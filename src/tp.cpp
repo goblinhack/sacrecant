@@ -188,6 +188,10 @@ auto tp_find(TpId id) -> Tpp
   }
 #endif
 
+  if (id > tp_vec.size()) {
+    return nullptr;
+  }
+
   auto *result = tp_vec[ id - 1 ];
 #ifdef DEBUG_BUILD
   if (result == nullptr) {
@@ -264,6 +268,9 @@ static void tp_assign_id(const std::string &tp_name, int *id_out)
     init = true;
     for (const auto &t : tp_arr) {
       tp_preferred_id[ t ] = id++;
+      if (id >= TP_ID_MAX) {
+        CROAK("need to increase TP_ID_MAX");
+      }
     }
   }
 

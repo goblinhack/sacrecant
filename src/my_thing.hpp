@@ -215,6 +215,7 @@ using ThingPlayer = struct ThingPlayer {
   // Player score
   //
   uint32_t score;
+  uint32_t kill_count[ TP_ID_MAX ];
   //
   // What we're carrying
   //

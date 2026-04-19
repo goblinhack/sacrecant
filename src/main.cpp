@@ -608,38 +608,32 @@ auto main(int argc, char *argv[]) -> int
     }
   }
 
-  if (0) {
-    wid_game_over_select(g);
-  }
+  TRACE_DEBUG();
+  wid_console_flush(g);
 
-  if (1) {
-    TRACE_DEBUG();
-    wid_console_flush(g);
-
+  //
+  // Main menu
+  //
+  TRACE_DEBUG();
+  if (AN_ERROR_OCCURRED()) {
+    wid_console_raise(g);
+  } else if (g_opt_restarted_in_gfx_menu) {
+    g_opt_restarted_in_gfx_menu = false;
+    wid_hide(g, wid_console_window);
     //
-    // Main menu
+    // Need this to get the background working
     //
-    TRACE_DEBUG();
-    if (AN_ERROR_OCCURRED()) {
-      wid_console_raise(g);
-    } else if (g_opt_restarted_in_gfx_menu) {
-      g_opt_restarted_in_gfx_menu = false;
-      wid_hide(g, wid_console_window);
-      //
-      // Need this to get the background working
-      //
-      wid_main_menu_select(g);
-      wid_cfg_gfx_select(g);
-    } else if (g_opt_quick_start) {
-      wid_hide(g, wid_console_window);
-      wid_new_game(g);
-    } else if (g_opt_level_select_menu) {
-      wid_hide(g, wid_console_window);
-      wid_new_game(g);
-    } else {
-      wid_hide(g, wid_console_window);
-      wid_main_menu_select(g);
-    }
+    wid_main_menu_select(g);
+    wid_cfg_gfx_select(g);
+  } else if (g_opt_quick_start) {
+    wid_hide(g, wid_console_window);
+    wid_new_game(g);
+  } else if (g_opt_level_select_menu) {
+    wid_hide(g, wid_console_window);
+    wid_new_game(g);
+  } else {
+    wid_hide(g, wid_console_window);
+    wid_main_menu_select(g);
   }
 
   {

@@ -29,6 +29,7 @@ void wid_dead_fini(Gamep g);
 void wid_dead_select(Gamep g, const std::string &reason);
 void wid_hiscores_show(Gamep g);
 void wid_inventory_show(Gamep g, Levelsp v, Levelp l, Thingp player);
+void wid_statistics_show(Gamep g, Levelsp v, Levelp l, Thingp player);
 void wid_leftbar_fini(Gamep g);
 void wid_load_destroy(Gamep g);
 void wid_load_select(Gamep g);

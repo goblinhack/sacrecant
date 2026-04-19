@@ -85,6 +85,11 @@ enum {
   THING_ID_PER_LEVEL_REQ = (MAP_SLOTS * MAP_WIDTH * MAP_HEIGHT),
   THING_ID_PER_LEVEL_MAX = (1 << THING_PER_LEVEL_THING_ID_BITS),
 
+  //
+  // Maximum number of things
+  //
+  TP_ID_MAX = 255,
+
   LEVEL_ID_REQ = (LEVEL_ACROSS * LEVEL_DOWN),
   LEVEL_ID_MAX = (1 << THING_LEVEL_ID_BITS),
 };

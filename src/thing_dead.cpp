@@ -117,6 +117,11 @@ static void thing_killed_by_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
   TRACE();
   auto *it = e.source;
 
+  auto p = thing_player_struct(g);
+  if (p) {
+    p->kill_count[ tp_id_get(thing_tp(me)) ]++;
+  }
+
   if ((it != nullptr) && thing_is_loggable(me)) {
     auto the_thing = capitalize_first(thing_name_long_the(g, v, l, me));
     auto by_player = thing_name_long(g, v, l, it);
