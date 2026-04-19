@@ -22,6 +22,7 @@
 #include <csignal>
 #include <cstring>
 #include <iostream>
+#include <print>
 #include <strings.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -266,11 +267,11 @@ auto main(int argc, char *argv[]) -> int
   parse_args(argc, argv);
 
   if (g_opt_tests) {
-    printf("Test info:\n");
-    printf("----------\n");
-    printf("- APPDATA as '%s'\n", appdata.c_str());
-    printf("- STDOUT as '%s'\n", g_log_stdout_filename.c_str());
-    printf("- STDERR as '%s'\n", g_log_stderr_filename.c_str());
+    std::println("Test info:");
+    std::println("----------");
+    std::println("- APPDATA as '{}'", appdata);
+    std::println("- STDOUT as '{}'", g_log_stdout_filename);
+    std::println("- STDERR as '{}'", g_log_stderr_filename);
   }
 
   //////////////////////////////////////////////////////////////////////////////

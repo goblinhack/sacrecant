@@ -967,7 +967,7 @@ void player_reached_exit_do(Gamep g, Levelsp v, Levelp l)
 
   if (l->level_num == LEVEL_SELECT_ID - 1) {
     auto *player = thing_player(g);
-    if (player) {
+    if (player != nullptr) {
       ThingEvent e {
           .reason     = "excaped the dungeon", //
           .event_type = THING_EVENT_THE_END,   //
