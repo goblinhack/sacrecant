@@ -609,7 +609,7 @@ auto main(int argc, char *argv[]) -> int
   }
 
   if (0) {
-    wid_the_end_select(g);
+    wid_game_over_select(g);
   }
 
   if (1) {

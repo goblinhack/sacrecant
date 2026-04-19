@@ -786,16 +786,16 @@ static void gfx_ui_init_intro_bg()
   tile_load_arr("data/gfx/ui/intro.tga", "intro", 512, 384, ARRAY_SIZE(tiles), tiles);
 }
 
-static void gfx_ui_init_the_end_bg()
+static void gfx_ui_init_game_over_bg()
 {
-  const char *tiles[] = {"the_end_bg"};
-  tile_load_arr("data/gfx/ui/the_end_bg.tga", "the_end_bg", 256, 192, ARRAY_SIZE(tiles), tiles);
+  const char *tiles[] = {"game_over_bg"};
+  tile_load_arr("data/gfx/ui/game_over_bg.tga", "game_over_bg", 256, 192, ARRAY_SIZE(tiles), tiles);
 }
 
-static void gfx_ui_init_the_end_fg()
+static void gfx_ui_init_game_over_fg()
 {
-  const char *tiles[] = {"the_end_fg"};
-  tile_load_arr("data/gfx/ui/the_end_fg.tga", "the_end_fg", 256, 192, ARRAY_SIZE(tiles), tiles);
+  const char *tiles[] = {"game_over_fg"};
+  tile_load_arr("data/gfx/ui/game_over_fg.tga", "game_over_fg", 256, 192, ARRAY_SIZE(tiles), tiles);
 }
 
 static void gfx_init_tiles()
@@ -2109,7 +2109,7 @@ static void gfx_init_tiles()
       "exit.1",
       "entrance.0",
       "entrance.1",
-      "",
+      "skull",
       // ##############################################################################
       "pillar.0",
       "pillar.1",
@@ -3828,8 +3828,8 @@ void gfx_init()
   gfx_ui_init_progress_bar();
   gfx_ui_init_solid();
   gfx_ui_init_stat_bar();
-  gfx_ui_init_the_end_bg();
-  gfx_ui_init_the_end_fg();
+  gfx_ui_init_game_over_bg();
+  gfx_ui_init_game_over_fg();
   gfx_ui_init_worlds();
   // end sort marker1 }
 }

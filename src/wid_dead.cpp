@@ -96,8 +96,8 @@ void wid_dead_select(Gamep g, const std::string &reason)
 
   sound_fade_out(g);
 
-  if (game_request_to_end_game_reason_get(g) == "the end") {
-    wid_the_end_select(g);
+  if (game_request_to_end_game_reason_get(g) == "game over") {
+    wid_game_over_select(g);
     return;
   }
 

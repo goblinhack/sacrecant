@@ -979,7 +979,7 @@ void player_reached_exit_do(Gamep g, Levelsp v, Levelp l)
     }
 
     game_request_to_end_game_set(g);
-    game_request_to_end_game_reason_set(g, "the end");
+    game_request_to_end_game_reason_set(g, "game over");
   } else {
     player_leave_current_level_and_change_to_level_num(g, v, LEVEL_SELECT_ID);
   }

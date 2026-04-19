@@ -24,7 +24,7 @@ void wid_options_menu_select(Gamep g);
 void wid_cfg_sound_select(Gamep g);
 void wid_credits_select(Gamep g);
 void wid_intro_select(Gamep g);
-void wid_the_end_select(Gamep g);
+void wid_game_over_select(Gamep g);
 void wid_dead_fini(Gamep g);
 void wid_dead_select(Gamep g, const std::string &reason);
 void wid_hiscores_show(Gamep g);
