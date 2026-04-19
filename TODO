@@ -1,7 +1,6 @@
 bugs
 ----
-need game over door
-confetti
+add stats on player death
 
 todo
 ----
@@ -105,16 +104,3 @@ eyes of ice, heart of fire
 - Alternative turn based idea is that the dungeon will force a move
   after say 10 seconds. Gradually this will increase in speed until
   the monsters are moving almost real time.
-
-
-story
------
-You are a dark wizard, once powerful but cast out of your realm by
-the slightly darker wizard <insert name here>
-
-Your aim is to retake the throne of darkest of dark lords.
-
-Fight hoards of enemies, but keep them at a distance, as you are
-physically weak. Use spells, missiles and summon allies each level
-to assist you.
-
