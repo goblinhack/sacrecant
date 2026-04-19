@@ -22,7 +22,6 @@
 #include "my_wid_tiles.hpp"
 #include "my_wids.hpp"
 
-#define ENABLE_DEBUG_GFX_GL_BLEND
 #ifdef ENABLE_DEBUG_GFX_GL_BLEND
 #include <unistd.h>
 #endif
@@ -4636,7 +4635,7 @@ static auto wid_key_up_handler(Gamep g, int x, int y) -> Widp
 }
 
 #ifdef ENABLE_DEBUG_GFX_GL_BLEND
-int vals[] = {
+static int vals[] = {
     GL_ZERO,
     GL_ONE,
     GL_CONSTANT_ALPHA,
@@ -4656,7 +4655,7 @@ int vals[] = {
     GL_SRC_COLOR,
 };
 
-std::string vals_str[] = {
+static std::string vals_str[] = {
     "GL_ZERO",
     "GL_ONE",
     "GL_CONSTANT_ALPHA",
@@ -4676,8 +4675,8 @@ std::string vals_str[] = {
     "GL_SRC_COLOR",
 };
 
-int g_blend_a;
-int g_blend_b;
+static int g_blend_a;
+static int g_blend_b;
 #endif
 
 #if 0
@@ -4711,10 +4710,10 @@ void wid_key_down(Gamep g, const struct SDL_Keysym *key, int x, int y)
     con("ENABLE_DEBUG_GFX_GL_BLEND +");
     usleep(50);
     g_blend_a++;
-    if (g_blend_a >= (int) ARRAY_SIZE(vals)) {
+    if (g_blend_a >= ARRAY_SIZE(vals)) {
       g_blend_a = 0;
       g_blend_b++;
-      if (g_blend_b >= (int) ARRAY_SIZE(vals)) {
+      if (g_blend_b >= ARRAY_SIZE(vals)) {
         g_blend_b = 0;
         ERR("wrapped");
       }
@@ -4727,10 +4726,10 @@ void wid_key_down(Gamep g, const struct SDL_Keysym *key, int x, int y)
     usleep(50);
     g_blend_a--;
     if (g_blend_a < 0) {
-      g_blend_a = (int) ARRAY_SIZE(vals) - 1;
+      g_blend_a = ARRAY_SIZE(vals) - 1;
       g_blend_b--;
       if (g_blend_b < 0) {
-        g_blend_b = (int) ARRAY_SIZE(vals) - 1;
+        g_blend_b = ARRAY_SIZE(vals) - 1;
       }
     }
     return;

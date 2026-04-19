@@ -728,6 +728,7 @@ enum {
 [[nodiscard]] auto level_tick_begin_requested_cached(Gamep g, Levelsp v, Levelp l, const char *why) -> bool;
 [[nodiscard]] auto level_tick_is_in_progress(Gamep g, Levelsp v, Levelp l) -> bool;
 [[nodiscard]] auto level_to_biome(Gamep g, Levelsp v, Levelp l) -> Biome;
+[[nodiscard]] auto level_type(LevelNum level_num) -> LevelType;
 [[nodiscard]] auto levels_memory_alloc(Gamep g) -> Levelsp;
 [[nodiscard]] auto levels_thing_count(Gamep g, Levelsp v) -> int;
 [[nodiscard]] auto levels_thing_ext_count(Gamep g, Levelsp v) -> int;
@@ -735,7 +736,6 @@ enum {
 [[nodiscard]] auto player_state(Gamep g, Levelsp v) -> PlayerState;
 [[nodiscard]] auto thing_level_select(Gamep g) -> Thingp;
 [[nodiscard]] auto to_string(Gamep g, Levelsp v, Levelp l) -> std::string;
-[[nodiscard]] auto level_type(LevelNum level_num) -> LevelType;
 // end sort marker1 }
 
 // begin sort marker2 {

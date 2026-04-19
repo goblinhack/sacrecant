@@ -248,8 +248,9 @@ auto game_event_inventory(Gamep g) -> bool
     return false;
   }
 
-  if (0)
+  if (0) {
     wid_inventory_show(g, v, l, player);
+  }
   wid_statistics_show(g, v, l, player);
 
   return true;

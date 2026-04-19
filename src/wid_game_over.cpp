@@ -2,6 +2,8 @@
 // Copyright goblinhack@gmail.com
 //
 
+#include <algorithm>
+
 #include "my_ascii.hpp"
 #include "my_callstack.hpp"
 #include "my_game.hpp"
@@ -55,20 +57,20 @@ static void game_display_flames_tiles(int w, int h)
 {
   TRACE();
 
-  float bright = 2.5;
+  float const bright = 2.5;
 
   static Tilep tile;
-  if (! tile) {
+  if (tile == nullptr) {
     tile = tile_find_mand("solid");
   }
 
-  int tw = 1;
-  int th = 1;
+  int const tw = 1;
+  int const th = 1;
 
   //
   // Account for rounding
   //
-  int offset = 0;
+  int const offset = 0;
 
   blit_init();
 
@@ -79,19 +81,13 @@ static void game_display_flames_tiles(int w, int h)
     for (auto y = 0; y < h; y++) {
       auto c = bg[ x ][ y ];
 
-      int r = (int) ((((float) ((int) c.r))) * bright);
-      int g = (int) ((((float) ((int) c.g))) * bright);
-      int b = (int) ((((float) ((int) c.b))) * bright);
+      int r = static_cast< int >(((static_cast< float >(static_cast< int >(c.r)))) * bright);
+      int g = static_cast< int >(((static_cast< float >(static_cast< int >(c.g)))) * bright);
+      int b = static_cast< int >(((static_cast< float >(static_cast< int >(c.b)))) * bright);
 
-      if (r > 255) {
-        r = 255;
-      }
-      if (g > 255) {
-        g = 255;
-      }
-      if (b > 255) {
-        b = 255;
-      }
+      r = std::min(r, 255);
+      g = std::min(g, 255);
+      b = std::min(b, 255);
 
       color cn(r, g, b, 255);
 
@@ -133,12 +129,12 @@ static void game_display_flames_tiles(int w, int h)
   }
 }
 
-static void game_display_skulls_do(void)
+static void game_display_skulls_do()
 {
   TRACE();
 
   static Tilep tile;
-  if (! tile) {
+  if (tile == nullptr) {
     tile = tile_find_mand("skull");
   }
 
@@ -185,7 +181,7 @@ static void game_display_skulls_do(void)
   }
 }
 
-void game_display_skulls(Gamep g)
+static void game_display_skulls(Gamep g)
 {
   TRACE();
 
@@ -213,7 +209,7 @@ static void game_display_flames_change(int w, int h)
   // Spawn new flames
   //
   int flames = 3;
-  while (flames--) {
+  while ((flames--) != 0) {
     auto radius = 3;
     auto xr     = OS_RANDOM_RANGE(radius, 50);
     auto r      = OS_RANDOM_RANGE(0, radius);
@@ -245,7 +241,7 @@ static void game_display_flames_change(int w, int h)
   }
 
   flames = 3;
-  while (flames--) {
+  while ((flames--) != 0) {
     auto radius = 3;
     auto xr     = OS_RANDOM_RANGE(90, 157);
     auto r      = OS_RANDOM_RANGE(0, radius);
@@ -285,7 +281,7 @@ static void game_display_flames_change(int w, int h)
     }
 
     int sparks = 4;
-    while (sparks--) {
+    while ((sparks--) != 0) {
       for (auto y = h / 2; y < h - 1; y++) {
         auto c0 = bg[ x ][ y ];
         auto c1 = bg[ x ][ y + 1 ];
@@ -311,7 +307,7 @@ static void game_display_flames_change(int w, int h)
 
     int scroll = 10;
 
-    while (scroll--) {
+    while ((scroll--) != 0) {
       for (auto y = 0; y < h - 1; y++) {
         auto c1      = bg[ x ][ y + 1 ];
         bg[ x ][ y ] = c1;
@@ -329,7 +325,7 @@ static void game_display_flames_change(int w, int h)
 
     int scroll = 2;
 
-    while (scroll--) {
+    while ((scroll--) != 0) {
       for (auto y = 0; y < h - 1; y++) {
         auto c1      = bg[ x ][ y + 1 ];
         bg[ x ][ y ] = c1;
@@ -347,7 +343,7 @@ static void game_display_flames_change(int w, int h)
 
     int scroll = 1;
 
-    while (scroll--) {
+    while ((scroll--) != 0) {
       for (auto y = 0; y < h - 1; y++) {
         auto c1      = bg[ x ][ y + 1 ];
         bg[ x ][ y ] = c1;
@@ -358,7 +354,7 @@ static void game_display_flames_change(int w, int h)
   //
   // Blend the flames
   //
-  static int blend_max = 2;
+  static int const blend_max = 2;
 
   for (auto blend = 0; blend < blend_max; blend++) {
     for (auto x = 1; x < w; x++) {
@@ -373,10 +369,19 @@ static void game_display_flames_change(int w, int h)
         auto c7 = bg[ x ][ y + 1 ];
         auto c8 = bg[ x + 1 ][ y + 1 ];
 
-        int r = ((int) c0.r + (int) c1.r + (int) c2.r + (int) c3.r + (int) c4.r + (int) c5.r + (int) c6.r + (int) c7.r + (int) c8.r) / 10;
-        int g = ((int) c0.g + (int) c1.g + (int) c2.g + (int) c3.g + (int) c4.g + (int) c5.g + (int) c6.g + (int) c7.g + (int) c8.g) / 10;
-        int b = ((int) c0.b + (int) c1.b + (int) c2.b + (int) c3.b + (int) c4.b + (int) c5.b + (int) c6.b + (int) c7.b + (int) c8.b) / 10;
-        int a = 255;
+        int const r = (static_cast< int >(c0.r) + static_cast< int >(c1.r) + static_cast< int >(c2.r) + static_cast< int >(c3.r)
+                       + static_cast< int >(c4.r) + static_cast< int >(c5.r) + static_cast< int >(c6.r) + static_cast< int >(c7.r)
+                       + static_cast< int >(c8.r))
+                    / 10;
+        int const g = (static_cast< int >(c0.g) + static_cast< int >(c1.g) + static_cast< int >(c2.g) + static_cast< int >(c3.g)
+                       + static_cast< int >(c4.g) + static_cast< int >(c5.g) + static_cast< int >(c6.g) + static_cast< int >(c7.g)
+                       + static_cast< int >(c8.g))
+                    / 10;
+        int const b = (static_cast< int >(c0.b) + static_cast< int >(c1.b) + static_cast< int >(c2.b) + static_cast< int >(c3.b)
+                       + static_cast< int >(c4.b) + static_cast< int >(c5.b) + static_cast< int >(c6.b) + static_cast< int >(c7.b)
+                       + static_cast< int >(c8.b))
+                    / 10;
+        int const a = 255;
 
         bg2[ x ][ y ] = color(r, g, b, a);
       }
@@ -390,7 +395,7 @@ static void game_display_flames_change(int w, int h)
   }
 }
 
-void game_display_flames(Gamep g)
+static void game_display_flames(Gamep g)
 {
   TRACE();
 

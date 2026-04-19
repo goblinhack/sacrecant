@@ -117,8 +117,8 @@ static void thing_killed_by_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
   TRACE();
   auto *it = e.source;
 
-  auto p = thing_player_struct(g);
-  if (p) {
+  auto *p = thing_player_struct(g);
+  if (p != nullptr) {
     p->kill_count[ tp_id_get(thing_tp(me)) ]++;
   }
 
