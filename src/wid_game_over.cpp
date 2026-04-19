@@ -16,6 +16,17 @@
 
 static WidPopup *wid_game_over_window;
 
+static const int flames_width  = 256;
+static const int flames_height = 192;
+static color     bg[ flames_width + 2 ][ flames_height + 2 ];
+static color     bg2[ flames_width + 2 ][ flames_height + 2 ];
+
+static const int max_skulls = 20;
+static spoint    skull_at[ max_skulls ];
+static bool      skull_set[ max_skulls ];
+static int       skull_speed[ max_skulls ];
+static float     skull_rotate[ max_skulls ];
+
 static void wid_game_over_destroy(Gamep g)
 {
   TRACE();
@@ -39,11 +50,6 @@ static void wid_game_over_destroy(Gamep g)
   }
   return true;
 }
-
-static const int flames_width  = 256;
-static const int flames_height = 192;
-static color     bg[ flames_width + 2 ][ flames_height + 2 ];
-static color     bg2[ flames_width + 2 ][ flames_height + 2 ];
 
 static void game_display_flames_tiles(int w, int h)
 {
@@ -125,6 +131,78 @@ static void game_display_flames_tiles(int w, int h)
 
     blit_flush();
   }
+}
+
+static void game_display_skulls_do(void)
+{
+  TRACE();
+
+  static Tilep tile;
+  if (! tile) {
+    tile = tile_find_mand("skull");
+  }
+
+  if (OS_RANDOM_RANGE(0, 100) < 50) {
+    auto s = OS_RANDOM_RANGE(0, max_skulls);
+    if (! skull_set[ s ]) {
+      skull_at[ s ]     = spoint(OS_RANDOM_RANGE(0, 150), -10);
+      skull_set[ s ]    = true;
+      skull_speed[ s ]  = OS_RANDOM_RANGE(3, 10);
+      skull_rotate[ s ] = 0.5; // (float) OS_RANDOM_RANGE(0, 2) / 2.0;
+    }
+  }
+
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  for (auto i = 0; i < max_skulls; i++) {
+    if (! skull_set[ i ]) {
+      continue;
+    }
+
+    spoint *at = &skull_at[ i ];
+
+    auto tl = *at;
+    auto br = spoint(at->x + OUTLINE_TILE_WIDTH, at->y + OUTLINE_TILE_WIDTH);
+
+    auto mid = (tl + br) / static_cast< short >(2);
+
+    glPushMatrix();
+    glTranslatef(mid.x, mid.y, 0);
+    static float ang;
+    ang += skull_rotate[ i ];
+    glRotatef(ang, 0.0F, 0.0F, 1.0F);
+    glTranslatef(-mid.x, -mid.y, 0);
+
+    tile_blit(tile, tl, br, WHITE);
+
+    blit_flush();
+    glPopMatrix();
+
+    at->y += skull_speed[ i ];
+
+    if (at->y > 200) {
+      skull_set[ i ] = false;
+    }
+  }
+}
+
+void game_display_skulls(Gamep g)
+{
+  TRACE();
+
+  auto w = flames_width;
+  auto h = flames_height;
+
+  gl_enter_2d_mode(g, w, h);
+  {
+    blit_fbo_bind(FBO_SKULLS);
+    {
+      gl_clear();
+
+      game_display_skulls_do();
+    }
+    blit_fbo_unbind();
+  }
+  gl_leave_2d_mode(g);
 }
 
 static void game_display_flames_change(int w, int h)
@@ -385,6 +463,10 @@ static void game_display_game_over(Gamep g)
   blit_init();
   tile_blit(tile_fg, tl, br, WHITE);
   blit_flush();
+
+  blit_init();
+  blit_fbo(g, FBO_SKULLS, tl.x, tl.y, br.x, br.y);
+  blit_flush();
 }
 
 static void wid_game_over_pre_tick(Gamep g, Widp w)
@@ -392,6 +474,7 @@ static void wid_game_over_pre_tick(Gamep g, Widp w)
   TRACE();
 
   game_display_flames(g);
+  game_display_skulls(g);
   SDL_Delay(20);
 }
 
@@ -427,33 +510,34 @@ void wid_game_over_select(Gamep g)
   wid_game_over_window->log_empty_line(g);
   wid_game_over_window->log_empty_line(g);
   wid_game_over_window->log(g,
-                          UI_INFO1_FMT_STR // newline
-                          "You are now lord of the underhell realms and all nearby facilities (*) Conditions apply.",
-                          TEXT_FORMAT_LHS);
+                            UI_INFO1_FMT_STR // newline
+                            "You are now lord of the underhell realms and all nearby facilities (*) Conditions apply.",
+                            TEXT_FORMAT_LHS);
   wid_game_over_window->log_empty_line(g);
 
   wid_game_over_window->log(g,
-                          UI_INFO2_FMT_STR // newline
-                          "Lord Batcat III is no more and all is at peace or in pieces and the vantablack throne "
-                          "is once again yours!",
-                          TEXT_FORMAT_LHS);
+                            UI_INFO2_FMT_STR // newline
+                            "Lord Batcat III is no more and all is at peace or in pieces and the vantablack throne "
+                            "is once again yours!",
+                            TEXT_FORMAT_LHS);
+  wid_game_over_window->log_empty_line(g);
+
+  wid_game_over_window->log(
+      g,
+      UI_INFO3_FMT_STR // newline
+      "As you sit in the dark and wonder at the many corpses lying in your wake and as you listen to the utter silence "
+      "of the dungeon, you think to yourself... I'm going to need new employees.",
+      TEXT_FORMAT_LHS);
   wid_game_over_window->log_empty_line(g);
 
   wid_game_over_window->log(g,
-                          UI_INFO3_FMT_STR // newline
-                          "As you sit in the dark and wonder at the many corpses lying in your wake and as you listen to the utter silence "
-                          "of the dungeon, you think to yourself... I'm going to need new employees.",
-                          TEXT_FORMAT_LHS);
+                            UI_INFO4_FMT_STR // newline
+                            "If your dark heart is so inclined, and your dungeon has internet access, please let the goblin lurking at "
+                            "goblinhack@gmail.com know that you finished this game.",
+                            TEXT_FORMAT_LHS);
   wid_game_over_window->log_empty_line(g);
 
-  wid_game_over_window->log(g,
-                          UI_INFO4_FMT_STR // newline
-                          "If your dark heart is so inclined, and your dungeon has internet access, please let the goblin lurking at "
-                          "goblinhack@gmail.com know that you finished this game.",
-                          TEXT_FORMAT_LHS);
-  wid_game_over_window->log_empty_line(g);
-
-  wid_game_over_window->log(g, UI_INFO5_FMT_STR "And now, my lord, farewell...", TEXT_FORMAT_LHS);
+  wid_game_over_window->log(g, UI_INFO5_FMT_STR "And now, farewell...", TEXT_FORMAT_LHS);
   wid_game_over_window->log_empty_line(g);
 
   {

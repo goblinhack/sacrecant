@@ -247,6 +247,7 @@ extern PFNGLDEBUGMESSAGECALLBACKPROC    glDebugMessageCallback_EXT;
       list_macro(FBO_WID, "FBO_WID"),                       /* newline */                                                                  \
       list_macro(FBO_SPRITE1, "FBO_SPRITE1"),               /* newline */                                                                  \
       list_macro(FBO_FLAMES, "FBO_FLAMES"),                 /* newline */                                                                  \
+      list_macro(FBO_SKULLS, "FBO_SKULLS"),                 /* newline */                                                                  \
       list_macro(FBO_FINAL, "FBO_FINAL"),                   /* newline */
 
 ENUM_DEF_H(FBO_ENUM, FboEnum);
