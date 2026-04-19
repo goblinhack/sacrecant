@@ -285,6 +285,7 @@ static void gl_init_fbo_(FboEnum fbo, GLuint *render_buf_id, GLuint *fbo_id, GLu
     case FBO_MAP_FG_MERGED :
     case FBO_WID :
     case FBO_FINAL :
+    case FBO_FLAMES :
     case FBO_MINIMAP_LEVEL :
     case FBO_SPRITE1 :
     default :
@@ -564,6 +565,10 @@ void fbo_get_size(Gamep g, FboEnum fbo, int &w, int &h)
     case FBO_SPRITE1 :
       w = game_window_pix_width_get(g);
       h = game_window_pix_height_get(g);
+      break;
+    case FBO_FLAMES :
+      w = 256;
+      h = 192;
       break;
     default : //
       CROAK("Need size for fbo %d", fbo);

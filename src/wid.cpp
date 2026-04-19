@@ -22,6 +22,7 @@
 #include "my_wid_tiles.hpp"
 #include "my_wids.hpp"
 
+#define ENABLE_DEBUG_GFX_GL_BLEND
 #ifdef ENABLE_DEBUG_GFX_GL_BLEND
 #include <unistd.h>
 #endif
@@ -67,6 +68,7 @@ static wid_key_map_int wid_top_level4;
 // For tick things.
 //
 static wid_key_map_int wid_tick_top_level;
+static wid_key_map_int wid_pre_tick_top_level;
 
 //
 // Last time we changed what we were over.
@@ -100,6 +102,8 @@ static void wid_tree4_wids_being_destroyed_remove(Widp w);
 static void wid_tree4_wids_being_destroyed_insert(Widp w);
 static void wid_tree5_tick_wids_remove(Widp w);
 static void wid_tree5_tick_wids_insert(Widp w);
+static void wid_tree6_pre_tick_wids_remove(Widp w);
+static void wid_tree6_pre_tick_wids_insert(Widp w);
 static void wid_display(Gamep g, Widp w, uint8_t disable_scissor, uint8_t *updated_scissors, int clip);
 static void wid_tree_remove(Widp w);
 static void wid_tree_detach(Widp w);
@@ -169,17 +173,18 @@ void wid_fini(Gamep g_maybe_null)
     wid_destroy_immediate(g_maybe_null, child);
   }
 
-  wid_top_level       = {};
-  wid_global          = {};
-  wid_top_level2      = {};
-  wid_top_level3      = {};
-  wid_top_level4      = {};
-  wid_tick_top_level  = {};
-  wid_last_over_event = {};
-  wid_focus_locked    = {};
-  wid_focus           = {};
-  wid_over            = {};
-  wid_time            = {};
+  wid_top_level          = {};
+  wid_global             = {};
+  wid_top_level2         = {};
+  wid_top_level3         = {};
+  wid_top_level4         = {};
+  wid_tick_top_level     = {};
+  wid_pre_tick_top_level = {};
+  wid_last_over_event    = {};
+  wid_focus_locked       = {};
+  wid_focus              = {};
+  wid_over               = {};
+  wid_time               = {};
 }
 
 void wid_dump(Widp w, int depth)
@@ -1708,6 +1713,13 @@ void wid_set_on_tick(Widp w, on_tick_t fn)
   wid_tree5_tick_wids_insert(w);
 }
 
+void wid_set_on_pre_tick(Widp w, on_pre_tick_t fn)
+{
+  TRACE();
+  w->on_pre_tick = fn;
+  wid_tree6_pre_tick_wids_insert(w);
+}
+
 //
 // Remove this wid from any trees it is in.
 //
@@ -1879,6 +1891,31 @@ static void wid_tree5_tick_wids_insert(Widp w)
   w->in_tree5_tick_wids = root;
 }
 
+static void wid_tree6_pre_tick_wids_insert(Widp w)
+{
+  TRACE();
+
+  if (w->in_tree6_pre_tick_wids != nullptr) {
+    return;
+  }
+
+  if (wid_exiting) {
+    return;
+  }
+
+  wid_key_map_int *root = nullptr;
+
+  root = &wid_pre_tick_top_level;
+
+  w->tree6_key.val = ++wid_unique_key;
+  auto result      = root->insert(std::make_pair(w->tree6_key, w));
+  if (! result.second) {
+    CROAK("widget insert name [%s] tree6 failed", wid_get_name(w).c_str());
+  }
+
+  w->in_tree6_pre_tick_wids = root;
+}
+
 static void wid_tree_remove(Widp w)
 {
   TRACE();
@@ -1973,6 +2010,25 @@ static void wid_tree5_tick_wids_remove(Widp w)
   w->on_tick            = nullptr;
 }
 
+static void wid_tree6_pre_tick_wids_remove(Widp w)
+{
+  TRACE();
+
+  auto *root = w->in_tree6_pre_tick_wids;
+  if (root == nullptr) {
+    return;
+  }
+
+  auto result = root->find(w->tree6_key);
+  if (result == root->end()) {
+    CROAK("widget tree6 did not find wid");
+  }
+  root->erase(w->tree6_key);
+
+  w->in_tree6_pre_tick_wids = nullptr;
+  w->on_pre_tick            = nullptr;
+}
+
 //
 // Initialize a wid with basic settings
 //
@@ -2031,6 +2087,7 @@ static void wid_destroy_immediate_internal(Gamep g, Widp w)
 
   wid_tree4_wids_being_destroyed_remove(w);
   wid_tree5_tick_wids_remove(w);
+  wid_tree6_pre_tick_wids_remove(w);
 
   if (w->on_destroy != nullptr) {
     (w->on_destroy)(g, w);
@@ -2197,6 +2254,7 @@ static void wid_destroy_delay(Gamep g, Widp *wp, int delay)
   // might use in the ticker may no longer be valid.
   //
   wid_tree5_tick_wids_remove(w);
+  wid_tree6_pre_tick_wids_remove(w);
 }
 
 void wid_destroy(Gamep g, Widp *wp)
@@ -5305,6 +5363,9 @@ void wid_sanity_check(Gamep g)
     if (static_cast< int >(wid_tick_top_level.size()) > 1000) {
       CROAK("widget size getting large for: wid_tick_top_level %d", (int) wid_tick_top_level.size());
     }
+    if (static_cast< int >(wid_pre_tick_top_level.size()) > 1000) {
+      CROAK("widget size getting large for: wid_pre_tick_top_level %d", (int) wid_pre_tick_top_level.size());
+    }
   }
 }
 
@@ -5351,11 +5412,37 @@ static void wid_tick_all(Gamep g)
 }
 
 //
+// Do stuff for all widgets.
+//
+static void wid_pre_tick_all(Gamep g)
+{
+  TRACE();
+
+  wid_time = time_ms_cached();
+
+  std::vector< Widp > work;
+  for (auto &iter : wid_pre_tick_top_level) {
+    auto *w = iter.second;
+    work.push_back(w);
+  }
+
+  for (auto &w : work) {
+    if (w->on_pre_tick == nullptr) {
+      ERR("widget on pre_ticker tree, but no callback set");
+    }
+
+    (w->on_pre_tick)(g, w);
+  }
+}
+
+//
 // Display all widgets
 //
 void wid_display_all(Gamep g)
 {
   TRACE();
+
+  wid_pre_tick_all(g);
 
   gl_enter_2d_mode(g, game_window_pix_width_get(g), game_window_pix_height_get(g));
   blit_fbo_bind_locked(FBO_WID);

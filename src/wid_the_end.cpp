@@ -5,10 +5,13 @@
 #include "my_ascii.hpp"
 #include "my_callstack.hpp"
 #include "my_game.hpp"
+#include "my_gl.hpp"
 #include "my_main.hpp"
 #include "my_music.hpp"
+#include "my_random.hpp"
 #include "my_sdl_proto.hpp"
 #include "my_sound.hpp"
+#include "my_tile.hpp"
 #include "my_wids.hpp"
 
 static WidPopup *wid_the_end_window;
@@ -37,20 +40,314 @@ static void wid_the_end_destroy(Gamep g)
   return true;
 }
 
-static void game_display_the_end(Gamep g)
+static const int flames_width  = 256;
+static const int flames_height = 192;
+static color     bg[ flames_width + 2 ][ flames_height + 2 ];
+static color     bg2[ flames_width + 2 ][ flames_height + 2 ];
+
+static void game_display_flames_tiles(int w, int h)
 {
   TRACE();
 
-  color const fg = WHITE;
+  float bright = 2.5;
+
+  static Tilep tile;
+  if (! tile) {
+    tile = tile_find_mand("solid");
+  }
+
+  int tw = 1;
+  int th = 1;
+
+  //
+  // Account for rounding
+  //
+  int offset = 0;
+
+  blit_init();
+
+  //
+  // Display the flames
+  //
+  for (auto x = 0; x < w; x++) {
+    for (auto y = 0; y < h; y++) {
+      auto c = bg[ x ][ y ];
+
+      int r = (int) ((((float) ((int) c.r))) * bright);
+      int g = (int) ((((float) ((int) c.g))) * bright);
+      int b = (int) ((((float) ((int) c.b))) * bright);
+
+      if (r > 255) {
+        r = 255;
+      }
+      if (g > 255) {
+        g = 255;
+      }
+      if (b > 255) {
+        b = 255;
+      }
+
+      color cn(r, g, b, 255);
+
+      //
+      // Gradiated flames
+      //
+      if (r < 10) {
+        cn = RED4;
+        cn.r /= 6;
+        cn.g /= 6;
+        cn.b /= 6;
+      } else if (r < 15) {
+        if (OS_RANDOM_RANGE(0, 100) < 50) {
+          cn = RED4;
+          cn.r /= 3;
+          cn.g /= 3;
+          cn.b /= 3;
+        } else {
+          cn = RED4;
+        }
+      } else if (r < 50) {
+        cn = RED4;
+      } else if (r < 80) {
+        cn = RED;
+      } else if (r < 120) {
+        cn = ORANGE;
+      } else if (r < 140) {
+        cn = YELLOW;
+      } else if (r < 170) {
+        cn = GRAY90;
+      } else {
+        cn = WHITE;
+      }
+
+      tile_blit(tile, spoint(tw * x, (th * y) + offset), spoint(tw * (x + 1), (th * (y + 1)) + offset + 1), cn);
+    }
+
+    blit_flush();
+  }
+}
+
+static void game_display_flames_change(int w, int h)
+{
+  TRACE();
+
+  //
+  // Spawn new flames
+  //
+  int flames = 3;
+  while (flames--) {
+    auto radius = 3;
+    auto xr     = OS_RANDOM_RANGE(radius, 50);
+    auto r      = OS_RANDOM_RANGE(0, radius);
+    h           = 144;
+
+    if (r < 5) {
+      bg[ xr - 3 ][ h ] = GRAY10;
+      bg[ xr - 2 ][ h ] = GRAY10;
+      bg[ xr - 1 ][ h ] = WHITE;
+      bg[ xr ][ h ]     = WHITE;
+      bg[ xr + 1 ][ h ] = WHITE;
+      bg[ xr + 2 ][ h ] = GRAY10;
+      bg[ xr + 3 ][ h ] = GRAY10;
+    } else if (r < 60) {
+      bg[ xr - 3 ][ h ] = GRAY10;
+      bg[ xr - 2 ][ h ] = GRAY10;
+      bg[ xr - 1 ][ h ] = GRAY10;
+      bg[ xr ][ h ]     = WHITE;
+      bg[ xr + 1 ][ h ] = GRAY10;
+      bg[ xr + 2 ][ h ] = GRAY10;
+      bg[ xr + 3 ][ h ] = GRAY10;
+    } else if (r < 90) {
+      bg[ xr - 1 ][ h ] = COLOR_NONE;
+      bg[ xr - 2 ][ h ] = COLOR_NONE;
+      bg[ xr ][ h ]     = COLOR_NONE;
+      bg[ xr + 1 ][ h ] = COLOR_NONE;
+      bg[ xr + 2 ][ h ] = COLOR_NONE;
+    }
+  }
+
+  flames = 3;
+  while (flames--) {
+    auto radius = 3;
+    auto xr     = OS_RANDOM_RANGE(90, 157);
+    auto r      = OS_RANDOM_RANGE(0, radius);
+    h           = 144;
+
+    if (r < 5) {
+      bg[ xr - 3 ][ h ] = GRAY10;
+      bg[ xr - 2 ][ h ] = GRAY10;
+      bg[ xr - 1 ][ h ] = WHITE;
+      bg[ xr ][ h ]     = WHITE;
+      bg[ xr + 1 ][ h ] = WHITE;
+      bg[ xr + 2 ][ h ] = GRAY10;
+      bg[ xr + 3 ][ h ] = GRAY10;
+    } else if (r < 60) {
+      bg[ xr - 3 ][ h ] = GRAY10;
+      bg[ xr - 2 ][ h ] = GRAY10;
+      bg[ xr - 1 ][ h ] = GRAY10;
+      bg[ xr ][ h ]     = WHITE;
+      bg[ xr + 1 ][ h ] = GRAY10;
+      bg[ xr + 2 ][ h ] = GRAY10;
+      bg[ xr + 3 ][ h ] = GRAY10;
+    } else if (r < 90) {
+      bg[ xr - 1 ][ h ] = COLOR_NONE;
+      bg[ xr - 2 ][ h ] = COLOR_NONE;
+      bg[ xr ][ h ]     = COLOR_NONE;
+      bg[ xr + 1 ][ h ] = COLOR_NONE;
+      bg[ xr + 2 ][ h ] = COLOR_NONE;
+    }
+  }
+
+  //
+  // Some random sparks
+  //
+  for (auto x = 0; x < w; x++) {
+    if (OS_RANDOM_RANGE(0, 1000) < 995) {
+      continue;
+    }
+
+    int sparks = 4;
+    while (sparks--) {
+      for (auto y = h / 2; y < h - 1; y++) {
+        auto c0 = bg[ x ][ y ];
+        auto c1 = bg[ x ][ y + 1 ];
+
+        if (c0.r == 0) {
+          if (c1.r > 0) {
+            bg[ x ][ y ].r = 255;
+            bg[ x ][ y ].g = 200;
+            bg[ x ][ y ].b = 200;
+          }
+        }
+      }
+    }
+  }
+
+  //
+  // Scroll the flames at different speeds
+  //
+  for (auto x = 0; x < w; x++) {
+    if (OS_RANDOM_RANGE(0, 100) < 99) {
+      continue;
+    }
+
+    int scroll = 10;
+
+    while (scroll--) {
+      for (auto y = 0; y < h - 1; y++) {
+        auto c1      = bg[ x ][ y + 1 ];
+        bg[ x ][ y ] = c1;
+      }
+    }
+  }
+
+  //
+  // Scroll the flames at different speeds
+  //
+  for (auto x = 0; x < w; x++) {
+    if (OS_RANDOM_RANGE(0, 100) < 95) {
+      continue;
+    }
+
+    int scroll = 2;
+
+    while (scroll--) {
+      for (auto y = 0; y < h - 1; y++) {
+        auto c1      = bg[ x ][ y + 1 ];
+        bg[ x ][ y ] = c1;
+      }
+    }
+  }
+
+  //
+  // Scroll the flames at different speeds
+  //
+  for (auto x = 0; x < w; x++) {
+    if (OS_RANDOM_RANGE(0, 100) < 50) {
+      continue;
+    }
+
+    int scroll = 1;
+
+    while (scroll--) {
+      for (auto y = 0; y < h - 1; y++) {
+        auto c1      = bg[ x ][ y + 1 ];
+        bg[ x ][ y ] = c1;
+      }
+    }
+  }
+
+  //
+  // Blend the flames
+  //
+  static int blend_max = 2;
+
+  for (auto blend = 0; blend < blend_max; blend++) {
+    for (auto x = 1; x < w; x++) {
+      for (auto y = 1; y < h; y++) {
+        auto c0 = bg[ x - 1 ][ y - 1 ];
+        auto c1 = bg[ x ][ y - 1 ];
+        auto c2 = bg[ x + 1 ][ y - 1 ];
+        auto c3 = bg[ x - 1 ][ y ];
+        auto c4 = bg[ x ][ y ];
+        auto c5 = bg[ x + 1 ][ y ];
+        auto c6 = bg[ x - 1 ][ y + 1 ];
+        auto c7 = bg[ x ][ y + 1 ];
+        auto c8 = bg[ x + 1 ][ y + 1 ];
+
+        int r = ((int) c0.r + (int) c1.r + (int) c2.r + (int) c3.r + (int) c4.r + (int) c5.r + (int) c6.r + (int) c7.r + (int) c8.r) / 10;
+        int g = ((int) c0.g + (int) c1.g + (int) c2.g + (int) c3.g + (int) c4.g + (int) c5.g + (int) c6.g + (int) c7.g + (int) c8.g) / 10;
+        int b = ((int) c0.b + (int) c1.b + (int) c2.b + (int) c3.b + (int) c4.b + (int) c5.b + (int) c6.b + (int) c7.b + (int) c8.b) / 10;
+        int a = 255;
+
+        bg2[ x ][ y ] = color(r, g, b, a);
+      }
+    }
+  }
+
+  for (auto x = 1; x < w; x++) {
+    for (auto y = 1; y < h; y++) {
+      bg[ x ][ y ] = bg2[ x ][ y ];
+    }
+  }
+}
+
+void game_display_flames(Gamep g)
+{
+  TRACE();
+
+  auto w = flames_width;
+  auto h = flames_height;
+
+  gl_enter_2d_mode(g, w, h);
+  {
+    blit_fbo_bind(FBO_FLAMES);
+    {
+      gl_clear();
+
+      game_display_flames_tiles(w, h);
+
+      game_display_flames_change(w, h);
+    }
+    blit_fbo_unbind();
+  }
+  gl_leave_2d_mode(g);
+}
+
+static void game_display_the_end(Gamep g)
+{
+  TRACE();
 
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
   float       w = game_window_pix_width_get(g);
   float const h = game_window_pix_height_get(g);
 
-  auto       *tile = tile_find_mand("the_end");
-  float const tw   = tile_width(tile);
-  float const th   = tile_height(tile);
+  auto *tile_bg = tile_find_mand("the_end_bg");
+  auto *tile_fg = tile_find_mand("the_end_fg");
+
+  float const tw = tile_width(tile_bg);
+  float const th = tile_height(tile_bg);
 
   w = (h * tw) / th;
 
@@ -62,8 +359,40 @@ static void game_display_the_end(Gamep g)
   br.x += center;
 
   blit_init();
-  tile_blit(tile, tl, br, fg);
+  tile_blit(tile_bg, tl, br, WHITE);
   blit_flush();
+
+  //
+  // Paste this code prior to the blend in question
+  //
+  glBlendFunc(GL_ONE_MINUS_CONSTANT_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  if (0) {
+    extern int         vals[];
+    extern std::string vals_str[];
+    extern int         g_blend_a;
+    extern int         g_blend_b;
+    con("glBlendFunc(%s, %s)", vals_str[ g_blend_a ].c_str(), vals_str[ g_blend_b ].c_str());
+    glBlendFunc(vals[ g_blend_a ], vals[ g_blend_b ]);
+  }
+  glBlendFunc(GL_ONE, GL_ONE);
+
+  blit_init();
+  blit_fbo(g, FBO_FLAMES, tl.x, tl.y, br.x, br.y);
+  blit_flush();
+
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+  blit_init();
+  tile_blit(tile_fg, tl, br, WHITE);
+  blit_flush();
+}
+
+static void wid_the_end_pre_tick(Gamep g, Widp w)
+{
+  TRACE();
+
+  game_display_flames(g);
+  SDL_Delay(20);
 }
 
 static void wid_the_end_tick(Gamep g, Widp w)
@@ -139,6 +468,7 @@ void wid_the_end_select(Gamep g)
     wid_set_pos(w, tl, br);
   }
 
+  wid_set_on_pre_tick(wid_the_end_window->wid_text_area->wid_text_area, wid_the_end_pre_tick);
   wid_set_on_tick(wid_the_end_window->wid_text_area->wid_text_area, wid_the_end_tick);
 
   wid_update(g, wid_the_end_window->wid_text_area->wid_text_area);

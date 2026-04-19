@@ -608,7 +608,11 @@ auto main(int argc, char *argv[]) -> int
     }
   }
 
-  {
+  if (0) {
+    wid_the_end_select(g);
+  }
+
+  if (1) {
     TRACE_DEBUG();
     wid_console_flush(g);
 

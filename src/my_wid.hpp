@@ -44,6 +44,7 @@ using on_mouse_focus_end_t   = void (*)(Gamep, Widp);
 using on_mouse_over_begin_t  = void (*)(Gamep, Widp, int relx, int rely, int wheelx, int wheely);
 using on_mouse_over_end_t    = void (*)(Gamep, Widp);
 using on_tick_t              = void (*)(Gamep, Widp);
+using on_pre_tick_t          = void (*)(Gamep, Widp);
 using on_display_t           = void (*)(Gamep, Widp, spoint tl, spoint br);
 
 [[nodiscard]] auto wid_get_void_context(Widp w) -> void *;
@@ -211,6 +212,7 @@ void wid_set_on_mouse_over_begin(Widp w, on_mouse_over_begin_t fn);
 void wid_set_on_mouse_over_end(Widp w, on_mouse_over_end_t fn);
 void wid_set_on_mouse_up(Widp w, on_mouse_up_t fn);
 void wid_set_on_tick(Widp w, on_tick_t fn);
+void wid_set_on_pre_tick(Widp w, on_pre_tick_t fn);
 void wid_set_pos(Widp w, spoint tl, spoint br);
 void wid_set_prev(Widp w, Widp prev);
 void wid_set_received_input(Widp w, bool val = true);

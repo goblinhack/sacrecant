@@ -788,8 +788,14 @@ static void gfx_ui_init_intro_bg()
 
 static void gfx_ui_init_the_end_bg()
 {
-  const char *tiles[] = {"the_end"};
-  tile_load_arr("data/gfx/ui/the_end.tga", "the_end", 256, 192, ARRAY_SIZE(tiles), tiles);
+  const char *tiles[] = {"the_end_bg"};
+  tile_load_arr("data/gfx/ui/the_end_bg.tga", "the_end_bg", 256, 192, ARRAY_SIZE(tiles), tiles);
+}
+
+static void gfx_ui_init_the_end_fg()
+{
+  const char *tiles[] = {"the_end_fg"};
+  tile_load_arr("data/gfx/ui/the_end_fg.tga", "the_end_fg", 256, 192, ARRAY_SIZE(tiles), tiles);
 }
 
 static void gfx_init_tiles()
@@ -3823,6 +3829,7 @@ void gfx_init()
   gfx_ui_init_solid();
   gfx_ui_init_stat_bar();
   gfx_ui_init_the_end_bg();
+  gfx_ui_init_the_end_fg();
   gfx_ui_init_worlds();
   // end sort marker1 }
 }
