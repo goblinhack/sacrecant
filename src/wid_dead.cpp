@@ -23,19 +23,38 @@ void wid_dead_fini(Gamep g)
   wid_dead_window = nullptr;
 }
 
-static void wid_dead_selected(Gamep g)
+static void wid_dead_close(Gamep g)
 {
-  TRACE();
-  wid_dead_fini(g);
+  auto *v = game_levels_get(g);
+  if (v == nullptr) {
+    return;
+  }
 
-  TRACE();
-  game_cleanup(g);
+  auto *l = game_level_get(g, v);
+  if (l == nullptr) {
+    return;
+  }
 
-  TRACE();
-  game_state_reset(g, "finished game");
+  auto *player = thing_player(g);
+  if (player == nullptr) {
+    return;
+  }
 
-  if (g_opt_quick_start) {
-    DIE_CLEAN("Quick quit");
+  wid_statistics_show(g, v, l, player);
+
+  if (0) {
+    TRACE();
+    wid_dead_fini(g);
+
+    TRACE();
+    game_cleanup(g);
+
+    TRACE();
+    game_state_reset(g, "finished game");
+
+    if (g_opt_quick_start) {
+      DIE_CLEAN("Quick quit");
+    }
   }
 }
 
@@ -68,7 +87,7 @@ static void wid_dead_selected(Gamep g)
                 {
                   TRACE();
                   sound_play(g, "keypress");
-                  wid_dead_selected(g);
+                  wid_dead_close(g);
                   return true;
                 }
             }
@@ -85,7 +104,7 @@ static void wid_dead_selected(Gamep g)
 [[nodiscard]] static auto wid_dead_mouse_up(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  wid_dead_selected(g);
+  wid_dead_close(g);
 
   return true;
 }

@@ -23,7 +23,7 @@ static void wid_statistics_destroy(Gamep g)
     delete wid_statistics_popup;
     wid_statistics_popup = nullptr;
 
-    game_state_change(g, STATE_PLAYING, "close kill_count");
+    game_state_change(g, STATE_PLAYING, "close defeated");
   }
 }
 
@@ -81,26 +81,22 @@ void wid_statistics_show(Gamep g, Levelsp v, Levelp l, Thingp player)
 {
   TRACE();
 
-  if (thing_is_dead(player)) {
-    return;
-  }
-
   auto *player_struct = thing_player_struct(g);
   if (player_struct == nullptr) {
     return;
   }
 
-  const int kill_count_width  = UI_INVENTORY_WIDTH;
-  const int kill_count_height = UI_INVENTORY_HEIGHT;
+  const int defeated_width  = UI_INVENTORY_WIDTH;
+  const int defeated_height = UI_INVENTORY_HEIGHT;
 
-  const int left_half  = kill_count_width / 2;
-  const int right_half = kill_count_width - left_half;
-  const int top_half   = kill_count_height / 2;
-  const int bot_half   = kill_count_height - top_half;
+  const int left_half  = defeated_width / 2;
+  const int right_half = defeated_width - left_half;
+  const int top_half   = defeated_height / 2;
+  const int bot_half   = defeated_height - top_half;
 
   TRACE();
 
-  Widp wid_statistics_window;
+  Widp wid_statistics_window = nullptr;
 
   {
     spoint const tl((TERM_WIDTH / 2) - left_half, (TERM_HEIGHT / 2) - top_half);
@@ -115,45 +111,88 @@ void wid_statistics_show(Gamep g, Levelsp v, Levelp l, Thingp player)
     wid_set_text_top(wid_statistics_window, 1u);
   }
 
-  wid_statistics_popup->log(g, "Kill counts:", TEXT_FORMAT_LHS);
+  auto *tp = thing_tp(player);
 
-  for (auto x = 0; x < 2; x++)
+  if (wid_thing_info_icon(g, tp, wid_statistics_popup)) {
+    wid_statistics_popup->log_empty_line(g);
+  }
+
+  if (wid_thing_info_name(g, v, l, player, tp, wid_statistics_popup)) {
+    wid_statistics_popup->log_empty_line(g);
+  }
+
+  if (0) {
+    if (wid_thing_info_detail(g, v, l, player, wid_statistics_popup)) {
+      wid_statistics_popup->log_empty_line(g);
+    }
+  }
+
+  if (wid_thing_info_score(g, player, tp, wid_statistics_popup)) {
+    wid_statistics_popup->log_empty_line(g);
+  }
+
+  if (wid_thing_info_immunities(g, player, wid_statistics_popup, UI_INVENTORY_WIDTH)) {
+    wid_statistics_popup->log_empty_line(g);
+  }
+
+  if (wid_thing_info_special_damage(g, player, wid_statistics_popup)) {
+    wid_statistics_popup->log_empty_line(g);
+  }
+
+  wid_statistics_popup->log(g, "Defeateds:", TEXT_FORMAT_LHS);
+
+  std::string line;
+
+  //
+  // Monster defeateds
+  //
+  for (auto x = 0; x < 5; x++) {
     for (auto i = 1; i < TP_ID_MAX; i++) {
 
-      auto *tp = tp_find(i);
-      if (! tp) {
+      auto *monst_tp = tp_find(i);
+      if (monst_tp == nullptr) {
         continue;
       }
 
-      if (! tp_is_monst(tp)) {
+      if (! tp_is_monst(monst_tp)) {
         continue;
       }
 
-      {
-        auto s = std::format("{:<3}", player_struct->kill_count[ i ]);
+      auto s = std::format("{:<3}", player_struct->defeated[ i ]);
 
-        s += " - ";
-        s += "%%tp=";
-        s += tp_name(tp);
-        s += "$";
-        s += " ";
-        s += tp_name(tp);
+      s += " %%tp=";
+      s += tp_name(monst_tp);
+      s += "$";
+      s += " ";
+      s += std::format("{:<20}", tp_name(monst_tp));
 
-        wid_statistics_popup->log(g, s, TEXT_FORMAT_LHS);
+      if (line.empty()) {
+        line = s;
+      } else {
+        line = " - " + line + "  " + s;
+        wid_statistics_popup->log(g, line, TEXT_FORMAT_LHS);
+        line = "";
       }
     }
+  }
+
+  if (! line.empty()) {
+    line = " - " + line;
+    wid_statistics_popup->log(g, line, TEXT_FORMAT_LHS);
+    line = "";
+  }
 
   {
     TRACE();
     auto *w = wid_new_back_button(g, wid_statistics_window, "BACK");
 
-    spoint const tl((kill_count_width / 2) - 4, kill_count_height - 4);
-    spoint const br((kill_count_width / 2) + 3, kill_count_height - 2);
+    spoint const tl((defeated_width / 2) - 4, defeated_height - 4);
+    spoint const br((defeated_width / 2) + 3, defeated_height - 2);
     wid_set_on_mouse_up(w, wid_statistics_back);
     wid_set_pos(w, tl, br);
   }
 
   wid_update(g, wid_statistics_window);
 
-  game_state_change(g, STATE_INVENTORY_MENU, "kill_count");
+  game_state_change(g, STATE_INVENTORY_MENU, "defeated");
 }

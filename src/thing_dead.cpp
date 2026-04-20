@@ -119,7 +119,7 @@ static void thing_killed_by_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
 
   auto *p = thing_player_struct(g);
   if (p != nullptr) {
-    p->kill_count[ tp_id_get(thing_tp(me)) ]++;
+    p->defeated[ tp_id_get(thing_tp(me)) ]++;
   }
 
   if ((it != nullptr) && thing_is_loggable(me)) {

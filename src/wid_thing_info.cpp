@@ -20,7 +20,7 @@
 //
 // The thing icon
 //
-[[nodiscard]] static auto wid_thing_info_icon(Gamep g, Tpp tp, WidPopup *parent) -> bool
+[[nodiscard]] auto wid_thing_info_icon(Gamep g, Tpp tp, WidPopup *parent) -> bool
 {
   TRACE();
 
@@ -42,7 +42,7 @@
   return true;
 }
 
-[[nodiscard]] static auto wid_thing_info_keys(Gamep g, Thingp me, WidPopup *parent) -> bool
+[[nodiscard]] auto wid_thing_info_keys(Gamep g, Thingp me, WidPopup *parent) -> bool
 {
   TRACE();
 
@@ -85,7 +85,7 @@
 //
 // The thing name
 //
-[[nodiscard]] static auto wid_thing_info_name(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp tp, WidPopup *parent) -> bool
+[[nodiscard]] auto wid_thing_info_name(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp tp, WidPopup *parent) -> bool
 {
   TRACE();
 
@@ -105,7 +105,7 @@
 //
 // The thing description
 //
-[[nodiscard]] static auto wid_thing_info_detail(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent) -> bool
+[[nodiscard]] auto wid_thing_info_detail(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent) -> bool
 {
   TRACE();
 
@@ -121,7 +121,7 @@
 //
 // Score
 //
-[[nodiscard]] static auto wid_thing_info_score(Gamep g, Thingp me, Tpp tp, WidPopup *parent, int width) -> bool
+[[nodiscard]] auto wid_thing_info_score(Gamep g, Thingp me, Tpp tp, WidPopup *parent) -> bool
 {
   TRACE();
 
@@ -160,7 +160,7 @@
 //
 // Health bar
 //
-[[nodiscard]] static auto wid_thing_info_health_bar(Gamep g, Thingp me, Tpp tp, WidPopup *parent, int width) -> bool
+[[nodiscard]] auto wid_thing_info_health_bar(Gamep g, Thingp me, Tpp tp, WidPopup *parent, int width) -> bool
 {
   TRACE();
 
@@ -218,7 +218,7 @@
 //
 // Stamina bar
 //
-[[nodiscard]] static auto wid_thing_info_stamina_bar(Gamep g, Thingp me, Tpp tp, WidPopup *parent, int width) -> bool
+[[nodiscard]] auto wid_thing_info_stamina_bar(Gamep g, Thingp me, Tpp tp, WidPopup *parent, int width) -> bool
 {
   TRACE();
 
@@ -280,7 +280,7 @@
 //
 // Add immunities
 //
-[[nodiscard]] static auto wid_thing_info_immunities(Gamep g, Thingp me, WidPopup *parent, int width) -> bool
+[[nodiscard]] auto wid_thing_info_immunities(Gamep g, Thingp me, WidPopup *parent, int width) -> bool
 {
   TRACE();
 
@@ -338,7 +338,7 @@
 //
 // Add special damage
 //
-[[nodiscard]] static auto wid_thing_info_special_damage(Gamep g, Thingp me, WidPopup *parent) -> bool
+[[nodiscard]] auto wid_thing_info_special_damage(Gamep g, Thingp me, WidPopup *parent) -> bool
 {
   TRACE();
 
@@ -387,7 +387,7 @@ void wid_thing_info(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, i
     parent->log_empty_line(g);
   }
 
-  if (wid_thing_info_score(g, me, tp, parent, width)) {
+  if (wid_thing_info_score(g, me, tp, parent)) {
     parent->log_empty_line(g);
   }
 
