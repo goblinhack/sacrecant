@@ -988,7 +988,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_monst1(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_monst2(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_needs_move_confirm(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_noisy(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
+[[nodiscard]] auto thing_is_noisy(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_obs_to_beam(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_obs_to_cursor_path(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_obs_to_ethereal(Thingp t) -> bool;

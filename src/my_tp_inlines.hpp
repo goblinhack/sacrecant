@@ -67,7 +67,7 @@ extern TpVec tp_vec;
   }
 #else
 
-  if (! id) [[unlikely]] {
+  if (id == 0U) [[unlikely]] {
     return nullptr;
   }
 

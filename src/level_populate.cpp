@@ -6,6 +6,7 @@
 #include "my_callstack.hpp"
 #include "my_charmap.hpp"
 #include "my_dice_rolls.hpp"
+#include "my_game.hpp"
 #include "my_game_defs.hpp"
 #include "my_globals.hpp"
 #include "my_level.hpp"
@@ -759,9 +760,9 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
   // Get the chosen player
   //
   lp.tp_player = game_chosen_player_get(g);
-  if (! lp.tp_player) {
+  if (lp.tp_player == nullptr) {
     lp.tp_player = tp_first(is_player);
-    if (! lp.tp_player) {
+    if (lp.tp_player == nullptr) {
       level_err(g, v, l, "could not find a player to use");
       return false;
     }
@@ -944,17 +945,17 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
           //
           // Spawn the player
           //
-          auto player = thing_spawn(g, v, l, tp, lp.at);
-          if (! player) {
+          auto *player = thing_spawn(g, v, l, tp, lp.at);
+          if (player == nullptr) {
             return false;
           }
 
           //
           // Add the chosen sacrifice
           //
-          auto chosen_sac = game_chosen_sacrifice_get(g);
-          if (chosen_sac) {
-            if (! thing_buff_add(g, v, l, player, chosen_sac)) {
+          auto *chosen_sac = game_chosen_sacrifice_get(g);
+          if (chosen_sac != nullptr) {
+            if (thing_buff_add(g, v, l, player, chosen_sac) == nullptr) {
               return false;
             }
           }

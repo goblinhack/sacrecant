@@ -3,12 +3,14 @@
 //
 
 #include "my_ascii.hpp"
+#include "my_bpoint.hpp"
 #include "my_callstack.hpp"
 #include "my_color_defs.hpp"
 #include "my_game.hpp"
+#include "my_game_defs.hpp"
 #include "my_game_inlines.hpp"
 #include "my_level.hpp"
-#include "my_level_inlines.hpp"
+#include "my_level_inlines.hpp" // NOLINT
 #include "my_main.hpp"
 #include "my_sdl_proto.hpp"
 #include "my_sound.hpp"
@@ -70,7 +72,7 @@ static void wid_player_select_check_if_done(Gamep g)
     return;
   }
 
-  auto tp = thing_tp(game_mouse_down_player_get(g));
+  auto *tp = thing_tp(game_mouse_down_player_get(g));
   game_chosen_player_set(g, tp);
   game_chosen_sacrifice_set(g, thing_tp(game_mouse_down_sacrifice_get(g)));
 
@@ -92,7 +94,7 @@ static void wid_player_update_selections(Gamep g)
   TRACE();
 
   auto *v = levels_memory_alloc(g);
-  if (! v) {
+  if (v == nullptr) {
     return;
   }
 
@@ -155,7 +157,7 @@ static void wid_player_select_player_via_mouse_over_begin(Gamep g, Widp w, int /
   TRACE();
 
   auto *v = levels_memory_alloc(g);
-  if (! v) {
+  if (v == nullptr) {
     return;
   }
 
@@ -178,7 +180,7 @@ static void wid_player_select_player_via_mouse_over_end(Gamep g, Widp w)
   TRACE();
 
   auto *v = levels_memory_alloc(g);
-  if (! v) {
+  if (v == nullptr) {
     return;
   }
 
@@ -199,7 +201,7 @@ static void wid_player_select_player_via_mouse_over_end(Gamep g, Widp w)
   TRACE();
 
   auto *v = levels_memory_alloc(g);
-  if (! v) {
+  if (v == nullptr) {
     return false;
   }
 
@@ -228,7 +230,7 @@ static void wid_player_select_sacrifice_via_mouse_over_begin(Gamep g, Widp w, in
   TRACE();
 
   auto *v = levels_memory_alloc(g);
-  if (! v) {
+  if (v == nullptr) {
     return;
   }
 
@@ -251,7 +253,7 @@ static void wid_player_select_sacrifice_via_mouse_over_end(Gamep g, Widp w)
   TRACE();
 
   auto *v = levels_memory_alloc(g);
-  if (! v) {
+  if (v == nullptr) {
     return;
   }
 
@@ -272,7 +274,7 @@ static void wid_player_select_sacrifice_via_mouse_over_end(Gamep g, Widp w)
   TRACE();
 
   auto *v = levels_memory_alloc(g);
-  if (! v) {
+  if (v == nullptr) {
     return false;
   }
 
@@ -390,14 +392,14 @@ void wid_player_select(Gamep g)
   TRACE_INDENT();
 
   auto *v = levels_memory_alloc(g);
-  if (! v) {
+  if (v == nullptr) {
     return;
   }
 
   (void) game_levels_set(g, v);
 
   auto *level_select = game_level_get(g, v, LEVEL_ARR_IDX_LEVEL_SELECT);
-  if (! level_select) {
+  if (level_select == nullptr) {
     return;
   }
 
@@ -441,7 +443,7 @@ void wid_player_select(Gamep g)
     spoint const tl(0, y_at);
     spoint const br(player_select_width, y_at);
     wid_set_pos(w, tl, br);
-    if (v->tick) {
+    if (v->tick != 0u) {
       wid_set_text(w, UI_FMT_STR "Choose your next sacrifice");
     } else {
       wid_set_text(w, UI_FMT_STR "Choose a sacrecant and your first sacrifice");
@@ -485,20 +487,20 @@ void wid_player_select(Gamep g)
     Thingp existing_thing = nullptr;
     FOR_ALL_THINGS_AT(g, v, level_select, t, at)
     {
-      if (t) {
+      if (t != nullptr) {
         existing_thing = t;
         break;
       }
     }
 
-    if (! existing_thing) {
+    if (existing_thing == nullptr) {
       existing_thing = thing_spawn(g, v, level_select, tp, at);
-      if (! existing_thing) {
+      if (existing_thing == nullptr) {
         continue;
       }
     }
 
-    if (! game_mouse_over_player_get(g)) {
+    if (game_mouse_over_player_get(g) == nullptr) {
       game_mouse_over_player_set(g, existing_thing);
     }
 
@@ -629,15 +631,15 @@ void wid_player_select(Gamep g)
     Thingp existing_thing = nullptr;
     FOR_ALL_THINGS_AT(g, v, level_select, t, at)
     {
-      if (t) {
+      if (t != nullptr) {
         existing_thing = t;
         break;
       }
     }
 
-    if (! existing_thing) {
+    if (existing_thing == nullptr) {
       existing_thing = thing_spawn(g, v, level_select, tp, at);
-      if (! existing_thing) {
+      if (existing_thing == nullptr) {
         continue;
       }
     }

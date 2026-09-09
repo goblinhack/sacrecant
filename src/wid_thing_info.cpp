@@ -563,7 +563,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
 //
 // How tough the game ie
 //
-[[nodiscard]] auto wid_thing_info_difficulty(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent) -> bool
+[[nodiscard]] static auto wid_thing_info_difficulty(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent) -> bool
 {
   TRACE();
 
@@ -697,7 +697,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
 //
 // Mana bar
 //
-[[nodiscard]] auto wid_thing_info_mana_bar(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp tp, WidPopup *parent, int width) -> bool
+[[nodiscard]] static auto wid_thing_info_mana_bar(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp /*tp*/, WidPopup *parent, int width) -> bool
 {
   TRACE();
 
