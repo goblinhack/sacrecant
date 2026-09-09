@@ -29,9 +29,15 @@
 
 #include <SDL_keyboard.h>
 #include <SDL_keycode.h>
+#include <algorithm>
+#include <cmath>
 #include <cstdint>
 #include <cstring>
+#include <ranges>
 #include <string>
+#include <unordered_set>
+#include <utility>
+#include <vector>
 
 static Widp wid_player_select_window;
 
@@ -619,11 +625,21 @@ void wid_player_select(Gamep g)
 
   y_index = 0;
 
+  std::vector< Tpp > tps;
+
   for (auto &tp : tp_vec) {
     if (! tp_is_sacrifice(tp)) {
       continue;
     }
+    tps.push_back(tp);
+  }
 
+  //
+  // Sort by mana
+  //
+  std::ranges::sort(tps, [](const Tpp &a, const Tpp &b) -> bool { return tp_mana_get(a) < tp_mana_get(b); });
+
+  for (auto &tp : tps) {
     //
     // Create a temporary thing on the level select map
     //

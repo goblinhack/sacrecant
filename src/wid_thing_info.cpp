@@ -1512,7 +1512,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     switch (w) {
       case WORN_TYPE_WEAPON :
         {
-          line = string_sprintf("Wielded(%s)", thing_name_long(g, v, l, item).c_str());
+          line = string_sprintf("Wielded(%s):", thing_name_long(g, v, l, item).c_str());
           worn = true;
           break;
         }
@@ -1520,7 +1520,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
       case WORN_TYPE_RING1 : [[fallthrough]];
       case WORN_TYPE_RING2 :
         {
-          line = string_sprintf("Worn(%s)", thing_name_long(g, v, l, item).c_str());
+          line = string_sprintf("Worn(%s):", thing_name_long(g, v, l, item).c_str());
           worn = true;
           break;
         }

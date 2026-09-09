@@ -682,7 +682,6 @@ using Thing = struct Thing {
 
 // begin sort marker1 {
 [[nodiscard]] auto astar_solve(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint src, bpoint dst) -> std::vector< bpoint >;
-[[nodiscard]] auto thing_player_spawn(Gamep g, Levelsp v, Levelp l, Tpp tp, const bpoint at) -> bool;
 [[nodiscard]] auto level_vision_blocker_at(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &at) -> bool;
 [[nodiscard]] auto monst_state_to_string(MonstState state) -> std::string;
 [[nodiscard]] auto monst_state(Gamep g, Levelsp v, Levelp l, Thingp me) -> MonstState;
@@ -1331,6 +1330,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_path_cost(Gamep g, Levelsp v, Levelp l, Thingp me, const std::vector< bpoint > &path) -> int;
 [[nodiscard]] auto thing_player_level(Gamep g) -> Levelp;
 [[nodiscard]] auto thing_player_mouse_down(Gamep g, Levelsp v, Levelp l, int x, int y, uint32_t button) -> bool;
+[[nodiscard]] auto thing_player_spawn(Gamep g, Levelsp v, Levelp l, Tpp tp, const bpoint at) -> bool;
 [[nodiscard]] auto thing_player_struct(Gamep g) -> ThingPlayerp;
 [[nodiscard]] auto thing_player(Gamep g) -> Thingp;
 [[nodiscard]] auto thing_pop(Gamep g, Levelsp v, Thingp t) -> bool;

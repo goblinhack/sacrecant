@@ -5,7 +5,8 @@ set mana total
 todo
 ----
 sacrifices
-  - unlucky
+  - defenceless             no weapon at start, melee only                                        melee +200
+  - fire-prone:             x2 damage from fire                                                   melee +100
   - blood-feast:            absorb health from fleshy monsters / x2 damage-received from undead   melee +20
   - breathless:             gas weapons, no effect, but tire much quicker                         melee +30
   - myopic:                 vision distance halved                                                melee +30
@@ -15,10 +16,8 @@ sacrifices
   - glass-bones:            fall-damage +100%  damage-received +50%  def -4  att +2               melee +70
   - random-failure:         effects like levitation and ethereal may fail randomly                melee +80
   - tunnel-vision:          180 degree vision                                                     melee +100
-  - fire-prone:             x2 damage from fire                                                   melee +100
   - madness:                occasional random spell use                                           melee +100
   - extreme-tunnel-vision:  90 degree vision                                                      melee +200
-  - defenceless             no weapon at start, melee only                                        melee +200
   - poison-blood:           health ticks down                                                     melee +200
   - wraith-like:            can walk through walls, but can never eat food or heal                melee +200
   - blood-pact:             damage delivered is subtracted from your health                       melee +300

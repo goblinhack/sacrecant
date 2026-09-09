@@ -13,15 +13,15 @@ static auto tp_sac_noisy_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> 
 {
   TRACE();
 
-  return UI_INFO1_FMT_STR                                                           //
-      "Your very footsteps echo noisily as you clod around the dungeon "            //
-      "and no attempt to stay quiet seems to help!\n"                               //
-      UI_INFO2_FMT_STR                                                              //
-      "In detail, this sacrifice doubles the amount of noise you make. "            //
-      "From crashing through bushes, crushing grass underfoot, or firing weapons, " //
-      "all will be doubled in noise output.\n"                                      //
-      UI_INFO3_FMT_STR                                                              //
-      "The noise you create impacts your stealth and hence ability to stay hidden.\n";
+  return UI_INFO1_FMT_STR                                                                //
+      "Your very footsteps echo noisily as you clod around the dungeon "                 //
+      "and no attempt to stay quiet seems to help!\n"                                    //
+      UI_INFO2_FMT_STR                                                                   //
+      "In detail, this sacrifice doubles the amount of noise you make. "                 //
+      "From crashing through bushes, crushing grass underfoot, or firing weapons, "      //
+      "all will be doubled in noise output.\n"                                           //
+      UI_INFO3_FMT_STR                                                                   //
+      "The noise you generate impacts your stealth and hence ability to stay hidden.\n"; //
 }
 
 [[nodiscard]] auto tp_load_sac_noisy() -> bool
@@ -37,8 +37,6 @@ static auto tp_sac_noisy_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> 
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_noisy);
   tp_flag_set(tp, is_sacrifice);
-  tp_flag_set(tp, is_tick_on_use);
-  tp_flag_set(tp, is_tickable);
   tp_mana_set(tp, 10);
   tp_name_long_set(tp, "squeaky boots");
   // end sort marker1 }

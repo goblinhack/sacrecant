@@ -103,6 +103,7 @@
   if (!tp_load_rock()) { return false; }
   if (!tp_load_rubble()) { return false; }
   if (!tp_load_sac_noisy()) { return false; }
+  if (!tp_load_sac_unlucky()) { return false; }
   if (!tp_load_skeleton_mob()) { return false; }
   if (!tp_load_skeleton()) { return false; }
   if (!tp_load_skullferno()) { return false; }
