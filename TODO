@@ -1,6 +1,5 @@
 bugs
 ----
-stuck after stats window
 
 todo
 ----
@@ -25,6 +24,7 @@ sacrifices
   - one-legged:             can only jump, limited jump distance, easily exhausted                melee +400
 essential
   - random monsts with difficulty
+  - psi text mentions cutting costs of spells
 spells
   - etherblast to hit ghosts in walls
   - spell coupons?

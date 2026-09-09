@@ -13,6 +13,7 @@
 #include "my_sdl_proto.hpp"
 #include "my_sound.hpp"
 #include "my_spoint.hpp"
+#include "my_sprintf.hpp"
 #include "my_string.hpp"
 #include "my_thing.hpp"
 #include "my_thing_inlines.hpp"
@@ -402,7 +403,7 @@ void wid_player_select(Gamep g)
   const int player_select_width  = UI_INVENTORY_WIDTH;
   const int player_select_height = UI_INVENTORY_HEIGHT;
 
-  const auto button_width  = player_select_width - 4;
+  const auto button_width  = player_select_width - 2;
   const auto button_height = 0;
   const auto button_step   = 1;
   const auto button_style  = UI_WID_STYLE_SPARSE_NONE;
@@ -433,10 +434,10 @@ void wid_player_select(Gamep g)
     spoint const tl(0, y_at);
     spoint const br(player_select_width, y_at);
     wid_set_pos(w, tl, br);
-    if (v != nullptr) {
+    if (v->tick) {
       wid_set_text(w, UI_FMT_STR "Choose your next sacrifice");
     } else {
-      wid_set_text(w, UI_FMT_STR "Choose a sacrecant and first sacrifice");
+      wid_set_text(w, UI_FMT_STR "Choose a sacrecant and your first sacrifice");
     }
     wid_set_style(w, UI_WID_STYLE_BUTTON_OUTLINE);
     wid_set_shape_none(w);
@@ -455,7 +456,7 @@ void wid_player_select(Gamep g)
     spoint const br(button_width, y_at + button_height);
     wid_set_text_lhs(w, 1u);
     wid_set_pos(w, tl, br);
-    wid_set_text(w, UI_INFO_FMT_STR "Sacrecant");
+    wid_set_text(w, UI_INFO_FMT_STR "Your Sacrecant                                 Mana");
     y_at++;
   }
 
@@ -550,11 +551,22 @@ void wid_player_select(Gamep g)
     // Sacrecant name
     //
     {
+      //
+      // Append mana to the name
+      //
       std::string line;
 
       line = capitalize(tp_name_long(tp));
 
-      TRACE();
+      auto mana = tp_mana_get(tp);
+      if (mana > 0) {
+        line = string_sprintf("%-40s +%d", line.c_str(), mana);
+      } else if (mana < 0) {
+        line = string_sprintf("%-40s -%d", line.c_str(), mana);
+      } else {
+        line = string_sprintf("%-40s -", line.c_str());
+      }
+
       auto *w = wid_new_bar_button(g, wid_player_select_window, "Sacrecant");
 
       spoint const tl(6, y_at);
@@ -589,7 +601,7 @@ void wid_player_select(Gamep g)
     spoint const br(button_width, y_at + button_height);
     wid_set_text_lhs(w, 1u);
     wid_set_pos(w, tl, br);
-    wid_set_text(w, UI_INFO_FMT_STR "Sacrifices");
+    wid_set_text(w, UI_INFO_FMT_STR "Sacrifices                                     Mana");
     y_at++;
   }
 
@@ -599,7 +611,7 @@ void wid_player_select(Gamep g)
   y_index = 0;
 
   for (auto &tp : tp_vec) {
-    if (! tp_is_player(tp)) {
+    if (! tp_is_sacrifice(tp)) {
       continue;
     }
 
@@ -661,9 +673,21 @@ void wid_player_select(Gamep g)
     // Sacrifice name
     //
     {
+      //
+      // Append mana to the name
+      //
       std::string line;
 
       line = capitalize_first(tp_name_long(tp));
+
+      auto mana = tp_mana_get(tp);
+      if (mana > 0) {
+        line = string_sprintf("%-40s +%d", line.c_str(), mana);
+      } else if (mana < 0) {
+        line = string_sprintf("%-40s -%d", line.c_str(), mana);
+      } else {
+        line = string_sprintf("%-40s -", line.c_str());
+      }
 
       TRACE();
       auto *w = wid_new_bar_button(g, wid_player_select_window, "Sacrifice");

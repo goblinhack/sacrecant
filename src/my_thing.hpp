@@ -1649,7 +1649,7 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
 //
 // NOTE: break will not work
 //
-#define FOR_ALL_HOOKS_SLOTS(_g_, _v_, _l_, _owner_, _slot_, _buff_)                                                                              \
+#define FOR_ALL_HOOKS_SLOTS(_g_, _v_, _l_, _owner_, _slot_, _buff_)                                                                             \
   if ((_g_) && (_v_) && (_l_))                                                                                                                  \
     if (AUTO(_ext_) = thing_ext_struct(_g_, _v_, _owner_))                                                                                      \
       for (auto _n_ = 0; _n_ < THING_BUFF_MAX; _n_++)                                                                                           \
@@ -1662,6 +1662,38 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
       for (auto _n_ = 0; _n_ < THING_BUFF_MAX; _n_++)                                                                                           \
         if (AUTO(_slot_) = &_ext_->buffs.buff[ _n_ ])                                                                                           \
           if (AUTO(_buff_) = thing_find_optional(g, v, _slot_->buff_id))
+
+#define FOR_ALL_BUFFS_SLOTS(_g_, _v_, _l_, _owner_, _slot_, _buff_)                                                                             \
+  if ((_g_) && (_v_) && (_l_))                                                                                                                  \
+    if (AUTO(_ext_) = thing_ext_struct(_g_, _v_, _owner_))                                                                                      \
+      for (auto _n_ = 0; _n_ < THING_BUFF_MAX; _n_++)                                                                                           \
+        for (AUTO(_slot_) = &_ext_->buffs.buff[ _n_ ]; _slot_; (_slot_) = nullptr)                                                              \
+          for (AUTO(_buff_) = thing_find_optional(g, v, (_slot_)->buff_id), loop2 = (Thingp) 1; loop2 == (Thingp) 1; loop2 = (Thingp) 0)        \
+            if (thing_is_buff(_buff_))
+
+#define FOR_ALL_BUFFS(_g_, _v_, _l_, _owner_, _buff_)                                                                                           \
+  if ((_g_) && (_v_) && (_l_))                                                                                                                  \
+    if (AUTO(_ext_) = thing_ext_struct(_g_, _v_, _owner_))                                                                                      \
+      for (auto _n_ = 0; _n_ < THING_BUFF_MAX; _n_++)                                                                                           \
+        if (AUTO(_slot_) = &_ext_->buffs.buff[ _n_ ])                                                                                           \
+          if (AUTO(_buff_) = thing_find_optional(g, v, _slot_->buff_id))                                                                        \
+            if (thing_is_buff(_buff_))
+
+#define FOR_ALL_DEBUFFS(_g_, _v_, _l_, _owner_, _buff_)                                                                                         \
+  if ((_g_) && (_v_) && (_l_))                                                                                                                  \
+    if (AUTO(_ext_) = thing_ext_struct(_g_, _v_, _owner_))                                                                                      \
+      for (auto _n_ = 0; _n_ < THING_BUFF_MAX; _n_++)                                                                                           \
+        if (AUTO(_slot_) = &_ext_->buffs.buff[ _n_ ])                                                                                           \
+          if (AUTO(_buff_) = thing_find_optional(g, v, _slot_->buff_id))                                                                        \
+            if (thing_is_debuff(_buff_))
+
+#define FOR_ALL_SACRIFICES(_g_, _v_, _l_, _owner_, _buff_)                                                                                      \
+  if ((_g_) && (_v_) && (_l_))                                                                                                                  \
+    if (AUTO(_ext_) = thing_ext_struct(_g_, _v_, _owner_))                                                                                      \
+      for (auto _n_ = 0; _n_ < THING_BUFF_MAX; _n_++)                                                                                           \
+        if (AUTO(_slot_) = &_ext_->buffs.buff[ _n_ ])                                                                                           \
+          if (AUTO(_buff_) = thing_find_optional(g, v, _slot_->buff_id))                                                                        \
+            if (thing_is_sacrifice(_buff_))
 
 //
 // NOTE: break will not work

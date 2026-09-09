@@ -32,506 +32,6 @@
 
 static WidPopup *wid_over_stats;
 
-static void wid_thing_info_item_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
-{
-  TRACE();
-
-  auto *v = game_levels_get(g);
-  if (v == nullptr) [[unlikely]] {
-    return;
-  }
-
-  auto *t = wid_get_thing_context(g, v, w, 0);
-  if (t == nullptr) {
-    return;
-  }
-
-  level_cursor_describe_clear(g, v);
-  (void) level_cursor_describe_add(g, v, t);
-  (void) wid_rightbar_init(g);
-}
-
-static void wid_thing_info_item_mouse_over_end(Gamep g, Widp w)
-{
-  TRACE();
-
-  auto *v = game_levels_get(g);
-  if (v == nullptr) [[unlikely]] {
-    return;
-  }
-
-  auto *t = wid_get_thing_context(g, v, w, 0);
-  if (t == nullptr) {
-    return;
-  }
-
-  (void) level_cursor_describe_remove(g, v, t);
-  (void) wid_rightbar_init(g);
-}
-
-[[nodiscard]] static auto wid_thing_info_item_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
-{
-  TRACE();
-
-  auto *v = game_levels_get(g);
-  if (v == nullptr) [[unlikely]] {
-    return false;
-  }
-
-  auto *t = wid_get_thing_context(g, v, w, 0);
-  if (t == nullptr) {
-    return false;
-  }
-
-  if (game_state(g) != STATE_PLAYING) {
-    return true;
-  }
-
-  wid_item_menu_select(g, v, t, false /* not from inventory */);
-
-  return true;
-}
-
-[[nodiscard]] auto wid_thing_info_keys(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent) -> bool
-{
-  TRACE();
-
-  auto *text = parent->wid_text_area;
-  auto *b    = parent->wid_text_area->wid_text_area;
-
-  auto key_count = thing_keys_carried(me);
-  if (key_count == 0) {
-    return false;
-  }
-
-  {
-    auto        *tile = tile_find_mand("key.0");
-    auto        *w    = wid_new_square_button(g, b, "Keys");
-    spoint const tl(UI_LEFTBAR_WIDTH - 8, text->line_count);
-    spoint const br(UI_LEFTBAR_WIDTH - 5, text->line_count + 2);
-    wid_set_tile(TILE_LAYER_BOX_BG, w, tile);
-    wid_set_style(w, UI_WID_STYLE_SPARSE_NONE);
-    wid_set_pos(w, tl, br);
-  }
-
-  {
-    auto        *w = wid_new_square_button(g, b, "Key count");
-    spoint const tl(UI_LEFTBAR_WIDTH - 4, text->line_count);
-    spoint const br(UI_LEFTBAR_WIDTH - 2, text->line_count + 2);
-    std::string  how_many_keys = "x" + std::to_string(key_count);
-
-    if (key_count > 9) {
-      how_many_keys = std::to_string(key_count);
-    }
-
-    wid_set_text(w, how_many_keys);
-    wid_set_shape_none(w);
-    wid_set_pos(w, tl, br);
-  }
-
-  return true;
-}
-
-//
-// The thing name
-//
-[[nodiscard]] auto wid_thing_info_name(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent) -> bool
-{
-  TRACE();
-
-  std::string name_str;
-  if (thing_is_player(me)) {
-    name_str = game_player_name_get(g);
-  } else {
-    name_str = thing_name_long(g, v, l, me);
-  }
-  name_str = capitalize(name_str);
-
-  parent->log(g, UI_INFO_FMT_STR + name_str + UI_RESET_FMT);
-
-  return true;
-}
-
-//
-// The thing description
-//
-[[nodiscard]] auto wid_thing_info_detail(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent) -> bool
-{
-  TRACE();
-
-  if (thing_is_dead(me)) {
-    return false;
-  }
-
-  parent->log(g, thing_detail_get(g, v, l, me), TEXT_FORMAT_LHS);
-
-  return true;
-}
-
-//
-// How tough the game ie
-//
-[[nodiscard]] auto wid_thing_info_difficulty(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent) -> bool
-{
-  TRACE();
-
-  switch (tp_difficulty_get(thing_tp(me))) {
-    case 0 : //
-      parent->log(g, "Difficulty: as easy as it gets...");
-      break;
-    case 1 : //
-      parent->log(g, "Difficulty: hard");
-      parent->log(g, UI_INFO2_FMT_STR "Expect more monsters and faster mob spawn chances" UI_RESET_FMT);
-      break;
-    case 2 : //
-      parent->log(g, "Difficulty: harder");
-      parent->log(g, UI_YELLOW_FMT_STR "Expect more monsters and faster mob spawn chances" UI_RESET_FMT);
-      break;
-    case 3 : //
-      parent->log(g, "Difficulty: nightmare");
-      parent->log(g, UI_ORANGE_FMT_STR "Expect more monsters and faster mob spawn chances" UI_RESET_FMT);
-      break;
-    case 4 : //
-      parent->log(g, "Difficulty: psycho");
-      parent->log(g, UI_RED_FMT_STR "Expect even more monsters and faster mob spawn chances" UI_RESET_FMT);
-      break;
-  }
-
-  return true;
-}
-
-//
-// Score
-//
-[[nodiscard]] auto wid_thing_info_score(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent) -> bool
-{
-  TRACE();
-
-  if (! thing_is_player(me)) {
-    return false;
-  }
-
-  auto *player_struct = thing_player_struct(g);
-  if (player_struct == nullptr) {
-    return false;
-  }
-
-  auto score    = player_struct->score;
-  auto hiscore  = game_hiscore_get(g);
-  auto maxscore = std::max(score, hiscore);
-
-  auto score_str = string_sprintf(
-      // newline
-      UI_INFO1_FMT_STR "Score "
-      // newline
-      UI_INFO2_FMT_STR " %06u "
-      // newline
-      UI_INFO3_FMT_STR " Hiscore "
-      // newline
-      UI_INFO4_FMT_STR " %06u",
-      // newline
-      score,
-      // newline
-      maxscore);
-
-  parent->log(g, score_str);
-
-  return true;
-}
-
-//
-// Health bar
-//
-[[nodiscard]] auto wid_thing_info_health_bar(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp tp, WidPopup *parent, int width) -> bool
-{
-  TRACE();
-
-  if (! tp_is_shown_health(tp)) {
-    return false;
-  }
-
-  char line_bar[ MAXSHORTSTR ];
-
-  //
-  // "Health            "
-  //
-  memset(line_bar, 0, sizeof(line_bar));
-  memset(line_bar, ' ', sizeof(line_bar) - 1);
-
-  if (thing_is_dead(me)) {
-    (void) my_strlcpy(line_bar + 1, "Dead", sizeof("Dead "));
-  } else {
-    (void) my_strlcpy(line_bar + 1, "Health", sizeof("Health "));
-  }
-
-  //
-  // "Health         a/b"
-  //
-  auto health_max = thing_health_max(g, v, l, me);
-  auto h          = thing_health(g, v, l, me);
-  h               = std::max(h, 0);
-
-  std::string const health_str = std::to_string(h) + "/" + std::to_string(health_max);
-  (void) my_strlcpy(line_bar + width - health_str.size() - 3, health_str.c_str(), width - health_str.size());
-  line_bar[ strlen(line_bar) ] = ' ';
-
-  //
-  // "Health         a/b"
-  // "xxxxxxxxxxxxxxxxxx"
-  //
-  auto *w = parent->log(g, std::string(line_bar));
-  if (w != nullptr) {
-    int health_how_much = static_cast< int >((static_cast< float >(thing_health(g, v, l, me)) / static_cast< float >(health_max))
-                                             * (static_cast< float > UI_STAT_BAR_STEPS - 1));
-    health_how_much     = std::min(health_how_much, UI_STAT_BAR_STEPS - 1);
-    health_how_much     = std::max(health_how_much, 0);
-    auto icon           = "stat_bar." + std::to_string(health_how_much + 1);
-
-    wid_set_shape_square(w);
-    wid_set_style(w, UI_WID_STYLE_SPARSE_NONE);
-    wid_set_color(w, WID_COLOR_TEXT_FG, UI_HIGHLIGHT_COLOR);
-    wid_set_tilename(TILE_LAYER_BOX_BG, w, icon);
-    wid_set_text_lhs(w, 1u);
-  }
-
-  return true;
-}
-
-//
-// Mana bar
-//
-[[nodiscard]] auto wid_thing_info_mana_bar(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp tp, WidPopup *parent, int width) -> bool
-{
-  TRACE();
-
-  char line_bar[ MAXSHORTSTR ];
-
-  //
-  // "Mana            "
-  //
-  memset(line_bar, 0, sizeof(line_bar));
-  memset(line_bar, ' ', sizeof(line_bar) - 1);
-
-  (void) my_strlcpy(line_bar + 1, "Mana", sizeof("Mana"));
-
-  //
-  // "Mana         a/b"
-  //
-  auto mana_max = thing_mana_max(g, v, l, me);
-  auto h        = thing_mana(g, v, l, me);
-  h             = std::max(h, 0);
-
-  std::string const mana_str = std::to_string(h) + "/" + std::to_string(mana_max);
-  (void) my_strlcpy(line_bar + width - mana_str.size() - 3, mana_str.c_str(), width - mana_str.size());
-  line_bar[ strlen(line_bar) ] = ' ';
-
-  //
-  // "Mana         a/b"
-  // "xxxxxxxxxxxxxxxxxx"
-  //
-  auto *w = parent->log(g, std::string(line_bar));
-  if (w != nullptr) {
-    int mana_how_much = static_cast< int >((static_cast< float >(thing_mana(g, v, l, me)) / static_cast< float >(mana_max))
-                                           * (static_cast< float > UI_STAT_BAR_STEPS - 1));
-    mana_how_much     = std::min(mana_how_much, UI_STAT_BAR_STEPS - 1);
-    mana_how_much     = std::max(mana_how_much, 0);
-    auto icon         = "stat_bar." + std::to_string(mana_how_much + 1);
-
-    wid_set_shape_square(w);
-    wid_set_style(w, UI_WID_STYLE_SPARSE_NONE);
-    wid_set_color(w, WID_COLOR_TEXT_FG, UI_HIGHLIGHT_COLOR);
-    wid_set_tilename(TILE_LAYER_BOX_BG, w, icon);
-    wid_set_text_lhs(w, 1u);
-  }
-
-  return true;
-}
-
-//
-// Stamina bar
-//
-[[nodiscard]] auto wid_thing_info_stamina_bar(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp tp, WidPopup *parent, int width) -> bool
-{
-  TRACE();
-
-  if (thing_is_dead(me)) {
-    return false;
-  }
-
-  if (! tp_is_shown_stamina(tp)) {
-    return false;
-  }
-
-  char line_bar[ MAXSHORTSTR ];
-
-  //
-  // "Stamina           "
-  //
-  memset(line_bar, 0, sizeof(line_bar));
-  memset(line_bar, ' ', sizeof(line_bar) - 1);
-
-  if (thing_distance_jump(g, v, l, me) != thing_distance_jump_max(g, v, l, me)) {
-    (void) my_strlcpy(line_bar + 1, "Jumping impacted", sizeof("Jumping impacted "));
-  } else {
-    (void) my_strlcpy(line_bar + 1, "Stamina", sizeof("Stamina "));
-  }
-
-  //
-  // "Stamina        a/b"
-  //
-  auto stamina_max = thing_stamina_max(g, v, l, me);
-  auto stamina     = thing_stamina(g, v, l, me);
-  stamina          = std::max(stamina, 0);
-
-  std::string const stamina_str = std::to_string(stamina) + "/" + std::to_string(stamina_max);
-  (void) my_strlcpy(line_bar + width - stamina_str.size() - 3, stamina_str.c_str(), width - stamina_str.size());
-  line_bar[ strlen(line_bar) ] = ' ';
-
-  //
-  // "Stamina        a/b"
-  // "xxxxxxxxxxxxxxxxxx"
-  //
-  auto *w = parent->log(g, std::string(line_bar));
-  if (w != nullptr) {
-    int stamina_how_much
-        = static_cast< int >((static_cast< float >(stamina) / static_cast< float >(stamina_max)) * (static_cast< float > UI_STAT_BAR_STEPS - 1));
-    stamina_how_much = std::min(stamina_how_much, UI_STAT_BAR_STEPS - 1);
-    stamina_how_much = std::max(stamina_how_much, 0);
-    auto icon        = "stat_bar." + std::to_string(stamina_how_much + 1);
-
-    wid_set_shape_square(w);
-    wid_set_style(w, UI_WID_STYLE_SPARSE_NONE);
-    wid_set_color(w, WID_COLOR_TEXT_FG, UI_HIGHLIGHT_COLOR);
-    wid_set_tilename(TILE_LAYER_BOX_BG, w, icon);
-    wid_set_text_lhs(w, 1u);
-  }
-
-  return true;
-}
-
-//
-// Stealth bar
-//
-[[nodiscard]] static auto wid_thing_info_noise_bar(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp tp, WidPopup *parent, int width) -> bool
-{
-  TRACE();
-
-  if (thing_is_dead(me)) {
-    return false;
-  }
-
-  if (! tp_is_shown_noise(tp)) {
-    return false;
-  }
-
-  char line_bar[ MAXSHORTSTR ];
-
-  //
-  // "Stealth           "
-  //
-  memset(line_bar, 0, sizeof(line_bar));
-  memset(line_bar, ' ', sizeof(line_bar) - 1);
-  (void) my_strlcpy(line_bar + 1, "Stealth", sizeof("Stealth "));
-
-  //
-  // "Stealth        a/b"
-  //
-  auto stealth_max = THING_NOISE_MAX;
-  auto stealth     = THING_NOISE_MAX - thing_noise(g, v, l, me);
-  stealth          = std::max(stealth, 0);
-
-  std::string const stealth_str = std::to_string(stealth) + "/" + std::to_string(stealth_max);
-  (void) my_strlcpy(line_bar + width - stealth_str.size() - 3, stealth_str.c_str(), width - stealth_str.size());
-  line_bar[ strlen(line_bar) ] = ' ';
-
-  //
-  // "Stealth        a/b"
-  // "xxxxxxxxxxxxxxxxxx"
-  //
-  auto *w = parent->log(g, std::string(line_bar));
-  if (w != nullptr) {
-    int stealth_how_much
-        = static_cast< int >((static_cast< float >(stealth) / static_cast< float >(stealth_max)) * (static_cast< float > UI_STAT_BAR_STEPS - 1));
-    stealth_how_much = std::min(stealth_how_much, UI_STAT_BAR_STEPS - 1);
-    stealth_how_much = std::max(stealth_how_much, 0);
-    auto icon        = "stat_bar." + std::to_string(stealth_how_much + 1);
-
-    wid_set_shape_square(w);
-    wid_set_style(w, UI_WID_STYLE_SPARSE_NONE);
-    wid_set_color(w, WID_COLOR_TEXT_FG, UI_HIGHLIGHT_COLOR);
-    wid_set_tilename(TILE_LAYER_BOX_BG, w, icon);
-    wid_set_text_lhs(w, 1u);
-  }
-
-  return true;
-}
-
-//
-// Add immunities
-//
-[[nodiscard]] auto wid_thing_info_immunity(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, int /*width*/) -> bool
-{
-  TRACE();
-
-  std::string out;
-
-  FOR_ALL_THING_EVENT(e)
-  {
-    if (! thing_is_immune_to(g, v, l, me, e)) {
-      continue;
-    }
-
-    bool show_string = false;
-
-    switch (e) {
-      case THING_EVENT_SHOVED :           [[fallthrough]];
-      case THING_EVENT_CRUSH_DAMAGE :     [[fallthrough]];
-      case THING_EVENT_ENERGY_DAMAGE :    [[fallthrough]];
-      case THING_EVENT_THROWN_DAMAGE :    [[fallthrough]];
-      case THING_EVENT_MELEE_DAMAGE :     [[fallthrough]];
-      case THING_EVENT_POISON_DAMAGE :    [[fallthrough]];
-      case THING_EVENT_ENGULF_DAMAGE :    [[fallthrough]];
-      case THING_EVENT_EXPLOSION_DAMAGE : [[fallthrough]];
-      case THING_EVENT_FIRE_DAMAGE :      [[fallthrough]];
-      case THING_EVENT_WATER_DAMAGE : //
-        show_string = true;
-        break;
-      case THING_EVENT_NONE :             [[fallthrough]];
-      case THING_EVENT_GAME_OVER :        [[fallthrough]];
-      case THING_EVENT_MELT :             [[fallthrough]];
-      case THING_EVENT_OPEN :             [[fallthrough]];
-      case THING_EVENT_LIFESPAN_EXPIRED : [[fallthrough]];
-      case THING_EVENT_FALL :             [[fallthrough]];
-      case THING_EVENT_CARRIED :          [[fallthrough]];
-      case THING_EVENT_CARRIED_MERGED :   [[fallthrough]];
-      case THING_EVENT_USER_INITIATED :   [[fallthrough]];
-      case THING_EVENT_SPAWNED :          [[fallthrough]];
-      case THING_EVENT_THROWN :           [[fallthrough]];
-      case THING_EVENT_USED :             [[fallthrough]];
-      case THING_EVENT_EATEN :            [[fallthrough]];
-      case THING_EVENT_LEVITATED :        [[fallthrough]];
-      case THING_EVENT_ENUM_MAX : //
-        show_string = false;
-        break;
-    }
-
-    if (! show_string) {
-      continue;
-    }
-
-    out = string_append_with_comma(out, capitalize(ThingEventType_to_string(e)));
-  }
-
-  if (out.empty()) {
-    return false;
-  }
-
-  parent->log(g, UI_INFO_FMT_STR "Immunity:", TEXT_FORMAT_LHS);
-  parent->log(g, "- " + out, TEXT_FORMAT_LHS);
-
-  return true;
-}
-
 static void wid_thing_info_stats_att_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
 {
   TRACE();
@@ -785,12 +285,663 @@ static void wid_thing_info_stats_lck_mouse_over_begin(Gamep g, Widp w, int /*rel
   level_cursor_path_reset(g);
 }
 
+static void wid_thing_info_stats_health_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
+{
+  TRACE();
+
+  int tlx = 0;
+  int tly = 0;
+  int brx = 0;
+  int bry = 0;
+  wid_get_abs_coords(w, &tlx, &tly, &brx, &bry);
+
+  int const width  = 32;
+  int const height = 9;
+
+  tlx = UI_LEFTBAR_WIDTH;
+  brx = tlx + width;
+  bry = tly + height;
+
+  spoint const tl(tlx, tly);
+  spoint const br(brx, bry);
+
+  wid_over_stats = new WidPopup(g, "stats", tl, br, nullptr, "", false, false);
+  wid_over_stats->log(g, UI_HIGHLIGHT_FMT_STR "Health");
+  wid_over_stats->log_empty_line(g);
+  wid_over_stats->log(g, UI_INFO1_FMT_STR "Your health score. If it hits zero, bad things happen.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO2_FMT_STR "You can replenish health through discoveries of delicacies such as clown meat and chocolate frogs.\n",
+                      TEXT_FORMAT_LHS);
+  wid_over_stats->log_empty_line(g);
+  wid_over_stats->compress(g);
+
+  level_cursor_path_reset(g);
+}
+
+static void wid_thing_info_stats_mana_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
+{
+  TRACE();
+
+  int tlx = 0;
+  int tly = 0;
+  int brx = 0;
+  int bry = 0;
+  wid_get_abs_coords(w, &tlx, &tly, &brx, &bry);
+
+  int const width  = 32;
+  int const height = 9;
+
+  tlx = UI_LEFTBAR_WIDTH;
+  brx = tlx + width;
+  bry = tly + height;
+
+  spoint const tl(tlx, tly);
+  spoint const br(brx, bry);
+
+  wid_over_stats = new WidPopup(g, "stats", tl, br, nullptr, "", false, false);
+  wid_over_stats->log(g, UI_HIGHLIGHT_FMT_STR "Mana");
+  wid_over_stats->log_empty_line(g);
+  wid_over_stats->log(g, UI_INFO1_FMT_STR "Mana is used for the learning of and the casting of spells.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO2_FMT_STR "Replenishing Mana is rare and is mainly achieved through additional sacrifices at an alter.\n",
+                      TEXT_FORMAT_LHS);
+  wid_over_stats->log_empty_line(g);
+  wid_over_stats->compress(g);
+
+  level_cursor_path_reset(g);
+}
+
+static void wid_thing_info_stats_stealth_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
+{
+  TRACE();
+
+  int tlx = 0;
+  int tly = 0;
+  int brx = 0;
+  int bry = 0;
+  wid_get_abs_coords(w, &tlx, &tly, &brx, &bry);
+
+  int const width  = 32;
+  int const height = 10;
+
+  tlx = UI_LEFTBAR_WIDTH;
+  brx = tlx + width;
+  bry = tly + height;
+
+  spoint const tl(tlx, tly);
+  spoint const br(brx, bry);
+
+  wid_over_stats = new WidPopup(g, "stats", tl, br, nullptr, "", false, false);
+  wid_over_stats->log(g, UI_HIGHLIGHT_FMT_STR "Stealth");
+  wid_over_stats->log_empty_line(g);
+  wid_over_stats->log(g, UI_INFO1_FMT_STR "This is how noisy you are being in the dungeon.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g,
+                      UI_INFO2_FMT_STR
+                      "Clomping through bushes, crushing grass, firing weapons are just some of the ways you can draw attention to yourself in "
+                      "non positive ways.\n",
+                      TEXT_FORMAT_LHS);
+  wid_over_stats->log_empty_line(g);
+  wid_over_stats->compress(g);
+
+  level_cursor_path_reset(g);
+}
+
+static void wid_thing_info_stats_stamina_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
+{
+  TRACE();
+
+  int tlx = 0;
+  int tly = 0;
+  int brx = 0;
+  int bry = 0;
+  wid_get_abs_coords(w, &tlx, &tly, &brx, &bry);
+
+  int const width  = 32;
+  int const height = 10;
+
+  tlx = UI_LEFTBAR_WIDTH;
+  brx = tlx + width;
+  bry = tly + height;
+
+  spoint const tl(tlx, tly);
+  spoint const br(brx, bry);
+
+  wid_over_stats = new WidPopup(g, "stats", tl, br, nullptr, "", false, false);
+  wid_over_stats->log(g, UI_HIGHLIGHT_FMT_STR "Stamina");
+  wid_over_stats->log_empty_line(g);
+  wid_over_stats->log(g, UI_INFO1_FMT_STR "Stamina is important for jumping over chasms and throwing items.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO2_FMT_STR "Stamina can be replenished by resting.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO3_FMT_STR "Jumping a chasm with low stamina is not advised...\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log_empty_line(g);
+  wid_over_stats->compress(g);
+
+  level_cursor_path_reset(g);
+}
+
 static void wid_thing_info_stats_mouse_over_end(Gamep g, Widp w)
 {
   TRACE();
 
   delete wid_over_stats;
   wid_over_stats = nullptr;
+}
+
+static void wid_thing_info_thing_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
+{
+  TRACE();
+
+  auto *v = game_levels_get(g);
+  if (v == nullptr) [[unlikely]] {
+    return;
+  }
+
+  auto *t = wid_get_thing_context(g, v, w, 0);
+  if (t == nullptr) {
+    return;
+  }
+
+  level_cursor_describe_clear(g, v);
+  (void) level_cursor_describe_add(g, v, t);
+  (void) wid_rightbar_init(g);
+}
+
+static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
+{
+  TRACE();
+
+  auto *v = game_levels_get(g);
+  if (v == nullptr) [[unlikely]] {
+    return;
+  }
+
+  auto *t = wid_get_thing_context(g, v, w, 0);
+  if (t == nullptr) {
+    return;
+  }
+
+  (void) level_cursor_describe_remove(g, v, t);
+  (void) wid_rightbar_init(g);
+}
+
+[[nodiscard]] static auto wid_thing_info_thing_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+{
+  TRACE();
+
+  auto *v = game_levels_get(g);
+  if (v == nullptr) [[unlikely]] {
+    return false;
+  }
+
+  auto *t = wid_get_thing_context(g, v, w, 0);
+  if (t == nullptr) {
+    return false;
+  }
+
+  if (game_state(g) != STATE_PLAYING) {
+    return true;
+  }
+
+  wid_item_menu_select(g, v, t, false /* not from inventory */);
+
+  return true;
+}
+
+[[nodiscard]] auto wid_thing_info_keys(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent) -> bool
+{
+  TRACE();
+
+  auto *text = parent->wid_text_area;
+  auto *b    = parent->wid_text_area->wid_text_area;
+
+  auto key_count = thing_keys_carried(me);
+  if (key_count == 0) {
+    return false;
+  }
+
+  {
+    auto        *tile = tile_find_mand("key.0");
+    auto        *w    = wid_new_square_button(g, b, "Keys");
+    spoint const tl(UI_LEFTBAR_WIDTH - 8, text->line_count);
+    spoint const br(UI_LEFTBAR_WIDTH - 5, text->line_count + 2);
+    wid_set_tile(TILE_LAYER_BOX_BG, w, tile);
+    wid_set_style(w, UI_WID_STYLE_SPARSE_NONE);
+    wid_set_pos(w, tl, br);
+  }
+
+  {
+    auto        *w = wid_new_square_button(g, b, "Key count");
+    spoint const tl(UI_LEFTBAR_WIDTH - 4, text->line_count);
+    spoint const br(UI_LEFTBAR_WIDTH - 2, text->line_count + 2);
+    std::string  how_many_keys = "x" + std::to_string(key_count);
+
+    if (key_count > 9) {
+      how_many_keys = std::to_string(key_count);
+    }
+
+    wid_set_text(w, how_many_keys);
+    wid_set_shape_none(w);
+    wid_set_pos(w, tl, br);
+  }
+
+  return true;
+}
+
+//
+// The thing name
+//
+[[nodiscard]] auto wid_thing_info_name(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent) -> bool
+{
+  TRACE();
+
+  std::string name_str;
+  if (thing_is_player(me)) {
+    name_str = game_player_name_get(g);
+  } else {
+    name_str = thing_name_long(g, v, l, me);
+  }
+  name_str = capitalize(name_str);
+
+  parent->log(g, UI_INFO_FMT_STR + name_str + UI_RESET_FMT);
+
+  return true;
+}
+
+//
+// The thing description
+//
+[[nodiscard]] auto wid_thing_info_detail(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent) -> bool
+{
+  TRACE();
+
+  if (thing_is_dead(me)) {
+    return false;
+  }
+
+  parent->log(g, thing_detail_get(g, v, l, me), TEXT_FORMAT_LHS);
+
+  return true;
+}
+
+//
+// How tough the game ie
+//
+[[nodiscard]] auto wid_thing_info_difficulty(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent) -> bool
+{
+  TRACE();
+
+  switch (tp_difficulty_get(thing_tp(me))) {
+    case 0 : //
+      parent->log(g, "Difficulty: as easy as it gets...");
+      break;
+    case 1 : //
+      parent->log(g, "Difficulty: hard");
+      parent->log(g, UI_INFO2_FMT_STR "Expect more monsters and faster mob spawn chances" UI_RESET_FMT);
+      break;
+    case 2 : //
+      parent->log(g, "Difficulty: harder");
+      parent->log(g, UI_YELLOW_FMT_STR "Expect more monsters and faster mob spawn chances" UI_RESET_FMT);
+      break;
+    case 3 : //
+      parent->log(g, "Difficulty: nightmare");
+      parent->log(g, UI_ORANGE_FMT_STR "Expect more monsters and faster mob spawn chances" UI_RESET_FMT);
+      break;
+    case 4 : //
+      parent->log(g, "Difficulty: psycho");
+      parent->log(g, UI_RED_FMT_STR "Expect even more monsters and faster mob spawn chances" UI_RESET_FMT);
+      break;
+  }
+
+  return true;
+}
+
+//
+// Score
+//
+[[nodiscard]] auto wid_thing_info_score(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent) -> bool
+{
+  TRACE();
+
+  if (! thing_is_player(me)) {
+    return false;
+  }
+
+  auto *player_struct = thing_player_struct(g);
+  if (player_struct == nullptr) {
+    return false;
+  }
+
+  auto score    = player_struct->score;
+  auto hiscore  = game_hiscore_get(g);
+  auto maxscore = std::max(score, hiscore);
+
+  auto score_str = string_sprintf(
+      // newline
+      UI_INFO1_FMT_STR "Score "
+      // newline
+      UI_INFO2_FMT_STR " %06u "
+      // newline
+      UI_INFO3_FMT_STR " Hiscore "
+      // newline
+      UI_INFO4_FMT_STR " %06u",
+      // newline
+      score,
+      // newline
+      maxscore);
+
+  parent->log(g, score_str);
+
+  return true;
+}
+
+//
+// Health bar
+//
+[[nodiscard]] auto wid_thing_info_health_bar(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp tp, WidPopup *parent, int width) -> bool
+{
+  TRACE();
+
+  if (! tp_is_shown_health(tp)) {
+    return false;
+  }
+
+  char line_bar[ MAXSHORTSTR ];
+
+  //
+  // "Health            "
+  //
+  memset(line_bar, 0, sizeof(line_bar));
+  memset(line_bar, ' ', sizeof(line_bar) - 1);
+
+  if (thing_is_dead(me)) {
+    (void) my_strlcpy(line_bar + 1, "Dead", sizeof("Dead "));
+  } else {
+    (void) my_strlcpy(line_bar + 1, "Health", sizeof("Health "));
+  }
+
+  //
+  // "Health         a/b"
+  //
+  auto health_max = thing_health_max(g, v, l, me);
+  auto h          = thing_health(g, v, l, me);
+  h               = std::max(h, 0);
+
+  std::string const health_str = std::to_string(h) + "/" + std::to_string(health_max);
+  (void) my_strlcpy(line_bar + width - health_str.size() - 3, health_str.c_str(), width - health_str.size());
+  line_bar[ strlen(line_bar) ] = ' ';
+
+  //
+  // "Health         a/b"
+  // "xxxxxxxxxxxxxxxxxx"
+  //
+  auto *w = parent->log(g, std::string(line_bar));
+  if (w != nullptr) {
+    int health_how_much = static_cast< int >((static_cast< float >(thing_health(g, v, l, me)) / static_cast< float >(health_max))
+                                             * (static_cast< float > UI_STAT_BAR_STEPS - 1));
+    health_how_much     = std::min(health_how_much, UI_STAT_BAR_STEPS - 1);
+    health_how_much     = std::max(health_how_much, 0);
+    auto icon           = "stat_bar." + std::to_string(health_how_much + 1);
+
+    wid_set_shape_square(w);
+    wid_set_style(w, UI_WID_STYLE_SPARSE_NONE);
+    wid_set_color(w, WID_COLOR_TEXT_FG, UI_HIGHLIGHT_COLOR);
+    wid_set_tilename(TILE_LAYER_BOX_BG, w, icon);
+    wid_set_text_lhs(w, 1u);
+
+    if (thing_is_player(me)) {
+      wid_set_on_mouse_over_begin(w, wid_thing_info_stats_health_mouse_over_begin);
+      wid_set_on_mouse_over_end(w, wid_thing_info_stats_mouse_over_end);
+    }
+  }
+
+  return true;
+}
+
+//
+// Mana bar
+//
+[[nodiscard]] auto wid_thing_info_mana_bar(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp tp, WidPopup *parent, int width) -> bool
+{
+  TRACE();
+
+  char line_bar[ MAXSHORTSTR ];
+
+  //
+  // "Mana            "
+  //
+  memset(line_bar, 0, sizeof(line_bar));
+  memset(line_bar, ' ', sizeof(line_bar) - 1);
+
+  (void) my_strlcpy(line_bar + 1, "Mana", sizeof("Mana"));
+
+  //
+  // "Mana         a/b"
+  //
+  auto mana_max = thing_mana_max(g, v, l, me);
+  auto h        = thing_mana(g, v, l, me);
+  h             = std::max(h, 0);
+
+  std::string const mana_str = std::to_string(h) + "/" + std::to_string(mana_max);
+  (void) my_strlcpy(line_bar + width - mana_str.size() - 3, mana_str.c_str(), width - mana_str.size());
+  line_bar[ strlen(line_bar) ] = ' ';
+
+  //
+  // "Mana         a/b"
+  // "xxxxxxxxxxxxxxxxxx"
+  //
+  auto *w = parent->log(g, std::string(line_bar));
+  if (w != nullptr) {
+    int mana_how_much = static_cast< int >((static_cast< float >(thing_mana(g, v, l, me)) / static_cast< float >(mana_max))
+                                           * (static_cast< float > UI_STAT_BAR_STEPS - 1));
+    mana_how_much     = std::min(mana_how_much, UI_STAT_BAR_STEPS - 1);
+    mana_how_much     = std::max(mana_how_much, 0);
+    auto icon         = "stat_bar." + std::to_string(mana_how_much + 1);
+
+    wid_set_shape_square(w);
+    wid_set_style(w, UI_WID_STYLE_SPARSE_NONE);
+    wid_set_color(w, WID_COLOR_TEXT_FG, UI_HIGHLIGHT_COLOR);
+    wid_set_tilename(TILE_LAYER_BOX_BG, w, icon);
+    wid_set_text_lhs(w, 1u);
+
+    if (thing_is_player(me)) {
+      wid_set_on_mouse_over_begin(w, wid_thing_info_stats_mana_mouse_over_begin);
+      wid_set_on_mouse_over_end(w, wid_thing_info_stats_mouse_over_end);
+    }
+  }
+
+  return true;
+}
+
+//
+// Stamina bar
+//
+[[nodiscard]] auto wid_thing_info_stamina_bar(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp tp, WidPopup *parent, int width) -> bool
+{
+  TRACE();
+
+  if (thing_is_dead(me)) {
+    return false;
+  }
+
+  if (! tp_is_shown_stamina(tp)) {
+    return false;
+  }
+
+  char line_bar[ MAXSHORTSTR ];
+
+  //
+  // "Stamina           "
+  //
+  memset(line_bar, 0, sizeof(line_bar));
+  memset(line_bar, ' ', sizeof(line_bar) - 1);
+
+  if (thing_distance_jump(g, v, l, me) != thing_distance_jump_max(g, v, l, me)) {
+    (void) my_strlcpy(line_bar + 1, "Jumping impacted", sizeof("Jumping impacted "));
+  } else {
+    (void) my_strlcpy(line_bar + 1, "Stamina", sizeof("Stamina "));
+  }
+
+  //
+  // "Stamina        a/b"
+  //
+  auto stamina_max = thing_stamina_max(g, v, l, me);
+  auto stamina     = thing_stamina(g, v, l, me);
+  stamina          = std::max(stamina, 0);
+
+  std::string const stamina_str = std::to_string(stamina) + "/" + std::to_string(stamina_max);
+  (void) my_strlcpy(line_bar + width - stamina_str.size() - 3, stamina_str.c_str(), width - stamina_str.size());
+  line_bar[ strlen(line_bar) ] = ' ';
+
+  //
+  // "Stamina        a/b"
+  // "xxxxxxxxxxxxxxxxxx"
+  //
+  auto *w = parent->log(g, std::string(line_bar));
+  if (w != nullptr) {
+    int stamina_how_much
+        = static_cast< int >((static_cast< float >(stamina) / static_cast< float >(stamina_max)) * (static_cast< float > UI_STAT_BAR_STEPS - 1));
+    stamina_how_much = std::min(stamina_how_much, UI_STAT_BAR_STEPS - 1);
+    stamina_how_much = std::max(stamina_how_much, 0);
+    auto icon        = "stat_bar." + std::to_string(stamina_how_much + 1);
+
+    wid_set_shape_square(w);
+    wid_set_style(w, UI_WID_STYLE_SPARSE_NONE);
+    wid_set_color(w, WID_COLOR_TEXT_FG, UI_HIGHLIGHT_COLOR);
+    wid_set_tilename(TILE_LAYER_BOX_BG, w, icon);
+    wid_set_text_lhs(w, 1u);
+
+    if (thing_is_player(me)) {
+      wid_set_on_mouse_over_begin(w, wid_thing_info_stats_stamina_mouse_over_begin);
+      wid_set_on_mouse_over_end(w, wid_thing_info_stats_mouse_over_end);
+    }
+  }
+
+  return true;
+}
+
+//
+// Stealth bar
+//
+[[nodiscard]] static auto wid_thing_info_stealth_bar(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp tp, WidPopup *parent, int width) -> bool
+{
+  TRACE();
+
+  if (thing_is_dead(me)) {
+    return false;
+  }
+
+  if (! tp_is_shown_noise(tp)) {
+    return false;
+  }
+
+  char line_bar[ MAXSHORTSTR ];
+
+  //
+  // "Stealth           "
+  //
+  memset(line_bar, 0, sizeof(line_bar));
+  memset(line_bar, ' ', sizeof(line_bar) - 1);
+  (void) my_strlcpy(line_bar + 1, "Stealth", sizeof("Stealth "));
+
+  //
+  // "Stealth        a/b"
+  //
+  auto stealth_max = THING_NOISE_MAX;
+  auto stealth     = THING_NOISE_MAX - thing_noise(g, v, l, me);
+  stealth          = std::max(stealth, 0);
+
+  std::string const stealth_str = std::to_string(stealth) + "/" + std::to_string(stealth_max);
+  (void) my_strlcpy(line_bar + width - stealth_str.size() - 3, stealth_str.c_str(), width - stealth_str.size());
+  line_bar[ strlen(line_bar) ] = ' ';
+
+  //
+  // "Stealth        a/b"
+  // "xxxxxxxxxxxxxxxxxx"
+  //
+  auto *w = parent->log(g, std::string(line_bar));
+  if (w != nullptr) {
+    int stealth_how_much
+        = static_cast< int >((static_cast< float >(stealth) / static_cast< float >(stealth_max)) * (static_cast< float > UI_STAT_BAR_STEPS - 1));
+    stealth_how_much = std::min(stealth_how_much, UI_STAT_BAR_STEPS - 1);
+    stealth_how_much = std::max(stealth_how_much, 0);
+    auto icon        = "stat_bar." + std::to_string(stealth_how_much + 1);
+
+    wid_set_shape_square(w);
+    wid_set_style(w, UI_WID_STYLE_SPARSE_NONE);
+    wid_set_color(w, WID_COLOR_TEXT_FG, UI_HIGHLIGHT_COLOR);
+    wid_set_tilename(TILE_LAYER_BOX_BG, w, icon);
+    wid_set_text_lhs(w, 1u);
+
+    if (thing_is_player(me)) {
+      wid_set_on_mouse_over_begin(w, wid_thing_info_stats_stealth_mouse_over_begin);
+      wid_set_on_mouse_over_end(w, wid_thing_info_stats_mouse_over_end);
+    }
+  }
+
+  return true;
+}
+
+//
+// Add immunities
+//
+[[nodiscard]] auto wid_thing_info_immunity(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, int /*width*/) -> bool
+{
+  TRACE();
+
+  std::string out;
+
+  FOR_ALL_THING_EVENT(e)
+  {
+    if (! thing_is_immune_to(g, v, l, me, e)) {
+      continue;
+    }
+
+    bool show_string = false;
+
+    switch (e) {
+      case THING_EVENT_SHOVED :           [[fallthrough]];
+      case THING_EVENT_CRUSH_DAMAGE :     [[fallthrough]];
+      case THING_EVENT_ENERGY_DAMAGE :    [[fallthrough]];
+      case THING_EVENT_THROWN_DAMAGE :    [[fallthrough]];
+      case THING_EVENT_MELEE_DAMAGE :     [[fallthrough]];
+      case THING_EVENT_POISON_DAMAGE :    [[fallthrough]];
+      case THING_EVENT_ENGULF_DAMAGE :    [[fallthrough]];
+      case THING_EVENT_EXPLOSION_DAMAGE : [[fallthrough]];
+      case THING_EVENT_FIRE_DAMAGE :      [[fallthrough]];
+      case THING_EVENT_WATER_DAMAGE : //
+        show_string = true;
+        break;
+      case THING_EVENT_NONE :             [[fallthrough]];
+      case THING_EVENT_GAME_OVER :        [[fallthrough]];
+      case THING_EVENT_MELT :             [[fallthrough]];
+      case THING_EVENT_OPEN :             [[fallthrough]];
+      case THING_EVENT_LIFESPAN_EXPIRED : [[fallthrough]];
+      case THING_EVENT_FALL :             [[fallthrough]];
+      case THING_EVENT_CARRIED :          [[fallthrough]];
+      case THING_EVENT_CARRIED_MERGED :   [[fallthrough]];
+      case THING_EVENT_USER_INITIATED :   [[fallthrough]];
+      case THING_EVENT_SPAWNED :          [[fallthrough]];
+      case THING_EVENT_THROWN :           [[fallthrough]];
+      case THING_EVENT_USED :             [[fallthrough]];
+      case THING_EVENT_EATEN :            [[fallthrough]];
+      case THING_EVENT_LEVITATED :        [[fallthrough]];
+      case THING_EVENT_ENUM_MAX : //
+        show_string = false;
+        break;
+    }
+
+    if (! show_string) {
+      continue;
+    }
+
+    out = string_append_with_comma(out, capitalize(ThingEventType_to_string(e)));
+  }
+
+  if (out.empty()) {
+    return false;
+  }
+
+  parent->log(g, UI_INFO_FMT_STR "Immunity:", TEXT_FORMAT_LHS);
+  parent->log(g, "- " + out, TEXT_FORMAT_LHS);
+
+  return true;
 }
 
 //
@@ -1385,9 +1536,9 @@ static void wid_thing_info_stats_mouse_over_end(Gamep g, Widp w)
     Widp wid = parent->log(g, UI_INFO_FMT_STR + line, TEXT_FORMAT_LHS);
 
     wid_set_thing_context(g, v, wid, item);
-    wid_set_on_mouse_down(wid, wid_thing_info_item_mouse_down);
-    wid_set_on_mouse_over_begin(wid, wid_thing_info_item_mouse_over_begin);
-    wid_set_on_mouse_over_end(wid, wid_thing_info_item_mouse_over_end);
+    wid_set_on_mouse_down(wid, wid_thing_info_thing_mouse_down);
+    wid_set_on_mouse_over_begin(wid, wid_thing_info_thing_mouse_over_begin);
+    wid_set_on_mouse_over_end(wid, wid_thing_info_thing_mouse_over_end);
 
     (void) wid_tp_info_damage(g, v, l, thing_tp(item), parent, width, false /* title allowed */);
     (void) wid_tp_info_special_attacks(g, v, l, thing_tp(item), parent, width, false /* title allowed */);
@@ -1601,9 +1752,40 @@ static void wid_thing_info_stats_mouse_over_end(Gamep g, Widp w)
     Widp wid = parent->log(g, line, TEXT_FORMAT_LHS);
 
     wid_set_thing_context(g, v, wid, item);
-    wid_set_on_mouse_down(wid, wid_thing_info_item_mouse_down);
-    wid_set_on_mouse_over_begin(wid, wid_thing_info_item_mouse_over_begin);
-    wid_set_on_mouse_over_end(wid, wid_thing_info_item_mouse_over_end);
+    wid_set_on_mouse_down(wid, wid_thing_info_thing_mouse_down);
+    wid_set_on_mouse_over_begin(wid, wid_thing_info_thing_mouse_over_begin);
+    wid_set_on_mouse_over_end(wid, wid_thing_info_thing_mouse_over_end);
+  }
+
+  return printed_something;
+}
+
+[[nodiscard]] static auto wid_thing_sacrifices(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent) -> bool
+{
+  TRACE();
+
+  bool printed_something = false;
+  bool first             = true;
+
+  FOR_ALL_SACRIFICES(g, v, l, me, sacrifice)
+  {
+    if (first) {
+      first = false;
+      (void) parent->log(g, UI_INFO_FMT_STR "Sacrifices:", TEXT_FORMAT_LHS);
+    }
+
+    printed_something = true;
+
+    std::string line = "- ";
+
+    line += thing_name_long(g, v, l, sacrifice);
+    line += " ";
+
+    Widp wid = parent->log(g, line, TEXT_FORMAT_LHS);
+
+    wid_set_thing_context(g, v, wid, sacrifice);
+    wid_set_on_mouse_over_begin(wid, wid_thing_info_thing_mouse_over_begin);
+    wid_set_on_mouse_over_end(wid, wid_thing_info_thing_mouse_over_end);
   }
 
   return printed_something;
@@ -1624,12 +1806,8 @@ static void wid_thing_info_stats_mouse_over_end(Gamep g, Widp w)
 
   bool first = true;
 
-  FOR_ALL_HOOKS(g, v, l, me, buff)
+  FOR_ALL_BUFFS(g, v, l, me, buff)
   {
-    if (thing_is_debuff(buff)) {
-      continue;
-    }
-
     if (first) {
       first = false;
       (void) parent->log(g, "Buffs:", TEXT_FORMAT_LHS);
@@ -1676,8 +1854,8 @@ static void wid_thing_info_stats_mouse_over_end(Gamep g, Widp w)
       wid_set_tilename(TILE_LAYER_BOX_BG, w, icon);
       wid_set_text_lhs(w, 1u);
       wid_set_thing_context(g, v, w, buff);
-      wid_set_on_mouse_over_begin(w, wid_thing_info_item_mouse_over_begin);
-      wid_set_on_mouse_over_end(w, wid_thing_info_item_mouse_over_end);
+      wid_set_on_mouse_over_begin(w, wid_thing_info_thing_mouse_over_begin);
+      wid_set_on_mouse_over_end(w, wid_thing_info_thing_mouse_over_end);
     }
   }
 
@@ -1696,7 +1874,7 @@ static void wid_thing_info_stats_mouse_over_end(Gamep g, Widp w)
 
   bool first = true;
 
-  FOR_ALL_HOOKS(g, v, l, me, buff)
+  FOR_ALL_DEBUFFS(g, v, l, me, buff)
   {
     if (! thing_is_debuff(buff)) {
       continue;
@@ -1748,8 +1926,8 @@ static void wid_thing_info_stats_mouse_over_end(Gamep g, Widp w)
       wid_set_tilename(TILE_LAYER_BOX_BG, w, icon);
       wid_set_text_lhs(w, 1u);
       wid_set_thing_context(g, v, w, buff);
-      wid_set_on_mouse_over_begin(w, wid_thing_info_item_mouse_over_begin);
-      wid_set_on_mouse_over_end(w, wid_thing_info_item_mouse_over_end);
+      wid_set_on_mouse_over_begin(w, wid_thing_info_thing_mouse_over_begin);
+      wid_set_on_mouse_over_end(w, wid_thing_info_thing_mouse_over_end);
     }
   }
 
@@ -1807,23 +1985,17 @@ void wid_thing_info(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, i
     }
   }
 
-  if (wid_thing_info_health_bar(g, v, l, me, tp, parent, width)) {
-    parent->log_empty_line(g);
-  }
+  if (wid_thing_info_health_bar(g, v, l, me, tp, parent, width)) {}
 
-  if (wid_thing_info_stamina_bar(g, v, l, me, tp, parent, width)) {
-    parent->log_empty_line(g);
-  }
+  if (wid_thing_info_stamina_bar(g, v, l, me, tp, parent, width)) {}
 
   if (thing_is_player(me)) {
-    if (wid_thing_info_mana_bar(g, v, l, me, tp, parent, width)) {
-      parent->log_empty_line(g);
-    }
+    if (wid_thing_info_mana_bar(g, v, l, me, tp, parent, width)) {}
   }
 
-  if (wid_thing_info_noise_bar(g, v, l, me, tp, parent, width)) {
-    parent->log_empty_line(g);
-  }
+  if (wid_thing_info_stealth_bar(g, v, l, me, tp, parent, width)) {}
+
+  parent->log_empty_line(g);
 
   if (wid_thing_info_buffs(g, v, l, me, parent)) {
     parent->log_empty_line(g);
@@ -1947,6 +2119,10 @@ void wid_thing_info(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, i
   }
 
   if (wid_thing_info_items(g, v, l, me, parent)) {
+    parent->log_empty_line(g);
+  }
+
+  if (wid_thing_sacrifices(g, v, l, me, parent)) {
     parent->log_empty_line(g);
   }
 

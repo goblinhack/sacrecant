@@ -61,7 +61,7 @@ auto tp_player2_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::stri
     thing_detail_set(tp, tp_player2_detail_get);
     thing_on_spawned_set(tp, tp_player2_on_spawned);
     tp_damage_set(tp, THING_EVENT_MELEE_DAMAGE, "2d4");
-    tp_difficulty_set(tp, 4);
+    tp_difficulty_set(tp, 1);
     tp_health_set(tp, "150");
     tp_mana_set(tp, 100);
     tp_name_long_set(tp, "fisticuffs wizard");
