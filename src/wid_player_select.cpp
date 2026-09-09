@@ -213,6 +213,8 @@ static void wid_player_select_player_via_mouse_over_end(Gamep g, Widp w)
 
   wid_player_update_selections(g);
 
+  (void) sound_play(g, "select");
+
   return true;
 }
 
@@ -283,6 +285,8 @@ static void wid_player_select_sacrifice_via_mouse_over_end(Gamep g, Widp w)
   wid_player_select_check_if_done(g);
 
   wid_player_update_selections(g);
+
+  (void) sound_play(g, "select");
 
   return true;
 }

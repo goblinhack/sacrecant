@@ -92,6 +92,8 @@ void wid_main_menu_hide(Gamep g)
   wid_main_menu_hide(g);
   wid_main_menu_destroy(g);
 
+  (void) sound_play(g, "start");
+
   if (g_intro_done++ >= 2) {
     wid_player_select(g);
   } else {

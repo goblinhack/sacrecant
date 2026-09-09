@@ -989,7 +989,7 @@ case "$MY_OS_NAME" in
         exit 1
         ;;
     *Darwin*)
-        dsymutil \${TARGET} 
+        dsymutil ${TARGET} 
         ;;
     *inux*)
         ;;
