@@ -14,7 +14,7 @@
 
   auto *tp = thing_tp(me);
 
-  FOR_ALL_BUFFS(g, v, l, me, buff)
+  FOR_ALL_HOOKS(g, v, l, me, buff)
   {
     if (thing_is_immune_to(g, v, l, buff, val)) {
       return true;
@@ -37,7 +37,7 @@
 
   auto *tp = thing_tp(me);
 
-  FOR_ALL_BUFFS(g, v, l, me, buff)
+  FOR_ALL_HOOKS(g, v, l, me, buff)
   {
     if (thing_is_resistant_to(g, v, l, buff, val)) {
       return true;

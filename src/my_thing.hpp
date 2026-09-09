@@ -1649,14 +1649,14 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
 //
 // NOTE: break will not work
 //
-#define FOR_ALL_BUFF_SLOTS(_g_, _v_, _l_, _owner_, _slot_, _buff_)                                                                              \
+#define FOR_ALL_HOOKS_SLOTS(_g_, _v_, _l_, _owner_, _slot_, _buff_)                                                                              \
   if ((_g_) && (_v_) && (_l_))                                                                                                                  \
     if (AUTO(_ext_) = thing_ext_struct(_g_, _v_, _owner_))                                                                                      \
       for (auto _n_ = 0; _n_ < THING_BUFF_MAX; _n_++)                                                                                           \
         for (AUTO(_slot_) = &_ext_->buffs.buff[ _n_ ]; _slot_; (_slot_) = nullptr)                                                              \
           for (AUTO(_buff_) = thing_find_optional(g, v, (_slot_)->buff_id), loop2 = (Thingp) 1; loop2 == (Thingp) 1; loop2 = (Thingp) 0)
 
-#define FOR_ALL_BUFFS(_g_, _v_, _l_, _owner_, _buff_)                                                                                           \
+#define FOR_ALL_HOOKS(_g_, _v_, _l_, _owner_, _buff_)                                                                                           \
   if ((_g_) && (_v_) && (_l_))                                                                                                                  \
     if (AUTO(_ext_) = thing_ext_struct(_g_, _v_, _owner_))                                                                                      \
       for (auto _n_ = 0; _n_ < THING_BUFF_MAX; _n_++)                                                                                           \

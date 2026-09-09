@@ -32,7 +32,7 @@ static void thing_dump_buffs(Gamep g, Levelsp v, Levelp l, Thingp me)
     return;
   }
 
-  FOR_ALL_BUFF_SLOTS(g, v, l, me, slot, a_buff)
+  FOR_ALL_HOOKS_SLOTS(g, v, l, me, slot, a_buff)
   {
     if (a_buff == nullptr) {
       THING_DBG(g, v, l, me, "slot %d: -", _n_);
@@ -89,7 +89,7 @@ static void thing_dump_buffs(Gamep g, Levelsp v, Levelp l, Thingp me)
     return nullptr;
   }
 
-  FOR_ALL_BUFFS(g, v, l, me, a_buff)
+  FOR_ALL_HOOKS(g, v, l, me, a_buff)
   {
     if (thing_tp(a_buff) == what) {
       return a_buff;
@@ -156,7 +156,7 @@ static void thing_dump_buffs(Gamep g, Levelsp v, Levelp l, Thingp me)
   //
   // Look for a free slot
   //
-  FOR_ALL_BUFF_SLOTS(g, v, l, me, slot, a_buff)
+  FOR_ALL_HOOKS_SLOTS(g, v, l, me, slot, a_buff)
   {
     if (a_buff != nullptr) {
       continue;
@@ -228,7 +228,7 @@ static void thing_dump_buffs(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   bool got_one = false;
 
-  FOR_ALL_BUFF_SLOTS(g, v, l, me, slot, buff)
+  FOR_ALL_HOOKS_SLOTS(g, v, l, me, slot, buff)
   {
     if (buff == nullptr) {
       continue;

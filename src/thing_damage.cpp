@@ -745,7 +745,7 @@ void thing_damage_apply(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   //
   // Allow buffs to reduce damage
   //
-  FOR_ALL_BUFFS(g, v, l, me, buff) { (void) thing_on_damage(g, v, l, buff, e); }
+  FOR_ALL_HOOKS(g, v, l, me, buff) { (void) thing_on_damage(g, v, l, buff, e); }
 
   //
   // Allow rings to reduce damage

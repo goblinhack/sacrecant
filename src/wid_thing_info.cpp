@@ -1624,7 +1624,7 @@ static void wid_thing_info_stats_mouse_over_end(Gamep g, Widp w)
 
   bool first = true;
 
-  FOR_ALL_BUFFS(g, v, l, me, buff)
+  FOR_ALL_HOOKS(g, v, l, me, buff)
   {
     if (thing_is_debuff(buff)) {
       continue;
@@ -1696,7 +1696,7 @@ static void wid_thing_info_stats_mouse_over_end(Gamep g, Widp w)
 
   bool first = true;
 
-  FOR_ALL_BUFFS(g, v, l, me, buff)
+  FOR_ALL_HOOKS(g, v, l, me, buff)
   {
     if (! thing_is_debuff(buff)) {
       continue;

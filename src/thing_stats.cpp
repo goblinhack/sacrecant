@@ -280,7 +280,7 @@
     TRACE_INDENT();
   }
 
-  FOR_ALL_BUFFS(g, v, l, me, buff)
+  FOR_ALL_HOOKS(g, v, l, me, buff)
   {
     auto mod = thing_stat_mod(g, v, l, buff, stat);
 

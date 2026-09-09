@@ -29,7 +29,7 @@
     return false;
   }
 
-  FOR_ALL_BUFFS(g, v, l, me, buff)
+  FOR_ALL_HOOKS(g, v, l, me, buff)
   {
     if (thing_is_invisible(g, v, l, buff)) {
       return true;
