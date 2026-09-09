@@ -101,21 +101,21 @@ static void wid_player_update_selections(Gamep g)
     w = n;
     if (w != nullptr) {
       wid_set_mode(w, WID_MODE_OVER);
-      wid_set_style(w, UI_WID_STYLE_BUTTON_SQUARE_SOLID);
+      wid_set_style(w, UI_WID_STYLE_BUTTON_BAR);
       wid_set_color(w, WID_COLOR_BG, GREEN);
       wid_set_color(w, WID_COLOR_TEXT_FG, WHITE);
       wid_set_mode(w, WID_MODE_NORMAL);
-      wid_set_style(w, UI_WID_STYLE_BUTTON_SQUARE_SOLID);
+      wid_set_style(w, UI_WID_STYLE_BUTTON_BAR);
       wid_set_color(w, WID_COLOR_BG, GRAY10);
 
       auto *t = wid_get_thing_context(g, v, w, 0);
       if (t == game_selected_player_get(g)) {
         wid_set_mode(w, WID_MODE_OVER);
-        wid_set_style(w, UI_WID_STYLE_BUTTON_SQUARE_SOLID);
+        wid_set_style(w, UI_WID_STYLE_BUTTON_BAR);
         wid_set_color(w, WID_COLOR_BG, RED);
         wid_set_color(w, WID_COLOR_TEXT_FG, WHITE);
         wid_set_mode(w, WID_MODE_NORMAL);
-        wid_set_style(w, UI_WID_STYLE_BUTTON_SQUARE_SOLID);
+        wid_set_style(w, UI_WID_STYLE_BUTTON_BAR);
         wid_set_color(w, WID_COLOR_BG, RED);
       }
     }
@@ -125,21 +125,21 @@ static void wid_player_update_selections(Gamep g)
     w = n;
     if (w != nullptr) {
       wid_set_mode(w, WID_MODE_OVER);
-      wid_set_style(w, UI_WID_STYLE_BUTTON_SQUARE_SOLID);
+      wid_set_style(w, UI_WID_STYLE_BUTTON_BAR);
       wid_set_color(w, WID_COLOR_BG, GREEN);
       wid_set_color(w, WID_COLOR_TEXT_FG, WHITE);
       wid_set_mode(w, WID_MODE_NORMAL);
-      wid_set_style(w, UI_WID_STYLE_BUTTON_SQUARE_SOLID);
+      wid_set_style(w, UI_WID_STYLE_BUTTON_BAR);
       wid_set_color(w, WID_COLOR_BG, GRAY10);
 
       auto *t = wid_get_thing_context(g, v, w, 0);
       if (t == game_selected_sacrifice_get(g)) {
         wid_set_mode(w, WID_MODE_OVER);
-        wid_set_style(w, UI_WID_STYLE_BUTTON_SQUARE_SOLID);
+        wid_set_style(w, UI_WID_STYLE_BUTTON_BAR);
         wid_set_color(w, WID_COLOR_BG, RED);
         wid_set_color(w, WID_COLOR_TEXT_FG, WHITE);
         wid_set_mode(w, WID_MODE_NORMAL);
-        wid_set_style(w, UI_WID_STYLE_BUTTON_SQUARE_SOLID);
+        wid_set_style(w, UI_WID_STYLE_BUTTON_BAR);
         wid_set_color(w, WID_COLOR_BG, RED);
       }
     }

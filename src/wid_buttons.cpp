@@ -20,11 +20,11 @@
 
   auto *w = wid_new_square_button(g, parent, name);
   wid_set_mode(w, WID_MODE_OVER);
-  wid_set_style(w, UI_WID_STYLE_BUTTON_SQUARE_SOLID);
+  wid_set_style(w, UI_WID_STYLE_BUTTON_BAR);
   wid_set_color(w, WID_COLOR_BG, GREEN);
   wid_set_color(w, WID_COLOR_TEXT_FG, WHITE);
   wid_set_mode(w, WID_MODE_NORMAL);
-  wid_set_style(w, UI_WID_STYLE_BUTTON_SQUARE_SOLID);
+  wid_set_style(w, UI_WID_STYLE_BUTTON_BAR);
   wid_set_color(w, WID_COLOR_BG, GRAY10);
   return w;
 }
