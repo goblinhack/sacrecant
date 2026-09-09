@@ -1724,7 +1724,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     line += tp_name(item_tp);
     line += "$";
     line += " ";
-    line += thing_name_long(g, v, l, item);
+    line += capitalize_first(thing_name_long(g, v, l, item));
 
     if (slot->count > 1) {
       line += " x";
@@ -1778,8 +1778,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
 
     std::string line = "- ";
 
-    line += thing_name_long(g, v, l, sacrifice);
-    line += " ";
+    line += capitalize_first(thing_name_long(g, v, l, sacrifice));
 
     Widp wid = parent->log(g, line, TEXT_FORMAT_LHS);
 

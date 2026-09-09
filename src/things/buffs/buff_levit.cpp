@@ -27,6 +27,7 @@ static auto tp_buff_levit_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) ->
   // begin sort marker1 {
   thing_detail_set(tp, tp_buff_levit_detail_get);
   tp_flag_set(tp, is_buff);
+  tp_flag_set(tp, is_hook);
   tp_flag_set(tp, is_levitating);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_tick_on_use);
@@ -35,7 +36,6 @@ static auto tp_buff_levit_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) ->
   tp_name_short_set(tp, "levitation");
   tp_stat_set(tp, THING_STAT_DEX, "14");
   tp_stat_set(tp, THING_STAT_PSI, "12");
-  tp_flag_set(tp, is_hook);
   // end sort marker1 }
 
   return true;

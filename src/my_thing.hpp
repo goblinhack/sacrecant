@@ -53,7 +53,7 @@ using ThingIdPacked = union {
 /* begin shell marker1 */
 /* shell printf "#define THING_BUFF_MAX " */
 /* shell find . -name "*.cpp" | xargs grep "tp_flag_set(tp, is_buff);" | wc -l */
-#define THING_BUFF_MAX 10
+#define THING_BUFF_MAX 9
 /* end shell marker1 */
 
 //
@@ -988,6 +988,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_monst1(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_monst2(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_needs_move_confirm(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_noisy(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
 [[nodiscard]] auto thing_is_obs_to_beam(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_obs_to_cursor_path(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_obs_to_ethereal(Thingp t) -> bool;
@@ -1123,7 +1124,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused152(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused153(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused154(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_noisy(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused16(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused17(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused18(Thingp t) -> bool;

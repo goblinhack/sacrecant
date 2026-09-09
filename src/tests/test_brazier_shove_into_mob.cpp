@@ -57,11 +57,11 @@
   //
   // The guts of the test
   //
-  bool result = false;
-  bool up     = false;
-  bool down   = false;
-  bool left   = false;
-  bool right  = false;
+  bool result {};
+  bool up {};
+  bool down {};
+  bool left {};
+  bool right {};
 
   //
   // Bump into a brazier. It should be knocked over.
@@ -99,8 +99,8 @@
     // Check the brazier is dead
     //
     TEST_LOG(t, "check brazier is dead");
-    auto p        = thing_at(g, v, l, player) + bpoint(1, 0);
-    bool found_it = false;
+    auto p = thing_at(g, v, l, player) + bpoint(1, 0);
+    bool found_it {};
 
     FOR_ALL_THINGS_AT(g, v, l, it, p)
     {

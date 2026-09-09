@@ -47,15 +47,15 @@
   //
   // The guts of the test
   //
-  bool result = false;
-  bool up     = false;
-  bool down   = false;
-  bool left   = false;
-  bool right  = false;
+  bool result {};
+  bool up {};
+  bool down {};
+  bool left {};
+  bool right {};
 
   bpoint p;
-  bool   found_corpse = false;
-  Thingp player       = nullptr;
+  bool   found_corpse {};
+  Thingp player = nullptr;
 
   //
   // Move into the lava. The player should die.

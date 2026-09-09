@@ -311,7 +311,7 @@
       list_macro(is_unused152, "is_unused152"),                                             /* newline */                                       \
       list_macro(is_unused153, "is_unused153"),                                             /* newline */                                       \
       list_macro(is_unused154, "is_unused154"),                                             /* newline */                                       \
-      list_macro(is_noisy, "is_noisy"),                                             /* newline */                                       \
+      list_macro(is_noisy, "is_noisy"),                                                     /* newline */                                       \
       list_macro(is_hook, "is_hook"),                                                       /* newline */                                       \
       list_macro(is_sacrifice, "is_sacrifice"),                                             /* newline */                                       \
       list_macro(is_debuff, "is_debuff"),                                                   /* newline */                                       \
@@ -990,6 +990,7 @@ class Tp;
 [[nodiscard]] auto tp_is_monst1(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_monst2(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_needs_move_confirm(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_noisy(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_obs_to_beam(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_obs_to_cursor_path(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_obs_to_ethereal(Tpp tp) -> bool;
@@ -1121,7 +1122,6 @@ class Tp;
 [[nodiscard]] auto tp_is_unused152(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused153(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused154(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_noisy(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused16(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused17(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused18(Tpp tp) -> bool;

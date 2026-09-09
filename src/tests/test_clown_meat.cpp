@@ -54,7 +54,7 @@
   //
   // The guts of the test
   //
-  bool result     = false;
+  bool result {};
   int  eat_count  = 0;
   int  health     = 0;
   int  health_max = 0;
@@ -80,7 +80,7 @@
   (void) thing_health_set(g, v, l, player, 10);
 
   for (;;) {
-    bool got_item = false;
+    bool got_item {};
 
     FOR_ALL_INVENTORY_ITEMS(g, v, l, player, an_item)
     {

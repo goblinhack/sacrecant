@@ -46,7 +46,7 @@
   //
   // The guts of the test
   //
-  bool result      = false;
+  bool result {};
   int  use_count   = 0;
   int  stamina     = 0;
   int  stamina_max = 0;
@@ -67,7 +67,7 @@
   }
 
   for (;;) {
-    bool got_item = false;
+    bool got_item {};
 
     FOR_ALL_INVENTORY_ITEMS(g, v, l, player, an_item)
     {

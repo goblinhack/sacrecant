@@ -73,7 +73,7 @@
   throw_to = thing_at(g, v, l, player) + bpoint(3, 0);
 
   for (;;) {
-    bool got_item = false;
+    bool got_item {};
 
     FOR_ALL_INVENTORY_ITEMS(g, v, l, player, an_item)
     {

@@ -200,6 +200,8 @@ static std::initializer_list< std::string > tests = {
     "ring_war_defence",
     "ring_war_melee",
     "ring_war_projectile",
+    "sac_noisy_pot_stealth",
+    "sac_noisy",
     "save_load",
     "slots",
     "spiderweb_monst_not_trapped_due_to_ethereal",

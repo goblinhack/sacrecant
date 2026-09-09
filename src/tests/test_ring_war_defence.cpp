@@ -58,7 +58,7 @@
   //
   // The guts of the test
   //
-  bool result = false;
+  bool result {};
 
   static std::initializer_list< std::string > items = {
       "ring_war", //

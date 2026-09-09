@@ -208,7 +208,7 @@ static std::initializer_list< std::string > tps = {
     "ring_life",
     "ring_war",
     "rubble",
-    "sac_clumsy",
+    "sac_noisy",
     "skeleton_mob",
     "skeleton",
     "skullferno",

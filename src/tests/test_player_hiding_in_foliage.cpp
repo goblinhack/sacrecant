@@ -81,7 +81,7 @@
   //
   // The guts of the test
   //
-  bool result = false;
+  bool result {};
 
   //
   // Spawn water under the player

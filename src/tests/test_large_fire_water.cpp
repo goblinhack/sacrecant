@@ -53,7 +53,7 @@
   //
   // The guts of the test
   //
-  bool   result = false;
+  bool   result {};
   Thingp player = nullptr;
 
   //

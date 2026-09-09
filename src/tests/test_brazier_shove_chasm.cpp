@@ -73,15 +73,15 @@
   //
   // The guts of the test
   //
-  bool   result = false;
-  bool   up     = false;
-  bool   down   = false;
-  bool   left   = false;
-  bool   right  = false;
+  bool   result {};
+  bool   up {};
+  bool   down {};
+  bool   left {};
+  bool   right {};
   bpoint p;
-  bool   found_it = false;
-  Thingp player   = nullptr;
-  int    tries    = 0;
+  bool   found_it {};
+  Thingp player = nullptr;
+  int    tries  = 0;
 
   //
   // Bump into a brazier. It should be knocked over.

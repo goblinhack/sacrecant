@@ -47,11 +47,11 @@
   //
   // The guts of the test
   //
-  bool result = false;
-  bool up     = false;
-  bool down   = false;
-  bool left   = false;
-  bool right  = false;
+  bool result {};
+  bool up {};
+  bool down {};
+  bool left {};
+  bool right {};
 
   static std::initializer_list< std::string > items = {
       "horseshoe", //

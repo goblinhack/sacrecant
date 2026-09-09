@@ -55,7 +55,7 @@
   //
   // The guts of the test
   //
-  bool result = false;
+  bool result {};
 
   level_dump(g, v, l, w, h);
   TEST_PROGRESS(t);

@@ -7,7 +7,7 @@
 #include "../my_main.hpp"
 #include "../my_test.hpp"
 
-[[nodiscard]] static auto test_player_moving_in_foliage(Gamep g, Testp t) -> bool
+[[nodiscard]] static auto test_sac_noisy(Gamep g, Testp t) -> bool
 {
   TEST_LOG(t, "begin");
   TRACE();
@@ -47,16 +47,16 @@
       = "XXXXXXX"
         "X.`@``X"
         "X`````X"
-        "X`````X"
-        "X.m...X"
+        "X``m``X"
+        "X.....X"
         "X.....X"
         "XXXXXXX";
   std::string const expect4
       = "XXXXXXX"
         "X.`@``X"
+        "X``m``X"
         "X`````X"
-        "X`````X"
-        "X.m...X"
+        "X.....X"
         "X.....X"
         "XXXXXXX";
   std::string const expect5
@@ -92,6 +92,14 @@
   bool down {};
   bool left {};
   bool right {};
+
+  auto *player = thing_player(g);
+  if (player == nullptr) [[unlikely]] {
+    TEST_FAILED(t, "no player");
+    goto exit;
+  }
+
+  TEST_ASSERT(t, thing_buff_add(g, v, l, player, tp_find_mand("sac_noisy")), "failed to add sacrifice");
 
   level_dump(g, v, l, w, h);
   TEST_PROGRESS(t);
@@ -262,14 +270,14 @@ exit:
   return result;
 }
 
-[[nodiscard]] auto test_load_player_moving_in_foliage() -> bool // NOLINT
+[[nodiscard]] auto test_load_sac_noisy() -> bool // NOLINT
 {
   TRACE();
 
-  Testp test = test_load("player_moving_in_foliage");
+  Testp test = test_load("sac_noisy");
 
   // begin sort marker1 {
-  test_callback_set(test, test_player_moving_in_foliage);
+  test_callback_set(test, test_sac_noisy);
   // end sort marker1 }
 
   return true;

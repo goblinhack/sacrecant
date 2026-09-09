@@ -40,10 +40,10 @@
   Levelp  l      = nullptr;
   Levelsp v      = game_test_init(g, &l, level_num, w, h, start.c_str());
   bool    result = true;
-  bool    up     = false;
-  bool    down   = false;
-  bool    left   = false;
-  bool    right  = false;
+  bool    up {};
+  bool    down {};
+  bool    left {};
+  bool    right {};
 
   static std::initializer_list< std::string > items = {
       "staff_fire",   //

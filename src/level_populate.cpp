@@ -719,8 +719,7 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
   return tp;
 }
 
-[[nodiscard]] auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, int w, int h, const char *in, const Overrides &overrides)
-    -> bool
+[[nodiscard]] auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, int w, int h, const char *in, const Overrides &o_in) -> bool
 {
   TRACE();
 
@@ -809,8 +808,8 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
         lp.need_border = false;
       }
 
-      auto o = overrides.find(lp.c);
-      if (o != overrides.end()) {
+      auto o = o_in.find(lp.c);
+      if (o != o_in.end()) {
         //
         // Allow some characters to be overriden. e.g. to place a specific monster
         //
@@ -941,8 +940,31 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
       }
 
       if (tp != nullptr) {
-        if (thing_spawn(g, v, l, tp, lp.at) == nullptr) {
-          return false;
+        if (tp_is_player(tp)) {
+          //
+          // Spawn the player
+          //
+          auto player = thing_spawn(g, v, l, tp, lp.at);
+          if (! player) {
+            return false;
+          }
+
+          //
+          // Add the chosen sacrifice
+          //
+          auto chosen_sac = game_chosen_sacrifice_get(g);
+          if (chosen_sac) {
+            if (! thing_buff_add(g, v, l, player, chosen_sac)) {
+              return false;
+            }
+          }
+        } else {
+          //
+          // Spawn all other things
+          //
+          if (thing_spawn(g, v, l, tp, lp.at) == nullptr) {
+            return false;
+          }
         }
       }
 
@@ -986,11 +1008,11 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
   return level_populated(g, v, l);
 }
 
-[[nodiscard]] auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, const char *in, const Overrides &overrides) -> bool
+[[nodiscard]] auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, const char *in, const Overrides &o_in) -> bool
 {
   TRACE();
 
-  if (! level_populate(g, v, l, lg, MAP_WIDTH, MAP_HEIGHT, in, overrides)) {
+  if (! level_populate(g, v, l, lg, MAP_WIDTH, MAP_HEIGHT, in, o_in)) {
     level_err(g, v, l, "level populate failed");
     return false;
   }

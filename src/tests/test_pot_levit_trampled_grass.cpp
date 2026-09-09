@@ -47,11 +47,11 @@
   //
   // The guts of the test
   //
-  bool result    = false;
-  bool up        = false;
-  bool down      = false;
-  bool left      = false;
-  bool right     = false;
+  bool result {};
+  bool up {};
+  bool down {};
+  bool left {};
+  bool right {};
   int  use_count = 0;
 
   static std::initializer_list< std::string > usable_items = {
@@ -70,7 +70,7 @@
   }
 
   for (;;) {
-    bool got_item = false;
+    bool got_item {};
 
     FOR_ALL_INVENTORY_ITEMS(g, v, l, player, an_item)
     {
@@ -133,8 +133,8 @@
     // Check the grass is dead
     //
     TEST_LOG(t, "check grass is not dead");
-    auto p        = thing_at(g, v, l, player);
-    bool found_it = false;
+    auto p = thing_at(g, v, l, player);
+    bool found_it {};
 
     FOR_ALL_THINGS_AT(g, v, l, it, p)
     {

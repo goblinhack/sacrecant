@@ -6,15 +6,16 @@
 #include "../my_level.hpp"
 #include "../my_main.hpp"
 #include "../my_test.hpp"
+#include "../my_thing_inlines.hpp"
 
-[[nodiscard]] static auto test_player_moving_in_foliage(Gamep g, Testp t) -> bool
+[[nodiscard]] static auto test_sac_noisy_pot_stealth(Gamep g, Testp t) -> bool
 {
   TEST_LOG(t, "begin");
   TRACE();
 
   LevelNum const level_num = 0;
   auto           w         = 7;
-  auto           h         = 7;
+  auto           h         = 8;
 
   //
   // How the dungeon starts out, and how we expect it to change
@@ -25,6 +26,7 @@
         "X`````X"
         "X`````X"
         "X.....X"
+        "X.....X"
         "X....mX"
         "XXXXXXX";
   std::string const expect1
@@ -32,6 +34,7 @@
         "X@````X"
         "X`````X"
         "X`````X"
+        "X.....X"
         "X.m...X"
         "X.....X"
         "XXXXXXX";
@@ -41,37 +44,42 @@
         "X`````X"
         "X`````X"
         "X.....X"
-        "Xm....X"
+        "X.m...X"
+        "X.....X"
         "XXXXXXX";
   std::string const expect3
       = "XXXXXXX"
         "X.`@``X"
         "X`````X"
         "X`````X"
-        "X.m...X"
         "X.....X"
+        "X.....X"
+        "X..m..X"
         "XXXXXXX";
   std::string const expect4
       = "XXXXXXX"
         "X.`@``X"
         "X`````X"
-        "X`````X"
-        "X.m...X"
+        "X``m``X"
+        "X.....X"
+        "X.....X"
         "X.....X"
         "XXXXXXX";
   std::string const expect5
       = "XXXXXXX"
         "X.`@``X"
-        "X``m``X"
         "X`````X"
+        "X`m```X"
+        "X.....X"
         "X.....X"
         "X.....X"
         "XXXXXXX";
   std::string const expect6
       = "XXXXXXX"
         "X.`@``X"
-        "X``m``X"
         "X`````X"
+        "Xm````X"
+        "X.....X"
         "X.....X"
         "X.....X"
         "XXXXXXX";
@@ -92,6 +100,58 @@
   bool down {};
   bool left {};
   bool right {};
+  int  use_count = 0;
+
+  static std::initializer_list< std::string > items = {
+      "pot_stealth", //
+  };
+
+  auto *player = thing_player(g);
+  if (player == nullptr) [[unlikely]] {
+    TEST_FAILED(t, "no player");
+    goto exit;
+  }
+
+  if (! thing_carry(g, v, l, player, items)) {
+    TEST_FAILED(t, "no item carried");
+    goto exit;
+  }
+
+  for (;;) {
+    bool got_item {};
+
+    FOR_ALL_INVENTORY_ITEMS(g, v, l, player, an_item)
+    {
+      got_item = true;
+
+      ThingEvent e {
+          .reason     = "user used item",           //
+          .event_type = THING_EVENT_USER_INITIATED, //
+          .source     = player,                     //
+      };
+
+      TEST_ASSERT(t, thing_use(g, v, l, player, an_item, e), "failed to use");
+
+      TRACE();
+      level_dump(g, v, l, w, h);
+      TEST_ASSERT(t, game_event_wait(g), "failed to wait");
+
+      if (! game_wait_for_tick_to_finish(g, v, l)) {
+        TEST_FAILED(t, "wait loop failed");
+        goto exit;
+      }
+
+      use_count++;
+    }
+
+    if (! got_item) {
+      break;
+    }
+  }
+
+  TEST_ASSERT(t, use_count == (int) items.size(), "did not use expected item amount");
+
+  TEST_ASSERT(t, thing_buff_add(g, v, l, player, tp_find_mand("sac_noisy")), "failed to add sacrifice");
 
   level_dump(g, v, l, w, h);
   TEST_PROGRESS(t);
@@ -251,7 +311,7 @@
   //
   level_dump(g, v, l, w, h);
   TEST_PROGRESS(t);
-  TEST_ASSERT(t, game_tick_get(g, v) == 22, "final tick counter value");
+  TEST_ASSERT(t, game_tick_get(g, v) == 23, "final tick counter value");
 
   level_dump(g, v, l, w, h);
   TEST_PASSED(t);
@@ -262,14 +322,14 @@ exit:
   return result;
 }
 
-[[nodiscard]] auto test_load_player_moving_in_foliage() -> bool // NOLINT
+[[nodiscard]] auto test_load_sac_noisy_pot_stealth() -> bool // NOLINT
 {
   TRACE();
 
-  Testp test = test_load("player_moving_in_foliage");
+  Testp test = test_load("sac_noisy_pot_stealth");
 
   // begin sort marker1 {
-  test_callback_set(test, test_player_moving_in_foliage);
+  test_callback_set(test, test_sac_noisy_pot_stealth);
   // end sort marker1 }
 
   return true;

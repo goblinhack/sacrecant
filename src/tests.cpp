@@ -178,6 +178,8 @@
   if (!test_load_ring_war_defence()) { return false; }
   if (!test_load_ring_war_melee()) { return false; }
   if (!test_load_ring_war_projectile()) { return false; }
+  if (!test_load_sac_noisy_pot_stealth()) { return false; }
+  if (!test_load_sac_noisy()) { return false; }
   if (!test_load_save_load()) { return false; }
   if (!test_load_slots()) { return false; }
   if (!test_load_spiderweb_monst_not_trapped_due_to_ethereal()) { return false; }

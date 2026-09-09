@@ -128,7 +128,7 @@
   //
   // The guts of the test
   //
-  bool result    = false;
+  bool result {};
   int  use_count = 0;
 
   static std::initializer_list< std::string > usable_items = {

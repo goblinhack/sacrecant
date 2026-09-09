@@ -41,10 +41,10 @@
   Levelsp v          = game_test_init(g, &l, level_num, w, h, start.c_str());
   bool    result     = true;
   int     drop_count = 0;
-  bool    up         = false;
-  bool    down       = false;
-  bool    left       = false;
-  bool    right      = false;
+  bool    up {};
+  bool    down {};
+  bool    left {};
+  bool    right {};
 
   static std::initializer_list< std::string > items = {
       "clown_meat", //
@@ -65,7 +65,7 @@
   // Drop all items
   //
   for (;;) {
-    bool got_item = false;
+    bool got_item {};
 
     FOR_ALL_INVENTORY_ITEMS(g, v, l, player, an_item)
     {

@@ -51,7 +51,7 @@
   //
   // The guts of the test
   //
-  bool result = false;
+  bool result {};
 
   auto *player = thing_player(g);
   if (player == nullptr) [[unlikely]] {

@@ -54,7 +54,7 @@
   Levelsp v  = game_test_init(g, &l1, level_num, w, h, level1.c_str());
   game_test_init_level(g, v, &l2, level_num + 1, w, h, level2.c_str());
 
-  bool   result = false;
+  bool   result {};
   bpoint throw_to;
   int    threw_count = 0;
 
@@ -81,7 +81,7 @@
   throw_to = thing_at(g, v, l1, player) + bpoint(2, 0);
 
   for (;;) {
-    bool got_item = false;
+    bool got_item {};
 
     FOR_ALL_INVENTORY_ITEMS(g, v, l1, player, an_item)
     {

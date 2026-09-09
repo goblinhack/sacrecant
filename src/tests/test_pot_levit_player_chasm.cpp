@@ -65,11 +65,11 @@
   //
   // The guts of the test
   //
-  bool result = false;
-  bool up     = false;
-  bool down   = false;
-  bool left   = false;
-  bool right  = false;
+  bool result {};
+  bool up {};
+  bool down {};
+  bool left {};
+  bool right {};
 
   int use_count = 0;
 
@@ -89,7 +89,7 @@
   }
 
   for (;;) {
-    bool got_item = false;
+    bool got_item {};
 
     FOR_ALL_INVENTORY_ITEMS(g, v, l1, player, an_item)
     {

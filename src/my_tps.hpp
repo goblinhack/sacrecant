@@ -100,7 +100,7 @@ auto tp_load_ring_life() -> bool;
 auto tp_load_ring_war() -> bool;
 auto tp_load_rock() -> bool;
 auto tp_load_rubble() -> bool;
-auto tp_load_sac_clumsy() -> bool;
+auto tp_load_sac_noisy() -> bool;
 auto tp_load_skeleton_mob() -> bool;
 auto tp_load_skeleton() -> bool;
 auto tp_load_skullferno() -> bool;

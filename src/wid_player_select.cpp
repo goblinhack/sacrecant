@@ -319,6 +319,9 @@ static void wid_player_select_sacrifice_via_mouse_over_end(Gamep g, Widp w)
                 w = wid_player[ 0 ];
                 if (w != nullptr) {
                   (void) wid_player_select_player_via_mouse_down(g, w, -1, -1, 0);
+                }
+                w = wid_sacrifice[ 0 ];
+                if (w != nullptr) {
                   (void) wid_player_select_sacrifice_via_mouse_down(g, w, -1, -1, 0);
                 }
                 break;

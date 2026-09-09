@@ -42,11 +42,11 @@
   //
   // The guts of the test
   //
-  bool up     = false;
-  bool down   = false;
-  bool left   = false;
-  bool right  = false;
-  bool result = false;
+  bool up {};
+  bool down {};
+  bool left {};
+  bool right {};
+  bool result {};
 
   auto *player = thing_player(g);
   if (player == nullptr) [[unlikely]] {

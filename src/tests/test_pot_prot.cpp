@@ -48,7 +48,7 @@
   //
   // The guts of the test
   //
-  bool result    = false;
+  bool result {};
   int  use_count = 0;
 
   static std::initializer_list< std::string > items = {
@@ -70,7 +70,7 @@
   (void) thing_health_set(g, v, l, player, 10);
 
   for (;;) {
-    bool got_item = false;
+    bool got_item {};
 
     FOR_ALL_INVENTORY_ITEMS(g, v, l, player, an_item)
     {

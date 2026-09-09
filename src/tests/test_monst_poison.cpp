@@ -45,15 +45,15 @@
   overrides[ 'm' ] = [](char c, bpoint p) -> Tpp { return tp_find_mand("coil_eel"); };
   Levelp  l        = nullptr;
   Levelsp v        = game_test_init(g, &l, level_num, w, h, start.c_str(), overrides);
-  bool    up       = false;
-  bool    down     = false;
-  bool    left     = false;
-  bool    right    = false;
+  bool    up {};
+  bool    down {};
+  bool    left {};
+  bool    right {};
 
   //
   // The guts of the test
   //
-  bool result = false;
+  bool result {};
 
   auto *player = thing_player(g);
   if (player == nullptr) [[unlikely]] {

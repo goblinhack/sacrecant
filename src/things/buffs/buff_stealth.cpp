@@ -30,6 +30,7 @@ static auto tp_buff_stealth_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) 
   // begin sort marker1 {
   thing_detail_set(tp, tp_buff_stealth_detail_get);
   tp_flag_set(tp, is_buff);
+  tp_flag_set(tp, is_hook);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_stealthy);
   tp_flag_set(tp, is_tick_on_use);
@@ -37,7 +38,6 @@ static auto tp_buff_stealth_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) 
   tp_lifespan_set(tp, "1d100+1000");
   tp_name_short_set(tp, "stealthy");
   tp_stat_set(tp, THING_STAT_DEF, "12");
-  tp_flag_set(tp, is_hook);
   // end sort marker1 }
 
   return true;

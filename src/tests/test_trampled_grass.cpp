@@ -47,11 +47,11 @@
   //
   // The guts of the test
   //
-  bool result = false;
-  bool up     = false;
-  bool down   = false;
-  bool left   = false;
-  bool right  = false;
+  bool result {};
+  bool up {};
+  bool down {};
+  bool left {};
+  bool right {};
 
   //
   // Walk over grass and then check it is crushed/dead
@@ -89,8 +89,8 @@
     // Check the grass is dead
     //
     TEST_LOG(t, "check grass is dead");
-    auto p        = thing_at(g, v, l, player);
-    bool found_it = false;
+    auto p = thing_at(g, v, l, player);
+    bool found_it {};
 
     FOR_ALL_THINGS_AT(g, v, l, it, p)
     {

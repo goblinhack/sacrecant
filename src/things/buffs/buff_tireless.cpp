@@ -27,6 +27,7 @@ static auto tp_buff_tireless_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me)
   // begin sort marker1 {
   thing_detail_set(tp, tp_buff_tireless_detail_get);
   tp_flag_set(tp, is_buff);
+  tp_flag_set(tp, is_hook);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_tick_on_use);
   tp_flag_set(tp, is_tickable);
@@ -36,7 +37,6 @@ static auto tp_buff_tireless_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_stat_set(tp, THING_STAT_CON, "12");
   tp_stat_set(tp, THING_STAT_DEF, "12");
   tp_stat_set(tp, THING_STAT_STR, "12");
-  tp_flag_set(tp, is_hook);
   // end sort marker1 }
 
   return true;

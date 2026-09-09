@@ -49,11 +49,11 @@
   //
   // The guts of the test
   //
-  bool result = false;
-  bool up     = false;
-  bool down   = false;
-  bool left   = false;
-  bool right  = false;
+  bool result {};
+  bool up {};
+  bool down {};
+  bool left {};
+  bool right {};
 
   //
   // Bump into a mob. It should move and not die.
@@ -91,8 +91,8 @@
     // Check the mob is alive
     //
     TEST_LOG(t, "check mob is alive");
-    auto p        = thing_at(g, v, l, player) + bpoint(1, 0);
-    bool found_it = false;
+    auto p = thing_at(g, v, l, player) + bpoint(1, 0);
+    bool found_it {};
 
     FOR_ALL_THINGS_AT(g, v, l, it, p)
     {

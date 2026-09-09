@@ -58,7 +58,7 @@
   //
   // The guts of the test
   //
-  bool result = false;
+  bool result {};
 
   static std::initializer_list< std::string > usable_items = {
       "pot_levit", //
@@ -76,7 +76,7 @@
   }
 
   for (;;) {
-    bool got_item = false;
+    bool got_item {};
 
     FOR_ALL_INVENTORY_ITEMS(g, v, l, player, an_item)
     {

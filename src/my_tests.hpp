@@ -176,6 +176,8 @@ auto test_load_ring_war_beam_weapon() -> bool;
 auto test_load_ring_war_defence() -> bool;
 auto test_load_ring_war_melee() -> bool;
 auto test_load_ring_war_projectile() -> bool;
+auto test_load_sac_noisy_pot_stealth() -> bool;
+auto test_load_sac_noisy() -> bool;
 auto test_load_save_load() -> bool;
 auto test_load_slots() -> bool;
 auto test_load_spiderweb_monst_not_trapped_due_to_ethereal() -> bool;

@@ -1,10 +1,11 @@
 bugs
 ----
+set mana total
 
 todo
 ----
 sacrifices
-  - clumsy                  x2 noise generated                                                    melee +10
+  - unlucky
   - blood-feast:            absorb health from fleshy monsters / x2 damage-received from undead   melee +20
   - breathless:             gas weapons, no effect, but tire much quicker                         melee +30
   - myopic:                 vision distance halved                                                melee +30

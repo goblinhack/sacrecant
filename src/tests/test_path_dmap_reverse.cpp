@@ -129,7 +129,7 @@
   //
   // The guts of the test
   //
-  bool result = false;
+  bool result {};
 
   Thingp player = nullptr;
   for (auto *it : level_find_all(g, v, l, is_player)) {
