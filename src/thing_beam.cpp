@@ -75,12 +75,17 @@ auto thing_beam_weapon_fire_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what
   //
   auto        beam_target_distance = ceil(distance);
   const float avoid_gaps_in_tiles  = 0.94F;
+  int         index {};
+
   for (auto step = 0; step < beam_target_distance; step++) {
     if (compiler_unused) {
       thing_topcon(g, v, l, me, "%f,%f step %d", beam_at.x, beam_at.y, step);
     }
 
-    auto *beam_weapon = thing_spawn_missile(g, v, l, me, what, beam_at);
+    ThingEvent e {};
+    e.event_int_context = index++;
+
+    auto *beam_weapon = thing_spawn_missile(g, v, l, me, what, beam_at, &e);
     if (beam_weapon == nullptr) {
       return false;
     }

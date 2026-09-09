@@ -113,7 +113,11 @@ using ThingEvent = struct ThingEvent {
   //
   // How much damage, if this is an attack?
   //
-  int damage = 0;
+  int damage {};
+  //
+  // Some data we want to pass to the thing on spawn.
+  //
+  int event_int_context {};
   //
   // Whodunnit?
   //
@@ -1347,11 +1351,11 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_score(Gamep g, Thingp t) -> int;
 [[nodiscard]] auto thing_shove_handle(Gamep g, Levelsp v, Levelp l, Thingp shover, bpoint at) -> bool;
 [[nodiscard]] auto thing_shove_to(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool;
-[[nodiscard]] auto thing_spawn_missile(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp tp_projectile) -> Thingp;
-[[nodiscard]] auto thing_spawn_missile(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what, fpoint target) -> Thingp;
-[[nodiscard]] auto thing_spawn(Gamep g, Levelsp v, Levelp l, Tpp tp, const bpoint &at) -> Thingp;
-[[nodiscard]] auto thing_spawn(Gamep g, Levelsp v, Levelp l, Tpp tp, const fpoint &at) -> Thingp;
-[[nodiscard]] auto thing_spawn(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp spawner) -> Thingp;
+[[nodiscard]] auto thing_spawn_missile(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp tp_projectile, ThingEvent *e = {}) -> Thingp;
+[[nodiscard]] auto thing_spawn_missile(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what, fpoint target, ThingEvent *e = {}) -> Thingp;
+[[nodiscard]] auto thing_spawn(Gamep g, Levelsp v, Levelp l, Tpp tp, const bpoint &at, ThingEvent * /*e*/ = {}) -> Thingp;
+[[nodiscard]] auto thing_spawn(Gamep g, Levelsp v, Levelp l, Tpp tp, const fpoint &at, ThingEvent * /*e*/ = {}) -> Thingp;
+[[nodiscard]] auto thing_spawn(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp spawner, ThingEvent * /*e*/ = {}) -> Thingp;
 [[nodiscard]] auto thing_special_attack_get_random(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thingp it, TpSpecialAttack &out) -> bool;
 [[nodiscard]] auto thing_speed_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int;
 [[nodiscard]] auto thing_speed_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int;
@@ -1531,7 +1535,6 @@ auto thing_is_scheduled_for_cleanup_set(Gamep g, Levelsp v, Levelp l, Thingp t, 
 auto thing_is_scheduled_for_cleanup_unset(Gamep g, Levelsp v, Levelp l, Thingp t) -> void;
 auto thing_is_sleeping_set(Gamep g, Levelsp v, Levelp l, Thingp me, bool val = true) -> void;
 auto thing_is_sleeping_unset(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
-auto thing_is_spawned_set(Gamep g, Levelsp v, Levelp l, Thingp t, bool val = true) -> void;
 auto thing_is_spawned_unset(Gamep g, Levelsp v, Levelp l, Thingp t) -> void;
 auto thing_is_teleporting_set(Gamep g, Levelsp v, Levelp l, Thingp me, bool val = true) -> void;
 auto thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;

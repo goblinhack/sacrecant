@@ -49,7 +49,7 @@
 //
 // Add a missile if possible
 //
-[[nodiscard]] auto thing_spawn_missile(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what, const fpoint target) -> Thingp
+[[nodiscard]] auto thing_spawn_missile(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what, const fpoint target, ThingEvent *e) -> Thingp
 {
   TRACE();
 
@@ -94,7 +94,7 @@
     //
     // Create the missile. Should be no chance to fail now.
     //
-    auto *new_missile = thing_spawn(g, v, l, what, target);
+    auto *new_missile = thing_spawn(g, v, l, what, target, e);
     if (new_missile == nullptr) {
       return nullptr;
     }

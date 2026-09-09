@@ -15,7 +15,7 @@
 #include "my_tp_class.hpp"
 #include "my_types.hpp"
 
-void thing_is_spawned_set(Gamep g, Levelsp v, Levelp l, Thingp t, bool val)
+static void thing_is_spawned_set(Gamep g, Levelsp v, Levelp l, Thingp t, ThingEvent *e, bool val)
 {
   TRACE_DEBUG();
 
@@ -33,7 +33,7 @@ void thing_is_spawned_set(Gamep g, Levelsp v, Levelp l, Thingp t, bool val)
     //
     // Callback upon spawning
     //
-    thing_on_spawned(g, v, l, t);
+    thing_on_spawned(g, v, l, t, e);
   }
 }
 
@@ -41,10 +41,10 @@ void thing_is_spawned_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
 {
   TRACE_DEBUG();
 
-  thing_is_spawned_set(g, v, l, t, false);
+  thing_is_spawned_set(g, v, l, t, nullptr, false);
 }
 
-[[nodiscard]] auto thing_spawn(Gamep g, Levelsp v, Levelp l, Tpp tp, const fpoint &at) -> Thingp
+[[nodiscard]] auto thing_spawn(Gamep g, Levelsp v, Levelp l, Tpp tp, const fpoint &at, ThingEvent *e) -> Thingp
 {
   TRACE();
 
@@ -74,17 +74,17 @@ void thing_is_spawned_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     l->is_tick_end_delay = true;
   }
 
-  thing_is_spawned_set(g, v, l, t);
+  thing_is_spawned_set(g, v, l, t, e, true);
 
   return t;
 }
 
-[[nodiscard]] auto thing_spawn(Gamep g, Levelsp v, Levelp l, Tpp tp, const bpoint &at) -> Thingp
+[[nodiscard]] auto thing_spawn(Gamep g, Levelsp v, Levelp l, Tpp tp, const bpoint &at, ThingEvent *e) -> Thingp
 {
-  return thing_spawn(g, v, l, tp, make_fpoint(at));
+  return thing_spawn(g, v, l, tp, make_fpoint(at), e);
 }
 
-[[nodiscard]] auto thing_spawn(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp spawner) -> Thingp
+[[nodiscard]] auto thing_spawn(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp spawner, ThingEvent *e) -> Thingp
 {
   TRACE();
 
@@ -95,7 +95,7 @@ void thing_is_spawned_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
 
   auto dir = thing_get_direction_grid(g, v, l, spawner);
 
-  auto *spawned = thing_spawn(g, v, l, tp, thing_at(g, v, l, spawner));
+  auto *spawned = thing_spawn(g, v, l, tp, thing_at(g, v, l, spawner), e);
   if (spawned == nullptr) {
     return nullptr;
   }
@@ -115,7 +115,7 @@ void thing_on_spawned_set(Tpp tp, thing_on_spawned_t callback)
   tp->on_spawned = callback;
 }
 
-void thing_on_spawned(Gamep g, Levelsp v, Levelp l, Thingp me)
+void thing_on_spawned(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent *e)
 {
   TRACE();
   auto *tp = thing_tp(me);
@@ -126,5 +126,5 @@ void thing_on_spawned(Gamep g, Levelsp v, Levelp l, Thingp me)
   if (tp->on_spawned == nullptr) {
     return;
   }
-  tp->on_spawned(g, v, l, me);
+  tp->on_spawned(g, v, l, me, e);
 }

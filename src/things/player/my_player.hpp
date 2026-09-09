@@ -34,7 +34,7 @@ extern void tp_player_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me);
 extern void tp_player_on_teleported(Gamep g, Levelsp v, Levelp l, Thingp me);
 extern void tp_player_tick_idle(Gamep g, Levelsp v, Levelp l, Thingp me);
 extern void tp_player_tick_end(Gamep g, Levelsp v, Levelp l, Thingp me);
-extern void tp_player_on_spawned(Gamep g, Levelsp v, Levelp l, Thingp me);
+extern void tp_player_on_spawned(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent *e_maybe_null);
 extern bool tp_player_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thingp target, ThingEvent &e);
 extern bool tp_player_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thingp target, ThingEvent &e);
 extern void tp_load_player_common(Tpp tp);

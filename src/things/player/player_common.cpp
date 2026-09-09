@@ -378,7 +378,7 @@ void tp_player_tick_end(Gamep g, Levelsp v, Levelp l, Thingp me)
   (void) player_move_to_next(g, v, l, me);
 }
 
-void tp_player_on_spawned(Gamep g, Levelsp v, Levelp l, Thingp me)
+void tp_player_on_spawned(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent *e_maybe_null)
 {
   TRACE();
   THING_DBG(g, v, l, me, "player spawned");

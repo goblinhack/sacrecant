@@ -10,7 +10,7 @@
 #include "my_tps.hpp"
 #include "my_types.hpp"
 
-static void tp_explosion_spawned(Gamep g, Levelsp v, Levelp l, Thingp me)
+static void tp_explosion_spawned(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent *e_maybe_null)
 {
   TRACE();
 

@@ -20,7 +20,7 @@ static auto tp_spiderweb_description_get(Gamep g, Levelsp v, Levelp l, Thingp me
   return "spiderweb";
 }
 
-static void tp_spiderweb_spawned(Gamep g, Levelsp v, Levelp l, Thingp me)
+static void tp_spiderweb_on_spawned(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent *e_maybe_null)
 {
   TRACE();
 
@@ -36,7 +36,7 @@ static void tp_spiderweb_spawned(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   // begin sort marker1 {
   thing_description_set(tp, tp_spiderweb_description_get);
-  thing_on_spawned_set(tp, tp_spiderweb_spawned);
+  thing_on_spawned_set(tp, tp_spiderweb_on_spawned);
   tp_chance_set(tp, THING_CHANCE_CONTINUE_TO_BURN, "1d2"); // fumble => intensify / keep burning / crit => stop burning
   tp_chance_set(tp, THING_CHANCE_START_BURNING, "1d2");    // fumble => flames spread to you
   tp_flag_set(tp, is_able_to_be_teleported);

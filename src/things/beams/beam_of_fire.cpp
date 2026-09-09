@@ -12,11 +12,18 @@
 #include "my_tps.hpp"
 #include "my_types.hpp"
 
-static void tp_beam_of_fire_on_spawned(Gamep g, Levelsp v, Levelp l, Thingp me)
+static void tp_beam_of_fire_on_spawned(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent *e_maybe_null)
 {
   TRACE();
 
-  thing_sound_play(g, v, l, me, "beam_weapon");
+  //
+  // Only create sound for the first particle
+  //
+  if (e_maybe_null) {
+    if (! e_maybe_null->event_int_context) {
+      thing_sound_play(g, v, l, me, "beam_weapon");
+    }
+  }
 
   if (level_is_water_shallow_bool(g, v, l, thing_at(g, v, l, me))) {
     if (! level_is_steam_bool(g, v, l, thing_at(g, v, l, me))) {

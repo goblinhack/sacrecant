@@ -20,7 +20,7 @@
 #include "my_types.hpp"
 #include "my_ui.hpp"
 
-void tp_player3_on_spawned(Gamep g, Levelsp v, Levelp l, Thingp me)
+void tp_player3_on_spawned(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent *e_maybe_null)
 {
   TRACE();
   THING_DBG(g, v, l, me, "player spawned");

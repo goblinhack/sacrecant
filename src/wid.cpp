@@ -422,7 +422,7 @@ static void wid_set_pos_pct(Widp w, fpoint tl, fpoint br)
   wid_tree_attach(w);
 }
 
-void wid_set_string_context(Widp w, std::string string_context)
+void wid_set_string_context(Widp w, std::string wid_string_context)
 {
   TRACE();
 
@@ -430,7 +430,7 @@ void wid_set_string_context(Widp w, std::string string_context)
     ERR("no widget pointer");
     return;
   }
-  w->string_context = std::move(string_context);
+  w->wid_string_context = std::move(wid_string_context);
 }
 
 [[nodiscard]] auto wid_get_string_context(Widp w) -> std::string
@@ -441,10 +441,10 @@ void wid_set_string_context(Widp w, std::string string_context)
     ERR("no widget pointer");
     return "";
   }
-  return w->string_context;
+  return w->wid_string_context;
 }
 
-void wid_set_int_context(Widp w, int int_context)
+void wid_set_int_context(Widp w, int wid_int_context)
 {
   TRACE();
 
@@ -452,7 +452,7 @@ void wid_set_int_context(Widp w, int int_context)
     ERR("no widget pointer");
     return;
   }
-  w->int_context = int_context;
+  w->wid_int_context = wid_int_context;
 }
 
 [[nodiscard]] auto wid_get_int_context(Widp w) -> int
@@ -463,10 +463,10 @@ void wid_set_int_context(Widp w, int int_context)
     ERR("no widget pointer");
     return 0;
   }
-  return w->int_context;
+  return w->wid_int_context;
 }
 
-void wid_set_void_context(Widp w, void *void_context)
+void wid_set_void_context(Widp w, void *wid_void_context)
 {
   TRACE();
 
@@ -474,7 +474,7 @@ void wid_set_void_context(Widp w, void *void_context)
     ERR("no widget pointer");
     return;
   }
-  w->void_context = void_context;
+  w->wid_void_context = wid_void_context;
 }
 
 [[nodiscard]] auto wid_get_void_context(Widp w) -> void *
@@ -485,7 +485,7 @@ void wid_set_void_context(Widp w, void *void_context)
     ERR("no widget pointer");
     return nullptr;
   }
-  return w->void_context;
+  return w->wid_void_context;
 }
 
 void wid_set_thing_context(Gamep g, Levelsp v, Widp w, Thingp t)

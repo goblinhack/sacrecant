@@ -228,9 +228,9 @@ public:
   //
   // Client context
   //
-  std::string string_context;
-  int         int_context {-1};
-  void       *void_context {};
+  std::string wid_string_context;
+  int         wid_int_context {-1};
+  void       *wid_void_context {};
 
   std::array< ThingId, UI_MAX_WID_CONTEXT > thing_id_context {};
   std::array< Tpp, UI_MAX_WID_CONTEXT >     tp_context {};

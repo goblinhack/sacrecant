@@ -39,9 +39,9 @@ using thing_mouse_down_t = bool (*)(Gamep, Levelsp, Levelp, Thingp me, int x, in
 auto               thing_mouse_down_set(Tpp tp, thing_mouse_down_t callback) -> void;
 [[nodiscard]] auto thing_mouse_down(Gamep g, Levelsp v, Levelp l, Thingp me, int x, int y, int button) -> bool;
 
-using thing_on_spawned_t = void (*)(Gamep, Levelsp, Levelp, Thingp me);
+using thing_on_spawned_t = void (*)(Gamep, Levelsp, Levelp, Thingp me, ThingEvent *e);
 auto thing_on_spawned_set(Tpp tp, thing_on_spawned_t callback) -> void;
-auto thing_on_spawned(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
+auto thing_on_spawned(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent *e = nullptr) -> void;
 
 using thing_on_levitated_t = void (*)(Gamep, Levelsp, Levelp, Thingp me);
 auto thing_on_levitated_set(Tpp tp, thing_on_levitated_t callback) -> void;

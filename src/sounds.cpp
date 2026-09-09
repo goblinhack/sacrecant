@@ -34,7 +34,7 @@ void sounds_load(Gamep g)
   (void) sound_load(1.0F, "data/sounds/misc/footstep.ogg", "footstep");
   (void) sound_load(1.0F, "data/sounds/misc/footstep_foliage.ogg", "footstep_foliage");
   (void) sound_load(1.0F, "data/sounds/missiles/projectile.ogg", "projectile", 5);
-  (void) sound_load(0.2F, "data/sounds/missiles/beam_weapon.ogg", "beam_weapon", 5);
+  (void) sound_load(1.0F, "data/sounds/missiles/beam_weapon.ogg", "beam_weapon", 5);
   (void) sound_load(1.0F, "data/sounds/treasure/key.ogg", "key");
   (void) sound_load(1.0F, "data/sounds/ambience/dungeon_ambience.ogg", "dungeon_ambience");
   (void) sound_load(0.1F, "data/sounds/ambience/bogland_ambience.ogg", "bogland_ambience");

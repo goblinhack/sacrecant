@@ -20,7 +20,7 @@
 #include "my_types.hpp"
 #include "my_ui.hpp"
 
-void tp_player1_on_spawned(Gamep g, Levelsp v, Levelp l, Thingp me)
+void tp_player1_on_spawned(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent *e_maybe_null)
 {
   TRACE();
   THING_DBG(g, v, l, me, "player spawned");
@@ -30,7 +30,8 @@ void tp_player1_on_spawned(Gamep g, Levelsp v, Levelp l, Thingp me)
   }
 
   static std::initializer_list< std::string > items = {
-      "wand_fire", //
+      "staff_fire", //
+      "wand_fire",  //
   };
 
   if (! thing_carry(g, v, l, me, items)) {
