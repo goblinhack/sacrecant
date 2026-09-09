@@ -1833,16 +1833,16 @@
   return level_flag_cached(g, v, l, is_unused154, p);
 }
 
-[[nodiscard]] auto level_is_unused155_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_noisy_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused155, p);
+  return level_flag_cached(g, v, l, is_noisy, p);
 }
 
-[[nodiscard]] auto level_is_unused156_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_hook_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused156, p);
+  return level_flag_cached(g, v, l, is_hook, p);
 }
 
 [[nodiscard]] auto level_is_sacrifice_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

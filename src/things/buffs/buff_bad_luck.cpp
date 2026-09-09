@@ -33,6 +33,7 @@ static auto tp_buff_bad_luck_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_lifespan_set(tp, "1d100+1000");
   tp_name_short_set(tp, "bad luck");
   tp_stat_set(tp, THING_STAT_LUCK, "9");
+  tp_flag_set(tp, is_hook);
   // end sort marker1 }
 
   return true;

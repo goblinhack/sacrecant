@@ -311,8 +311,8 @@
       list_macro(is_unused152, "is_unused152"),                                             /* newline */                                       \
       list_macro(is_unused153, "is_unused153"),                                             /* newline */                                       \
       list_macro(is_unused154, "is_unused154"),                                             /* newline */                                       \
-      list_macro(is_unused155, "is_unused155"),                                             /* newline */                                       \
-      list_macro(is_unused156, "is_unused156"),                                             /* newline */                                       \
+      list_macro(is_noisy, "is_noisy"),                                             /* newline */                                       \
+      list_macro(is_hook, "is_hook"),                                                       /* newline */                                       \
       list_macro(is_sacrifice, "is_sacrifice"),                                             /* newline */                                       \
       list_macro(is_debuff, "is_debuff"),                                                   /* newline */                                       \
       list_macro(is_venomous, "is_venomous"),                                               /* newline */                                       \
@@ -954,6 +954,7 @@ class Tp;
 [[nodiscard]] auto tp_is_grass(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_grouped_thing(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_hit_when_dead(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_hook(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_immune_to(Tpp tp, ThingEventType val) -> bool;
 [[nodiscard]] auto tp_is_indestructible(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_insectoid(Tpp tp) -> bool;
@@ -1120,8 +1121,7 @@ class Tp;
 [[nodiscard]] auto tp_is_unused152(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused153(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused154(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused155(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused156(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_noisy(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused16(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused17(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused18(Tpp tp) -> bool;

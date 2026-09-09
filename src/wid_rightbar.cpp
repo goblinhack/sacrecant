@@ -101,6 +101,8 @@ static void wid_rightbar_create_minimap_level(Gamep g)
 
 static auto wid_rightbar_thing_info_add(Gamep g, Levelsp v, Levelp l) -> void
 {
+  bool got_one = {};
+
   for (auto n = 0; std::cmp_less(n, v->describe_count); n++) {
     auto *t = thing_find_optional(g, v, v->describe[ n ]);
     if (t == nullptr) {
@@ -116,6 +118,7 @@ static auto wid_rightbar_thing_info_add(Gamep g, Levelsp v, Levelp l) -> void
     }
 
     wid_thing_info(g, v, l, t, wid_rightbar, UI_RIGHTBAR_WIDTH);
+    got_one = true;
   }
 
   for (auto n = 0; std::cmp_less(n, v->describe_count); n++) {
@@ -130,6 +133,23 @@ static auto wid_rightbar_thing_info_add(Gamep g, Levelsp v, Levelp l) -> void
 
     if (thing_is_dead(t)) {
       wid_thing_info(g, v, l, t, wid_rightbar, UI_RIGHTBAR_WIDTH);
+      got_one = true;
+    }
+  }
+
+  if (! got_one) {
+    auto sac = game_mouse_down_sacrifice_get(g);
+    if (sac) {
+      wid_thing_info(g, v, l, sac, wid_rightbar, UI_RIGHTBAR_WIDTH);
+      got_one = true;
+    }
+  }
+
+  if (! got_one) {
+    auto sac = game_mouse_over_sacrifice_get(g);
+    if (sac) {
+      wid_thing_info(g, v, l, sac, wid_rightbar, UI_RIGHTBAR_WIDTH);
+      got_one = true;
     }
   }
 }

@@ -1795,16 +1795,16 @@
   return tp_flag(tp, is_unused154) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused155(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_noisy(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused155) != 0;
+  return tp_flag(tp, is_noisy) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused156(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_hook(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused156) != 0;
+  return tp_flag(tp, is_hook) != 0;
 }
 
 [[nodiscard]] auto tp_is_sacrifice(Tpp tp) -> bool

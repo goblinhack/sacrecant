@@ -1796,16 +1796,16 @@
   return level_open(g, v, l, is_unused154, p);
 }
 
-[[nodiscard]] auto level_open_is_unused155(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+[[nodiscard]] auto level_open_is_noisy(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_open(g, v, l, is_unused155, p);
+  return level_open(g, v, l, is_noisy, p);
 }
 
-[[nodiscard]] auto level_open_is_unused156(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+[[nodiscard]] auto level_open_is_hook(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_open(g, v, l, is_unused156, p);
+  return level_open(g, v, l, is_hook, p);
 }
 
 [[nodiscard]] auto level_open_is_sacrifice(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp

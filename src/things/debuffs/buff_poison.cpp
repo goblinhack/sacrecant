@@ -37,8 +37,8 @@ static void tp_poison_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   // begin sort marker1 {
   thing_detail_set(tp, tp_buff_poison_detail_get);
   thing_on_tick_begin_set(tp, tp_poison_tick_begin);
-  tp_flag_set(tp, is_buff);
   tp_flag_set(tp, is_debuff);
+  tp_flag_set(tp, is_hook);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_tick_on_use);
   tp_flag_set(tp, is_tickable);

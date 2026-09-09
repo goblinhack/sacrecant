@@ -64,6 +64,7 @@ static bool tp_buff_prot_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
   tp_flag_set(tp, is_tickable);
   tp_lifespan_set(tp, "1d100+100");
   tp_name_short_set(tp, "protection");
+  tp_flag_set(tp, is_hook);
   // end sort marker1 }
 
   return true;

@@ -35,6 +35,7 @@ static auto tp_buff_invis_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) ->
   tp_name_short_set(tp, "invisible");
   tp_stat_set(tp, THING_STAT_DEF, "14");
   tp_stat_set(tp, THING_STAT_PSI, "12");
+  tp_flag_set(tp, is_hook);
   // end sort marker1 }
 
   return true;

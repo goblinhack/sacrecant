@@ -307,14 +307,14 @@ public:
   //
   // Which player was selected on the player menu
   //
-  Thingp selected_player {};
-  Thingp selected_sacrifice {};
+  Thingp mouse_down_player {};
+  Thingp mouse_down_sacrifice {};
 
   //
   // Which player is hovering over
   //
-  Thingp cand_player {};
-  Thingp cand_sacrifice {};
+  Thingp mouse_over_player {};
+  Thingp mouse_over_sacrifice {};
 
   /////////////////////////////////////////////////////////////////////////
   // not worth saving
@@ -3163,16 +3163,16 @@ void game_chosen_sacrifice_set(Gamep g, Tpp t)
   g->chosen_sacrifice = t;
 }
 
-[[nodiscard]] auto game_selected_player_get(Gamep g) -> Thingp
+[[nodiscard]] auto game_mouse_down_player_get(Gamep g) -> Thingp
 {
   TRACE();
 
   if (g == nullptr) [[unlikely]] {
     return nullptr;
   }
-  return g->selected_player;
+  return g->mouse_down_player;
 }
-void game_selected_player_set(Gamep g, Thingp t)
+void game_mouse_down_player_set(Gamep g, Thingp t)
 {
   TRACE();
 
@@ -3180,19 +3180,19 @@ void game_selected_player_set(Gamep g, Thingp t)
     ERR("no game pointer");
     return;
   }
-  g->selected_player = t;
+  g->mouse_down_player = t;
 }
 
-[[nodiscard]] auto game_selected_sacrifice_get(Gamep g) -> Thingp
+[[nodiscard]] auto game_mouse_down_sacrifice_get(Gamep g) -> Thingp
 {
   TRACE();
 
   if (g == nullptr) [[unlikely]] {
     return nullptr;
   }
-  return g->selected_sacrifice;
+  return g->mouse_down_sacrifice;
 }
-void game_selected_sacrifice_set(Gamep g, Thingp t)
+void game_mouse_down_sacrifice_set(Gamep g, Thingp t)
 {
   TRACE();
 
@@ -3200,19 +3200,19 @@ void game_selected_sacrifice_set(Gamep g, Thingp t)
     ERR("no game pointer");
     return;
   }
-  g->selected_sacrifice = t;
+  g->mouse_down_sacrifice = t;
 }
 
-[[nodiscard]] auto game_cand_player_get(Gamep g) -> Thingp
+[[nodiscard]] auto game_mouse_over_player_get(Gamep g) -> Thingp
 {
   TRACE();
 
   if (g == nullptr) [[unlikely]] {
     return nullptr;
   }
-  return g->cand_player;
+  return g->mouse_over_player;
 }
-void game_cand_player_set(Gamep g, Thingp t)
+void game_mouse_over_player_set(Gamep g, Thingp t)
 {
   TRACE();
 
@@ -3220,19 +3220,19 @@ void game_cand_player_set(Gamep g, Thingp t)
     ERR("no game pointer");
     return;
   }
-  g->cand_player = t;
+  g->mouse_over_player = t;
 }
 
-[[nodiscard]] auto game_cand_sacrifice_get(Gamep g) -> Thingp
+[[nodiscard]] auto game_mouse_over_sacrifice_get(Gamep g) -> Thingp
 {
   TRACE();
 
   if (g == nullptr) [[unlikely]] {
     return nullptr;
   }
-  return g->cand_sacrifice;
+  return g->mouse_over_sacrifice;
 }
-void game_cand_sacrifice_set(Gamep g, Thingp t)
+void game_mouse_over_sacrifice_set(Gamep g, Thingp t)
 {
   TRACE();
 
@@ -3240,7 +3240,7 @@ void game_cand_sacrifice_set(Gamep g, Thingp t)
     ERR("no game pointer");
     return;
   }
-  g->cand_sacrifice = t;
+  g->mouse_over_sacrifice = t;
 }
 
 [[nodiscard]] auto game_map_single_pix_size_get(Gamep g) -> int

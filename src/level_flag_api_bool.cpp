@@ -1833,16 +1833,16 @@
   return level_flag(g, v, l, is_unused154, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused155_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_noisy_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused155, p, me) != nullptr;
+  return level_flag(g, v, l, is_noisy, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused156_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_hook_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused156, p, me) != nullptr;
+  return level_flag(g, v, l, is_hook, p, me) != nullptr;
 }
 
 [[nodiscard]] auto level_is_sacrifice_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool

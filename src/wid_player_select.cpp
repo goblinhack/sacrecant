@@ -51,11 +51,11 @@ static void wid_player_select_destroy(Gamep g)
   memset(wid_sacrifice_shortcut, 0, sizeof(wid_sacrifice_shortcut));
   memset(wid_sacrifice, 0, sizeof(wid_sacrifice));
 
-  game_cand_player_set(g, nullptr);
-  game_cand_sacrifice_set(g, nullptr);
+  game_mouse_over_player_set(g, nullptr);
+  game_mouse_over_sacrifice_set(g, nullptr);
 
-  game_selected_player_set(g, nullptr);
-  game_selected_sacrifice_set(g, nullptr);
+  game_mouse_down_player_set(g, nullptr);
+  game_mouse_down_sacrifice_set(g, nullptr);
 
   if (wid_player_select_window != nullptr) {
     wid_destroy(g, &wid_player_select_window);
@@ -66,18 +66,22 @@ static void wid_player_select_check_if_done(Gamep g)
 {
   TRACE();
 
-  if ((game_selected_player_get(g) == nullptr) || (game_selected_sacrifice_get(g) == nullptr)) {
+  if ((game_mouse_down_player_get(g) == nullptr) || (game_mouse_down_sacrifice_get(g) == nullptr)) {
     return;
   }
 
-  auto tp = thing_tp(game_selected_player_get(g));
+  auto tp = thing_tp(game_mouse_down_player_get(g));
   game_chosen_player_set(g, tp);
-  game_chosen_sacrifice_set(g, thing_tp(game_selected_sacrifice_get(g)));
+  game_chosen_sacrifice_set(g, thing_tp(game_mouse_down_sacrifice_get(g)));
 
   wid_player_select_destroy(g);
 
   game_difficulty_set(g, tp_difficulty_get(tp));
+
+  wid_progress_bar(g, "Generating...", 0.0F);
   wid_new_game(g);
+  wid_progress_bar(g, "Generating...", 1.0F);
+  wid_progress_bar_destroy(g);
 
   game_chosen_player_set(g, nullptr);
   game_chosen_sacrifice_set(g, nullptr);
@@ -109,7 +113,7 @@ static void wid_player_update_selections(Gamep g)
       wid_set_color(w, WID_COLOR_BG, GRAY10);
 
       auto *t = wid_get_thing_context(g, v, w, 0);
-      if (t == game_selected_player_get(g)) {
+      if (t == game_mouse_down_player_get(g)) {
         wid_set_mode(w, WID_MODE_OVER);
         wid_set_style(w, UI_WID_STYLE_BUTTON_BAR);
         wid_set_color(w, WID_COLOR_BG, RED);
@@ -133,7 +137,7 @@ static void wid_player_update_selections(Gamep g)
       wid_set_color(w, WID_COLOR_BG, GRAY10);
 
       auto *t = wid_get_thing_context(g, v, w, 0);
-      if (t == game_selected_sacrifice_get(g)) {
+      if (t == game_mouse_down_sacrifice_get(g)) {
         wid_set_mode(w, WID_MODE_OVER);
         wid_set_style(w, UI_WID_STYLE_BUTTON_BAR);
         wid_set_color(w, WID_COLOR_BG, RED);
@@ -160,7 +164,7 @@ static void wid_player_select_player_via_mouse_over_begin(Gamep g, Widp w, int /
     return;
   }
 
-  game_cand_player_set(g, t);
+  game_mouse_over_player_set(g, t);
 
   level_cursor_describe_clear(g, v);
 
@@ -183,7 +187,7 @@ static void wid_player_select_player_via_mouse_over_end(Gamep g, Widp w)
     return;
   }
 
-  game_cand_player_set(g, nullptr);
+  game_mouse_over_player_set(g, nullptr);
 
   if (level_cursor_describe_remove(g, v, t)) {
     game_request_to_remake_ui_set(g);
@@ -204,17 +208,17 @@ static void wid_player_select_player_via_mouse_over_end(Gamep g, Widp w)
     return false;
   }
 
-  if (game_selected_player_get(g) == t) {
-    game_selected_player_set(g, nullptr);
+  if (game_mouse_down_player_get(g) == t) {
+    game_mouse_down_player_set(g, nullptr);
   } else {
-    game_selected_player_set(g, t);
+    game_mouse_down_player_set(g, t);
   }
 
-  wid_player_select_check_if_done(g);
-
-  wid_player_update_selections(g);
-
   (void) sound_play(g, "select");
+
+  wid_player_select_check_if_done(g);
+  wid_player_update_selections(g);
+  game_request_to_remake_ui_set(g);
 
   return true;
 }
@@ -233,7 +237,7 @@ static void wid_player_select_sacrifice_via_mouse_over_begin(Gamep g, Widp w, in
     return;
   }
 
-  game_cand_sacrifice_set(g, t);
+  game_mouse_over_sacrifice_set(g, t);
 
   level_cursor_describe_clear(g, v);
 
@@ -256,7 +260,7 @@ static void wid_player_select_sacrifice_via_mouse_over_end(Gamep g, Widp w)
     return;
   }
 
-  game_cand_sacrifice_set(g, nullptr);
+  game_mouse_over_sacrifice_set(g, nullptr);
 
   if (level_cursor_describe_remove(g, v, t)) {
     game_request_to_remake_ui_set(g);
@@ -277,15 +281,15 @@ static void wid_player_select_sacrifice_via_mouse_over_end(Gamep g, Widp w)
     return false;
   }
 
-  if (game_selected_sacrifice_get(g) == t) {
-    game_selected_sacrifice_set(g, nullptr);
+  if (game_mouse_down_sacrifice_get(g) == t) {
+    game_mouse_down_sacrifice_set(g, nullptr);
   } else {
-    game_selected_sacrifice_set(g, t);
+    game_mouse_down_sacrifice_set(g, t);
   }
 
   wid_player_select_check_if_done(g);
-
   wid_player_update_selections(g);
+  game_request_to_remake_ui_set(g);
 
   (void) sound_play(g, "select");
 
@@ -491,8 +495,8 @@ void wid_player_select(Gamep g)
       }
     }
 
-    if (! game_cand_player_get(g)) {
-      game_cand_player_set(g, existing_thing);
+    if (! game_mouse_over_player_get(g)) {
+      game_mouse_over_player_set(g, existing_thing);
     }
 
     //
@@ -633,10 +637,6 @@ void wid_player_select(Gamep g)
       if (! existing_thing) {
         continue;
       }
-    }
-
-    if (! game_cand_sacrifice_get(g)) {
-      game_cand_sacrifice_set(g, existing_thing);
     }
 
     //

@@ -39,9 +39,9 @@ static WidPopup *wid_leftbar;
 
   auto *player = thing_player(g);
   if (player == nullptr) [[unlikely]] {
-    player = game_cand_player_get(g);
+    player = game_mouse_over_player_get(g);
     if (player == nullptr) [[unlikely]] {
-      player = game_selected_player_get(g);
+      player = game_mouse_down_player_get(g);
       if (player == nullptr) [[unlikely]] {
         return false;
       }

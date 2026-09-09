@@ -102,6 +102,7 @@
   if (!tp_load_ring_war()) { return false; }
   if (!tp_load_rock()) { return false; }
   if (!tp_load_rubble()) { return false; }
+  if (!tp_load_sac_clumsy()) { return false; }
   if (!tp_load_skeleton_mob()) { return false; }
   if (!tp_load_skeleton()) { return false; }
   if (!tp_load_skullferno()) { return false; }

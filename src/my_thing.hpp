@@ -953,6 +953,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_hit_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_is_hit_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_is_hit_when_dead(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_hook(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_hot_check(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_immune_to(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEventType val) -> bool;
 [[nodiscard]] auto thing_is_indestructible(Thingp t) -> bool;
@@ -1122,8 +1123,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused152(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused153(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused154(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused155(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused156(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_noisy(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused16(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused17(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused18(Thingp t) -> bool;
@@ -1662,14 +1662,6 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
       for (auto _n_ = 0; _n_ < THING_BUFF_MAX; _n_++)                                                                                           \
         if (AUTO(_slot_) = &_ext_->buffs.buff[ _n_ ])                                                                                           \
           if (AUTO(_buff_) = thing_find_optional(g, v, _slot_->buff_id))
-
-#define FOR_ALL_BUFFS_SLOTS(_g_, _v_, _l_, _owner_, _slot_, _buff_)                                                                             \
-  if ((_g_) && (_v_) && (_l_))                                                                                                                  \
-    if (AUTO(_ext_) = thing_ext_struct(_g_, _v_, _owner_))                                                                                      \
-      for (auto _n_ = 0; _n_ < THING_BUFF_MAX; _n_++)                                                                                           \
-        for (AUTO(_slot_) = &_ext_->buffs.buff[ _n_ ]; _slot_; (_slot_) = nullptr)                                                              \
-          for (AUTO(_buff_) = thing_find_optional(g, v, (_slot_)->buff_id), loop2 = (Thingp) 1; loop2 == (Thingp) 1; loop2 = (Thingp) 0)        \
-            if (thing_is_buff(_buff_))
 
 #define FOR_ALL_BUFFS(_g_, _v_, _l_, _owner_, _buff_)                                                                                           \
   if ((_g_) && (_v_) && (_l_))                                                                                                                  \
