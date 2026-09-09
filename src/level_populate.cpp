@@ -945,19 +945,8 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
           //
           // Spawn the player
           //
-          auto *player = thing_spawn(g, v, l, tp, lp.at);
-          if (player == nullptr) {
+          if (! thing_player_spawn(g, v, l, tp, lp.at)) {
             return false;
-          }
-
-          //
-          // Add the chosen sacrifice
-          //
-          auto *chosen_sac = game_chosen_sacrifice_get(g);
-          if (chosen_sac != nullptr) {
-            if (thing_buff_add(g, v, l, player, chosen_sac) == nullptr) {
-              return false;
-            }
           }
         } else {
           //

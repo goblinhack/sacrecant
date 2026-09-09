@@ -51,6 +51,41 @@ void thing_player_init(Gamep g)
   player_state_change(g, v, l, PLAYER_STATE_NORMAL);
 }
 
+[[nodiscard]] auto thing_player_spawn(Gamep g, Levelsp v, Levelp l, Tpp tp, const bpoint at) -> bool
+{
+  TRACE();
+
+  //
+  // Spawn the player
+  //
+  auto *player = thing_spawn(g, v, l, tp, at);
+  if (player == nullptr) {
+    return false;
+  }
+
+  //
+  // Add the chosen sacrifice
+  //
+  auto *chosen_sac = game_chosen_sacrifice_get(g);
+  if (chosen_sac != nullptr) {
+    if (thing_buff_add(g, v, l, player, chosen_sac) == nullptr) {
+      return false;
+    }
+  }
+
+  //
+  // Get all the mana from our sacrifices
+  //
+  FOR_ALL_SACRIFICES(g, v, l, player, sacrifice)
+  { //
+    (void) thing_mana_max_incr(g, v, l, player, thing_mana(g, v, l, sacrifice));
+  }
+
+  (void) thing_mana_set(g, v, l, player, thing_mana_max(g, v, l, player));
+
+  return true;
+}
+
 [[nodiscard]] auto thing_player(Gamep g) -> Thingp
 {
   TRACE();

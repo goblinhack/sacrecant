@@ -465,7 +465,7 @@ void wid_player_select(Gamep g)
     spoint const br(button_width, y_at + button_height);
     wid_set_text_lhs(w, 1u);
     wid_set_pos(w, tl, br);
-    wid_set_text(w, UI_INFO_FMT_STR "Your Sacrecant                                 Mana");
+    wid_set_text(w, UI_INFO_FMT_STR "Sacrecant                                      Mana");
     y_at++;
   }
 
