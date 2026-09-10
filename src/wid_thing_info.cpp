@@ -1294,6 +1294,21 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
 
   auto *tp = thing_tp(me);
 
+  {
+    auto *player = thing_player(g);
+    if (player != nullptr) {
+      const float player_speed = thing_speed(g, v, l, player);
+
+      auto pct = static_cast< int >((thing_speed(g, v, l, me) / player_speed) * 100.0);
+
+      if (thing_speed(g, v, l, me) > player_speed) {
+        out = string_sprintf_append_with_comma(out, "Faster(%u%%%%%%)", pct);
+      } else if (thing_speed(g, v, l, me) < player_speed) {
+        out = string_sprintf_append_with_comma(out, "Slower(%u%%%%%%)", pct);
+      }
+    }
+  }
+
   if (thing_is_venomous(me)) {
     out = string_append_with_comma(out, "Venomous");
   }
@@ -1390,21 +1405,6 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   }
   if (tp_attack_count_max_per_tick_get(tp) > 1) {
     out = string_sprintf_append_with_comma(out, "Multi-attack(%u)", tp_attack_count_max_per_tick_get(tp));
-  }
-
-  {
-    auto *player = thing_player(g);
-    if (player != nullptr) {
-      const float player_speed = thing_speed(g, v, l, player);
-
-      auto pct = static_cast< int >((thing_speed(g, v, l, me) / player_speed) * 100.0);
-
-      if (thing_speed(g, v, l, me) > player_speed) {
-        out = string_sprintf_append_with_comma(out, "Faster(%u%%%%%%)", pct);
-      } else if (thing_speed(g, v, l, me) < player_speed) {
-        out = string_sprintf_append_with_comma(out, "Slower(%u%%%%%%)", pct);
-      }
-    }
   }
 
   if (out.empty()) {
@@ -2081,7 +2081,10 @@ void wid_thing_info(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, i
     //
     // Keep it terse
     //
-  } else {
+  } else if (thing_is_item(me)) {
+    //
+    // Items can have immunities and the like
+    //
     if (wid_thing_info_item_stats(g, v, l, me, parent, width)) {}
 
     if (wid_thing_info_immunity(g, v, l, me, parent, width)) {
