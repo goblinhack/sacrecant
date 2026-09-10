@@ -66,8 +66,7 @@ void thing_player_init(Gamep g)
   //
   // Add the chosen sacrifice
   //
-  auto *chosen_sac = game_chosen_sacrifice_get(g);
-  if (chosen_sac != nullptr) {
+  for (auto chosen_sac : game_chosen_sacrifice_get(g)) {
     if (thing_buff_add(g, v, l, player, chosen_sac) == nullptr) {
       return false;
     }

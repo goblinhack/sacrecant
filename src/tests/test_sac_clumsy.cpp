@@ -9,7 +9,7 @@
 #include "../my_test.hpp"
 #include "../my_thing_inlines.hpp"
 
-[[nodiscard]] static auto test_player_trap_triggered(Gamep g, Testp t) -> bool
+[[nodiscard]] static auto test_sac_clumsy(Gamep g, Testp t) -> bool
 {
   TEST_LOG(t, "begin");
   TRACE();
@@ -88,6 +88,8 @@
     }
   }
 
+  TEST_ASSERT(t, thing_buff_add(g, v, l1, player, tp_find_mand("sac_clumsy")), "failed to add sacrifice");
+
   for (auto tries = 0; tries < 8; tries++) {
     TEST_LOOP_PROGRESS(t, g, v, l1, tries, w, h);
 
@@ -143,14 +145,14 @@ exit:
   return result;
 }
 
-[[nodiscard]] auto test_load_player_trap_triggered() -> bool // NOLINT
+[[nodiscard]] auto test_load_sac_clumsy() -> bool // NOLINT
 {
   TRACE();
 
-  Testp test = test_load("player_trap_triggered");
+  Testp test = test_load("sac_clumsy");
 
   // begin sort marker1 {
-  test_callback_set(test, test_player_trap_triggered);
+  test_callback_set(test, test_sac_clumsy);
   // end sort marker1 }
 
   return true;

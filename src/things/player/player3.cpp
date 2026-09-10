@@ -46,7 +46,7 @@ auto tp_player3_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::stri
       UI_INFO2_FMT_STR "Note, fire resistant, not fire proof... Half damage from all fire related activities.\n"     //
       UI_INFO3_FMT_STR "For weaponry, the fireball is replaced with a more powerful beam of fire weapon.\n"          //
       UI_INFO4_FMT_STR "For maximum effect, line up enemies to strike them all in one go with this staff.\n"         //
-      UI_INFO5_FMT_STR "With such great power comes... limited health and lower defenses.\n";
+      UI_INFO5_FMT_STR "With such great power comes... limited health and lower defences.\n";
 }
 
 [[nodiscard]] auto tp_load_player3() -> bool

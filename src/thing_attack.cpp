@@ -143,7 +143,7 @@ static auto thing_attack_melee(Gamep g, Levelsp v, Levelp l, Thingp attacker, Th
   //
   // Attack or miss
   //
-  // The attack modifier, say +4 has to beat the defense, say 10
+  // The attack modifier, say +4 has to beat the defence, say 10
   // We roll d20 and add 4 .
   //
   auto def = thing_stat(g, v, l, it, THING_STAT_DEF);

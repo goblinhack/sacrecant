@@ -23,6 +23,7 @@
 #include "my_spoint.hpp"
 #include "my_test.hpp"
 #include "my_thing.hpp"
+#include "my_thing_inlines.hpp"
 #include "my_tile.hpp"
 #include "my_time.hpp"
 #include "my_types.hpp"
@@ -301,14 +302,15 @@ public:
   //
   // Which player was finally chosen on the player menu
   //
-  Tpp chosen_player {};
-  Tpp chosen_sacrifice {};
+  Thingp cand_player {};
+  Tpp    chosen_player {};
 
   //
-  // Which player was selected on the player menu
+  // Which sacrifices were selected
   //
-  Thingp mouse_down_player {};
-  Thingp mouse_down_sacrifice {};
+  Thingp                   cand_sacrifice_last {};
+  std::map< Thingp, bool > cand_sacrifice {};
+  std::vector< Tpp >       chosen_sacrifice {};
 
   //
   // Which player is hovering over
@@ -3123,6 +3125,62 @@ void game_map_zoom_out(Gamep g)
   game_map_zoom_update(g);
 }
 
+[[nodiscard]] auto game_cand_player_get(Gamep g) -> Tpp
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    return nullptr;
+  }
+
+  Thingp t = g->cand_player;
+  if (! t) {
+    return nullptr;
+  }
+
+  return thing_tp(t);
+}
+[[nodiscard]] auto game_cand_player_get_thing(Gamep g) -> Thingp
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    return nullptr;
+  }
+
+  return g->cand_player;
+}
+void game_cand_player_set(Gamep g, Thingp t)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->cand_player = t;
+}
+void game_cand_player_unset(Gamep g)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->cand_player = {};
+}
+void game_player_clear(Gamep g)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->cand_player   = {};
+  g->chosen_player = {};
+}
 [[nodiscard]] auto game_chosen_player_get(Gamep g) -> Tpp
 {
   TRACE();
@@ -3143,16 +3201,88 @@ void game_chosen_player_set(Gamep g, Tpp t)
   g->chosen_player = t;
 }
 
-[[nodiscard]] auto game_chosen_sacrifice_get(Gamep g) -> Tpp
+[[nodiscard]] auto game_cand_sacrifice_get(Gamep g) -> std::vector< Tpp >
+{
+  TRACE();
+
+  std::vector< Tpp > out;
+  if (g == nullptr) [[unlikely]] {
+    return out;
+  }
+  for (auto t : g->cand_sacrifice) {
+    Thingp it = t.first;
+    out.push_back(thing_tp(it));
+  }
+  return out;
+}
+[[nodiscard]] auto game_cand_sacrifice_get_last(Gamep g) -> Thingp
 {
   TRACE();
 
   if (g == nullptr) [[unlikely]] {
     return nullptr;
   }
+  return g->cand_sacrifice_last;
+}
+void game_cand_sacrifice_set(Gamep g, Thingp t)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->cand_sacrifice[ t ] = true;
+  g->cand_sacrifice_last = t;
+}
+void game_cand_sacrifice_unset(Gamep g, Thingp t)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->cand_sacrifice.erase(t);
+  g->cand_sacrifice_last = {};
+}
+void game_sacrifice_clear(Gamep g)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->cand_sacrifice      = {};
+  g->cand_sacrifice      = {};
+  g->cand_sacrifice_last = {};
+}
+[[nodiscard]] auto game_chosen_sacrifice_get(Gamep g) -> std::vector< Tpp >
+{
+  TRACE();
+
+  std::vector< Tpp > out;
+
+  if (g == nullptr) [[unlikely]] {
+    return out;
+  }
   return g->chosen_sacrifice;
 }
-void game_chosen_sacrifice_set(Gamep g, Tpp t)
+[[nodiscard]] auto game_cand_sacrifice_find(Gamep g, Thingp t) -> bool
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    return false;
+  }
+
+  if (g->cand_sacrifice.find(t) != g->cand_sacrifice.end()) {
+    return true;
+  }
+  return false;
+}
+void game_chosen_sacrifice_set(Gamep g, std::vector< Tpp > t)
 {
   TRACE();
 
@@ -3161,46 +3291,6 @@ void game_chosen_sacrifice_set(Gamep g, Tpp t)
     return;
   }
   g->chosen_sacrifice = t;
-}
-
-[[nodiscard]] auto game_mouse_down_player_get(Gamep g) -> Thingp
-{
-  TRACE();
-
-  if (g == nullptr) [[unlikely]] {
-    return nullptr;
-  }
-  return g->mouse_down_player;
-}
-void game_mouse_down_player_set(Gamep g, Thingp t)
-{
-  TRACE();
-
-  if (g == nullptr) [[unlikely]] {
-    ERR("no game pointer");
-    return;
-  }
-  g->mouse_down_player = t;
-}
-
-[[nodiscard]] auto game_mouse_down_sacrifice_get(Gamep g) -> Thingp
-{
-  TRACE();
-
-  if (g == nullptr) [[unlikely]] {
-    return nullptr;
-  }
-  return g->mouse_down_sacrifice;
-}
-void game_mouse_down_sacrifice_set(Gamep g, Thingp t)
-{
-  TRACE();
-
-  if (g == nullptr) [[unlikely]] {
-    ERR("no game pointer");
-    return;
-  }
-  g->mouse_down_sacrifice = t;
 }
 
 [[nodiscard]] auto game_mouse_over_player_get(Gamep g) -> Thingp

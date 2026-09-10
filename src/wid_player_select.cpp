@@ -12,6 +12,7 @@
 #include "my_level.hpp"
 #include "my_level_inlines.hpp" // NOLINT
 #include "my_main.hpp"
+#include "my_random.hpp"
 #include "my_sdl_proto.hpp"
 #include "my_sound.hpp"
 #include "my_spoint.hpp"
@@ -41,10 +42,12 @@
 
 static Widp wid_player_select_window;
 
+static int  wid_player_index = 0;
 static Widp wid_player_shortcut[ THING_INVENTORY_MAX ];
 static Widp wid_player[ THING_INVENTORY_MAX ];
 static Widp wid_player_icon[ THING_INVENTORY_MAX ];
 
+static int  wid_sacrifice_index = 0;
 static Widp wid_sacrifice_shortcut[ THING_INVENTORY_MAX ];
 static Widp wid_sacrifice[ THING_INVENTORY_MAX ];
 
@@ -62,8 +65,8 @@ static void wid_player_select_destroy(Gamep g)
   game_mouse_over_player_set(g, nullptr);
   game_mouse_over_sacrifice_set(g, nullptr);
 
-  game_mouse_down_player_set(g, nullptr);
-  game_mouse_down_sacrifice_set(g, nullptr);
+  game_cand_player_set(g, nullptr);
+  game_cand_sacrifice_set(g, nullptr);
 
   if (wid_player_select_window != nullptr) {
     wid_destroy(g, &wid_player_select_window);
@@ -74,13 +77,13 @@ static void wid_player_select_check_if_done(Gamep g)
 {
   TRACE();
 
-  if ((game_mouse_down_player_get(g) == nullptr) || (game_mouse_down_sacrifice_get(g) == nullptr)) {
+  if (! game_cand_player_get(g) || (game_cand_sacrifice_get(g).empty())) {
     return;
   }
 
-  auto *tp = thing_tp(game_mouse_down_player_get(g));
+  auto *tp = game_cand_player_get(g);
   game_chosen_player_set(g, tp);
-  game_chosen_sacrifice_set(g, thing_tp(game_mouse_down_sacrifice_get(g)));
+  game_chosen_sacrifice_set(g, game_cand_sacrifice_get(g));
 
   wid_player_select_destroy(g);
 
@@ -91,8 +94,8 @@ static void wid_player_select_check_if_done(Gamep g)
   wid_progress_bar(g, "Generating...", 1.0F);
   wid_progress_bar_destroy(g);
 
-  game_chosen_player_set(g, nullptr);
-  game_chosen_sacrifice_set(g, nullptr);
+  game_player_clear(g);
+  game_sacrifice_clear(g);
 }
 
 static void wid_player_update_selections(Gamep g)
@@ -121,7 +124,7 @@ static void wid_player_update_selections(Gamep g)
       wid_set_color(w, WID_COLOR_BG, GRAY10);
 
       auto *t = wid_get_thing_context(g, v, w, 0);
-      if (t == game_mouse_down_player_get(g)) {
+      if (t == game_cand_player_get_thing(g)) {
         wid_set_mode(w, WID_MODE_OVER);
         wid_set_style(w, UI_WID_STYLE_BUTTON_BAR);
         wid_set_color(w, WID_COLOR_BG, RED);
@@ -145,7 +148,7 @@ static void wid_player_update_selections(Gamep g)
       wid_set_color(w, WID_COLOR_BG, GRAY10);
 
       auto *t = wid_get_thing_context(g, v, w, 0);
-      if (t == game_mouse_down_sacrifice_get(g)) {
+      if (game_cand_sacrifice_find(g, t)) {
         wid_set_mode(w, WID_MODE_OVER);
         wid_set_style(w, UI_WID_STYLE_BUTTON_BAR);
         wid_set_color(w, WID_COLOR_BG, RED);
@@ -216,10 +219,10 @@ static void wid_player_select_player_via_mouse_over_end(Gamep g, Widp w)
     return false;
   }
 
-  if (game_mouse_down_player_get(g) == t) {
-    game_mouse_down_player_set(g, nullptr);
+  if (game_cand_player_get_thing(g) == t) {
+    game_cand_player_unset(g);
   } else {
-    game_mouse_down_player_set(g, t);
+    game_cand_player_set(g, t);
   }
 
   (void) sound_play(g, "select");
@@ -289,10 +292,10 @@ static void wid_player_select_sacrifice_via_mouse_over_end(Gamep g, Widp w)
     return false;
   }
 
-  if (game_mouse_down_sacrifice_get(g) == t) {
-    game_mouse_down_sacrifice_set(g, nullptr);
+  if (game_cand_sacrifice_find(g, t)) {
+    game_cand_sacrifice_set(g, nullptr);
   } else {
-    game_mouse_down_sacrifice_set(g, t);
+    game_cand_sacrifice_set(g, t);
   }
 
   wid_player_select_check_if_done(g);
@@ -324,11 +327,11 @@ static void wid_player_select_sacrifice_via_mouse_over_end(Gamep g, Widp w)
             auto c = wid_event_to_char(key);
             switch (c) {
               case ' ' :
-                w = wid_player[ 0 ];
+                w = wid_player[ PCG_RANDOM_RANGE(0, wid_player_index) ];
                 if (w != nullptr) {
                   (void) wid_player_select_player_via_mouse_down(g, w, -1, -1, 0);
                 }
-                w = wid_sacrifice[ 0 ];
+                w = wid_sacrifice[ PCG_RANDOM_RANGE(0, wid_sacrifice_index) ];
                 if (w != nullptr) {
                   (void) wid_player_select_sacrifice_via_mouse_down(g, w, -1, -1, 0);
                 }
@@ -479,17 +482,34 @@ void wid_player_select(Gamep g)
   memset(wid_player_icon, 0, sizeof(wid_player_icon));
   memset(wid_player, 0, sizeof(wid_player));
 
-  int y_index = 0;
+  wid_player_index = 0;
+
+  std::vector< Tpp > wid_player_tps;
 
   for (auto &tp : tp_vec) {
     if (! tp_is_player(tp)) {
       continue;
     }
+    wid_player_tps.push_back(tp);
+  }
+
+  //
+  // Sort by mana
+  //
+  std::ranges::sort(wid_player_tps, [](const Tpp &a, const Tpp &b) -> bool { return tp_mana_get(a) < tp_mana_get(b); });
+
+  for (auto &tp : wid_player_tps) {
+    //
+    // Check for overflow
+    //
+    if (wid_player_index >= ARRAY_SIZE(wid_player)) {
+      break;
+    }
 
     //
     // Create a temporary thing on the level select map
     //
-    auto   at             = bpoint(0, y_index);
+    auto   at             = bpoint(0, wid_player_index);
     Thingp existing_thing = nullptr;
     FOR_ALL_THINGS_AT(g, v, level_select, t, at)
     {
@@ -529,7 +549,7 @@ void wid_player_select(Gamep g)
       wid_set_on_mouse_over_begin(w, wid_player_select_player_via_mouse_over_begin);
       wid_set_on_mouse_over_end(w, wid_player_select_player_via_mouse_over_end);
 
-      wid_player_icon[ y_index ] = w;
+      wid_player_icon[ wid_player_index ] = w;
     }
 
     //
@@ -540,7 +560,7 @@ void wid_player_select(Gamep g)
       auto *w = wid_new_square_button(g, wid_player_select_window, "Key");
 
       std::string s;
-      s += static_cast< char >('0' + y_index);
+      s += static_cast< char >('0' + wid_player_index);
       s += ')';
 
       spoint const tl(3, y_at);
@@ -559,7 +579,7 @@ void wid_player_select(Gamep g)
       wid_set_on_mouse_over_begin(w, wid_player_select_player_via_mouse_over_begin);
       wid_set_on_mouse_over_end(w, wid_player_select_player_via_mouse_over_end);
 
-      wid_player_shortcut[ y_index ] = w;
+      wid_player_shortcut[ wid_player_index ] = w;
     }
 
     //
@@ -596,11 +616,11 @@ void wid_player_select(Gamep g)
       wid_set_on_mouse_over_begin(w, wid_player_select_player_via_mouse_over_begin);
       wid_set_on_mouse_over_end(w, wid_player_select_player_via_mouse_over_end);
 
-      wid_player[ y_index ] = w;
+      wid_player[ wid_player_index ] = w;
     }
 
     y_at += button_step;
-    y_index++;
+    wid_player_index++;
   }
 
   y_at++;
@@ -623,27 +643,34 @@ void wid_player_select(Gamep g)
   memset(wid_sacrifice_shortcut, 0, sizeof(wid_sacrifice_shortcut));
   memset(wid_sacrifice, 0, sizeof(wid_sacrifice));
 
-  y_index = 0;
+  wid_sacrifice_index = 0;
 
-  std::vector< Tpp > tps;
+  std::vector< Tpp > wid_sacrifice_tps;
 
   for (auto &tp : tp_vec) {
     if (! tp_is_sacrifice(tp)) {
       continue;
     }
-    tps.push_back(tp);
+    wid_sacrifice_tps.push_back(tp);
   }
 
   //
   // Sort by mana
   //
-  std::ranges::sort(tps, [](const Tpp &a, const Tpp &b) -> bool { return tp_mana_get(a) < tp_mana_get(b); });
+  std::ranges::sort(wid_sacrifice_tps, [](const Tpp &a, const Tpp &b) -> bool { return tp_mana_get(a) < tp_mana_get(b); });
 
-  for (auto &tp : tps) {
+  for (auto &tp : wid_sacrifice_tps) {
+    //
+    // Check for overflow
+    //
+    if (wid_sacrifice_index >= ARRAY_SIZE(wid_sacrifice)) {
+      break;
+    }
+
     //
     // Create a temporary thing on the level select map
     //
-    auto   at             = bpoint(1, y_index);
+    auto   at             = bpoint(1, wid_sacrifice_index);
     Thingp existing_thing = nullptr;
     FOR_ALL_THINGS_AT(g, v, level_select, t, at)
     {
@@ -668,7 +695,7 @@ void wid_player_select(Gamep g)
       auto *w = wid_new_square_button(g, wid_player_select_window, "Key");
 
       std::string s;
-      s += static_cast< char >('a' + y_index);
+      s += static_cast< char >('a' + wid_sacrifice_index);
       s += ')';
 
       spoint const tl(3, y_at);
@@ -687,7 +714,7 @@ void wid_player_select(Gamep g)
       wid_set_on_mouse_over_begin(w, wid_player_select_sacrifice_via_mouse_over_begin);
       wid_set_on_mouse_over_end(w, wid_player_select_sacrifice_via_mouse_over_end);
 
-      wid_sacrifice_shortcut[ y_index ] = w;
+      wid_sacrifice_shortcut[ wid_sacrifice_index ] = w;
     }
 
     //
@@ -725,11 +752,11 @@ void wid_player_select(Gamep g)
       wid_set_on_mouse_over_begin(w, wid_player_select_sacrifice_via_mouse_over_begin);
       wid_set_on_mouse_over_end(w, wid_player_select_sacrifice_via_mouse_over_end);
 
-      wid_sacrifice[ y_index ] = w;
+      wid_sacrifice[ wid_sacrifice_index ] = w;
     }
 
     y_at += button_step;
-    y_index++;
+    wid_sacrifice_index++;
   }
 
   wid_update(g, wid_player_select_window);

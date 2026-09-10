@@ -139,7 +139,7 @@
   if (!test_load_player_on_fire()) { return false; }
   if (!test_load_player_trap_did_not_trigger_due_to_clover()) { return false; }
   if (!test_load_player_trap_did_not_trigger_due_to_horseshoe()) { return false; }
-  if (!test_load_player_triggered()) { return false; }
+  if (!test_load_player_trap_triggered()) { return false; }
   if (!test_load_pot_disloc_bad_luck()) { return false; }
   if (!test_load_pot_disloc_good_luck()) { return false; }
   if (!test_load_pot_healing()) { return false; }
@@ -178,6 +178,7 @@
   if (!test_load_ring_war_defence()) { return false; }
   if (!test_load_ring_war_melee()) { return false; }
   if (!test_load_ring_war_projectile()) { return false; }
+  if (!test_load_sac_clumsy()) { return false; }
   if (!test_load_sac_noisy_pot_stealth()) { return false; }
   if (!test_load_sac_noisy()) { return false; }
   if (!test_load_save_load()) { return false; }

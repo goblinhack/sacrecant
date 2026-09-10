@@ -11,6 +11,7 @@
 
 #include <SDL.h>
 #include <string>
+#include <vector>
 
 #define GAME_STATE_ENUM(list_macro)                                                                                                             \
   CLANG_FORMAT_INDENT()                                           /* dummy line for clang indentation fixup */                                  \
@@ -291,17 +292,22 @@ auto               game_request_to_end_game_unset(Gamep g) -> void;
 [[nodiscard]] auto game_request_to_end_game_reason_get(Gamep g) -> std::string;
 auto               game_request_to_end_game_reason_set(Gamep g, const std::string &val) -> void;
 
+void               game_player_clear(Gamep g);
+[[nodiscard]] auto game_cand_player_get(Gamep g) -> Tpp;
+[[nodiscard]] auto game_cand_player_get_thing(Gamep g) -> Thingp;
+void               game_cand_player_set(Gamep g, Thingp t);
+void               game_cand_player_unset(Gamep g);
 [[nodiscard]] auto game_chosen_player_get(Gamep g) -> Tpp;
 void               game_chosen_player_set(Gamep g, Tpp t);
 
-[[nodiscard]] auto game_chosen_sacrifice_get(Gamep g) -> Tpp;
-void               game_chosen_sacrifice_set(Gamep g, Tpp t);
-
-[[nodiscard]] auto game_mouse_down_player_get(Gamep g) -> Thingp;
-void               game_mouse_down_player_set(Gamep g, Thingp t);
-
-[[nodiscard]] auto game_mouse_down_sacrifice_get(Gamep g) -> Thingp;
-void               game_mouse_down_sacrifice_set(Gamep g, Thingp t);
+[[nodiscard]] auto game_cand_sacrifice_get_last(Gamep g) -> Thingp;
+[[nodiscard]] auto game_cand_sacrifice_get(Gamep g) -> std::vector< Tpp >;
+void               game_sacrifice_clear(Gamep g);
+void               game_cand_sacrifice_set(Gamep g, Thingp t);
+[[nodiscard]] auto game_cand_sacrifice_find(Gamep g, Thingp t) -> bool;
+void               game_cand_sacrifice_unset(Gamep g, Thingp t);
+[[nodiscard]] auto game_chosen_sacrifice_get(Gamep g) -> std::vector< Tpp >;
+void               game_chosen_sacrifice_set(Gamep g, std::vector< Tpp > t);
 
 [[nodiscard]] auto game_mouse_over_player_get(Gamep g) -> Thingp;
 void               game_mouse_over_player_set(Gamep g, Thingp t);

@@ -40,7 +40,7 @@ static WidPopup *wid_leftbar;
   if (player == nullptr) [[unlikely]] {
     player = game_mouse_over_player_get(g);
     if (player == nullptr) [[unlikely]] {
-      player = game_mouse_down_player_get(g);
+      player = game_cand_player_get_thing(g);
       if (player == nullptr) [[unlikely]] {
         return false;
       }

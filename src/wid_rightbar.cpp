@@ -138,7 +138,7 @@ static auto wid_rightbar_thing_info_add(Gamep g, Levelsp v, Levelp l) -> void
   }
 
   if (! got_one) {
-    auto *sac = game_mouse_down_sacrifice_get(g);
+    auto *sac = game_cand_sacrifice_get_last(g);
     if (sac != nullptr) {
       wid_thing_info(g, v, l, sac, wid_rightbar, UI_RIGHTBAR_WIDTH);
       got_one = true;
