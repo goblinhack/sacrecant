@@ -62,6 +62,7 @@ static void tp_kobalos_mob_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_flag_set(tp, is_able_to_fall);
   tp_flag_set(tp, is_animated_can_hflip);
   tp_flag_set(tp, is_animated);
+  tp_flag_set(tp, is_attackable_by_player);
   tp_flag_set(tp, is_biome_bogland);
   tp_flag_set(tp, is_biome_dungeon);
   tp_flag_set(tp, is_blit_centered);

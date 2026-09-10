@@ -745,7 +745,14 @@ static void player_check_if_target_needs_move_confirm_callback(Gamep g, bool val
   THING_DBG(g, v, l, me, "player move to attempt failed, try shoving");
   TRACE_INDENT();
 
-  if (thing_can_move_to_attempt_by_shoving(g, v, l, me, to)) {
+  auto item = thing_worn_get(g, v, l, me, WORN_TYPE_WEAPON);
+  if (! item && level_alive_is_attackable_by_player(g, v, l, to)) {
+    //
+    // Prefer to attack versus shoving if we have no weapon and we can attack it.
+    //
+    (void) thing_lunge(g, v, l, me, to);
+    (void) level_tick_begin_requested(g, v, l, "player attacks an obstacle");
+  } else if (thing_can_move_to_attempt_by_shoving(g, v, l, me, to)) {
     //
     // Can we shove it out of the way to move?
     //

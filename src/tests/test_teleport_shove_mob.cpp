@@ -53,6 +53,21 @@
   bool left {};
   bool right {};
 
+  static std::initializer_list< std::string > items = {
+      "wand_fire", //
+  };
+
+  auto *player = thing_player(g);
+  if (player == nullptr) [[unlikely]] {
+    TEST_FAILED(t, "no player");
+    goto exit;
+  }
+
+  if (! thing_carry(g, v, l, player, items)) {
+    TEST_FAILED(t, "no item carried");
+    goto exit;
+  }
+
   //
   // Move right and teleport
   //

@@ -9,7 +9,7 @@
 #include "../my_test.hpp"
 #include "../my_thing_inlines.hpp"
 
-[[nodiscard]] static auto test_mob_shove_ok(Gamep g, Testp t) -> bool
+[[nodiscard]] static auto test_sac_weaponless_attack_mob(Gamep g, Testp t) -> bool
 {
   TEST_LOG(t, "begin");
   TRACE();
@@ -22,21 +22,21 @@
   // How the dungeon starts out, and how we expect it to change
   //
   std::string const start
-      = "......."
-        "......."
-        "......."
-        "..@g..."
-        "......."
-        "......."
-        ".......";
+      = "xxxxxxx"
+        "x.....x"
+        "x.....x"
+        "x.@g..x"
+        "x.....x"
+        "x.....x"
+        "xxxxxxx";
   std::string const expect1
-      = "......."
-        "......."
-        "......."
-        "...@g.."
-        "......."
-        "......."
-        ".......";
+      = "xxxxxxx"
+        "x.....x"
+        "x.....x"
+        "x....@x"
+        "x.....x"
+        "x.....x"
+        "xxxxxxx";
 
   //
   // Create the level and start playing
@@ -55,27 +55,22 @@
   bool left {};
   bool right {};
 
-  static std::initializer_list< std::string > items = {
-      "wand_fire", //
-  };
-
   auto *player = thing_player(g);
   if (player == nullptr) [[unlikely]] {
     TEST_FAILED(t, "no player");
     goto exit;
   }
 
-  if (! thing_carry(g, v, l, player, items)) {
-    TEST_FAILED(t, "no item carried");
-    goto exit;
-  }
+  TEST_ASSERT(t, thing_buff_add(g, v, l, player, tp_find_mand("sac_weaponless")), "failed to add sacrifice");
 
   //
-  // Bump into a mob. It should move and not die.
+  // Attack the mob.
   //
   level_dump(g, v, l, w, h);
   TEST_PROGRESS(t);
-  {
+  for (auto tries = 0; tries < 20; tries++) {
+    TEST_LOOP_PROGRESS(t, g, v, l, tries, w, h);
+
     TEST_LOG(t, "move right");
     TRACE();
     up = down = left = right = false;
@@ -90,34 +85,14 @@
       TEST_FAILED(t, "wait loop failed");
       goto exit;
     }
-
-    if (! (result = level_match_contents(g, v, l, t, w, h, expect1.c_str()))) {
-      TEST_FAILED(t, "unexpected contents");
-      goto exit;
-    }
-
-    //
-    // Check the mob is alive
-    //
-    TEST_LOG(t, "check mob is alive");
-    auto p = thing_at(g, v, l, player) + bpoint(1, 0);
-    bool found_it {};
-
-    FOR_ALL_THINGS_AT(g, v, l, it, p)
-    {
-      if (thing_is_mob(it) && ! thing_is_dead(it)) {
-        found_it = true;
-        break;
-      }
-    }
-
-    if (! found_it) {
-      TEST_FAILED(t, "no alive mob");
-      goto exit;
-    }
   }
 
-  TEST_ASSERT(t, game_tick_get(g, v) == 2, "final tick counter value");
+  TEST_ASSERT(t, game_tick_get(g, v) == 20, "final tick counter value");
+
+  if (! (result = level_match_contents(g, v, l, t, w, h, expect1.c_str()))) {
+    TEST_FAILED(t, "unexpected contents");
+    goto exit;
+  }
 
   level_dump(g, v, l, w, h);
   TEST_PASSED(t);
@@ -128,14 +103,14 @@ exit:
   return result;
 }
 
-[[nodiscard]] auto test_load_mob_shove_ok() -> bool // NOLINT
+[[nodiscard]] auto test_load_sac_weaponless_attack_mob() -> bool // NOLINT
 {
   TRACE();
 
-  Testp test = test_load("mob_shove_ok");
+  Testp test = test_load("sac_weaponless_attack_mob");
 
   // begin sort marker1 {
-  test_callback_set(test, test_mob_shove_ok);
+  test_callback_set(test, test_sac_weaponless_attack_mob);
   // end sort marker1 }
 
   return true;

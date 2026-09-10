@@ -58,28 +58,30 @@
   bpoint  p;
   bool    found_it {};
   ThingId mob_id = 0;
-  Thingp  player = nullptr;
+
+  static std::initializer_list< std::string > items = {
+      "wand_fire", //
+  };
+
+  auto player = thing_player(g);
+  if (player == nullptr) [[unlikely]] {
+    TEST_FAILED(t, "no player");
+    goto exit;
+  }
+
+  if (! thing_carry(g, v, l, player, items)) {
+    TEST_FAILED(t, "no item carried");
+    goto exit;
+  }
 
   //
   // Push the mob into lava
   //
-  TEST_LOG(t, "push mob into lava");
-  TRACE();
-  up = down = left = right = false;
-  right                    = true;
-
-  //
-  // Find the player
-  //
-  level_dump(g, v, l, w, h);
-  TEST_PROGRESS(t);
   {
+    TEST_LOG(t, "push mob into lava");
     TRACE();
-    player = thing_player(g);
-    if (player == nullptr) [[unlikely]] {
-      TEST_FAILED(t, "no player");
-      goto exit;
-    }
+    up = down = left = right = false;
+    right                    = true;
   }
 
   //

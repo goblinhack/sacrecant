@@ -14,6 +14,7 @@
 #include "my_tp.hpp"
 #include "my_types.hpp"
 #include "my_ui.hpp"
+#include "my_wids.hpp"
 
 #include <string>
 
@@ -38,6 +39,13 @@ static void thing_killed_player(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEv
     } else {
       by_the_thing = thing_name_long_the(g, v, l, it);
     }
+
+    //
+    // Ensure we're showing the detail of whatever did the deed
+    //
+    level_cursor_describe_clear(g, v);
+    (void) level_cursor_describe_add(g, v, it);
+    (void) wid_rightbar_init(g);
 
     switch (e.event_type) {
       case THING_EVENT_THROWN : //

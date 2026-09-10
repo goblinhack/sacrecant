@@ -56,8 +56,8 @@
   if (!test_load_jump_truncated()) { return false; }
   if (!test_load_large_fire_water()) { return false; }
   if (!test_load_mob_shove_into_lava()) { return false; }
+  if (!test_load_mob_shove_ok()) { return false; }
   if (!test_load_mob_water()) { return false; }
-  if (!test_load_mob()) { return false; }
   if (!test_load_monst_amphibian()) { return false; }
   if (!test_load_monst_avoids_chasm()) { return false; }
   if (!test_load_monst_avoids_lava()) { return false; }
@@ -181,6 +181,7 @@
   if (!test_load_sac_clumsy()) { return false; }
   if (!test_load_sac_noisy_pot_stealth()) { return false; }
   if (!test_load_sac_noisy()) { return false; }
+  if (!test_load_sac_weaponless_attack_mob()) { return false; }
   if (!test_load_save_load()) { return false; }
   if (!test_load_slots()) { return false; }
   if (!test_load_spiderweb_monst_not_trapped_due_to_ethereal()) { return false; }

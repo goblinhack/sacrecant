@@ -203,6 +203,7 @@ static std::initializer_list< std::string > tests = {
     "sac_clumsy",
     "sac_noisy_pot_stealth",
     "sac_noisy",
+    "sac_weaponless_attack_mob",
     "save_load",
     "slots",
     "spiderweb_monst_not_trapped_due_to_ethereal",
