@@ -698,9 +698,31 @@ void thing_damage_apply(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   if (thing_is_immune_to(g, v, l, me, e.event_type)) {
     THING_DBG(g, v, l, me, "%s: no damage as immune", to_string(g, v, l, e).c_str());
     if (thing_is_player(me)) {
-      topcon(UI_GOOD_FMT_STR "You take no damage from the heat." UI_RESET_FMT);
+      topcon(UI_GOOD_FMT_STR "You take no damage from the %s." UI_RESET_FMT, ThingEventType_to_string(e.event_type).c_str());
     }
     return;
+  }
+
+  //
+  // Prone and resistant at the same time?
+  //
+  if (thing_is_prone_to(g, v, l, me, e.event_type) && thing_is_resistant_to(g, v, l, me, e.event_type)) {
+    if (thing_is_player(me)) {
+      topcon(UI_GOOD_FMT_STR "You take no damage from the %s." UI_RESET_FMT, ThingEventType_to_string(e.event_type).c_str());
+    }
+    return;
+  }
+
+  //
+  // Prone to this attack?
+  //
+  if (thing_is_prone_to(g, v, l, me, e.event_type)) {
+    e.damage *= 2;
+    THING_DBG(g, v, l, me, "%s: double damage as prone", to_string(g, v, l, e).c_str());
+
+    if (thing_is_player(me)) {
+      topcon(UI_GOOD_FMT_STR "You take double damage from the %s." UI_RESET_FMT, ThingEventType_to_string(e.event_type).c_str());
+    }
   }
 
   //
@@ -712,13 +734,13 @@ void thing_damage_apply(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
 
     if (e.damage <= 0) {
       if (thing_is_player(me)) {
-        topcon(UI_GOOD_FMT_STR "You take no damage from the heat." UI_RESET_FMT);
+        topcon(UI_GOOD_FMT_STR "You take no damage from the %s." UI_RESET_FMT, ThingEventType_to_string(e.event_type).c_str());
       }
       return;
     }
 
     if (thing_is_player(me)) {
-      topcon(UI_GOOD_FMT_STR "You take half damage from the heat." UI_RESET_FMT);
+      topcon(UI_GOOD_FMT_STR "You take half damage from the %s." UI_RESET_FMT, ThingEventType_to_string(e.event_type).c_str());
     }
   }
 

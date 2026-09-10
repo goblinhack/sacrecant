@@ -1284,6 +1284,72 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
 }
 
 //
+// Add things we're prone to
+//
+[[nodiscard]] auto wid_thing_info_prone(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, int /*width*/) -> bool
+{
+  TRACE();
+
+  std::string out;
+
+  FOR_ALL_THING_EVENT(e)
+  {
+    if (! thing_is_prone_to(g, v, l, me, e)) {
+      continue;
+    }
+
+    bool show_string = false;
+
+    switch (e) {
+      case THING_EVENT_SHOVED :           [[fallthrough]];
+      case THING_EVENT_CRUSH_DAMAGE :     [[fallthrough]];
+      case THING_EVENT_ENERGY_DAMAGE :    [[fallthrough]];
+      case THING_EVENT_MELEE_DAMAGE :     [[fallthrough]];
+      case THING_EVENT_POISON_DAMAGE :    [[fallthrough]];
+      case THING_EVENT_THROWN_DAMAGE :    [[fallthrough]];
+      case THING_EVENT_ENGULF_DAMAGE :    [[fallthrough]];
+      case THING_EVENT_EXPLOSION_DAMAGE : [[fallthrough]];
+      case THING_EVENT_FIRE_DAMAGE :      [[fallthrough]];
+      case THING_EVENT_WATER_DAMAGE : //
+        show_string = true;
+        break;
+      case THING_EVENT_NONE :             [[fallthrough]];
+      case THING_EVENT_GAME_OVER :        [[fallthrough]];
+      case THING_EVENT_MELT :             [[fallthrough]];
+      case THING_EVENT_OPEN :             [[fallthrough]];
+      case THING_EVENT_LIFESPAN_EXPIRED : [[fallthrough]];
+      case THING_EVENT_FALL :             [[fallthrough]];
+      case THING_EVENT_CARRIED :          [[fallthrough]];
+      case THING_EVENT_CARRIED_MERGED :   [[fallthrough]];
+      case THING_EVENT_USER_INITIATED :   [[fallthrough]];
+      case THING_EVENT_SPAWNED :          [[fallthrough]];
+      case THING_EVENT_THROWN :           [[fallthrough]];
+      case THING_EVENT_USED :             [[fallthrough]];
+      case THING_EVENT_EATEN :            [[fallthrough]];
+      case THING_EVENT_LEVITATED :        [[fallthrough]];
+      case THING_EVENT_ENUM_MAX : //
+        show_string = false;
+        break;
+    }
+
+    if (! show_string) {
+      continue;
+    }
+
+    out = string_append_with_comma(out, capitalize(ThingEventType_to_string(e)));
+  }
+
+  if (out.empty()) {
+    return false;
+  }
+
+  parent->log(g, UI_INFO_FMT_STR "Resistances (half damage):", TEXT_FORMAT_LHS);
+  parent->log(g, "- " + out, TEXT_FORMAT_LHS);
+
+  return true;
+}
+
+//
 // Add abilities
 //
 [[nodiscard]] static auto wid_thing_info_abilities(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent) -> bool
@@ -2026,6 +2092,10 @@ void wid_thing_info(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, i
       parent->log_empty_line(g);
     }
 
+    if (wid_thing_info_prone(g, v, l, me, parent, width)) {
+      parent->log_empty_line(g);
+    }
+
     if (wid_thing_info_abilities(g, v, l, me, parent)) {
       parent->log_empty_line(g);
     }
@@ -2050,6 +2120,10 @@ void wid_thing_info(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, i
       }
 
       if (wid_thing_info_resistance(g, v, l, me, parent, width)) {
+        parent->log_empty_line(g);
+      }
+
+      if (wid_thing_info_prone(g, v, l, me, parent, width)) {
         parent->log_empty_line(g);
       }
 

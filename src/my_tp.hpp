@@ -588,10 +588,10 @@ ENUM_DEF_H(THING_ANIM_ENUM, ThingAnimType)
 //
 #define THING_EVENT_ENUM(list_macro)                                                                                                            \
   CLANG_FORMAT_INDENT()                                              /* dummy line for clang indentation fixup */                               \
-  list_macro(THING_EVENT_FIRE_DAMAGE, "fire-damage"),                /* newline */                                                              \
-      list_macro(THING_EVENT_ENERGY_DAMAGE, "energy-damage"),        /* newline */                                                              \
-      list_macro(THING_EVENT_MELEE_DAMAGE, "melee-damage"),          /* newline */                                                              \
-      list_macro(THING_EVENT_POISON_DAMAGE, "poison-damage"),        /* newline */                                                              \
+  list_macro(THING_EVENT_FIRE_DAMAGE, "fire"),                       /* newline */                                                              \
+      list_macro(THING_EVENT_ENERGY_DAMAGE, "energy"),               /* newline */                                                              \
+      list_macro(THING_EVENT_MELEE_DAMAGE, "melee"),                 /* newline */                                                              \
+      list_macro(THING_EVENT_POISON_DAMAGE, "poison"),               /* newline */                                                              \
       list_macro(THING_EVENT_ENGULF_DAMAGE, "engulf-damage"),        /* newline */                                                              \
       list_macro(THING_EVENT_THROWN_DAMAGE, "thrown-damage"),        /* newline */                                                              \
       list_macro(THING_EVENT_WATER_DAMAGE, "water-damage"),          /* newline */                                                              \
@@ -1023,6 +1023,7 @@ class Tp;
 [[nodiscard]] auto tp_is_removable_on_err(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_removable_when_dead_on_err(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_resistant_to(Tpp tp, ThingEventType val) -> bool;
+[[nodiscard]] auto tp_is_prone_to(Tpp tp, ThingEventType val) -> bool;
 [[nodiscard]] auto tp_is_ring(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_rock(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_rubble(Tpp tp) -> bool;
@@ -1310,6 +1311,7 @@ void tp_health_set(Tpp tp, const std::string &val);
 void tp_hearing_threshold_set(Tpp tp, int val);
 void tp_is_immune_to_add(Tpp tp, ThingEventType val);
 void tp_is_resistant_to_add(Tpp tp, ThingEventType val);
+void tp_is_prone_to_add(Tpp tp, ThingEventType val);
 void tp_items_collected_max_set(Tpp tp, int val);
 void tp_jump_attack_pct_chance_set(Tpp tp, int val);
 void tp_lifespan_set(Tpp tp, const std::string &val);

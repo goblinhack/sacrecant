@@ -5,7 +5,6 @@ todo
 ----
 show total mana
 sacrifices
-  e defenceless             no def                                                                melee +200
   f fire-prone:             x2 damage from fire                                                   melee +100
   g one-arm:                can only wear one ring, melee damage halved                           melee +50
   h increased-fumble

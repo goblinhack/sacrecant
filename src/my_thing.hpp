@@ -1020,6 +1020,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_removable_on_err(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_removable_when_dead_on_err(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_resistant_to(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEventType val) -> bool;
+[[nodiscard]] auto thing_is_prone_to(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEventType val) -> bool;
 [[nodiscard]] auto thing_is_ring(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_rock(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_rubble(Thingp t) -> bool;

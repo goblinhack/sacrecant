@@ -209,6 +209,7 @@ static std::initializer_list< std::string > tps = {
     "ring_war",
     "rubble",
     "sac_clumsy",
+    "sac_defenceless",
     "sac_noisy",
     "sac_unlucky",
     "sac_weaponless",
@@ -1318,6 +1319,42 @@ void tp_is_resistant_to_add(Tpp tp, ThingEventType val)
   }
 
   return tp->is_resistant[ val ];
+}
+
+void tp_is_prone_to_add(Tpp tp, ThingEventType val)
+{
+  TRACE_DEBUG();
+  if (tp == nullptr) [[unlikely]] {
+    ERR("no thing template pointer");
+    return;
+  }
+
+  if (static_cast< int >(val) >= static_cast< int >(THING_EVENT_ENUM_MAX)) {
+    tp_err(tp, "bad value in tp for %s, %d", __FUNCTION__, val);
+    return;
+  }
+
+  if (tp->is_prone[ val ]) {
+    return;
+  }
+
+  tp->is_prone[ val ] = true;
+}
+
+[[nodiscard]] auto tp_is_prone_to(Tpp tp, ThingEventType val) -> bool
+{
+  TRACE_DEBUG();
+  if (tp == nullptr) [[unlikely]] {
+    ERR("no thing template pointer");
+    return false;
+  }
+
+  if (static_cast< int >(val) >= static_cast< int >(THING_EVENT_ENUM_MAX)) {
+    tp_err(tp, "bad value in tp for %s, %d", __FUNCTION__, val);
+    return false;
+  }
+
+  return tp->is_prone[ val ];
 }
 
 void tp_health_set(Tpp tp, const std::string &val)

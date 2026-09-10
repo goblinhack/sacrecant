@@ -61,6 +61,11 @@ public:
   bool is_resistant[ THING_EVENT_ENUM_MAX ] {};
 
   //
+  // Double damage from these types
+  //
+  bool is_prone[ THING_EVENT_ENUM_MAX ] {};
+
+  //
   // Chance of this appearing on a level
   //
   int chance_d1000_appearing {};
