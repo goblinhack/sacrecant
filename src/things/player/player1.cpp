@@ -44,7 +44,8 @@ auto tp_player1_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::stri
   TRACE();
 
   return UI_INFO1_FMT_STR "The choice for the sacrecant that doesn't like to sacrifice much!\n" //
-      UI_INFO2_FMT_STR "This sacrecant has generous health and no stat penalties.\n";
+      UI_INFO2_FMT_STR "This sacrecant has generous health and no stat penalties.\n"            //
+      UI_INFO3_FMT_STR "It really depends on how you define 'generous'...\n";
 }
 
 [[nodiscard]] auto tp_load_player1() -> bool

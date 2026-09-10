@@ -40,7 +40,8 @@
 #include <utility>
 #include <vector>
 
-static Widp wid_player_select_window;
+static Widp      wid_player_select_window;
+static WidPopup *wid_player_select_continue_window;
 
 static int  wid_player_index = 0;
 static Widp wid_player_shortcut[ THING_INVENTORY_MAX ];
@@ -71,15 +72,14 @@ static void wid_player_select_destroy(Gamep g)
   if (wid_player_select_window != nullptr) {
     wid_destroy(g, &wid_player_select_window);
   }
+
+  delete wid_player_select_continue_window;
+  wid_player_select_continue_window = nullptr;
 }
 
-static void wid_player_select_check_if_done(Gamep g)
+static void wid_player_select_all_done(Gamep g)
 {
   TRACE();
-
-  if (! game_cand_player_get(g) || (game_cand_sacrifice_get(g).empty())) {
-    return;
-  }
 
   auto *tp = game_cand_player_get(g);
   game_chosen_player_set(g, tp);
@@ -96,6 +96,42 @@ static void wid_player_select_check_if_done(Gamep g)
 
   game_player_clear(g);
   game_sacrifice_clear(g);
+}
+
+[[nodiscard]] static auto wid_continue_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+{
+  TRACE();
+
+  wid_player_select_all_done(g);
+
+  return true;
+}
+
+static void wid_player_select_check_if_done(Gamep g)
+{
+  TRACE();
+
+  if (! game_cand_player_get(g) || (game_cand_sacrifice_get(g).empty())) {
+    return;
+  }
+
+  if (! wid_player_select_continue_window) {
+    auto         m = TERM_WIDTH / 2;
+    auto         n = TERM_HEIGHT - 5;
+    spoint const outer_tl(m - (UI_WID_POPUP_WIDTH_NORMAL / 2), n - 3);
+    spoint const outer_br(m + (UI_WID_POPUP_WIDTH_NORMAL / 2), n + 1);
+    auto         width = outer_br.x - outer_tl.x;
+
+    wid_player_select_continue_window = new WidPopup(g, "game continue", outer_tl, outer_br, nullptr, "", false, false);
+    auto *p                           = wid_player_select_continue_window->wid_text_area->wid_text_area;
+    auto *w                           = wid_new_continue_button(g, p, "continue");
+
+    spoint const tl(0, 0);
+    spoint const br(width - 2, 2);
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, "Continue?");
+    wid_set_on_mouse_down(w, wid_continue_mouse_down);
+  }
 }
 
 static void wid_player_update_selections(Gamep g)
@@ -225,7 +261,9 @@ static void wid_player_select_player_via_mouse_over_end(Gamep g, Widp w)
     game_cand_player_set(g, t);
   }
 
-  (void) sound_play(g, "select");
+  if (game_state(g) == STATE_PLAYER_SELECT_MENU) {
+    (void) sound_play(g, "select");
+  }
 
   wid_player_select_check_if_done(g);
   wid_player_update_selections(g);
@@ -293,7 +331,7 @@ static void wid_player_select_sacrifice_via_mouse_over_end(Gamep g, Widp w)
   }
 
   if (game_cand_sacrifice_find(g, t)) {
-    game_cand_sacrifice_set(g, nullptr);
+    game_cand_sacrifice_unset(g, t);
   } else {
     game_cand_sacrifice_set(g, t);
   }
@@ -302,7 +340,9 @@ static void wid_player_select_sacrifice_via_mouse_over_end(Gamep g, Widp w)
   wid_player_update_selections(g);
   game_request_to_remake_ui_set(g);
 
-  (void) sound_play(g, "select");
+  if (game_state(g) == STATE_PLAYER_SELECT_MENU) {
+    (void) sound_play(g, "select");
+  }
 
   return true;
 }
@@ -327,13 +367,23 @@ static void wid_player_select_sacrifice_via_mouse_over_end(Gamep g, Widp w)
             auto c = wid_event_to_char(key);
             switch (c) {
               case ' ' :
-                w = wid_player[ PCG_RANDOM_RANGE(0, wid_player_index) ];
-                if (w != nullptr) {
-                  (void) wid_player_select_player_via_mouse_down(g, w, -1, -1, 0);
-                }
-                w = wid_sacrifice[ PCG_RANDOM_RANGE(0, wid_sacrifice_index) ];
-                if (w != nullptr) {
-                  (void) wid_player_select_sacrifice_via_mouse_down(g, w, -1, -1, 0);
+                if (wid_player_select_continue_window) {
+                  //
+                  // All done
+                  //
+                  wid_player_select_all_done(g);
+                } else {
+                  //
+                  // Choose some random player
+                  //
+                  w = wid_player[ PCG_RANDOM_RANGE(0, wid_player_index) ];
+                  if (w != nullptr) {
+                    (void) wid_player_select_player_via_mouse_down(g, w, -1, -1, 0);
+                  }
+                  w = wid_sacrifice[ PCG_RANDOM_RANGE(0, wid_sacrifice_index) ];
+                  if (w != nullptr) {
+                    (void) wid_player_select_sacrifice_via_mouse_down(g, w, -1, -1, 0);
+                  }
                 }
                 break;
 
@@ -347,6 +397,7 @@ static void wid_player_select_sacrifice_via_mouse_over_end(Gamep g, Widp w)
               case '7' :
               case '8' :
               case '9' :
+                game_mouse_over_player_set(g, nullptr);
                 w = wid_player[ c - '0' ];
                 if (w != nullptr) {
                   (void) wid_player_select_player_via_mouse_down(g, w, -1, -1, 0);
@@ -379,6 +430,7 @@ static void wid_player_select_sacrifice_via_mouse_over_end(Gamep g, Widp w)
               case 'x' :
               case 'y' :
               case 'z' :
+                game_mouse_over_sacrifice_set(g, nullptr);
                 w = wid_sacrifice[ c - 'a' ];
                 if (w != nullptr) {
                   (void) wid_player_select_sacrifice_via_mouse_down(g, w, -1, -1, 0);
@@ -453,10 +505,23 @@ void wid_player_select(Gamep g)
     spoint const br(player_select_width, y_at);
     wid_set_pos(w, tl, br);
     if (v->tick != 0u) {
-      wid_set_text(w, UI_FMT_STR "Choose your next sacrifice");
+      wid_set_text(w, UI_INFO_FMT_STR "Choose your next sacrifice");
     } else {
-      wid_set_text(w, UI_FMT_STR "Choose a sacrecant and your first sacrifice");
+      wid_set_text(w, UI_INFO_FMT_STR "Choose a sacrecant and at least one sacrifice.");
     }
+    wid_set_style(w, UI_WID_STYLE_BUTTON_OUTLINE);
+    wid_set_shape_none(w);
+    wid_set_text_centerx(w, 1u);
+    y_at += 1;
+  }
+
+  if (v->tick == 0u) {
+    TRACE();
+    auto        *w = wid_new_square_button(g, wid_player_select_window, "text");
+    spoint const tl(0, y_at);
+    spoint const br(player_select_width, y_at);
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, UI_INFO1_FMT_STR "Or press 'SPACE' for unlucky dip!");
     wid_set_style(w, UI_WID_STYLE_BUTTON_OUTLINE);
     wid_set_shape_none(w);
     wid_set_text_centerx(w, 1u);
@@ -760,6 +825,13 @@ void wid_player_select(Gamep g)
   }
 
   wid_update(g, wid_player_select_window);
+
+  if (! v->tick) {
+    auto w = wid_player[ 0 ];
+    if (w) {
+      (void) wid_player_select_player_via_mouse_down(g, w, -1, -1, 0);
+    }
+  }
 
   game_state_change(g, STATE_PLAYER_SELECT_MENU, "player_select");
 }
