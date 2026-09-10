@@ -1791,10 +1791,10 @@
   return level_count(g, v, l, is_unused153, p);
 }
 
-[[nodiscard]] auto level_count_is_unused154(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_weaponless_on_spawn(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused154, p);
+  return level_count(g, v, l, is_weaponless_on_spawn, p);
 }
 
 [[nodiscard]] auto level_count_is_noisy(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t

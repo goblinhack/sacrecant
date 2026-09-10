@@ -1789,10 +1789,10 @@
   return tp_flag(tp, is_unused153) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused154(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_weaponless_on_spawn(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused154) != 0;
+  return tp_flag(tp, is_weaponless_on_spawn) != 0;
 }
 
 [[nodiscard]] auto tp_is_noisy(Tpp tp) -> bool

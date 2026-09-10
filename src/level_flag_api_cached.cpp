@@ -1827,10 +1827,10 @@
   return level_flag_cached(g, v, l, is_unused153, p);
 }
 
-[[nodiscard]] auto level_is_unused154_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_weaponless_on_spawn_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused154, p);
+  return level_flag_cached(g, v, l, is_weaponless_on_spawn, p);
 }
 
 [[nodiscard]] auto level_is_noisy_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

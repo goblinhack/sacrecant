@@ -29,6 +29,15 @@ void tp_player2_on_spawned(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent *
     return;
   }
 
+  //
+  // Look ahead to the sacrifices we're going to add
+  //
+  for (auto chosen_sac : game_chosen_sacrifice_get(g)) {
+    if (tp_is_weaponless_on_spawn(chosen_sac)) {
+      return;
+    }
+  }
+
   static std::initializer_list< std::string > items = {
       "wand_fire", //
   };

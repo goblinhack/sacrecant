@@ -310,7 +310,7 @@
       list_macro(is_unused151, "is_unused151"),                                             /* newline */                                       \
       list_macro(is_unused152, "is_unused152"),                                             /* newline */                                       \
       list_macro(is_unused153, "is_unused153"),                                             /* newline */                                       \
-      list_macro(is_unused154, "is_unused154"),                                             /* newline */                                       \
+      list_macro(is_weaponless_on_spawn, "is_weaponless_on_spawn"),                         /* newline */                                       \
       list_macro(is_noisy, "is_noisy"),                                                     /* newline */                                       \
       list_macro(is_hook, "is_hook"),                                                       /* newline */                                       \
       list_macro(is_sacrifice, "is_sacrifice"),                                             /* newline */                                       \
@@ -1121,7 +1121,6 @@ class Tp;
 [[nodiscard]] auto tp_is_unused151(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused152(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused153(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused154(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused16(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused17(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused18(Tpp tp) -> bool;
@@ -1229,6 +1228,7 @@ class Tp;
 [[nodiscard]] auto tp_is_water_deep(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_water_shallow(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_weapon(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_weaponless_on_spawn(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_wearable(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_wood(Tpp tp) -> bool;
 [[nodiscard]] auto tp_items_collected_max_get(Tpp tp) -> int;

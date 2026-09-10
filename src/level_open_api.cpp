@@ -1790,10 +1790,10 @@
   return level_open(g, v, l, is_unused153, p);
 }
 
-[[nodiscard]] auto level_open_is_unused154(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+[[nodiscard]] auto level_open_is_weaponless_on_spawn(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_open(g, v, l, is_unused154, p);
+  return level_open(g, v, l, is_weaponless_on_spawn, p);
 }
 
 [[nodiscard]] auto level_open_is_noisy(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp

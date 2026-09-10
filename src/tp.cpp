@@ -211,6 +211,7 @@ static std::initializer_list< std::string > tps = {
     "sac_clumsy",
     "sac_noisy",
     "sac_unlucky",
+    "sac_weaponless",
     "skeleton_mob",
     "skeleton",
     "skullferno",
