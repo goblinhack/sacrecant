@@ -933,7 +933,7 @@ auto level_select_mouse_down(Gamep g) -> bool
     return false;
   }
 
-  if (v->tick == 0u) {
+  if (v->tick == 0U) {
     (void) sound_play(g, "enter");
   }
 
@@ -958,7 +958,7 @@ auto level_select_mouse_down(Gamep g, Levelsp v, Levelp l) -> bool
     return false;
   }
 
-  if (v->tick == 0u) {
+  if (v->tick == 0U) {
     (void) sound_play(g, "enter");
   }
 

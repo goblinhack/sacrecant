@@ -19,7 +19,7 @@
 #include "my_sprintf.hpp"
 #include "my_string.hpp"
 #include "my_thing.hpp"
-#include "my_thing_inlines.hpp"
+#include "my_thing_inlines.hpp" // NOLINT
 #include "my_tile.hpp"
 #include "my_tp.hpp"
 #include "my_tp_inlines.hpp"
@@ -31,13 +31,9 @@
 #include <SDL_keyboard.h>
 #include <SDL_keycode.h>
 #include <algorithm>
-#include <cmath>
 #include <cstdint>
 #include <cstring>
-#include <ranges>
 #include <string>
-#include <unordered_set>
-#include <utility>
 #include <vector>
 
 static Widp      wid_player_select_window;
@@ -111,11 +107,11 @@ static void wid_player_select_check_if_done(Gamep g)
 {
   TRACE();
 
-  if (! game_cand_player_get(g) || (game_cand_sacrifice_get(g).empty())) {
+  if ((game_cand_player_get(g) == nullptr) || (game_cand_sacrifice_get(g).empty())) {
     return;
   }
 
-  if (! wid_player_select_continue_window) {
+  if (wid_player_select_continue_window == nullptr) {
     auto         m = TERM_WIDTH / 2;
     auto         n = TERM_HEIGHT - 5;
     spoint const outer_tl(m - (UI_WID_POPUP_WIDTH_NORMAL / 2), n - 3);
@@ -367,7 +363,7 @@ static void wid_player_select_sacrifice_via_mouse_over_end(Gamep g, Widp w)
             auto c = wid_event_to_char(key);
             switch (c) {
               case ' ' :
-                if (wid_player_select_continue_window) {
+                if (wid_player_select_continue_window != nullptr) {
                   //
                   // All done
                   //
@@ -504,7 +500,7 @@ void wid_player_select(Gamep g)
     spoint const tl(0, y_at);
     spoint const br(player_select_width, y_at);
     wid_set_pos(w, tl, br);
-    if (v->tick != 0u) {
+    if (v->tick != 0U) {
       wid_set_text(w, UI_INFO_FMT_STR "Choose your next sacrifice");
     } else {
       wid_set_text(w, UI_INFO_FMT_STR "Choose a sacrecant and at least one sacrifice.");
@@ -515,7 +511,7 @@ void wid_player_select(Gamep g)
     y_at += 1;
   }
 
-  if (v->tick == 0u) {
+  if (v->tick == 0U) {
     TRACE();
     auto        *w = wid_new_square_button(g, wid_player_select_window, "text");
     spoint const tl(0, y_at);
@@ -826,9 +822,9 @@ void wid_player_select(Gamep g)
 
   wid_update(g, wid_player_select_window);
 
-  if (! v->tick) {
-    auto w = wid_player[ 0 ];
-    if (w) {
+  if (v->tick == 0u) {
+    auto *w = wid_player[ 0 ];
+    if (w != nullptr) {
       (void) wid_player_select_player_via_mouse_down(g, w, -1, -1, 0);
     }
   }

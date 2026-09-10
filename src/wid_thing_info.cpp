@@ -563,7 +563,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
 //
 // How tough the game ie
 //
-[[nodiscard]] static auto wid_thing_info_difficulty(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent) -> bool
+[[nodiscard]] static auto wid_thing_info_difficulty(Gamep g, Thingp me, WidPopup *parent) -> bool
 {
   TRACE();
 
@@ -1970,7 +1970,7 @@ void wid_thing_info(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, i
         parent->log_empty_line(g);
       }
 
-      if (wid_thing_info_difficulty(g, v, l, me, parent)) {
+      if (wid_thing_info_difficulty(g, me, parent)) {
         parent->log_empty_line(g);
       }
     } else {

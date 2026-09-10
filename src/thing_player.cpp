@@ -66,7 +66,7 @@ void thing_player_init(Gamep g)
   //
   // Add the chosen sacrifice
   //
-  for (auto chosen_sac : game_chosen_sacrifice_get(g)) {
+  for (auto *chosen_sac : game_chosen_sacrifice_get(g)) {
     if (thing_buff_add(g, v, l, player, chosen_sac) == nullptr) {
       return false;
     }
@@ -745,8 +745,8 @@ static void player_check_if_target_needs_move_confirm_callback(Gamep g, bool val
   THING_DBG(g, v, l, me, "player move to attempt failed, try shoving");
   TRACE_INDENT();
 
-  auto item = thing_worn_get(g, v, l, me, WORN_TYPE_WEAPON);
-  if (! item && level_alive_is_attackable_by_player(g, v, l, to)) {
+  auto *item = thing_worn_get(g, v, l, me, WORN_TYPE_WEAPON);
+  if ((item == nullptr) && (level_alive_is_attackable_by_player(g, v, l, to) != nullptr)) {
     //
     // Prefer to attack versus shoving if we have no weapon and we can attack it.
     //

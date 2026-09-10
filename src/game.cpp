@@ -41,7 +41,10 @@
 #include <cstdlib>
 #include <ctime>
 #include <list>
+#include <map>
 #include <string>
+#include <utility>
+#include <vector>
 
 static SDL_Keysym no_key;
 
@@ -309,8 +312,8 @@ public:
   // Which sacrifices were selected
   //
   Thingp                   cand_sacrifice_last {};
-  std::map< Thingp, bool > cand_sacrifice {};
-  std::vector< Tpp >       chosen_sacrifice {};
+  std::map< Thingp, bool > cand_sacrifice;
+  std::vector< Tpp >       chosen_sacrifice;
 
   //
   // Which player is hovering over
@@ -3134,7 +3137,7 @@ void game_map_zoom_out(Gamep g)
   }
 
   Thingp t = g->cand_player;
-  if (! t) {
+  if (t == nullptr) {
     return nullptr;
   }
 
@@ -3277,7 +3280,7 @@ void game_sacrifice_clear(Gamep g)
     return false;
   }
 
-  if (g->cand_sacrifice.find(t) != g->cand_sacrifice.end()) {
+  if (g->cand_sacrifice.contains(t)) {
     return true;
   }
   return false;
@@ -3290,7 +3293,7 @@ void game_chosen_sacrifice_set(Gamep g, std::vector< Tpp > t)
     ERR("no game pointer");
     return;
   }
-  g->chosen_sacrifice = t;
+  g->chosen_sacrifice = std::move(t);
 }
 
 [[nodiscard]] auto game_mouse_over_player_get(Gamep g) -> Thingp

@@ -3,26 +3,27 @@ bugs
 
 todo
 ----
+show total mana
 sacrifices
-  c defenceless             no weapon at start, melee only                                        melee +200
-  d fire-prone:             x2 damage from fire                                                   melee +100
-  e one-arm:                can only wear one ring, melee damage halved                           melee +50
-  f increased-fumble
-  g poison-blood:           health ticks down                                                     melee +200
-  h one-legged:             can only jump, limited jump distance, easily exhausted                melee +400
-  i power-crazed:           rolls over 10 directed to damage         def -10                      melee +40
-  j blood-pact:             damage delivered is subtracted from your health                       melee +300
-  k blood-feast:            absorb health from fleshy monsters / x2 damage-received from undead   melee +20
-  l myopic:                 vision distance halved                                                melee +30
-  m hollow-bones:           fall-damage -50%   damage-received +50%  def -2                       melee +50
-  n glass-bones:            fall-damage +100%  damage-received +50%  def -4  att +2               melee +70
-  o random-failure:         effects like levitation and ethereal may fail randomly                melee +80
-  p tunnel-vision:          180 degree vision                                                     melee +100
-  q madness:                occasional random spell use                                           melee +100
-  r extreme-tunnel-vision:  90 degree vision                                                      melee +200
-  s wraith-like:            can walk through walls, but can never eat food to heal                melee +200
-  t breathless:             gas weapons, no effect, but tire much quicker                         melee +30
-  u increased-monst-crit
+  e defenceless             no def                                                                melee +200
+  f fire-prone:             x2 damage from fire                                                   melee +100
+  g one-arm:                can only wear one ring, melee damage halved                           melee +50
+  h increased-fumble
+  i poison-blood:           health ticks down                                                     melee +200
+  j one-legged:             can only jump, limited jump distance, easily exhausted                melee +400
+  k power-crazed:           rolls over 10 directed to damage         def -10                      melee +40
+  l blood-pact:             damage delivered is subtracted from your health                       melee +300
+  m blood-feast:            absorb health from fleshy monsters / x2 damage-received from undead   melee +20
+  n myopic:                 vision distance halved                                                melee +30
+  o hollow-bones:           fall-damage -50%   damage-received +50%  def -2                       melee +50
+  p glass-bones:            fall-damage +100%  damage-received +50%  def -4  att +2               melee +70
+  q random-failure:         effects like levitation and ethereal may fail randomly                melee +80
+  r tunnel-vision:          90 degree vision                                                      melee +100
+  s madness:                occasional random spell use                                           melee +100
+  t                                                                                               melee +200
+  u wraith-like:            can walk through walls, but can never eat food to heal                melee +200
+  v breathless:             gas weapons, no effect, but tire much quicker                         melee +30
+  w increased-monst-crit
 essential
   - random monsts with difficulty
   - psi text mentions cutting costs of spells
