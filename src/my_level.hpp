@@ -516,6 +516,10 @@ using Levels = struct Levels {
   //
   uint8_t requested_auto_scroll : 1;
   //
+  // Avoid repeating the same messages
+  //
+  uint8_t msg_melee_warned : 1;
+  //
   // For a time period e.g. post teleport, we want to ignore mouse moves until the player is
   // centered once more.
   //

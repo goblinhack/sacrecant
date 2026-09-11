@@ -971,7 +971,34 @@ static auto player_move_delta(Gamep g, Levelsp v, Levelp l, int dx, int dy) -> b
     //
     item = thing_worn_get(g, v, l, me, WORN_TYPE_WEAPON);
     if (item == nullptr) {
-      topcon(UI_IMPORTANT_FMT_STR "You have no weapon to wield. Try walking into enemies for melee attacks instead." UI_RESET_FMT);
+      //
+      // If no weapon and the mouse is over something we can attack, hit it!
+      //
+      if (level_alive_is_attackable_by_player(g, v, l, target)) {
+        THING_DBG(g, v, l, me, "player melee attack attempt");
+        TRACE_INDENT();
+
+        //
+        // Miss or fail, this is a tick
+        //
+        if (thing_attack_at(g, v, l, me, target)) {
+          THING_DBG(g, v, l, me, "player melee attack success");
+          (void) level_tick_begin_requested(g, v, l, "player melee attack target");
+          return true;
+        }
+
+        (void) level_tick_begin_requested(g, v, l, "player missed melee attack target");
+        return false;
+      }
+
+      //
+      // Bump instead
+      //
+      if (! v->msg_melee_warned) {
+        v->msg_melee_warned = true;
+        topcon(UI_IMPORTANT_FMT_STR "You have no weapon to wield. Try walking into enemies for melee attacks instead." UI_RESET_FMT);
+      }
+
       return false;
     }
 

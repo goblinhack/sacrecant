@@ -1042,135 +1042,139 @@ void wid_player_select(Gamep g)
   //
   // Boosts
   //
-  {
-    TRACE();
-    auto *w = wid_new_bar_button(g, wid_player_select_window, "Boosts");
-
-    spoint const tl(1, y_at);
-    spoint const br(button_width, y_at + button_height);
-    wid_set_text_lhs(w, 1u);
-    wid_set_pos(w, tl, br);
-    wid_set_text(w, UI_INFO_FMT_STR "Boosts");
-    y_at++;
-  }
-
-  memset(wid_boost_shortcut, 0, sizeof(wid_boost_shortcut));
-  memset(wid_boost, 0, sizeof(wid_boost));
-
-  wid_boost_index = 0;
-
-  std::vector< Tpp > wid_boost_tps;
-
-  for (auto &tp : tp_vec) {
-    if (! tp_is_boost(tp)) {
-      continue;
-    }
-    wid_boost_tps.push_back(tp);
-  }
-
+  // No for now
   //
-  // Sort by mana
-  //
-  std::ranges::sort(wid_boost_tps, [](const Tpp &a, const Tpp &b) -> bool { return tp_mana_get(a) > tp_mana_get(b); });
-
-  for (auto &tp : wid_boost_tps) {
-    //
-    // Check for overflow
-    //
-    if (wid_boost_index >= ARRAY_SIZE(wid_boost)) {
-      break;
-    }
-
-    //
-    // Create a temporary thing on the level select map
-    //
-    auto   at             = bpoint(2, wid_boost_index);
-    Thingp existing_thing = nullptr;
-    FOR_ALL_THINGS_AT(g, v, level_select, t, at)
-    {
-      if (t != nullptr) {
-        existing_thing = t;
-        break;
-      }
-    }
-
-    if (existing_thing == nullptr) {
-      existing_thing = thing_spawn(g, v, level_select, tp, at);
-      if (existing_thing == nullptr) {
-        continue;
-      }
-    }
-
-    //
-    // Key shortcut
-    //
+  if (compiler_unused) {
     {
       TRACE();
-      auto *w = wid_new_square_button(g, wid_player_select_window, "Key");
+      auto *w = wid_new_bar_button(g, wid_player_select_window, "Boosts");
 
-      std::string s;
-      s += static_cast< char >('A' + wid_boost_index);
-      s += ')';
-
-      spoint const tl(3, y_at);
-      spoint const br(6, y_at + button_height);
-      wid_set_text_lhs(w, 1u);
-
-      wid_set_mode(w, WID_MODE_NORMAL);
-      wid_set_color(w, WID_COLOR_TEXT_FG, GRAY50);
-      wid_set_style(w, button_style);
-      wid_set_pos(w, tl, br);
-      wid_set_text(w, s);
-
-      wid_set_thing_context(g, v, w, existing_thing);
-      wid_set_on_mouse_down(w, wid_player_select_boost_via_mouse_down);
-
-      wid_set_on_mouse_over_begin(w, wid_player_select_boost_via_mouse_over_begin);
-      wid_set_on_mouse_over_end(w, wid_player_select_boost_via_mouse_over_end);
-
-      wid_boost_shortcut[ wid_boost_index ] = w;
-    }
-
-    //
-    // Boost name
-    //
-    {
-      //
-      // Append mana to the name
-      //
-      std::string line;
-
-      line = capitalize_first(tp_name_long(tp));
-
-      auto mana = tp_mana_get(tp);
-      if (mana > 0) {
-        line = string_sprintf("%-40s +%d", line.c_str(), mana);
-      } else if (mana < 0) {
-        line = string_sprintf("%-40s %d", line.c_str(), mana);
-      } else {
-        line = string_sprintf("%-40s -", line.c_str());
-      }
-
-      TRACE();
-      auto *w = wid_new_bar_button(g, wid_player_select_window, "Boost");
-
-      spoint const tl(6, y_at);
+      spoint const tl(1, y_at);
       spoint const br(button_width, y_at + button_height);
       wid_set_text_lhs(w, 1u);
       wid_set_pos(w, tl, br);
-      wid_set_text(w, line);
-
-      wid_set_thing_context(g, v, w, existing_thing);
-      wid_set_on_mouse_down(w, wid_player_select_boost_via_mouse_down);
-
-      wid_set_on_mouse_over_begin(w, wid_player_select_boost_via_mouse_over_begin);
-      wid_set_on_mouse_over_end(w, wid_player_select_boost_via_mouse_over_end);
-
-      wid_boost[ wid_boost_index ] = w;
+      wid_set_text(w, UI_INFO_FMT_STR "Boosts");
+      y_at++;
     }
 
-    y_at += button_step;
-    wid_boost_index++;
+    memset(wid_boost_shortcut, 0, sizeof(wid_boost_shortcut));
+    memset(wid_boost, 0, sizeof(wid_boost));
+
+    wid_boost_index = 0;
+
+    std::vector< Tpp > wid_boost_tps;
+
+    for (auto &tp : tp_vec) {
+      if (! tp_is_boost(tp)) {
+        continue;
+      }
+      wid_boost_tps.push_back(tp);
+    }
+
+    //
+    // Sort by mana
+    //
+    std::ranges::sort(wid_boost_tps, [](const Tpp &a, const Tpp &b) -> bool { return tp_mana_get(a) > tp_mana_get(b); });
+
+    for (auto &tp : wid_boost_tps) {
+      //
+      // Check for overflow
+      //
+      if (wid_boost_index >= ARRAY_SIZE(wid_boost)) {
+        break;
+      }
+
+      //
+      // Create a temporary thing on the level select map
+      //
+      auto   at             = bpoint(2, wid_boost_index);
+      Thingp existing_thing = nullptr;
+      FOR_ALL_THINGS_AT(g, v, level_select, t, at)
+      {
+        if (t != nullptr) {
+          existing_thing = t;
+          break;
+        }
+      }
+
+      if (existing_thing == nullptr) {
+        existing_thing = thing_spawn(g, v, level_select, tp, at);
+        if (existing_thing == nullptr) {
+          continue;
+        }
+      }
+
+      //
+      // Key shortcut
+      //
+      {
+        TRACE();
+        auto *w = wid_new_square_button(g, wid_player_select_window, "Key");
+
+        std::string s;
+        s += static_cast< char >('A' + wid_boost_index);
+        s += ')';
+
+        spoint const tl(3, y_at);
+        spoint const br(6, y_at + button_height);
+        wid_set_text_lhs(w, 1u);
+
+        wid_set_mode(w, WID_MODE_NORMAL);
+        wid_set_color(w, WID_COLOR_TEXT_FG, GRAY50);
+        wid_set_style(w, button_style);
+        wid_set_pos(w, tl, br);
+        wid_set_text(w, s);
+
+        wid_set_thing_context(g, v, w, existing_thing);
+        wid_set_on_mouse_down(w, wid_player_select_boost_via_mouse_down);
+
+        wid_set_on_mouse_over_begin(w, wid_player_select_boost_via_mouse_over_begin);
+        wid_set_on_mouse_over_end(w, wid_player_select_boost_via_mouse_over_end);
+
+        wid_boost_shortcut[ wid_boost_index ] = w;
+      }
+
+      //
+      // Boost name
+      //
+      {
+        //
+        // Append mana to the name
+        //
+        std::string line;
+
+        line = capitalize_first(tp_name_long(tp));
+
+        auto mana = tp_mana_get(tp);
+        if (mana > 0) {
+          line = string_sprintf("%-40s +%d", line.c_str(), mana);
+        } else if (mana < 0) {
+          line = string_sprintf("%-40s %d", line.c_str(), mana);
+        } else {
+          line = string_sprintf("%-40s -", line.c_str());
+        }
+
+        TRACE();
+        auto *w = wid_new_bar_button(g, wid_player_select_window, "Boost");
+
+        spoint const tl(6, y_at);
+        spoint const br(button_width, y_at + button_height);
+        wid_set_text_lhs(w, 1u);
+        wid_set_pos(w, tl, br);
+        wid_set_text(w, line);
+
+        wid_set_thing_context(g, v, w, existing_thing);
+        wid_set_on_mouse_down(w, wid_player_select_boost_via_mouse_down);
+
+        wid_set_on_mouse_over_begin(w, wid_player_select_boost_via_mouse_over_begin);
+        wid_set_on_mouse_over_end(w, wid_player_select_boost_via_mouse_over_end);
+
+        wid_boost[ wid_boost_index ] = w;
+      }
+
+      y_at += button_step;
+      wid_boost_index++;
+    }
   }
 
   y_at++;
