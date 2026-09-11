@@ -455,16 +455,6 @@ static void wid_player_select_boost_via_mouse_over_begin(Gamep g, Widp w, int /*
     return;
   }
 
-  //
-  // Check we have enough mana for this
-  //
-  auto total_mana  = wid_player_total_mana(g);
-  auto mana_change = tp_mana_get(thing_tp(t));
-  if (total_mana + mana_change < 0) {
-    (void) sound_play(g, "error");
-    return;
-  }
-
   game_mouse_over_boost_set(g, t);
 
   level_cursor_describe_clear(g, v);
@@ -512,6 +502,17 @@ static void wid_player_select_boost_via_mouse_over_end(Gamep g, Widp w)
   if (game_cand_boost_find(g, t)) {
     game_cand_boost_unset(g, t);
   } else {
+    //
+    // Check we have enough mana for this
+    //
+    auto total_mana  = wid_player_total_mana(g);
+    auto mana_change = tp_mana_get(thing_tp(t));
+    if (total_mana + mana_change < 0) {
+      (void) sound_play(g, "error");
+      topcon("Not enough mana to buy this boost.\n");
+      return true;
+    }
+
     game_cand_boost_set(g, t);
   }
 

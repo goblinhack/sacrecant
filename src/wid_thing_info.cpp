@@ -1286,7 +1286,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
 //
 // Add things we're prone to
 //
-[[nodiscard]] auto wid_thing_info_prone(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, int /*width*/) -> bool
+[[nodiscard]] static auto wid_thing_info_prone(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, int /*width*/) -> bool
 {
   TRACE();
 

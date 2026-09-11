@@ -121,7 +121,7 @@ static void thing_buff_sort(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   FOR_ALL_HOOKS_SLOTS(g, v, l, me, slot, buff)
   {
-    if (buff) {
+    if (buff != nullptr) {
       if (thing_is_sacrifice(buff)) {
         new_buffs.buff[ count++ ] = *slot;
         *slot                     = {};
@@ -131,7 +131,7 @@ static void thing_buff_sort(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   FOR_ALL_HOOKS_SLOTS(g, v, l, me, slot, buff)
   {
-    if (buff) {
+    if (buff != nullptr) {
       if (thing_is_boost(buff)) {
         new_buffs.buff[ count++ ] = *slot;
         *slot                     = {};
@@ -141,7 +141,7 @@ static void thing_buff_sort(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   FOR_ALL_HOOKS_SLOTS(g, v, l, me, slot, buff)
   {
-    if (buff) {
+    if (buff != nullptr) {
       if (thing_is_buff(buff)) {
         new_buffs.buff[ count++ ] = *slot;
         *slot                     = {};
@@ -151,7 +151,7 @@ static void thing_buff_sort(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   FOR_ALL_HOOKS_SLOTS(g, v, l, me, slot, buff)
   {
-    if (buff) {
+    if (buff != nullptr) {
       if (thing_is_debuff(buff)) {
         new_buffs.buff[ count++ ] = *slot;
         *slot                     = {};

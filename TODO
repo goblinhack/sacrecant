@@ -4,6 +4,8 @@ space should attack
 
 todo
 ----
+boosts
+  increase max hp
 sacrifices
   f 
   g one-arm:                can only wear one ring, melee damage halved                           melee +50
@@ -32,6 +34,7 @@ spells
   - summoning
     - death knights
   - structural
+    - level reroll
     - walls to chasm swap
     - walls to plants
     - flood area
