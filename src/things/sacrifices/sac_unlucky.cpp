@@ -42,7 +42,7 @@ static auto tp_sac_unlucky_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_sacrifice);
   tp_flag_set(tp, is_unlucky);
-  tp_mana_set(tp, 2);
+  tp_mana_set(tp, 5);
   tp_name_long_set(tp, "dashed unlucky");
   tp_stat_set(tp, THING_STAT_LUCK, "6");
   // end sort marker1 }

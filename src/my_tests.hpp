@@ -50,6 +50,7 @@ auto test_load_drop_then_recollect_items() -> bool;
 auto test_load_fire_on_water() -> bool;
 auto test_load_fire_over_chasm() -> bool;
 auto test_load_foliage_on_fire() -> bool;
+auto test_load_fumble_more() -> bool;
 auto test_load_items_drift_away() -> bool;
 auto test_load_jump_ok() -> bool;
 auto test_load_jump_truncated() -> bool;

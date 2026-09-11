@@ -105,6 +105,7 @@
   if (!tp_load_rubble()) { return false; }
   if (!tp_load_sac_clumsy()) { return false; }
   if (!tp_load_sac_defenceless()) { return false; }
+  if (!tp_load_sac_fumble_more()) { return false; }
   if (!tp_load_sac_healing_drain()) { return false; }
   if (!tp_load_sac_noisy()) { return false; }
   if (!tp_load_sac_unlucky()) { return false; }
