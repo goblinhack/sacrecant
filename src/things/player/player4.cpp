@@ -71,7 +71,7 @@ auto tp_player4_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::stri
     tp_difficulty_set(tp, 3);
     tp_distance_jump_set(tp, 5);
     tp_health_set(tp, "150");
-    tp_mana_set(tp, 200);
+    tp_mana_set(tp, 20);
     tp_name_long_set(tp, "speed demon wizard");
     tp_speed_set(tp, 200);
     tp_stamina_set(tp, "200");

@@ -69,7 +69,7 @@ auto tp_player1_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::stri
     thing_on_spawned_set(tp, tp_player1_on_spawned);
     tp_difficulty_set(tp, 0);
     tp_health_set(tp, "250");
-    tp_mana_set(tp, 50);
+    tp_mana_set(tp, 5);
     tp_name_long_set(tp, "cowardly wizard");
     // end sort marker1 }
   }

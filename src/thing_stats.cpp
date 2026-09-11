@@ -361,14 +361,14 @@
 
   auto mod = thing_stat_mod(g, v, l, me, stat);
 
-  if (roll <= 1) {
+  if (roll <= thing_fumble_roll(g, v, l, me)) {
     THING_DBG(g, v, l, me, "roll: %s d20:%d mod:%d tot:%d vs:%d => fumble", thing_stat_dbg_string(g, v, l, me, stat).c_str(), roll, mod,
               roll + mod, target_roll);
     e.fumble = true;
     return false;
   }
 
-  if (roll >= 20) {
+  if (roll >= thing_crit_roll(g, v, l, me)) {
     THING_DBG(g, v, l, me, "roll: %s d20:%d mod:%d tot:%d vs:%d => crit", thing_stat_dbg_string(g, v, l, me, stat).c_str(), roll, mod,
               roll + mod, target_roll);
     e.crit = true;
@@ -396,4 +396,124 @@
   ThingEvent e = {};
 
   return thing_stat_success(g, v, l, me, stat, target_roll, e);
+}
+
+[[nodiscard]] auto thing_fumble_roll(Gamep g, Levelsp v, Levelp l, Thingp me) -> int
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+
+  int roll = me->_fumble_roll;
+
+  FOR_ALL_HOOKS(g, v, l, me, buff)
+  { //
+    roll = std::max(thing_fumble_roll(g, v, l, buff), roll);
+  }
+
+  FOR_ALL_ACTIVE_ITEMS(g, v, l, me, item)
+  { //
+    roll = std::max(thing_fumble_roll(g, v, l, item), roll);
+  }
+
+  return roll;
+}
+
+[[nodiscard]] auto thing_fumble_roll_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+  return me->_fumble_roll = val;
+}
+
+[[nodiscard]] auto thing_fumble_roll_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+  return me->_fumble_roll += val;
+}
+
+[[nodiscard]] auto thing_fumble_roll_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+  if (static_cast< int >(me->_fumble_roll) - val <= 0) {
+    return me->_fumble_roll = 0;
+  }
+  return me->_fumble_roll -= val;
+}
+
+[[nodiscard]] auto thing_crit_roll(Gamep g, Levelsp v, Levelp l, Thingp me) -> int
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+
+  int roll = me->_crit_roll;
+
+  FOR_ALL_HOOKS(g, v, l, me, buff)
+  { //
+    roll = std::min(thing_crit_roll(g, v, l, buff), roll);
+  }
+
+  FOR_ALL_ACTIVE_ITEMS(g, v, l, me, item)
+  { //
+    roll = std::min(thing_crit_roll(g, v, l, item), roll);
+  }
+
+  return roll;
+}
+
+[[nodiscard]] auto thing_crit_roll_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+  return me->_crit_roll = val;
+}
+
+[[nodiscard]] auto thing_crit_roll_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+  return me->_crit_roll += val;
+}
+
+[[nodiscard]] auto thing_crit_roll_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+  if (static_cast< int >(me->_crit_roll) - val <= 0) {
+    return me->_crit_roll = 0;
+  }
+  return me->_crit_roll -= val;
 }

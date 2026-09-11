@@ -1569,44 +1569,44 @@ void tp_value5_set(Tpp tp, int val)
   return tp->value5;
 }
 
-void tp_value6_set(Tpp tp, int val)
+void tp_crit_roll_set(Tpp tp, int val)
 {
   TRACE_DEBUG();
   if (tp == nullptr) [[unlikely]] {
     ERR("no thing template pointer");
     return;
   }
-  tp->value6 = val;
+  tp->crit_roll = val;
 }
 
-[[nodiscard]] auto tp_value6_get(Tpp tp) -> int
+[[nodiscard]] auto tp_crit_roll_get(Tpp tp) -> int
 {
   TRACE_DEBUG();
   if (tp == nullptr) [[unlikely]] {
     ERR("no thing template pointer");
     return 0;
   }
-  return tp->value6;
+  return tp->crit_roll;
 }
 
-void tp_value7_set(Tpp tp, int val)
+void tp_fumble_roll_set(Tpp tp, int val)
 {
   TRACE_DEBUG();
   if (tp == nullptr) [[unlikely]] {
     ERR("no thing template pointer");
     return;
   }
-  tp->value7 = val;
+  tp->fumble_roll = val;
 }
 
-[[nodiscard]] auto tp_value7_get(Tpp tp) -> int
+[[nodiscard]] auto tp_fumble_roll_get(Tpp tp) -> int
 {
   TRACE_DEBUG();
   if (tp == nullptr) [[unlikely]] {
     ERR("no thing template pointer");
     return 0;
   }
-  return tp->value7;
+  return tp->fumble_roll;
 }
 
 void tp_difficulty_set(Tpp tp, int val)

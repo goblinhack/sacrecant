@@ -1,14 +1,12 @@
 bugs
 ----
-space should attack
+melee on doors
 
 todo
 ----
-boosts
-  increase max hp
 sacrifices
   f 
-  g one-arm:                can only wear one ring, melee damage halved                           melee +50
+  g 
   h increased-fumble
   i poison-blood:           health ticks down                                                     melee +200
   j one-legged:             can only jump, limited jump distance, easily exhausted                melee +400
@@ -45,6 +43,7 @@ spells
     - straight to hell
     - plane warp
   - defensive
+    increase max hp
   - offensive
     - etherblast to hit ghosts in walls
     - powerword kill

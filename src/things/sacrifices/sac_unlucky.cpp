@@ -21,11 +21,11 @@ static auto tp_sac_unlucky_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -
       "- volatile treasure chests\n"                                                                         //
       UI_INFO2_FMT_STR                                                                                       //
       "- escaping engulfment\n"                                                                              //
-      UI_INFO1_FMT_STR                                                                                       //
+      UI_INFO3_FMT_STR                                                                                       //
       "- landing in lava \n"                                                                                 //
-      UI_INFO2_FMT_STR                                                                                       //
+      UI_INFO4_FMT_STR                                                                                       //
       "- teleporting into danger\n"                                                                          //
-      UI_INFO1_FMT_STR                                                                                       //
+      UI_INFO5_FMT_STR                                                                                       //
       "- and more...\n";                                                                                     //
 }
 
@@ -42,7 +42,7 @@ static auto tp_sac_unlucky_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_sacrifice);
   tp_flag_set(tp, is_unlucky);
-  tp_mana_set(tp, 20);
+  tp_mana_set(tp, 2);
   tp_name_long_set(tp, "dashed unlucky");
   tp_stat_set(tp, THING_STAT_LUCK, "6");
   // end sort marker1 }

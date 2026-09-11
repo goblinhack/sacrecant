@@ -150,8 +150,8 @@ public:
   int value3 {0};
   int value4 {0};
   int value5 {0};
-  int value6 {0};
-  int value7 {0};
+  int crit_roll {20};
+  int fumble_roll {1};
   int difficulty {0};
   int mana_max {0};
   int melee {0};

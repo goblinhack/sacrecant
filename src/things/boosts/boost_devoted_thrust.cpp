@@ -74,7 +74,7 @@ static bool tp_boost_devoted_thrust_on_attacking(Gamep g, Levelsp v, Levelp l, T
   tp_flag_set(tp, is_boost);
   tp_flag_set(tp, is_hook);
   tp_flag_set(tp, is_loggable);
-  tp_mana_set(tp, -100);
+  tp_mana_set(tp, -10);
   tp_name_long_set(tp, "devoted thrust");
   // end sort marker1 }
 

@@ -73,7 +73,7 @@ auto tp_player3_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::stri
     tp_difficulty_set(tp, 2);
     tp_health_set(tp, "100");
     tp_is_resistant_to_add(tp, THING_EVENT_FIRE_DAMAGE);
-    tp_mana_set(tp, 150);
+    tp_mana_set(tp, 15);
     tp_name_long_set(tp, "firestarter wizard");
     tp_stat_set(tp, THING_STAT_ATT, "1d4+10");
     tp_stat_set(tp, THING_STAT_DEF, "12");

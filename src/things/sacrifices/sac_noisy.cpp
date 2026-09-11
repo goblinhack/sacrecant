@@ -37,7 +37,7 @@ static auto tp_sac_noisy_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> 
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_noisy);
   tp_flag_set(tp, is_sacrifice);
-  tp_mana_set(tp, 10);
+  tp_mana_set(tp, 1);
   tp_name_long_set(tp, "squeaky boots");
   // end sort marker1 }
 
