@@ -117,9 +117,7 @@ exit:
 
   Testp test = test_load("teleport_chasm");
 
-  // begin sort marker1 {
   test_callback_set(test, test_teleport_chasm);
-  // end sort marker1 }
 
   return true;
 }

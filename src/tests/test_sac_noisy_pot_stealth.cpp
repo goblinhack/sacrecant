@@ -328,9 +328,7 @@ exit:
 
   Testp test = test_load("sac_noisy_pot_stealth");
 
-  // begin sort marker1 {
   test_callback_set(test, test_sac_noisy_pot_stealth);
-  // end sort marker1 }
 
   return true;
 }

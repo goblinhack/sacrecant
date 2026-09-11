@@ -200,9 +200,7 @@ exit:
 
   Testp test = test_load("brazier_shove_chasm");
 
-  // begin sort marker1 {
   test_callback_set(test, test_brazier_shove_chasm);
-  // end sort marker1 }
 
   return true;
 }

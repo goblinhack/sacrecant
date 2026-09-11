@@ -1821,10 +1821,10 @@
   return level_flag(g, v, l, is_unused152, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused153_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_boost_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused153, p, me) != nullptr;
+  return level_flag(g, v, l, is_boost, p, me) != nullptr;
 }
 
 [[nodiscard]] auto level_is_weaponless_on_spawn_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool

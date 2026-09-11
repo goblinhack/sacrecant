@@ -186,9 +186,7 @@ exit:
 
   Testp test = test_load("monst_vision_direction");
 
-  // begin sort marker1 {
   test_callback_set(test, test_monst_vision_direction);
-  // end sort marker1 }
 
   return true;
 }

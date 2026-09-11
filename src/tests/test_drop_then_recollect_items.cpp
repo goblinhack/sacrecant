@@ -182,9 +182,7 @@ exit:
 
   Testp test = test_load("drop_then_recollect_items");
 
-  // begin sort marker1 {
   test_callback_set(test, test_drop_then_recollect_items);
-  // end sort marker1 }
 
   return true;
 }

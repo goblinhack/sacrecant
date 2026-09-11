@@ -149,9 +149,7 @@ exit:
 
   Testp test = test_load("player_trap_triggered");
 
-  // begin sort marker1 {
   test_callback_set(test, test_player_trap_triggered);
-  // end sort marker1 }
 
   return true;
 }

@@ -90,9 +90,7 @@ exit:
 
   Testp test = test_load("proj_mob");
 
-  // begin sort marker1 {
   test_callback_set(test, test_proj_mob);
-  // end sort marker1 }
 
   return true;
 }

@@ -8,6 +8,7 @@ TOP=$(shell pwd)
 DIRS=src
 FORMAT_DIRS=$(DIRS) \
 	    src/things \
+	    src/things/boosts \
 	    src/things/boots \
 	    src/things/buffs \
 	    src/things/debuffs \

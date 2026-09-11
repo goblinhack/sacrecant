@@ -114,9 +114,7 @@ exit:
 
   Testp test = test_load("player_engulfed_max_items");
 
-  // begin sort marker1 {
   test_callback_set(test, test_player_engulfed_max_items);
-  // end sort marker1 }
 
   return true;
 }

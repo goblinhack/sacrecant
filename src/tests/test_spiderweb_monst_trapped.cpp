@@ -95,9 +95,7 @@ exit:
 
   Testp test = test_load("spiderweb_monst_trapped");
 
-  // begin sort marker1 {
   test_callback_set(test, test_spiderweb_monst_trapped);
-  // end sort marker1 }
 
   return true;
 }

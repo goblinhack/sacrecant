@@ -145,9 +145,7 @@ exit:
 
   Testp test = test_load("pot_healing");
 
-  // begin sort marker1 {
   test_callback_set(test, test_pot_healing);
-  // end sort marker1 }
 
   return true;
 }

@@ -126,9 +126,7 @@ exit:
 
   Testp test = test_load("monst_resurrect_fire");
 
-  // begin sort marker1 {
   test_callback_set(test, test_monst_resurrect_fire);
-  // end sort marker1 }
 
   return true;
 }

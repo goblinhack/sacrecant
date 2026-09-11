@@ -161,9 +161,7 @@ exit:
 
   Testp test = test_load("player_open_door_secret");
 
-  // begin sort marker1 {
   test_callback_set(test, test_player_open_door_secret);
-  // end sort marker1 }
 
   return true;
 }

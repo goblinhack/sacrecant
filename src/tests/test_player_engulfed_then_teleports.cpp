@@ -154,9 +154,7 @@ exit:
 
   Testp test = test_load("player_engulfed_then_teleports");
 
-  // begin sort marker1 {
   test_callback_set(test, test_player_engulfed_then_teleports);
-  // end sort marker1 }
 
   return true;
 }

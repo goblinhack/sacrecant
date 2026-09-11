@@ -15,8 +15,9 @@ do
       ;;
     *)
       echo Formatting $i...
-      clang-format -i $i
-      git --no-pager diff $i
+      clang-format -i $i &
     ;;
   esac
 done
+
+wait

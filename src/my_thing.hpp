@@ -868,6 +868,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_blit_square_outlined(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blit_when_obscured_faded(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blit_when_obscured_outline(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_boost(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_boots(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_border(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_brazier(Thingp t) -> bool;
@@ -1017,10 +1018,10 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_plant(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_potion(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_projectile(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_prone_to(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEventType val) -> bool;
 [[nodiscard]] auto thing_is_removable_on_err(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_removable_when_dead_on_err(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_resistant_to(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEventType val) -> bool;
-[[nodiscard]] auto thing_is_prone_to(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEventType val) -> bool;
 [[nodiscard]] auto thing_is_ring(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_rock(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_rubble(Thingp t) -> bool;
@@ -1123,7 +1124,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused150(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused151(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused152(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused153(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused16(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused17(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused18(Thingp t) -> bool;
@@ -1688,6 +1688,14 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
         if (AUTO(_slot_) = &_ext_->buffs.buff[ _n_ ])                                                                                           \
           if (AUTO(_buff_) = thing_find_optional(g, v, _slot_->buff_id))                                                                        \
             if (thing_is_sacrifice(_buff_))
+
+#define FOR_ALL_BOOSTS(_g_, _v_, _l_, _owner_, _buff_)                                                                                          \
+  if ((_g_) && (_v_) && (_l_))                                                                                                                  \
+    if (AUTO(_ext_) = thing_ext_struct(_g_, _v_, _owner_))                                                                                      \
+      for (auto _n_ = 0; _n_ < THING_BUFF_MAX; _n_++)                                                                                           \
+        if (AUTO(_slot_) = &_ext_->buffs.buff[ _n_ ])                                                                                           \
+          if (AUTO(_buff_) = thing_find_optional(g, v, _slot_->buff_id))                                                                        \
+            if (thing_is_boost(_buff_))
 
 //
 // NOTE: break will not work

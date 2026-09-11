@@ -122,9 +122,7 @@ exit:
 
   Testp test = test_load("monst_move_diagonal_wall");
 
-  // begin sort marker1 {
   test_callback_set(test, test_monst_move_diagonal_wall);
-  // end sort marker1 }
 
   return true;
 }

@@ -79,9 +79,7 @@ exit:
 
   Testp test = test_load("beam_weapon");
 
-  // begin sort marker1 {
   test_callback_set(test, test_beam_weapon);
-  // end sort marker1 }
 
   return true;
 }

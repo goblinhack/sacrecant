@@ -89,9 +89,7 @@ exit:
 
   Testp test = test_load("projectile");
 
-  // begin sort marker1 {
   test_callback_set(test, test_wand);
-  // end sort marker1 }
 
   return true;
 }

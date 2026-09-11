@@ -112,9 +112,7 @@ exit:
 
   Testp test = test_load("teleport_shove_mob");
 
-  // begin sort marker1 {
   test_callback_set(test, test_teleport_shove_mob);
-  // end sort marker1 }
 
   return true;
 }

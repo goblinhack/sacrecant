@@ -159,9 +159,7 @@ exit:
 
   Testp test = test_load("monst_avoids_lava");
 
-  // begin sort marker1 {
   test_callback_set(test, test_monst_avoids_lava);
-  // end sort marker1 }
 
   return true;
 }

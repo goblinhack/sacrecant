@@ -122,9 +122,7 @@ exit:
 
   Testp test = test_load("mob_water");
 
-  // begin sort marker1 {
   test_callback_set(test, test_mob_water);
-  // end sort marker1 }
 
   return true;
 }

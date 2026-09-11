@@ -94,9 +94,7 @@ exit:
 
   Testp test = test_load("beam_weapon_door_unlocked");
 
-  // begin sort marker1 {
   test_callback_set(test, test_beam_weapon_door_unlocked);
-  // end sort marker1 }
 
   return true;
 }

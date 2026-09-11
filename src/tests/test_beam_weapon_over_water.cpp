@@ -88,9 +88,7 @@ exit:
 
   Testp test = test_load("beam_weapon_over_water");
 
-  // begin sort marker1 {
   test_callback_set(test, test_beam_weapon_over_water);
-  // end sort marker1 }
 
   return true;
 }

@@ -88,9 +88,7 @@ exit:
 
   Testp test = test_load("monst_secret_door");
 
-  // begin sort marker1 {
   test_callback_set(test, test_monst_secret_door);
-  // end sort marker1 }
 
   return true;
 }

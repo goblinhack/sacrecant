@@ -151,9 +151,7 @@ exit:
 
   Testp test = test_load("player_trap_did_not_trigger_due_to_clover");
 
-  // begin sort marker1 {
   test_callback_set(test, test_player_trap_did_not_trigger_due_to_clover);
-  // end sort marker1 }
 
   return true;
 }

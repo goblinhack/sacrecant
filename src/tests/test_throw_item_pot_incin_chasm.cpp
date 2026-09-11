@@ -130,9 +130,7 @@ exit:
 
   Testp test = test_load("throw_item_pot_incin_chasm");
 
-  // begin sort marker1 {
   test_callback_set(test, test_throw_item_pot_incin_chasm);
-  // end sort marker1 }
 
   return true;
 }

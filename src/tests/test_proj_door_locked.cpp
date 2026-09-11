@@ -93,9 +93,7 @@ exit:
 
   Testp test = test_load("proj_door_locked");
 
-  // begin sort marker1 {
   test_callback_set(test, test_proj_door_locked);
-  // end sort marker1 }
 
   return true;
 }

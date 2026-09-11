@@ -180,9 +180,7 @@ exit:
 
   Testp test = test_load("player_lava");
 
-  // begin sort marker1 {
   test_callback_set(test, test_player_lava);
-  // end sort marker1 }
 
   return true;
 }

@@ -129,9 +129,7 @@ exit:
 
   Testp test = test_load("weapon_discharge");
 
-  // begin sort marker1 {
   test_callback_set(test, test_weapon_discharge);
-  // end sort marker1 }
 
   return true;
 }

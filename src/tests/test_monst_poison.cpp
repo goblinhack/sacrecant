@@ -162,9 +162,7 @@ exit:
 
   Testp test = test_load("monst_poison");
 
-  // begin sort marker1 {
   test_callback_set(test, test_monst_poison);
-  // end sort marker1 }
 
   return true;
 }

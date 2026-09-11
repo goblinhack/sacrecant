@@ -147,9 +147,7 @@ exit:
 
   Testp test = test_load("clown_meat");
 
-  // begin sort marker1 {
   test_callback_set(test, test_clown_meat);
-  // end sort marker1 }
 
   return true;
 }

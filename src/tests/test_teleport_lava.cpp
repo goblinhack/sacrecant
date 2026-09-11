@@ -117,9 +117,7 @@ exit:
 
   Testp test = test_load("teleport_lava");
 
-  // begin sort marker1 {
   test_callback_set(test, test_teleport_lava);
-  // end sort marker1 }
 
   return true;
 }

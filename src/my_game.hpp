@@ -308,12 +308,22 @@ void               game_cand_sacrifice_set(Gamep g, Thingp t);
 void               game_cand_sacrifice_unset(Gamep g, Thingp t);
 [[nodiscard]] auto game_chosen_sacrifice_get(Gamep g) -> std::vector< Tpp >;
 void               game_chosen_sacrifice_set(Gamep g, std::vector< Tpp > t);
+[[nodiscard]] auto game_mouse_over_sacrifice_get(Gamep g) -> Thingp;
+void               game_mouse_over_sacrifice_set(Gamep g, Thingp t);
+
+[[nodiscard]] auto game_cand_boost_get_last(Gamep g) -> Thingp;
+[[nodiscard]] auto game_cand_boost_get(Gamep g) -> std::vector< Tpp >;
+void               game_boost_clear(Gamep g);
+void               game_cand_boost_set(Gamep g, Thingp t);
+[[nodiscard]] auto game_cand_boost_find(Gamep g, Thingp t) -> bool;
+void               game_cand_boost_unset(Gamep g, Thingp t);
+[[nodiscard]] auto game_chosen_boost_get(Gamep g) -> std::vector< Tpp >;
+void               game_chosen_boost_set(Gamep g, std::vector< Tpp > t);
+[[nodiscard]] auto game_mouse_over_boost_get(Gamep g) -> Thingp;
+void               game_mouse_over_boost_set(Gamep g, Thingp t);
 
 [[nodiscard]] auto game_mouse_over_player_get(Gamep g) -> Thingp;
 void               game_mouse_over_player_set(Gamep g, Thingp t);
-
-[[nodiscard]] auto game_mouse_over_sacrifice_get(Gamep g) -> Thingp;
-void               game_mouse_over_sacrifice_set(Gamep g, Thingp t);
 
 [[nodiscard]] auto game_is_new_highest_hiscore(Gamep g, uint32_t score) -> bool;
 [[nodiscard]] auto game_is_new_hiscore(Gamep g, uint32_t score) -> bool;

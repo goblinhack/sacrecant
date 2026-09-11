@@ -191,9 +191,7 @@ exit:
 
   Testp test = test_load("monst_short_jump_around_chasm");
 
-  // begin sort marker1 {
   test_callback_set(test, test_monst_short_jump_around_chasm);
-  // end sort marker1 }
 
   return true;
 }

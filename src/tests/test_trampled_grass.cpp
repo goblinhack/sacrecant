@@ -123,9 +123,7 @@ exit:
 
   Testp test = test_load("trampled_grass");
 
-  // begin sort marker1 {
   test_callback_set(test, test_trampled_grass);
-  // end sort marker1 }
 
   return true;
 }

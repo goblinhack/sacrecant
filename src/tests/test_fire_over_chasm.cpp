@@ -122,9 +122,7 @@ exit:
 
   Testp test = test_load("fire_over_chasm");
 
-  // begin sort marker1 {
   test_callback_set(test, test_fire_over_chasm);
-  // end sort marker1 }
 
   return true;
 }

@@ -126,9 +126,7 @@ exit:
 
   Testp test = test_load("ring_war_defence");
 
-  // begin sort marker1 {
   test_callback_set(test, test_ring_war_defence);
-  // end sort marker1 }
 
   return true;
 }

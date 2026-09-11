@@ -95,9 +95,7 @@ exit:
 
   Testp test = test_load("monst_crosses_lava");
 
-  // begin sort marker1 {
   test_callback_set(test, test_monst_crosses_lava);
-  // end sort marker1 }
 
   return true;
 }

@@ -158,9 +158,7 @@ exit:
 
   Testp test = test_load("player_melee");
 
-  // begin sort marker1 {
   test_callback_set(test, test_player_melee);
-  // end sort marker1 }
 
   return true;
 }

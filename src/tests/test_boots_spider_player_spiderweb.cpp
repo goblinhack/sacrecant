@@ -150,9 +150,7 @@ exit:
 
   Testp test = test_load("boots_spider_player_spiderweb");
 
-  // begin sort marker1 {
   test_callback_set(test, test_boots_spider_player_spiderweb);
-  // end sort marker1 }
 
   return true;
 }

@@ -184,9 +184,7 @@ exit:
 
   Testp test = test_load("monst_blasts_player");
 
-  // begin sort marker1 {
   test_callback_set(test, test_monst_blasts_player);
-  // end sort marker1 }
 
   return true;
 }

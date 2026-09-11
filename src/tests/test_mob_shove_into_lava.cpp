@@ -202,9 +202,7 @@ exit:
 
   Testp test = test_load("mob_shove_into_lava");
 
-  // begin sort marker1 {
   test_callback_set(test, test_mob_shove_into_lava);
-  // end sort marker1 }
 
   return true;
 }

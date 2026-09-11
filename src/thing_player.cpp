@@ -80,6 +80,14 @@ void thing_player_init(Gamep g)
     (void) thing_mana_max_incr(g, v, l, player, thing_mana(g, v, l, sacrifice));
   }
 
+  //
+  // Get all the mana from our boosts
+  //
+  FOR_ALL_BOOSTS(g, v, l, player, boost)
+  { //
+    (void) thing_mana_max_incr(g, v, l, player, thing_mana(g, v, l, boost));
+  }
+
   (void) thing_mana_set(g, v, l, player, thing_mana_max(g, v, l, player));
 
   return true;

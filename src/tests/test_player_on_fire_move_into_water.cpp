@@ -146,9 +146,7 @@ exit:
 
   Testp test = test_load("player_on_fire_move_into_water");
 
-  // begin sort marker1 {
   test_callback_set(test, test_player_on_fire_move_into_water);
-  // end sort marker1 }
 
   return true;
 }

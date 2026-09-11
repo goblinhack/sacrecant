@@ -155,9 +155,7 @@ exit:
 
   Testp test = test_load("ring_war_beam_weapon");
 
-  // begin sort marker1 {
   test_callback_set(test, test_ring_war_beam_weapon);
-  // end sort marker1 }
 
   return true;
 }

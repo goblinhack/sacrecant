@@ -127,9 +127,7 @@ exit:
 
   Testp test = test_load("alloc_free_walls");
 
-  // begin sort marker1 {
   test_callback_set(test, test_alloc_free_walls);
-  // end sort marker1 }
 
   return true;
 }

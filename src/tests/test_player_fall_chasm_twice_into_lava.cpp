@@ -202,9 +202,7 @@ exit:
 
   Testp test = test_load("player_fall_chasm_twice_into_lava");
 
-  // begin sort marker1 {
   test_callback_set(test, test_player_fall_chasm_twice_into_lava);
-  // end sort marker1 }
 
   return true;
 }

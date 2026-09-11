@@ -122,9 +122,7 @@ exit:
 
   Testp test = test_load("beam_weapon_monst_chain");
 
-  // begin sort marker1 {
   test_callback_set(test, test_beam_weapon_monst_chain);
-  // end sort marker1 }
 
   return true;
 }

@@ -97,9 +97,7 @@ exit:
 
   Testp test = test_load("spiderweb_player_trapped");
 
-  // begin sort marker1 {
   test_callback_set(test, test_spiderweb_player_trapped);
-  // end sort marker1 }
 
   return true;
 }

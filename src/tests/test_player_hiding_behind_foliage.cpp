@@ -191,9 +191,7 @@ exit:
 
   Testp test = test_load("player_hiding_behind_foliage");
 
-  // begin sort marker1 {
   test_callback_set(test, test_player_hiding_behind_foliage);
-  // end sort marker1 }
 
   return true;
 }

@@ -36,6 +36,7 @@
 #include <string>
 #include <vector>
 
+static Widp      wid_total;
 static Widp      wid_player_select_window;
 static WidPopup *wid_player_select_continue_window;
 
@@ -48,6 +49,10 @@ static int  wid_sacrifice_index = 0;
 static Widp wid_sacrifice_shortcut[ THING_INVENTORY_MAX ];
 static Widp wid_sacrifice[ THING_INVENTORY_MAX ];
 
+static int  wid_boost_index = 0;
+static Widp wid_boost_shortcut[ THING_INVENTORY_MAX ];
+static Widp wid_boost[ THING_INVENTORY_MAX ];
+
 static void wid_player_select_destroy(Gamep g)
 {
   TRACE();
@@ -59,11 +64,16 @@ static void wid_player_select_destroy(Gamep g)
   memset(wid_sacrifice_shortcut, 0, sizeof(wid_sacrifice_shortcut));
   memset(wid_sacrifice, 0, sizeof(wid_sacrifice));
 
+  memset(wid_boost_shortcut, 0, sizeof(wid_boost_shortcut));
+  memset(wid_boost, 0, sizeof(wid_boost));
+
   game_mouse_over_player_set(g, nullptr);
   game_mouse_over_sacrifice_set(g, nullptr);
+  game_mouse_over_boost_set(g, nullptr);
 
   game_cand_player_set(g, nullptr);
   game_cand_sacrifice_set(g, nullptr);
+  game_cand_boost_set(g, nullptr);
 
   if (wid_player_select_window != nullptr) {
     wid_destroy(g, &wid_player_select_window);
@@ -80,6 +90,7 @@ static void wid_player_select_all_done(Gamep g)
   auto *tp = game_cand_player_get(g);
   game_chosen_player_set(g, tp);
   game_chosen_sacrifice_set(g, game_cand_sacrifice_get(g));
+  game_chosen_boost_set(g, game_cand_boost_get(g));
 
   wid_player_select_destroy(g);
 
@@ -92,6 +103,7 @@ static void wid_player_select_all_done(Gamep g)
 
   game_player_clear(g);
   game_sacrifice_clear(g);
+  game_boost_clear(g);
 }
 
 [[nodiscard]] static auto wid_continue_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
@@ -144,6 +156,8 @@ static void wid_player_update_selections(Gamep g)
   wid_unset_focus(g);
   wid_mouse_over_end(g);
 
+  int total_mana {};
+
   for (auto &n : wid_player) {
     w = n;
     if (w != nullptr) {
@@ -164,6 +178,8 @@ static void wid_player_update_selections(Gamep g)
         wid_set_mode(w, WID_MODE_NORMAL);
         wid_set_style(w, UI_WID_STYLE_BUTTON_BAR);
         wid_set_color(w, WID_COLOR_BG, RED);
+
+        total_mana += tp_mana_get(thing_tp(t));
       }
     }
   }
@@ -188,8 +204,43 @@ static void wid_player_update_selections(Gamep g)
         wid_set_mode(w, WID_MODE_NORMAL);
         wid_set_style(w, UI_WID_STYLE_BUTTON_BAR);
         wid_set_color(w, WID_COLOR_BG, RED);
+
+        total_mana += tp_mana_get(thing_tp(t));
       }
     }
+  }
+
+  for (auto &n : wid_boost) {
+    w = n;
+    if (w != nullptr) {
+      wid_set_mode(w, WID_MODE_OVER);
+      wid_set_style(w, UI_WID_STYLE_BUTTON_BAR);
+      wid_set_color(w, WID_COLOR_BG, GREEN);
+      wid_set_color(w, WID_COLOR_TEXT_FG, WHITE);
+      wid_set_mode(w, WID_MODE_NORMAL);
+      wid_set_style(w, UI_WID_STYLE_BUTTON_BAR);
+      wid_set_color(w, WID_COLOR_BG, GRAY10);
+
+      auto *t = wid_get_thing_context(g, v, w, 0);
+      if (game_cand_boost_find(g, t)) {
+        wid_set_mode(w, WID_MODE_OVER);
+        wid_set_style(w, UI_WID_STYLE_BUTTON_BAR);
+        wid_set_color(w, WID_COLOR_BG, RED);
+        wid_set_color(w, WID_COLOR_TEXT_FG, WHITE);
+        wid_set_mode(w, WID_MODE_NORMAL);
+        wid_set_style(w, UI_WID_STYLE_BUTTON_BAR);
+        wid_set_color(w, WID_COLOR_BG, RED);
+
+        total_mana += tp_mana_get(thing_tp(t));
+      }
+    }
+  }
+
+  {
+    auto line = string_sprintf("Total Mana:                                    %d", total_mana);
+    wid_set_text_lhs(wid_total, 1u);
+    wid_set_text(wid_total, line);
+    wid_update(g, wid_total);
   }
 }
 
@@ -343,6 +394,81 @@ static void wid_player_select_sacrifice_via_mouse_over_end(Gamep g, Widp w)
   return true;
 }
 
+static void wid_player_select_boost_via_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
+{
+  TRACE();
+
+  auto *v = levels_memory_alloc(g);
+  if (v == nullptr) {
+    return;
+  }
+
+  auto *t = wid_get_thing_context(g, v, w, 0);
+  if (t == nullptr) {
+    return;
+  }
+
+  game_mouse_over_boost_set(g, t);
+
+  level_cursor_describe_clear(g, v);
+
+  if (level_cursor_describe_add(g, v, t)) {
+    game_request_to_remake_ui_set(g);
+  }
+}
+
+static void wid_player_select_boost_via_mouse_over_end(Gamep g, Widp w)
+{
+  TRACE();
+
+  auto *v = levels_memory_alloc(g);
+  if (v == nullptr) {
+    return;
+  }
+
+  auto *t = wid_get_thing_context(g, v, w, 0);
+  if (t == nullptr) {
+    return;
+  }
+
+  game_mouse_over_boost_set(g, nullptr);
+
+  if (level_cursor_describe_remove(g, v, t)) {
+    game_request_to_remake_ui_set(g);
+  }
+}
+
+[[nodiscard]] static auto wid_player_select_boost_via_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+{
+  TRACE();
+
+  auto *v = levels_memory_alloc(g);
+  if (v == nullptr) {
+    return false;
+  }
+
+  auto *t = wid_get_thing_context(g, v, w, 0);
+  if (t == nullptr) {
+    return false;
+  }
+
+  if (game_cand_boost_find(g, t)) {
+    game_cand_boost_unset(g, t);
+  } else {
+    game_cand_boost_set(g, t);
+  }
+
+  wid_player_select_check_if_done(g);
+  wid_player_update_selections(g);
+  game_request_to_remake_ui_set(g);
+
+  if (game_state(g) == STATE_PLAYER_SELECT_MENU) {
+    (void) sound_play(g, "select");
+  }
+
+  return true;
+}
+
 [[nodiscard]] static auto wid_player_select_key_down(Gamep g, Widp w, const struct SDL_Keysym *key) -> bool
 {
   TRACE();
@@ -379,6 +505,10 @@ static void wid_player_select_sacrifice_via_mouse_over_end(Gamep g, Widp w)
                   w = wid_sacrifice[ PCG_RANDOM_RANGE(0, wid_sacrifice_index) ];
                   if (w != nullptr) {
                     (void) wid_player_select_sacrifice_via_mouse_down(g, w, -1, -1, 0);
+                  }
+                  w = wid_boost[ PCG_RANDOM_RANGE(0, wid_boost_index) ];
+                  if (w != nullptr) {
+                    (void) wid_player_select_boost_via_mouse_down(g, w, -1, -1, 0);
                   }
                 }
                 break;
@@ -430,6 +560,39 @@ static void wid_player_select_sacrifice_via_mouse_over_end(Gamep g, Widp w)
                 w = wid_sacrifice[ c - 'a' ];
                 if (w != nullptr) {
                   (void) wid_player_select_sacrifice_via_mouse_down(g, w, -1, -1, 0);
+                }
+                break;
+
+              case 'A' :
+              case 'B' :
+              case 'C' :
+              case 'D' :
+              case 'E' :
+              case 'F' :
+              case 'G' :
+              case 'H' :
+              case 'I' :
+              case 'J' :
+              case 'K' :
+              case 'L' :
+              case 'M' :
+              case 'N' :
+              case 'O' :
+              case 'P' :
+              case 'Q' :
+              case 'R' :
+              case 'S' :
+              case 'T' :
+              case 'U' :
+              case 'V' :
+              case 'W' :
+              case 'X' :
+              case 'Y' :
+              case 'Z' :
+                game_mouse_over_boost_set(g, nullptr);
+                w = wid_boost[ c - 'A' ];
+                if (w != nullptr) {
+                  (void) wid_player_select_boost_via_mouse_down(g, w, -1, -1, 0);
                 }
                 break;
             }
@@ -535,7 +698,7 @@ void wid_player_select(Gamep g)
     spoint const br(button_width, y_at + button_height);
     wid_set_text_lhs(w, 1u);
     wid_set_pos(w, tl, br);
-    wid_set_text(w, UI_INFO_FMT_STR "Sacrecant                                      Mana");
+    wid_set_text(w, UI_INFO_FMT_STR "Sacrecant                                     Mana");
     y_at++;
   }
 
@@ -658,7 +821,7 @@ void wid_player_select(Gamep g)
       if (mana > 0) {
         line = string_sprintf("%-40s +%d", line.c_str(), mana);
       } else if (mana < 0) {
-        line = string_sprintf("%-40s -%d", line.c_str(), mana);
+        line = string_sprintf("%-40s %d", line.c_str(), mana);
       } else {
         line = string_sprintf("%-40s -", line.c_str());
       }
@@ -684,8 +847,6 @@ void wid_player_select(Gamep g)
     wid_player_index++;
   }
 
-  y_at++;
-
   //
   // Sacrifices
   //
@@ -697,7 +858,7 @@ void wid_player_select(Gamep g)
     spoint const br(button_width, y_at + button_height);
     wid_set_text_lhs(w, 1u);
     wid_set_pos(w, tl, br);
-    wid_set_text(w, UI_INFO_FMT_STR "Sacrifices                                     Mana");
+    wid_set_text(w, UI_INFO_FMT_STR "Sacrifices");
     y_at++;
   }
 
@@ -793,7 +954,7 @@ void wid_player_select(Gamep g)
       if (mana > 0) {
         line = string_sprintf("%-40s +%d", line.c_str(), mana);
       } else if (mana < 0) {
-        line = string_sprintf("%-40s -%d", line.c_str(), mana);
+        line = string_sprintf("%-40s %d", line.c_str(), mana);
       } else {
         line = string_sprintf("%-40s -", line.c_str());
       }
@@ -818,6 +979,156 @@ void wid_player_select(Gamep g)
 
     y_at += button_step;
     wid_sacrifice_index++;
+  }
+
+  //
+  // Boosts
+  //
+  {
+    TRACE();
+    auto *w = wid_new_bar_button(g, wid_player_select_window, "Boosts");
+
+    spoint const tl(1, y_at);
+    spoint const br(button_width, y_at + button_height);
+    wid_set_text_lhs(w, 1u);
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, UI_INFO_FMT_STR "Boosts");
+    y_at++;
+  }
+
+  memset(wid_boost_shortcut, 0, sizeof(wid_boost_shortcut));
+  memset(wid_boost, 0, sizeof(wid_boost));
+
+  wid_boost_index = 0;
+
+  std::vector< Tpp > wid_boost_tps;
+
+  for (auto &tp : tp_vec) {
+    if (! tp_is_boost(tp)) {
+      continue;
+    }
+    wid_boost_tps.push_back(tp);
+  }
+
+  //
+  // Sort by mana
+  //
+  std::ranges::sort(wid_boost_tps, [](const Tpp &a, const Tpp &b) -> bool { return tp_mana_get(a) < tp_mana_get(b); });
+
+  for (auto &tp : wid_boost_tps) {
+    //
+    // Check for overflow
+    //
+    if (wid_boost_index >= ARRAY_SIZE(wid_boost)) {
+      break;
+    }
+
+    //
+    // Create a temporary thing on the level select map
+    //
+    auto   at             = bpoint(2, wid_boost_index);
+    Thingp existing_thing = nullptr;
+    FOR_ALL_THINGS_AT(g, v, level_select, t, at)
+    {
+      if (t != nullptr) {
+        existing_thing = t;
+        break;
+      }
+    }
+
+    if (existing_thing == nullptr) {
+      existing_thing = thing_spawn(g, v, level_select, tp, at);
+      if (existing_thing == nullptr) {
+        continue;
+      }
+    }
+
+    //
+    // Key shortcut
+    //
+    {
+      TRACE();
+      auto *w = wid_new_square_button(g, wid_player_select_window, "Key");
+
+      std::string s;
+      s += static_cast< char >('A' + wid_boost_index);
+      s += ')';
+
+      spoint const tl(3, y_at);
+      spoint const br(6, y_at + button_height);
+      wid_set_text_lhs(w, 1u);
+
+      wid_set_mode(w, WID_MODE_NORMAL);
+      wid_set_color(w, WID_COLOR_TEXT_FG, GRAY50);
+      wid_set_style(w, button_style);
+      wid_set_pos(w, tl, br);
+      wid_set_text(w, s);
+
+      wid_set_thing_context(g, v, w, existing_thing);
+      wid_set_on_mouse_down(w, wid_player_select_boost_via_mouse_down);
+
+      wid_set_on_mouse_over_begin(w, wid_player_select_boost_via_mouse_over_begin);
+      wid_set_on_mouse_over_end(w, wid_player_select_boost_via_mouse_over_end);
+
+      wid_boost_shortcut[ wid_boost_index ] = w;
+    }
+
+    //
+    // Boost name
+    //
+    {
+      //
+      // Append mana to the name
+      //
+      std::string line;
+
+      line = capitalize_first(tp_name_long(tp));
+
+      auto mana = tp_mana_get(tp);
+      if (mana > 0) {
+        line = string_sprintf("%-40s +%d", line.c_str(), mana);
+      } else if (mana < 0) {
+        line = string_sprintf("%-40s %d", line.c_str(), mana);
+      } else {
+        line = string_sprintf("%-40s -", line.c_str());
+      }
+
+      TRACE();
+      auto *w = wid_new_bar_button(g, wid_player_select_window, "Boost");
+
+      spoint const tl(6, y_at);
+      spoint const br(button_width, y_at + button_height);
+      wid_set_text_lhs(w, 1u);
+      wid_set_pos(w, tl, br);
+      wid_set_text(w, line);
+
+      wid_set_thing_context(g, v, w, existing_thing);
+      wid_set_on_mouse_down(w, wid_player_select_boost_via_mouse_down);
+
+      wid_set_on_mouse_over_begin(w, wid_player_select_boost_via_mouse_over_begin);
+      wid_set_on_mouse_over_end(w, wid_player_select_boost_via_mouse_over_end);
+
+      wid_boost[ wid_boost_index ] = w;
+    }
+
+    y_at += button_step;
+    wid_boost_index++;
+  }
+
+  y_at++;
+
+  //
+  // Total mana
+  //
+  {
+    TRACE();
+    auto *w = wid_new_bar_button(g, wid_player_select_window, "Boost");
+
+    spoint const tl(1, y_at);
+    spoint const br(button_width, y_at + button_height);
+    wid_set_pos(w, tl, br);
+
+    wid_total = w;
   }
 
   wid_update(g, wid_player_select_window);

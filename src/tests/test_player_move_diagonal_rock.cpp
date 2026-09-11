@@ -204,9 +204,7 @@ exit:
 
   Testp test = test_load("player_move_diagonal_rock");
 
-  // begin sort marker1 {
   test_callback_set(test, test_player_move_diagonal_rock);
-  // end sort marker1 }
 
   return true;
 }

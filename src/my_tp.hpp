@@ -309,7 +309,7 @@
       list_macro(is_unused150, "is_unused150"),                                             /* newline */                                       \
       list_macro(is_unused151, "is_unused151"),                                             /* newline */                                       \
       list_macro(is_unused152, "is_unused152"),                                             /* newline */                                       \
-      list_macro(is_unused153, "is_unused153"),                                             /* newline */                                       \
+      list_macro(is_boost, "is_boost"),                                                     /* newline */                                       \
       list_macro(is_weaponless_on_spawn, "is_weaponless_on_spawn"),                         /* newline */                                       \
       list_macro(is_noisy, "is_noisy"),                                                     /* newline */                                       \
       list_macro(is_hook, "is_hook"),                                                       /* newline */                                       \
@@ -885,6 +885,7 @@ class Tp;
 [[nodiscard]] auto tp_is_blit_square_outlined(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_blit_when_obscured_faded(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_blit_when_obscured_outline(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_boost(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_boots(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_border(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_brazier(Tpp tp) -> bool;
@@ -1019,11 +1020,11 @@ class Tp;
 [[nodiscard]] auto tp_is_player(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_potion(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_projectile(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_prone_to(Tpp tp, ThingEventType val) -> bool;
 [[nodiscard]] auto tp_is_reeds(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_removable_on_err(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_removable_when_dead_on_err(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_resistant_to(Tpp tp, ThingEventType val) -> bool;
-[[nodiscard]] auto tp_is_prone_to(Tpp tp, ThingEventType val) -> bool;
 [[nodiscard]] auto tp_is_ring(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_rock(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_rubble(Tpp tp) -> bool;
@@ -1121,7 +1122,6 @@ class Tp;
 [[nodiscard]] auto tp_is_unused150(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused151(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused152(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused153(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused16(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused17(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused18(Tpp tp) -> bool;
@@ -1310,8 +1310,8 @@ void tp_get_id(const char *, int *id);
 void tp_health_set(Tpp tp, const std::string &val);
 void tp_hearing_threshold_set(Tpp tp, int val);
 void tp_is_immune_to_add(Tpp tp, ThingEventType val);
-void tp_is_resistant_to_add(Tpp tp, ThingEventType val);
 void tp_is_prone_to_add(Tpp tp, ThingEventType val);
+void tp_is_resistant_to_add(Tpp tp, ThingEventType val);
 void tp_items_collected_max_set(Tpp tp, int val);
 void tp_jump_attack_pct_chance_set(Tpp tp, int val);
 void tp_lifespan_set(Tpp tp, const std::string &val);

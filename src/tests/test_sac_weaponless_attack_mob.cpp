@@ -109,9 +109,7 @@ exit:
 
   Testp test = test_load("sac_weaponless_attack_mob");
 
-  // begin sort marker1 {
   test_callback_set(test, test_sac_weaponless_attack_mob);
-  // end sort marker1 }
 
   return true;
 }

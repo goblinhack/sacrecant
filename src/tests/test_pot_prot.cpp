@@ -147,9 +147,7 @@ exit:
 
   Testp test = test_load("pot_prot");
 
-  // begin sort marker1 {
   test_callback_set(test, test_pot_prot);
-  // end sort marker1 }
 
   return true;
 }

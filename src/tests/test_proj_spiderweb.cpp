@@ -90,9 +90,7 @@ exit:
 
   Testp test = test_load("proj_spiderweb");
 
-  // begin sort marker1 {
   test_callback_set(test, test_proj_spiderweb);
-  // end sort marker1 }
 
   return true;
 }

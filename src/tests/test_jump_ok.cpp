@@ -95,9 +95,7 @@ exit:
 
   Testp test = test_load("jump_ok");
 
-  // begin sort marker1 {
   test_callback_set(test, test_jump_ok);
-  // end sort marker1 }
 
   return true;
 }

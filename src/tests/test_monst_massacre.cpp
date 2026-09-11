@@ -130,9 +130,7 @@ exit:
 
   Testp test = test_load("monst_massacre");
 
-  // begin sort marker1 {
   test_callback_set(test, test_monst_massacre);
-  // end sort marker1 }
 
   return true;
 }

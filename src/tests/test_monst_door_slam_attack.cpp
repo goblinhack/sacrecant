@@ -236,9 +236,7 @@ exit:
 
   Testp test = test_load("monst_door_slam_attack");
 
-  // begin sort marker1 {
   test_callback_set(test, test_monst_door_slam_attack);
-  // end sort marker1 }
 
   return true;
 }

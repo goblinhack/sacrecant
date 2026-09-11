@@ -123,9 +123,7 @@ exit:
 
   Testp test = test_load("barrel");
 
-  // begin sort marker1 {
   test_callback_set(test, test_barrel);
-  // end sort marker1 }
 
   return true;
 }

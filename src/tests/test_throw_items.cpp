@@ -129,9 +129,7 @@ exit:
 
   Testp test = test_load("throw_items");
 
-  // begin sort marker1 {
   test_callback_set(test, test_throw_items);
-  // end sort marker1 }
 
   return true;
 }

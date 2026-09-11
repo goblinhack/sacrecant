@@ -83,9 +83,7 @@ exit:
 
   Testp test = test_load("no_change");
 
-  // begin sort marker1 {
   test_callback_set(test, test_no_change);
-  // end sort marker1 }
 
   return true;
 }

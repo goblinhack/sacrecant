@@ -110,9 +110,7 @@ exit:
 
   Testp test = test_load("ring_life");
 
-  // begin sort marker1 {
   test_callback_set(test, test_ring_life);
-  // end sort marker1 }
 
   return true;
 }

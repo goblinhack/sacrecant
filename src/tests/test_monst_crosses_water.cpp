@@ -127,9 +127,7 @@ exit:
 
   Testp test = test_load("monst_crosses_water");
 
-  // begin sort marker1 {
   test_callback_set(test, test_monst_crosses_water);
-  // end sort marker1 }
 
   return true;
 }

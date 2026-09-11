@@ -191,9 +191,7 @@ exit:
 
   Testp test = test_load("monst_maze");
 
-  // begin sort marker1 {
   test_callback_set(test, test_monst_maze);
-  // end sort marker1 }
 
   return true;
 }

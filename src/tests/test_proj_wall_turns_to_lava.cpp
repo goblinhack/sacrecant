@@ -93,9 +93,7 @@ exit:
 
   Testp test = test_load("proj_wall_turns_to_lava");
 
-  // begin sort marker1 {
   test_callback_set(test, test_proj_wall_turns_to_lava);
-  // end sort marker1 }
 
   return true;
 }

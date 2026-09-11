@@ -131,9 +131,7 @@ exit:
 
   Testp test = test_load("monst_avoids_water_usually");
 
-  // begin sort marker1 {
   test_callback_set(test, test_monst_avoids_water_usually);
-  // end sort marker1 }
 
   return true;
 }

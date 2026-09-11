@@ -162,9 +162,7 @@ exit:
 
   Testp test = test_load("throw_item_pot_levit_monst_death");
 
-  // begin sort marker1 {
   test_callback_set(test, test_throw_item_pot_levit_monst_death);
-  // end sort marker1 }
 
   return true;
 }

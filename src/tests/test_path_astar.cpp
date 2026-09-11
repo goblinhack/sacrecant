@@ -176,9 +176,7 @@ exit:
 
   Testp test = test_load("path_astar");
 
-  // begin sort marker1 {
   test_callback_set(test, test_path_astar);
-  // end sort marker1 }
 
   return true;
 }

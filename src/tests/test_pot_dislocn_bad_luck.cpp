@@ -202,9 +202,7 @@ exit:
 
   Testp test = test_load("pot_disloc_bad_luck");
 
-  // begin sort marker1 {
   test_callback_set(test, test_pot_disloc_bad_luck);
-  // end sort marker1 }
 
   return true;
 }

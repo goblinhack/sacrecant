@@ -110,9 +110,7 @@ exit:
 
   Testp test = test_load("save_load");
 
-  // begin sort marker1 {
   test_callback_set(test, test_save_load);
-  // end sort marker1 }
 
   return true;
 }

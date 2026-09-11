@@ -4,8 +4,9 @@ bugs
 todo
 ----
 show total mana
+transitions
 sacrifices
-  f fire-prone:             x2 damage from fire                                                   melee +100
+  f 
   g one-arm:                can only wear one ring, melee damage halved                           melee +50
   h increased-fumble
   i poison-blood:           health ticks down                                                     melee +200

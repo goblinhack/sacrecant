@@ -174,9 +174,7 @@ exit:
 
   Testp test = test_load("brazier_shove_fail");
 
-  // begin sort marker1 {
   test_callback_set(test, test_brazier_shove_fail);
-  // end sort marker1 }
 
   return true;
 }

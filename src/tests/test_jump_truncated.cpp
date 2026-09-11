@@ -95,9 +95,7 @@ exit:
 
   Testp test = test_load("jump_truncated");
 
-  // begin sort marker1 {
   test_callback_set(test, test_jump_truncated);
-  // end sort marker1 }
 
   return true;
 }

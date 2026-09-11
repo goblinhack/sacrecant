@@ -276,9 +276,7 @@ exit:
 
   Testp test = test_load("sac_noisy");
 
-  // begin sort marker1 {
   test_callback_set(test, test_sac_noisy);
-  // end sort marker1 }
 
   return true;
 }

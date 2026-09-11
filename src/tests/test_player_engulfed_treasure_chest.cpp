@@ -223,9 +223,7 @@ exit:
 
   Testp test = test_load("player_engulfed_treasure_chest");
 
-  // begin sort marker1 {
   test_callback_set(test, test_player_engulfed_treasure_chest);
-  // end sort marker1 }
 
   return true;
 }

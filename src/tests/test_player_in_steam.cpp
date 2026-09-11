@@ -125,9 +125,7 @@ exit:
 
   Testp test = test_load("player_in_steam");
 
-  // begin sort marker1 {
   test_callback_set(test, test_player_in_steam);
-  // end sort marker1 }
 
   return true;
 }

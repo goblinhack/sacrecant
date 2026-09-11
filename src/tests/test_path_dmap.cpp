@@ -181,9 +181,7 @@ exit:
 
   Testp test = test_load("path_dmap");
 
-  // begin sort marker1 {
   test_callback_set(test, test_path_dmap);
-  // end sort marker1 }
 
   return true;
 }

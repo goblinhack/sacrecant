@@ -316,10 +316,18 @@ public:
   std::vector< Tpp >       chosen_sacrifice;
 
   //
+  // Which boosts were selected
+  //
+  Thingp                   cand_boost_last {};
+  std::map< Thingp, bool > cand_boost;
+  std::vector< Tpp >       chosen_boost;
+
+  //
   // Which player is hovering over
   //
   Thingp mouse_over_player {};
   Thingp mouse_over_sacrifice {};
+  Thingp mouse_over_boost {};
 
   /////////////////////////////////////////////////////////////////////////
   // not worth saving
@@ -3296,6 +3304,98 @@ void game_chosen_sacrifice_set(Gamep g, std::vector< Tpp > t)
   g->chosen_sacrifice = std::move(t);
 }
 
+[[nodiscard]] auto game_cand_boost_get(Gamep g) -> std::vector< Tpp >
+{
+  TRACE();
+
+  std::vector< Tpp > out;
+  if (g == nullptr) [[unlikely]] {
+    return out;
+  }
+  for (auto t : g->cand_boost) {
+    Thingp it = t.first;
+    out.push_back(thing_tp(it));
+  }
+  return out;
+}
+[[nodiscard]] auto game_cand_boost_get_last(Gamep g) -> Thingp
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    return nullptr;
+  }
+  return g->cand_boost_last;
+}
+void game_cand_boost_set(Gamep g, Thingp t)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->cand_boost[ t ] = true;
+  g->cand_boost_last = t;
+}
+void game_cand_boost_unset(Gamep g, Thingp t)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->cand_boost.erase(t);
+  g->cand_boost_last = {};
+}
+void game_boost_clear(Gamep g)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->cand_boost      = {};
+  g->cand_boost      = {};
+  g->cand_boost_last = {};
+}
+[[nodiscard]] auto game_chosen_boost_get(Gamep g) -> std::vector< Tpp >
+{
+  TRACE();
+
+  std::vector< Tpp > out;
+
+  if (g == nullptr) [[unlikely]] {
+    return out;
+  }
+  return g->chosen_boost;
+}
+[[nodiscard]] auto game_cand_boost_find(Gamep g, Thingp t) -> bool
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    return false;
+  }
+
+  if (g->cand_boost.contains(t)) {
+    return true;
+  }
+  return false;
+}
+void game_chosen_boost_set(Gamep g, std::vector< Tpp > t)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->chosen_boost = std::move(t);
+}
+
 [[nodiscard]] auto game_mouse_over_player_get(Gamep g) -> Thingp
 {
   TRACE();
@@ -3334,6 +3434,26 @@ void game_mouse_over_sacrifice_set(Gamep g, Thingp t)
     return;
   }
   g->mouse_over_sacrifice = t;
+}
+
+[[nodiscard]] auto game_mouse_over_boost_get(Gamep g) -> Thingp
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    return nullptr;
+  }
+  return g->mouse_over_boost;
+}
+void game_mouse_over_boost_set(Gamep g, Thingp t)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->mouse_over_boost = t;
 }
 
 [[nodiscard]] auto game_map_single_pix_size_get(Gamep g) -> int

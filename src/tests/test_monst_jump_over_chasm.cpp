@@ -159,9 +159,7 @@ exit:
 
   Testp test = test_load("monst_jump_over_chasm");
 
-  // begin sort marker1 {
   test_callback_set(test, test_monst_jump_over_chasm);
-  // end sort marker1 }
 
   return true;
 }

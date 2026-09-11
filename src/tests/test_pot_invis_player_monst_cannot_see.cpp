@@ -155,9 +155,7 @@ exit:
 
   Testp test = test_load("pot_invis_player_monst_cannot_see");
 
-  // begin sort marker1 {
   test_callback_set(test, test_pot_invis_player_monst_cannot_see);
-  // end sort marker1 }
 
   return true;
 }

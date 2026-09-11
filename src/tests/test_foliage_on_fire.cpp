@@ -122,9 +122,7 @@ exit:
 
   Testp test = test_load("foliage_on_fire");
 
-  // begin sort marker1 {
   test_callback_set(test, test_foliage_on_fire);
-  // end sort marker1 }
 
   return true;
 }

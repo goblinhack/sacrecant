@@ -121,9 +121,7 @@ exit:
 
   Testp test = test_load("items_drift_away");
 
-  // begin sort marker1 {
   test_callback_set(test, test_items_drift_away);
-  // end sort marker1 }
 
   return true;
 }

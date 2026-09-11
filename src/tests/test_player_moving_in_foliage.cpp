@@ -268,9 +268,7 @@ exit:
 
   Testp test = test_load("player_moving_in_foliage");
 
-  // begin sort marker1 {
   test_callback_set(test, test_player_moving_in_foliage);
-  // end sort marker1 }
 
   return true;
 }

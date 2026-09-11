@@ -127,9 +127,7 @@ exit:
 
   Testp test = test_load("monst_jumper");
 
-  // begin sort marker1 {
   test_callback_set(test, test_monst_jumper);
-  // end sort marker1 }
 
   return true;
 }

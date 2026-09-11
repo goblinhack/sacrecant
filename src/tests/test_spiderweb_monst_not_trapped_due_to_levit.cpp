@@ -95,9 +95,7 @@ exit:
 
   Testp test = test_load("spiderweb_monst_not_trapped_due_to_levitation");
 
-  // begin sort marker1 {
   test_callback_set(test, test_spiderweb_monst_not_trapped_due_to_levitation);
-  // end sort marker1 }
 
   return true;
 }

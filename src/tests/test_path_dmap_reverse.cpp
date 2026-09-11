@@ -166,9 +166,7 @@ exit:
 
   Testp test = test_load("path_dmap_reverse");
 
-  // begin sort marker1 {
   test_callback_set(test, test_path_dmap_reverse);
-  // end sort marker1 }
 
   return true;
 }

@@ -97,9 +97,7 @@ exit:
 
   Testp test = test_load("teleport_shove_brazier");
 
-  // begin sort marker1 {
   test_callback_set(test, test_teleport_shove_brazier);
-  // end sort marker1 }
 
   return true;
 }

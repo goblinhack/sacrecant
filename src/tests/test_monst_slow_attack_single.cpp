@@ -205,9 +205,7 @@ exit:
 
   Testp test = test_load("monst_slow_attack_single");
 
-  // begin sort marker1 {
   test_callback_set(test, test_monst_slow_attack_single);
-  // end sort marker1 }
 
   return true;
 }

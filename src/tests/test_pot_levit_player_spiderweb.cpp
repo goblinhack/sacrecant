@@ -272,9 +272,7 @@ exit:
 
   Testp test = test_load("pot_levit_player_spiderweb");
 
-  // begin sort marker1 {
   test_callback_set(test, test_pot_levit_player_spiderweb);
-  // end sort marker1 }
 
   return true;
 }

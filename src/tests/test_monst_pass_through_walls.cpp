@@ -159,9 +159,7 @@ exit:
 
   Testp test = test_load("monst_pass_through_walls");
 
-  // begin sort marker1 {
   test_callback_set(test, test_monst_pass_through_walls);
-  // end sort marker1 }
 
   return true;
 }

@@ -332,9 +332,7 @@ exit:
 
   Testp test = test_load("pot_stealth");
 
-  // begin sort marker1 {
   test_callback_set(test, test_pot_stealth);
-  // end sort marker1 }
 
   return true;
 }

@@ -156,9 +156,7 @@ exit:
 
   Testp test = test_load("boots_fire_player_lava");
 
-  // begin sort marker1 {
   test_callback_set(test, test_boots_fire_player_lava);
-  // end sort marker1 }
 
   return true;
 }

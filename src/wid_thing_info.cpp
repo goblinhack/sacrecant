@@ -1343,7 +1343,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     return false;
   }
 
-  parent->log(g, UI_INFO_FMT_STR "Resistances (half damage):", TEXT_FORMAT_LHS);
+  parent->log(g, UI_INFO_FMT_STR "Prone to (double damage):", TEXT_FORMAT_LHS);
   parent->log(g, "- " + out, TEXT_FORMAT_LHS);
 
   return true;
@@ -1856,6 +1856,36 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   return printed_something;
 }
 
+[[nodiscard]] static auto wid_thing_boosts(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent) -> bool
+{
+  TRACE();
+
+  bool printed_something = false;
+  bool first             = true;
+
+  FOR_ALL_SACRIFICES(g, v, l, me, boost)
+  {
+    if (first) {
+      first = false;
+      (void) parent->log(g, UI_INFO_FMT_STR "Sacrifices:", TEXT_FORMAT_LHS);
+    }
+
+    printed_something = true;
+
+    std::string line = "- ";
+
+    line += capitalize_first(thing_name_long(g, v, l, boost));
+
+    Widp wid = parent->log(g, line, TEXT_FORMAT_LHS);
+
+    wid_set_thing_context(g, v, wid, boost);
+    wid_set_on_mouse_over_begin(wid, wid_thing_info_thing_mouse_over_begin);
+    wid_set_on_mouse_over_end(wid, wid_thing_info_thing_mouse_over_end);
+  }
+
+  return printed_something;
+}
+
 //
 // Buffs
 //
@@ -2199,6 +2229,10 @@ void wid_thing_info(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, i
   }
 
   if (wid_thing_sacrifices(g, v, l, me, parent)) {
+    parent->log_empty_line(g);
+  }
+
+  if (wid_thing_boosts(g, v, l, me, parent)) {
     parent->log_empty_line(g);
   }
 

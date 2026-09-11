@@ -109,9 +109,7 @@ exit:
 
   Testp test = test_load("monst_mob_leash");
 
-  // begin sort marker1 {
   test_callback_set(test, test_monst_mob_leash);
-  // end sort marker1 }
 
   return true;
 }

@@ -166,9 +166,7 @@ exit:
 
   Testp test = test_load("weapon_worn_then_stripped");
 
-  // begin sort marker1 {
   test_callback_set(test, test_weapon_worn);
-  // end sort marker1 }
 
   return true;
 }

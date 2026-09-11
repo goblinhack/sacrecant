@@ -151,9 +151,7 @@ exit:
 
   Testp test = test_load("sac_clumsy");
 
-  // begin sort marker1 {
   test_callback_set(test, test_sac_clumsy);
-  // end sort marker1 }
 
   return true;
 }

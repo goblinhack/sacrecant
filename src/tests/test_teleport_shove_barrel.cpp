@@ -97,9 +97,7 @@ exit:
 
   Testp test = test_load("teleport_shove_barrel");
 
-  // begin sort marker1 {
   test_callback_set(test, test_teleport_shove_barrel);
-  // end sort marker1 }
 
   return true;
 }

@@ -133,9 +133,7 @@ exit:
 
   Testp test = test_load("throw_item_pot_healing_into_lava");
 
-  // begin sort marker1 {
   test_callback_set(test, test_throw_item_pot_healing_into_lava);
-  // end sort marker1 }
 
   return true;
 }

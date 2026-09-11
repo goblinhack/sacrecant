@@ -200,9 +200,7 @@ exit:
 
   Testp test = test_load("slots");
 
-  // begin sort marker1 {
   test_callback_set(test, test_slots);
-  // end sort marker1 }
 
   return true;
 }

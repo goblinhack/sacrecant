@@ -122,9 +122,7 @@ exit:
 
   Testp test = test_load("monst_voider");
 
-  // begin sort marker1 {
   test_callback_set(test, test_monst_voider);
-  // end sort marker1 }
 
   return true;
 }

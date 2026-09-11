@@ -204,9 +204,7 @@ exit:
 
   Testp test = test_load("player_move_diagonal_brazier");
 
-  // begin sort marker1 {
   test_callback_set(test, test_player_move_diagonal_brazier);
-  // end sort marker1 }
 
   return true;
 }

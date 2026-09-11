@@ -154,9 +154,7 @@ exit:
 
   Testp test = test_load("large_fire_water");
 
-  // begin sort marker1 {
   test_callback_set(test, test_large_fire_water);
-  // end sort marker1 }
 
   return true;
 }
