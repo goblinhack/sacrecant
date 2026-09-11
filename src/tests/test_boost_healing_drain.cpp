@@ -10,7 +10,7 @@
 #include "../my_thing_inlines.hpp"
 #include "../my_wids.hpp"
 
-[[nodiscard]] static auto test_player_melee(Gamep g, Testp t) -> bool
+[[nodiscard]] static auto test_boost_steal_heal(Gamep g, Testp t) -> bool
 {
   TEST_LOG(t, "begin");
   TRACE();
@@ -70,6 +70,10 @@
     TEST_FAILED(t, "no player");
     goto exit;
   }
+
+  TEST_ASSERT(t, thing_buff_add(g, v, l, player, tp_find_mand("boost_healing_drain")), "failed to add sacrifice");
+
+  (void) thing_health_set(g, v, l, player, 10);
 
   FOR_ALL_THINGS_AT(g, v, l, it, thing_at(g, v, l, player) + bpoint(1, 0))
   {
@@ -138,7 +142,10 @@
 
   TEST_ASSERT(t, wid_console_find_text(g, "You hit the kobalos"), "did not find console text");
 
-  TEST_ASSERT(t, game_tick_get(g, v) == 5, "final tick counter value");
+  TEST_ASSERT(t, thing_health(g, v, l, player) == 24, "did not see a health boost");
+  TEST_ASSERT(t, thing_stamina(g, v, l, player) == 79, "did not see a stamina drop");
+
+  TEST_ASSERT(t, game_tick_get(g, v) == 6, "final tick counter value");
 
   level_dump(g, v, l, w, h);
   TEST_PASSED(t);
@@ -149,13 +156,13 @@ exit:
   return result;
 }
 
-[[nodiscard]] auto test_load_player_melee() -> bool // NOLINT
+[[nodiscard]] auto test_load_boost_steal_heal() -> bool // NOLINT
 {
   TRACE();
 
-  Testp test = test_load("player_melee");
+  Testp test = test_load("boost_steal_heal");
 
-  test_callback_set(test, test_player_melee);
+  test_callback_set(test, test_boost_steal_heal);
 
   return true;
 }

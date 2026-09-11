@@ -11,7 +11,7 @@
 #include "my_tps.hpp"
 #include "my_ui.hpp"
 
-static auto tp_sac_heal_steal_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
+static auto tp_sac_healing_drain_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
 {
   TRACE();
 
@@ -23,7 +23,7 @@ static auto tp_sac_heal_steal_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me
       "Obviously, low stamina has its own problems and will impact your jumping, throwing etc... but who needs that?";    //
 }
 
-static void tp_heal_steal_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
+static void tp_healing_drain_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
 
@@ -46,8 +46,13 @@ static void tp_heal_steal_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   auto change = d6();
 
-  auto new_health = thing_health_incr(g, v, l, owner, change);
-  (void) thing_stamina_decr(g, v, l, owner, change);
+  THING_DBG(g, v, l, me, "tick");
+  THING_DBG(g, v, l, owner, "old health %d, old stamina %d", old_health, old_stamina);
+
+  auto new_health  = thing_health_incr(g, v, l, owner, change);
+  auto new_stamina = thing_stamina_decr(g, v, l, owner, change);
+
+  THING_DBG(g, v, l, owner, "new health %d, new stamina %d", new_health, new_stamina);
 
   if (old_health == new_health) {
     return;
@@ -59,16 +64,16 @@ static void tp_heal_steal_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   }
 }
 
-[[nodiscard]] auto tp_load_sac_heal_steal() -> bool
+[[nodiscard]] auto tp_load_sac_healing_drain() -> bool
 {
   TRACE();
 
-  auto *tp   = tp_load("sac_heal_steal"); // keep as string for scripts
+  auto *tp   = tp_load("boost_healing_drain"); // keep as string for scripts
   auto  name = tp_name(tp);
 
   // begin sort marker1 {
-  thing_detail_set(tp, tp_sac_heal_steal_detail_get);
-  thing_on_tick_begin_set(tp, tp_heal_steal_tick_begin);
+  thing_detail_set(tp, tp_sac_healing_drain_detail_get);
+  thing_on_tick_begin_set(tp, tp_healing_drain_tick_begin);
   tp_flag_set(tp, is_boost);
   tp_flag_set(tp, is_hook);
   tp_flag_set(tp, is_loggable);

@@ -102,7 +102,7 @@ auto tp_load_rock() -> bool;
 auto tp_load_rubble() -> bool;
 auto tp_load_sac_clumsy() -> bool;
 auto tp_load_sac_defenceless() -> bool;
-auto tp_load_sac_heal_steal() -> bool;
+auto tp_load_sac_healing_drain() -> bool;
 auto tp_load_sac_noisy() -> bool;
 auto tp_load_sac_unlucky() -> bool;
 auto tp_load_sac_weaponless() -> bool;

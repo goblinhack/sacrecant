@@ -31,6 +31,7 @@ auto test_load_beam_weapon_rubble() -> bool;
 auto test_load_beam_weapon_teleport() -> bool;
 auto test_load_beam_weapon_wall_turns_to_lava() -> bool;
 auto test_load_beam_weapon() -> bool;
+auto test_load_boost_steal_heal() -> bool;
 auto test_load_boots_fire_player_lava() -> bool;
 auto test_load_boots_spider_player_spiderweb() -> bool;
 auto test_load_brazier_shove_chasm_twice() -> bool;

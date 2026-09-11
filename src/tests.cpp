@@ -33,6 +33,7 @@
   if (!test_load_beam_weapon_teleport()) { return false; }
   if (!test_load_beam_weapon_wall_turns_to_lava()) { return false; }
   if (!test_load_beam_weapon()) { return false; }
+  if (!test_load_boost_steal_heal()) { return false; }
   if (!test_load_boots_fire_player_lava()) { return false; }
   if (!test_load_boots_spider_player_spiderweb()) { return false; }
   if (!test_load_brazier_shove_chasm_twice()) { return false; }

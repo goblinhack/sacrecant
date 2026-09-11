@@ -51,6 +51,7 @@ static std::initializer_list< std::string > tests = {
     "beam_weapon_teleport",
     "beam_weapon_wall_turns_to_lava",
     "beam_weapon",
+    "boost_steal_heal",
     "boots_fire_player_lava",
     "boots_spider_player_spiderweb",
     "brazier_shove_chasm_twice",
