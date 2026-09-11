@@ -142,6 +142,51 @@ static void wid_player_select_check_if_done(Gamep g)
   }
 }
 
+static int wid_player_total_mana(Gamep g)
+{
+  TRACE();
+
+  auto *v = levels_memory_alloc(g);
+  if (v == nullptr) {
+    return 0;
+  }
+
+  Widp w = nullptr;
+  int  total_mana {};
+
+  for (auto &n : wid_player) {
+    w = n;
+    if (w != nullptr) {
+      auto *t = wid_get_thing_context(g, v, w, 0);
+      if (t == game_cand_player_get_thing(g)) {
+        total_mana += tp_mana_get(thing_tp(t));
+      }
+    }
+  }
+
+  for (auto &n : wid_sacrifice) {
+    w = n;
+    if (w != nullptr) {
+      auto *t = wid_get_thing_context(g, v, w, 0);
+      if (game_cand_sacrifice_find(g, t)) {
+        total_mana += tp_mana_get(thing_tp(t));
+      }
+    }
+  }
+
+  for (auto &n : wid_boost) {
+    w = n;
+    if (w != nullptr) {
+      auto *t = wid_get_thing_context(g, v, w, 0);
+      if (game_cand_boost_find(g, t)) {
+        total_mana += tp_mana_get(thing_tp(t));
+      }
+    }
+  }
+
+  return total_mana;
+}
+
 static void wid_player_update_selections(Gamep g)
 {
   TRACE();
@@ -155,8 +200,6 @@ static void wid_player_update_selections(Gamep g)
 
   wid_unset_focus(g);
   wid_mouse_over_end(g);
-
-  int total_mana {};
 
   for (auto &n : wid_player) {
     w = n;
@@ -178,8 +221,6 @@ static void wid_player_update_selections(Gamep g)
         wid_set_mode(w, WID_MODE_NORMAL);
         wid_set_style(w, UI_WID_STYLE_BUTTON_BAR);
         wid_set_color(w, WID_COLOR_BG, RED);
-
-        total_mana += tp_mana_get(thing_tp(t));
       }
     }
   }
@@ -204,8 +245,6 @@ static void wid_player_update_selections(Gamep g)
         wid_set_mode(w, WID_MODE_NORMAL);
         wid_set_style(w, UI_WID_STYLE_BUTTON_BAR);
         wid_set_color(w, WID_COLOR_BG, RED);
-
-        total_mana += tp_mana_get(thing_tp(t));
       }
     }
   }
@@ -222,6 +261,7 @@ static void wid_player_update_selections(Gamep g)
       wid_set_color(w, WID_COLOR_BG, GRAY10);
 
       auto *t = wid_get_thing_context(g, v, w, 0);
+
       if (game_cand_boost_find(g, t)) {
         wid_set_mode(w, WID_MODE_OVER);
         wid_set_style(w, UI_WID_STYLE_BUTTON_BAR);
@@ -230,14 +270,21 @@ static void wid_player_update_selections(Gamep g)
         wid_set_mode(w, WID_MODE_NORMAL);
         wid_set_style(w, UI_WID_STYLE_BUTTON_BAR);
         wid_set_color(w, WID_COLOR_BG, RED);
-
-        total_mana += tp_mana_get(thing_tp(t));
+      } else {
+        auto total_mana = wid_player_total_mana(g);
+        auto boost_mana = tp_mana_get(thing_tp(t));
+        if (total_mana < -boost_mana) {
+          wid_set_color(w, WID_COLOR_TEXT_FG, ORANGE);
+        } else {
+          wid_set_color(w, WID_COLOR_TEXT_FG, WHITE);
+        }
       }
     }
   }
 
   {
-    auto line = string_sprintf("Total Mana:                                    %d", total_mana);
+    auto total_mana = wid_player_total_mana(g);
+    auto line       = string_sprintf("Total Mana available for spells:               %d", total_mana);
     wid_set_text_lhs(wid_total, 1u);
     wid_set_text(wid_total, line);
     wid_update(g, wid_total);
@@ -405,6 +452,16 @@ static void wid_player_select_boost_via_mouse_over_begin(Gamep g, Widp w, int /*
 
   auto *t = wid_get_thing_context(g, v, w, 0);
   if (t == nullptr) {
+    return;
+  }
+
+  //
+  // Check we have enough mana for this
+  //
+  auto total_mana  = wid_player_total_mana(g);
+  auto mana_change = tp_mana_get(thing_tp(t));
+  if (total_mana + mana_change < 0) {
+    (void) sound_play(g, "error");
     return;
   }
 
@@ -1013,7 +1070,7 @@ void wid_player_select(Gamep g)
   //
   // Sort by mana
   //
-  std::ranges::sort(wid_boost_tps, [](const Tpp &a, const Tpp &b) -> bool { return tp_mana_get(a) < tp_mana_get(b); });
+  std::ranges::sort(wid_boost_tps, [](const Tpp &a, const Tpp &b) -> bool { return tp_mana_get(a) > tp_mana_get(b); });
 
   for (auto &tp : wid_boost_tps) {
     //

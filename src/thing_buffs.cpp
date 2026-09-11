@@ -100,6 +100,76 @@ static void thing_dump_buffs(Gamep g, Levelsp v, Levelp l, Thingp me)
 }
 
 //
+// Prioritize buffs.
+//
+static void thing_buff_sort(Gamep g, Levelsp v, Levelp l, Thingp me)
+{
+  TRACE();
+
+  if (me == nullptr) {
+    return;
+  }
+
+  auto *ext_struct = thing_ext_struct(g, v, me);
+  if (ext_struct == nullptr) {
+    thing_err(g, v, l, me, "missing ext struct");
+    return;
+  }
+
+  ThingBuffs new_buffs = {};
+  int        count {};
+
+  FOR_ALL_HOOKS_SLOTS(g, v, l, me, slot, buff)
+  {
+    if (buff) {
+      if (thing_is_sacrifice(buff)) {
+        new_buffs.buff[ count++ ] = *slot;
+        *slot                     = {};
+      }
+    }
+  }
+
+  FOR_ALL_HOOKS_SLOTS(g, v, l, me, slot, buff)
+  {
+    if (buff) {
+      if (thing_is_boost(buff)) {
+        new_buffs.buff[ count++ ] = *slot;
+        *slot                     = {};
+      }
+    }
+  }
+
+  FOR_ALL_HOOKS_SLOTS(g, v, l, me, slot, buff)
+  {
+    if (buff) {
+      if (thing_is_buff(buff)) {
+        new_buffs.buff[ count++ ] = *slot;
+        *slot                     = {};
+      }
+    }
+  }
+
+  FOR_ALL_HOOKS_SLOTS(g, v, l, me, slot, buff)
+  {
+    if (buff) {
+      if (thing_is_debuff(buff)) {
+        new_buffs.buff[ count++ ] = *slot;
+        *slot                     = {};
+      }
+    }
+  }
+
+  new_buffs.count = count;
+
+  if (ext_struct->buffs.count != count) {
+    thing_dump_buffs(g, v, l, me);
+    thing_err(g, v, l, me, "sorting buffs failed");
+  }
+
+  ext_struct->buffs = new_buffs;
+}
+
+//
 // Add a buff if possible
 //
 [[nodiscard]] auto thing_buff_add(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what) -> Thingp
@@ -177,6 +247,8 @@ static void thing_dump_buffs(Gamep g, Levelsp v, Levelp l, Thingp me)
 
     THING_DBG(g, v, l, me, "added buff %s", to_string(g, v, l, new_buff).c_str());
     THING_DBG(g, v, l, new_buff, "new born buff");
+
+    thing_buff_sort(g, v, l, me);
 
     return new_buff;
   }

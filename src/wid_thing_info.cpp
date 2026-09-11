@@ -1863,11 +1863,11 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   bool printed_something = false;
   bool first             = true;
 
-  FOR_ALL_SACRIFICES(g, v, l, me, boost)
+  FOR_ALL_BOOSTS(g, v, l, me, boost)
   {
     if (first) {
       first = false;
-      (void) parent->log(g, UI_INFO_FMT_STR "Sacrifices:", TEXT_FORMAT_LHS);
+      (void) parent->log(g, UI_INFO_FMT_STR "Boosts:", TEXT_FORMAT_LHS);
     }
 
     printed_something = true;

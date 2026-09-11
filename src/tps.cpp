@@ -20,6 +20,7 @@
   if (!tp_load_beam_of_energy()) { return false; }
   if (!tp_load_beam_of_fire()) { return false; }
   if (!tp_load_blitzhound()) { return false; }
+  if (!tp_load_boost_devoted_thrust()) { return false; }
   if (!tp_load_boots_fire()) { return false; }
   if (!tp_load_boots_spider()) { return false; }
   if (!tp_load_border()) { return false; }

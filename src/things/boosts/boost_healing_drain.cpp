@@ -11,7 +11,7 @@
 #include "my_tps.hpp"
 #include "my_ui.hpp"
 
-static auto tp_sac_healing_drain_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
+static auto tp_boost_healing_drain_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
 {
   TRACE();
 
@@ -23,7 +23,7 @@ static auto tp_sac_healing_drain_detail_get(Gamep g, Levelsp v, Levelp l, Thingp
       "Obviously, low stamina has its own problems and will impact your jumping, throwing etc... but who needs that?";    //
 }
 
-static void tp_healing_drain_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
+static void tp_boost_healing_drain_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
 
@@ -60,7 +60,6 @@ static void tp_healing_drain_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   if (thing_is_player(owner)) {
     topcon(UI_GOOD_FMT_STR "You drain your stamina for health." UI_RESET_FMT);
-    thing_sound_play(g, v, l, owner, "bonus");
   }
 }
 
@@ -72,13 +71,13 @@ static void tp_healing_drain_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   auto  name = tp_name(tp);
 
   // begin sort marker1 {
-  thing_detail_set(tp, tp_sac_healing_drain_detail_get);
-  thing_on_tick_begin_set(tp, tp_healing_drain_tick_begin);
+  thing_detail_set(tp, tp_boost_healing_drain_detail_get);
+  thing_on_tick_begin_set(tp, tp_boost_healing_drain_tick_begin);
   tp_flag_set(tp, is_boost);
   tp_flag_set(tp, is_hook);
   tp_flag_set(tp, is_loggable);
   tp_mana_set(tp, -50);
-  tp_name_long_set(tp, "heal steal");
+  tp_name_long_set(tp, "healing drain");
   // end sort marker1 }
 
   return true;
