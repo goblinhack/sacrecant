@@ -308,7 +308,7 @@
       list_macro(is_unused15, "is_unused15"),                                               /* newline */                                       \
       list_macro(is_unused150, "is_unused150"),                                             /* newline */                                       \
       list_macro(is_unused151, "is_unused151"),                                             /* newline */                                       \
-      list_macro(is_unused152, "is_unused152"),                                             /* newline */                                       \
+      list_macro(is_myopic, "is_myopic"),                                                   /* newline */                                       \
       list_macro(is_boost, "is_boost"),                                                     /* newline */                                       \
       list_macro(is_weaponless_on_spawn, "is_weaponless_on_spawn"),                         /* newline */                                       \
       list_macro(is_noisy, "is_noisy"),                                                     /* newline */                                       \
@@ -1121,7 +1121,7 @@ class Tp;
 [[nodiscard]] auto tp_is_unused15(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused150(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused151(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused152(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_myopic(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused16(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused17(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused18(Tpp tp) -> bool;

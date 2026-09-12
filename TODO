@@ -6,7 +6,7 @@ todo
 sacrifices
   j one-legged:             can only jump, limited jump distance, easily exhausted                melee +400
   k power-crazed:           rolls over 10 directed to damage         def -10                      melee +40
-  l blood-pact:             damage delivered is subtracted from your health                       melee +300
+  l 
   m blood-feast:            absorb health from fleshy monsters / x2 damage-received from undead   melee +20
   n myopic:                 vision distance halved                                                melee +30
   o hollow-bones:           fall-damage -50%   damage-received +50%  def -2                       melee +50

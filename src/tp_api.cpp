@@ -1777,10 +1777,10 @@
   return tp_flag(tp, is_unused151) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused152(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_myopic(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused152) != 0;
+  return tp_flag(tp, is_myopic) != 0;
 }
 
 [[nodiscard]] auto tp_is_boost(Tpp tp) -> bool

@@ -296,10 +296,14 @@ void thing_vision_calculate(Gamep g, Levelsp v, Levelp l, Thingp me)
       case BIOME_NONE :       [[fallthrough]];
       case BIOME_ENUM_MAX :   break;
     }
+  }
 
-    if (d == 0) {
-      d = 1;
-    }
+  if (thing_is_myopic(g, v, l, t)) {
+    d /= 8;
+  }
+
+  if (d == 0) {
+    d = 1;
   }
 
   return d;

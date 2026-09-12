@@ -1778,10 +1778,10 @@
   return level_flag(g, v, l, is_unused151, p, me);
 }
 
-[[nodiscard]] auto level_is_unused152(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_myopic(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused152, p, me);
+  return level_flag(g, v, l, is_myopic, p, me);
 }
 
 [[nodiscard]] auto level_is_boost(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
