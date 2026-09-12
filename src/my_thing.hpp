@@ -548,10 +548,15 @@ using Thing = struct Thing {
   int16_t _stamina;
   int16_t _stamina_max;
   //
-  // Magical mana
+  // Magical mana for spell casting
   //
   int16_t _mana_max;
   int16_t _mana;
+  //
+  // Sacrifical points for spell purchase
+  //
+  int16_t _sac_points_max;
+  int16_t _sac_points;
   //
   // Accumulates and holds the amount of time we've been falling.
   //
@@ -1268,6 +1273,14 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_mana_max(Gamep g, Levelsp v, Levelp l, Thingp t) -> int;
 [[nodiscard]] auto thing_mana_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
 [[nodiscard]] auto thing_mana(Gamep g, Levelsp v, Levelp l, Thingp t) -> int;
+[[nodiscard]] auto thing_sac_points_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
+[[nodiscard]] auto thing_sac_points_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
+[[nodiscard]] auto thing_sac_points_max_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
+[[nodiscard]] auto thing_sac_points_max_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
+[[nodiscard]] auto thing_sac_points_max_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
+[[nodiscard]] auto thing_sac_points_max(Gamep g, Levelsp v, Levelp l, Thingp t) -> int;
+[[nodiscard]] auto thing_sac_points_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
+[[nodiscard]] auto thing_sac_points(Gamep g, Levelsp v, Levelp l, Thingp t) -> int;
 [[nodiscard]] auto thing_melee(Thingp t) -> int;
 [[nodiscard]] auto thing_minion_can_move_to_possible(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &to) -> bool;
 [[nodiscard]] auto thing_minion_choose_target_near_mob(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;

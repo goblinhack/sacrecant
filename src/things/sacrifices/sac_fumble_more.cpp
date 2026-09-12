@@ -39,7 +39,7 @@ static auto tp_sac_fumble_more_detail_get(Gamep g, Levelsp v, Levelp l, Thingp m
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_sacrifice);
   tp_fumble_roll_set(tp, 2);
-  tp_mana_set(tp, 10);
+  tp_sac_points_set(tp, 10);
   tp_name_long_set(tp, "fumble more");
   // end sort marker1 }
 

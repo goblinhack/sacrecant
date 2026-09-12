@@ -1657,7 +1657,7 @@ void tp_mana_set(Tpp tp, int val)
     ERR("no thing template pointer");
     return;
   }
-  tp->melee = val;
+  tp->mana = val;
 }
 
 [[nodiscard]] auto tp_mana_get(Tpp tp) -> int
@@ -1667,7 +1667,47 @@ void tp_mana_set(Tpp tp, int val)
     ERR("no thing template pointer");
     return 0;
   }
-  return tp->melee;
+  return tp->mana;
+}
+
+void tp_sac_points_max_set(Tpp tp, int val)
+{
+  TRACE_DEBUG();
+  if (tp == nullptr) [[unlikely]] {
+    ERR("no thing template pointer");
+    return;
+  }
+  tp->sac_points_max = val;
+}
+
+[[nodiscard]] auto tp_sac_points_max_get(Tpp tp) -> int
+{
+  TRACE_DEBUG();
+  if (tp == nullptr) [[unlikely]] {
+    ERR("no thing template pointer");
+    return 0;
+  }
+  return tp->sac_points_max;
+}
+
+void tp_sac_points_set(Tpp tp, int val)
+{
+  TRACE_DEBUG();
+  if (tp == nullptr) [[unlikely]] {
+    ERR("no thing template pointer");
+    return;
+  }
+  tp->sac_points = val;
+}
+
+[[nodiscard]] auto tp_sac_points_get(Tpp tp) -> int
+{
+  TRACE_DEBUG();
+  if (tp == nullptr) [[unlikely]] {
+    ERR("no thing template pointer");
+    return 0;
+  }
+  return tp->sac_points;
 }
 
 void tp_jump_attack_pct_chance_set(Tpp tp, int val)

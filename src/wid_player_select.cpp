@@ -142,7 +142,7 @@ static void wid_player_select_check_if_done(Gamep g)
   }
 }
 
-static int wid_player_total_mana(Gamep g)
+static int wid_player_total_sac_points(Gamep g)
 {
   TRACE();
 
@@ -152,14 +152,14 @@ static int wid_player_total_mana(Gamep g)
   }
 
   Widp w = nullptr;
-  int  total_mana {};
+  int  total_sac_points {};
 
   for (auto &n : wid_player) {
     w = n;
     if (w != nullptr) {
       auto *t = wid_get_thing_context(g, v, w, 0);
       if (t == game_cand_player_get_thing(g)) {
-        total_mana += tp_mana_get(thing_tp(t));
+        total_sac_points += tp_sac_points_get(thing_tp(t));
       }
     }
   }
@@ -169,7 +169,7 @@ static int wid_player_total_mana(Gamep g)
     if (w != nullptr) {
       auto *t = wid_get_thing_context(g, v, w, 0);
       if (game_cand_sacrifice_find(g, t)) {
-        total_mana += tp_mana_get(thing_tp(t));
+        total_sac_points += tp_sac_points_get(thing_tp(t));
       }
     }
   }
@@ -179,12 +179,12 @@ static int wid_player_total_mana(Gamep g)
     if (w != nullptr) {
       auto *t = wid_get_thing_context(g, v, w, 0);
       if (game_cand_boost_find(g, t)) {
-        total_mana += tp_mana_get(thing_tp(t));
+        total_sac_points += tp_sac_points_get(thing_tp(t));
       }
     }
   }
 
-  return total_mana;
+  return total_sac_points;
 }
 
 static void wid_player_update_selections(Gamep g)
@@ -271,9 +271,9 @@ static void wid_player_update_selections(Gamep g)
         wid_set_style(w, UI_WID_STYLE_BUTTON_BAR);
         wid_set_color(w, WID_COLOR_BG, RED);
       } else {
-        auto total_mana = wid_player_total_mana(g);
-        auto boost_mana = tp_mana_get(thing_tp(t));
-        if (total_mana < -boost_mana) {
+        auto total_sac_points = wid_player_total_sac_points(g);
+        auto boost_sac_points = tp_sac_points_get(thing_tp(t));
+        if (total_sac_points < -boost_sac_points) {
           wid_set_color(w, WID_COLOR_TEXT_FG, ORANGE);
         } else {
           wid_set_color(w, WID_COLOR_TEXT_FG, WHITE);
@@ -283,8 +283,8 @@ static void wid_player_update_selections(Gamep g)
   }
 
   {
-    auto total_mana = wid_player_total_mana(g);
-    auto line       = string_sprintf("Total Mana available for spells:               %d", total_mana);
+    auto total_sac_points = wid_player_total_sac_points(g);
+    auto line             = string_sprintf("Sacrifical points (SPs) for spell casting       %d", total_sac_points);
     wid_set_text_lhs(wid_total, 1u);
     wid_set_text(wid_total, line);
     wid_update(g, wid_total);
@@ -503,13 +503,13 @@ static void wid_player_select_boost_via_mouse_over_end(Gamep g, Widp w)
     game_cand_boost_unset(g, t);
   } else {
     //
-    // Check we have enough mana for this
+    // Check we have enough sac_points for this
     //
-    auto total_mana  = wid_player_total_mana(g);
-    auto mana_change = tp_mana_get(thing_tp(t));
-    if (total_mana + mana_change < 0) {
+    auto total_sac_points  = wid_player_total_sac_points(g);
+    auto sac_points_change = tp_sac_points_get(thing_tp(t));
+    if (total_sac_points + sac_points_change < 0) {
       (void) sound_play(g, "error");
-      topcon("Not enough mana to buy this boost.\n");
+      topcon("Not enough sac_points to buy this boost.\n");
       return true;
     }
 
@@ -756,7 +756,7 @@ void wid_player_select(Gamep g)
     spoint const br(button_width, y_at + button_height);
     wid_set_text_lhs(w, 1u);
     wid_set_pos(w, tl, br);
-    wid_set_text(w, UI_INFO_FMT_STR "Sacrecant                                     Mana");
+    wid_set_text(w, UI_INFO_FMT_STR "Sacrecant                                      SPs ");
     y_at++;
   }
 
@@ -776,9 +776,9 @@ void wid_player_select(Gamep g)
   }
 
   //
-  // Sort by mana
+  // Sort by sac_points
   //
-  std::ranges::sort(wid_player_tps, [](const Tpp &a, const Tpp &b) -> bool { return tp_mana_get(a) < tp_mana_get(b); });
+  std::ranges::sort(wid_player_tps, [](const Tpp &a, const Tpp &b) -> bool { return tp_sac_points_get(a) < tp_sac_points_get(b); });
 
   for (auto &tp : wid_player_tps) {
     //
@@ -869,19 +869,19 @@ void wid_player_select(Gamep g)
     //
     {
       //
-      // Append mana to the name
+      // Append sac_points to the name
       //
       std::string line;
 
       line = capitalize(tp_name_long(tp));
 
-      auto mana = tp_mana_get(tp);
-      if (mana > 0) {
-        line = string_sprintf("%-40s +%d", line.c_str(), mana);
-      } else if (mana < 0) {
-        line = string_sprintf("%-40s %d", line.c_str(), mana);
+      auto sac_points = tp_sac_points_get(tp);
+      if (sac_points > 0) {
+        line = string_sprintf("%-41s +%d", line.c_str(), sac_points);
+      } else if (sac_points < 0) {
+        line = string_sprintf("%-41s %d", line.c_str(), sac_points);
       } else {
-        line = string_sprintf("%-40s -", line.c_str());
+        line = string_sprintf("%-41s -", line.c_str());
       }
 
       auto *w = wid_new_bar_button(g, wid_player_select_window, "Sacrecant");
@@ -935,9 +935,9 @@ void wid_player_select(Gamep g)
   }
 
   //
-  // Sort by mana
+  // Sort by sac_points
   //
-  std::ranges::sort(wid_sacrifice_tps, [](const Tpp &a, const Tpp &b) -> bool { return tp_mana_get(a) < tp_mana_get(b); });
+  std::ranges::sort(wid_sacrifice_tps, [](const Tpp &a, const Tpp &b) -> bool { return tp_sac_points_get(a) < tp_sac_points_get(b); });
 
   for (auto &tp : wid_sacrifice_tps) {
     //
@@ -1002,19 +1002,19 @@ void wid_player_select(Gamep g)
     //
     {
       //
-      // Append mana to the name
+      // Append sac_points to the name
       //
       std::string line;
 
       line = capitalize_first(tp_name_long(tp));
 
-      auto mana = tp_mana_get(tp);
-      if (mana > 0) {
-        line = string_sprintf("%-40s +%d", line.c_str(), mana);
-      } else if (mana < 0) {
-        line = string_sprintf("%-40s %d", line.c_str(), mana);
+      auto sac_points = tp_sac_points_get(tp);
+      if (sac_points > 0) {
+        line = string_sprintf("%-41s +%d", line.c_str(), sac_points);
+      } else if (sac_points < 0) {
+        line = string_sprintf("%-41s %d", line.c_str(), sac_points);
       } else {
-        line = string_sprintf("%-40s -", line.c_str());
+        line = string_sprintf("%-41s -", line.c_str());
       }
 
       TRACE();
@@ -1072,9 +1072,9 @@ void wid_player_select(Gamep g)
     }
 
     //
-    // Sort by mana
+    // Sort by sac_points
     //
-    std::ranges::sort(wid_boost_tps, [](const Tpp &a, const Tpp &b) -> bool { return tp_mana_get(a) > tp_mana_get(b); });
+    std::ranges::sort(wid_boost_tps, [](const Tpp &a, const Tpp &b) -> bool { return tp_sac_points_get(a) > tp_sac_points_get(b); });
 
     for (auto &tp : wid_boost_tps) {
       //
@@ -1139,19 +1139,19 @@ void wid_player_select(Gamep g)
       //
       {
         //
-        // Append mana to the name
+        // Append sac_points to the name
         //
         std::string line;
 
         line = capitalize_first(tp_name_long(tp));
 
-        auto mana = tp_mana_get(tp);
-        if (mana > 0) {
-          line = string_sprintf("%-40s +%d", line.c_str(), mana);
-        } else if (mana < 0) {
-          line = string_sprintf("%-40s %d", line.c_str(), mana);
+        auto sac_points = tp_sac_points_get(tp);
+        if (sac_points > 0) {
+          line = string_sprintf("%-41s +%d", line.c_str(), sac_points);
+        } else if (sac_points < 0) {
+          line = string_sprintf("%-41s %d", line.c_str(), sac_points);
         } else {
-          line = string_sprintf("%-40s -", line.c_str());
+          line = string_sprintf("%-41s -", line.c_str());
         }
 
         TRACE();
@@ -1180,7 +1180,7 @@ void wid_player_select(Gamep g)
   y_at++;
 
   //
-  // Total mana
+  // Total sac_points
   //
   {
     TRACE();

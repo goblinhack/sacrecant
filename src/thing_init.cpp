@@ -101,6 +101,8 @@
   (void) thing_difficulty_set(g, v, l, t, tp_difficulty_get(tp));
   (void) thing_mana_set(g, v, l, t, tp_mana_get(tp));
   (void) thing_mana_max_set(g, v, l, t, tp_mana_get(tp));
+  (void) thing_sac_points_set(g, v, l, t, tp_sac_points_get(tp));
+  (void) thing_sac_points_max_set(g, v, l, t, tp_sac_points_get(tp));
   (void) thing_variant_set(g, v, l, t, tp_variant_get(tp));
   (void) thing_weight_set(g, v, l, t, tp_weight_get(tp));
   // *******************************************************************

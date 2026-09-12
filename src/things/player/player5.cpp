@@ -52,7 +52,7 @@ auto tp_player5_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::stri
 {
   TRACE();
 
-  return UI_INFO1_FMT_STR "Psycho wizard. A choice of weapons and improved damage, but monsters galore.\n";
+  return UI_INFO1_FMT_STR "Chaos wizard. A choice of weapons and improved damage, but monsters galore.\n";
 }
 
 [[nodiscard]] auto tp_load_player5() -> bool
@@ -68,8 +68,9 @@ auto tp_player5_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::stri
     thing_on_spawned_set(tp, tp_player5_on_spawned);
     tp_difficulty_set(tp, 4);
     tp_health_set(tp, "100");
-    tp_mana_set(tp, 25);
+    tp_sac_points_set(tp, 25);
     tp_name_long_set(tp, "psycho wizard");
+    tp_mana_set(tp, 100);
     tp_stat_set(tp, THING_STAT_ATT, "1d4+10");
     tp_stat_set(tp, THING_STAT_DEF, "12");
     tp_stat_set(tp, THING_STAT_DMG, "14");

@@ -1240,6 +1240,8 @@ class Tp;
 [[nodiscard]] auto tp_load(const std::string &val) -> Tpp;
 [[nodiscard]] auto tp_mana_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_mana_max_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_sac_points_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_sac_points_max_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_minion_max_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_missile_count_max_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_name_a_or_an(Tpp tp) -> std::string;
@@ -1321,6 +1323,8 @@ void tp_log_(Tpp tp, const char *fmt, va_list args); // compile error without
 void tp_log(Tpp tp, const char *fmt, ...) CHECK_FORMAT_STR(printf, 2, 3);
 void tp_mana_max_set(Tpp tp, int val);
 void tp_mana_set(Tpp tp, int val);
+void tp_sac_points_max_set(Tpp tp, int val);
+void tp_sac_points_set(Tpp tp, int val);
 void tp_minion_max_set(Tpp tp, int val);
 void tp_missile_count_max_set(Tpp tp, int val);
 void tp_monst_group_add(Tpp tp, ThingMonstGroup val);

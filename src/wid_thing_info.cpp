@@ -328,7 +328,7 @@ static void wid_thing_info_stats_mana_mouse_over_begin(Gamep g, Widp w, int /*re
   wid_get_abs_coords(w, &tlx, &tly, &brx, &bry);
 
   int const width  = 32;
-  int const height = 9;
+  int const height = 8;
 
   tlx = UI_LEFTBAR_WIDTH;
   brx = tlx + width;
@@ -340,9 +340,8 @@ static void wid_thing_info_stats_mana_mouse_over_begin(Gamep g, Widp w, int /*re
   wid_over_stats = new WidPopup(g, "stats", tl, br, nullptr, "", false, false);
   wid_over_stats->log(g, UI_HIGHLIGHT_FMT_STR "Mana");
   wid_over_stats->log_empty_line(g);
-  wid_over_stats->log(g, UI_INFO1_FMT_STR "Mana is used for the learning of and the casting of spells.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO2_FMT_STR "Replenishing Mana is rare and is mainly achieved through additional sacrifices at an alter.\n",
-                      TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO1_FMT_STR "Mana is used in the casting of spells and does not replenish.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO2_FMT_STR "Recharging Mana is achieved through additional sacrifices at an alter.\n", TEXT_FORMAT_LHS);
   wid_over_stats->log_empty_line(g);
   wid_over_stats->compress(g);
 
@@ -410,6 +409,40 @@ static void wid_thing_info_stats_stamina_mouse_over_begin(Gamep g, Widp w, int /
   wid_over_stats->log(g, UI_INFO1_FMT_STR "Stamina is important for jumping over chasms and throwing items.\n", TEXT_FORMAT_LHS);
   wid_over_stats->log(g, UI_INFO2_FMT_STR "Stamina can be replenished by resting.\n", TEXT_FORMAT_LHS);
   wid_over_stats->log(g, UI_INFO3_FMT_STR "Jumping a chasm with low stamina is not advised...\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log_empty_line(g);
+  wid_over_stats->compress(g);
+
+  level_cursor_path_reset(g);
+}
+
+static void wid_thing_info_stats_score_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
+{
+  TRACE();
+
+  int tlx = 0;
+  int tly = 0;
+  int brx = 0;
+  int bry = 0;
+  wid_get_abs_coords(w, &tlx, &tly, &brx, &bry);
+
+  int const width  = 32;
+  int const height = 14;
+
+  tlx = UI_LEFTBAR_WIDTH;
+  brx = tlx + width;
+  bry = tly + height;
+
+  spoint const tl(tlx, tly);
+  spoint const br(brx, bry);
+
+  wid_over_stats = new WidPopup(g, "stats", tl, br, nullptr, "", false, false);
+  wid_over_stats->log(g, UI_HIGHLIGHT_FMT_STR "SPs and Score");
+  wid_over_stats->log_empty_line(g);
+  wid_over_stats->log(g, UI_INFO1_FMT_STR "Sacrifical Points (SPs) are used to purchase spells.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO2_FMT_STR "Mana is used in the casting of spells\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO3_FMT_STR "SPs and Mana can be replenished in alters.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO4_FMT_STR "Score is a pointless measurement of your progress!\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO5_FMT_STR "Earn score points by travelling on unexplored tiles or defeating monsters.\n", TEXT_FORMAT_LHS);
   wid_over_stats->log_empty_line(g);
   wid_over_stats->compress(g);
 
@@ -608,25 +641,33 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     return false;
   }
 
-  auto score    = player_struct->score;
-  auto hiscore  = game_hiscore_get(g);
-  auto maxscore = std::max(score, hiscore);
+  auto score      = player_struct->score;
+  auto sac_points = thing_sac_points(g, v, l, me);
+  auto hiscore    = game_hiscore_get(g);
+  auto maxscore   = std::max(score, hiscore);
 
-  auto score_str = string_sprintf(
-      // newline
-      UI_INFO1_FMT_STR "Score "
-      // newline
-      UI_INFO2_FMT_STR " %06u "
-      // newline
-      UI_INFO3_FMT_STR " Hiscore "
-      // newline
-      UI_INFO4_FMT_STR " %06u",
-      // newline
-      score,
-      // newline
-      maxscore);
+  auto score_str = string_sprintf(UI_INFO1_FMT_STR "SPs "
+                                  // newline
+                                  UI_INFO2_FMT_STR "%03u "
+                                  // newline
+                                  UI_INFO1_FMT_STR "Score "
+                                  // newline
+                                  UI_INFO2_FMT_STR "%06u "
+                                  // newline
+                                  UI_INFO3_FMT_STR "Hi "
+                                  // newline
+                                  UI_INFO4_FMT_STR "%06u",
+                                  // newline
+                                  sac_points,
+                                  // newline
+                                  score,
+                                  // newline
+                                  maxscore);
 
-  parent->log(g, score_str);
+  auto w = parent->log(g, score_str);
+
+  wid_set_on_mouse_over_begin(w, wid_thing_info_stats_score_mouse_over_begin);
+  wid_set_on_mouse_over_end(w, wid_thing_info_stats_mouse_over_end);
 
   return true;
 }

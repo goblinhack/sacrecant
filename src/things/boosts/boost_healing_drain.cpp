@@ -76,7 +76,7 @@ static void tp_boost_healing_drain_tick_begin(Gamep g, Levelsp v, Levelp l, Thin
   tp_flag_set(tp, is_boost);
   tp_flag_set(tp, is_hook);
   tp_flag_set(tp, is_loggable);
-  tp_mana_set(tp, -5);
+  tp_sac_points_set(tp, -5);
   tp_name_long_set(tp, "healing drain");
   // end sort marker1 }
 

@@ -154,7 +154,9 @@ public:
   int fumble_roll {1};
   int difficulty {0};
   int mana_max {0};
-  int melee {0};
+  int sac_points_max {0};
+  int mana {0};
+  int sac_points {0};
   int jump_attack_pct_chance {0};
   int items_collected_max {0};
   int hearing_threshold {0};
