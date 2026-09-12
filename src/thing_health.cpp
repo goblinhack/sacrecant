@@ -42,6 +42,11 @@
   if (t->_health_max != 0) {
     t->_health = std::min(t->_health_max, t->_health);
   }
+
+  if (thing_is_player(t)) {
+    THING_DBG(g, v, l, t, "health set to %d", t->_health);
+  }
+
   return t->_health;
 }
 
@@ -104,7 +109,18 @@
   }
 
   game_request_to_remake_ui_set(g);
-  return t->_health_max = val;
+
+  auto new_health_max = t->_health_max = val;
+
+  if (t->_health > new_health_max) {
+    (void) thing_health_set(g, v, l, t, new_health_max);
+  }
+
+  if (thing_is_player(t)) {
+    THING_DBG(g, v, l, t, "health max set to %d", t->_health_max);
+  }
+
+  return new_health_max;
 }
 
 [[nodiscard]] auto thing_health_max_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int

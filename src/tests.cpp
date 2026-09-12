@@ -185,6 +185,7 @@
   if (!test_load_sac_noisy_pot_stealth()) { return false; }
   if (!test_load_sac_noisy()) { return false; }
   if (!test_load_sac_poison_blood()) { return false; }
+  if (!test_load_sac_sickly_health()) { return false; }
   if (!test_load_sac_weaponless_attack_mob()) { return false; }
   if (!test_load_save_load()) { return false; }
   if (!test_load_slots()) { return false; }

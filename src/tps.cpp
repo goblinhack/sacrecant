@@ -109,6 +109,7 @@
   if (!tp_load_sac_healing_drain()) { return false; }
   if (!tp_load_sac_noisy()) { return false; }
   if (!tp_load_sac_poison_blood()) { return false; }
+  if (!tp_load_sac_sickly_health()) { return false; }
   if (!tp_load_sac_unlucky()) { return false; }
   if (!tp_load_sac_weaponless()) { return false; }
   if (!tp_load_skeleton_mob()) { return false; }

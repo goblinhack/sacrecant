@@ -250,6 +250,8 @@ static void thing_buff_sort(Gamep g, Levelsp v, Levelp l, Thingp me)
 
     thing_buff_sort(g, v, l, me);
 
+    thing_on_attached(g, v, l, new_buff);
+
     return new_buff;
   }
 
@@ -397,4 +399,28 @@ static auto thing_buff_detach_from_owner(Gamep g, Levelsp v, Levelp l, Thingp me
   TRACE_INDENT();
 
   return thing_buff_detach_from_owner(g, v, l, buff_owner, me);
+}
+
+void thing_on_attached_set(Tpp tp, thing_on_attached_t callback)
+{
+  TRACE();
+  if (tp == nullptr) [[unlikely]] {
+    ERR("no thing template pointer");
+    return;
+  }
+  tp->on_attached = callback;
+}
+
+void thing_on_attached(Gamep g, Levelsp v, Levelp l, Thingp me)
+{
+  TRACE();
+  auto *tp = thing_tp(me);
+  if (tp == nullptr) [[unlikely]] {
+    ERR("no thing template pointer");
+    return;
+  }
+  if (tp->on_attached == nullptr) {
+    return;
+  }
+  tp->on_attached(g, v, l, me);
 }
