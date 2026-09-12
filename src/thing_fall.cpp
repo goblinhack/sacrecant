@@ -381,6 +381,9 @@ void thing_fall_end_check(Gamep g, Levelsp v, Levelp l, Thingp me)
   // Fall complete?
   //
   if (fall_finished) {
+    THING_DBG(g, v, l, me, "fall finished");
+    TRACE_INDENT();
+
     thing_fall_end(g, v, l, me);
 
     auto *t_level = game_level_get(g, v, me->level_num);
@@ -405,6 +408,8 @@ void thing_fall_end_check(Gamep g, Levelsp v, Levelp l, Thingp me)
         TRACE_INDENT();
         (void) level_tick_begin_requested(g, v, t_level, "player fell into lava");
       }
+
+      player_move_requests_reset(g, v);
     }
   }
 }

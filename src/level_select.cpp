@@ -452,13 +452,6 @@ static auto level_select_count_levels(LevelSelect *s) -> int
   auto  *player       = thing_player(g);
   Levelp player_level = thing_player_level(g);
 
-  IF_DEBUG
-  {
-    if (player_level != nullptr) {
-      player_level->player_completed_level_via_exit = true;
-    }
-  }
-
   //
   // Clean up all previous things
   //
