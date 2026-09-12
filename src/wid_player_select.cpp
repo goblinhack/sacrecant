@@ -722,9 +722,9 @@ void wid_player_select(Gamep g)
     spoint const br(player_select_width, y_at);
     wid_set_pos(w, tl, br);
     if (v->tick != 0U) {
-      wid_set_text(w, UI_INFO_FMT_STR "Choose your next sacrifice");
+      wid_set_text(w, UI_INFO_FMT_STR "Choose your next sacrifices");
     } else {
-      wid_set_text(w, UI_INFO_FMT_STR "Choose a sacrecant and at least one sacrifice.");
+      wid_set_text(w, UI_INFO_FMT_STR "Choose a Sacrecant and at least one sacrifice.");
     }
     wid_set_style(w, UI_WID_STYLE_BUTTON_OUTLINE);
     wid_set_shape_none(w);

@@ -22,7 +22,7 @@
   }
 
   if (thing_is_tireless(g, v, l, me)) {
-    return me->_stamina_max;
+    return me->_stamina = me->_stamina_max;
   }
 
   return me->_stamina;
@@ -43,10 +43,24 @@
   }
 
   game_request_to_remake_ui_set(g);
+
   me->_stamina = val;
   if (me->_stamina_max != 0) {
     me->_stamina = std::min(me->_stamina_max, me->_stamina);
   }
+
+  if (thing_is_tireless(g, v, l, me)) {
+    if (thing_is_player(me)) {
+      THING_DBG(g, v, l, me, "stamina set to %d (tireless)", me->_stamina);
+    }
+
+    me->_stamina = me->_stamina_max;
+  }
+
+  if (thing_is_player(me)) {
+    THING_DBG(g, v, l, me, "stamina set to %d", me->_stamina);
+  }
+
   return me->_stamina;
 }
 
@@ -58,12 +72,8 @@
     ERR("no thing pointer");
     return 0;
   }
-  game_request_to_remake_ui_set(g);
-  me->_stamina += val;
-  if (me->_stamina_max != 0) {
-    me->_stamina = std::min(me->_stamina_max, me->_stamina);
-  }
-  return me->_stamina;
+
+  return thing_stamina_set(g, v, l, me, me->_stamina + val);
 }
 
 [[nodiscard]] auto thing_stamina_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
@@ -74,13 +84,13 @@
     ERR("no thing pointer");
     return 0;
   }
-  game_request_to_remake_ui_set(g);
 
   if (static_cast< int >(me->_stamina) - val <= 0) {
     return me->_stamina = 0;
   }
+  THING_DBG(g, v, l, me, "val %d", val);
 
-  return me->_stamina -= val;
+  return thing_stamina_set(g, v, l, me, me->_stamina - val);
 }
 
 [[nodiscard]] auto thing_stamina_max(Gamep g, Levelsp v, Levelp l, Thingp me) -> int
@@ -109,7 +119,18 @@
   }
 
   game_request_to_remake_ui_set(g);
-  return me->_stamina_max = val;
+
+  auto new_stamina_max = me->_stamina_max = val;
+
+  if (me->_stamina > new_stamina_max) {
+    (void) thing_stamina_set(g, v, l, me, new_stamina_max);
+  }
+
+  if (thing_is_player(me)) {
+    THING_DBG(g, v, l, me, "stamina max set to %d", me->_stamina_max);
+  }
+
+  return new_stamina_max;
 }
 
 [[nodiscard]] auto thing_stamina_max_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
@@ -120,8 +141,7 @@
     ERR("no thing pointer");
     return 0;
   }
-  game_request_to_remake_ui_set(g);
-  return me->_stamina_max += val;
+  return thing_stamina_max_set(g, v, l, me, me->_stamina_max + val);
 }
 
 [[nodiscard]] auto thing_stamina_max_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
@@ -132,13 +152,12 @@
     ERR("no thing pointer");
     return 0;
   }
-  game_request_to_remake_ui_set(g);
 
   if (static_cast< int >(me->_stamina_max) - val <= 0) {
     return me->_stamina_max = 0;
   }
 
-  return me->_stamina_max -= val;
+  return thing_stamina_max_set(g, v, l, me, me->_stamina_max - val);
 }
 
 [[nodiscard]] auto thing_is_shown_stamina(Thingp me) -> bool

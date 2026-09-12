@@ -101,6 +101,7 @@ auto tp_load_ring_life() -> bool;
 auto tp_load_ring_war() -> bool;
 auto tp_load_rock() -> bool;
 auto tp_load_rubble() -> bool;
+auto tp_load_sac_blood_pact() -> bool;
 auto tp_load_sac_clumsy() -> bool;
 auto tp_load_sac_defenceless() -> bool;
 auto tp_load_sac_fumble_more() -> bool;

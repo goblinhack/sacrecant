@@ -181,6 +181,7 @@
   if (!test_load_ring_war_defence()) { return false; }
   if (!test_load_ring_war_melee()) { return false; }
   if (!test_load_ring_war_projectile()) { return false; }
+  if (!test_load_sac_blood_pact()) { return false; }
   if (!test_load_sac_clumsy()) { return false; }
   if (!test_load_sac_noisy_pot_stealth()) { return false; }
   if (!test_load_sac_noisy()) { return false; }

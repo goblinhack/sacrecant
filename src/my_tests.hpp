@@ -179,6 +179,7 @@ auto test_load_ring_war_beam_weapon() -> bool;
 auto test_load_ring_war_defence() -> bool;
 auto test_load_ring_war_melee() -> bool;
 auto test_load_ring_war_projectile() -> bool;
+auto test_load_sac_blood_pact() -> bool;
 auto test_load_sac_clumsy() -> bool;
 auto test_load_sac_noisy_pot_stealth() -> bool;
 auto test_load_sac_noisy() -> bool;
