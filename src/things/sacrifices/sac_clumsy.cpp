@@ -14,7 +14,7 @@ static auto tp_sac_clumsy_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) ->
   TRACE();
 
   return UI_INFO1_FMT_STR                                                                                                     //
-      "You'd trip over your own feet if you hadn't already stumbled into a chasm, with this sacrifice.\n"                     //
+      "You'd trip over your own feet if you hadn't already stumbled into a chasm with this sacrifice.\n"                      //
       UI_INFO2_FMT_STR                                                                                                        //
       "In detail, your dexterity and defence is heavily decreased, which has an impact on many things, like the chance of:\n" //
       UI_INFO3_FMT_STR                                                                                                        //

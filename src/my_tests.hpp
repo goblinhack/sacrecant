@@ -125,6 +125,7 @@ auto test_load_player_hiding_behind_foliage() -> bool;
 auto test_load_player_hiding_in_foliage() -> bool;
 auto test_load_player_in_steam() -> bool;
 auto test_load_player_lava() -> bool;
+auto test_load_player_melee_locked_door() -> bool;
 auto test_load_player_melee() -> bool;
 auto test_load_player_move_diagonal_barrel() -> bool;
 auto test_load_player_move_diagonal_border() -> bool;

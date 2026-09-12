@@ -127,6 +127,7 @@
   if (!test_load_player_hiding_in_foliage()) { return false; }
   if (!test_load_player_in_steam()) { return false; }
   if (!test_load_player_lava()) { return false; }
+  if (!test_load_player_melee_locked_door()) { return false; }
   if (!test_load_player_melee()) { return false; }
   if (!test_load_player_move_diagonal_barrel()) { return false; }
   if (!test_load_player_move_diagonal_border()) { return false; }

@@ -762,8 +762,17 @@ static void player_check_if_target_needs_move_confirm_callback(Gamep g, bool val
   THING_DBG(g, v, l, me, "player move to attempt failed, try shoving");
   TRACE_INDENT();
 
+  //
+  // Don't want to melee attack a locked door if we have a key
+  //
+  auto can_unlock = level_alive_is_door_locked(g, v, l, to) && thing_keys_carried(me);
+
   auto *item = thing_worn_get(g, v, l, me, WORN_TYPE_WEAPON);
-  if ((item == nullptr) && (level_alive_is_attackable_by_player(g, v, l, to) != nullptr)) {
+
+  //
+  // Don't melee attack a door we can open!
+  //
+  if ((item == nullptr) && ! can_unlock && (level_alive_is_attackable_by_player(g, v, l, to) != nullptr)) {
     //
     // Prefer to attack versus shoving if we have no weapon and we can attack it.
     //
@@ -961,47 +970,54 @@ static auto player_move_delta(Gamep g, Levelsp v, Levelp l, int dx, int dy) -> b
     target             = make_bpoint(thing_real_at(g, v, l, me) + delta);
   }
 
+  //
+  // What item do we fire?
+  //
+  item = thing_worn_get(g, v, l, me, WORN_TYPE_WEAPON);
+
+  //
+  // Don't want to melee attack a locked door if we have a key
+  //
+  auto can_unlock = level_alive_is_door_locked(g, v, l, target) && thing_keys_carried(me);
+
   if (fire_what != nullptr) {
     //
     // Tests usually hit here
     //
-  } else {
+  } else if ((item == nullptr) && ! can_unlock) {
     //
-    // Else just get the weapon default
+    // If no weapon and the mouse is over something we can attack, hit it!
     //
-    item = thing_worn_get(g, v, l, me, WORN_TYPE_WEAPON);
-    if (item == nullptr) {
-      //
-      // If no weapon and the mouse is over something we can attack, hit it!
-      //
-      if (level_alive_is_attackable_by_player(g, v, l, target)) {
-        THING_DBG(g, v, l, me, "player melee attack attempt");
-        TRACE_INDENT();
+    if (level_alive_is_attackable_by_player(g, v, l, target)) {
+      THING_DBG(g, v, l, me, "player melee attack attempt at %d,%d", target.x, target.y);
+      TRACE_INDENT();
 
-        //
-        // Miss or fail, this is a tick
-        //
-        if (thing_attack_at(g, v, l, me, target)) {
-          THING_DBG(g, v, l, me, "player melee attack success");
-          (void) level_tick_begin_requested(g, v, l, "player melee attack target");
-          return true;
-        }
-
-        (void) level_tick_begin_requested(g, v, l, "player missed melee attack target");
-        return false;
+      //
+      // Miss or fail, this is a tick
+      //
+      if (thing_attack_at(g, v, l, me, target)) {
+        THING_DBG(g, v, l, me, "player melee attack success");
+        (void) level_tick_begin_requested(g, v, l, "player melee attack target");
+        return true;
       }
 
-      //
-      // Bump instead
-      //
-      if (! v->msg_melee_warned) {
-        v->msg_melee_warned = true;
-        topcon(UI_IMPORTANT_FMT_STR "You have no weapon to wield. Try walking into enemies for melee attacks instead." UI_RESET_FMT);
-      }
-
+      (void) level_tick_begin_requested(g, v, l, "player missed melee attack target");
       return false;
     }
 
+    //
+    // Bump instead
+    //
+    if (! v->msg_melee_warned) {
+      v->msg_melee_warned = true;
+      topcon(UI_IMPORTANT_FMT_STR "You have no weapon to wield. Try walking into enemies for melee attacks instead." UI_RESET_FMT);
+    }
+
+    return false;
+  } else {
+    //
+    // Fire!
+    //
     fire_what = thing_on_use_weapon_request(g, v, l, item, me);
     if (item == nullptr) {
       auto the_thing = thing_name_long_the(g, v, l, item);
