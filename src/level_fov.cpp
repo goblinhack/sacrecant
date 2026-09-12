@@ -212,7 +212,7 @@ void level_fov(const FovContext &ctx)
     /* 2/ | \1 */
     /* / 3|0 \ */
     /* */
-    if (thing_is_vision_180_degrees(ctx.me)) {
+    if (thing_is_vision_180_degrees(ctx.g, ctx.v, ctx.l, ctx.me)) {
       switch (ctx.me->dir) {
         case THING_DIR_BR :
           /* */

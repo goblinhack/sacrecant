@@ -8,7 +8,7 @@ sacrifices
   k power-crazed:           rolls over 10 directed to damage         def -10                      melee +40
   l 
   m blood-feast:            absorb health from fleshy monsters / x2 damage-received from undead   melee +20
-  n myopic:                 vision distance halved                                                melee +30
+  n 
   o hollow-bones:           fall-damage -50%   damage-received +50%  def -2                       melee +50
   p glass-bones:            fall-damage +100%  damage-received +50%  def -4  att +2               melee +70
   q random-failure:         effects like levitation and ethereal may fail randomly                melee +80

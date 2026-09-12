@@ -311,6 +311,37 @@ static void level_raycast_light_tile(const FovContext &ctx, const bpoint &tile, 
   }
 }
 
+static void level_raycast_get_extents(Gamep g, Levelsp v, Levelp l, Thingp player, int &start_ray, int &ray_count)
+{
+  start_ray = 0;
+  ray_count = LIGHT_MAX_RAYS_MAX;
+
+  //
+  // Limit the vision if required
+  //
+  if (thing_is_vision_180_degrees(g, v, l, player)) {
+    int quad = LIGHT_MAX_RAYS_MAX / 8;
+
+    ray_count = LIGHT_MAX_RAYS_MAX / 2;
+
+    switch (player->dir) {
+      case THING_DIR_BR :    start_ray = quad * 7; break;
+      case THING_DIR_TR :    start_ray = quad * 5; break;
+      case THING_DIR_BL :    start_ray = quad * 1; break;
+      case THING_DIR_TL :    start_ray = quad * 3; break;
+      case THING_DIR_LEFT :  start_ray = quad * 2; break;
+      case THING_DIR_RIGHT : start_ray = quad * 6; break;
+      case THING_DIR_DOWN :  start_ray = quad * 0; break;
+      case THING_DIR_UP :    start_ray = quad * 4; break;
+      case THING_DIR_NONE :
+        start_ray = 0;
+        ray_count = LIGHT_MAX_RAYS_MAX;
+        break;
+      default : break;
+    }
+  }
+}
+
 void Raycast::raycast_do(Gamep g, Levelsp v, Levelp l)
 {
   TRACE();
@@ -401,13 +432,21 @@ void Raycast::raycast_do(Gamep g, Levelsp v, Levelp l)
   light_pos.y += TILE_HEIGHT / 2;
 
   //
+  // Limit the vision if required
+  //
+  int start_ray = 0;
+  int ray_count = LIGHT_MAX_RAYS_MAX;
+  level_raycast_get_extents(g, v, l, player, start_ray, ray_count);
+
+  //
   // Walk the light rays in a circle. Find the nearest walls and then let
   // the light leak a little.
   //
-  for (auto i = 0; i < LIGHT_MAX_RAYS_MAX; i++) {
-    const int16_t end_of_points = static_cast< uint16_t >(ray_pixels[ i ].size() - 1);
-    auto         *ray           = &rays[ i ];
-    auto          ray_pixel     = ray_pixels[ i ].begin();
+  for (auto i = 0; i < ray_count; i++) {
+    auto          r             = (start_ray + i) % LIGHT_MAX_RAYS_MAX;
+    const int16_t end_of_points = static_cast< uint16_t >(ray_pixels[ r ].size() - 1);
+    auto         *ray           = &rays[ r ];
+    auto          ray_pixel     = ray_pixels[ r ].begin();
     int16_t       step          = 0;
     uint8_t       prev_tile_x   = -1;
     uint8_t       prev_tile_y   = -1;
@@ -600,13 +639,22 @@ void Raycast::raycast_render(Gamep g, Levelsp v, Levelp l)
     blit_init();
 
     //
+    // Limit the vision if required
+    //
+    int start_ray = 0;
+    int ray_count = LIGHT_MAX_RAYS_MAX;
+    level_raycast_get_extents(g, v, l, player, start_ray, ray_count);
+
+    //
     // Walk the light rays in a circle.
     //
     PUSH_POINT(light_pos.x, light_pos.y);
 
-    for (auto i = 0; i < LIGHT_MAX_RAYS_MAX; i++) {
-      auto         *ray = &rays[ i ];
-      spoint const &p   = ray_pixels[ i ][ ray->depth_furthest ].p;
+    for (auto i = 0; i < ray_count; i++) {
+      auto r = (start_ray + i) % LIGHT_MAX_RAYS_MAX;
+
+      auto         *ray = &rays[ r ];
+      spoint const &p   = ray_pixels[ r ][ ray->depth_furthest ].p;
       int16_t const p1x = light_pos.x + p.x;
       int16_t const p1y = light_pos.y + p.y;
       PUSH_POINT(p1x, p1y);
@@ -616,8 +664,9 @@ void Raycast::raycast_render(Gamep g, Levelsp v, Levelp l)
     // Complete the circle with the first point again.
     //
     {
-      auto         *ray = &rays[ 0 ];
-      spoint const &p   = ray_pixels[ 0 ][ ray->depth_furthest ].p;
+      auto          r   = start_ray;
+      auto         *ray = &rays[ r ];
+      spoint const &p   = ray_pixels[ r ][ ray->depth_furthest ].p;
       int16_t const p1x = light_pos.x + p.x;
       int16_t const p1y = light_pos.y + p.y;
       PUSH_POINT(p1x, p1y);

@@ -345,24 +345,62 @@ void thing_vision_calculate(Gamep g, Levelsp v, Levelp l, Thingp me)
   return t->_distance_vision -= val;
 }
 
-[[nodiscard]] auto thing_is_vision_360_degrees(Thingp t) -> bool
+[[nodiscard]] auto thing_is_vision_360_degrees(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_vision_360_degrees) != 0;
+
+  if (tp_flag(thing_tp(me), is_vision_360_degrees) != 0) {
+    return true;
+  }
+
+  FOR_ALL_HOOKS(g, v, l, me, buff)
+  {
+    if (thing_is_vision_360_degrees(g, v, l, buff)) {
+      return true;
+    }
+  }
+
+  FOR_ALL_ACTIVE_ITEMS(g, v, l, me, item)
+  {
+    if (thing_is_vision_360_degrees(g, v, l, item)) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
-[[nodiscard]] auto thing_is_vision_180_degrees(Thingp t) -> bool
+[[nodiscard]] auto thing_is_vision_180_degrees(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_vision_180_degrees) != 0;
+
+  if (tp_flag(thing_tp(me), is_vision_180_degrees) != 0) {
+    return true;
+  }
+
+  FOR_ALL_HOOKS(g, v, l, me, buff)
+  {
+    if (thing_is_vision_180_degrees(g, v, l, buff)) {
+      return true;
+    }
+  }
+
+  FOR_ALL_ACTIVE_ITEMS(g, v, l, me, item)
+  {
+    if (thing_is_vision_180_degrees(g, v, l, item)) {
+      return true;
+    }
+  }
+
+  return false;
 }

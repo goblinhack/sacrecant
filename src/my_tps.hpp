@@ -110,6 +110,7 @@ auto tp_load_sac_noisy() -> bool;
 auto tp_load_sac_poison_blood() -> bool;
 auto tp_load_sac_poor_vision() -> bool;
 auto tp_load_sac_sickly_health() -> bool;
+auto tp_load_sac_tunnel_vision() -> bool;
 auto tp_load_sac_unlucky() -> bool;
 auto tp_load_sac_weaponless() -> bool;
 auto tp_load_skeleton_mob() -> bool;
