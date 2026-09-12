@@ -765,7 +765,7 @@ static void player_check_if_target_needs_move_confirm_callback(Gamep g, bool val
   //
   // Don't want to melee attack a locked door if we have a key
   //
-  auto can_unlock = level_alive_is_door_locked(g, v, l, to) && thing_keys_carried(me);
+  auto can_unlock = (level_alive_is_door_locked(g, v, l, to) != nullptr) && (thing_keys_carried(me) != 0);
 
   auto *item = thing_worn_get(g, v, l, me, WORN_TYPE_WEAPON);
 
@@ -978,7 +978,7 @@ static auto player_move_delta(Gamep g, Levelsp v, Levelp l, int dx, int dy) -> b
   //
   // Don't want to melee attack a locked door if we have a key
   //
-  auto can_unlock = level_alive_is_door_locked(g, v, l, target) && thing_keys_carried(me);
+  auto can_unlock = (level_alive_is_door_locked(g, v, l, target) != nullptr) && (thing_keys_carried(me) != 0);
 
   if (fire_what != nullptr) {
     //
@@ -988,7 +988,7 @@ static auto player_move_delta(Gamep g, Levelsp v, Levelp l, int dx, int dy) -> b
     //
     // If no weapon and the mouse is over something we can attack, hit it!
     //
-    if (level_alive_is_attackable_by_player(g, v, l, target)) {
+    if (level_alive_is_attackable_by_player(g, v, l, target) != nullptr) {
       THING_DBG(g, v, l, me, "player melee attack attempt at %d,%d", target.x, target.y);
       TRACE_INDENT();
 

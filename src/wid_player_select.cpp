@@ -142,7 +142,7 @@ static void wid_player_select_check_if_done(Gamep g)
   }
 }
 
-static int wid_player_total_sac_points(Gamep g)
+static auto wid_player_total_sac_points(Gamep g) -> int
 {
   TRACE();
 
@@ -1195,7 +1195,7 @@ void wid_player_select(Gamep g)
 
   wid_update(g, wid_player_select_window);
 
-  if (v->tick == 0u) {
+  if (v->tick == 0U) {
     auto *w = wid_player[ 0 ];
     if (w != nullptr) {
       (void) wid_player_select_player_via_mouse_down(g, w, -1, -1, 0);

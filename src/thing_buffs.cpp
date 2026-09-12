@@ -5,6 +5,7 @@
 #include "my_callstack.hpp"
 #include "my_main.hpp"
 #include "my_thing.hpp"
+#include "my_thing_callbacks.hpp"
 #include "my_thing_inlines.hpp"
 #include "my_tp.hpp"
 #include "my_types.hpp"
@@ -340,11 +341,11 @@ static void thing_buff_sort(Gamep g, Levelsp v, Levelp l, Thingp me)
   }
 
   if (! got_one) {
-    if (specific_buff) {
+    if (specific_buff != nullptr) {
       THING_DBG(g, v, l, specific_buff, "could not detach buff");
       TRACE_INDENT();
       THING_DBG(g, v, l, me, "from me");
-    } else if (ext_struct->buffs.count) {
+    } else if (ext_struct->buffs.count != 0) {
       THING_DBG(g, v, l, me, "could not detach buff");
     }
   }

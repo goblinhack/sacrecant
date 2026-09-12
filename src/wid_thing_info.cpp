@@ -664,7 +664,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
                                   // newline
                                   maxscore);
 
-  auto w = parent->log(g, score_str);
+  auto *w = parent->log(g, score_str);
 
   wid_set_on_mouse_over_begin(w, wid_thing_info_stats_score_mouse_over_begin);
   wid_set_on_mouse_over_end(w, wid_thing_info_stats_mouse_over_end);

@@ -216,11 +216,11 @@
   }
 
   if (! got_one) {
-    if (specific_missile) {
+    if (specific_missile != nullptr) {
       THING_DBG(g, v, l, specific_missile, "could not detach missile");
       TRACE_INDENT();
       THING_DBG(g, v, l, me, "from me");
-    } else if (ext_struct->missiles.count) {
+    } else if (ext_struct->missiles.count != 0) {
       THING_DBG(g, v, l, me, "could not detach missile");
     }
   }
