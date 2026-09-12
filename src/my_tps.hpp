@@ -106,6 +106,7 @@ auto tp_load_sac_defenceless() -> bool;
 auto tp_load_sac_fumble_more() -> bool;
 auto tp_load_sac_healing_drain() -> bool;
 auto tp_load_sac_noisy() -> bool;
+auto tp_load_sac_poison_blood() -> bool;
 auto tp_load_sac_unlucky() -> bool;
 auto tp_load_sac_weaponless() -> bool;
 auto tp_load_skeleton_mob() -> bool;

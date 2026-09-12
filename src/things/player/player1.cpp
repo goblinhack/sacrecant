@@ -45,6 +45,8 @@ void tp_player1_on_spawned(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent *
   if (! thing_carry(g, v, l, me, items)) {
     thing_err(g, v, l, me, "failed to carry");
   }
+
+  //  (void) thing_buff_add(g, v, l, me, tp_find_mand("sac_poison_blood"));
 }
 
 auto tp_player1_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string

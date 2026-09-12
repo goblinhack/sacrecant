@@ -4,10 +4,6 @@ bugs
 todo
 ----
 sacrifices
-  f 
-  g 
-  h increased-fumble
-  i poison-blood:           health ticks down                                                     melee +200
   j one-legged:             can only jump, limited jump distance, easily exhausted                melee +400
   k power-crazed:           rolls over 10 directed to damage         def -10                      melee +40
   l blood-pact:             damage delivered is subtracted from your health                       melee +300

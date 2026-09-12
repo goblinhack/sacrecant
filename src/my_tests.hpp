@@ -182,6 +182,7 @@ auto test_load_ring_war_projectile() -> bool;
 auto test_load_sac_clumsy() -> bool;
 auto test_load_sac_noisy_pot_stealth() -> bool;
 auto test_load_sac_noisy() -> bool;
+auto test_load_sac_poison_blood() -> bool;
 auto test_load_sac_weaponless_attack_mob() -> bool;
 auto test_load_save_load() -> bool;
 auto test_load_slots() -> bool;

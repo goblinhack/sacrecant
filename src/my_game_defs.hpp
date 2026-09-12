@@ -125,6 +125,7 @@ enum {
   //
   TARGET_ROLL                 = 10,
   TARGET_ROLL_TELEPORT_HAZARD = 12,
+  TARGET_ROLL_POISONED        = 12,
   TARGET_ROLL_FALL            = 12,
   TARGET_ROLL_CHEST_EXPLODE   = 12,
   TARGET_ROLL_TRAP            = 15,

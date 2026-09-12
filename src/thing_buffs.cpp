@@ -338,7 +338,13 @@ static void thing_buff_sort(Gamep g, Levelsp v, Levelp l, Thingp me)
   }
 
   if (! got_one) {
-    THING_DBG(g, v, l, me, "could not detach");
+    if (specific_buff) {
+      THING_DBG(g, v, l, specific_buff, "could not detach buff");
+      TRACE_INDENT();
+      THING_DBG(g, v, l, me, "from me");
+    } else if (ext_struct->buffs.count) {
+      THING_DBG(g, v, l, me, "could not detach buff");
+    }
   }
 
   return got_one;

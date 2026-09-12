@@ -69,7 +69,7 @@ auto tp_player5_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::stri
     tp_difficulty_set(tp, 4);
     tp_health_set(tp, "100");
     tp_sac_points_set(tp, 25);
-    tp_name_long_set(tp, "psycho wizard");
+    tp_name_long_set(tp, "chaos wizard");
     tp_mana_set(tp, 100);
     tp_stat_set(tp, THING_STAT_ATT, "1d4+10");
     tp_stat_set(tp, THING_STAT_DEF, "12");
