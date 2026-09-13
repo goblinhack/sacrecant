@@ -13,8 +13,7 @@ static auto tp_buff_tireless_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
 
-  return                                                                                  //
-      UI_INFO1_FMT_STR "With this buff your tireesome issues are a thing of the past.\n"; //
+  return UI_INFO1_FMT_STR "With this buff your tiresome issues are a thing of the past.\n"; //
 }
 
 [[nodiscard]] auto tp_load_buff_tireless() -> bool

@@ -24,7 +24,7 @@ static auto tp_kobalos_mob_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -
 {
   TRACE();
 
-  return UI_INFO1_FMT_STR "This hideous, puslating creation is a kobalos spawning device.";
+  return UI_INFO1_FMT_STR "This hideous, pulsating creation is a kobalos spawning device.";
 }
 
 static void tp_kobalos_mob_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)

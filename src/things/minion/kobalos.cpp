@@ -31,7 +31,7 @@ static auto tp_kobalos_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> st
   return                                                                                                                   //
       UI_INFO1_FMT_STR "Kobalos are small green-skinned creatures that are identical in every possible way to a goblin.\n" //
       UI_INFO2_FMT_STR "Kobalos are vindictive, greedy little things and have a habit of thievery...\n"                    //
-      UI_INFO3_FMT_STR "Kobalos are NOT goblins OR kobolds and take great offense to being called so.";
+      UI_INFO3_FMT_STR "Kobalos are NOT goblins OR kobolds and take great offense to being called so.";                    //
 }
 
 static auto tp_kobalos_assess_tp(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp me) -> ThingEnvironType

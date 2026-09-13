@@ -23,9 +23,10 @@ static auto tp_ring_life_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> 
 {
   TRACE();
 
-  return UI_INFO1_FMT_STR "A ring of life is a very special thing. Should you die in service, your health will be restored to 50%%%.\n" //
-      UI_INFO2_FMT_STR "More importantly, you will not be dead! Being not dead, is good.\n"                                             //
-      UI_INFO3_FMT_STR "Keep it safe. Keep it secret.\n";
+  return                                                                                                                             //
+      UI_INFO1_FMT_STR "A ring of life is a very special thing. Should you die in service, your health will be restored to 50%%%.\n" //
+      UI_INFO2_FMT_STR "More importantly, you will not be dead! Being not dead, is good.\n"                                          //
+      UI_INFO3_FMT_STR "Keep it safe. Keep it secret.\n";                                                                            //
 }
 
 static bool tp_ring_life_on_use(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp user)

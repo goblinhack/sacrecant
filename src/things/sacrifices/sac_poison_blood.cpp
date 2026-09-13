@@ -15,11 +15,11 @@ static auto tp_sac_poison_blood_detail_get(Gamep g, Levelsp v, Levelp l, Thingp 
 {
   TRACE();
 
-  return UI_INFO1_FMT_STR                                                                                                        //
+  return UI_INFO1_FMT_STR
       "You are so full of vengeance that even your own blood is toxic! Unfortunately it will slowly kill you.\n"                 //
-      UI_INFO2_FMT_STR                                                                                                           //
+      UI_INFO2_FMT_STR
       "In detail, your health will slowly tick down inexorably, depending on your luck, as if you are permanently poisoned...\n" //
-      UI_INFO3_FMT_STR                                                                                                           //
+      UI_INFO3_FMT_STR
       "As there is no cure, you will need to be expedient in finding healing potions or, gods forbid, clown meat.\n";            //
 }
 

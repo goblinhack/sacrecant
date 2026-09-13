@@ -24,9 +24,10 @@ static auto tp_pot_disloc_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) ->
 {
   TRACE();
 
-  return UI_INFO1_FMT_STR "This sparkling blue potion will transport you somewhere new and exciting on the level.\n" //
-      UI_INFO2_FMT_STR "At random, so best used in emergencies.\n"                                                   //
-      UI_INFO3_FMT_STR "Don't neglect the influence of your luck stat as to where you might land...";
+  return                                                                                                          //
+      UI_INFO1_FMT_STR "This sparkling blue potion will transport you somewhere new and exciting on the level.\n" //
+      UI_INFO2_FMT_STR "At random, so best used in emergencies.\n"                                                //
+      UI_INFO3_FMT_STR "Don't neglect the influence of your luck stat as to where you might land...";             //
 }
 
 static void tp_pot_disloc_on_thrown_end(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp thrower)

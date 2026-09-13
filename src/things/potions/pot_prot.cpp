@@ -23,7 +23,8 @@ static auto tp_pot_prot_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> s
 {
   TRACE();
 
-  return UI_INFO1_FMT_STR "This ruby red potion acts like temporary health points that tick down constantly.\n" //
+  return                                                                                                     //
+      UI_INFO1_FMT_STR "This ruby red potion acts like temporary health points that tick down constantly.\n" //
       UI_INFO2_FMT_STR "Any damage taken will be first from the protection health points, before your own health is impacted.\n";
 }
 

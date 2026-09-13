@@ -28,15 +28,11 @@ static auto tp_blitzhound_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) ->
 {
   TRACE();
 
-  return                                                                                                    //
-      UI_INFO1_FMT_STR                                                                                      //
-      "Blitzhounds are murder puppies, lesser demons from the outer suburbs of hell.\n"                     //
-      UI_INFO2_FMT_STR                                                                                      //
-      "They are smooth and hairless with dark chitinous skin that gleams eerily in the darkness. "          //
-      UI_INFO3_FMT_STR                                                                                      //
-      "With their great speed and tireless stamina, they are very adept at hunting you down mercilessly.\n" //
-      UI_INFO4_FMT_STR                                                                                      //
-      "Makes a good guard dog.";
+  return                                                                                                                     //
+      UI_INFO1_FMT_STR "Blitzhounds are murder puppies, lesser demons from the outer suburbs of hell.\n"                     //
+      UI_INFO2_FMT_STR "They are smooth and hairless with dark chitinous skin that gleams eerily in the darkness. "          //
+      UI_INFO3_FMT_STR "With their great speed and tireless stamina, they are very adept at hunting you down mercilessly.\n" //
+      UI_INFO4_FMT_STR "Makes a good guard dog.";                                                                            //
 }
 
 static auto tp_blitzhound_assess_tp(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp me) -> ThingEnvironType

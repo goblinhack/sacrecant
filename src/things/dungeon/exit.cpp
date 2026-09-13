@@ -23,7 +23,7 @@ static auto tp_exit_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::
 {
   TRACE();
 
-  return UI_INFO1_FMT_STR "Exit here to exit the level.";
+  return UI_INFO1_FMT_STR "Exit here to exit the level in an exiting manner.";
 }
 
 [[nodiscard]] auto tp_load_exit() -> bool

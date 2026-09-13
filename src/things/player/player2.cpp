@@ -51,11 +51,12 @@ auto tp_player2_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::stri
 {
   TRACE();
 
-  return UI_INFO1_FMT_STR "This wizard scoffed at the need for health and instead trained hard to increase their physical traits.\n" //
-      UI_INFO2_FMT_STR "Although you still have the much needed fireball weapon, it receives a needed damage boost.\n"               //
-      UI_INFO3_FMT_STR "Should melee be more your thing, your fists are now furious weapons of pain and delivery.\n"                 //
-      UI_INFO4_FMT_STR "For fist only operation, simply unwield your fireball and bump into enemies instead.\n"                      //
-      UI_INFO5_FMT_STR "Combine this with attack bonuses, this wizard will fight well, while they last.\n";
+  return                                                                                                                          //
+      UI_INFO1_FMT_STR "This wizard scoffed at the need for health and instead trained hard to increase their physical traits.\n" //
+      UI_INFO2_FMT_STR "Although you still have the much needed fireball weapon, it receives a needed damage boost.\n"            //
+      UI_INFO3_FMT_STR "Should melee be more your thing, your fists are now furious weapons of pain and delivery.\n"              //
+      UI_INFO4_FMT_STR "For fist only operation, simply remove your staff or wand and bump into enemies instead.\n"               //
+      UI_INFO5_FMT_STR "Combine this with attack bonuses, this wizard will fight well, while they last.\n";                       //
 }
 
 [[nodiscard]] auto tp_load_player2() -> bool

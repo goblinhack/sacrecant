@@ -51,10 +51,11 @@ auto tp_player4_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::stri
 {
   TRACE();
 
-  return UI_INFO1_FMT_STR "This wizard prefers to sprint and leap through the dungeon, avoiding conflict.\n" //
-      UI_INFO2_FMT_STR "With such speed, the odds of running into traps is high.\n"                          //
-      UI_INFO3_FMT_STR "It might not seem you move fast, but watch how slow the monsters are!\n"             //
-      UI_INFO4_FMT_STR "Fortunately, this wizard is blessed with some luck. Some.\n";
+  return                                                                                                  //
+      UI_INFO1_FMT_STR "This wizard prefers to sprint and leap through the dungeon, avoiding conflict.\n" //
+      UI_INFO2_FMT_STR "With such speed, the odds of running into traps is high.\n"                       //
+      UI_INFO3_FMT_STR "It might not seem you move fast, but watch how slow the monsters are!\n"          //
+      UI_INFO4_FMT_STR "Fortunately, this wizard is blessed with some luck. Some.\n";                     //
 }
 
 [[nodiscard]] auto tp_load_player4() -> bool

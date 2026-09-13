@@ -24,9 +24,10 @@ static auto tp_pot_invis_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> 
 {
   TRACE();
 
-  return UI_INFO1_FMT_STR "Hide from enemies with ease with this hard to see potion\n"                        //
+  return                                                                                                      //
+      UI_INFO1_FMT_STR "Hide from enemies with ease with this hard to see potion\n"                           //
       UI_INFO2_FMT_STR "Invisible does not mean silent. Take care of your stealth, lest monsters find you.\n" //
-      UI_INFO3_FMT_STR "To make matters worse, some monsters can see invisible.\n";
+      UI_INFO3_FMT_STR "To make matters worse, some monsters can see invisible.\n";                           //
 }
 
 static void tp_pot_invis_on_thrown_end(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp thrower)

@@ -24,10 +24,11 @@ static auto tp_pot_incin_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> 
 {
   TRACE();
 
-  return UI_INFO1_FMT_STR "Consume this fiery red potion to set yourself on fire! with all the associated benefits one might expect...\n" //
-      UI_INFO2_FMT_STR "Or perhaps throw it to someone or something else so they can enjoy the benefit.\n"                                //
-      UI_INFO3_FMT_STR "It has been said that regular consumption of this potion can have dubious health benefits. "                      //
-                          "But so few have survived to tell the tale, it is hard to say.\n";
+  return                                                                                                                               //
+      UI_INFO1_FMT_STR "Consume this fiery red potion to set yourself on fire, with all the associated benefits one might expect...\n" //
+      UI_INFO2_FMT_STR "Or perhaps throw it to someone or something else so they can enjoy the benefit.\n"                             //
+      UI_INFO3_FMT_STR "It has been said that regular consumption of this potion can have dubious health benefits. "                   //
+                       "But so few have survived to tell the tale, it is hard to say.\n";                                              //
 }
 
 static void tp_pot_incin_spawn_explosion(Gamep g, Levelsp v, Levelp l, Thingp me)

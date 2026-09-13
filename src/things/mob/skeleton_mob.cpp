@@ -24,7 +24,7 @@ static auto tp_skeleton_mob_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) 
 {
   TRACE();
 
-  return UI_INFO1_FMT_STR "This hideous, puslating creation is a skeleton spawning device.";
+  return UI_INFO1_FMT_STR "This hideous, pulsating creation is a skeleton spawning device.";
 }
 
 static void tp_skeleton_mob_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)

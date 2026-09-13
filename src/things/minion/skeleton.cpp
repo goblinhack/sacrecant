@@ -30,7 +30,7 @@ static auto tp_skeleton_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> s
 
   return                                                                                                      //
       UI_INFO1_FMT_STR "Take pity on the starved bones of once brave adventurers that end up such as this.\n" //
-      UI_INFO2_FMT_STR "For this could be you. Watch out, these bones don't like staying dead.";
+      UI_INFO2_FMT_STR "For this could be you. Watch out, these bones don't like staying dead.";              //
 }
 
 static auto tp_skeleton_assess_tp(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp me) -> ThingEnvironType

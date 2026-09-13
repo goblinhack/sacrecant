@@ -13,8 +13,7 @@ static auto tp_buff_good_luck_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me
 {
   TRACE();
 
-  return                                                                       //
-      UI_INFO1_FMT_STR "Feel the brief allure of good luck with this buff.\n"; //
+  return UI_INFO1_FMT_STR "Feel the brief allure of good luck with this buff.\n"; //
 }
 
 [[nodiscard]] auto tp_load_buff_good_luck() -> bool

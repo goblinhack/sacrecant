@@ -23,8 +23,7 @@ static auto tp_chocolate_frog_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me
 {
   TRACE();
 
-  return                                                                                         //
-      UI_INFO1_FMT_STR "The food of the gods. Guaranteed to improve both your mood and health."; //
+  return UI_INFO1_FMT_STR "The food of the gods. Guaranteed to improve both your mood and health."; //
 }
 
 static bool tp_chocolate_frog_on_eaten(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp user)

@@ -13,7 +13,7 @@ static auto tp_sac_sickly_health_detail_get(Gamep g, Levelsp v, Levelp l, Thingp
 {
   TRACE();
 
-  return UI_INFO1_FMT_STR //
+  return UI_INFO1_FMT_STR
       "With this sacrifice, your maximum health is reduced by 10%%\n";
 }
 

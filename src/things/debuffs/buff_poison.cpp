@@ -13,8 +13,7 @@ static auto tp_buff_poison_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -
 {
   TRACE();
 
-  return //
-      UI_INFO1_FMT_STR "You are poisoned! Your health is ticking away!";
+  return UI_INFO1_FMT_STR "You are poisoned! Your health is ticking away!";
 }
 
 static void tp_poison_on_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)

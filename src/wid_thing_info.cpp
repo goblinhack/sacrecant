@@ -594,7 +594,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
 }
 
 //
-// How tough the game ie
+// How tough the game is
 //
 [[nodiscard]] static auto wid_thing_info_difficulty(Gamep g, Thingp me, WidPopup *parent) -> bool
 {

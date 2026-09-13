@@ -28,7 +28,7 @@ static auto tp_spider_giant_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) 
   TRACE();
 
   return                                                                                                                    //
-      UI_INFO1_FMT_STR "Green ichor drips from the fangs of this uncomfortably large spider. One might even say giant...\n" //
+      UI_INFO1_FMT_STR "Green ihcor drips from the fangs of this uncomfortably large spider. One might even say giant...\n" //
       UI_INFO2_FMT_STR "It moves silently with its many eyes watching you over intently. It seems poised to jump.\n";       //
 }
 

@@ -23,11 +23,11 @@ static auto tp_staff_energy_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) 
 {
   TRACE();
 
-  return                                                                                                          //
-      UI_INFO1_FMT_STR "A brilliantly lit staff. White sparks drip from it.\n"                                    //
-      UI_INFO2_FMT_STR "Tip: staves fire a single blast at a time, unavoidable by monsters.\n"                    //
-      UI_INFO3_FMT_STR "Tip: blast can pass through multiple monsters, so aim to create a conga line of death.\n" //
-      UI_INFO4_FMT_STR "Info: staves are more powerful than wands, but have fewer charges and are worn with a move penalty.\n";
+  return                                                                                                                        //
+      UI_INFO1_FMT_STR "A brilliantly lit staff. White sparks drip from it.\n"                                                  //
+      UI_INFO2_FMT_STR "Tip: staves fire a single blast at a time, unavoidable by monsters.\n"                                  //
+      UI_INFO3_FMT_STR "Tip: blast can pass through multiple monsters, so aim to create a conga line of death.\n"               //
+      UI_INFO4_FMT_STR "Info: staves are more powerful than wands, but have fewer charges and are worn with a move penalty.\n"; //
 }
 
 [[nodiscard]] static auto tp_staff_energy_on_light_weapon_request(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp user) -> Tpp

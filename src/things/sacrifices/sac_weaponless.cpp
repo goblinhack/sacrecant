@@ -13,12 +13,10 @@ static auto tp_sac_weaponless_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me
 {
   TRACE();
 
-  return UI_INFO1_FMT_STR                                                              //
-      "Who needs weapons? Instead just rely on melee by bashing into your opponent!\n" //
-      UI_INFO2_FMT_STR                                                                 //
-      "This sacrifice does not block you from collecting a weapon later.\n"            //
-      UI_INFO3_FMT_STR                                                                 //
-      "But why would you want to with such damage bonuses?\n";                         //
+  return                                                                                                //
+      UI_INFO1_FMT_STR "Who needs weapons? Instead just rely on melee by bashing into your opponent!\n" //
+      UI_INFO2_FMT_STR "This sacrifice does not block you from collecting a weapon later.\n"            //
+      UI_INFO3_FMT_STR "But why would you want to with such damage bonuses?\n";                         //
 }
 
 [[nodiscard]] auto tp_load_sac_weaponless() -> bool

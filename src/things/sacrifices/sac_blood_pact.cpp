@@ -15,11 +15,11 @@ static auto tp_sac_blood_pact_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me
 {
   TRACE();
 
-  return UI_INFO1_FMT_STR                                                                                      //
+  return UI_INFO1_FMT_STR
       "How much do you want to defeat that monster?\n"                                                         //
-      UI_INFO2_FMT_STR                                                                                         //
+      UI_INFO2_FMT_STR
       "Are you willing to deliver double damage and have the extra subtracted from your health and stamina?\n" //
-      UI_INFO3_FMT_STR                                                                                         //
+      UI_INFO3_FMT_STR
       "This extra damage is taken from your health and stamina, split evenly.\n";                              //
 }
 

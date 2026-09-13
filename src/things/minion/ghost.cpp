@@ -22,9 +22,9 @@ static auto tp_ghost_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std:
 {
   TRACE();
 
-  return                                                              //
-      UI_INFO1_FMT_STR "The spirit of one less fortunate than you.\n" //
-      UI_INFO2_FMT_STR "Beware, such spirits can traverse chasms and float through solid rock.";
+  return                                                                                         //
+      UI_INFO1_FMT_STR "The spirit of one less fortunate than you.\n"                            //
+      UI_INFO2_FMT_STR "Beware, such spirits can traverse chasms and float through solid rock."; //
 }
 
 static auto tp_ghost_assess_tp(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp me) -> ThingEnvironType

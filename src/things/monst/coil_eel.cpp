@@ -29,15 +29,11 @@ static auto tp_coil_eel_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> s
 {
   TRACE();
 
-  return                                                                                                                    //
-      UI_INFO1_FMT_STR                                                                                                      //
-      "This half-rotted eel is believe to have come into being due to an evil and malicious wizard.\n"                      //
-      UI_INFO2_FMT_STR                                                                                                      //
-      "The wizard is now long gone, but his toxic creation lives on in the polluted waters of dungeons.\n"                  //
-      UI_INFO3_FMT_STR                                                                                                      //
-      "With serrated fins and flexible, iron-hard scales, this eel is one that is not going to be jellied any time soon.\n" //
-      UI_INFO4_FMT_STR                                                                                                      //
-      "Beware the coil eels' venomous bite, as if it wasn't bewarey enough already.";
+  return                                                                                                                                     //
+      UI_INFO1_FMT_STR "This half-rotted eel is believe to have come into being due to an evil and malicious wizard.\n"                      //
+      UI_INFO2_FMT_STR "The wizard is now long gone, but his toxic creation lives on in the polluted waters of dungeons.\n"                  //
+      UI_INFO3_FMT_STR "With serrated fins and flexible, iron-hard scales, this eel is one that is not going to be jellied any time soon.\n" //
+      UI_INFO4_FMT_STR "Beware the coil eels' venomous bite, as if it wasn't beware-y enough already.";                                      //
 }
 
 static auto tp_coil_eel_assess_tp(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp me) -> ThingEnvironType

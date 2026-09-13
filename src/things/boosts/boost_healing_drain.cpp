@@ -15,12 +15,10 @@ static auto tp_boost_healing_drain_detail_get(Gamep g, Levelsp v, Levelp l, Thin
 {
   TRACE();
 
-  return UI_INFO1_FMT_STR                                                                                                 //
-      "Convert that useless stamina into health points by stealing from your stamina when in need!\n"                     //
-      UI_INFO2_FMT_STR                                                                                                    //
-      "Specifically, when your health dips below 25%%%, each move will transfer a d6 dice roll stamina to your health.\n" //
-      UI_INFO3_FMT_STR                                                                                                    //
-      "Obviously, low stamina has its own problems and will impact your jumping, throwing etc... but who needs that?";    //
+  return                                                                                                                                   //
+      UI_INFO1_FMT_STR "Convert that useless stamina into health points by stealing from your stamina when in need!\n"                     //
+      UI_INFO2_FMT_STR "Specifically, when your health dips below 25%%%, each move will transfer a d6 dice roll stamina to your health.\n" //
+      UI_INFO3_FMT_STR "Obviously, low stamina has its own problems and will impact your jumping, throwing etc..., but who needs that?";   //
 }
 
 static void tp_boost_healing_drain_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)

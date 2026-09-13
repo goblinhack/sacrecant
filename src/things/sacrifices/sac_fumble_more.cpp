@@ -13,18 +13,13 @@ static auto tp_sac_fumble_more_detail_get(Gamep g, Levelsp v, Levelp l, Thingp m
 {
   TRACE();
 
-  return UI_INFO1_FMT_STR                                                                                          //
-      "Dice rolls are the core of this game and most are done on d20s. 20 means a critical hit. 1 means fumble.\n" //
-      UI_INFO2_FMT_STR                                                                                             //
-      "With this sacrifice, 1 and 2 both result in a fumble, which could impact:\n"                                //
-      UI_INFO3_FMT_STR                                                                                             //
-      "- combat chance of success\n"                                                                               //
-      UI_INFO4_FMT_STR                                                                                             //
-      "- trap activation\n"                                                                                        //
-      UI_INFO5_FMT_STR                                                                                             //
-      "- luck rolls \n"                                                                                            //
-      UI_INFO6_FMT_STR                                                                                             //
-      "- basically all dice rolls...\n";                                                                           //
+  return                                                                                                                            //
+      UI_INFO1_FMT_STR "Dice rolls are the core of this game and most are done on d20s. 20 means a critical hit. 1 means fumble.\n" //
+      UI_INFO2_FMT_STR "With this sacrifice, 1 and 2 both result in a fumble, which could impact:\n"                                //
+      UI_INFO3_FMT_STR "- combat chance of success\n"                                                                               //
+      UI_INFO4_FMT_STR "- trap activation\n"                                                                                        //
+      UI_INFO5_FMT_STR "- luck rolls \n"                                                                                            //
+      UI_INFO6_FMT_STR "- basically all dice rolls...\n";                                                                           //
 }
 
 [[nodiscard]] auto tp_load_sac_fumble_more() -> bool

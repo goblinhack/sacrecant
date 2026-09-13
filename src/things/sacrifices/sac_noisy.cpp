@@ -13,10 +13,11 @@ static auto tp_sac_noisy_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> 
 {
   TRACE();
 
-  return UI_INFO1_FMT_STR                                                                //
-      "Your very footsteps echo noisily as you clod around the dungeon "                 //
-      "and no attempt to stay quiet seems to help!\n"                                    //
-      UI_INFO2_FMT_STR                                                                   //
+  return //
+      UI_INFO1_FMT_STR
+      "Your very footsteps echo noisily as you clod around the dungeon " //
+      "and no attempt to stay quiet seems to help!\n"                    //
+      UI_INFO2_FMT_STR
       "In detail, this sacrifice doubles the amount of noise you make. "                 //
       "From crashing through bushes, crushing grass underfoot, or firing weapons, "      //
       "all will be doubled in noise output.\n"                                           //

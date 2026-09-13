@@ -25,7 +25,7 @@ static auto tp_horseshoe_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> 
 
   return                                                                                     //
       UI_INFO1_FMT_STR "A horseshoe in a dungeon. Creates more questions than it answers.\n" //
-      UI_INFO2_FMT_STR "Good for luck though...\n";
+      UI_INFO2_FMT_STR "Good for luck though...\n";                                          //
 }
 
 [[nodiscard]] auto tp_load_horseshoe() -> bool

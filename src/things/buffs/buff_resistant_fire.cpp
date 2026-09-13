@@ -13,11 +13,9 @@ static auto tp_buff_resistant_fire_detail_get(Gamep g, Levelsp v, Levelp l, Thin
 {
   TRACE();
 
-  return                                                                          //
-      UI_INFO1_FMT_STR                                                            //
-      "With this buff you temporarily take half damage from fire like effects.\n" //
-      UI_INFO2_FMT_STR                                                            //
-      "This includes lava, steam and other unpleasantly hot things.\n";
+  return                                                                                           //
+      UI_INFO1_FMT_STR "With this buff you temporarily take half damage from fire like effects.\n" //
+      UI_INFO2_FMT_STR "This includes lava, steam and other unpleasantly hot things.\n";           //
 }
 
 [[nodiscard]] auto tp_load_buff_resistant_fire() -> bool

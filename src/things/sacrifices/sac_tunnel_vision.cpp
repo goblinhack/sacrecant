@@ -13,8 +13,7 @@ static auto tp_sac_tunnel_vision_detail_get(Gamep g, Levelsp v, Levelp l, Thingp
 {
   TRACE();
 
-  return UI_INFO1_FMT_STR //
-      "With this sacrifice, you can only see in the direction of travel.\n";
+  return UI_INFO1_FMT_STR "With this sacrifice, you can only see in the direction of travel.\n";
 }
 
 [[nodiscard]] auto tp_load_sac_tunnel_vision() -> bool

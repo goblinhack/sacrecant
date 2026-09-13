@@ -15,12 +15,11 @@ static auto tp_boost_devoted_thrust_detail_get(Gamep g, Levelsp v, Levelp l, Thi
 {
   TRACE();
 
-  return UI_INFO1_FMT_STR                                                                                                                 //
-      "Prove your devotion by adding extra damage to attacks when you are in low health!\n"                                               //
-      UI_INFO2_FMT_STR                                                                                                                    //
-      "Specifically, when your health dips below 25%%%, each melee attack will add a d6 dice roll, draining your stamina for the same.\n" //
-      UI_INFO3_FMT_STR                                                                                                                    //
-      "It makes no sense that this works for wands and staffs also, but the gods are feeling generous.\n";
+  return                                                                                                                    //
+      UI_INFO1_FMT_STR "Prove your devotion by adding extra damage to attacks when you are in low health!\n"                //
+      UI_INFO2_FMT_STR "Specifically, when your health dips below 25%%%, each melee attack will add a d6 dice roll, "       //
+                       "draining your stamina for the same.\n"                                                              //
+      UI_INFO3_FMT_STR "It makes no sense that this works for wands and staffs also, but the gods are feeling generous.\n"; //
 }
 
 static bool tp_boost_devoted_thrust_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp target, ThingEvent &e)

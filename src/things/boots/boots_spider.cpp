@@ -23,10 +23,11 @@ static auto tp_boots_spider_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) 
 {
   TRACE();
 
-  return UI_INFO1_FMT_STR "These black and chitinous boots will allow you to step as lightly as a spider.\n"                    //
+  return                                                                                                                        //
+      UI_INFO1_FMT_STR "These black and chitinous boots will allow you to step as lightly as a spider.\n"                       //
       UI_INFO2_FMT_STR "More importantly, you will be better able to avoid being caught in traps and webs (*).\n"               //
       UI_INFO3_FMT_STR "And, your skin will take on a shiny and slightly disgusting chitinous sheen. But hey, defence bonus.\n" //
-      UI_INFO4_FMT_STR "(*) Terms and conditions apply. Fumble rolls are still possible with traps...\n";
+      UI_INFO4_FMT_STR "(*) Terms and conditions apply. Fumble rolls are still possible with traps...\n";                       //
 }
 
 static bool tp_boots_spider_on_use(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp user)
@@ -34,7 +35,7 @@ static bool tp_boots_spider_on_use(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
   TRACE();
 
   if (thing_is_player(user)) {
-    topcon(UI_GOOD_FMT_STR "You feel spritely and a bit creepy in these spider boots." UI_RESET_FMT);
+    topcon(UI_GOOD_FMT_STR "You feel bouncy and a bit creepy in these spider boots." UI_RESET_FMT);
     thing_sound_play(g, v, l, user, "bonus");
   }
 

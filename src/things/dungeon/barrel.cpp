@@ -23,7 +23,7 @@ static auto tp_barrel_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std
 {
   TRACE();
 
-  return UI_INFO1_FMT_STR "A not-out-of-place-in-a-dungeon, barrel of oil.";
+  return UI_INFO1_FMT_STR "A not out of place in a dungeon, barrel of oil.";
 }
 
 static void tp_barrel_spawn_explosion(Gamep g, Levelsp v, Levelp l, Thingp me)

@@ -14,8 +14,7 @@ static auto tp_buff_prot_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> 
 {
   TRACE();
 
-  return                                                                               //
-      UI_INFO1_FMT_STR "With this buff your health issues are a thing of the past.\n"; //
+  return UI_INFO1_FMT_STR "With this buff, your health issues are a thing of the past.\n"; //
 }
 
 static bool tp_buff_prot_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)

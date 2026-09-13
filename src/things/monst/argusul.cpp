@@ -29,16 +29,12 @@ static auto tp_argusul_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> st
 {
   TRACE();
 
-  return                                                                               //
-      UI_INFO1_FMT_STR                                                                 //
-      "Argusuls are floating many-eyed monsters that are impossible to sneak up on.\n" //
-      UI_INFO2_FMT_STR                                                                 //
-      "Intelligent, fearful to behold, and resistant to fire, it would be "            //
-      "wise to travel in the opposite direction of an Argusul.\n"                      //
-      UI_INFO3_FMT_STR                                                                 //
-      "Beware their dazzling central eyestalk attack.\n"                               //
-      UI_INFO4_FMT_STR                                                                 //
-      "It is rumoured that a greater Argusul lurks in the dungeon somewhere...\n";     //
+  return                                                                                                //
+      UI_INFO1_FMT_STR "Argusuls are floating many-eyed monsters that are impossible to sneak up on.\n" //
+      UI_INFO2_FMT_STR "Intelligent, fearful to behold, and resistant to fire, it would be "            //
+                       "wise to travel in the opposite direction of an Argusul.\n"                      //
+      UI_INFO3_FMT_STR "Beware their dazzling central eyestalk attack.\n"                               //
+      UI_INFO4_FMT_STR "It is rumoured that a greater Argusul lurks in the dungeon somewhere...\n";     //
 }
 
 static auto tp_argusul_assess_tp(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp me) -> ThingEnvironType

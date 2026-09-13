@@ -28,16 +28,12 @@ static auto tp_pale_eel_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> s
 {
   TRACE();
 
-  return                                                                                                    //
-      UI_INFO1_FMT_STR                                                                                      //
-      "The pale eel is an understudied type of eel that dwells, predictably, in fetid dungeon waters.\n"    //
-      UI_INFO2_FMT_STR                                                                                      //
-      "Albino and almost blind, its pale eyes on stalks are of little use, so the pale eel resorts to its " //
-      "ability to detect the smallest vibrations in the murky water.\n"                                     //
-      UI_INFO3_FMT_STR                                                                                      //
-      "With a bite first policy, the pale eel, although small is best to be avoided.\n"                     //
-      UI_INFO4_FMT_STR                                                                                      //
-      "Also make good pets, but avoid putting your hand in the tank.";
+  return                                                                                                                     //
+      UI_INFO1_FMT_STR "The pale eel is an understudied type of eel that dwells, predictably, in fetid dungeon waters.\n"    //
+      UI_INFO2_FMT_STR "Albino and almost blind, its pale eyes on stalks are of little use, so the pale eel resorts to its " //
+                       "ability to detect the smallest vibrations in the murky water.\n"                                     //
+      UI_INFO3_FMT_STR "With a bite first policy, the pale eel, although small is best to be avoided.\n"                     //
+      UI_INFO4_FMT_STR "Also make good pets, but avoid putting your hand in the tank.";                                      //
 }
 
 static auto tp_pale_eel_assess_tp(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp me) -> ThingEnvironType

@@ -23,15 +23,16 @@ static auto tp_ring_war_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> s
 {
   TRACE();
 
-  return UI_INFO1_FMT_STR
+  return //
+      UI_INFO1_FMT_STR
       "The ring of war gives off a menacing red light and, when worn, " //
       "will transform your puny fists into vessels of pain.\n"          //
       UI_INFO2_FMT_STR
       "More specifically, you will see bonuses to your attack and damage rolls. " //
       "Damage applies even to staves and wands.\n"                                //
       UI_INFO3_FMT_STR
-      "Being as crazed as you are, you will have no need for such weaknesses as defence, "
-      "so expect a significant drop in your defensive ability.\n";
+      "Being as crazed as you are, you will have no need for such weaknesses as defence, " //
+      "so expect a significant drop in your defensive ability.\n";                         //
 }
 
 [[nodiscard]] auto tp_load_ring_war() -> bool

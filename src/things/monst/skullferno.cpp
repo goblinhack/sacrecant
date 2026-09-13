@@ -29,15 +29,12 @@ static auto tp_skullferno_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) ->
 {
   TRACE();
 
-  return                                                                                                                                //
-      UI_INFO1_FMT_STR                                                                                                                  //
-      "Skullferno are the hollowed out-skulls of wizards that were put to the test and found to be lacking.\n "                         //
-      UI_INFO2_FMT_STR                                                                                                                  //
-      "Their tormented moans echo through the darkness as their souls dream of an end to their suffering with a swift, final death.\n " //
-      UI_INFO3_FMT_STR                                                                                                                  //
-      "Other than that, they tend to be quite optimistic about things.\n "                                                              //
-      UI_INFO4_FMT_STR                                                                                                                  //
-      "Beware their fiery breath and their natural immunity to fire...\n";
+  return                                                                                                                         //
+      UI_INFO1_FMT_STR "Skullferno are the hollowed out-skulls of wizards that were put to the test and found to be lacking.\n " //
+      UI_INFO2_FMT_STR "Their tormented moans echo through the darkness as their souls dream of an end to their suffering "      //
+                       "with a swift, final death.\n "                                                                           //
+      UI_INFO3_FMT_STR "Other than that, they tend to be quite optimistic about things.\n "                                      //
+      UI_INFO4_FMT_STR "Beware their fiery breath and their natural immunity to fire...\n";                                      //
 }
 
 static auto tp_skullferno_assess_tp(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp me) -> ThingEnvironType

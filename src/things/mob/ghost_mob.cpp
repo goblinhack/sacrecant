@@ -24,9 +24,9 @@ static auto tp_ghost_mob_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> 
 {
   TRACE();
 
-  return                                                                                                       //
-      UI_INFO1_FMT_STR "This large pile of bones, whispers and moans as spectral creations dance around it.\n" //
-      UI_INFO2_FMT_STR "When such devices are destroyed, all that they summoned will also vanish into oblivion.";
+  return                                                                                                          //
+      UI_INFO1_FMT_STR "This large pile of bones, whispers and moans as spectral creations dance around it.\n"    //
+      UI_INFO2_FMT_STR "When such devices are destroyed, all that they summoned will also vanish into oblivion."; //
 }
 
 static void tp_ghost_mob_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)

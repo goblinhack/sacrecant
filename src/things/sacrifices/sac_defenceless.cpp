@@ -13,12 +13,10 @@ static auto tp_sac_defenceless_detail_get(Gamep g, Levelsp v, Levelp l, Thingp m
 {
   TRACE();
 
-  return UI_INFO1_FMT_STR                                                                                     //
-      "A true warrior has no need of defence. Of course, you are a wizard and not a warrior...\n"             //
-      UI_INFO2_FMT_STR                                                                                        //
-      "Regardless! Eschew all of your defence points and ensure that monsters never miss you being around!\n" //
-      UI_INFO3_FMT_STR                                                                                        //
-      "Attacks on you can still fumble, so you're not *completely* defenceless.\n";
+  return                                                                                                                       //
+      UI_INFO1_FMT_STR "A true warrior has no need of defence. Of course, you are a wizard and not a warrior...\n"             //
+      UI_INFO2_FMT_STR "Regardless! Eschew all of your defence points and ensure that monsters never miss you being around!\n" //
+      UI_INFO3_FMT_STR "Attacks on you can still fumble, so you're not *completely* defenceless.\n";
 }
 
 [[nodiscard]] auto tp_load_sac_defenceless() -> bool

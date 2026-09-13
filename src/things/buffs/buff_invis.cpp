@@ -13,8 +13,7 @@ static auto tp_buff_invis_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) ->
 {
   TRACE();
 
-  return                                                                              //
-      UI_INFO1_FMT_STR "With this buff you can hide from your problems with ease.\n"; //
+  return UI_INFO1_FMT_STR "With this buff you can hide from your problems with ease.\n"; //
 }
 
 [[nodiscard]] auto tp_load_buff_invis() -> bool
