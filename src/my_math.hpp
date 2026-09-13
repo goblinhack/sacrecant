@@ -25,11 +25,11 @@
 //
 // If distance is only needed for sorting
 //
-#define SORT_DISTANCEf(xa, ya, xb, yb) (SQUARED((xb) - (xa)) + SQUARED((yb) - (ya)))
-#define SORT_DISTANCEd(xa, ya, xb, yb) (SQUARED((xb) - (xa)) + SQUARED((yb) - (ya)))
+#define SORT_DISTANCE_f(xa, ya, xb, yb) (SQUARED((xb) - (xa)) + SQUARED((yb) - (ya)))
+#define SORT_DISTANCE_d(xa, ya, xb, yb) (SQUARED((xb) - (xa)) + SQUARED((yb) - (ya)))
 
-#define DISTANCEf(xa, ya, xb, yb) sqrtf((float) (SQUARED((xb) - (xa)) + SQUARED((yb) - (ya))))
-#define DISTANCEd(xa, ya, xb, yb) sqrt((double) (SQUARED((xb) - (xa)) + SQUARED((yb) - (ya))))
+#define DISTANCE_f(xa, ya, xb, yb) sqrtf((float) (SQUARED((xb) - (xa)) + SQUARED((yb) - (ya))))
+#define DISTANCE_d(xa, ya, xb, yb) sqrt((double) (SQUARED((xb) - (xa)) + SQUARED((yb) - (ya))))
 
 #define PI      3.14159265358979323846f        // pi
 #define RAD_45  0.78539816339744830962f        // pi/4

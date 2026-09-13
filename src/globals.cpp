@@ -9,7 +9,7 @@
 #include <cstdio>
 #include <string>
 
-bool g_do_screenshot; // Grab a screen shot next fram
+bool g_do_screenshot; // Grab a screen shot next frame
 bool g_dying;
 bool g_grab_next_key;             // Waiting for key input
 bool g_loading;                   // Currently loading

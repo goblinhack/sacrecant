@@ -106,7 +106,7 @@ static inline void level_light_per_pixel(const FovContext &ctx, const bpoint &p)
     uint16_t light_pixel_at_x = (p.x * TILE_WIDTH) - (TILE_WIDTH / 2);
     for (uint8_t pixx = 0; pixx < LIGHT_PIXEL; pixx++, light_pixel_at_x++) {
 
-      float const dist_in_pixels = DISTANCEf(light_pixel_at_x, light_pixel_at_y, // newline
+      float const dist_in_pixels = DISTANCE_f(light_pixel_at_x, light_pixel_at_y, // newline
                                              (float) ctx.thing_at_in_pixels.x, (float) ctx.thing_at_in_pixels.y);
 
       //

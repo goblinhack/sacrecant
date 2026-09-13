@@ -235,7 +235,7 @@ static const char *dict1_names[] = {
     /* newline */ "xanadu",
     /* newline */ "yerin",
     /* newline */ "yeti",
-    /* newline */ "zar",
+    /* newline */ "czar",
 };
 
 [[nodiscard]] auto os_rand_dict1_name() -> const char *

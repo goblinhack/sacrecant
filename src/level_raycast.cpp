@@ -163,7 +163,7 @@ void Raycast::ray_pixel_add(int16_t index, const spoint p0, const spoint p1)
 {
   RayPixel ray;
   ray.p        = p1;
-  ray.distance = DISTANCEf(p0.x, p0.y, p1.x, p1.y);
+  ray.distance = DISTANCE_f(p0.x, p0.y, p1.x, p1.y);
   ray_pixels[ index ].push_back(ray);
 }
 
@@ -263,7 +263,7 @@ static inline void level_light_per_pixel_player(const FovContext &ctx, const bpo
     uint16_t light_pixel_at_x = (p.x * TILE_WIDTH) - (TILE_WIDTH / 2);
     for (uint8_t pixx = 0; pixx < LIGHT_PIXEL; pixx++, light_pixel_at_x++) {
 
-      float const dist_in_pixels = DISTANCEf(light_pixel_at_x, light_pixel_at_y, // newline
+      float const dist_in_pixels = DISTANCE_f(light_pixel_at_x, light_pixel_at_y, // newline
                                              (float) ctx.thing_at_in_pixels.x, (float) ctx.thing_at_in_pixels.y);
 
       //

@@ -42,9 +42,9 @@ static inline auto make_fpoint(const spoint f) -> fpoint { return fpoint(f.x, f.
 
 static inline auto make_fpoint(const bpoint f) -> fpoint { return fpoint(f.x, f.y); }
 
-static inline auto sort_distance(const fpoint &a, const fpoint &b) -> float { return SORT_DISTANCEf(a.x, a.y, b.x, b.y); }
+static inline auto sort_distance(const fpoint &a, const fpoint &b) -> float { return SORT_DISTANCE_f(a.x, a.y, b.x, b.y); }
 
-static inline auto distance(const fpoint &a, const fpoint &b) -> float { return DISTANCEf(a.x, a.y, b.x, b.y); }
+static inline auto distance(const fpoint &a, const fpoint &b) -> float { return DISTANCE_f(a.x, a.y, b.x, b.y); }
 
 //
 // round() is better than floor() as if we do a jump on a diagonal, that is 0.707
