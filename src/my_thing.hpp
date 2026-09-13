@@ -465,6 +465,10 @@ using Thing = struct Thing {
   //
   uint16_t tile_index;
   //
+  // For hooks. This is the order of selection.
+  //
+  uint16_t hook_sort_order;
+  //
   // Move speed, with 100 being player.
   //
   uint16_t _speed;

@@ -323,6 +323,11 @@ public:
   std::vector< Tpp >       chosen_boost;
 
   //
+  // For hooks. This is the order of selection.
+  //
+  uint16_t hook_sort_order {};
+
+  //
   // Which player is hovering over
   //
   Thingp mouse_over_player {};
@@ -965,11 +970,13 @@ void Game::start_playing()
 
   auto *g = this;
   if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
     return;
   }
 
   auto *v = game_levels_get(g);
   if (v == nullptr) [[unlikely]] {
+    ERR("no game pointer");
     return;
   }
 
@@ -978,6 +985,7 @@ void Game::start_playing()
 
   auto *l = game_level_get(g, v);
   if (l == nullptr) [[unlikely]] {
+    ERR("no game pointer");
     return;
   }
 
@@ -3197,6 +3205,7 @@ void game_player_clear(Gamep g)
   TRACE();
 
   if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
     return nullptr;
   }
   return g->chosen_player;
@@ -3218,12 +3227,22 @@ void game_chosen_player_set(Gamep g, Tpp t)
 
   std::vector< Tpp > out;
   if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
     return out;
   }
+
+  std::vector< Thingp > tmp;
   for (auto t : g->cand_sacrifice) {
     Thingp it = t.first;
-    out.push_back(thing_tp(it));
+    tmp.push_back(it);
   }
+
+  std::ranges::sort(tmp, [](Thingp a, Thingp b) -> bool { return a->hook_sort_order < b->hook_sort_order; });
+
+  for (auto t : tmp) {
+    out.push_back(thing_tp(t));
+  }
+
   return out;
 }
 [[nodiscard]] auto game_cand_sacrifice_get_last(Gamep g) -> Thingp
@@ -3231,8 +3250,10 @@ void game_chosen_player_set(Gamep g, Tpp t)
   TRACE();
 
   if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
     return nullptr;
   }
+
   return g->cand_sacrifice_last;
 }
 void game_cand_sacrifice_set(Gamep g, Thingp t)
@@ -3243,8 +3264,15 @@ void game_cand_sacrifice_set(Gamep g, Thingp t)
     ERR("no game pointer");
     return;
   }
+
+  if (! t) {
+    ERR("no thing pointer");
+    return;
+  }
+
   g->cand_sacrifice[ t ] = true;
   g->cand_sacrifice_last = t;
+  t->hook_sort_order     = g->hook_sort_order++;
 }
 void game_cand_sacrifice_unset(Gamep g, Thingp t)
 {
@@ -3276,6 +3304,7 @@ void game_sacrifice_clear(Gamep g)
   std::vector< Tpp > out;
 
   if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
     return out;
   }
   return g->chosen_sacrifice;
@@ -3285,6 +3314,7 @@ void game_sacrifice_clear(Gamep g)
   TRACE();
 
   if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
     return false;
   }
 
@@ -3309,13 +3339,24 @@ void game_chosen_sacrifice_set(Gamep g, std::vector< Tpp > t)
   TRACE();
 
   std::vector< Tpp > out;
+
   if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
     return out;
   }
+
+  std::vector< Thingp > tmp;
   for (auto t : g->cand_boost) {
     Thingp it = t.first;
-    out.push_back(thing_tp(it));
+    tmp.push_back(it);
   }
+
+  std::ranges::sort(tmp, [](Thingp a, Thingp b) -> bool { return a->hook_sort_order < b->hook_sort_order; });
+
+  for (auto t : tmp) {
+    out.push_back(thing_tp(t));
+  }
+
   return out;
 }
 [[nodiscard]] auto game_cand_boost_get_last(Gamep g) -> Thingp
@@ -3335,8 +3376,15 @@ void game_cand_boost_set(Gamep g, Thingp t)
     ERR("no game pointer");
     return;
   }
+
+  if (! t) {
+    ERR("no thing pointer");
+    return;
+  }
+
   g->cand_boost[ t ] = true;
   g->cand_boost_last = t;
+  t->hook_sort_order = g->hook_sort_order++;
 }
 void game_cand_boost_unset(Gamep g, Thingp t)
 {
@@ -3346,6 +3394,7 @@ void game_cand_boost_unset(Gamep g, Thingp t)
     ERR("no game pointer");
     return;
   }
+
   g->cand_boost.erase(t);
   g->cand_boost_last = {};
 }
@@ -3357,6 +3406,7 @@ void game_boost_clear(Gamep g)
     ERR("no game pointer");
     return;
   }
+
   g->cand_boost      = {};
   g->cand_boost      = {};
   g->cand_boost_last = {};
@@ -3433,6 +3483,7 @@ void game_mouse_over_sacrifice_set(Gamep g, Thingp t)
     ERR("no game pointer");
     return;
   }
+
   g->mouse_over_sacrifice = t;
 }
 

@@ -67,13 +67,9 @@ static void wid_player_select_destroy(Gamep g)
   memset(wid_boost_shortcut, 0, sizeof(wid_boost_shortcut));
   memset(wid_boost, 0, sizeof(wid_boost));
 
-  game_mouse_over_player_set(g, nullptr);
-  game_mouse_over_sacrifice_set(g, nullptr);
-  game_mouse_over_boost_set(g, nullptr);
-
-  game_cand_player_set(g, nullptr);
-  game_cand_sacrifice_set(g, nullptr);
-  game_cand_boost_set(g, nullptr);
+  game_cand_player_unset(g);
+  game_cand_sacrifice_unset(g, nullptr);
+  game_cand_boost_unset(g, nullptr);
 
   if (wid_player_select_window != nullptr) {
     wid_destroy(g, &wid_player_select_window);
