@@ -24,7 +24,7 @@ static auto tp_wand_fire_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> 
   TRACE();
 
   return                                                                                                                                     //
-      UI_INFO1_FMT_STR "A firey red wand. Burning sparks drip from it.\n"                                                                    //
+      UI_INFO1_FMT_STR "A fiery red wand. Burning sparks drip from it.\n"                                                                    //
       UI_INFO2_FMT_STR "Tip: wands can fire multiple rounds down long corridors. However, this means monsters can potentially avoid them.\n" //
       UI_INFO3_FMT_STR "Info: wands are less powerful than staves, but have more charges and be worn without a move penalty.\n";
 }

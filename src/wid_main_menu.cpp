@@ -528,7 +528,7 @@ void wid_main_menu_select(Gamep g)
     spoint const br(button_width, y_at + button_height);
     wid_set_on_mouse_down(w, wid_main_menu_load);
     wid_set_pos(w, tl, br);
-    wid_set_text(w, UI_HIGHLIGHT_FMT_STR "L" UI_FMT_STR "oad game");
+    wid_set_text(w, UI_HIGHLIGHT_FMT_STR "L" UI_FMT_STR "oad game"); // codespell:ignore
   }
   y_at += button_step;
   {
@@ -540,7 +540,7 @@ void wid_main_menu_select(Gamep g)
     spoint const br(button_width, y_at + button_height);
     wid_set_on_mouse_down(w, wid_main_menu_cfg);
     wid_set_pos(w, tl, br);
-    wid_set_text(w, UI_HIGHLIGHT_FMT_STR "O" UI_FMT_STR "ptions");
+    wid_set_text(w, UI_HIGHLIGHT_FMT_STR "O" UI_FMT_STR "ptions"); // codespell:ignore
   }
   y_at += button_step;
   {
@@ -552,7 +552,7 @@ void wid_main_menu_select(Gamep g)
     spoint const br(button_width, y_at + button_height);
     wid_set_on_mouse_down(w, wid_main_menu_more);
     wid_set_pos(w, tl, br);
-    wid_set_text(w, UI_HIGHLIGHT_FMT_STR "M" UI_FMT_STR "ore");
+    wid_set_text(w, UI_HIGHLIGHT_FMT_STR "M" UI_FMT_STR "ore"); // codespell:ignore
   }
   y_at += button_step;
   {
@@ -564,7 +564,7 @@ void wid_main_menu_select(Gamep g)
     spoint const br(button_width, y_at + button_height);
     wid_set_on_mouse_down(w, wid_main_menu_quit);
     wid_set_pos(w, tl, br);
-    wid_set_text(w, UI_HIGHLIGHT_FMT_STR "Q" UI_FMT_STR "uit Game");
+    wid_set_text(w, UI_HIGHLIGHT_FMT_STR "Q" UI_FMT_STR "uit Game"); // codespell:ignore
   }
 
   wid_update(g, wid_main_menu_window->wid_text_area->wid_text_area);

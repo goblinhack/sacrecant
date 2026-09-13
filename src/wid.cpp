@@ -156,7 +156,7 @@ Wid::Wid() { NEWPTR(MTYPE_WID, this, "wid"); }
 Wid::~Wid() { OLDPTR(MTYPE_WID, this); }
 
 //
-// Check if we are on the main thread and not exitting
+// Check if we are on the main thread and not exiting
 //
 [[nodiscard]] static auto wid_safe() -> bool
 {
@@ -344,7 +344,7 @@ void wid_set_pos(Widp w, spoint tl, spoint br)
   w->key.br = br;
 
   //
-  // Child postion is relative from the parent.
+  // Child position is relative from the parent.
   //
   p = w->parent;
   if (p != nullptr) {
@@ -404,7 +404,7 @@ static void wid_set_pos_pct(Widp w, fpoint tl, fpoint br)
   int key_br_y = static_cast< int >(br.y);
 
   //
-  // Child postion is relative from the parent.
+  // Child position is relative from the parent.
   //
   p = w->parent;
   if (p != nullptr) {
@@ -1625,7 +1625,7 @@ void wid_set_tilename(int depth, Widp w, const std::string &name)
 }
 
 //
-// Look at all the wid modes and return the most relevent setting
+// Look at all the wid modes and return the most relevant setting
 //
 [[nodiscard]] auto wid_get_color(Widp w, wid_color which) -> color
 {
@@ -1690,7 +1690,7 @@ void wid_set_style(Widp w, int style)
 }
 
 //
-// Look at all the widset modes and return the most relevent setting
+// Look at all the widset modes and return the most relevant setting
 //
 void wid_set_color(Widp w, wid_color col, color val)
 {

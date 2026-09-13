@@ -272,7 +272,7 @@ static void wid_thing_info_stats_lck_mouse_over_begin(Gamep g, Widp w, int /*rel
   wid_over_stats = new WidPopup(g, "stats", tl, br, nullptr, "", false, false);
   wid_over_stats->log(g, UI_HIGHLIGHT_FMT_STR "Luck");
   wid_over_stats->log_empty_line(g);
-  wid_over_stats->log(g, UI_INFO1_FMT_STR "Luck can impact your existance in many quiet ways.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO1_FMT_STR "Luck can impact your existence in many quiet ways.\n", TEXT_FORMAT_LHS);
   wid_over_stats->log(g, UI_INFO2_FMT_STR "Will that treasure chest explode when you hit it?\n", TEXT_FORMAT_LHS);
   wid_over_stats->log(g, UI_INFO3_FMT_STR "Will that loose floor tile reveal a hidden chasm?\n", TEXT_FORMAT_LHS);
   wid_over_stats->log(g, UI_INFO4_FMT_STR "Will you land in lava when jumping into a chasm?\n", TEXT_FORMAT_LHS);
@@ -438,7 +438,7 @@ static void wid_thing_info_stats_score_mouse_over_begin(Gamep g, Widp w, int /*r
   wid_over_stats = new WidPopup(g, "stats", tl, br, nullptr, "", false, false);
   wid_over_stats->log(g, UI_HIGHLIGHT_FMT_STR "SPs and Score");
   wid_over_stats->log_empty_line(g);
-  wid_over_stats->log(g, UI_INFO1_FMT_STR "Sacrifical Points (SPs) are used to purchase spells.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO1_FMT_STR "Sacrificial Points (SPs) are used to purchase spells.\n", TEXT_FORMAT_LHS);
   wid_over_stats->log(g, UI_INFO2_FMT_STR "Mana is used in the casting of spells\n", TEXT_FORMAT_LHS);
   wid_over_stats->log(g, UI_INFO3_FMT_STR "SPs and Mana can be replenished in alters.\n", TEXT_FORMAT_LHS);
   wid_over_stats->log(g, UI_INFO4_FMT_STR "Score is a pointless measurement of your progress!\n", TEXT_FORMAT_LHS);
@@ -1667,7 +1667,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   }
 
   //
-  // Check for things mathing the dice roll first.
+  // Check for things matching the dice roll first.
   //
   auto max_damage = thing_damage_max(g, v, l, me);
   if (max_damage == 0) {

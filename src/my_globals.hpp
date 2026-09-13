@@ -7,7 +7,7 @@
 
 #include <string>
 
-extern bool g_do_screenshot; // Grab a screen shot next fram
+extern bool g_do_screenshot; // Grab a screen shot next frame
 extern bool g_dying;
 extern bool g_grab_next_key;             // Waiting for key input
 extern bool g_loading;                   // Currently loading

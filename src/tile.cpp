@@ -521,7 +521,7 @@ void tile_load_arr_sprites(const char *file, const char *alias, uint32_t tile_wi
 }
 
 //
-// Creae a texture from an FBO
+// Create a texture from an FBO
 //
 void tile_from_fbo(Gamep g, FboEnum fbo)
 {

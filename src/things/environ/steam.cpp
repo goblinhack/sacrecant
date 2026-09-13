@@ -44,7 +44,7 @@ static auto tp_steam_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) ->
   tp_name_a_or_an_set(tp, "steam");
   tp_name_apostrophize_set(tp, "steams'");
   tp_name_long_set(tp, "steam");
-  tp_name_pluralize_set(tp, "streams");
+  tp_name_pluralize_set(tp, "steam");
   tp_name_short_set(tp, "steam");
   tp_priority_set(tp, THING_PRIORITY_STEAM);
   tp_temperature_initial_set(tp, 100); // celsius

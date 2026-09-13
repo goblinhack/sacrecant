@@ -526,7 +526,7 @@ void tex_load_sprites(Texp *tex, Texp *tex_monochrome, Texp *tex_mask, // newlin
 }
 
 //
-// Creae a texture from a surface
+// Create a texture from a surface
 //
 [[nodiscard]] auto tex_from_surface(SDL_Surface *surface, const std::string &file, const std::string &name, int mode) -> Texp
 {
@@ -623,7 +623,7 @@ void tex_load_sprites(Texp *tex, Texp *tex_monochrome, Texp *tex_mask, // newlin
 }
 
 //
-// Creae a texture from an FBO
+// Create a texture from an FBO
 //
 [[nodiscard]] auto tex_from_fbo(Gamep g, FboEnum fbo) -> Texp
 {

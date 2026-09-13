@@ -24,7 +24,7 @@ static auto tp_staff_fire_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) ->
   TRACE();
 
   return                                                                                                          //
-      UI_INFO1_FMT_STR "A firey red staff. Burning sparks drip from it.\n"                                        //
+      UI_INFO1_FMT_STR "A fiery red staff. Burning sparks drip from it.\n"                                        //
       UI_INFO2_FMT_STR "Tip: staves fire a single blast at a time, unavoidable by monsters.\n"                    //
       UI_INFO3_FMT_STR "Tip: blast can pass through multiple monsters, so aim to create a conga line of death.\n" //
       UI_INFO4_FMT_STR "Info: staves are more powerful than wands, but have fewer charges and are worn with a move penalty.\n";

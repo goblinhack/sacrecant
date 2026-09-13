@@ -270,7 +270,7 @@ static inline void sdl_list_video_size()
 #if __APPLE__
   SDL_Event evt;
   //
-  // Work around macos focus issue, possibly caused by iTerm
+  // Work around macos focus issue, possibly caused by "iTerm2"
   //
   while (SDL_PollEvent(&evt) != 0) {}
 #endif

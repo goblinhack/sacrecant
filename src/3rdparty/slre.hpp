@@ -15,7 +15,7 @@
 // Usage example (parsing HTTP request):
 
 // struct Slre	slre;
-// struct Cap	captures[4 + 1];  // Number of braket pairs + 1
+// struct Cap	captures[4 + 1];  // Number of bracket pairs + 1
 // ...
 
 // slre_compile(&slre,"^(GET|POST) (\S+) HTTP/(\S+?)\r\n");

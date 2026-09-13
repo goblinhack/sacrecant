@@ -280,7 +280,7 @@ static void wid_player_update_selections(Gamep g)
 
   {
     auto total_sac_points = wid_player_total_sac_points(g);
-    auto line             = string_sprintf("Sacrifical points (SPs) for spell casting       %d", total_sac_points);
+    auto line             = string_sprintf("Sacrificial points (SPs) for spell casting       %d", total_sac_points);
     wid_set_text_lhs(wid_total, 1u);
     wid_set_text(wid_total, line);
     wid_update(g, wid_total);

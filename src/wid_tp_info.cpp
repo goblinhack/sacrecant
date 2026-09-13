@@ -160,7 +160,7 @@
   }
 
   //
-  // Check for things mathing the dice roll first.
+  // Check for things matching the dice roll first.
   //
   for (const auto &d : me->special_attacks) {
     auto val = d.second;

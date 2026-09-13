@@ -86,7 +86,7 @@ static void usage()
   con(" # start on seed crowcod, level 10");
   con(" ./sacrecant --seed crowcod --level 10");
   con(" ");
-  con(" # start on seed crowcod, last level and at the level select meny");
+  con(" # start on seed crowcod, last level and at the level select menu");
   con(" ./sacrecant --seed crowcod --level 100 --level-select");
   con(" ");
   con("Written by goblinhack@gmail.com");

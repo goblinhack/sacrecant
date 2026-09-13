@@ -124,7 +124,7 @@
       goto exit;
     }
 
-    TEST_LOG(t, "check ths slot is empty");
+    TEST_LOG(t, "check the slot is empty");
     TRACE_INDENT();
 
     worn = thing_worn_get(g, v, l, player, WORN_TYPE_WEAPON);

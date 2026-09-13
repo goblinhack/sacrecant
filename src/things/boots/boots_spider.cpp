@@ -23,7 +23,7 @@ static auto tp_boots_spider_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) 
 {
   TRACE();
 
-  return UI_INFO1_FMT_STR "These black and chitinous boots will allow you to tread as lightly as a spider.\n"                   //
+  return UI_INFO1_FMT_STR "These black and chitinous boots will allow you to step as lightly as a spider.\n"                    //
       UI_INFO2_FMT_STR "More importantly, you will be better able to avoid being caught in traps and webs (*).\n"               //
       UI_INFO3_FMT_STR "And, your skin will take on a shiny and slightly disgusting chitinous sheen. But hey, defence bonus.\n" //
       UI_INFO4_FMT_STR "(*) Terms and conditions apply. Fumble rolls are still possible with traps...\n";

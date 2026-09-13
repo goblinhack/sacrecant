@@ -69,7 +69,7 @@ static const char *keys[ WID_KEYBOARD_DOWN ][ WID_KEYBOARD_ACROSS ] = {
         "i",
         "j",
         ";",
-        "CANCL",
+        "CANCL", // codespell:ignore
     },
     {
         "k",
@@ -223,7 +223,7 @@ static void wid_keyboard_event(Gamep g, Widp w, int focusx, int focusy, const SD
     (void) wid_receive_input(g, ctx->input, key_in);
   } else if (strcasecmp(add, "OK") == 0) {
     (ctx->selected)(g, ctx->w, wid_get_text(ctx->input));
-  } else if (strcasecmp(add, "CANCL") == 0) {
+  } else if (strcasecmp(add, "CANCL") == 0) { // codespell:ignore
     (ctx->cancelled)(g, ctx->w, wid_get_text(ctx->input));
   } else if (strcasecmp(add, "CLEAR") == 0) {
     for (;;) {
@@ -820,7 +820,7 @@ auto wid_keyboard(Gamep g, const std::string &text, const std::string &title, wi
 
         if (strcasecmp(keys[ y ][ x ], "CLEAR") == 0) {
           b = wid_new_cancel_button(g, button_container, "widget keyboard button");
-        } else if (strcasecmp(keys[ y ][ x ], "CANCL") == 0) {
+        } else if (strcasecmp(keys[ y ][ x ], "CANCL") == 0) { // codespell:ignore
           b = wid_new_cancel_button(g, button_container, "widget keyboard button");
         } else if (strcasecmp(keys[ y ][ x ], "OK") == 0) {
           b = wid_new_green_button(g, button_container, "widget keyboard button");

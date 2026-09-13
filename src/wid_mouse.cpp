@@ -839,7 +839,7 @@ void wid_mouse_motion(Gamep g, int x, int y, int relx, int rely, int wheelx, int
       //
     } else {
       //
-      // This widget reacted somehow when we went over it. i.e. popup ot
+      // This widget reacted somehow when we went over it. i.e. popup to
       // function.
       //
       over = 1U;

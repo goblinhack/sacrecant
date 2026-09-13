@@ -112,7 +112,7 @@
 #define SIZEOF(my_array) ((int) sizeof(my_array))
 
 //
-// Works around some parentheses warnings thast clang tidy ands and gcc doesn't like
+// Works around some parentheses warnings that clang tidy ands and gcc doesn't like
 //
 #define AUTO(a) auto a // NOLINT
 
