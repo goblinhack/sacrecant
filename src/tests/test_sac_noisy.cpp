@@ -99,7 +99,7 @@
     goto exit;
   }
 
-  TEST_ASSERT(t, thing_buff_add(g, v, l, player, tp_find_mand("sac_noisy")), "failed to add sacrifice");
+  TEST_ASSERT(t, thing_hook_add(g, v, l, player, tp_find_mand("sac_noisy")), "failed to add sacrifice");
 
   level_dump(g, v, l, w, h);
   TEST_PROGRESS(t);

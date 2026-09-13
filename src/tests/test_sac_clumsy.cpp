@@ -88,7 +88,7 @@
     }
   }
 
-  TEST_ASSERT(t, thing_buff_add(g, v, l1, player, tp_find_mand("sac_clumsy")), "failed to add sacrifice");
+  TEST_ASSERT(t, thing_hook_add(g, v, l1, player, tp_find_mand("sac_clumsy")), "failed to add sacrifice");
 
   for (auto tries = 0; tries < 8; tries++) {
     TEST_LOOP_PROGRESS(t, g, v, l1, tries, w, h);

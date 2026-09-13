@@ -49,7 +49,7 @@
 
   (void) thing_health_set(g, v, l, player, 1);
 
-  TEST_ASSERT(t, thing_buff_add(g, v, l, player, tp_find_mand("sac_poison_blood")), "failed to add sacrifice");
+  TEST_ASSERT(t, thing_hook_add(g, v, l, player, tp_find_mand("sac_poison_blood")), "failed to add sacrifice");
 
   level_dump(g, v, l, w, h);
   TEST_PROGRESS(t);

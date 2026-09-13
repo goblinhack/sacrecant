@@ -20,18 +20,14 @@ static auto tp_sac_blood_pact_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me
       UI_INFO2_FMT_STR                                                                                         //
       "Are you willing to deliver double damage and have the extra subtracted from your health and stamina?\n" //
       UI_INFO3_FMT_STR                                                                                         //
-      "In detail, if you hit for 5 damage, this is doubled to 10 damage.\n"                                    //
-      UI_INFO4_FMT_STR                                                                                         //
-      "In turn (5 / 2) (2 rounded down) is subtracted from both your health and stamina.\n"                    //
-      UI_INFO5_FMT_STR                                                                                         //
-      "Minimum damage subtracted is 1.\n";                                                                     //
+      "This extra damaga is taken from your health and stamina, split evenly.\n";                              //
 }
 
 static bool tp_sac_blood_pact_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp target, ThingEvent &e)
 {
   TRACE();
 
-  auto owner = thing_buff_owner_get(g, v, l, me);
+  auto owner = thing_hook_owner_get(g, v, l, me);
   if (! owner) {
     return true;
   }

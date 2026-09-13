@@ -1,24 +1,22 @@
 bugs
 ----
 ogrik anim
+sort order
 
 todo
 ----
 sacrifices
-  j one-legged:             can only jump, limited jump distance, easily exhausted                melee +400
-  k power-crazed:           rolls over 10 directed to damage         def -10                      melee +40
-  l 
-  m blood-feast:            absorb health from fleshy monsters / x2 damage-received from undead   melee +20
-  n 
+  improved-crit
   o hollow-bones:           fall-damage -50%   damage-received +50%  def -2                       melee +50
   p glass-bones:            fall-damage +100%  damage-received +50%  def -4  att +2               melee +70
+  j one-legged:             can only jump, limited jump distance, easily exhausted                melee +400
+  k power-crazed:           double damage given, double damage received (order vs blood pact?)
+  m blood-feast:            absorb health from fleshy monsters / x2 damage-received from undead   melee +20
   q random-failure:         effects like levitation and ethereal may fail randomly                melee +80
-  r 
-  s madness:                occasional random spell use                                           melee +100
-  t                                                                                               melee +200
   u wraith-like:            can walk through walls, but can never eat food to heal                melee +200
+  w cheap spells, but not stats
+  s madness:                occasional random spell use                                           melee +100
   v breathless:             gas weapons, no effect, but tire much quicker                         melee +30
-  w 
 essential
   - random monsts with difficulty
   - psi text mentions cutting costs of spells

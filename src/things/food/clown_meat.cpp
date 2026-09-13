@@ -59,7 +59,7 @@ static bool tp_clown_meat_on_eaten(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
     }
   }
 
-  if (thing_buff_add(g, v, l, user, tp_find_mand("buff_bad_luck"))) {
+  if (thing_hook_add(g, v, l, user, tp_find_mand("buff_bad_luck"))) {
     topcon("You feel dismal!");
   }
 

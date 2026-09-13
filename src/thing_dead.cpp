@@ -452,11 +452,11 @@ void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   // Detach buffs
   //
   if (thing_is_able_to_be_buffed(me)) {
-    (void) thing_buff_detach_all(g, v, l, me);
+    (void) thing_hook_detach_all(g, v, l, me);
   }
 
   if (thing_is_buff(me)) {
-    (void) thing_buff_detach_me_from_owner(g, v, l, me);
+    (void) thing_hook_detach_me_from_owner(g, v, l, me);
   }
 
   //

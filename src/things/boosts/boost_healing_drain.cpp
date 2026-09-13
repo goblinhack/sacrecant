@@ -27,7 +27,7 @@ static void tp_boost_healing_drain_tick_begin(Gamep g, Levelsp v, Levelp l, Thin
 {
   TRACE();
 
-  auto owner = thing_buff_owner_get(g, v, l, me);
+  auto owner = thing_hook_owner_get(g, v, l, me);
   if (! owner) {
     return;
   }

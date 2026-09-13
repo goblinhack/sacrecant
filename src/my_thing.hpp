@@ -51,9 +51,9 @@ using ThingIdPacked = union {
 #define THING_MINION_MAX    10
 
 /* begin shell marker1 */
-/* shell printf "#define THING_BUFF_MAX " */
+/* shell printf "#define THING_HOOK_MAX " */
 /* shell find . -name "*.cpp" | xargs grep "tp_flag_set(tp, is_buff);" | wc -l */
-#define THING_BUFF_MAX (THING_INVENTORY_MAX * 2)
+#define THING_HOOK_MAX (THING_INVENTORY_MAX * 2)
 /* end shell marker1 */
 
 //
@@ -159,15 +159,15 @@ using ThingMinions = struct ThingMinions {
 //
 // Buffs
 //
-using ThingBuff = struct ThingBuff {
-  ThingId buff_id;
+using ThingHook = struct ThingHook {
+  ThingId hook_id;
 };
 
 //
-// Per monster/player buffs
+// Per monster/player hooks
 //
-using ThingBuffs = struct ThingBuffs {
-  ThingBuff buff[ THING_BUFF_MAX ];
+using ThingHooks = struct ThingHooks {
+  ThingHook hook[ THING_HOOK_MAX ];
   int8_t    count;
 };
 
@@ -221,9 +221,9 @@ using ThingExt = struct ThingExt {
   //
   ThingMissiles missiles;
   //
-  // All buffs active for this thing
+  // All hooks active for this thing
   //
-  ThingBuffs buffs;
+  ThingHooks hooks;
   //
   // Can be per monster or shared per mob memory of the preferred target,
   // usually the player.
@@ -625,7 +625,7 @@ using Thing = struct Thing {
   //
   // If buffed, attached to who
   //
-  ThingId buff_owner_id;
+  ThingId hook_owner_id;
   //
   // If this is a thing that is tied to other things, e.g. a bridge tile then
   // they all share this id; which is the id of the first thing in the group
@@ -716,10 +716,10 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_auto_wear_try(Gamep g, Levelsp v, Levelp l, Thingp owner, Thingp item, ThingEvent &e) -> bool;
 [[nodiscard]] auto thing_beam_weapon_fire_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what, bpoint target) -> bool;
 [[nodiscard]] auto thing_beam_weapon_fire_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what, fpoint target) -> bool;
-[[nodiscard]] auto thing_buff_add(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what) -> Thingp;
-[[nodiscard]] auto thing_buff_detach_all(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
-[[nodiscard]] auto thing_buff_detach_me_from_owner(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
-[[nodiscard]] auto thing_buff_owner_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> Thingp;
+[[nodiscard]] auto thing_hook_add(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what) -> Thingp;
+[[nodiscard]] auto thing_hook_detach_all(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
+[[nodiscard]] auto thing_hook_detach_me_from_owner(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
+[[nodiscard]] auto thing_hook_owner_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> Thingp;
 [[nodiscard]] auto thing_can_move_to_ai(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool;
 [[nodiscard]] auto thing_can_move_to_attempt_by_engulfing(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool;
 [[nodiscard]] auto thing_can_move_to_attempt_by_opening(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool;
@@ -1664,51 +1664,51 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
 //
 // NOTE: break will not work
 //
-#define FOR_ALL_HOOKS_SLOTS(_g_, _v_, _l_, _owner_, _slot_, _buff_)                                                                             \
+#define FOR_ALL_HOOKS_SLOTS(_g_, _v_, _l_, _owner_, _slot_, _hook_)                                                                             \
   if ((_g_) && (_v_) && (_l_))                                                                                                                  \
     if (AUTO(_ext_) = thing_ext_struct(_g_, _v_, _owner_))                                                                                      \
-      for (auto _n_ = 0; _n_ < THING_BUFF_MAX; _n_++)                                                                                           \
-        for (AUTO(_slot_) = &_ext_->buffs.buff[ _n_ ]; _slot_; (_slot_) = nullptr)                                                              \
-          for (AUTO(_buff_) = thing_find_optional(g, v, (_slot_)->buff_id), loop2 = (Thingp) 1; loop2 == (Thingp) 1; loop2 = (Thingp) 0)
+      for (auto _n_ = 0; _n_ < THING_HOOK_MAX; _n_++)                                                                                           \
+        for (AUTO(_slot_) = &_ext_->hooks.hook[ _n_ ]; _slot_; (_slot_) = nullptr)                                                              \
+          for (AUTO(_hook_) = thing_find_optional(g, v, (_slot_)->hook_id), loop2 = (Thingp) 1; loop2 == (Thingp) 1; loop2 = (Thingp) 0)
 
-#define FOR_ALL_HOOKS(_g_, _v_, _l_, _owner_, _buff_)                                                                                           \
+#define FOR_ALL_HOOKS(_g_, _v_, _l_, _owner_, _hook_)                                                                                           \
   if ((_g_) && (_v_) && (_l_))                                                                                                                  \
     if (AUTO(_ext_) = thing_ext_struct(_g_, _v_, _owner_))                                                                                      \
-      for (auto _n_ = 0; _n_ < THING_BUFF_MAX; _n_++)                                                                                           \
-        if (AUTO(_slot_) = &_ext_->buffs.buff[ _n_ ])                                                                                           \
-          if (AUTO(_buff_) = thing_find_optional(g, v, _slot_->buff_id))
+      for (auto _n_ = 0; _n_ < THING_HOOK_MAX; _n_++)                                                                                           \
+        if (AUTO(_slot_) = &_ext_->hooks.hook[ _n_ ])                                                                                           \
+          if (AUTO(_hook_) = thing_find_optional(g, v, _slot_->hook_id))
 
-#define FOR_ALL_BUFFS(_g_, _v_, _l_, _owner_, _buff_)                                                                                           \
+#define FOR_ALL_BUFFS(_g_, _v_, _l_, _owner_, _hook_)                                                                                           \
   if ((_g_) && (_v_) && (_l_))                                                                                                                  \
     if (AUTO(_ext_) = thing_ext_struct(_g_, _v_, _owner_))                                                                                      \
-      for (auto _n_ = 0; _n_ < THING_BUFF_MAX; _n_++)                                                                                           \
-        if (AUTO(_slot_) = &_ext_->buffs.buff[ _n_ ])                                                                                           \
-          if (AUTO(_buff_) = thing_find_optional(g, v, _slot_->buff_id))                                                                        \
-            if (thing_is_buff(_buff_))
+      for (auto _n_ = 0; _n_ < THING_HOOK_MAX; _n_++)                                                                                           \
+        if (AUTO(_slot_) = &_ext_->hooks.hook[ _n_ ])                                                                                           \
+          if (AUTO(_hook_) = thing_find_optional(g, v, _slot_->hook_id))                                                                        \
+            if (thing_is_buff(_hook_))
 
-#define FOR_ALL_DEBUFFS(_g_, _v_, _l_, _owner_, _buff_)                                                                                         \
+#define FOR_ALL_DEBUFFS(_g_, _v_, _l_, _owner_, _hook_)                                                                                         \
   if ((_g_) && (_v_) && (_l_))                                                                                                                  \
     if (AUTO(_ext_) = thing_ext_struct(_g_, _v_, _owner_))                                                                                      \
-      for (auto _n_ = 0; _n_ < THING_BUFF_MAX; _n_++)                                                                                           \
-        if (AUTO(_slot_) = &_ext_->buffs.buff[ _n_ ])                                                                                           \
-          if (AUTO(_buff_) = thing_find_optional(g, v, _slot_->buff_id))                                                                        \
-            if (thing_is_debuff(_buff_))
+      for (auto _n_ = 0; _n_ < THING_HOOK_MAX; _n_++)                                                                                           \
+        if (AUTO(_slot_) = &_ext_->hooks.hook[ _n_ ])                                                                                           \
+          if (AUTO(_hook_) = thing_find_optional(g, v, _slot_->hook_id))                                                                        \
+            if (thing_is_debuff(_hook_))
 
-#define FOR_ALL_SACRIFICES(_g_, _v_, _l_, _owner_, _buff_)                                                                                      \
+#define FOR_ALL_SACRIFICES(_g_, _v_, _l_, _owner_, _hook_)                                                                                      \
   if ((_g_) && (_v_) && (_l_))                                                                                                                  \
     if (AUTO(_ext_) = thing_ext_struct(_g_, _v_, _owner_))                                                                                      \
-      for (auto _n_ = 0; _n_ < THING_BUFF_MAX; _n_++)                                                                                           \
-        if (AUTO(_slot_) = &_ext_->buffs.buff[ _n_ ])                                                                                           \
-          if (AUTO(_buff_) = thing_find_optional(g, v, _slot_->buff_id))                                                                        \
-            if (thing_is_sacrifice(_buff_))
+      for (auto _n_ = 0; _n_ < THING_HOOK_MAX; _n_++)                                                                                           \
+        if (AUTO(_slot_) = &_ext_->hooks.hook[ _n_ ])                                                                                           \
+          if (AUTO(_hook_) = thing_find_optional(g, v, _slot_->hook_id))                                                                        \
+            if (thing_is_sacrifice(_hook_))
 
-#define FOR_ALL_BOOSTS(_g_, _v_, _l_, _owner_, _buff_)                                                                                          \
+#define FOR_ALL_BOOSTS(_g_, _v_, _l_, _owner_, _hook_)                                                                                          \
   if ((_g_) && (_v_) && (_l_))                                                                                                                  \
     if (AUTO(_ext_) = thing_ext_struct(_g_, _v_, _owner_))                                                                                      \
-      for (auto _n_ = 0; _n_ < THING_BUFF_MAX; _n_++)                                                                                           \
-        if (AUTO(_slot_) = &_ext_->buffs.buff[ _n_ ])                                                                                           \
-          if (AUTO(_buff_) = thing_find_optional(g, v, _slot_->buff_id))                                                                        \
-            if (thing_is_boost(_buff_))
+      for (auto _n_ = 0; _n_ < THING_HOOK_MAX; _n_++)                                                                                           \
+        if (AUTO(_slot_) = &_ext_->hooks.hook[ _n_ ])                                                                                           \
+          if (AUTO(_hook_) = thing_find_optional(g, v, _slot_->hook_id))                                                                        \
+            if (thing_is_boost(_hook_))
 
 //
 // NOTE: break will not work

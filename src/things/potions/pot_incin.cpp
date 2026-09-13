@@ -93,11 +93,11 @@ static bool tp_pot_incin_on_use(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp 
   if (thing_is_player(user)) {
     auto roll = d100();
     if (roll < 10) {
-      if (thing_buff_add(g, v, l, user, tp_find_mand("buff_immune_fire"))) {
+      if (thing_hook_add(g, v, l, user, tp_find_mand("buff_immune_fire"))) {
         topcon("Pleasing flames engulf you!");
       }
     } else if (roll < 20) {
-      if (thing_buff_add(g, v, l, user, tp_find_mand("buff_resistant_fire"))) {
+      if (thing_hook_add(g, v, l, user, tp_find_mand("buff_resistant_fire"))) {
         topcon("Flames engulf you, but you seem oddly calm");
       }
     } else {

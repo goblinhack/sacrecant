@@ -21,7 +21,7 @@ static void tp_poison_on_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
 
-  auto owner = thing_buff_owner_get(g, v, l, me);
+  auto owner = thing_hook_owner_get(g, v, l, me);
   if (owner) {
     (void) thing_attack_poison(g, v, l, owner);
   }

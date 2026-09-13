@@ -71,7 +71,7 @@ static bool tp_pot_tireless_on_use(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
     }
   }
 
-  (void) thing_buff_add(g, v, l, user, tp_find_mand("buff_tireless"));
+  (void) thing_hook_add(g, v, l, user, tp_find_mand("buff_tireless"));
 
   return true;
 }

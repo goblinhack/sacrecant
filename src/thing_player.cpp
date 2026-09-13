@@ -67,7 +67,7 @@ void thing_player_init(Gamep g)
   // Add the chosen sacrifice
   //
   for (auto *chosen_sacrifice : game_chosen_sacrifice_get(g)) {
-    if (thing_buff_add(g, v, l, player, chosen_sacrifice) == nullptr) {
+    if (thing_hook_add(g, v, l, player, chosen_sacrifice) == nullptr) {
       return false;
     }
   }
@@ -76,7 +76,7 @@ void thing_player_init(Gamep g)
   // Add the chosen boosts
   //
   for (auto *chosen_boost : game_chosen_boost_get(g)) {
-    if (thing_buff_add(g, v, l, player, chosen_boost) == nullptr) {
+    if (thing_hook_add(g, v, l, player, chosen_boost) == nullptr) {
       return false;
     }
   }

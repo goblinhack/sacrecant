@@ -47,7 +47,7 @@
     goto exit;
   }
 
-  TEST_ASSERT(t, thing_buff_add(g, v, l, player, tp_find_mand("sac_sickly_health")), "failed to add sacrifice");
+  TEST_ASSERT(t, thing_hook_add(g, v, l, player, tp_find_mand("sac_sickly_health")), "failed to add sacrifice");
 
   TEST_ASSERT(t, thing_health(g, v, l, player) == 90, "expecting lower health");
 

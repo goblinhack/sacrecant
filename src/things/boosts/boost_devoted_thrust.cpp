@@ -27,7 +27,7 @@ static bool tp_boost_devoted_thrust_on_attacking(Gamep g, Levelsp v, Levelp l, T
 {
   TRACE();
 
-  auto attacker = thing_buff_owner_get(g, v, l, me);
+  auto attacker = thing_hook_owner_get(g, v, l, me);
   if (! attacker) {
     return true;
   }

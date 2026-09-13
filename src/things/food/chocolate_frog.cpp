@@ -46,7 +46,7 @@ static bool tp_chocolate_frog_on_eaten(Gamep g, Levelsp v, Levelp l, Thingp me, 
     }
   }
 
-  if (thing_buff_add(g, v, l, user, tp_find_mand("buff_good_luck"))) {
+  if (thing_hook_add(g, v, l, user, tp_find_mand("buff_good_luck"))) {
     topcon("You feel lucky!");
   }
 

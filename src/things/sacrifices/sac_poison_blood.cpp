@@ -31,7 +31,7 @@ static void tp_sac_poison_blood_on_tick_begin(Gamep g, Levelsp v, Levelp l, Thin
     return;
   }
 
-  auto owner = thing_buff_owner_get(g, v, l, me);
+  auto owner = thing_hook_owner_get(g, v, l, me);
   if (! owner) {
     return;
   }

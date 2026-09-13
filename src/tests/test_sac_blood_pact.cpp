@@ -71,7 +71,7 @@
     goto exit;
   }
 
-  TEST_ASSERT(t, thing_buff_add(g, v, l, player, tp_find_mand("sac_blood_pact")), "failed to add sacrifice");
+  TEST_ASSERT(t, thing_hook_add(g, v, l, player, tp_find_mand("sac_blood_pact")), "failed to add sacrifice");
 
   FOR_ALL_THINGS_AT(g, v, l, it, thing_at(g, v, l, player) + bpoint(1, 0))
   {

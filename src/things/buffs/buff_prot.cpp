@@ -26,7 +26,7 @@ static bool tp_buff_prot_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
     return true; // allow the damage to be applied
   }
 
-  auto owner        = thing_buff_owner_get(g, v, l, me);
+  auto owner        = thing_hook_owner_get(g, v, l, me);
   auto lifespan     = thing_lifespan(g, v, l, me);
   auto new_lifespan = thing_lifespan_decr(g, v, l, me, e.damage);
 

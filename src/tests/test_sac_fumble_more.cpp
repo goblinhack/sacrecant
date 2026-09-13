@@ -56,7 +56,7 @@
     }
   }
 
-  TEST_ASSERT(t, thing_buff_add(g, v, l, player, tp_find_mand("sac_fumble_more")), "failed to add sacrifice");
+  TEST_ASSERT(t, thing_hook_add(g, v, l, player, tp_find_mand("sac_fumble_more")), "failed to add sacrifice");
 
   TEST_ASSERT(t, 2 <= thing_fumble_roll(g, v, l, player), "expected fumble");
 

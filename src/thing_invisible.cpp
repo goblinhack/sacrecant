@@ -63,7 +63,7 @@
     return false;
   }
 
-  if (thing_buff_add(g, v, l, me, tp_find_mand("buff_invis")) == nullptr) {
+  if (thing_hook_add(g, v, l, me, tp_find_mand("buff_invis")) == nullptr) {
     return false;
   }
 
