@@ -9,7 +9,7 @@
 #include "my_types.hpp"
 
 //
-// Poison tbe poor thing
+// Poison the poor thing
 //
 auto thing_attack_poison(Gamep g, Levelsp v, Levelp l, Thingp it) -> bool
 {

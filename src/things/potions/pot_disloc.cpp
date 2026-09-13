@@ -69,7 +69,7 @@ static void tp_pot_disloc_on_thrown_end(Gamep g, Levelsp v, Levelp l, Thingp me,
   }
 
   //
-  // Try to teleport anythign else at the thrown location first.
+  // Try to teleport anything else at the thrown location first.
   //
   if (! got_one) {
     FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, at)

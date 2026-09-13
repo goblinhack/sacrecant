@@ -72,7 +72,7 @@ static void thing_bridge_replace(Gamep g, Levelsp v, Levelp l, Thingp me)
       }
     } else {
       //
-      // If nothing we can gather from the surronds, default to chasm
+      // If nothing we can gather from the surrounds, default to chasm
       //
       if (! level_is_chasm_bool(g, v, l, thing_at(g, v, l, me))) {
         (void) thing_spawn(g, v, l, tp_first(is_chasm), me);

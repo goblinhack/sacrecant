@@ -223,7 +223,7 @@ void wid_set_on_mouse_over_end(Widp w, on_mouse_over_end_t fn)
   w->on_mouse_over_end = fn;
 }
 
-[[nodiscard]] auto wid_scroll_trough_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+[[nodiscard]] auto wid_scroll_pit_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
 

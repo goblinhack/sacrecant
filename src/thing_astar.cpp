@@ -207,7 +207,7 @@ void Astar::remove_from_open(Node *n)
   // This can create wiggles in the path as we're always looking at the distance
   // to the end point, and sometimes a diagonal move is closer.
   //
-  // Euclidian
+  // Euclidean
   return sort_distance(dst, at);
   //
   // Chebyshev for octagonal movement

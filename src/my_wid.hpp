@@ -117,7 +117,7 @@ using on_display_t           = void (*)(Gamep, Widp, spoint tl, spoint br);
 [[nodiscard]] auto wid_is_hidden(Widp w) -> bool;
 [[nodiscard]] auto wid_is_visible(Widp w) -> bool;
 [[nodiscard]] auto wid_receive_input(Gamep g, Widp w, const SDL_Keysym *key) -> bool;
-[[nodiscard]] auto wid_scroll_trough_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool;
+[[nodiscard]] auto wid_scroll_pit_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool;
 [[nodiscard]] auto wid_some_recent_event_occurred() -> bool;
 [[nodiscard]] auto wid_scroll_motion(Gamep g, Widp w, int x, int y, int relx, int rely, int wheelx, int wheely) -> bool;
 

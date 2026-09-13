@@ -445,7 +445,7 @@ static void room_gen_add_corridor(RoomGen *grid)
 }
 
 //
-// Inspired by brogue desing
+// Inspired by brogue design
 //
 static void room_gen_design_cross_room(RoomGen *grid)
 {
@@ -476,7 +476,7 @@ static void room_gen_design_cross_room(RoomGen *grid)
 }
 
 //
-// Inspired by brogue desing
+// Inspired by brogue design
 //
 static void room_gen_design_cross_room_symmetrical(RoomGen *grid)
 {
@@ -784,7 +784,7 @@ static void room_gen_add_fragments(Gamep g, class RoomGen *r)
   }
 
   //
-  // Always ensure we have a contiguous blob. If we have two seperate room fragments,
+  // Always ensure we have a contiguous blob. If we have two separate room fragments,
   // this will end up with only one.
   //
   room_gen_keep_largest_chunk(g, &r);

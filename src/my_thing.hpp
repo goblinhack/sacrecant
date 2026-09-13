@@ -557,7 +557,7 @@ using Thing = struct Thing {
   int16_t _mana_max;
   int16_t _mana;
   //
-  // Sacrifical points for spell purchase
+  // Sacrificial points for spell purchase
   //
   int16_t _sac_points_max;
   int16_t _sac_points;

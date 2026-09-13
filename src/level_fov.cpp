@@ -57,7 +57,7 @@ static const short matrix_table[ 8 ][ 4 ] = {
 };
 
 //
-// Cast visiblity using shadowcasting.
+// Cast visibility using shadowcasting.
 //
 static void level_fov_do(const short       distance_from_origin, // Polar distance_from_origin from POV.
                          float             view_slope_high,      //
@@ -174,7 +174,7 @@ static void level_fov_do(const short       distance_from_origin, // Polar distan
 }
 
 //
-// Cast visiblity using shadowcasting.
+// Cast visibility using shadowcasting.
 //
 static void level_fov_do(const short octant, const FovContext &ctx)
 {

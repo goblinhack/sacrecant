@@ -242,18 +242,18 @@ static auto thing_monst_choose_target_player(Gamep g, Levelsp v, Levelp l, Thing
       // But silent?
       //
       if (can_hear) {
-        THING_DBG(g, v, l, me, "choose target: cannot see invisibile, but can hear player");
+        THING_DBG(g, v, l, me, "choose target: cannot see invisible, but can hear player");
       } else if (thing_monst_can_hear_player_nearby(g, v, l, me)) {
-        THING_DBG(g, v, l, me, "choose target: cannot see invisibile, but can hear player nearby");
+        THING_DBG(g, v, l, me, "choose target: cannot see invisible, but can hear player nearby");
         return true;
       } else {
-        THING_DBG(g, v, l, me, "choose target: cannot see invisibile and cannot hear player");
+        THING_DBG(g, v, l, me, "choose target: cannot see invisible and cannot hear player");
 
         if (adjacent(me->attacked_at, at)) {
           if (level_is_player_bool(g, v, l, me->attacked_at)) {
-            THING_DBG(g, v, l, me, "choose target: cannot see invisibile but player is still here");
+            THING_DBG(g, v, l, me, "choose target: cannot see invisible but player is still here");
           } else {
-            THING_DBG(g, v, l, me, "choose target: cannot see invisibile and player is gone");
+            THING_DBG(g, v, l, me, "choose target: cannot see invisible and player is gone");
             return false;
           }
         } else {

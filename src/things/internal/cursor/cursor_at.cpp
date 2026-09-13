@@ -39,7 +39,7 @@ static auto tp_cursor_at_display_get_tile_info(Gamep g, Levelsp v, Levelp l, con
   }
 
   //
-  // Targetting?
+  // Targeting?
   //
   if (game_state(g) == STATE_THROW_ITEM) {
     if (distance(p, thing_at(g, v, l, player)) > thing_distance_throw(g, v, l, player)) {

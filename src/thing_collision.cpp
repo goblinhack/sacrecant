@@ -272,7 +272,7 @@ static void thing_collision_sort_cands(Gamep g, Levelsp v, Levelp l, Thingp me, 
 }
 
 //
-// Do accurate hit box collision detection for this interpolated postion
+// Do accurate hit box collision detection for this interpolated position
 //
 static auto thing_collision_check(Gamep g, Levelsp v, Levelp l, Thingp me, const fpoint &interp_at_f, Thingp obstacle) -> bool
 {
@@ -660,7 +660,7 @@ void thing_collision_handle(Gamep g, Levelsp v, Levelp l, Thingp me)
   }
 
   //
-  // Weapons handled seperately.
+  // Weapons handled separately.
   //
   if (thing_is_projectile(me)) {
     return;
@@ -843,7 +843,7 @@ static auto thing_collision_interplolated_process_candidates(Gamep g, Levelsp v,
 }
 
 //
-// Do accurate hit box collision detection for this interpolated postion
+// Do accurate hit box collision detection for this interpolated position
 //
 static void thing_collision_handle_interpolated_delta(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &collision_at,
                                                       const fpoint &interp_at_f, ThingCands &cands)
@@ -918,7 +918,7 @@ void thing_collision_handle_interpolated(Gamep g, Levelsp v, Levelp l, Thingp me
         bpoint const collision_at(interp_at.x + dx, interp_at.y + dy);
 
         //
-        // Do accurate hit box collision detection for this interpolated postion
+        // Do accurate hit box collision detection for this interpolated position
         //
         thing_collision_handle_interpolated_delta(g, v, l, me, collision_at, interp_at_f, cands);
 

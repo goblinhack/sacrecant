@@ -66,7 +66,7 @@ static void level_blit_light(Gamep g, Levelsp v, Levelp l, color c)
     br2.y += visible_map_tl_y;
 
     //
-    // glScissor co-ordinates are inverted
+    // glScissor coordinates are inverted
     //
     auto y = game_window_pix_height_get(g) - visible_map_br_y;
     auto w = visible_map_br_x - visible_map_tl_x;
@@ -634,7 +634,7 @@ static void level_display_fbos(Gamep g, Levelsp v, Levelp level_above, Levelp l)
   //
   if (level_above != nullptr) {
     //
-    // This is the level below. We only need to show visibile tiles.
+    // This is the level below. We only need to show visible tiles.
     //
     blit_fbo_bind(FBO_FULL_SCREEN_LEVEL_BELOW);
     {

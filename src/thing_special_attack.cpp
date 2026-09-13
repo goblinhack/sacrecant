@@ -60,7 +60,7 @@ auto thing_special_attack_get_random(Gamep g, Levelsp v, Levelp l, Thingp attack
   }
 
   //
-  // Check for things mathing the dice roll first.
+  // Check for things matching the dice roll first.
   //
   for (const auto &d : filtered) {
     if (d.d100 == 0U) {

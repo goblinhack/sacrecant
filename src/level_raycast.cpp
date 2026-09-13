@@ -62,7 +62,7 @@ public:
   FboEnum fbo {FBO_NONE};
 
   //
-  // The lenght of each ray when it is cast
+  // The length of each ray when it is cast
   //
   Ray rays[ LIGHT_MAX_RAYS_MAX ] {};
 

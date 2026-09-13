@@ -60,7 +60,7 @@ PRECOMPILED_H_OBJ := $(PRECOMPILED_H).gch
 
 #
 # Precompiled headers are good for the initial build, but after that it
-# is faster to use dependancies
+# is faster to use dependencies
 #
 ifeq ($(origin USE_PRECOMPILED),undefined)
 

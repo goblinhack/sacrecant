@@ -812,7 +812,7 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
       auto o = o_in.find(lp.c);
       if (o != o_in.end()) {
         //
-        // Allow some characters to be overriden. e.g. to place a specific monster
+        // Allow some characters to be overridden. e.g. to place a specific monster
         //
         tp = (o->second)(lp.c, lp.at);
         if (tp == nullptr) [[unlikely]] {

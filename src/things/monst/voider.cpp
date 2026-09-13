@@ -35,7 +35,7 @@ static auto tp_voider_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std
       UI_INFO2_FMT_STR                                                                                                    //
       "A floating mass of tendrils, their main attack is to engulf their prey and digest them slowly.\n"                  //
       UI_INFO3_FMT_STR                                                                                                    //
-      "Even in death, the voider is dangerous as they have a tendancy to obvliviate their surroundings when destroyed.\n" //
+      "Even in death, the voider is dangerous as they have a tendency to obvliviate their surroundings when destroyed.\n" //
       UI_INFO4_FMT_STR                                                                                                    //
       "Remember the wise saying, 'best avoid a voider'\n";                                                                //
 }

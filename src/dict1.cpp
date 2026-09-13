@@ -160,7 +160,7 @@ static const char *dict1_names[] = {
     /* newline */ "raven",
     /* newline */ "realm",
     /* newline */ "rose",
-    /* newline */ "rouge",
+    /* newline */ "rogue",
     /* newline */ "rune",
     /* newline */ "sage",
     /* newline */ "sandman",

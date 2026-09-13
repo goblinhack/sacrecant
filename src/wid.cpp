@@ -2551,7 +2551,7 @@ void wid_destroy_in(Gamep g, Widp w, uint32_t ms)
 //
 // Initialize a wid with basic settings
 //
-static auto wid_new_scroll_trough(Widp parent) -> Widp
+static auto wid_new_scroll_pit(Widp parent) -> Widp
 {
   TRACE();
 
@@ -2575,7 +2575,7 @@ static auto wid_new_scroll_trough(Widp parent) -> Widp
     wid_set_color(w, WID_COLOR_BG, c);
   }
 
-  wid_set_on_mouse_down(w, wid_scroll_trough_mouse_down);
+  wid_set_on_mouse_down(w, wid_scroll_pit_mouse_down);
   wid_set_on_mouse_motion(w, wid_scroll_motion);
   wid_set_shape_square(w);
 
@@ -2699,7 +2699,7 @@ static auto wid_new_scroll_bar(Gamep g, Widp parent, const std::string &name, Wi
   vert_tl.y = tly - ptly;
   vert_br.y = tly - ptly + wid_get_height(scrollbar_owner) - 1;
 
-  Widp trough = wid_new_scroll_trough(parent);
+  Widp trough = wid_new_scroll_pit(parent);
   wid_set_pos(trough, vert_tl, vert_br);
   wid_set_shape_square(trough);
   wid_set_style(trough, UI_WID_STYLE_VERT_SCROLL_DARK);
@@ -2761,7 +2761,7 @@ static auto wid_new_scroll_bar(Gamep g, Widp parent, const std::string &name, Wi
   horiz_tl.y = tly - ptly + wid_get_height(scrollbar_owner);
   horiz_br.y = horiz_tl.y;
 
-  Widp trough = wid_new_scroll_trough(parent);
+  Widp trough = wid_new_scroll_pit(parent);
   wid_set_pos(trough, horiz_tl, horiz_br);
   wid_set_shape_square(trough);
   wid_set_style(trough, UI_WID_STYLE_HORIZ_SCROLL_DARK);

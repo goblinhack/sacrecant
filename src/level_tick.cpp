@@ -216,7 +216,7 @@ static void level_tick(Gamep g, Levelsp v, Levelp l, bool tick_begin_requested)
 
     //
     // For things like projectiles, we need to handle teleport and water checks
-    // amonst others in the tick body as they move too fast and the projectile
+    // amongst others in the tick body as they move too fast and the projectile
     // can miss being teleported.
     //
 
@@ -932,7 +932,7 @@ static void level_tick_all(Gamep g, Levelsp v)
 
 //
 // We need to keep track of how many ticks have ended and how many still run.
-// This is really needed for tests to know when a test is complet.
+// This is really needed for tests to know when a test is complete.
 //
 static void level_tick_monitor_progress(Gamep g, Levelsp v, Levelp current_level)
 {
@@ -998,7 +998,7 @@ void levels_tick(Gamep g, Levelsp v)
 
   //
   // We need to keep track of how many ticks have ended and how many still run.
-  // This is really needed for tests to know when a test is complet.
+  // This is really needed for tests to know when a test is complete.
   //
   level_tick_monitor_progress(g, v, current_level);
 

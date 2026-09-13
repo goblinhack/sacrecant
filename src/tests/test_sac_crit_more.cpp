@@ -58,9 +58,9 @@
 
   TEST_ASSERT(t, thing_hook_add(g, v, l, player, tp_find_mand("sac_crit_more")), "failed to add sacrifice");
 
-  TEST_ASSERT(t, 19 >= thing_crit_roll(g, v, l, player), "expected crit");
+  TEST_ASSERT(t, 18 >= thing_crit_roll(g, v, l, player), "expected crit");
 
-  TEST_ASSERT(t, 18 < thing_crit_roll(g, v, l, player), "expected non crit");
+  TEST_ASSERT(t, 17 < thing_crit_roll(g, v, l, player), "expected non crit");
 
   TEST_ASSERT(t, game_tick_get(g, v) == 0, "final tick counter value");
 

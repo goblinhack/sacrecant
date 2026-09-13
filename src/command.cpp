@@ -23,50 +23,50 @@
  * Simple console expanding code, takes a command input and expands it as
  * much as possible to installed commands.
  *
- * Ambigious command : []
+ * Ambiguous command : []
  *  Possible match   : set god-mode off
  *  Possible match   : set god-mode on
  *  Possible match   : set debug off
  *  Possible match   : set debug on
  *   Expand to       :
  *
- * Ambigious command : [s]
+ * Ambiguous command : [s]
  *  Possible match   : set god-mode off
  *  Possible match   : set god-mode on
  *  Possible match   : set debug off
  *  Possible match   : set debug on
  *   Expand to       : set
  *
- * Ambigious command : [se]
+ * Ambiguous command : [se]
  *  Possible match   : set god-mode off
  *  Possible match   : set god-mode on
  *  Possible match   : set debug off
  *  Possible match   : set debug on
  *   Expand to       : set
  *
- * Ambigious command : [set]
+ * Ambiguous command : [set]
  *  Possible match   : set god-mode off
  *  Possible match   : set god-mode on
  *  Possible match   : set debug off
  *  Possible match   : set debug on
  *   Expand to       : set
  *
- * Ambigious command : [set d]
+ * Ambiguous command : [set d]
  *  Possible match   : set debug off
  *  Possible match   : set debug on
  *   Expand to       : set debug
  *
- * Ambigious command : [set g]
+ * Ambiguous command : [set g]
  *  Possible match   : set god-mode off
  *  Possible match   : set god-mode on
  *   Expand to       : set god-mode
  *
- * Ambigious command : [s g ]
+ * Ambiguous command : [s g ]
  *  Possible match   : set god-mode off
  *  Possible match   : set god-mode on
  *   Expand to       : set god-mode
  *
- * Ambigious command : [s g o]
+ * Ambiguous command : [s g o]
  *  Possible match   : set god-mode off
  *  Possible match   : set god-mode on
  *   Expand to       : set god-mode o
@@ -74,7 +74,7 @@
  * Single match      : [s g of]
  *  Completes to     : set god-mode off
  *
- * Ambigious command : [s d]
+ * Ambiguous command : [s d]
  *  Possible match   : set debug off
  *  Possible match   : set debug on
  *   Expand to       : set debug

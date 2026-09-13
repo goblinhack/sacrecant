@@ -59,7 +59,7 @@ public:
   int pix_height {};
 
   //
-  // Texture co-ordinates within the image.
+  // Texture coordinates within the image.
   //
   float x1 {};
   float y1 {};

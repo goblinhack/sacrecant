@@ -16,9 +16,9 @@ static auto tp_sac_crit_more_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me)
   return UI_INFO1_FMT_STR                                                                                          //
       "Dice rolls are the core of this game and most are done on d20s. 20 means a critical hit. 1 means fumble.\n" //
       UI_INFO2_FMT_STR                                                                                             //
-      "With this sacrifice, 18, 19 and 20 result in a crit, which will increase your cances of double damage."     //
+      "With this sacrifice, 18, 19 and 20 result in a crit, which will increase your chances of double damage.\n"  //
       UI_INFO3_FMT_STR                                                                                             //
-      "The downside. Most of your stats are bad. I lie. They're all bad!";                                         //
+      "The downside? Most of your stats are bad. I lie. They're all bad!\n";                                       //
 }
 
 [[nodiscard]] auto tp_load_sac_crit_more() -> bool
@@ -43,7 +43,7 @@ static auto tp_sac_crit_more_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_stat_set(tp, THING_STAT_DEX, "1d8");
   tp_stat_set(tp, THING_STAT_PSI, "1d8");
   tp_stat_set(tp, THING_STAT_LUCK, "1d8");
-  tp_name_long_set(tp, "crit-tastic");
+  tp_name_long_set(tp, "improved crit");
   // end sort marker1 }
 
   return true;

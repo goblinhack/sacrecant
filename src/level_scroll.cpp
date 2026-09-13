@@ -309,7 +309,7 @@ void level_scroll_warp_to_focus(Gamep g, Levelsp v, Levelp l)
   v->pixel_map_at.y -= game_map_fbo_height_get(g) / 2;
 
   //
-  // Accomodate half the player tile size
+  // Accommodate half the player tile size
   //
   auto *player = thing_player(g);
   if (player != nullptr) {

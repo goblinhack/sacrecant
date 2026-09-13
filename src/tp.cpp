@@ -28,7 +28,7 @@
 #include <vector>
 
 //
-// Templates can be assigned dynamic IDs - however the levels are more reproducable it
+// Templates can be assigned dynamic IDs - however the levels are more reproducible it
 // they have fixed numbers. This list helps to achieve that. It is optional for a template
 // to be in this list
 //

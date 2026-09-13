@@ -505,7 +505,7 @@ void game_init(Gamep g) { g->init(); }
   //
   g->seed_set(TEST_SEED);
 
-  g->player_name_set("Ser Testalot");
+  g->player_name_set("Set Testalot");
 
   auto *v = game_levels_set(g, levels_memory_alloc(g));
 
@@ -848,7 +848,7 @@ void Game::player_name_set(const char *maybe_player_name)
   } else if (! config.player_name.empty()) {
     con("Set player name '%s' from previous load", config.player_name.c_str());
   } else {
-    config.player_name = "Ser Deadalot";
+    config.player_name = "Set Deadalot";
     con("Set default player name '%s'", config.player_name.c_str());
   }
 }
@@ -896,7 +896,7 @@ void Game::create_levels()
   level_select_grid_of_empty_levels(g);
 
   //
-  // We shuld have levels memory now
+  // We should have levels memory now
   //
   auto *v = game_levels_get(g);
   if (v == nullptr) [[unlikely]] {

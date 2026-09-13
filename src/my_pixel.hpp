@@ -44,7 +44,7 @@ static inline void unlock(SDL_Surface *surface)
 
 //
 // This function sets the specified color on a SDL_Surface. Sanity checks are
-// performed on the co-ordinates and the SDL_Surface is locked for you.
+// performed on the coordinates and the SDL_Surface is locked for you.
 // Safe, but slow. For more speed, try the lower level access function.
 //
 static void inline PUT_PIXEL(SDL_Surface *surface, uint16_t x, uint16_t y, const color &col)
@@ -68,7 +68,7 @@ static void inline PUT_PIXEL(SDL_Surface *surface, uint16_t x, uint16_t y, const
 
 //
 // This function sets the specified color on a SDL_Surface. Sanity checks are
-// performed on the co-ordinates and the SDL_Surface is locked for you.
+// performed on the coordinates and the SDL_Surface is locked for you.
 // Safe, but slow. For more speed, try the lower level access function.
 //
 static inline void GET_PIXEL(SDL_Surface *surface, uint16_t x, uint16_t y, color &col)

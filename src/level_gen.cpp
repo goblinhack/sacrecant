@@ -233,7 +233,7 @@ public:
   class Room *room_entrance = {};
 
   //
-  // The exitting room
+  // The exiting room
   //
   class Room *room_exit = {};
 
@@ -349,14 +349,14 @@ public:
   //
   // All doors in the room
   //
-  // These are room co-ordinates, not map co-ordinates
+  // These are room coordinates, not map coordinates
   //
   std::vector< bpoint > doors;
 
   //
   // Points adjacent to doors
   //
-  // These are room co-ordinates, not map co-ordinates
+  // These are room coordinates, not map coordinates
   //
   std::vector< bpoint > door_adjacent_tile;
 };
@@ -3557,25 +3557,25 @@ static void level_gen_connect_adjacent_rooms(class LevelGen *lg)
   TRACE();
 
   const std::initializer_list< std::pair< int, int > > dists = {
-      std::pair(2 /* corridor length */, 80 /* percentage chance of occuring */),
-      std::pair(3 /* corridor length */, 80 /* percentage chance of occuring */),
-      std::pair(4 /* corridor length */, 80 /* percentage chance of occuring */),
-      std::pair(5 /* corridor length */, 80 /* percentage chance of occuring */),
-      std::pair(6 /* corridor length */, 80 /* percentage chance of occuring */),
-      std::pair(7 /* corridor length */, 80 /* percentage chance of occuring */),
-      std::pair(8 /* corridor length */, 80 /* percentage chance of occuring */),
-      std::pair(9 /* corridor length */, 80 /* percentage chance of occuring */),
-      std::pair(10 /* corridor length */, 40 /* percentage chance of occuring */),
-      std::pair(11 /* corridor length */, 40 /* percentage chance of occuring */),
-      std::pair(12 /* corridor length */, 40 /* percentage chance of occuring */),
-      std::pair(13 /* corridor length */, 40 /* percentage chance of occuring */),
-      std::pair(14 /* corridor length */, 40 /* percentage chance of occuring */),
-      std::pair(15 /* corridor length */, 40 /* percentage chance of occuring */),
-      std::pair(16 /* corridor length */, 40 /* percentage chance of occuring */),
-      std::pair(17 /* corridor length */, 40 /* percentage chance of occuring */),
-      std::pair(18 /* corridor length */, 40 /* percentage chance of occuring */),
-      std::pair(19 /* corridor length */, 40 /* percentage chance of occuring */),
-      std::pair(20 /* corridor length */, 40 /* percentage chance of occuring */),
+      std::pair(2 /* corridor length */, 80 /* percentage chance of occurring */),
+      std::pair(3 /* corridor length */, 80 /* percentage chance of occurring */),
+      std::pair(4 /* corridor length */, 80 /* percentage chance of occurring */),
+      std::pair(5 /* corridor length */, 80 /* percentage chance of occurring */),
+      std::pair(6 /* corridor length */, 80 /* percentage chance of occurring */),
+      std::pair(7 /* corridor length */, 80 /* percentage chance of occurring */),
+      std::pair(8 /* corridor length */, 80 /* percentage chance of occurring */),
+      std::pair(9 /* corridor length */, 80 /* percentage chance of occurring */),
+      std::pair(10 /* corridor length */, 40 /* percentage chance of occurring */),
+      std::pair(11 /* corridor length */, 40 /* percentage chance of occurring */),
+      std::pair(12 /* corridor length */, 40 /* percentage chance of occurring */),
+      std::pair(13 /* corridor length */, 40 /* percentage chance of occurring */),
+      std::pair(14 /* corridor length */, 40 /* percentage chance of occurring */),
+      std::pair(15 /* corridor length */, 40 /* percentage chance of occurring */),
+      std::pair(16 /* corridor length */, 40 /* percentage chance of occurring */),
+      std::pair(17 /* corridor length */, 40 /* percentage chance of occurring */),
+      std::pair(18 /* corridor length */, 40 /* percentage chance of occurring */),
+      std::pair(19 /* corridor length */, 40 /* percentage chance of occurring */),
+      std::pair(20 /* corridor length */, 40 /* percentage chance of occurring */),
   };
   for (auto d : dists) {
     level_gen_connect_adjacent_rooms_with_distance_and_chance(lg, d.first, d.second);
