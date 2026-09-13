@@ -2565,7 +2565,7 @@ static auto wid_new_scroll_pit(Widp parent) -> Widp
 
   Widp w = wid_new(parent);
 
-  w->to_string = string_sprintf("[%p] scroll trough (parent %s[%p])", (void *) w, parent->to_string.c_str(), (void *) parent);
+  w->to_string = string_sprintf("[%p] scroll pit (parent %s[%p])", (void *) w, parent->to_string.c_str(), (void *) parent);
 
   wid_dbg(w, "%s", __FUNCTION__);
 
@@ -2688,7 +2688,7 @@ static auto wid_new_scroll_bar(Gamep g, Widp parent, const std::string &name, Wi
   int pbry = 0;
 
   //
-  // Make the trough line up with the scrolling window.
+  // Make the pit line up with the scrolling window.
   //
   wid_get_abs_coords(parent, &ptlx, &ptly, &pbrx, &pbry);
   wid_get_abs_coords(scrollbar_owner, &tlx, &tly, &brx, &bry);
@@ -2699,15 +2699,15 @@ static auto wid_new_scroll_bar(Gamep g, Widp parent, const std::string &name, Wi
   vert_tl.y = tly - ptly;
   vert_br.y = tly - ptly + wid_get_height(scrollbar_owner) - 1;
 
-  Widp trough = wid_new_scroll_pit(parent);
-  wid_set_pos(trough, vert_tl, vert_br);
-  wid_set_shape_square(trough);
-  wid_set_style(trough, UI_WID_STYLE_VERT_SCROLL_DARK);
+  Widp pit = wid_new_scroll_pit(parent);
+  wid_set_pos(pit, vert_tl, vert_br);
+  wid_set_shape_square(pit);
+  wid_set_style(pit, UI_WID_STYLE_VERT_SCROLL_DARK);
 
   {
     fpoint const tl(0, 0);
     fpoint const br(1, 1);
-    Widp         scrollbar = wid_new_scroll_bar(g, trough, name, scrollbar_owner, 1U);
+    Widp         scrollbar = wid_new_scroll_bar(g, pit, name, scrollbar_owner, 1U);
     wid_set_pos_pct(scrollbar, tl, br);
 
     wid_update_internal(g, scrollbar);
@@ -2718,8 +2718,8 @@ static auto wid_new_scroll_bar(Gamep g, Widp parent, const std::string &name, Wi
     wid_set_mode(scrollbar, WID_MODE_NORMAL);
     wid_set_style(scrollbar, UI_WID_STYLE_VERT_DARK);
 
-    trough->is_scrollbar_vert_trough = 1U;
-    scrollbar->is_scrollbar_vert     = 1U;
+    pit->is_scrollbar_vert_pit   = 1U;
+    scrollbar->is_scrollbar_vert = 1U;
 
     return scrollbar;
   }
@@ -2750,7 +2750,7 @@ static auto wid_new_scroll_bar(Gamep g, Widp parent, const std::string &name, Wi
   int pbry = 0;
 
   //
-  // Make the trough line up with the scrolling window.
+  // Make the pit line up with the scrolling window.
   //
   wid_get_abs_coords(parent, &ptlx, &ptly, &pbrx, &pbry);
   wid_get_abs_coords(scrollbar_owner, &tlx, &tly, &brx, &bry);
@@ -2761,15 +2761,15 @@ static auto wid_new_scroll_bar(Gamep g, Widp parent, const std::string &name, Wi
   horiz_tl.y = tly - ptly + wid_get_height(scrollbar_owner);
   horiz_br.y = horiz_tl.y;
 
-  Widp trough = wid_new_scroll_pit(parent);
-  wid_set_pos(trough, horiz_tl, horiz_br);
-  wid_set_shape_square(trough);
-  wid_set_style(trough, UI_WID_STYLE_HORIZ_SCROLL_DARK);
+  Widp pit = wid_new_scroll_pit(parent);
+  wid_set_pos(pit, horiz_tl, horiz_br);
+  wid_set_shape_square(pit);
+  wid_set_style(pit, UI_WID_STYLE_HORIZ_SCROLL_DARK);
 
   {
     fpoint const tl(0, 0);
     fpoint const br(1, 1);
-    Widp         scrollbar = wid_new_scroll_bar(g, trough, name, scrollbar_owner, 0U);
+    Widp         scrollbar = wid_new_scroll_bar(g, pit, name, scrollbar_owner, 0U);
     wid_set_pos_pct(scrollbar, tl, br);
 
     wid_update_internal(g, scrollbar);
@@ -2777,8 +2777,8 @@ static auto wid_new_scroll_bar(Gamep g, Widp parent, const std::string &name, Wi
     wid_visible(g, scrollbar);
     wid_set_style(scrollbar, UI_WID_STYLE_HORIZ_SCROLL_LIGHT);
 
-    trough->is_scrollbar_horiz_trough = 1U;
-    scrollbar->is_scrollbar_horiz     = 1U;
+    pit->is_scrollbar_horiz_trough = 1U;
+    scrollbar->is_scrollbar_horiz  = 1U;
 
     return scrollbar;
   }
