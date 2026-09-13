@@ -2,16 +2,16 @@
 // Copyright goblinhack@gmail.com
 //
 
-#include "my_callstack.hpp"
-#include "my_main.hpp"
-#include "my_sound.hpp"
-#include "my_thing.hpp"
-#include "my_thing_callbacks.hpp"
-#include "my_thing_inlines.hpp"
-#include "my_tile.hpp"
-#include "my_tp.hpp"
-#include "my_tps.hpp"
-#include "my_types.hpp"
+#include "../../my_callstack.hpp"
+#include "../../my_main.hpp"
+#include "../../my_sound.hpp"
+#include "../../my_thing.hpp"
+#include "../../my_thing_callbacks.hpp"
+#include "../../my_thing_inlines.hpp"
+#include "../../my_tile.hpp"
+#include "../../my_tp.hpp"
+#include "../../my_tps.hpp"
+#include "../../my_types.hpp"
 
 static Tilep door_unlocked_idle_damaged;
 static Tilep door_unlocked_open_damaged;

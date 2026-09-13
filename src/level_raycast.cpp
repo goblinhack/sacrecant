@@ -320,7 +320,7 @@ static void level_raycast_get_extents(Gamep g, Levelsp v, Levelp l, Thingp playe
   // Limit the vision if required
   //
   if (thing_is_vision_180_degrees(g, v, l, player)) {
-    int quad = LIGHT_MAX_RAYS_MAX / 8;
+    int const quad = LIGHT_MAX_RAYS_MAX / 8;
 
     ray_count = LIGHT_MAX_RAYS_MAX / 2;
 

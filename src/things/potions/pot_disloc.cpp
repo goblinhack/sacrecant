@@ -2,16 +2,16 @@
 // Copyright goblinhack@gmail.com
 //
 
-#include "my_callstack.hpp"
-#include "my_level_inlines.hpp"
-#include "my_main.hpp"
-#include "my_thing_callbacks.hpp"
-#include "my_thing_inlines.hpp"
-#include "my_tile.hpp"
-#include "my_tp.hpp"
-#include "my_tps.hpp"
-#include "my_types.hpp"
-#include "my_ui.hpp"
+#include "../../my_callstack.hpp"
+#include "../../my_level_inlines.hpp"
+#include "../../my_main.hpp"
+#include "../../my_thing_callbacks.hpp"
+#include "../../my_thing_inlines.hpp"
+#include "../../my_tile.hpp"
+#include "../../my_tp.hpp"
+#include "../../my_tps.hpp"
+#include "../../my_types.hpp"
+#include "../../my_ui.hpp"
 
 static auto tp_pot_disloc_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
 {

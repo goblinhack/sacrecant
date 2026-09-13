@@ -2,17 +2,17 @@
 // Copyright goblinhack@gmail.com
 //
 
-#include "my_callstack.hpp"
-#include "my_dice_rolls.hpp"
-#include "my_thing.hpp"
-#include "my_thing_callbacks.hpp"
-#include "my_thing_inlines.hpp"
-#include "my_tile.hpp"
-#include "my_tp.hpp"
-#include "my_tps.hpp"
-#include "my_types.hpp"
-#include "my_ui.hpp"
-#include "my_wids.hpp"
+#include "../../my_callstack.hpp"
+#include "../../my_dice_rolls.hpp"
+#include "../../my_thing.hpp"
+#include "../../my_thing_callbacks.hpp"
+#include "../../my_thing_inlines.hpp"
+#include "../../my_tile.hpp"
+#include "../../my_tp.hpp"
+#include "../../my_tps.hpp"
+#include "../../my_types.hpp"
+#include "../../my_ui.hpp"
+#include "../../my_wids.hpp"
 
 static auto tp_copious_chest_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
 {

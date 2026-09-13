@@ -2,16 +2,16 @@
 // Copyright goblinhack@gmail.com
 //
 
-#include "my_callstack.hpp"
-#include "my_dice_rolls.hpp"
-#include "my_level.hpp"
-#include "my_sound.hpp"
-#include "my_thing_callbacks.hpp"
-#include "my_tile.hpp"
-#include "my_tp.hpp"
-#include "my_tps.hpp"
-#include "my_types.hpp"
-#include "my_ui.hpp"
+#include "../../my_callstack.hpp"
+#include "../../my_dice_rolls.hpp"
+#include "../../my_level.hpp"
+#include "../../my_sound.hpp"
+#include "../../my_thing_callbacks.hpp"
+#include "../../my_tile.hpp"
+#include "../../my_tp.hpp"
+#include "../../my_tps.hpp"
+#include "../../my_types.hpp"
+#include "../../my_ui.hpp"
 
 static auto tp_ghost_mob_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
 {

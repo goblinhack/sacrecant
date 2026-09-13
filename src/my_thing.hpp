@@ -1132,7 +1132,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused15(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused150(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused151(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_myopic(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
+[[nodiscard]] auto thing_is_myopic(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_unused16(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused17(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused18(Thingp t) -> bool;
@@ -1230,8 +1230,8 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_usable(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_vault(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_venomous(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_vision_180_degrees(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
-[[nodiscard]] auto thing_is_vision_360_degrees(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
+[[nodiscard]] auto thing_is_vision_180_degrees(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
+[[nodiscard]] auto thing_is_vision_360_degrees(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_wait_on_anim(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_wait_on_dead_anim(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_wand(Thingp t) -> bool;

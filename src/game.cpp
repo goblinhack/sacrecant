@@ -3239,7 +3239,7 @@ void game_chosen_player_set(Gamep g, Tpp t)
 
   std::ranges::sort(tmp, [](Thingp a, Thingp b) -> bool { return a->hook_sort_order < b->hook_sort_order; });
 
-  for (auto t : tmp) {
+  for (auto *t : tmp) {
     out.push_back(thing_tp(t));
   }
 
@@ -3265,7 +3265,7 @@ void game_cand_sacrifice_set(Gamep g, Thingp t)
     return;
   }
 
-  if (! t) {
+  if (t == nullptr) {
     ERR("no thing pointer");
     return;
   }
@@ -3353,7 +3353,7 @@ void game_chosen_sacrifice_set(Gamep g, std::vector< Tpp > t)
 
   std::ranges::sort(tmp, [](Thingp a, Thingp b) -> bool { return a->hook_sort_order < b->hook_sort_order; });
 
-  for (auto t : tmp) {
+  for (auto *t : tmp) {
     out.push_back(thing_tp(t));
   }
 
@@ -3377,7 +3377,7 @@ void game_cand_boost_set(Gamep g, Thingp t)
     return;
   }
 
-  if (! t) {
+  if (t == nullptr) {
     ERR("no thing pointer");
     return;
   }

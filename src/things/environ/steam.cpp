@@ -2,13 +2,13 @@
 // Copyright goblinhack@gmail.com
 //
 
-#include "my_callstack.hpp"
-#include "my_thing.hpp"
-#include "my_thing_callbacks.hpp"
-#include "my_tile.hpp"
-#include "my_tp.hpp"
-#include "my_tps.hpp"
-#include "my_types.hpp"
+#include "../../my_callstack.hpp"
+#include "../../my_thing.hpp"
+#include "../../my_thing_callbacks.hpp"
+#include "../../my_tile.hpp"
+#include "../../my_tp.hpp"
+#include "../../my_tps.hpp"
+#include "../../my_types.hpp"
 
 static auto tp_steam_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
 {
@@ -24,7 +24,7 @@ static auto tp_steam_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) ->
   auto *tp   = tp_load("steam"); // keep as string for scripts
   auto  name = tp_name(tp);
 
-  // begin sort marker1 {
+  // begin sort marker2 {
   thing_description_set(tp, tp_steam_description_get);
   tp_damage_set(tp, THING_EVENT_FIRE_DAMAGE, "1d4");
   tp_flag_set(tp, is_able_to_be_teleported);
