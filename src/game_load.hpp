@@ -1131,12 +1131,12 @@ auto Game::load(const std::string &file_to_load, class Game &target) -> bool
 
   {
     log("%s decompress %ld Mb (%ld bytes) -> %ld Mb (%ld bytes) took %u ms (%s)",
-        which,                    //
-        src_size / (1024 * 1024), //
-        src_size,                 //
-        dst_size / (1024 * 1024), //
-        dst_size,                 //
-        user_visible_time_ms() - start,   //
+        which,                          //
+        src_size / (1024 * 1024),       //
+        src_size,                       //
+        dst_size / (1024 * 1024),       //
+        dst_size,                       //
+        user_visible_time_ms() - start, //
         file_to_load.c_str());
   } else {
     ERR("%s decompress %ld Mb (%ld bytes) -> %ld Mb (%ld error code) took %u ms (%s)",
@@ -1145,7 +1145,7 @@ auto Game::load(const std::string &file_to_load, class Game &target) -> bool
         (long) src_size,                 //
         (long) dst_size / (1024 * 1024), //
         (long) dst_size,                 //
-        user_visible_time_ms() - start,          //
+        user_visible_time_ms() - start,  //
         file_to_load.c_str());
     VERIFY(MTYPE_GAME, this);
     wid_progress_bar_destroy(this);

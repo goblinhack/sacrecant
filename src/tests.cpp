@@ -52,7 +52,6 @@
   if (!test_load_fire_on_water()) { return false; }
   if (!test_load_fire_over_chasm()) { return false; }
   if (!test_load_foliage_on_fire()) { return false; }
-  if (!test_load_fumble_more()) { return false; }
   if (!test_load_items_drift_away()) { return false; }
   if (!test_load_jump_ok()) { return false; }
   if (!test_load_jump_truncated()) { return false; }
@@ -183,6 +182,8 @@
   if (!test_load_ring_war_projectile()) { return false; }
   if (!test_load_sac_blood_pact()) { return false; }
   if (!test_load_sac_clumsy()) { return false; }
+  if (!test_load_sac_crit_more()) { return false; }
+  if (!test_load_sac_fumble_more()) { return false; }
   if (!test_load_sac_noisy_pot_stealth()) { return false; }
   if (!test_load_sac_noisy()) { return false; }
   if (!test_load_sac_poison_blood()) { return false; }

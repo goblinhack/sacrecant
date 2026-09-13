@@ -53,7 +53,7 @@ using ThingIdPacked = union {
 /* begin shell marker1 */
 /* shell printf "#define THING_HOOK_MAX " */
 /* shell find . -name "*.cpp" | xargs grep "tp_flag_set(tp, is_buff);" | wc -l */
-#define THING_HOOK_MAX (THING_INVENTORY_MAX * 2)
+#define THING_HOOK_MAX 9
 /* end shell marker1 */
 
 //

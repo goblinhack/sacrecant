@@ -278,7 +278,7 @@ public:
   thing_z_depth_get_t           z_depth_get           = {};
   thing_mouse_down_t            mouse_down            = {};
   thing_on_spawned_t            on_spawned            = {};
-  thing_hook_on_attached_t           hook_on_attached           = {};
+  thing_hook_on_attached_t      hook_on_attached      = {};
   thing_on_levitated_t          on_levitated          = {};
   thing_on_invisible_t          on_invisible          = {};
   thing_on_level_populated_t    on_level_populated    = {};

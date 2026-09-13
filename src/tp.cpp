@@ -212,6 +212,7 @@ static std::initializer_list< std::string > tps = {
     "rubble",
     "sac_blood_pact",
     "sac_clumsy",
+    "sac_crit_more",
     "sac_defenceless",
     "sac_fumble_more",
     "sac_noisy",

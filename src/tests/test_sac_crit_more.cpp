@@ -9,7 +9,7 @@
 #include "../my_test.hpp"
 #include "../my_thing_inlines.hpp"
 
-[[nodiscard]] static auto test_sac_fumble_more(Gamep g, Testp t) -> bool
+[[nodiscard]] static auto test_sac_crit_more(Gamep g, Testp t) -> bool
 {
   TEST_LOG(t, "begin");
   TRACE();
@@ -56,11 +56,11 @@
     }
   }
 
-  TEST_ASSERT(t, thing_hook_add(g, v, l, player, tp_find_mand("sac_fumble_more")), "failed to add sacrifice");
+  TEST_ASSERT(t, thing_hook_add(g, v, l, player, tp_find_mand("sac_crit_more")), "failed to add sacrifice");
 
-  TEST_ASSERT(t, 2 <= thing_fumble_roll(g, v, l, player), "expected fumble");
+  TEST_ASSERT(t, 19 >= thing_crit_roll(g, v, l, player), "expected crit");
 
-  TEST_ASSERT(t, 3 > thing_fumble_roll(g, v, l, player), "expected non fumble");
+  TEST_ASSERT(t, 18 < thing_crit_roll(g, v, l, player), "expected non crit");
 
   TEST_ASSERT(t, game_tick_get(g, v) == 0, "final tick counter value");
 
@@ -73,13 +73,13 @@ exit:
   return result;
 }
 
-[[nodiscard]] auto test_load_sac_fumble_more() -> bool // NOLINT
+[[nodiscard]] auto test_load_sac_crit_more() -> bool // NOLINT
 {
   TRACE();
 
-  Testp test = test_load("sac_fumble_more");
+  Testp test = test_load("sac_crit_more");
 
-  test_callback_set(test, test_sac_fumble_more);
+  test_callback_set(test, test_sac_crit_more);
 
   return true;
 }

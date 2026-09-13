@@ -4,7 +4,6 @@ bugs
 todo
 ----
 sacrifices
-  improved-crit
   o hollow-bones:           fall-damage -50%   damage-received +50%  def -2                       melee +50
   p glass-bones:            fall-damage +100%  damage-received +50%  def -4  att +2               melee +70
   j one-legged:             can only jump, limited jump distance, easily exhausted                melee +400

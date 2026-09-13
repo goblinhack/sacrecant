@@ -2226,7 +2226,7 @@ void wid_thing_info(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, i
     //
     // Keep it terse
     //
-  } else if (thing_is_item(me)) {
+  } else if (thing_is_item(me) || thing_is_hook(me)) {
     //
     // Items can have immunities and the like
     //

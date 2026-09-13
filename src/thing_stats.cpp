@@ -159,6 +159,8 @@
     stat_str = string_sprintf(UI_INFO_FMT_STR "%s" UI_WARN_FMT_STR " %-2s", stat_name.c_str(), mod_str.c_str());
   } else if (mod > 0) {
     stat_str = string_sprintf(UI_INFO_FMT_STR "%s" UI_GOOD_FMT_STR " %-2s", stat_name.c_str(), mod_str.c_str());
+  } else if (mod == 0) {
+    stat_str = string_sprintf(UI_INFO_FMT_STR "%s" UI_RESET_FMT " --", stat_name.c_str());
   } else {
     stat_str = string_sprintf(UI_INFO_FMT_STR "%s" UI_RESET_FMT " %-2s", stat_name.c_str(), mod_str.c_str());
   }
