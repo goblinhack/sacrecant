@@ -22,7 +22,7 @@ void thing_hidden_time_step(Gamep g, Levelsp v, Levelp l, Thingp me, int /*time_
 
   auto        pulse = THING_IS_HIDDEN_PULSE_ANIM_MS; // ms
   float const mid   = pulse / 2;
-  auto const  n     = static_cast< float >(time_ms_cached() % pulse);
+  auto const  n     = static_cast< float >(game_time_ms_cached() % pulse);
   float       i     = 0;
   uint8_t     a     = 0;
 

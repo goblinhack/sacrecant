@@ -144,7 +144,7 @@ static void wid_actionbar_load_over_end(Gamep g, Widp w)
   log("actionbar wait");
   TRACE();
 
-  wid_last_key_press = time_ms_cached();
+  wid_last_key_press = game_time_ms_cached();
 
   return game_event_wait(g);
 }
@@ -154,15 +154,15 @@ static void wid_actionbar_load_over_end(Gamep g, Widp w)
   log("actionbar wait");
   TRACE();
 
-  if (! time_have_x_tenths_passed_since(1, wid_last_key_press)) {
+  if (! game_time_have_x_tenths_passed_since(1, wid_last_key_press)) {
     return true;
   }
 
-  if (! time_have_x_tenths_passed_since(1, wid_last_key_repeat)) {
+  if (! game_time_have_x_tenths_passed_since(1, wid_last_key_repeat)) {
     return true;
   }
 
-  wid_last_key_repeat = time_ms_cached();
+  wid_last_key_repeat = game_time_ms_cached();
   return game_event_wait(g);
 }
 
@@ -261,7 +261,7 @@ static void wid_actionbar_inventory_over_end(Gamep g, Widp w)
   log("actionbar fire");
   TRACE();
 
-  wid_last_key_repeat = time_ms_cached();
+  wid_last_key_repeat = game_time_ms_cached();
 
   auto *v = game_levels_get(g);
   if (v == nullptr) [[unlikely]] {
@@ -283,15 +283,15 @@ static void wid_actionbar_inventory_over_end(Gamep g, Widp w)
   log("actionbar fire");
   TRACE();
 
-  if (! time_have_x_tenths_passed_since(1, wid_last_key_repeat)) {
+  if (! game_time_have_x_tenths_passed_since(1, wid_last_key_repeat)) {
     return true;
   }
 
-  if (! time_have_x_tenths_passed_since(1, wid_last_key_repeat)) {
+  if (! game_time_have_x_tenths_passed_since(1, wid_last_key_repeat)) {
     return true;
   }
 
-  wid_last_key_repeat = time_ms_cached();
+  wid_last_key_repeat = game_time_ms_cached();
 
   auto *v = game_levels_get(g);
   if (v == nullptr) [[unlikely]] {

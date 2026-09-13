@@ -847,7 +847,7 @@ static void level_tick_update_frame_counter(Levelsp v)
 
   static uint32_t level_ts_begin;
   static uint32_t level_ts_now;
-  auto            t = time_ms();
+  auto            t = game_time_ms();
 
   if (level_ts_begin == 0U) [[unlikely]] {
     level_ts_begin = t;

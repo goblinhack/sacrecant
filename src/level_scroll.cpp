@@ -228,7 +228,7 @@ void level_scroll_to_focus(Gamep g, Levelsp v, Levelp l)
   }
 
   if (compiler_unused) {
-    con("%u [%d,%d] elapsed %u", v->requested_forced_auto_scroll, dx, dy, time_ms() - v->requested_forced_auto_scroll);
+    con("%u [%d,%d] elapsed %u", v->requested_forced_auto_scroll, dx, dy, user_visible_time_ms() - v->requested_forced_auto_scroll);
   }
 
   //
@@ -238,13 +238,13 @@ void level_scroll_to_focus(Gamep g, Levelsp v, Levelp l)
 
   if (v->pixel_map_at == pixel_map_at_last) {
     if (v->requested_forced_auto_scroll != 0U) {
-      if (time_have_x_tenths_passed_since(5, v->requested_forced_auto_scroll)) {
+      if (game_time_have_x_tenths_passed_since(5, v->requested_forced_auto_scroll)) {
         v->requested_forced_auto_scroll = 0;
         v->scroll_speed                 = MAP_SCROLL_SPEED;
       }
     }
   } else if (v->requested_forced_auto_scroll != 0U) {
-    if (time_have_x_secs_passed_since(1, v->requested_forced_auto_scroll)) {
+    if (game_time_have_x_secs_passed_since(1, v->requested_forced_auto_scroll)) {
       v->requested_forced_auto_scroll = 0;
       v->scroll_speed                 = MAP_SCROLL_SPEED;
     }
@@ -276,7 +276,7 @@ void level_forced_auto_scroll(Gamep g, Levelsp v, Levelp l)
 {
   TRACE();
 
-  v->requested_forced_auto_scroll = time_ms();
+  v->requested_forced_auto_scroll = user_visible_time_ms();
 
   level_bounds_set(g, v, l);
 }

@@ -984,7 +984,7 @@ void wid_mouse_down(Gamep g, uint32_t button, int x, int y)
     }
 
     if (g != nullptr) {
-      game_last_mouse_down_set(g, time_ms());
+      game_last_mouse_down_set(g, game_time_ms());
     }
 
     DBG("widget mouse down, processed, raise on mouse");
@@ -1003,7 +1003,7 @@ void wid_mouse_down(Gamep g, uint32_t button, int x, int y)
     (void) sound_play(g, "click");
 
     if (g != nullptr) {
-      game_last_mouse_down_set(g, time_ms());
+      game_last_mouse_down_set(g, game_time_ms());
     }
   }
 }

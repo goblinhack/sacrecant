@@ -1411,7 +1411,7 @@ void game_tick(Gamep g)
 {
   TRACE();
 
-  auto started = time_ms();
+  auto started = game_time_ms();
 #ifdef GITHUB_BUILD
   auto max_time = 600;
 #else
@@ -1433,7 +1433,7 @@ void game_tick(Gamep g)
       level_log(g, v, l, "Test: waiting for tick %u to finish", v->tick);
     }
 
-    if (time_have_x_secs_passed_since(max_time, started)) {
+    if (game_time_have_x_secs_passed_since(max_time, started)) {
       ERR("test timed out: %u secs", max_time);
       return false;
     }

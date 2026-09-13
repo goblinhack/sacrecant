@@ -2351,7 +2351,7 @@ static void wid_destroy_delay(Gamep g, Widp *wp, int delay)
     wid_get_abs_coords(w, &tlx, &tly, &brx, &bry);
 
     if (! wid_ignore_events(w->parent)) {
-      wid_last_destroy_event = time_ms();
+      wid_last_destroy_event = game_time_ms();
     }
   }
 
@@ -4547,9 +4547,9 @@ void wid_joy_button(Gamep g, int x, int y)
 
   for (b = 0; b < SDL_MAX_BUTTONS; b++) {
     if (static_cast< bool >(sdl.joy_buttons[ b ])) {
-      if (time_have_x_tenths_passed_since(2, ts[ b ])) {
+      if (game_time_have_x_tenths_passed_since(2, ts[ b ])) {
         changed = 1;
-        ts[ b ] = time_ms();
+        ts[ b ] = game_time_ms();
       }
     }
   }
@@ -4849,7 +4849,7 @@ void wid_key_down(Gamep g, const struct SDL_Keysym *key, int x, int y)
 #endif
   if ((wid_focus != nullptr) && ! wid_is_hidden(wid_focus) && ((wid_focus->on_key_down) != nullptr)) {
     if ((wid_focus->on_key_down)(g, wid_focus, key)) {
-      wid_last_processed_key_event = time_ms();
+      wid_last_processed_key_event = game_time_ms();
       if (wid_focus != nullptr) {
         DBG("WID: key grabbed by focused wid: %s at (%d,%d)", wid_focus->name.c_str(), ascii_mouse_x, ascii_mouse_y);
       }
@@ -4877,7 +4877,7 @@ void wid_key_down(Gamep g, const struct SDL_Keysym *key, int x, int y)
   {
     DBG("WID: Key over by wid: %s for (%d,%d)", w->name.c_str(), ascii_mouse_x, ascii_mouse_y);
     if ((w->on_key_down)(g, w, key)) {
-      wid_last_processed_key_event = time_ms();
+      wid_last_processed_key_event = game_time_ms();
       DBG("WID: Key grabbed by wid: %s for (%d,%d)", w->name.c_str(), ascii_mouse_x, ascii_mouse_y);
       //
       // Do not raise, gets in the way of popups the callback creates.
@@ -4898,7 +4898,7 @@ try_parent:
     while (w != nullptr) {
       if (w->on_key_down != nullptr) {
         if ((w->on_key_down)(g, w, key)) {
-          wid_last_processed_key_event = time_ms();
+          wid_last_processed_key_event = game_time_ms();
           DBG("WID: key grabbed by wid: %s for (%d,%d)", w->name.c_str(), ascii_mouse_x, ascii_mouse_y);
           //
           // Do not raise, gets in the way of popups the callback
@@ -4937,7 +4937,7 @@ void wid_key_up(Gamep g, const struct SDL_Keysym *key, int x, int y)
   if ((wid_focus != nullptr) && ! wid_is_hidden(wid_focus) && ((wid_focus->on_key_up) != nullptr)) {
 
     if ((wid_focus->on_key_up)(g, wid_focus, key)) {
-      wid_last_processed_key_event = time_ms();
+      wid_last_processed_key_event = game_time_ms();
       if (wid_focus != nullptr) {
         wid_set_mode(wid_focus, WID_MODE_ACTIVE);
       }
@@ -4963,7 +4963,7 @@ void wid_key_up(Gamep g, const struct SDL_Keysym *key, int x, int y)
   }
 
   if ((w->on_key_up)(g, w, key)) {
-    wid_last_processed_key_event = time_ms();
+    wid_last_processed_key_event = game_time_ms();
     wid_set_mode(w, WID_MODE_ACTIVE);
 
     //
@@ -4983,7 +4983,7 @@ try_parent:
     while (w != nullptr) {
       if (w->on_key_up != nullptr) {
         if ((w->on_key_up)(g, w, key)) {
-          wid_last_processed_key_event = time_ms();
+          wid_last_processed_key_event = game_time_ms();
           wid_set_mode(w, WID_MODE_ACTIVE);
 
           //
@@ -5511,7 +5511,7 @@ static void wid_tick_all(Gamep g)
 {
   TRACE();
 
-  wid_time = time_ms();
+  wid_time = game_time_ms();
 
   std::vector< Widp > work;
   for (auto &iter : wid_tick_top_level) {
@@ -5535,7 +5535,7 @@ static void wid_pre_tick_all(Gamep g)
 {
   TRACE();
 
-  wid_time = time_ms();
+  wid_time = game_time_ms();
 
   std::vector< Widp > work;
   for (auto &iter : wid_pre_tick_top_level) {
@@ -5764,12 +5764,12 @@ void wid_move_to_abs_centered(Gamep g, Widp w, int x, int y)
   // immediately allow a double click on a chasm that was behind the
   // widget for example.
   //
-  if (! time_have_x_tenths_passed_since(1, wid_last_processed_key_event)) {
+  if (! game_time_have_x_tenths_passed_since(1, wid_last_processed_key_event)) {
     // DBG("wid_some_recent_event_occurred: Too soon since last key processed event");
     return true;
   }
 
-  if (! time_have_x_tenths_passed_since(1, wid_last_destroy_event)) {
+  if (! game_time_have_x_tenths_passed_since(1, wid_last_destroy_event)) {
     // DBG("wid_some_recent_event_occurred: Too soon since last wid destroy event");
     return true;
   }

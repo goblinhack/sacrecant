@@ -107,20 +107,20 @@ static void game_display_intro(Gamep g)
     br.x += center;
 
     if (wid_intro2_anim_vert_scroll_start == 0U) {
-      wid_intro2_anim_vert_scroll_start = time_ms();
+      wid_intro2_anim_vert_scroll_start = game_time_ms();
     }
 
     if (wid_intro2_anim_vert_scroll_ticker == 0U) {
-      wid_intro2_anim_vert_scroll_ticker = time_ms();
+      wid_intro2_anim_vert_scroll_ticker = game_time_ms();
     }
 
     //
     // Small delay before scrolling
     //
-    if (time_have_x_hundredths_passed_since(200, wid_intro2_anim_vert_scroll_start)) {
-      if (time_have_x_hundredths_passed_since(1, wid_intro2_anim_vert_scroll_ticker)) {
+    if (game_time_have_x_hundredths_passed_since(200, wid_intro2_anim_vert_scroll_start)) {
+      if (game_time_have_x_hundredths_passed_since(1, wid_intro2_anim_vert_scroll_ticker)) {
         wid_intro2_anim_vert_scroll_offset += 2;
-        wid_intro2_anim_vert_scroll_ticker = time_ms();
+        wid_intro2_anim_vert_scroll_ticker = game_time_ms();
       }
     }
 

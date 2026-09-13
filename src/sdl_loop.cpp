@@ -47,7 +47,7 @@ void sdl_loop(Gamep g)
   //
   // Wait for events
   //
-  int ui_ts_fast_last      = time_ms();
+  int ui_ts_fast_last      = game_time_ms();
   int ui_ts_slow_last      = ui_ts_fast_last;
   int ui_ts_very_slow_last = ui_ts_fast_last;
 
@@ -87,7 +87,7 @@ void sdl_loop(Gamep g)
     //
     // Various event frequencies
     //
-    int const  ts_now           = time_ms();
+    int const  ts_now           = game_time_ms();
     bool const update_very_slow = (ts_now - ui_ts_very_slow_last >= UI_EVENT_LOOP_FREQ_VERY_SLOW_MS);
     bool const update_slow      = (ts_now - ui_ts_slow_last >= UI_EVENT_LOOP_FREQ_SLOW_MS);
     bool const update_fast      = (ts_now - ui_ts_fast_last >= UI_EVENT_LOOP_FREQ_FAST_MS);
@@ -167,7 +167,7 @@ void sdl_loop(Gamep g)
         auto mouse_down = sdl_mouse_read_position();
         if (mouse_down != 0) {
           if (static_cast< bool >(sdl.last_mouse_held_down_when)) {
-            if (time_have_x_hundredths_passed_since(50, sdl.last_mouse_held_down_when)) {
+            if (game_time_have_x_hundredths_passed_since(50, sdl.last_mouse_held_down_when)) {
               if ((sdl.held_mouse_x != 0) && (sdl.held_mouse_y != 0)) {
                 DBG2("SDL: Mouse DOWN: held: Button %d now at (%d,%d) initially at (%d,%d)", mouse_down, sdl.mouse_x, sdl.mouse_y,
                      sdl.held_mouse_x, sdl.held_mouse_y);
@@ -233,11 +233,11 @@ void sdl_loop(Gamep g)
       static uint32_t fps_ts_now;
 
       if (fps_ts_begin == 0U) [[unlikely]] {
-        fps_ts_begin = time_ms();
+        fps_ts_begin = user_visible_time_ms();
       }
 
       if ((frames >= 100)) [[unlikely]] {
-        fps_ts_now          = time_ms();
+        fps_ts_now          = user_visible_time_ms();
         uint32_t const diff = fps_ts_now - fps_ts_begin;
         if (diff != 0) {
           float const fps = static_cast< float >(frames * ONESEC) / static_cast< float >(diff);

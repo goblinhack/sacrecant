@@ -375,7 +375,7 @@ static void wid_keyboard_set_focus(Gamep g, wid_keyboard_ctx *ctx, int focusx, i
    * Don't process events too soon. Else the menu might not even have
    * appeared.
    */
-  if (time_ms() - ctx->created < 100) {
+  if (game_time_ms() - ctx->created < 100) {
     return false;
   }
 
@@ -421,7 +421,7 @@ static void wid_keyboard_set_focus(Gamep g, wid_keyboard_ctx *ctx, int focusx, i
    * Don't process events too soon. Else the menu might not even have
    * appeared.
    */
-  if (time_ms() - ctx->created < 100) {
+  if (game_time_ms() - ctx->created < 100) {
     return false;
   }
 
@@ -497,7 +497,7 @@ static void wid_keyboard_set_focus(Gamep g, wid_keyboard_ctx *ctx, int focusx, i
    * Don't process events too soon. Else the menu might not even have
    * appeared.
    */
-  if (time_ms() - ctx->created < 100) {
+  if (game_time_ms() - ctx->created < 100) {
     return false;
   }
 
@@ -536,7 +536,7 @@ static void wid_keyboard_set_focus(Gamep g, wid_keyboard_ctx *ctx, int focusx, i
    * Don't process events too soon. Else the menu might not even have
    * appeared.
    */
-  if (time_ms() - ctx->created < 100) {
+  if (game_time_ms() - ctx->created < 100) {
     return false;
   }
 
@@ -613,7 +613,7 @@ static void wid_keyboard_set_focus(Gamep g, wid_keyboard_ctx *ctx, int focusx, i
   //
   // Don't process events too soon. Else the menu might not even have appeared.
   //
-  if (time_ms() - ctx->created < 100) {
+  if (game_time_ms() - ctx->created < 100) {
     return false;
   }
 
@@ -848,7 +848,7 @@ auto wid_keyboard(Gamep g, const std::string &text, const std::string &title, wi
   wid_raise(g, window);
   wid_set_focus(g, window);
 
-  ctx->created = time_ms();
+  ctx->created = game_time_ms();
 
   return window;
 }

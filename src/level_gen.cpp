@@ -5661,7 +5661,7 @@ void level_gen_create_levels(Gamep g, Levelsp v)
   //
   // We keep one level free for the grid level
   //
-  auto start = time_ms();
+  auto start = user_visible_time_ms();
   log("level generation (max %u)", s->level_count);
   TRACE_INDENT();
 
@@ -5687,7 +5687,7 @@ void level_gen_create_levels(Gamep g, Levelsp v)
     }
   }
 
-  s->create_time = time_ms() - start;
+  s->create_time = user_visible_time_ms() - start;
   log("level generation completed, took %u ms", s->create_time);
   TRACE_INDENT();
 

@@ -69,7 +69,7 @@ static void wid_button_pulse(Gamep g, Widp w)
 
   auto        pulse = WID_PULSE_ANIM_MS; // ms
   float const mid   = pulse / 2;
-  auto const  n     = static_cast< float >(time_ms_cached() % pulse);
+  auto const  n     = static_cast< float >(game_time_ms_cached() % pulse);
   float       i     = 0;
 
   uint8_t a = 0;

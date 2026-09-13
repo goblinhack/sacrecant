@@ -742,10 +742,10 @@ void level_display(Gamep g, Levelsp v, Levelp l)
   // Do we need to update the frame buffer as rapidly as the event loop?
   //
   static uint32_t update {};
-  if (! time_have_x_hundredths_passed_since(1, update)) {
+  if (! game_time_have_x_hundredths_passed_since(1, update)) {
     return;
   }
-  update = time_ms();
+  update = game_time_ms();
 
   //
   // Set later
@@ -790,9 +790,9 @@ void level_display(Gamep g, Levelsp v, Levelp l)
   // Light flicker
   //
   static uint32_t last_flicker {};
-  if (time_have_x_hundredths_passed_since(THING_LIGHT_FLICKER_ANIM_MS, last_flicker)) {
+  if (game_time_have_x_hundredths_passed_since(THING_LIGHT_FLICKER_ANIM_MS, last_flicker)) {
     level_light_calculate_all(g, v, l);
-    last_flicker = time_ms_cached();
+    last_flicker = game_time_ms_cached();
   }
 }
 

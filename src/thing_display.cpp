@@ -422,7 +422,7 @@ static void thing_low_health(spoint tl, spoint br, Tilep tile, float x1, float x
 
   auto        pulse = THING_IS_HIDDEN_PULSE_ANIM_MS; // ms
   float const mid   = pulse / 2;
-  auto const  n     = static_cast< float >(time_ms_cached() % pulse);
+  auto const  n     = static_cast< float >(game_time_ms_cached() % pulse);
   float       i     = 0;
   uint8_t     a     = 0;
 
@@ -453,7 +453,7 @@ static void thing_levitating_shadow(spoint tl, spoint br, Tilep tile, float x1, 
 {
   TRACE_DEBUG();
 
-  auto const  time_step       = static_cast< float >(time_ms_cached());
+  auto const  time_step       = static_cast< float >(game_time_ms_cached());
   float       height          = br.y - tl.y;
   float const single_pix_size = height / (tile_height(tile) * 4);
   auto        offset          = static_cast< int >(height) / 16;
@@ -478,7 +478,7 @@ static void thing_levitating_bounce(spoint &tl, spoint &br, Tilep tile)
 {
   TRACE_DEBUG();
 
-  auto const  time_step       = static_cast< float >(time_ms_cached());
+  auto const  time_step       = static_cast< float >(game_time_ms_cached());
   float       height          = br.y - tl.y;
   float const single_pix_size = height / (tile_height(tile) * 4);
   auto        offset          = static_cast< int >(height) / 4;
@@ -803,9 +803,9 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
     static float    tex_y_offset;
     static uint32_t last_flicker {};
 
-    if (time_have_x_hundredths_passed_since(THING_LAVA_SCROLL_ANIM_MS, last_flicker)) {
+    if (game_time_have_x_hundredths_passed_since(THING_LAVA_SCROLL_ANIM_MS, last_flicker)) {
       tex_y_offset += 1.0F / static_cast< float >(static_cast< int >(MAP_HEIGHT) * static_cast< int >(TILE_HEIGHT));
-      last_flicker = time_ms_cached();
+      last_flicker = game_time_ms_cached();
     }
 
     thing_display_it(g, v, l, tp, t_maybe_null, tl, br, tile, x1, x2, y1 + tex_y_offset, y2 + tex_y_offset, fbo, fg, light_pixels);

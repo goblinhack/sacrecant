@@ -317,12 +317,12 @@ void sdl_tick(Gamep g)
   static float accel = 1.0;
   static ts_t  ts;
 
-  if (time_have_x_tenths_passed_since(5, ts)) {
+  if (game_time_have_x_tenths_passed_since(5, ts)) {
     accel = 1.0;
   }
 
   if ((mx != 0) || (my != 0)) {
-    ts = time_ms();
+    ts = game_time_ms();
 
     accel *= static_cast< float >(UI_SCROLL_JOY_SCALE);
 

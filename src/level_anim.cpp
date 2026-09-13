@@ -15,7 +15,7 @@ void level_anim(Gamep g, Levelsp v, Levelp l)
 {
   TRACE();
 
-  l->ts = time_ms();
+  l->ts = game_time_ms();
   if (! static_cast< bool >(l->last_ts)) {
     l->last_ts = l->ts;
     return;

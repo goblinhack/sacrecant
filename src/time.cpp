@@ -15,21 +15,31 @@
 //
 // This is the actual time
 //
-ts_t time_now;
+ts_t game_time_now;
+ts_t user_visible_time_now;
 
 static char buf_[ MAXSHORTSTR ];
 
-[[nodiscard]] auto time_ms_cached() -> ts_t { return time_now; }
+[[nodiscard]] auto user_visible_time_ms_cached() -> ts_t { return user_visible_time_now; }
 
-[[nodiscard]] auto time_ms() -> ts_t
+[[nodiscard]] auto user_visible_time_ms() -> ts_t
+{
+  user_visible_time_now = SDL_GetTicks();
+
+  return user_visible_time_now;
+}
+
+[[nodiscard]] auto game_time_ms_cached() -> ts_t { return game_time_now; }
+
+[[nodiscard]] auto game_time_ms() -> ts_t
 {
   if (g_opt_tests) {
-    time_now++;
+    game_time_now++;
   } else {
-    time_now = SDL_GetTicks();
+    game_time_now = user_visible_time_ms();
   }
 
-  return time_now;
+  return game_time_now;
 }
 
 [[nodiscard]] auto time2str(ts_t ms, char *buf, int len) -> const char *
@@ -61,10 +71,10 @@ static char buf_[ MAXSHORTSTR ];
 [[nodiscard]] auto timestamp(char *buf, int len) -> const char *
 {
   //
-  // Beware, changing this to time_ms() will have an impact on tests as we use time_ms()
+  // Beware, changing this to game_time_ms() will have an impact on tests as we use game_time_ms()
   // hacked to a constant time
   //
-  int       log_msec = time_ms_cached();
+  int       log_msec = user_visible_time_ms();
   int       log_secs = log_msec / ONESEC;
   int       log_mins = log_secs / 60;
   int const log_hrs  = log_mins / 60;
@@ -88,50 +98,50 @@ static char buf_[ MAXSHORTSTR ];
   return buf_;
 }
 
-[[nodiscard]] auto time_have_x_hundredths_passed_since(ts_t val, ts_t since) -> bool
+[[nodiscard]] auto game_time_have_x_hundredths_passed_since(ts_t val, ts_t since) -> bool
 {
-  (void) time_ms();
+  (void) game_time_ms();
 
   //
   // Cater for negative future times.
   //
-  ts_t const delay = time_now - since;
+  ts_t const delay = game_time_now - since;
 
   return static_cast< ts_t >(delay / 10) > val;
 }
 
-[[nodiscard]] auto time_have_x_ms_passed_since(ts_t val, ts_t since) -> bool
+[[nodiscard]] auto game_time_have_x_ms_passed_since(ts_t val, ts_t since) -> bool
 {
-  (void) time_ms();
+  (void) game_time_ms();
 
   //
   // Cater for negative future times.
   //
-  ts_t const delay = time_now - since;
+  ts_t const delay = game_time_now - since;
 
   return delay >= val;
 }
 
-[[nodiscard]] auto time_have_x_tenths_passed_since(ts_t val, ts_t since) -> bool
+[[nodiscard]] auto game_time_have_x_tenths_passed_since(ts_t val, ts_t since) -> bool
 {
-  (void) time_ms();
+  (void) game_time_ms();
 
   //
   // Cater for negative future times.
   //
-  ts_t const delay = time_now - since;
+  ts_t const delay = game_time_now - since;
 
   return static_cast< ts_t >(delay / 100) >= val;
 }
 
-[[nodiscard]] auto time_have_x_secs_passed_since(ts_t val, ts_t since) -> bool
+[[nodiscard]] auto game_time_have_x_secs_passed_since(ts_t val, ts_t since) -> bool
 {
-  (void) time_ms();
+  (void) game_time_ms();
 
   //
   // Cater for negative future times.
   //
-  ts_t const delay = time_now - since;
+  ts_t const delay = game_time_now - since;
 
   return static_cast< ts_t >(delay / ONESEC) >= val;
 }
@@ -204,7 +214,7 @@ static auto my_strftime(char *s, size_t max, const char *fmt, const struct tm *t
 {
   static ts_t        time_last;
   static std::string last_timestamp;
-  auto               the_time_now = time_ms();
+  auto               the_time_now = user_visible_time_ms();
 
   if (! last_timestamp.empty()) {
     if (the_time_now - time_last < 1000) {

@@ -73,20 +73,20 @@ static void __attribute__((noinline)) sdl_event_keydown_repeat(SDL_Keysym *key, 
     //
     // Fast repeat
     //
-    if (! time_have_x_hundredths_passed_since(SDL_KEY_REPEAT_HUNDREDTHS_NEXT, sdl.key_repeat_this_key)) {
+    if (! game_time_have_x_hundredths_passed_since(SDL_KEY_REPEAT_HUNDREDTHS_NEXT, sdl.key_repeat_this_key)) {
       return;
     }
   } else {
     //
     // First press
     //
-    if (! time_have_x_hundredths_passed_since(SDL_KEY_REPEAT_HUNDREDTHS_FIRST, sdl.key_repeat_this_key)) {
+    if (! game_time_have_x_hundredths_passed_since(SDL_KEY_REPEAT_HUNDREDTHS_FIRST, sdl.key_repeat_this_key)) {
       return;
     }
     sdl.key_repeat_count++;
   }
 
-  sdl.key_repeat_this_key = time_ms();
+  sdl.key_repeat_this_key = game_time_ms();
 }
 
 [[nodiscard]] static auto __attribute__((noinline)) sdl_event_keydown_same_key(SDL_Keysym *key) -> bool
@@ -220,13 +220,13 @@ static void __attribute__((noinline)) sdl_event_mousedown(Gamep g, SDL_Event *ev
 
   sdl.event_count++;
   sdl.mouse_down                = sdl_mouse_read_position();
-  sdl.last_mouse_held_down_when = time_ms();
+  sdl.last_mouse_held_down_when = game_time_ms();
   sdl.held_mouse_x              = sdl.mouse_x;
   sdl.held_mouse_y              = sdl.mouse_y;
 
   DBG("SDL: Mouse DOWN: button %d pressed at (%d,%d) state %X", event->button.button, event->button.x, event->button.y, sdl.mouse_down);
 
-  auto now             = time_ms();
+  auto now             = game_time_ms();
   wid_mouse_visible    = true;
   wid_mouse_two_clicks = (now - sdl.mouse_down_when < UI_MOUSE_DOUBLE_CLICK);
 
@@ -296,7 +296,7 @@ void sdl_event(Gamep g, SDL_Event *event, bool &processed_mouse_motion_event)
         {
           static ts_t ts;
 
-          if (time_have_x_tenths_passed_since(10, ts)) {
+          if (game_time_have_x_tenths_passed_since(10, ts)) {
             accel = 1.0;
           } else {
             if (wid_over != nullptr) {
@@ -316,7 +316,7 @@ void sdl_event(Gamep g, SDL_Event *event, bool &processed_mouse_motion_event)
             }
           }
 
-          ts = time_ms();
+          ts = game_time_ms();
         }
 
         sdl.wheel_x = event->wheel.x;
@@ -637,7 +637,7 @@ void sdl_key_repeat_events(Gamep g)
   static ts_t last_movement_keypress = 0;
 
   if (last_movement_keypress == 0) {
-    last_movement_keypress = time_ms();
+    last_movement_keypress = game_time_ms();
   }
 
   auto *player = thing_player(g);
@@ -654,9 +654,9 @@ void sdl_key_repeat_events(Gamep g)
       fast_repeat_allowed = false;
     }
 
-    if (fast_repeat_allowed || time_have_x_hundredths_passed_since(SDL_KEY_REPEAT_PLAYER, last_movement_keypress)) {
+    if (fast_repeat_allowed || game_time_have_x_hundredths_passed_since(SDL_KEY_REPEAT_PLAYER, last_movement_keypress)) {
       if (player_move_request(g, up, down, left, right, fire)) {
-        last_movement_keypress = time_ms();
+        last_movement_keypress = game_time_ms();
 
         if (fire_pressed > 0) {
           fire_pressed--;

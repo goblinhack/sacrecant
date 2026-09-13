@@ -16,9 +16,9 @@
 void level_dmap(Gamep g, Levelsp v, Levelp l)
 {
   TRACE();
-  auto started = time_ms();
+  auto started = user_visible_time_ms();
   FOR_ALL_THINGS_ON_LEVEL_UNSAFE(g, v, l, t) { thing_dmap(g, v, l, t); }
-  LEVEL_DBG(g, v, l, "dmap generation took %u ms", time_ms() - started);
+  LEVEL_DBG(g, v, l, "dmap generation took %u ms", user_visible_time_ms() - started);
 }
 
 void levels_dmap(Gamep g, Levelsp v)

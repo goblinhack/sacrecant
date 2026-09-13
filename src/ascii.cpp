@@ -432,16 +432,16 @@ void ascii_putf_internal2(int x, int y, color fg, color bg, const std::string &t
 
       if (first) {
         first = 0u;
-        last  = time_ms_cached();
+        last  = game_time_ms_cached();
       }
 
       //
       // Allow the cursor to change color. A bit of a hack. Again.
       //
-      if (time_have_x_tenths_passed_since(10, last)) {
+      if (game_time_have_x_tenths_passed_since(10, last)) {
         fg   = UI_CURSOR_COLOR;
-        last = time_ms_cached();
-      } else if (time_have_x_tenths_passed_since(5, last)) {
+        last = game_time_ms_cached();
+      } else if (game_time_have_x_tenths_passed_since(5, last)) {
         fg = UI_CURSOR_COLOR;
       } else {
         fg = UI_CURSOR_OTHER_COLOR;

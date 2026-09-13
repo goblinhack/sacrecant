@@ -551,7 +551,7 @@ auto Game::save(const std::string &file_to_save) -> bool
     wid_progress_bar(this, "Compressing...", 0.8F);
   }
 
-  auto start    = time_ms();
+  auto start    = user_visible_time_ms();
   long dst_size = 0;
 
 #ifdef USE_LZ4
@@ -578,7 +578,7 @@ auto Game::save(const std::string &file_to_save) -> bool
         src_size,                 //
         dst_size / (1024 * 1024), //
         dst_size,                 //
-        time_ms() - start);
+        user_visible_time_ms() - start);
   } else {
     ERR("%s compressed failed %ld Mb (%ld bytes) -> %ld Mb (%ld error code) took %u ms",
         which,                           //
@@ -586,7 +586,7 @@ auto Game::save(const std::string &file_to_save) -> bool
         src_size,                        //
         (long) dst_size / (1024 * 1024), //
         dst_size,                        //
-        time_ms() - start);
+        user_visible_time_ms() - start);
     wid_progress_bar_destroy(this);
     return false;
   }

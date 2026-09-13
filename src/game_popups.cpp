@@ -45,7 +45,7 @@ void game_popup_text_add(Gamep g, int x, int y, const std::string &text, color c
       try {
         auto value2 = std::stoi(i->text);
         i->text     = std::to_string(value1 + value2);
-        i->created  = time_ms_cached();
+        i->created  = user_visible_time_ms_cached();
         i->fg       = c;
         i->y_offset = 0;
         return;
@@ -71,7 +71,7 @@ void game_popup_text_add(Gamep g, int x, int y, const std::string &text, color c
   auto *l        = game_popups_get(g, x, y);
   auto *popup    = new GamePopup;
   popup->text    = text;
-  popup->created = time_ms_cached();
+  popup->created = user_visible_time_ms_cached();
   popup->fg      = c;
   l->push_front(popup);
 }
@@ -96,7 +96,7 @@ void game_popups_age(Gamep g)
       //
       std::list< GamePopup * > out;
       for (auto *i : *game_popups_get(g, x, y)) {
-        if (! time_have_x_ms_passed_since(POPUP_DURATION_MS, i->created)) {
+        if (! game_time_have_x_ms_passed_since(POPUP_DURATION_MS, i->created)) {
           out.push_back(i);
         } else {
           delete i;
@@ -155,7 +155,7 @@ void game_popups_display(Gamep g, Levelsp v, Levelp l)
         //
         // Fade out and raise the text up with a percentage
         //
-        float const pct = static_cast< float >(time_ms_cached() - i->created) / static_cast< float >(POPUP_DURATION_MS);
+        float const pct = static_cast< float >(user_visible_time_ms_cached() - i->created) / static_cast< float >(POPUP_DURATION_MS);
 
         //
         // Fade out
