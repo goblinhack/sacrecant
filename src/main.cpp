@@ -98,7 +98,7 @@ static void parse_args(int argc, char *argv[])
   int i = 0;
 
   //
-  // Parse format args
+  // Parse format arguments
   //
   if (g_opt_debug1) {
     con("Parse command line arguments for '%s'", argv[ 0 ]);
