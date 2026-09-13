@@ -285,7 +285,7 @@ public:
   int last_mouse_down {};
 
   //
-  // These are the onscreen map pixel co-ords.
+  // These are the onscreen map pixel coordinates.
   //
   int visible_map_tl_x {};
   int visible_map_tl_y {};

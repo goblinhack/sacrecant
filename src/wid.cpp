@@ -227,11 +227,6 @@ void wid_dump(Widp w, int depth)
 
   wid_get_abs_coords(w, &tlx, &tly, &brx, &bry);
 
-#if 0
-  std::print("\n          {:>{}} dump: [{}] text [{}] {},{} to @{},{} {} children", "", depth * 2, wid_name(w),
-             wid_get_text(w), tlx, tly, brx, bry, wid_count(w, depth));
-#endif
-
   for (auto &iter : w->children_display_sorted) {
     auto *child = iter.second;
 
@@ -326,7 +321,7 @@ void wid_get_tl_x_tl_y_br_x_br_y(Widp w, int *tl_x, int *tl_y, int *br_x, int *b
 }
 
 //
-// Set the wid new co-ords. Returns true if there is a change.
+// Set the wid new coordinates. Returns true if there is a change.
 //
 void wid_set_pos(Widp w, spoint tl, spoint br)
 {
@@ -363,7 +358,7 @@ void wid_set_pos(Widp w, spoint tl, spoint br)
 }
 
 //
-// Set the wid new co-ords. Returns true if there is a change.
+// Set the wid new coordinates. Returns true if there is a change.
 //
 static void wid_set_pos_pct(Widp w, fpoint tl, fpoint br)
 {
@@ -5000,7 +4995,7 @@ try_parent:
 }
 
 //
-// Get the onscreen co-ords of the widget, clipped to the parent.
+// Get the onscreen coordinates of the widget, clipped to the parent.
 //
 void wid_get_abs_coords(Widp w, int *tlx, int *tly, int *brx, int *bry)
 {
@@ -5056,7 +5051,7 @@ void wid_get_abs_coords(Widp w, int *tlx, int *tly, int *brx, int *bry)
 }
 
 //
-// Get the onscreen co-ords of the widget, clipped to the parent.
+// Get the onscreen coordinates of the widget, clipped to the parent.
 //
 void wid_get_abs(Widp w, int *x, int *y)
 {

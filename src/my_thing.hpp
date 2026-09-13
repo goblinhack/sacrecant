@@ -644,12 +644,12 @@ using Thing = struct Thing {
   //
   ThingLightId light_id;
   //
-  // Interpolated co-ords in pixels
+  // Interpolated coordinates in pixels
   //
   spoint _prev_pix_at;
   spoint _curr_pix_at;
   //
-  // Previous map co-ords used for interpolation when moving. Changes when
+  // Previous map coordinates used for interpolation when moving. Changes when
   // the move finishes.
   //
   bpoint _moving_from;
@@ -674,11 +674,11 @@ using Thing = struct Thing {
   //
   f16 angle;
   //
-  // Previous map co-ords. Does not change when the move finishes.
+  // Previous map coordinates. Does not change when the move finishes.
   //
   fpoint _old_at;
   //
-  // Map co-ords. This is the slot the thing is at when rounded.
+  // Map coordinates. This is the slot the thing is at when rounded.
   //
   // However some things like missiles can be at fractional positions.
   //

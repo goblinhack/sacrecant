@@ -35,14 +35,14 @@ struct Ascii {
   //
   spoint mouse_at {};
   //
-  // UI triggers for ASCII co-ords.
+  // UI triggers for ASCII coordinates.
   //
   std::array< std::array< int, TERM_HEIGHT_MAX >, TERM_WIDTH_MAX > sdl_mod {};
   std::array< std::array< int, TERM_HEIGHT_MAX >, TERM_WIDTH_MAX > sdl_key {};
   std::array< std::array< int, TERM_HEIGHT_MAX >, TERM_WIDTH_MAX > mouse_button {};
 
   //
-  // Callbacks for ASCII co-ords.
+  // Callbacks for ASCII coordinates.
   //
   std::array< std::array< ascii_key_down_callback, TERM_HEIGHT_MAX >, TERM_WIDTH_MAX >   key_down {};
   std::array< std::array< ascii_mouse_down_callback, TERM_HEIGHT_MAX >, TERM_WIDTH_MAX > mouse_down {};
@@ -1253,7 +1253,7 @@ void ascii_put_box(box_args b, int style, const TileLayers tiles, const char *fm
       ascii.mouse_button[ x ][ y ] = b.mouse_button;
 
       //
-      // Callbacks for ascii co-ords.
+      // Callbacks for ascii coordinates.
       //
       ascii.key_down[ x ][ y ]   = b.key_down;
       ascii.mouse_down[ x ][ y ] = b.mouse_down;

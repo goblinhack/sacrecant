@@ -13,8 +13,7 @@ static auto tp_sac_poor_vision_detail_get(Gamep g, Levelsp v, Levelp l, Thingp m
 {
   TRACE();
 
-  return UI_INFO1_FMT_STR
-      "The amount you can see ahead is limited to a fraction of what it is normally.\n";
+  return UI_INFO1_FMT_STR "The amount you can see ahead is limited to a fraction of what it is normally.\n";
 }
 
 [[nodiscard]] auto tp_load_sac_poor_vision() -> bool

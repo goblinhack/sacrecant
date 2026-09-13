@@ -97,7 +97,7 @@ static void thing_collision_sort_cands(Gamep g, Levelsp v, Levelp l, Thingp me, 
 
   //
   // Need to perform calculations from the center of the circle as the
-  // circle is really inside a tile with the top left co-ords being the
+  // circle is really inside a tile with the top left coordinates being the
   // blit point for the tile. The radius then is used from this cental
   // point for collision.s
   //

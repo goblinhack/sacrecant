@@ -9,6 +9,7 @@
 // begin sort marker1 {
 color BLACK;
 color BLUE;
+color GRAYBLUE;
 color BLUE1;
 color BLUE2;
 color BLUE3;
@@ -98,6 +99,7 @@ void color_init()
   // begin sort marker2 {
   color_set("black", &BLACK, 0, 0, 0, 255);
   color_set("blue", &BLUE, 0, 0, 255, 255);
+  color_set("grayblue", &GRAYBLUE, 128, 170, 170, 255);
   color_set("blue1", &BLUE1, 0, 0, 255, 255);
   color_set("blue2", &BLUE2, 0, 0, 238, 255);
   color_set("blue3", &BLUE3, 0, 0, 205, 255);
