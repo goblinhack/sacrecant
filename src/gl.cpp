@@ -705,7 +705,7 @@ void blit_fbo_unbind_locked()
 #define NUMBER_COMPONENTS_PER_COLOR 4
 
 uint32_t NUMBER_BYTES_PER_VERTEX_2D = (SIZEOF(GLfloat) * NUMBER_DIMENSIONS_PER_COORD_2D) + (SIZEOF(GLshort) * NUMBER_DIMENSIONS_PER_COORD_2D)
-                                     + (SIZEOF(GLubyte) * NUMBER_COMPONENTS_PER_COLOR);
+                                    + (SIZEOF(GLubyte) * NUMBER_COMPONENTS_PER_COLOR);
 //
 // Two arrays, xy and uv.
 //

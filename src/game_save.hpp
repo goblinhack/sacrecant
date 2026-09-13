@@ -497,7 +497,7 @@ auto Game::save(const std::string &file_to_save) -> bool
     wid_progress_bar(this, "Stringifying...", 0.4F);
   }
 
-  auto data = s.str(); // This is a bit slow, but the buffere may not be contiguous
+  auto data = s.str(); // This is a bit slow, but the buffer may not be contiguous
   s.seekg(0, std::ios::end);
   long src_size = s.tellg();
   s.seekg(0, std::ios::beg);
