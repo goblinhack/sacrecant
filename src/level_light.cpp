@@ -107,7 +107,7 @@ static inline void level_light_per_pixel(const FovContext &ctx, const bpoint &p)
     for (uint8_t pixx = 0; pixx < LIGHT_PIXEL; pixx++, light_pixel_at_x++) {
 
       float const dist_in_pixels = DISTANCE_f(light_pixel_at_x, light_pixel_at_y, // newline
-                                             (float) ctx.thing_at_in_pixels.x, (float) ctx.thing_at_in_pixels.y);
+                                              (float) ctx.thing_at_in_pixels.x, (float) ctx.thing_at_in_pixels.y);
 
       //
       // No point in calculating beyond the maximum light distance.

@@ -26,9 +26,9 @@ static auto tp_cleaner_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> st
 {
   TRACE();
 
-  return                                                                                                                   //
-      UI_INFO1_FMT_STR "Dungeon cleaners are mindless masses of jelly that like to eat treasure. And you.\n"               //
-      UI_INFO2_FMT_STR "They move slowly and hoover up items to be digested slowly in their gloopy innards.\n"             //
+  return                                                                                                                    //
+      UI_INFO1_FMT_STR "Dungeon cleaners are mindless masses of jelly that like to eat treasure. And you.\n"                //
+      UI_INFO2_FMT_STR "They move slowly and hoover up items to be digested slowly in their gloopy innards.\n"              //
       UI_INFO3_FMT_STR "Although sluggish, they can surprise with a sudden engulfing jump. Best not be where they land..."; //
 }
 

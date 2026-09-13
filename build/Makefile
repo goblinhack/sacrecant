@@ -42,6 +42,7 @@ format:
 	$(foreach var,$(FORMAT_DIRS), (cd $(var); sh $(TOP)/build/shell_source.sh do) ;)
 	$(foreach var,$(FORMAT_DIRS), (cd $(var); sh $(TOP)/build/tidy_source.sh do) ;)
 	$(foreach var,$(FORMAT_DIRS), (cd $(var); sh $(TOP)/build/format.sh do) ;)
+	codespell -x build.log
 
 tidy:
 	$(foreach var,$(DIRS), $(MAKE) -C $(var) $(CORES) $@; )
