@@ -979,22 +979,22 @@ void room_add(Gamep g, int chance, int room_flags, const char *file, int line, .
           }
           if (x == 0) {
             if (! room_tile_is_traversable(r, x + 1, y)) {
-              CROAK("room has left exit but adjacent tile is not traversible @ %s:%d", file, line);
+              CROAK("room has left exit but adjacent tile is not traversable @ %s:%d", file, line);
             }
           }
           if (x == r->width - 1) {
             if (! room_tile_is_traversable(r, r->width - 2, y)) {
-              CROAK("room has right exit but adjacent tile is not traversible @ %s:%d", file, line);
+              CROAK("room has right exit but adjacent tile is not traversable @ %s:%d", file, line);
             }
           }
           if (y == 0) {
             if (! room_tile_is_traversable(r, x, y + 1)) {
-              CROAK("room has up exit but adjacent tile is not traversible @ %s:%d", file, line);
+              CROAK("room has up exit but adjacent tile is not traversable @ %s:%d", file, line);
             }
           }
           if (y == r->height - 1) {
             if (! room_tile_is_traversable(r, x, r->height - 2)) {
-              CROAK("room has down exit but adjacent tile is not traversible @ %s:%d", file, line);
+              CROAK("room has down exit but adjacent tile is not traversable @ %s:%d", file, line);
             }
           }
         } else if (c != CHARMAP_EMPTY) {

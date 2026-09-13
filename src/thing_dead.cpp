@@ -209,7 +209,7 @@ static void thing_killed_by_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
       topcon("%s is thrown by %s.", the_thing.c_str(), by_player.c_str());
       break;
     case THING_EVENT_SHOVED : //
-      topcon("%s is knicked over by %s.", the_thing.c_str(), by_player.c_str());
+      topcon("%s is knocked over by %s.", the_thing.c_str(), by_player.c_str());
       break;
     case THING_EVENT_CRUSH_DAMAGE : //
       topcon("%s is crushed by %s.", the_thing.c_str(), by_player.c_str());

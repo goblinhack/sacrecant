@@ -267,7 +267,7 @@ void music_load(Gamep g)
   (void) music_load(g, 44100, "data/music/DST-ClubFight.ogg", /*          */ "graveyard.boss");
 
   (void) music_load(g, 44100, "data/music/DST-DeadToTheWorld.ogg", /*     */ "underhell.1");
-  (void) music_load(g, 44100, "data/music/DST-Millenium.ogg", /*          */ "underhell.1");
+  (void) music_load(g, 44100, "data/music/DST-Millennium.ogg", /*          */ "underhell.1");
   (void) music_load(g, 44100, "data/music/DST-Dominion.ogg", /*           */ "underhell.2");
   (void) music_load(g, 44100, "data/music/DST-Drakul.ogg", /*             */ "underhell.3");
   (void) music_load(g, 44100, "data/music/DST-MyDarkestHour.ogg", /*      */ "underhell.3");

@@ -5115,7 +5115,7 @@ static void wid_display(Gamep g, Widp w, uint8_t disable_scissor, uint8_t *updat
 #endif
 
   //
-  // Bounding box for drawing the wid. Co-ords are negative as we
+  // Bounding box for drawing the wid. Coordinates are negative as we
   // flipped the screen
   //
   tlx = w->abs_tl.x;
@@ -5124,8 +5124,8 @@ static void wid_display(Gamep g, Widp w, uint8_t disable_scissor, uint8_t *updat
   bry = w->abs_br.y;
 
   //
-  // If we're clipped out of existence! then nothing to draw. This can
-  // be outside the bounds of a widget or if at the top level, off screeen.
+  // If we're clipped out of existence then nothing to draw. This can
+  // be outside the bounds of a widget or if at the top level, off screen.
   //
   if (clip != 0) {
     clip_width = brx - tlx;

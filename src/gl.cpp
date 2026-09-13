@@ -704,7 +704,7 @@ void blit_fbo_unbind_locked()
 //
 #define NUMBER_COMPONENTS_PER_COLOR 4
 
-uint32_t NUMBER_BYTES_PER_VERTICE_2D = (SIZEOF(GLfloat) * NUMBER_DIMENSIONS_PER_COORD_2D) + (SIZEOF(GLshort) * NUMBER_DIMENSIONS_PER_COORD_2D)
+uint32_t NUMBER_BYTES_PER_VERTEX_2D = (SIZEOF(GLfloat) * NUMBER_DIMENSIONS_PER_COORD_2D) + (SIZEOF(GLshort) * NUMBER_DIMENSIONS_PER_COORD_2D)
                                      + (SIZEOF(GLubyte) * NUMBER_COMPONENTS_PER_COLOR);
 //
 // Two arrays, xy and uv.
@@ -777,21 +777,21 @@ void blit_flush()
 
   static long nvertices;
 
-  nvertices = (reinterpret_cast< char * >(bufp) - reinterpret_cast< char * >(gl_array_buf)) / NUMBER_BYTES_PER_VERTICE_2D;
+  nvertices = (reinterpret_cast< char * >(bufp) - reinterpret_cast< char * >(gl_array_buf)) / NUMBER_BYTES_PER_VERTEX_2D;
 
   glBindTexture(GL_TEXTURE_2D, buf_tex);
 
   glTexCoordPointer(NUMBER_DIMENSIONS_PER_COORD_2D, // (u,v)
-                    GL_FLOAT, NUMBER_BYTES_PER_VERTICE_2D, gl_array_buf);
+                    GL_FLOAT, NUMBER_BYTES_PER_VERTEX_2D, gl_array_buf);
 
   glVertexPointer(NUMBER_DIMENSIONS_PER_COORD_2D, // (x,y)
-                  GL_SHORT, NUMBER_BYTES_PER_VERTICE_2D,
+                  GL_SHORT, NUMBER_BYTES_PER_VERTEX_2D,
                   (reinterpret_cast< char * >(gl_array_buf))
                       + (static_cast< ptrdiff_t >(SIZEOF(GLfloat) * // skip (u,v)
                                                   NUMBER_DIMENSIONS_PER_COORD_2D)));
 
   glColorPointer(NUMBER_COMPONENTS_PER_COLOR, // (r,g,b,a)
-                 GL_UNSIGNED_BYTE, NUMBER_BYTES_PER_VERTICE_2D,
+                 GL_UNSIGNED_BYTE, NUMBER_BYTES_PER_VERTEX_2D,
                  (reinterpret_cast< char * >(gl_array_buf))
                      + (static_cast< ptrdiff_t >(SIZEOF(GLshort) * // skip (x,y)
                                                  NUMBER_DIMENSIONS_PER_COORD_2D))

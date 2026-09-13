@@ -135,7 +135,7 @@
 }
 
 //
-// How many projectils?
+// How many projectiles?
 //
 [[nodiscard]] auto thing_missile_fired_by_count_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> int
 {

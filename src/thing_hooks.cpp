@@ -46,7 +46,7 @@ static void thing_dump_buffs(Gamep g, Levelsp v, Levelp l, Thingp me)
 }
 
 //
-// How many projectils?
+// How many projectiles?
 //
 [[nodiscard]] static auto thing_hook_count_get(Gamep g, Levelsp v, Thingp me) -> int
 {

@@ -246,7 +246,7 @@ ENUM_DEF_H(FBO_ENUM, FboEnum);
        (_iter_) < FBO_ENUM_MAX;         /* newline */                                                                                           \
        (_iter_) = static_cast< FboEnum >(static_cast< int >(_iter_) + 1))
 
-extern uint32_t NUMBER_BYTES_PER_VERTICE_2D;
+extern uint32_t NUMBER_BYTES_PER_VERTEX_2D;
 
 extern GLfloat *bufp;
 extern GLfloat *bufp_end;
