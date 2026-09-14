@@ -11,6 +11,8 @@
 #include "my_gl.hpp" // NOLINT
 #include "my_level.hpp"
 #include "my_main.hpp"
+#include "my_sdl_event.hpp"
+#include "my_sdl_proto.hpp"
 #include "my_spoint.hpp"
 #include "my_thing.hpp"
 #include "my_thing_callbacks.hpp"
@@ -819,4 +821,42 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
   } else {
     thing_display_it(g, v, l, tp, t_maybe_null, tl, br, tile, x1, x2, y1, y2, fbo, fg, light_pixels);
   }
+}
+
+//
+// Find the on screen pixel a thing is at
+//
+spoint thing_to_pixel(Gamep g, Levelsp v, Levelp l, Thingp it)
+{
+  TRACE();
+
+  //
+  // Get the visible map bounds
+  //
+  int visible_map_tl_x = 0;
+  int visible_map_tl_y = 0;
+  int visible_map_br_x = 0;
+  int visible_map_br_y = 0;
+  game_visible_map_pix_get(g, &visible_map_tl_x, &visible_map_tl_y, &visible_map_br_x, &visible_map_br_y);
+
+  //
+  // Get the size of the on screen map.
+  //
+  int w = 0;
+  int h = 0;
+  fbo_get_size(g, FBO_MAP_BG_FLOOR_WATER_LAVA, w, h);
+
+  int const zoom   = game_map_zoom_get(g);
+  auto      pix_at = thing_pix_at(it);
+  float     px     = ((pix_at.x * zoom) - v->pixel_map_at.x) / static_cast< float >(w);
+  float     py     = ((pix_at.y * zoom) - v->pixel_map_at.y) / static_cast< float >(h);
+
+  spoint pix;
+
+  pix.x = (int16_t) (visible_map_tl_x + ((visible_map_br_x - visible_map_tl_x) * px));
+  pix.y = (int16_t) (visible_map_tl_y + ((visible_map_br_y - visible_map_tl_y) * py));
+
+  topcon("%d,%d vs %d,%d\n", pix.x, pix.y, sdl.mouse_x, sdl.mouse_y);
+
+  return pix;
 }
