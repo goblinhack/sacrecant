@@ -305,34 +305,30 @@ public:
   //
   // Which player was finally chosen on the player menu
   //
-  Thingp cand_player {};
-  Tpp    chosen_player {};
+  Thingp player_cand {};
+  Tpp    player_chosen {};
+  Thingp player_mouse_over_currently {};
 
   //
   // Which sacrifices were selected
   //
-  Thingp                   cand_sacrifice_last {};
-  std::map< Thingp, bool > cand_sacrifice;
-  std::vector< Tpp >       chosen_sacrifice;
+  Thingp                   sacrifice_prev_cand {};
+  std::map< Thingp, bool > sacrifice_cand;
+  std::vector< Tpp >       sacrifice_chosen;
+  Thingp                   sacrifice_mouse_over_currently {};
 
   //
   // Which boosts were selected
   //
-  Thingp                   cand_boost_last {};
-  std::map< Thingp, bool > cand_boost;
-  std::vector< Tpp >       chosen_boost;
+  Thingp                   boost_prev_cand {};
+  std::map< Thingp, bool > boost_cand;
+  std::vector< Tpp >       boost_chosen;
+  Thingp                   boost_mouse_over_currently {};
 
   //
   // For hooks. This is the order of selection.
   //
   uint16_t hook_sort_order {};
-
-  //
-  // Which player is hovering over
-  //
-  Thingp mouse_over_player {};
-  Thingp mouse_over_sacrifice {};
-  Thingp mouse_over_boost {};
 
   /////////////////////////////////////////////////////////////////////////
   // not worth saving
@@ -3152,7 +3148,7 @@ void game_map_zoom_out(Gamep g)
     return nullptr;
   }
 
-  Thingp t = g->cand_player;
+  Thingp t = g->player_cand;
   if (t == nullptr) {
     return nullptr;
   }
@@ -3167,7 +3163,7 @@ void game_map_zoom_out(Gamep g)
     return nullptr;
   }
 
-  return g->cand_player;
+  return g->player_cand;
 }
 void game_cand_player_set(Gamep g, Thingp t)
 {
@@ -3177,7 +3173,7 @@ void game_cand_player_set(Gamep g, Thingp t)
     ERR("no game pointer");
     return;
   }
-  g->cand_player = t;
+  g->player_cand = t;
 }
 void game_cand_player_unset(Gamep g)
 {
@@ -3187,7 +3183,7 @@ void game_cand_player_unset(Gamep g)
     ERR("no game pointer");
     return;
   }
-  g->cand_player = {};
+  g->player_cand = {};
 }
 void game_player_clear(Gamep g)
 {
@@ -3197,9 +3193,11 @@ void game_player_clear(Gamep g)
     ERR("no game pointer");
     return;
   }
-  g->cand_player   = {};
-  g->chosen_player = {};
+  g->player_cand                 = {};
+  g->player_chosen               = {};
+  g->player_mouse_over_currently = {};
 }
+
 [[nodiscard]] auto game_chosen_player_get(Gamep g) -> Tpp
 {
   TRACE();
@@ -3208,7 +3206,7 @@ void game_player_clear(Gamep g)
     ERR("no game pointer");
     return nullptr;
   }
-  return g->chosen_player;
+  return g->player_chosen;
 }
 void game_chosen_player_set(Gamep g, Tpp t)
 {
@@ -3218,7 +3216,7 @@ void game_chosen_player_set(Gamep g, Tpp t)
     ERR("no game pointer");
     return;
   }
-  g->chosen_player = t;
+  g->player_chosen = t;
 }
 
 [[nodiscard]] auto game_cand_sacrifice_get(Gamep g) -> std::vector< Tpp >
@@ -3232,7 +3230,7 @@ void game_chosen_player_set(Gamep g, Tpp t)
   }
 
   std::vector< Thingp > tmp;
-  for (auto t : g->cand_sacrifice) {
+  for (auto t : g->sacrifice_cand) {
     Thingp it = t.first;
     tmp.push_back(it);
   }
@@ -3245,7 +3243,7 @@ void game_chosen_player_set(Gamep g, Tpp t)
 
   return out;
 }
-[[nodiscard]] auto game_cand_sacrifice_get_last(Gamep g) -> Thingp
+[[nodiscard]] auto game_cand_sacrifice_get_prev(Gamep g) -> Thingp
 {
   TRACE();
 
@@ -3254,7 +3252,7 @@ void game_chosen_player_set(Gamep g, Tpp t)
     return nullptr;
   }
 
-  return g->cand_sacrifice_last;
+  return g->sacrifice_prev_cand;
 }
 void game_cand_sacrifice_set(Gamep g, Thingp t)
 {
@@ -3270,8 +3268,8 @@ void game_cand_sacrifice_set(Gamep g, Thingp t)
     return;
   }
 
-  g->cand_sacrifice[ t ] = true;
-  g->cand_sacrifice_last = t;
+  g->sacrifice_cand[ t ] = true;
+  g->sacrifice_prev_cand = t;
   t->hook_sort_order     = g->hook_sort_order++;
 }
 void game_cand_sacrifice_unset(Gamep g, Thingp t)
@@ -3282,8 +3280,8 @@ void game_cand_sacrifice_unset(Gamep g, Thingp t)
     ERR("no game pointer");
     return;
   }
-  g->cand_sacrifice.erase(t);
-  g->cand_sacrifice_last = {};
+  g->sacrifice_cand.erase(t);
+  g->sacrifice_prev_cand = {};
 }
 void game_sacrifice_clear(Gamep g)
 {
@@ -3293,9 +3291,10 @@ void game_sacrifice_clear(Gamep g)
     ERR("no game pointer");
     return;
   }
-  g->cand_sacrifice      = {};
-  g->cand_sacrifice      = {};
-  g->cand_sacrifice_last = {};
+  g->sacrifice_cand                 = {};
+  g->sacrifice_chosen               = {};
+  g->sacrifice_prev_cand            = {};
+  g->sacrifice_mouse_over_currently = {};
 }
 [[nodiscard]] auto game_chosen_sacrifice_get(Gamep g) -> std::vector< Tpp >
 {
@@ -3307,7 +3306,7 @@ void game_sacrifice_clear(Gamep g)
     ERR("no game pointer");
     return out;
   }
-  return g->chosen_sacrifice;
+  return g->sacrifice_chosen;
 }
 [[nodiscard]] auto game_cand_sacrifice_find(Gamep g, Thingp t) -> bool
 {
@@ -3318,7 +3317,7 @@ void game_sacrifice_clear(Gamep g)
     return false;
   }
 
-  if (g->cand_sacrifice.contains(t)) {
+  if (g->sacrifice_cand.contains(t)) {
     return true;
   }
   return false;
@@ -3331,7 +3330,7 @@ void game_chosen_sacrifice_set(Gamep g, std::vector< Tpp > t)
     ERR("no game pointer");
     return;
   }
-  g->chosen_sacrifice = std::move(t);
+  g->sacrifice_chosen = std::move(t);
 }
 
 [[nodiscard]] auto game_cand_boost_get(Gamep g) -> std::vector< Tpp >
@@ -3346,7 +3345,7 @@ void game_chosen_sacrifice_set(Gamep g, std::vector< Tpp > t)
   }
 
   std::vector< Thingp > tmp;
-  for (auto t : g->cand_boost) {
+  for (auto t : g->boost_cand) {
     Thingp it = t.first;
     tmp.push_back(it);
   }
@@ -3359,14 +3358,14 @@ void game_chosen_sacrifice_set(Gamep g, std::vector< Tpp > t)
 
   return out;
 }
-[[nodiscard]] auto game_cand_boost_get_last(Gamep g) -> Thingp
+[[nodiscard]] auto game_cand_boost_get_prev(Gamep g) -> Thingp
 {
   TRACE();
 
   if (g == nullptr) [[unlikely]] {
     return nullptr;
   }
-  return g->cand_boost_last;
+  return g->boost_prev_cand;
 }
 void game_cand_boost_set(Gamep g, Thingp t)
 {
@@ -3382,8 +3381,8 @@ void game_cand_boost_set(Gamep g, Thingp t)
     return;
   }
 
-  g->cand_boost[ t ] = true;
-  g->cand_boost_last = t;
+  g->boost_cand[ t ] = true;
+  g->boost_prev_cand = t;
   t->hook_sort_order = g->hook_sort_order++;
 }
 void game_cand_boost_unset(Gamep g, Thingp t)
@@ -3395,8 +3394,8 @@ void game_cand_boost_unset(Gamep g, Thingp t)
     return;
   }
 
-  g->cand_boost.erase(t);
-  g->cand_boost_last = {};
+  g->boost_cand.erase(t);
+  g->boost_prev_cand = {};
 }
 void game_boost_clear(Gamep g)
 {
@@ -3407,9 +3406,10 @@ void game_boost_clear(Gamep g)
     return;
   }
 
-  g->cand_boost      = {};
-  g->cand_boost      = {};
-  g->cand_boost_last = {};
+  g->boost_prev_cand            = {};
+  g->boost_cand                 = {};
+  g->boost_chosen               = {};
+  g->boost_mouse_over_currently = {};
 }
 [[nodiscard]] auto game_chosen_boost_get(Gamep g) -> std::vector< Tpp >
 {
@@ -3420,7 +3420,7 @@ void game_boost_clear(Gamep g)
   if (g == nullptr) [[unlikely]] {
     return out;
   }
-  return g->chosen_boost;
+  return g->boost_chosen;
 }
 [[nodiscard]] auto game_cand_boost_find(Gamep g, Thingp t) -> bool
 {
@@ -3430,7 +3430,7 @@ void game_boost_clear(Gamep g)
     return false;
   }
 
-  if (g->cand_boost.contains(t)) {
+  if (g->boost_cand.contains(t)) {
     return true;
   }
   return false;
@@ -3443,7 +3443,7 @@ void game_chosen_boost_set(Gamep g, std::vector< Tpp > t)
     ERR("no game pointer");
     return;
   }
-  g->chosen_boost = std::move(t);
+  g->boost_chosen = std::move(t);
 }
 
 [[nodiscard]] auto game_mouse_over_player_get(Gamep g) -> Thingp
@@ -3453,7 +3453,7 @@ void game_chosen_boost_set(Gamep g, std::vector< Tpp > t)
   if (g == nullptr) [[unlikely]] {
     return nullptr;
   }
-  return g->mouse_over_player;
+  return g->player_mouse_over_currently;
 }
 void game_mouse_over_player_set(Gamep g, Thingp t)
 {
@@ -3463,19 +3463,19 @@ void game_mouse_over_player_set(Gamep g, Thingp t)
     ERR("no game pointer");
     return;
   }
-  g->mouse_over_player = t;
+  g->player_mouse_over_currently = t;
 }
 
-[[nodiscard]] auto game_mouse_over_sacrifice_get(Gamep g) -> Thingp
+[[nodiscard]] auto game_sacrifice_mouse_over_currently_get(Gamep g) -> Thingp
 {
   TRACE();
 
   if (g == nullptr) [[unlikely]] {
     return nullptr;
   }
-  return g->mouse_over_sacrifice;
+  return g->sacrifice_mouse_over_currently;
 }
-void game_mouse_over_sacrifice_set(Gamep g, Thingp t)
+void game_sacrifice_mouse_over_currently_set(Gamep g, Thingp t)
 {
   TRACE();
 
@@ -3484,19 +3484,19 @@ void game_mouse_over_sacrifice_set(Gamep g, Thingp t)
     return;
   }
 
-  g->mouse_over_sacrifice = t;
+  g->sacrifice_mouse_over_currently = t;
 }
 
-[[nodiscard]] auto game_mouse_over_boost_get(Gamep g) -> Thingp
+[[nodiscard]] auto game_boost_mouse_over_currently_get(Gamep g) -> Thingp
 {
   TRACE();
 
   if (g == nullptr) [[unlikely]] {
     return nullptr;
   }
-  return g->mouse_over_boost;
+  return g->boost_mouse_over_currently;
 }
-void game_mouse_over_boost_set(Gamep g, Thingp t)
+void game_boost_mouse_over_currently_set(Gamep g, Thingp t)
 {
   TRACE();
 
@@ -3504,7 +3504,7 @@ void game_mouse_over_boost_set(Gamep g, Thingp t)
     ERR("no game pointer");
     return;
   }
-  g->mouse_over_boost = t;
+  g->boost_mouse_over_currently = t;
 }
 
 [[nodiscard]] auto game_map_single_pix_size_get(Gamep g) -> int

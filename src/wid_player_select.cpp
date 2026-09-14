@@ -376,7 +376,7 @@ static void wid_player_select_sacrifice_via_mouse_over_begin(Gamep g, Widp w, in
     return;
   }
 
-  game_mouse_over_sacrifice_set(g, t);
+  game_sacrifice_mouse_over_currently_set(g, t);
 
   level_cursor_describe_clear(g, v);
 
@@ -399,7 +399,7 @@ static void wid_player_select_sacrifice_via_mouse_over_end(Gamep g, Widp w)
     return;
   }
 
-  game_mouse_over_sacrifice_set(g, nullptr);
+  game_sacrifice_mouse_over_currently_set(g, nullptr);
 
   if (level_cursor_describe_remove(g, v, t)) {
     game_request_to_remake_ui_set(g);
@@ -451,7 +451,7 @@ static void wid_player_select_boost_via_mouse_over_begin(Gamep g, Widp w, int /*
     return;
   }
 
-  game_mouse_over_boost_set(g, t);
+  game_boost_mouse_over_currently_set(g, t);
 
   level_cursor_describe_clear(g, v);
 
@@ -474,7 +474,7 @@ static void wid_player_select_boost_via_mouse_over_end(Gamep g, Widp w)
     return;
   }
 
-  game_mouse_over_boost_set(g, nullptr);
+  game_boost_mouse_over_currently_set(g, nullptr);
 
   if (level_cursor_describe_remove(g, v, t)) {
     game_request_to_remake_ui_set(g);
@@ -610,7 +610,7 @@ static void wid_player_select_boost_via_mouse_over_end(Gamep g, Widp w)
               case 'x' :
               case 'y' :
               case 'z' :
-                game_mouse_over_sacrifice_set(g, nullptr);
+                game_sacrifice_mouse_over_currently_set(g, nullptr);
                 w = wid_sacrifice[ c - 'a' ];
                 if (w != nullptr) {
                   (void) wid_player_select_sacrifice_via_mouse_down(g, w, -1, -1, 0);
@@ -643,7 +643,7 @@ static void wid_player_select_boost_via_mouse_over_end(Gamep g, Widp w)
               case 'X' :
               case 'Y' :
               case 'Z' :
-                game_mouse_over_boost_set(g, nullptr);
+                game_boost_mouse_over_currently_set(g, nullptr);
                 w = wid_boost[ c - 'A' ];
                 if (w != nullptr) {
                   (void) wid_player_select_boost_via_mouse_down(g, w, -1, -1, 0);

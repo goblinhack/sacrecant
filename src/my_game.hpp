@@ -300,7 +300,7 @@ void               game_cand_player_unset(Gamep g);
 [[nodiscard]] auto game_chosen_player_get(Gamep g) -> Tpp;
 void               game_chosen_player_set(Gamep g, Tpp t);
 
-[[nodiscard]] auto game_cand_sacrifice_get_last(Gamep g) -> Thingp;
+[[nodiscard]] auto game_cand_sacrifice_get_prev(Gamep g) -> Thingp;
 [[nodiscard]] auto game_cand_sacrifice_get(Gamep g) -> std::vector< Tpp >;
 void               game_sacrifice_clear(Gamep g);
 void               game_cand_sacrifice_set(Gamep g, Thingp t);
@@ -308,10 +308,10 @@ void               game_cand_sacrifice_set(Gamep g, Thingp t);
 void               game_cand_sacrifice_unset(Gamep g, Thingp t);
 [[nodiscard]] auto game_chosen_sacrifice_get(Gamep g) -> std::vector< Tpp >;
 void               game_chosen_sacrifice_set(Gamep g, std::vector< Tpp > t);
-[[nodiscard]] auto game_mouse_over_sacrifice_get(Gamep g) -> Thingp;
-void               game_mouse_over_sacrifice_set(Gamep g, Thingp t);
+[[nodiscard]] auto game_sacrifice_mouse_over_currently_get(Gamep g) -> Thingp;
+void               game_sacrifice_mouse_over_currently_set(Gamep g, Thingp t);
 
-[[nodiscard]] auto game_cand_boost_get_last(Gamep g) -> Thingp;
+[[nodiscard]] auto game_cand_boost_get_prev(Gamep g) -> Thingp;
 [[nodiscard]] auto game_cand_boost_get(Gamep g) -> std::vector< Tpp >;
 void               game_boost_clear(Gamep g);
 void               game_cand_boost_set(Gamep g, Thingp t);
@@ -319,8 +319,8 @@ void               game_cand_boost_set(Gamep g, Thingp t);
 void               game_cand_boost_unset(Gamep g, Thingp t);
 [[nodiscard]] auto game_chosen_boost_get(Gamep g) -> std::vector< Tpp >;
 void               game_chosen_boost_set(Gamep g, std::vector< Tpp > t);
-[[nodiscard]] auto game_mouse_over_boost_get(Gamep g) -> Thingp;
-void               game_mouse_over_boost_set(Gamep g, Thingp t);
+[[nodiscard]] auto game_boost_mouse_over_currently_get(Gamep g) -> Thingp;
+void               game_boost_mouse_over_currently_set(Gamep g, Thingp t);
 
 [[nodiscard]] auto game_mouse_over_player_get(Gamep g) -> Thingp;
 void               game_mouse_over_player_set(Gamep g, Thingp t);

@@ -12,14 +12,11 @@ sacrifices
   m blood-feast:            absorb health from fleshy monsters / x2 damage-received from undead   melee +20
   q random-failure:         effects like levitation and ethereal may fail randomly                melee +80
   u wraith-like:            can walk through walls, but can never eat food to heal                melee +200
-  w cheap spells, but not stats
   s madness:                occasional random spell use                                           melee +100
   v breathless:             gas weapons, no effect, but tire much quicker                         melee +30
 essential
   - random monsts with difficulty
   - psi text mentions cutting costs of spells
-gfx
-  - transition juice  when joining/leaving level
 spells
   - summoning
     - death knights

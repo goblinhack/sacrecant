@@ -6,13 +6,17 @@
 #include "my_callstack.hpp"
 #include "my_color.hpp"
 #include "my_color_defs.hpp"
+#include "my_dice_rolls.hpp"
 #include "my_game.hpp"
 #include "my_gl.hpp"
 #include "my_main.hpp" // NOLINT
 #include "my_sdl_proto.hpp"
 #include "my_sound.hpp"
 #include "my_spoint.hpp"
+#include "my_thing.hpp"
+#include "my_thing_inlines.hpp"
 #include "my_tile.hpp"
+#include "my_tp.hpp"
 #include "my_types.hpp"
 #include "my_wid.hpp"
 #include "my_wids.hpp"
@@ -20,9 +24,8 @@
 #include <SDL_keyboard.h>
 #include <cstdint>
 
-static uint32_t started;
-
-static Widp wid_transition_window;
+static uint32_t wid_transition_window_created_ms;
+static Widp     wid_transition_window;
 
 static void wid_transition_destroy(Gamep g)
 {
@@ -34,6 +37,7 @@ static void wid_transition_destroy(Gamep g)
   TRACE();
 
   wid_destroy(g, &wid_transition_window);
+  wid_transition_window_created_ms = 0;
 }
 
 static void game_display_intro(Gamep g)
@@ -47,9 +51,21 @@ static void game_display_intro(Gamep g)
   float       w = game_window_pix_width_get(g);
   float const h = game_window_pix_height_get(g);
 
-  auto       *tile = tile_find_mand("transition");
-  float const tw   = tile_width(tile);
-  float const th   = tile_height(tile);
+  auto *tile = tile_find_mand("transition");
+
+  //
+  // Just sometimes, we have the silly spinning logo
+  //
+  if (d1000() > 0) {
+    auto *player = thing_player(g);
+    if (player) {
+      auto tp = thing_tp(player);
+      tile    = tp_tiles_get(tp, player->anim_type, player->anim_index);
+    }
+  }
+
+  float const tw = tile_width(tile);
+  float const th = tile_height(tile);
 
   w = (h * tw) / th;
 
@@ -61,7 +77,7 @@ static void game_display_intro(Gamep g)
   br.x += center;
 
   const int duration_total = 2000;
-  float     zoomed         = (user_visible_time_ms() - started) / (float) duration_total;
+  float     zoomed         = (user_visible_time_ms() - wid_transition_window_created_ms) / (float) duration_total;
 
   int zoom_w_amount = (int) (zoomed * w);
 
@@ -98,7 +114,7 @@ static void game_display_intro(Gamep g)
   blit_flush();
   glPopMatrix();
 
-  if (game_time_have_x_ms_passed_since(duration_total, started)) {
+  if (game_time_have_x_ms_passed_since(duration_total, wid_transition_window_created_ms)) {
     wid_transition_destroy(g);
   }
 }
@@ -112,11 +128,11 @@ static void wid_transition_tick(Gamep g, Widp w)
 
 void wid_transition_select(Gamep g)
 {
-  if (started) {
+  if (wid_transition_window_created_ms) {
     return;
   }
 
-  started = user_visible_time_ms();
+  wid_transition_window_created_ms = user_visible_time_ms();
 
   con("transition: select");
   TRACE();
