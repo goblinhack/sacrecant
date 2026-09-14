@@ -113,7 +113,7 @@ static const int MIN_LEVEL_EXIT_DISTANCE = MAP_WIDTH / 4;
 //
 // How many rooms qualify as a dungeon. This increases with depth.
 //
-static const int MIN_LEVEL_ROOM_COUNT = 15;
+static const int MIN_LEVEL_ROOM_COUNT = 10;
 
 //
 // Cellular auto fill prob
@@ -1100,7 +1100,7 @@ void rooms_dump(Gamep g)
 //
 // Can we place a room here on the level?
 //
-[[nodiscard]] static auto room_can_place_at(class LevelGen *lg, class Room *r, bpoint at, int rx, int ry) -> bool
+[[nodiscard]] static auto room_can_place_char_at(class LevelGen *lg, class Room *r, bpoint at, int rx, int ry) -> bool
 {
   //
   // Check we have something to place here.
@@ -1143,16 +1143,23 @@ void rooms_dump(Gamep g)
     }
   }
 
+  if (compiler_unused) {
+    level_gen_dump(lg, "room place");
+    room_dump(r);
+  }
+
   //
   // Check all adjacent tiles for an adjacent room
   //
   for (int dy = -1; dy <= 1; dy++) {
     for (int dx = -1; dx <= 1; dx++) {
+
       if ((dx == 0) && (dy == 0)) {
-        switch (lg->data[ p.x + dx ][ p.y + dy ].c) {
-          case CHARMAP_JOIN :
-          case CHARMAP_EMPTY : break;
-          default :            return false;
+        //
+        // Check no room is here
+        //
+        if (lg->data[ p.x ][ p.y ].room) {
+          return false;
         }
       } else {
         //
@@ -1165,8 +1172,9 @@ void rooms_dump(Gamep g)
           case CHARMAP_LAVA :
           case CHARMAP_CHASM :
           case CHARMAP_JOIN :
+          case CHARMAP_BRIDGE :
           case CHARMAP_EMPTY :      break;
-          default :                 return false;
+          default :                 log("fail %d char %c", __LINE__, lg->data[ p.x + dx ][ p.y + dy ].c); return false;
         }
       }
     }
@@ -1189,7 +1197,7 @@ void rooms_dump(Gamep g)
   // Optimization, check edge tiles first
   //
   for (auto p : r->door_adjacent_tile) {
-    if (! room_can_place_at(lg, r, at, p.x, p.y)) {
+    if (! room_can_place_char_at(lg, r, at, p.x, p.y)) {
       return false;
     }
   }
@@ -1201,7 +1209,7 @@ void rooms_dump(Gamep g)
   //
   for (int ry = 0; ry < r->height; ry++) {
     for (int rx = 0; rx < r->width; rx++) {
-      if (! room_can_place_at(lg, r, at, rx, ry)) {
+      if (! room_can_place_char_at(lg, r, at, rx, ry)) {
         return false;
       }
     }
@@ -2858,7 +2866,7 @@ static void level_gen_create_remaining_rooms(LevelGen *lg)
   TRACE();
 
   //
-  // Choose a random start point for the rooms
+  // Choose a centralized random start point for the rooms
   //
   int const border = MAP_WIDTH / 4;
   int       x      = 0;
@@ -2870,6 +2878,14 @@ static void level_gen_create_remaining_rooms(LevelGen *lg)
   x = PCG_RANDOM_RANGE(border, MAP_WIDTH - border);
   y = PCG_RANDOM_RANGE(border, MAP_HEIGHT - border);
 
+  //
+  // Centralize the first levels
+  //
+  if (lg->level_num <= LEVEL_GRID_ACROSS) {
+    x = MAP_WIDTH / 2;
+    y = MAP_HEIGHT / 2;
+  }
+
   bpoint const at(x, y);
 
   //
@@ -2877,6 +2893,9 @@ static void level_gen_create_remaining_rooms(LevelGen *lg)
   //
   auto *r = lg->room_entrance = room_random_get(ROOM_TYPE_ENTRANCE);
   if (! room_can_place_at(lg, r, at)) {
+    if (! lg->level_num) {
+      CROAK("failed to place start room");
+    }
     return false;
   }
 
@@ -3141,7 +3160,7 @@ static auto level_gen_new_class(Gamep g, LevelNum level_num) -> class LevelGen *
 
   lg->level_num      = level_num;
   lg->min_room_count = MIN_LEVEL_ROOM_COUNT + (level_num / 10);
-  lg->max_room_count = lg->min_room_count + 10;
+  lg->max_room_count = lg->min_room_count + 20;
   lg->debug          = g_opt_debug2;
 
   return lg;
