@@ -910,13 +910,21 @@ cd ..
 echo USE_PRECOMPILED=yep make -f build/Makefile $CORES "$@" all
 USE_PRECOMPILED=yep make -f build/Makefile $CORES "$@" all
 
-if [ $? -eq 0 ]
-then
-    case "$MY_OS_NAME" in
-        *MING*|*MSYS*)
-            log_info "Run:"
+if [ $? -ne 0 ]; then
+  log_die "Build failed"
+  exit 1
+fi
 
-            cat >${TARGET}-create-release.sh <<%%
+case "$MY_OS_NAME" in
+  *Darwin*)
+    echo dsymutil ${TARGET} 
+    dsymutil ${TARGET} 
+    ;;
+
+  *MING*|*MSYS*)
+    log_info "Run:"
+
+    cat >${TARGET}-create-release.sh <<%%
 #!/bin/sh
 ###############################################################################
 # Execute the following to build the release
@@ -949,9 +957,9 @@ git push origin --tags
 
 echo \$0: all done
 %%
-            chmod +x ${TARGET}-create-release.sh
+     chmod +x ${TARGET}-create-release.sh
 
-            cat >${TARGET}.sh <<%%
+     cat >${TARGET}.sh <<%%
 
 #!/bin/sh
 ###############################################################################
@@ -960,43 +968,23 @@ echo \$0: all done
 ./${TARGET}.exe \$*
 %%
 
-            cat ${TARGET}.sh
-            chmod +x ${TARGET}.sh
-            ;;
-        *)
-            log_info "Run:"
-            echo "  ./${TARGET} --debug          # enable a reasonable level of debugging"
-            echo "  ./${TARGET} --debug2         # include level generation debugging"
-            echo "  ./${TARGET} --seed weekly    # to play the weekly seed"
-            echo "  ./${TARGET} --seed daily     # to play the daily seed"
-            echo "  ./${TARGET} --seed someseed  # to play a specific seed"
-            echo "  ./${TARGET} --level <n>      # to start at level number <n>"
-            echo "  ./${TARGET} --quickstart     # to jump past the initial menus"
-            echo "  ./${TARGET} --tests          # to run unit tests"
-            echo "  ./${TARGET}                  # to play the game"
-            ;;
-    esac
-
-    rm -f Makefile.bak
-else
-    log_die "Build failed"
-    exit 1
-fi
-
-case "$MY_OS_NAME" in
-    *MSYS*)
-        log_err "Please compile for ming64, not msys"
-        exit 1
-        ;;
-    *Darwin*)
-        dsymutil ${TARGET} 
-        ;;
-    *inux*)
-        ;;
-    *)
-        EXE=""
-        ;;
+     cat ${TARGET}.sh
+     chmod +x ${TARGET}.sh
+     ;;
 esac
+
+log_info "Run:"
+echo "  ./${TARGET} --debug          # enable a reasonable level of debugging"
+echo "  ./${TARGET} --debug2         # include level generation debugging"
+echo "  ./${TARGET} --seed weekly    # to play the weekly seed"
+echo "  ./${TARGET} --seed daily     # to play the daily seed"
+echo "  ./${TARGET} --seed someseed  # to play a specific seed"
+echo "  ./${TARGET} --level <n>      # to start at level number <n>"
+echo "  ./${TARGET} --quickstart     # to jump past the initial menus"
+echo "  ./${TARGET} --tests          # to run unit tests"
+echo "  ./${TARGET}                  # to play the game"
+
+rm -f Makefile.bak
 
 #
 # Execute unit tests?
