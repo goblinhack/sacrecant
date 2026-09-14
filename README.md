@@ -37,3 +37,5 @@ Sound effects
 - Water splash by launemax [found here](https://freesound.org/people/launemax/)
 - Fire sounds based on work by VlatkoBlazek [found here](https://freesound.org/people/VlatkoBlazek/)
 - Rock grind sounds based on work by guterton [found here](https://freesound.org/people/guterton.wav/)
+- Level enter sound [found here](https://freesound.org/people/univ_lyon3/)
+- Level enter sound [found here](https://freesound.org/people/bennynz/)

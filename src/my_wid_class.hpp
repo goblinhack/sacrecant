@@ -113,12 +113,14 @@ public:
   WidKeyType tree4_key;
   WidKeyType tree5_key;
   WidKeyType tree6_key;
+  WidKeyType tree7_key;
 
   wid_key_map_location *in_tree_root {};
   wid_key_map_int      *in_tree2_unsorted_root {};
   wid_key_map_int      *in_tree4_wids_being_destroyed {};
   wid_key_map_int      *in_tree5_tick_wids {};
   wid_key_map_int      *in_tree6_pre_tick_wids {};
+  wid_key_map_int      *in_tree7_post_tick_wids {};
   wid_key_map_int      *in_tree_global_unsorted_root {};
 
   //
@@ -298,6 +300,7 @@ public:
   on_destroy_begin_t     on_destroy_begin {};
   on_tick_t              on_tick {};
   on_pre_tick_t          on_pre_tick {};
+  on_post_tick_t         on_post_tick {};
   on_display_t           on_display {};
 };
 

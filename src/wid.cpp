@@ -88,6 +88,7 @@ static wid_key_map_int wid_top_level4;
 //
 static wid_key_map_int wid_tick_top_level;
 static wid_key_map_int wid_pre_tick_top_level;
+static wid_key_map_int wid_post_tick_top_level;
 
 //
 // Last time we changed what we were over.
@@ -124,6 +125,8 @@ static void wid_tree5_tick_wids_remove(Widp w);
 static void wid_tree5_tick_wids_insert(Widp w);
 static void wid_tree6_pre_tick_wids_remove(Widp w);
 static void wid_tree6_pre_tick_wids_insert(Widp w);
+static void wid_tree7_post_tick_wids_remove(Widp w);
+static void wid_tree7_post_tick_wids_insert(Widp w);
 static void wid_display(Gamep g, Widp w, uint8_t disable_scissor, uint8_t *updated_scissors, int clip);
 static void wid_tree_remove(Widp w);
 static void wid_tree_detach(Widp w);
@@ -200,6 +203,7 @@ void wid_fini(Gamep g_maybe_null)
   wid_top_level4               = {};
   wid_tick_top_level           = {};
   wid_pre_tick_top_level       = {};
+  wid_post_tick_top_level      = {};
   wid_last_destroy_event       = {};
   wid_last_processed_key_event = {};
   wid_focus_locked             = {};
@@ -1821,6 +1825,13 @@ void wid_set_on_pre_tick(Widp w, on_pre_tick_t fn)
   wid_tree6_pre_tick_wids_insert(w);
 }
 
+void wid_set_on_post_tick(Widp w, on_post_tick_t fn)
+{
+  TRACE();
+  w->on_post_tick = fn;
+  wid_tree7_post_tick_wids_insert(w);
+}
+
 //
 // Remove this wid from any trees it is in.
 //
@@ -2017,6 +2028,31 @@ static void wid_tree6_pre_tick_wids_insert(Widp w)
   w->in_tree6_pre_tick_wids = root;
 }
 
+static void wid_tree7_post_tick_wids_insert(Widp w)
+{
+  TRACE();
+
+  if (w->in_tree7_post_tick_wids != nullptr) {
+    return;
+  }
+
+  if (wid_exiting) {
+    return;
+  }
+
+  wid_key_map_int *root = nullptr;
+
+  root = &wid_post_tick_top_level;
+
+  w->tree7_key.val = ++wid_unique_key;
+  auto result      = root->insert(std::make_pair(w->tree7_key, w));
+  if (! result.second) {
+    CROAK("widget insert name [%s] tree7 failed", wid_get_name(w).c_str());
+  }
+
+  w->in_tree7_post_tick_wids = root;
+}
+
 static void wid_tree_remove(Widp w)
 {
   TRACE();
@@ -2130,6 +2166,25 @@ static void wid_tree6_pre_tick_wids_remove(Widp w)
   w->on_pre_tick            = nullptr;
 }
 
+static void wid_tree7_post_tick_wids_remove(Widp w)
+{
+  TRACE();
+
+  auto *root = w->in_tree7_post_tick_wids;
+  if (root == nullptr) {
+    return;
+  }
+
+  auto result = root->find(w->tree7_key);
+  if (result == root->end()) {
+    CROAK("widget tree7 did not find wid");
+  }
+  root->erase(w->tree7_key);
+
+  w->in_tree7_post_tick_wids = nullptr;
+  w->on_post_tick            = nullptr;
+}
+
 //
 // Initialize a wid with basic settings
 //
@@ -2189,6 +2244,7 @@ static void wid_destroy_immediate_internal(Gamep g, Widp w)
   wid_tree4_wids_being_destroyed_remove(w);
   wid_tree5_tick_wids_remove(w);
   wid_tree6_pre_tick_wids_remove(w);
+  wid_tree7_post_tick_wids_remove(w);
 
   if (w->on_destroy != nullptr) {
     (w->on_destroy)(g, w);
@@ -2346,7 +2402,7 @@ static void wid_destroy_delay(Gamep g, Widp *wp, int delay)
     wid_get_abs_coords(w, &tlx, &tly, &brx, &bry);
 
     if (! wid_ignore_events(w->parent)) {
-      wid_last_destroy_event = game_time_ms();
+      wid_last_destroy_event = user_visible_time_ms();
     }
   }
 
@@ -2360,6 +2416,7 @@ static void wid_destroy_delay(Gamep g, Widp *wp, int delay)
   //
   wid_tree5_tick_wids_remove(w);
   wid_tree6_pre_tick_wids_remove(w);
+  wid_tree7_post_tick_wids_remove(w);
 }
 
 void wid_destroy(Gamep g, Widp *wp)
@@ -4544,7 +4601,7 @@ void wid_joy_button(Gamep g, int x, int y)
     if (static_cast< bool >(sdl.joy_buttons[ b ])) {
       if (game_time_have_x_tenths_passed_since(2, ts[ b ])) {
         changed = 1;
-        ts[ b ] = game_time_ms();
+        ts[ b ] = user_visible_time_ms();
       }
     }
   }
@@ -4844,7 +4901,7 @@ void wid_key_down(Gamep g, const struct SDL_Keysym *key, int x, int y)
 #endif
   if ((wid_focus != nullptr) && ! wid_is_hidden(wid_focus) && ((wid_focus->on_key_down) != nullptr)) {
     if ((wid_focus->on_key_down)(g, wid_focus, key)) {
-      wid_last_processed_key_event = game_time_ms();
+      wid_last_processed_key_event = user_visible_time_ms();
       if (wid_focus != nullptr) {
         DBG("WID: key grabbed by focused wid: %s at (%d,%d)", wid_focus->name.c_str(), ascii_mouse_x, ascii_mouse_y);
       }
@@ -4872,7 +4929,7 @@ void wid_key_down(Gamep g, const struct SDL_Keysym *key, int x, int y)
   {
     DBG("WID: Key over by wid: %s for (%d,%d)", w->name.c_str(), ascii_mouse_x, ascii_mouse_y);
     if ((w->on_key_down)(g, w, key)) {
-      wid_last_processed_key_event = game_time_ms();
+      wid_last_processed_key_event = user_visible_time_ms();
       DBG("WID: Key grabbed by wid: %s for (%d,%d)", w->name.c_str(), ascii_mouse_x, ascii_mouse_y);
       //
       // Do not raise, gets in the way of popups the callback creates.
@@ -4893,7 +4950,7 @@ try_parent:
     while (w != nullptr) {
       if (w->on_key_down != nullptr) {
         if ((w->on_key_down)(g, w, key)) {
-          wid_last_processed_key_event = game_time_ms();
+          wid_last_processed_key_event = user_visible_time_ms();
           DBG("WID: key grabbed by wid: %s for (%d,%d)", w->name.c_str(), ascii_mouse_x, ascii_mouse_y);
           //
           // Do not raise, gets in the way of popups the callback
@@ -4932,7 +4989,7 @@ void wid_key_up(Gamep g, const struct SDL_Keysym *key, int x, int y)
   if ((wid_focus != nullptr) && ! wid_is_hidden(wid_focus) && ((wid_focus->on_key_up) != nullptr)) {
 
     if ((wid_focus->on_key_up)(g, wid_focus, key)) {
-      wid_last_processed_key_event = game_time_ms();
+      wid_last_processed_key_event = user_visible_time_ms();
       if (wid_focus != nullptr) {
         wid_set_mode(wid_focus, WID_MODE_ACTIVE);
       }
@@ -4958,7 +5015,7 @@ void wid_key_up(Gamep g, const struct SDL_Keysym *key, int x, int y)
   }
 
   if ((w->on_key_up)(g, w, key)) {
-    wid_last_processed_key_event = game_time_ms();
+    wid_last_processed_key_event = user_visible_time_ms();
     wid_set_mode(w, WID_MODE_ACTIVE);
 
     //
@@ -4978,7 +5035,7 @@ try_parent:
     while (w != nullptr) {
       if (w->on_key_up != nullptr) {
         if ((w->on_key_up)(g, w, key)) {
-          wid_last_processed_key_event = game_time_ms();
+          wid_last_processed_key_event = user_visible_time_ms();
           wid_set_mode(w, WID_MODE_ACTIVE);
 
           //
@@ -5506,7 +5563,7 @@ static void wid_tick_all(Gamep g)
 {
   TRACE();
 
-  wid_time = game_time_ms();
+  wid_time = user_visible_time_ms();
 
   std::vector< Widp > work;
   for (auto &iter : wid_tick_top_level) {
@@ -5530,7 +5587,7 @@ static void wid_pre_tick_all(Gamep g)
 {
   TRACE();
 
-  wid_time = game_time_ms();
+  wid_time = user_visible_time_ms();
 
   std::vector< Widp > work;
   for (auto &iter : wid_pre_tick_top_level) {
@@ -5544,6 +5601,30 @@ static void wid_pre_tick_all(Gamep g)
     }
 
     (w->on_pre_tick)(g, w);
+  }
+}
+
+//
+// Do stuff for all widgets.
+//
+static void wid_post_tick_all(Gamep g)
+{
+  TRACE();
+
+  wid_time = user_visible_time_ms();
+
+  std::vector< Widp > work;
+  for (auto &iter : wid_post_tick_top_level) {
+    auto *w = iter.second;
+    work.push_back(w);
+  }
+
+  for (auto &w : work) {
+    if (w->on_post_tick == nullptr) {
+      ERR("widget on post_ticker tree, but no callback set");
+    }
+
+    (w->on_post_tick)(g, w);
   }
 }
 
@@ -5636,6 +5717,8 @@ printf("========================================= %d\n", wid_total_count);
   // Need this to reset wid_over after display
   //
   wid_update_mouse(g);
+
+  wid_post_tick_all(g);
 
   blit_fbo_unbind_locked();
   gl_enter_2d_mode(g, game_window_pix_width_get(g), game_window_pix_height_get(g));
