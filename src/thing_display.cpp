@@ -856,7 +856,7 @@ spoint thing_to_pixel(Gamep g, Levelsp v, Levelp l, Thingp it)
   pix.x = (int16_t) (visible_map_tl_x + ((visible_map_br_x - visible_map_tl_x) * px));
   pix.y = (int16_t) (visible_map_tl_y + ((visible_map_br_y - visible_map_tl_y) * py));
 
-  topcon("%d,%d vs %d,%d\n", pix.x, pix.y, sdl.mouse_x, sdl.mouse_y);
+  // topcon("%d,%d vs %d,%d\n", pix.x, pix.y, sdl.mouse_x, sdl.mouse_y);
 
   return pix;
 }

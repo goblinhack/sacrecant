@@ -945,6 +945,13 @@ static void gfx_ui_init_lava()
   }
 }
 
+static void gfx_ui_init_transition()
+{
+  TRACE();
+  const char *tiles[] = {"transition"};
+  tile_load_arr("data/gfx/ui/transition.tga", "transition", 512, 384, ARRAY_SIZE(tiles), tiles);
+}
+
 static void gfx_ui_init_main_bg()
 {
   TRACE();
@@ -5619,6 +5626,7 @@ void gfx_init()
   gfx_ui_init_intro3_bg();
   gfx_ui_init_lava();
   gfx_ui_init_main_alt_fg();
+  gfx_ui_init_transition();
   gfx_ui_init_main_bg();
   gfx_ui_init_main_fg();
   gfx_ui_init_progress_bar();
