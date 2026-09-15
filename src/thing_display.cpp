@@ -375,12 +375,7 @@ static void thing_display_falling(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp t
   TRACE_DEBUG();
 
   int const fall_height = thing_is_falling(t);
-  int const dh = static_cast< int >(((0.5F * (static_cast< float >(br.y - tl.y))) / static_cast< float >(THING_FALL_ANIM_MS)) * fall_height);
-
-  tl.x += dh;
-  tl.y += dh;
-  br.x -= dh;
-  br.y -= dh;
+  int const dh          = static_cast< int >(((0.5F * (static_cast< float >(br.y - tl.y))) / static_cast< float >(500)) * fall_height);
 
   auto mid = (tl + br) / static_cast< short >(2);
   blit_flush();
