@@ -4,6 +4,7 @@
 
 #include "my_ascii.hpp"
 #include "my_callstack.hpp"
+#include "my_dice_rolls.hpp"
 #include "my_game.hpp"
 #include "my_game_defs.hpp"
 #include "my_globals.hpp"
@@ -148,15 +149,9 @@ static void wid_statistics_show_defeated(Gamep g, Levelp l, Thingp player)
     s += " %%tp=";
     s += tp_name(it);
     s += "$ ";
-    s += std::format("{}x ", player_struct->defeated[ i ]);
-    auto n = tp_name_short(it);
-    n      = truncate(n, UI_MAX_THING_NAME_SHORT, false);
-    s += std::format("{:>15}", n);
-
-    //
-    // This fails compilation
-    //
-    // line += std::format("{:<{}}", s, COLUMN_WIDTH);
+    auto n   = tp_name_short(it);
+    auto cnt = string_sprintf("%dx ", player_struct->defeated[ i ]);
+    s += string_sprintf("%-5s%*s", cnt.c_str(), UI_MAX_THING_NAME_SHORT, n.c_str());
     line += string_sprintf("%*s", COLUMN_WIDTH, s.c_str());
 
     if (++column_count >= 4) {
@@ -207,15 +202,10 @@ static void wid_statistics_show_items(Gamep g, Levelsp v, Levelp l, Thingp playe
     s += " %%tp=";
     s += tp_name(it);
     s += "$ ";
-    s += std::format("{}x ", slot->count);
-    auto n = tp_name_short(it);
-    n      = truncate(n, UI_MAX_THING_NAME_SHORT, false);
-    s += std::format("{:>15}", n);
 
-    //
-    // This fails compilation
-    //
-    // line += std::format("{:<{}}", s, COLUMN_WIDTH);
+    auto n   = tp_name_short(it);
+    auto cnt = string_sprintf("%dx ", slot->count);
+    s += string_sprintf("%-5s%*s", cnt.c_str(), UI_MAX_THING_NAME_SHORT, n.c_str());
     line += string_sprintf("%*s", COLUMN_WIDTH, s.c_str());
 
     if (++column_count >= 4) {

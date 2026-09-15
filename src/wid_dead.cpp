@@ -58,7 +58,7 @@ static void wid_dead_close(Gamep g)
   wid_statistics_show(g, v, l, player);
 
   if (g_opt_quick_start) {
-    DIE_CLEAN("Quick quit");
+    //    DIE_CLEAN("Quick quit");
   }
 
   wid_dead_fini(g);
