@@ -49,6 +49,7 @@ static void wid_intro1_destroy(Gamep g)
     TRACE();
     (void) sound_play(g, "keypress");
     wid_intro1_destroy(g);
+    (void) sound_play(g, "select");
     wid_intro2_select(g);
     return true;
   }
@@ -56,6 +57,7 @@ static void wid_intro1_destroy(Gamep g)
   if (s == "<Escape>" || s == "b" || s == "B") {
     TRACE();
     wid_intro1_destroy(g);
+    (void) sound_play(g, "select");
     wid_main_menu_select(g);
     return true;
   }
@@ -69,6 +71,7 @@ static void wid_intro1_destroy(Gamep g)
   TRACE();
 
   wid_intro1_destroy(g);
+  (void) sound_play(g, "select");
   wid_intro2_select(g);
 
   return true;

@@ -55,6 +55,7 @@ static void wid_intro2_destroy(Gamep g)
     TRACE();
     (void) sound_play(g, "keypress");
     wid_intro2_destroy(g);
+    (void) sound_play(g, "select");
     wid_player_select(g);
     return true;
   }
@@ -75,6 +76,7 @@ static void wid_intro2_destroy(Gamep g)
   TRACE();
 
   wid_intro2_destroy(g);
+  (void) sound_play(g, "select");
   wid_player_select(g);
 
   return true;
