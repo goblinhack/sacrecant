@@ -339,6 +339,31 @@ static void level_raycast_get_extents(Gamep g, Levelsp v, Levelp l, Thingp playe
         break;
       default : break;
     }
+
+    //
+    // Human vision is 200 degrees, allegedly!
+    //
+    switch (player->dir) {
+      case THING_DIR_BR :    [[fallthrough]];
+      case THING_DIR_TR :    [[fallthrough]];
+      case THING_DIR_BL :    [[fallthrough]];
+      case THING_DIR_TL :    [[fallthrough]];
+      case THING_DIR_LEFT :  [[fallthrough]];
+      case THING_DIR_RIGHT : [[fallthrough]];
+      case THING_DIR_DOWN :  [[fallthrough]];
+      case THING_DIR_UP :
+        {
+          auto human_vision_extra = quad / 4;
+          start_ray -= human_vision_extra;
+          if (start_ray < 0) {
+            start_ray += LIGHT_MAX_RAYS_MAX;
+          }
+          ray_count += human_vision_extra * 2;
+        }
+        break;
+      case THING_DIR_NONE : break;
+      default :             break;
+    }
   }
 }
 
@@ -660,10 +685,22 @@ void Raycast::raycast_render(Gamep g, Levelsp v, Levelp l)
       PUSH_POINT(p1x, p1y);
     }
 
-    //
-    // Complete the circle with the first point again.
-    //
-    {
+    if (thing_is_vision_180_degrees(g, v, l, player)) {
+      //
+      // Push the same point as not a full circle
+      //
+      auto i = ray_count - 1;
+      auto r = (start_ray + i) % LIGHT_MAX_RAYS_MAX;
+
+      auto         *ray = &rays[ r ];
+      spoint const &p   = ray_pixels[ r ][ ray->depth_furthest ].p;
+      int16_t const p1x = light_pos.x + p.x;
+      int16_t const p1y = light_pos.y + p.y;
+      PUSH_POINT(p1x, p1y);
+    } else {
+      //
+      // Complete the circle with the first point again.
+      //
       auto          r   = start_ray;
       auto         *ray = &rays[ r ];
       spoint const &p   = ray_pixels[ r ][ ray->depth_furthest ].p;

@@ -475,6 +475,7 @@ void tp_load_player_common(Tpp tp)
   tp_flag_set(tp, is_animated);
   tp_flag_set(tp, is_attackable_by_monst);
   tp_flag_set(tp, is_blit_centered);
+  tp_flag_set(tp, is_blit_shown_in_overlay);
   tp_flag_set(tp, is_blit_hit_outline_w_invis_inside);
   tp_flag_set(tp, is_blit_shown_in_chasms);
   tp_flag_set(tp, is_blit_when_obscured_outline);

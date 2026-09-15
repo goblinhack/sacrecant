@@ -308,12 +308,19 @@ static void thing_display_blit(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp t_ma
         return;
       }
 
-      //
-      // Jumping/thrown/levitating things need to be seen over other things
-      //
       if (t_maybe_null != nullptr) {
+        //
+        // Jumping/thrown/levitating things need to be seen over other things
+        //
         if (thing_is_levitating(g, v, l, t_maybe_null) || thing_is_jumping(t_maybe_null) || thing_is_thrown(t_maybe_null)) {
           break;
+        }
+
+        //
+        // Player in bushes
+        //
+        if (thing_is_hidden(t_maybe_null)) {
+          return;
         }
       }
 
