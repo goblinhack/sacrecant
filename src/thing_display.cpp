@@ -284,6 +284,18 @@ static void thing_display_blit(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp t_ma
   TRACE_DEBUG();
 
   switch (fbo) {
+    case FBO_MAP_BG_PREVIOUSLY_SEEN_TILES :
+      //
+      // If any monsters leak through to here, check again if they are meant to be shown or not.
+      // They're not...
+      //
+      if (t_maybe_null) {
+        if (! thing_is_blit_if_has_seen(t_maybe_null)) {
+          return;
+        }
+      }
+      break;
+
     case FBO_MAP_FG_OVERLAY :
       //
       // Hidden things need to be shown on top of walls or foliage
