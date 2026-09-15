@@ -1158,7 +1158,7 @@ void rooms_dump(Gamep g)
         //
         // Check no room is here
         //
-        if (lg->data[ p.x ][ p.y ].room) {
+        if (lg->data[ p.x ][ p.y ].room != nullptr) {
           return false;
         }
       } else {
@@ -2893,7 +2893,7 @@ static void level_gen_create_remaining_rooms(LevelGen *lg)
   //
   auto *r = lg->room_entrance = room_random_get(ROOM_TYPE_ENTRANCE);
   if (! room_can_place_at(lg, r, at)) {
-    if (! lg->level_num) {
+    if (lg->level_num == 0u) {
       CROAK("failed to place start room");
     }
     return false;

@@ -11,8 +11,6 @@
 #include "my_gl.hpp" // NOLINT
 #include "my_level.hpp"
 #include "my_main.hpp"
-#include "my_sdl_event.hpp"
-#include "my_sdl_proto.hpp"
 #include "my_spoint.hpp"
 #include "my_thing.hpp"
 #include "my_thing_callbacks.hpp"
@@ -289,7 +287,7 @@ static void thing_display_blit(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp t_ma
       // If any monsters leak through to here, check again if they are meant to be shown or not.
       // They're not...
       //
-      if (t_maybe_null) {
+      if (t_maybe_null != nullptr) {
         if (! thing_is_blit_if_has_seen(t_maybe_null)) {
           return;
         }
@@ -319,7 +317,7 @@ static void thing_display_blit(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp t_ma
         //
         // Player in bushes
         //
-        if (thing_is_hidden(t_maybe_null)) {
+        if (thing_is_hidden(t_maybe_null) != 0) {
           return;
         }
       }
@@ -840,7 +838,7 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
 //
 // Find the on screen pixel a thing is at
 //
-spoint thing_to_pixel(Gamep g, Levelsp v, Levelp l, Thingp it)
+auto thing_to_pixel(Gamep g, Levelsp v, Levelp l, Thingp it) -> spoint
 {
   TRACE();
 
@@ -860,15 +858,15 @@ spoint thing_to_pixel(Gamep g, Levelsp v, Levelp l, Thingp it)
   int h = 0;
   fbo_get_size(g, FBO_MAP_BG_FLOOR_WATER_LAVA, w, h);
 
-  int const zoom   = game_map_zoom_get(g);
-  auto      pix_at = thing_pix_at(it);
-  float     px     = ((pix_at.x * zoom) - v->pixel_map_at.x) / static_cast< float >(w);
-  float     py     = ((pix_at.y * zoom) - v->pixel_map_at.y) / static_cast< float >(h);
+  int const   zoom   = game_map_zoom_get(g);
+  auto        pix_at = thing_pix_at(it);
+  float const px     = ((pix_at.x * zoom) - v->pixel_map_at.x) / static_cast< float >(w);
+  float const py     = ((pix_at.y * zoom) - v->pixel_map_at.y) / static_cast< float >(h);
 
   spoint pix;
 
-  pix.x = (int16_t) (visible_map_tl_x + ((visible_map_br_x - visible_map_tl_x) * px));
-  pix.y = (int16_t) (visible_map_tl_y + ((visible_map_br_y - visible_map_tl_y) * py));
+  pix.x = static_cast< int16_t >(visible_map_tl_x + ((visible_map_br_x - visible_map_tl_x) * px));
+  pix.y = static_cast< int16_t >(visible_map_tl_y + ((visible_map_br_y - visible_map_tl_y) * py));
 
   // topcon("%d,%d vs %d,%d\n", pix.x, pix.y, sdl.mouse_x, sdl.mouse_y);
 

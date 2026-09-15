@@ -4,7 +4,6 @@
 
 #include "my_ascii.hpp"
 #include "my_callstack.hpp"
-#include "my_dice_rolls.hpp"
 #include "my_game.hpp"
 #include "my_game_defs.hpp"
 #include "my_globals.hpp"
@@ -13,7 +12,6 @@
 #include "my_sound.hpp"
 #include "my_spoint.hpp"
 #include "my_sprintf.hpp"
-#include "my_string.hpp"
 #include "my_thing.hpp"
 #include "my_thing_inlines.hpp"
 #include "my_tp.hpp"
@@ -28,7 +26,6 @@
 #include <SDL_keyboard.h>
 #include <SDL_keycode.h>
 #include <cstdint>
-#include <format>
 
 static WidPopup *wid_statistics_popup;
 
