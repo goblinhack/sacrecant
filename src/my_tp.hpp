@@ -444,7 +444,9 @@ ENUM_DEF_H(THING_FLAG_ENUM, ThingFlagType)
       list_macro(MAP_Z_DEPTH_LAVA, "lava"),                       /* newline */                                                                 \
       list_macro(MAP_Z_DEPTH_BG_OBJ, "e.g. exit, entrance"),      /* newline */                                                                 \
       list_macro(MAP_Z_DEPTH_GRASS, "grass"),                     /* newline */                                                                 \
+      list_macro(MAP_Z_DEPTH_DEAD_MONST, "dead-monst"),           /* newline */                                                                 \
       list_macro(MAP_Z_DEPTH_OBJ, "monsts"),                      /* newline */                                                                 \
+      list_macro(MAP_Z_DEPTH_MONST, "alive-monst"),               /* newline */                                                                 \
       list_macro(MAP_Z_DEPTH_WALL, "wall"),                       /* newline */                                                                 \
       list_macro(MAP_Z_DEPTH_FLOATING_MONST, "floating-monst"),   /* newline */                                                                 \
       list_macro(MAP_Z_DEPTH_PLAYER, "monsts"),                   /* newline */                                                                 \

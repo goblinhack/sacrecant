@@ -198,7 +198,7 @@ static bool tp_mantisman_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacke
   tp_temperature_damage_at_set(tp, 35); // celsius
   tp_temperature_initial_set(tp, 20);   // celsius
   tp_weight_set(tp, WEIGHT_HEAVY);      // grams
-  tp_z_depth_set(tp, MAP_Z_DEPTH_OBJ);
+  tp_z_depth_set(tp, MAP_Z_DEPTH_MONST);
   // end sort marker1 }
 
   auto delay = 500;

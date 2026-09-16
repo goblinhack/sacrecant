@@ -503,9 +503,18 @@
     return MAP_Z_DEPTH_FLOOR;
   }
 #endif
+
+  //
+  // Ensure dead monsters behind alive ones
+  //
+  if (thing_is_monst(me) && (thing_is_dead(me) || thing_is_corpse(me))) {
+    return MAP_Z_DEPTH_DEAD_MONST;
+  }
+
   if (tp->z_depth_get == nullptr) {
     return tp_z_depth_get(tp);
   }
+
   return tp->z_depth_get(g, v, l, me);
 }
 
