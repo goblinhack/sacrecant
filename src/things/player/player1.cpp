@@ -46,7 +46,7 @@ void tp_player1_on_spawned(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent *
     thing_err(g, v, l, me, "failed to carry");
   }
 
-  // (void) thing_hook_add(g, v, l, me, tp_find_mand("sac_tunnel_vision"));
+  (void) thing_hook_add(g, v, l, me, tp_find_mand("sac_power_crazed"));
 }
 
 auto tp_player1_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string

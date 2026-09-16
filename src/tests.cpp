@@ -52,6 +52,8 @@
   if (!test_load_fire_on_water()) { return false; }
   if (!test_load_fire_over_chasm()) { return false; }
   if (!test_load_foliage_on_fire()) { return false; }
+  if (!test_load_glass_bones()) { return false; }
+  if (!test_load_hollow_bones()) { return false; }
   if (!test_load_items_drift_away()) { return false; }
   if (!test_load_jump_ok()) { return false; }
   if (!test_load_jump_truncated()) { return false; }
@@ -162,6 +164,7 @@
   if (!test_load_pot_prot()) { return false; }
   if (!test_load_pot_stealth()) { return false; }
   if (!test_load_pot_tireless()) { return false; }
+  if (!test_load_power_crazed()) { return false; }
   if (!test_load_proj_barrel_explosion()) { return false; }
   if (!test_load_proj_border_turns_to_lava()) { return false; }
   if (!test_load_proj_door_locked()) { return false; }

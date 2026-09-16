@@ -7,6 +7,8 @@ export PATH
 for i in *.cpp *.hpp 
 do
   case $i in
+    *3rd*)
+      ;;
     *stb*)
       ;;
     *lzo*)
@@ -14,8 +16,10 @@ do
     *ramdisk*)
       ;;
     *)
-      echo Formatting $i...
-      clang-format -i $i &
+      if [[ -f $i ]] ; then
+        echo Formatting $i...
+        clang-format -i $i &
+      fi
     ;;
   esac
 done

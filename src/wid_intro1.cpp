@@ -77,7 +77,7 @@ static void wid_intro1_destroy(Gamep g)
   return true;
 }
 
-static void game_display_intro(Gamep g)
+static void wid_intro1_display(Gamep g)
 {
   TRACE();
 
@@ -110,7 +110,7 @@ static void wid_intro1_tick(Gamep g, Widp w)
 {
   TRACE();
 
-  game_display_intro(g);
+  wid_intro1_display(g);
 }
 
 void wid_intro1_select(Gamep g)

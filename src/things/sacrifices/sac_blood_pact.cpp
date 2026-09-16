@@ -64,7 +64,7 @@ static bool tp_sac_blood_pact_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp 
   tp_flag_set(tp, is_hook);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_sacrifice);
-  tp_sac_points_set(tp, 10);
+  tp_sac_points_set(tp, 30);
   tp_name_long_set(tp, "blood pact");
   // end sort marker1 }
 

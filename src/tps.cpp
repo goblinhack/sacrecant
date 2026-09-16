@@ -108,10 +108,13 @@
   if (!tp_load_sac_crit_more()) { return false; }
   if (!tp_load_sac_defenceless()) { return false; }
   if (!tp_load_sac_fumble_more()) { return false; }
+  if (!tp_load_sac_glass_bones()) { return false; }
   if (!tp_load_sac_healing_drain()) { return false; }
+  if (!tp_load_sac_hollow_bones()) { return false; }
   if (!tp_load_sac_noisy()) { return false; }
   if (!tp_load_sac_poison_blood()) { return false; }
   if (!tp_load_sac_poor_vision()) { return false; }
+  if (!tp_load_sac_power_crazed()) { return false; }
   if (!tp_load_sac_sickly_health()) { return false; }
   if (!tp_load_sac_tunnel_vision()) { return false; }
   if (!tp_load_sac_unlucky()) { return false; }

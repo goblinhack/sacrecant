@@ -10,6 +10,7 @@
 #include "my_game.hpp"
 #include "my_gl.hpp"
 #include "my_main.hpp" // NOLINT
+#include "my_random.hpp"
 #include "my_spoint.hpp"
 #include "my_thing.hpp"
 #include "my_thing_inlines.hpp"
@@ -38,7 +39,7 @@ static void wid_transition_destroy(Gamep g)
   wid_transition_window_created_ms = 0;
 }
 
-static void game_display_intro(Gamep g)
+static void wid_transition_display(Gamep g)
 {
   TRACE();
 
@@ -54,7 +55,7 @@ static void game_display_intro(Gamep g)
   //
   // Just sometimes, we have the silly spinning logo
   //
-  if (d1000() > 0) {
+  if (OS_RANDOM_RANGE(0, 1000) > 0) {
     auto *player = thing_player(g);
     if (player != nullptr) {
       auto *tp = thing_tp(player);
@@ -121,7 +122,7 @@ static void wid_transition_tick(Gamep g, Widp w)
 {
   TRACE();
 
-  game_display_intro(g);
+  wid_transition_display(g);
 }
 
 void wid_transition_select(Gamep g)
