@@ -602,23 +602,23 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
 
   switch (tp_difficulty_get(thing_tp(me))) {
     case 0 : //
-      parent->log(g, "Difficulty: as easy as it gets...");
+      parent->log(g, UI_INFO2_FMT_STR "Difficulty: as easy as it gets.");
       break;
     case 1 : //
-      parent->log(g, "Difficulty: hard");
-      parent->log(g, UI_INFO2_FMT_STR "Expect more monsters and faster mob spawn chances" UI_RESET_FMT);
+      parent->log(g, UI_INFO2_FMT_STR "Difficulty: hard");
+      parent->log(g, UI_YELLOW_FMT_STR "More monsters and faster mob spawn chances" UI_RESET_FMT);
       break;
     case 2 : //
-      parent->log(g, "Difficulty: harder");
-      parent->log(g, UI_YELLOW_FMT_STR "Expect more monsters and faster mob spawn chances" UI_RESET_FMT);
+      parent->log(g, UI_INFO2_FMT_STR "Difficulty: harder");
+      parent->log(g, UI_ORANGE_FMT_STR "Even more monsters and faster mob spawn chances" UI_RESET_FMT);
       break;
     case 3 : //
-      parent->log(g, "Difficulty: nightmare");
-      parent->log(g, UI_ORANGE_FMT_STR "Expect more monsters and faster mob spawn chances" UI_RESET_FMT);
+      parent->log(g, UI_INFO2_FMT_STR "Difficulty: nightmare");
+      parent->log(g, UI_RED_FMT_STR "Yet more monsters and faster mob spawn chances" UI_RESET_FMT);
       break;
     case 4 : //
-      parent->log(g, "Difficulty: psycho");
-      parent->log(g, UI_RED_FMT_STR "Expect even more monsters and faster mob spawn chances" UI_RESET_FMT);
+      parent->log(g, UI_INFO2_FMT_STR "Difficulty: end times");
+      parent->log(g, UI_RED_FMT_STR "More monsters and faster mob spawn chances" UI_RESET_FMT);
       break;
   }
 

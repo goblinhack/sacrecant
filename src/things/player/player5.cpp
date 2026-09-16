@@ -52,7 +52,9 @@ auto tp_player5_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::stri
 {
   TRACE();
 
-  return UI_INFO1_FMT_STR "Chaos wizard. A choice of weapons and improved damage, but monsters galore.\n";
+  return                                                                                               //
+      UI_INFO1_FMT_STR "Chaos wizard. A choice of weapons and improved damage, but monsters galore.\n" //
+      UI_INFO2_FMT_STR "This wizard has the poorest health and life expectancy available.\n";          //
 }
 
 [[nodiscard]] auto tp_load_player5() -> bool
