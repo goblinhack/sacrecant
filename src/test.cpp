@@ -211,6 +211,7 @@ static std::initializer_list< std::string > tests = {
     "sac_noisy_pot_stealth",
     "sac_noisy",
     "sac_poison_blood",
+    "sac_power_crazed_beam_weapon",
     "sac_power_crazed",
     "sac_sickly_health",
     "sac_weaponless_attack_mob",

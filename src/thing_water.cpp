@@ -8,18 +8,18 @@
 #include "my_tp.hpp"
 #include "my_types.hpp"
 
-void thing_water_handle(Gamep g, Levelsp v, Levelp l, Thingp t)
+void thing_water_handle(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
 
-  if (t->tick_water == v->tick) {
+  if (me->tick_water == v->tick) {
     return;
   }
-  t->tick_water = v->tick;
+  me->tick_water = v->tick;
 
-  THING_DBG(g, v, l, t, "over water");
+  THING_DBG(g, v, l, me, "over water");
 
-  auto   at     = thing_at(g, v, l, t);
+  auto   at     = thing_at(g, v, l, me);
   Thingp source = nullptr;
   if (level_is_water_deep(g, v, l, at) != nullptr) {
     source = level_is_water_deep(g, v, l, at);
@@ -28,7 +28,7 @@ void thing_water_handle(Gamep g, Levelsp v, Levelp l, Thingp t)
   }
 
   if (source == nullptr) {
-    thing_err(g, v, l, t, "no source of water found to handle");
+    thing_err(g, v, l, me, "no source of water found to handle");
     return;
   }
 
@@ -42,5 +42,8 @@ void thing_water_handle(Gamep g, Levelsp v, Levelp l, Thingp t)
       .source     = source,            //
   };
 
-  thing_damage_apply(g, v, l, t, e);
+  THING_DBG(g, v, l, me, "apply water damage");
+  TRACE_INDENT();
+
+  thing_damage_apply(g, v, l, me, e);
 }

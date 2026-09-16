@@ -441,6 +441,7 @@ static void thing_collision_handle_dead_thing(Gamep g, Levelsp v, Levelp l, Thin
 
     THING_DBG(g, v, l, me, "weapon collision with dead thing");
     THING_DBG(g, v, l, obstacle, "me");
+    TRACE_INDENT();
 
     thing_damage_apply(g, v, l, obstacle, e);
   }
@@ -526,6 +527,7 @@ static void thing_collision_handle_alive_thing(Gamep g, Levelsp v, Levelp l, Thi
 
     THING_DBG(g, v, l, me, "weapon collision with");
     THING_DBG(g, v, l, obstacle, "me");
+    TRACE_INDENT();
 
     thing_damage_apply(g, v, l, obstacle, e);
   }

@@ -129,7 +129,8 @@
   }
 
   if (from != nullptr) {
-    THING_DBG(g, v, l, me, "get owner damage:");
+    THING_DBG(g, v, l, from, "this the real attacker:");
+    THING_DBG(g, v, l, me, "this is the target:");
     TRACE_INDENT();
 
     additional_damage = thing_stat_mod(g, v, l, from, THING_STAT_DMG);
@@ -665,7 +666,7 @@ static void thing_damage_cap(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent
 //
 void thing_damage_apply(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
 {
-  THING_DBG(g, v, l, me, "apply damage: %s", to_string(g, v, l, e).c_str());
+  THING_DBG(g, v, l, me, "apply damage to me: %s", to_string(g, v, l, e).c_str());
   TRACE_INDENT();
 
   auto *tp = thing_tp(me);
@@ -700,6 +701,7 @@ void thing_damage_apply(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
     if (thing_is_player(me)) {
       topcon(UI_GOOD_FMT_STR "You take no damage from the %s." UI_RESET_FMT, ThingEventType_to_string(e.event_type).c_str());
     }
+    THING_DBG(g, v, l, me, "%s: attack blocked, no damage due to immune", to_string(g, v, l, e).c_str());
     return;
   }
 
@@ -710,6 +712,7 @@ void thing_damage_apply(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
     if (thing_is_player(me)) {
       topcon(UI_GOOD_FMT_STR "You take no damage from the %s." UI_RESET_FMT, ThingEventType_to_string(e.event_type).c_str());
     }
+    THING_DBG(g, v, l, me, "%s: attack blocked, no damage due to prone and resistant", to_string(g, v, l, e).c_str());
     return;
   }
 
@@ -736,11 +739,64 @@ void thing_damage_apply(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
       if (thing_is_player(me)) {
         topcon(UI_GOOD_FMT_STR "You take no damage from the %s." UI_RESET_FMT, ThingEventType_to_string(e.event_type).c_str());
       }
+      THING_DBG(g, v, l, me, "%s: attack blocked, no damage due to resistant", to_string(g, v, l, e).c_str());
       return;
     }
 
     if (thing_is_player(me)) {
       topcon(UI_GOOD_FMT_STR "You take half damage from the %s." UI_RESET_FMT, ThingEventType_to_string(e.event_type).c_str());
+    }
+  }
+
+  //
+  // Who attacked?
+  //
+  Thingp attacker = nullptr;
+  Thingp target   = me;
+  if (e.source) {
+    if (auto *fired_by = thing_missile_fired_by_get(g, v, l, e.source)) {
+      attacker = fired_by;
+    } else if (auto *owner = thing_owner(g, v, l, e.source)) {
+      attacker = owner;
+    } else {
+      attacker = nullptr;
+    }
+
+    if (! attacker) {
+      attacker = e.source;
+    }
+
+    THING_DBG(g, v, l, e.source, "current attacker");
+    if (attacker) {
+      THING_DBG(g, v, l, attacker, "real attacker");
+    }
+
+    //
+    // Thing callback for the current attacker
+    //
+    THING_DBG(g, v, l, e.source, "call current attacker hooks:");
+    TRACE_INDENT();
+    if (! thing_on_attacking(g, v, l, e.source, target, e)) {
+      THING_DBG(g, v, l, me, "%s: attack blocked", to_string(g, v, l, e).c_str());
+      return;
+    }
+
+    //
+    // Call the hooks for the original attacker
+    //
+    if (attacker) {
+      THING_DBG(g, v, l, attacker, "call real attacker hooks:");
+      TRACE_INDENT();
+
+      FOR_ALL_HOOKS(g, v, l, attacker, buff)
+      { //
+        (void) thing_on_attacking(g, v, l, buff, target, e);
+      }
+
+      FOR_ALL_ACTIVE_ITEMS(g, v, l, attacker, item)
+      { //
+        (void) thing_on_attacking(g, v, l, item, target, e);
+      }
     }
   }
 
@@ -793,27 +849,9 @@ void thing_damage_apply(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   THING_DBG(g, v, l, me, "%s: apply damage", to_string(g, v, l, e).c_str());
   TRACE_INDENT();
 
-  //
-  // Who attacked?
-  //
-  Thingp from = nullptr;
-  if (e.source) {
-    if (auto *fired_by = thing_missile_fired_by_get(g, v, l, e.source)) {
-      from = fired_by;
-    } else if (auto *owner = thing_owner(g, v, l, e.source)) {
-      from = owner;
-    } else {
-      from = nullptr;
-    }
-
-    if (! from) {
-      from = e.source;
-    }
-  }
-
   if (thing_is_player(me)) {
     thing_damage_to_player(g, v, l, me, e);
-  } else if ((from != nullptr) && thing_is_player(from)) {
+  } else if ((attacker != nullptr) && thing_is_player(attacker)) {
     thing_damage_by_player(g, v, l, me, e);
   }
 

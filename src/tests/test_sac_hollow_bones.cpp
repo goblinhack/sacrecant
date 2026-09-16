@@ -185,7 +185,7 @@ exit:
   return result;
 }
 
-[[nodiscard]] auto test_load_hollow_bones() -> bool // NOLINT
+[[nodiscard]] auto test_load_sac_hollow_bones() -> bool // NOLINT
 {
   TRACE();
 

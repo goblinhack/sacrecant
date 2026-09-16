@@ -116,6 +116,9 @@ static bool tp_pot_incin_on_use(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp 
       .source     = me,                      //
   };
 
+  THING_DBG(g, v, l, user, "apply potion damage");
+  TRACE_INDENT();
+
   thing_damage_apply(g, v, l, user, e);
 
   return true;

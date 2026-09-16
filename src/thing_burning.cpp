@@ -107,6 +107,9 @@ void thing_continue_to_burn_check(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   if (! level_is_fire_bool(g, v, l, thing_at(g, v, l, me))) {
     if (thing_is_burning(me)) {
+      THING_DBG(g, v, l, me, "apply burning damage");
+      TRACE_INDENT();
+
       thing_damage_apply(g, v, l, me, e);
     }
   }

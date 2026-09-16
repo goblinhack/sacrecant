@@ -31,6 +31,8 @@ static bool tp_sac_power_crazed_on_damage(Gamep g, Levelsp v, Levelp l, Thingp m
     return true;
   }
 
+  THING_DBG(g, v, l, me, "on_damage");
+
   switch (e.event_type) {
     case THING_EVENT_FALL :          [[fallthrough]];
     case THING_EVENT_THROWN :        [[fallthrough]];
@@ -75,7 +77,7 @@ static bool tp_sac_power_crazed_on_attacking(Gamep g, Levelsp v, Levelp l, Thing
     return true;
   }
 
-  THING_DBG(g, v, l, me, "attack with quad damage %d -> %d", e.damage, e.damage * 4);
+  THING_DBG(g, v, l, owner, "attack with quad damage %d -> %d", e.damage, e.damage * 4);
 
   e.damage *= 4;
 

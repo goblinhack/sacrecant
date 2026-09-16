@@ -24,6 +24,9 @@ auto thing_attack_poison(Gamep g, Levelsp v, Levelp l, Thingp it) -> bool
       .damage     = damage,     //
   };
 
+  THING_DBG(g, v, l, it, "apply poison damage");
+  TRACE_INDENT();
+
   thing_damage_apply(g, v, l, it, e);
 
   return true;

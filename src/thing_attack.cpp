@@ -183,22 +183,8 @@ static auto thing_attack_melee(Gamep g, Levelsp v, Levelp l, Thingp attacker, Th
     }
   }
 
-  //
-  // Thing callback
-  //
-  if (! thing_on_attacking(g, v, l, attacker, it, e)) {
-    return false;
-  }
-
-  FOR_ALL_HOOKS(g, v, l, attacker, buff)
-  { //
-    (void) thing_on_attacking(g, v, l, buff, it, e);
-  }
-
-  FOR_ALL_ACTIVE_ITEMS(g, v, l, attacker, item)
-  { //
-    (void) thing_on_attacking(g, v, l, item, it, e);
-  }
+  THING_DBG(g, v, l, it, "apply melee damage");
+  TRACE_INDENT();
 
   thing_damage_apply(g, v, l, it, e);
 

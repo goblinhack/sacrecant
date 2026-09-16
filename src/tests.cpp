@@ -52,8 +52,6 @@
   if (!test_load_fire_on_water()) { return false; }
   if (!test_load_fire_over_chasm()) { return false; }
   if (!test_load_foliage_on_fire()) { return false; }
-  if (!test_load_glass_bones()) { return false; }
-  if (!test_load_hollow_bones()) { return false; }
   if (!test_load_items_drift_away()) { return false; }
   if (!test_load_jump_ok()) { return false; }
   if (!test_load_jump_truncated()) { return false; }
@@ -164,7 +162,6 @@
   if (!test_load_pot_prot()) { return false; }
   if (!test_load_pot_stealth()) { return false; }
   if (!test_load_pot_tireless()) { return false; }
-  if (!test_load_power_crazed()) { return false; }
   if (!test_load_proj_barrel_explosion()) { return false; }
   if (!test_load_proj_border_turns_to_lava()) { return false; }
   if (!test_load_proj_door_locked()) { return false; }
@@ -187,9 +184,13 @@
   if (!test_load_sac_clumsy()) { return false; }
   if (!test_load_sac_crit_more()) { return false; }
   if (!test_load_sac_fumble_more()) { return false; }
+  if (!test_load_sac_glass_bones()) { return false; }
+  if (!test_load_sac_hollow_bones()) { return false; }
   if (!test_load_sac_noisy_pot_stealth()) { return false; }
   if (!test_load_sac_noisy()) { return false; }
   if (!test_load_sac_poison_blood()) { return false; }
+  if (!test_load_sac_power_crazed_beam_weapon()) { return false; }
+  if (!test_load_sac_power_crazed()) { return false; }
   if (!test_load_sac_sickly_health()) { return false; }
   if (!test_load_sac_weaponless_attack_mob()) { return false; }
   if (!test_load_save_load()) { return false; }

@@ -74,11 +74,13 @@ static bool tp_argusul_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attacke
       auto target_at = thing_at(g, v, l, target);
       auto fire_what = tp_find_mand(d.what);
       (void) thing_beam_weapon_fire_at(g, v, l, attacker, fire_what, target_at);
+      THING_DBG(g, v, l, attacker, "prevent melee attack as fired weapon");
       return false; // prevent melee attack
     }
   }
 
   if (! adjacent(thing_at(g, v, l, attacker), thing_at(g, v, l, target))) {
+    THING_DBG(g, v, l, attacker, "prevent melee attack as not adjacent");
     return false; // prevent melee attack
   }
 

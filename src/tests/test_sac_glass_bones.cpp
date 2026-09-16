@@ -185,7 +185,7 @@ exit:
   return result;
 }
 
-[[nodiscard]] auto test_load_glass_bones() -> bool // NOLINT
+[[nodiscard]] auto test_load_sac_glass_bones() -> bool // NOLINT
 {
   TRACE();
 

@@ -300,6 +300,9 @@ static void thing_fall_end(Gamep g, Levelsp v, Levelp l, Thingp me)
     //
     // "You take n damage from falling"
     //
+    THING_DBG(g, v, l, me, "apply fall damage");
+    TRACE_INDENT();
+
     thing_damage_apply(g, v, l, me, e);
     thing_is_falling_continues_unset(g, v, l, me);
   }

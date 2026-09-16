@@ -10,7 +10,7 @@
 #include "../my_thing_inlines.hpp"
 #include "../my_wids.hpp"
 
-[[nodiscard]] static auto test_power_crazed(Gamep g, Testp t) -> bool
+[[nodiscard]] static auto test_sac_power_crazed_melee(Gamep g, Testp t) -> bool
 {
   TEST_LOG(t, "begin");
   TRACE();
@@ -141,13 +141,13 @@ exit:
   return result;
 }
 
-[[nodiscard]] auto test_load_power_crazed() -> bool // NOLINT
+[[nodiscard]] auto test_load_sac_power_crazed() -> bool // NOLINT
 {
   TRACE();
 
   Testp test = test_load("sac_power_crazed");
 
-  test_callback_set(test, test_power_crazed);
+  test_callback_set(test, test_sac_power_crazed_melee);
 
   return true;
 }
