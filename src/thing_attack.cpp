@@ -9,6 +9,7 @@
 #include "my_level.hpp"
 #include "my_level_inlines.hpp" // NOLINT
 #include "my_main.hpp"
+#include "my_random.hpp"
 #include "my_string.hpp"
 #include "my_thing.hpp"
 #include "my_thing_callbacks.hpp"
@@ -176,7 +177,14 @@ static auto thing_attack_it(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thing
   //
   // Lunge attack, even if missing
   //
-  (void) thing_lunge(g, v, l, attacker, victim_at);
+  if (thing_is_engulfed(attacker)) {
+    (void) thing_lunge(g, v, l, attacker, victim_at + bpoint(OS_RANDOM_RANGE_INCLUSIVE(-1, 1), OS_RANDOM_RANGE_INCLUSIVE(-1, 1)));
+    if (thing_is_player(attacker)) {
+      topcon("You struggle to escape!\n");
+    }
+  } else {
+    (void) thing_lunge(g, v, l, attacker, victim_at);
+  }
 
   //
   // Attack or miss

@@ -13,6 +13,7 @@
 #include "my_level_inlines.hpp" // NOLINT
 #include "my_line.hpp"
 #include "my_main.hpp"
+#include "my_random.hpp"
 #include "my_sound.hpp"
 #include "my_thing.hpp"
 #include "my_thing_callbacks.hpp"
@@ -968,6 +969,17 @@ static auto player_move_delta(Gamep g, Levelsp v, Levelp l, int dx, int dy) -> b
   } else {
     fpoint const delta = thing_get_direction(g, v, l, me);
     target             = make_bpoint(thing_real_at(g, v, l, me) + delta);
+  }
+
+  //
+  // If engulfed, you can't really fire off weapons
+  //
+  if (thing_is_engulfed(me)) {
+    THING_DBG(g, v, l, me, "player is engulfed");
+    (void) level_tick_begin_requested(g, v, l, "player attack engulfer");
+    auto attack_at = thing_at(g, v, l, me);
+    (void) thing_attack_at(g, v, l, me, attack_at);
+    return true;
   }
 
   //
