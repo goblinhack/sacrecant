@@ -108,7 +108,7 @@ static void thing_attack_player_missed(Gamep g, Levelsp v, Levelp l, Thingp it, 
 //
 // We're trying to attack at this tile. What do we hit first?
 //
-static auto thing_attack_melee(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thingp it, ThingEvent *e_in = nullptr) -> bool
+static auto thing_attack_it(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thingp it, ThingEvent *e_in = nullptr) -> bool
 {
   TRACE();
 
@@ -237,25 +237,48 @@ static auto thing_attack_melee(Gamep g, Levelsp v, Levelp l, Thingp attacker, Th
   THING_DBG(g, v, l, attacker, "%s", __FUNCTION__);
   TRACE_INDENT();
 
-  //
-  // Only allow attacks on immediately adjacent tiles. Unless you can fire weapons.
-  //
-  if (thing_is_able_to_fire_weapons(attacker)) {
+  auto attacker_at = thing_at(g, v, l, attacker);
+
+  if (attacker_at == attack_at) {
     //
-    // Firing tiles do not need to be adjacent
+    // Needed for engulfing and door slam attacks
     //
-  } else {
-    if (thing_at(g, v, l, attacker) == attack_at) {
+    THING_DBG(g, v, l, attacker, "attack same tile");
+  } else if (thing_is_able_to_fire_weapons(attacker)) {
+    //
+    // Check player or monster is able to fire weapons
+    //
+    if (thing_is_player(attacker)) {
       //
-      // Allow door slam attack on same tile
+      // If the player cannot fire, make sure they are adjacent
       //
-    } else if (! adjacent(thing_at(g, v, l, attacker), attack_at)) {
+      if (thing_worn_get(g, v, l, attacker, WORN_TYPE_WEAPON)) {
+        THING_DBG(g, v, l, attacker, "player can fire weapons");
+      } else {
+        THING_DBG(g, v, l, attacker, "player cannot fire weapons");
+
+        if (! adjacent(attacker_at, attack_at)) {
+          THING_DBG(g, v, l, attacker, "player is not adjacent and cannot fire weapons");
+          return false;
+        }
+      }
+    } else {
       //
-      // Adjacent tile attack
+      // Needed for monsters that can fire and do melee.
       //
-      THING_DBG(g, v, l, attacker, "not adjacent");
-      return false;
+      THING_DBG(g, v, l, attacker, "not adjacent but can fire weapons");
     }
+  } else if (! adjacent(attacker_at, attack_at)) {
+    //
+    // Melee only monsters needs to be adjacent.
+    //
+    THING_DBG(g, v, l, attacker, "not adjacent");
+    return false;
+  } else {
+    //
+    // Likely melee
+    //
+    THING_DBG(g, v, l, attacker, "melee attack adjacent tile");
   }
 
   std::vector< Thingp > cands;
@@ -304,7 +327,7 @@ static auto thing_attack_melee(Gamep g, Levelsp v, Levelp l, Thingp attacker, Th
       }
     }
 
-    if (thing_attack_melee(g, v, l, attacker, cand, e)) {
+    if (thing_attack_it(g, v, l, attacker, cand, e)) {
       return true;
     }
   }
