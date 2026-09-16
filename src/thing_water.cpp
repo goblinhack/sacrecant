@@ -33,7 +33,7 @@ void thing_water_handle(Gamep g, Levelsp v, Levelp l, Thingp me)
   }
 
   auto event_type = THING_EVENT_WATER_DAMAGE;
-  auto damage     = thing_damage(g, v, l, source, event_type);
+  auto damage     = thing_damage_calculate(g, v, l, source, event_type);
 
   ThingEvent e {
       .reason     = "by water damage", //

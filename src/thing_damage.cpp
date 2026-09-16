@@ -23,6 +23,59 @@
 #include <string>
 #include <vector>
 
+[[nodiscard]] auto thing_damage_calculate(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEventType event_type) -> int
+{
+  TRACE();
+
+  if (me == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+
+  int final_damage {};
+  int new_damage {};
+  int initial_damage {};
+  int additional_damage {};
+
+  auto *tp = thing_tp(me);
+
+  final_damage   = tp_damage(tp, event_type);
+  initial_damage = final_damage;
+
+  THING_DBG(g, v, l, me, "base damage: %d", final_damage);
+  TRACE_INDENT();
+
+  //
+  // Add on damage modifier from owner if any
+  //
+  // If this is say a ring, and it has an owner, the damage mod called from
+  // the owners perspective should include the stat for both the owner and
+  // any carried items, like the ring.
+  //
+  Thingp from = thing_get_attacker(g, v, l, me);
+
+  if (from != nullptr) {
+    THING_DBG(g, v, l, from, "this the real attacker:");
+    THING_DBG(g, v, l, me, "this is the target:");
+    TRACE_INDENT();
+
+    additional_damage = thing_stat_mod(g, v, l, from, THING_STAT_DMG);
+    if (additional_damage != 0) {
+      new_damage = final_damage + additional_damage;
+      if (new_damage != final_damage) {
+        THING_DBG(g, v, l, me, "damage: %d->%d (from DMG stat)", final_damage, new_damage);
+        final_damage = new_damage;
+      }
+    }
+  }
+
+  if (final_damage != initial_damage) {
+    THING_DBG(g, v, l, me, "final damage: %d", final_damage);
+  }
+
+  return final_damage;
+}
+
 //
 // Roll for damage
 //
@@ -79,75 +132,6 @@
   FOR_ALL_THING_EVENT(e) { damage = std::max(damage, tp_damage_max(tp, e)); }
 
   return damage;
-}
-
-[[nodiscard]] auto thing_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEventType event_type) -> int
-{
-  TRACE();
-
-  if (me == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-
-  int final_damage {};
-  int new_damage {};
-  int initial_damage {};
-  int additional_damage {};
-
-  auto *tp = thing_tp(me);
-
-  final_damage   = tp_damage(tp, event_type);
-  initial_damage = final_damage;
-
-  THING_DBG(g, v, l, me, "base damage: %d", final_damage);
-  TRACE_INDENT();
-
-  //
-  // Add on my damage modifier
-  //
-  additional_damage = thing_stat_mod(g, v, l, me, THING_STAT_DMG);
-  if (additional_damage != 0) {
-    new_damage = final_damage + additional_damage;
-    if (new_damage != final_damage) {
-      THING_DBG(g, v, l, me, "damage-mod: %d->%d", final_damage, new_damage);
-      final_damage = new_damage;
-    }
-  }
-
-  //
-  // Add on damage modifier from owner if any
-  //
-  Thingp from = nullptr;
-
-  if (auto *fired_by = thing_missile_fired_by_get(g, v, l, me)) {
-    from = fired_by;
-  } else if (auto *owner = thing_owner(g, v, l, me)) {
-    from = owner;
-  } else {
-    from = nullptr;
-  }
-
-  if (from != nullptr) {
-    THING_DBG(g, v, l, from, "this the real attacker:");
-    THING_DBG(g, v, l, me, "this is the target:");
-    TRACE_INDENT();
-
-    additional_damage = thing_stat_mod(g, v, l, from, THING_STAT_DMG);
-    if (additional_damage != 0) {
-      new_damage = final_damage + additional_damage;
-      if (new_damage != final_damage) {
-        THING_DBG(g, v, l, me, "damage: %d->%d", final_damage, new_damage);
-        final_damage = new_damage;
-      }
-    }
-  }
-
-  if (final_damage != initial_damage) {
-    THING_DBG(g, v, l, me, "final damage: %d", final_damage);
-  }
-
-  return final_damage;
 }
 
 [[nodiscard]] auto thing_damage_max(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEventType event_type) -> int
@@ -508,7 +492,7 @@ static void thing_damage_by_player(Gamep g, Levelsp v, Levelp l, Thingp it, Thin
   //
   // Popup for damage to monsters
   //
-  if (thing_is_monst(it)) {
+  if (thing_is_attackable_by_player(it) && ! thing_is_dead(it) && ! thing_is_corpse(it)) {
     std::string msg;
     if (e.crit) {
       msg = "CRIT! -" + std::to_string(e.damage);
@@ -618,7 +602,7 @@ static void thing_damage_cap_for_this_event(Gamep g, Levelsp v, Levelp l, Thingp
   if (e.damage > max_damage_this_time) {
     auto old_d = e.damage;
     e.damage   = max_damage_this_time;
-    THING_DBG(g, v, l, me, "%s: limit damage %d -> %d", to_string(g, v, l, e).c_str(), old_d, e.damage);
+    THING_DBG(g, v, l, me, "%s: limit damage %d->%d", to_string(g, v, l, e).c_str(), old_d, e.damage);
   }
 }
 
@@ -642,7 +626,7 @@ static void thing_damage_cap_for_this_tick(Gamep g, Levelsp v, Levelp l, Thingp 
     auto old_d = e.damage;
     e.damage -= d_total - max_damage_per_tick;
     e.damage = std::max(e.damage, 0);
-    THING_DBG(g, v, l, me, "%s: limit per tick damage %d -> %d", to_string(g, v, l, e).c_str(), old_d, e.damage);
+    THING_DBG(g, v, l, me, "%s: limit per tick damage %d->%d", to_string(g, v, l, e).c_str(), old_d, e.damage);
   }
 }
 
@@ -754,14 +738,7 @@ void thing_damage_apply(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   Thingp attacker = nullptr;
   Thingp target   = me;
   if (e.source) {
-    if (auto *fired_by = thing_missile_fired_by_get(g, v, l, e.source)) {
-      attacker = fired_by;
-    } else if (auto *owner = thing_owner(g, v, l, e.source)) {
-      attacker = owner;
-    } else {
-      attacker = nullptr;
-    }
-
+    attacker = thing_get_attacker(g, v, l, e.source);
     if (! attacker) {
       attacker = e.source;
     }

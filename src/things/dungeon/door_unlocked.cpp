@@ -133,7 +133,7 @@ static auto tp_door_unlocked_at_display_get_tile_info(Gamep g, Levelsp v, Levelp
     auto door_at = thing_at(g, v, l, me);
     if (level_is_attackable_by_player(g, v, l, door_at)) {
       auto event_type = THING_EVENT_MELEE_DAMAGE;
-      auto damage     = thing_damage(g, v, l, me, event_type);
+      auto damage     = thing_damage_calculate(g, v, l, me, event_type);
 
       ThingEvent e {
           .reason     = "door slam", //

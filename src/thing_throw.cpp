@@ -100,7 +100,7 @@ void thing_is_thrown_set(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp throw
     //
     {
       auto event_type = THING_EVENT_THROWN_DAMAGE;
-      auto damage     = thing_damage(g, v, l, item, event_type);
+      auto damage     = thing_damage_calculate(g, v, l, item, event_type);
 
       ThingEvent e {
           .reason     = "user threw item", //

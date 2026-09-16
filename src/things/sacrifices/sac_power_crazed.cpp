@@ -43,7 +43,7 @@ static bool tp_sac_power_crazed_on_damage(Gamep g, Levelsp v, Levelp l, Thingp m
     case THING_EVENT_CRUSH_DAMAGE :  [[fallthrough]];
     case THING_EVENT_MELEE_DAMAGE :  [[fallthrough]];
     case THING_EVENT_EXPLOSION_DAMAGE :
-      THING_DBG(g, v, l, me, "receive quad damage %d -> %d", e.damage, e.damage * 4);
+      THING_DBG(g, v, l, owner, "receive quad damage %d->%d", e.damage, e.damage * 4);
       e.damage *= 4;
       break;
     case THING_EVENT_WATER_DAMAGE :     [[fallthrough]];
@@ -77,7 +77,7 @@ static bool tp_sac_power_crazed_on_attacking(Gamep g, Levelsp v, Levelp l, Thing
     return true;
   }
 
-  THING_DBG(g, v, l, owner, "attack with quad damage %d -> %d", e.damage, e.damage * 4);
+  THING_DBG(g, v, l, owner, "attack with quad damage %d->%d", e.damage, e.damage * 4);
 
   e.damage *= 4;
 

@@ -29,6 +29,8 @@ static bool tp_sac_hollow_bones_on_damage(Gamep g, Levelsp v, Levelp l, Thingp m
     return true;
   }
 
+  THING_DBG(g, v, l, me, "on_damage");
+
   switch (e.event_type) {
     case THING_EVENT_FALL :
       e.damage = 0;
@@ -36,14 +38,17 @@ static bool tp_sac_hollow_bones_on_damage(Gamep g, Levelsp v, Levelp l, Thingp m
         topcon(UI_GOOD_FMT_STR "You take no damage from the fall!" UI_RESET_FMT);
       }
       break;
-    case THING_EVENT_THROWN :           [[fallthrough]];
-    case THING_EVENT_SHOVED :           [[fallthrough]];
-    case THING_EVENT_ENGULF_DAMAGE :    [[fallthrough]];
-    case THING_EVENT_THROWN_DAMAGE :    [[fallthrough]];
-    case THING_EVENT_POISON_DAMAGE :    [[fallthrough]];
-    case THING_EVENT_CRUSH_DAMAGE :     [[fallthrough]];
-    case THING_EVENT_MELEE_DAMAGE :     [[fallthrough]];
-    case THING_EVENT_EXPLOSION_DAMAGE : e.damage *= 2; break;
+    case THING_EVENT_THROWN :        [[fallthrough]];
+    case THING_EVENT_SHOVED :        [[fallthrough]];
+    case THING_EVENT_ENGULF_DAMAGE : [[fallthrough]];
+    case THING_EVENT_THROWN_DAMAGE : [[fallthrough]];
+    case THING_EVENT_POISON_DAMAGE : [[fallthrough]];
+    case THING_EVENT_CRUSH_DAMAGE :  [[fallthrough]];
+    case THING_EVENT_MELEE_DAMAGE :  [[fallthrough]];
+    case THING_EVENT_EXPLOSION_DAMAGE :
+      THING_DBG(g, v, l, owner, "receive double damage %d->%d", e.damage, e.damage * 2);
+      e.damage *= 2;
+      break;
     case THING_EVENT_WATER_DAMAGE :     [[fallthrough]];
     case THING_EVENT_ENERGY_DAMAGE :    [[fallthrough]];
     case THING_EVENT_FIRE_DAMAGE :      [[fallthrough]];

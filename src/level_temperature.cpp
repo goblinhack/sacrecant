@@ -291,13 +291,13 @@ void level_thing_pair_temperature_handle(Gamep g, Levelsp v, Levelp l, Thingp a,
   //
   if (Ta != Na) {
     a->tick_temperature_last_change = v->tick;
-    THING_DBG(g, v, l, a, "temperature change (a) %d -> %d degrees", Ta, Na);
+    THING_DBG(g, v, l, a, "temperature change (a) %d->%d degrees", Ta, Na);
     thing_temperature_handle(g, v, l, b, a, Na);
   }
 
   if (Tb != Nb) {
     b->tick_temperature_last_change = v->tick;
-    THING_DBG(g, v, l, b, "temperature change (b) %d -> %d degrees", Tb, Nb);
+    THING_DBG(g, v, l, b, "temperature change (b) %d->%d degrees", Tb, Nb);
     thing_temperature_handle(g, v, l, a, b, Nb);
   }
 

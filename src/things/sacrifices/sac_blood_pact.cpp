@@ -38,6 +38,7 @@ static bool tp_sac_blood_pact_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp 
 
   e.damage *= 2;
 
+  THING_DBG(g, v, l, me, "on_attacking");
   THING_DBG(g, v, l, owner, "damage doubled to %d", e.damage);
 
   if (thing_health(g, v, l, owner) > to_subtract + 1) {

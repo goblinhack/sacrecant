@@ -21,6 +21,38 @@
 #include <vector>
 
 //
+// Who really dunnit?
+//
+auto thing_get_attacker(Gamep g, Levelsp v, Levelp l, Thingp attacker) -> Thingp
+{
+  if (attacker == nullptr) {
+    return nullptr;
+  }
+
+  auto *fired_by = thing_missile_fired_by_get(g, v, l, attacker);
+  if (fired_by != nullptr) {
+    return fired_by;
+  }
+
+  auto *owner = thing_owner(g, v, l, attacker);
+  if (owner != nullptr) {
+    return owner;
+  }
+
+  return attacker;
+}
+
+//
+// Who really dunnit?
+//
+auto thing_get_attacker(Gamep g, Levelsp v, Levelp l, ThingEvent &e) -> Thingp
+{
+  auto *attacker = e.source;
+
+  return thing_get_attacker(g, v, l, attacker);
+}
+
+//
 // The monster missed
 //
 static void thing_attack_missed_player(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
@@ -82,7 +114,7 @@ static auto thing_attack_melee(Gamep g, Levelsp v, Levelp l, Thingp attacker, Th
 
   auto *source     = attacker;
   auto  event_type = THING_EVENT_MELEE_DAMAGE;
-  auto  damage     = thing_damage(g, v, l, source, event_type);
+  auto  damage     = thing_damage_calculate(g, v, l, source, event_type);
 
   //
   // Digestion damage

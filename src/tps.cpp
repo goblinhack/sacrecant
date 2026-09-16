@@ -103,6 +103,7 @@
   if (!tp_load_ring_war()) { return false; }
   if (!tp_load_rock()) { return false; }
   if (!tp_load_rubble()) { return false; }
+  if (!tp_load_sac_blood_feast()) { return false; }
   if (!tp_load_sac_blood_pact()) { return false; }
   if (!tp_load_sac_clumsy()) { return false; }
   if (!tp_load_sac_crit_more()) { return false; }

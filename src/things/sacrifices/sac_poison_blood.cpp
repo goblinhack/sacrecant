@@ -40,6 +40,7 @@ static void tp_sac_poison_blood_on_tick_begin(Gamep g, Levelsp v, Levelp l, Thin
     return;
   }
 
+  THING_DBG(g, v, l, me, "on_tick");
   THING_DBG(g, v, l, owner, "poisoned blood tick");
   TRACE_INDENT();
 

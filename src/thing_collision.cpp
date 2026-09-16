@@ -430,7 +430,7 @@ static void thing_collision_handle_dead_thing(Gamep g, Levelsp v, Levelp l, Thin
     auto *source     = me;
     auto *source_tp  = thing_tp(source);
     auto  event_type = tp_damage_random_type_get(source_tp);
-    auto  damage     = thing_damage(g, v, l, source, event_type);
+    auto  damage     = thing_damage_calculate(g, v, l, source, event_type);
 
     ThingEvent e {
         .reason     = "by weapon damage", //
@@ -516,7 +516,7 @@ static void thing_collision_handle_alive_thing(Gamep g, Levelsp v, Levelp l, Thi
     auto *source     = me;
     auto *source_tp  = thing_tp(source);
     auto  event_type = tp_damage_random_type_get(source_tp);
-    auto  damage     = thing_damage(g, v, l, source, event_type);
+    auto  damage     = thing_damage_calculate(g, v, l, source, event_type);
 
     ThingEvent e {
         .reason     = "by weapon damage", //

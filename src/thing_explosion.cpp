@@ -19,7 +19,7 @@ void thing_explosion_handle(Gamep g, Levelsp v, Levelp l, Thingp me)
   auto  at         = thing_at(g, v, l, me);
   auto *source     = level_is_explosion(g, v, l, at);
   auto  event_type = THING_EVENT_EXPLOSION_DAMAGE;
-  auto  damage     = thing_damage(g, v, l, source, event_type);
+  auto  damage     = thing_damage_calculate(g, v, l, source, event_type);
 
   ThingEvent e {
       .reason     = "by explosion damage", //

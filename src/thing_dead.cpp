@@ -260,30 +260,6 @@ static void thing_killed_by_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
 }
 
 //
-// Who really dunnit?
-//
-static auto thing_get_killer(Gamep g, Levelsp v, Levelp l, ThingEvent &e) -> Thingp
-{
-  auto *killer = e.source;
-
-  if (killer == nullptr) {
-    return nullptr;
-  }
-
-  auto *fired_by = thing_missile_fired_by_get(g, v, l, killer);
-  if (fired_by != nullptr) {
-    return fired_by;
-  }
-
-  auto *owner = thing_owner(g, v, l, killer);
-  if (owner != nullptr) {
-    return owner;
-  }
-
-  return killer;
-}
-
-//
 // Initiate the death process
 //
 void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
@@ -318,7 +294,7 @@ void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
     THING_DBG(g, v, l, me, "%s: dead", to_string(g, v, l, e).c_str());
   }
 
-  auto *killer = thing_get_killer(g, v, l, e);
+  auto *killer = thing_get_attacker(g, v, l, e);
 
   //
   // Call this prior to setting death, else we are told that we killed an already dead thing

@@ -43,6 +43,13 @@ void game_popup_text_add(Gamep g, int x, int y, const std::string &text, color c
     auto value1 = std::stoi(text);
     for (auto *i : *game_popups_get(g, x, y)) {
       try {
+        //
+        // Don't merge popups that are fading out
+        //
+        if (game_time_have_x_ms_passed_since(POPUP_DURATION_MS / 4, i->created)) {
+          continue;
+        }
+
         auto value2 = std::stoi(i->text);
         i->text     = std::to_string(value1 + value2);
         i->created  = user_visible_time_ms_cached();
