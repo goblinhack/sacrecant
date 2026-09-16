@@ -171,6 +171,7 @@ auto test_load_proj_over_water() -> bool;
 auto test_load_proj_rock_turns_to_lava() -> bool;
 auto test_load_proj_spiderweb() -> bool;
 auto test_load_proj_teleport() -> bool;
+auto test_load_proj_treasure_chest() -> bool;
 auto test_load_proj_wall_turns_to_lava() -> bool;
 auto test_load_projectile() -> bool;
 auto test_load_ring_life() -> bool;

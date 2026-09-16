@@ -173,6 +173,7 @@
   if (!test_load_proj_rock_turns_to_lava()) { return false; }
   if (!test_load_proj_spiderweb()) { return false; }
   if (!test_load_proj_teleport()) { return false; }
+  if (!test_load_proj_treasure_chest()) { return false; }
   if (!test_load_proj_wall_turns_to_lava()) { return false; }
   if (!test_load_projectile()) { return false; }
   if (!test_load_ring_life()) { return false; }

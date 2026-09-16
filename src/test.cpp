@@ -195,6 +195,7 @@ static std::initializer_list< std::string > tests = {
     "proj_rock_turns_to_lava",
     "proj_spiderweb",
     "proj_teleport",
+    "proj_treasure_chest",
     "proj_wall_turns_to_lava",
     "projectile",
     "ring_life",
