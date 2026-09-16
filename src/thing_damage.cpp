@@ -793,9 +793,27 @@ void thing_damage_apply(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   THING_DBG(g, v, l, me, "%s: apply damage", to_string(g, v, l, e).c_str());
   TRACE_INDENT();
 
+  //
+  // Who attacked?
+  //
+  Thingp from = nullptr;
+  if (e.source) {
+    if (auto *fired_by = thing_missile_fired_by_get(g, v, l, e.source)) {
+      from = fired_by;
+    } else if (auto *owner = thing_owner(g, v, l, e.source)) {
+      from = owner;
+    } else {
+      from = nullptr;
+    }
+
+    if (! from) {
+      from = e.source;
+    }
+  }
+
   if (thing_is_player(me)) {
     thing_damage_to_player(g, v, l, me, e);
-  } else if ((e.source != nullptr) && thing_is_player(e.source)) {
+  } else if ((from != nullptr) && thing_is_player(from)) {
     thing_damage_by_player(g, v, l, me, e);
   }
 
