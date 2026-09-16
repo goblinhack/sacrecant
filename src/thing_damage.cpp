@@ -557,11 +557,7 @@ static void thing_damage_by_player(Gamep g, Levelsp v, Levelp l, Thingp it, Thin
           //
           // The player is not burning.
           //
-          if (thing_is_burning(it)) {
-            topcon(UI_IMPORTANT_FMT_STR "You burn %s." UI_RESET_FMT, the_thing_name_long.c_str());
-          } else {
-            topcon(UI_IMPORTANT_FMT_STR "You set fire to %s." UI_RESET_FMT, the_thing_name_long.c_str());
-          }
+          topcon(UI_IMPORTANT_FMT_STR "You burn %s." UI_RESET_FMT, the_thing_name_long.c_str());
         }
         break;
       case THING_EVENT_NONE :             [[fallthrough]];

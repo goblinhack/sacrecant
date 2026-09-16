@@ -109,21 +109,21 @@ static bool tp_chest_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEve
     if (e.source && thing_is_player(e.source)) {
       topcon("The broken treasure chest rattles!");
     }
-    return false;
+    return true;
   }
 
   if (thing_is_open(me)) {
     if (e.source && thing_is_player(e.source)) {
       topcon("The open treasure chest rattles!");
     }
-    return false;
+    return true;
   }
 
   if (thing_stat_success(g, v, l, me, THING_STAT_LUCK, TARGET_ROLL_CHEST_EXPLODE)) {
     if (e.source && thing_is_player(e.source)) {
       topcon("The treasure chest rattles violently!");
     }
-    return false;
+    return true;
   }
 
   const std::initializer_list< bpoint > points = {
@@ -184,13 +184,14 @@ static bool tp_chest_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEve
   tp_flag_set(tp, is_chest);
   tp_flag_set(tp, is_collectable); // for engulfers
   tp_flag_set(tp, is_collision_circle_large);
-  tp_flag_set(tp, is_combustible); // will continue to burn once on fire
+  tp_flag_set(tp, is_flammable); // will continue to burn once on fire
   tp_flag_set(tp, is_described_cursor);
   tp_flag_set(tp, is_item); // for engulfers
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_openable);
   tp_flag_set(tp, is_physics_explosion);
   tp_flag_set(tp, is_physics_temperature);
+  tp_flag_set(tp, is_attackable_by_player);
   tp_flag_set(tp, is_physics_trap);
   tp_flag_set(tp, is_submergible); // is seen submerged when in water
   tp_flag_set(tp, is_tick_on_drop);
