@@ -39,6 +39,7 @@
 static Widp      wid_total;
 static Widp      wid_player_select_window;
 static WidPopup *wid_player_select_continue_window;
+static Widp      wid_player_select_lucky_dip_window;
 
 static int  wid_player_index = 0;
 static Widp wid_player_shortcut[ THING_INVENTORY_MAX ];
@@ -77,6 +78,8 @@ static void wid_player_select_destroy(Gamep g)
 
   delete wid_player_select_continue_window;
   wid_player_select_continue_window = nullptr;
+
+  wid_player_select_lucky_dip_window = nullptr;
 }
 
 static void wid_player_select_all_done(Gamep g)
@@ -345,6 +348,8 @@ static void wid_player_select_player_via_mouse_over_end(Gamep g, Widp w)
     return false;
   }
 
+  wid_destroy(g, &wid_player_select_lucky_dip_window);
+
   if (game_cand_player_get_thing(g) == t) {
     game_cand_player_unset(g);
   } else {
@@ -356,6 +361,28 @@ static void wid_player_select_player_via_mouse_over_end(Gamep g, Widp w)
   }
 
   wid_player_select_check_if_done(g);
+  wid_player_update_selections(g);
+  game_request_to_remake_ui_set(g);
+
+  return true;
+}
+
+[[nodiscard]] static auto wid_player_select_player_default(Gamep g, Widp w)
+{
+  TRACE();
+
+  auto *v = levels_memory_alloc(g);
+  if (v == nullptr) {
+    return false;
+  }
+
+  auto *t = wid_get_thing_context(g, v, w, 0);
+  if (t == nullptr) {
+    return false;
+  }
+
+  game_cand_player_set(g, t);
+
   wid_player_update_selections(g);
   game_request_to_remake_ui_set(g);
 
@@ -419,6 +446,8 @@ static void wid_player_select_sacrifice_via_mouse_over_end(Gamep g, Widp w)
   if (t == nullptr) {
     return false;
   }
+
+  wid_destroy(g, &wid_player_select_lucky_dip_window);
 
   if (game_cand_sacrifice_find(g, t)) {
     game_cand_sacrifice_unset(g, t);
@@ -495,6 +524,8 @@ static void wid_player_select_boost_via_mouse_over_end(Gamep g, Widp w)
     return false;
   }
 
+  wid_destroy(g, &wid_player_select_lucky_dip_window);
+
   if (game_cand_boost_find(g, t)) {
     game_cand_boost_unset(g, t);
   } else {
@@ -548,7 +579,7 @@ static void wid_player_select_boost_via_mouse_over_end(Gamep g, Widp w)
                   // All done
                   //
                   wid_player_select_all_done(g);
-                } else {
+                } else if (wid_player_select_lucky_dip_window) {
                   //
                   // Choose some random player
                   //
@@ -734,7 +765,7 @@ void wid_player_select(Gamep g)
 
   if (v->tick == 0U) {
     TRACE();
-    auto        *w = wid_new_square_button(g, wid_player_select_window, "text");
+    auto         w = wid_player_select_lucky_dip_window = wid_new_square_button(g, wid_player_select_window, "text");
     spoint const tl(0, y_at);
     spoint const br(player_select_width, y_at);
     wid_set_pos(w, tl, br);
@@ -1198,7 +1229,7 @@ void wid_player_select(Gamep g)
   if (v->tick == 0U) {
     auto *w = wid_player[ 0 ];
     if (w != nullptr) {
-      (void) wid_player_select_player_via_mouse_down(g, w, -1, -1, 0);
+      (void) wid_player_select_player_default(g, w);
     }
   }
 
