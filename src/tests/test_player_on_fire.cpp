@@ -55,6 +55,8 @@
     }
   }
 
+  tp_flag_set(thing_tp(player), is_combustible);
+
   //
   // Spawn fire on the player
   //

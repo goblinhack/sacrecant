@@ -482,7 +482,6 @@ void tp_load_player_common(Tpp tp)
   tp_flag_set(tp, is_blit_if_has_seen);
   tp_flag_set(tp, is_burnable); // is capable of being burned by fire
   tp_flag_set(tp, is_collision_circle_large);
-  tp_flag_set(tp, is_combustible);
   tp_flag_set(tp, is_corpse_on_death);
   tp_flag_set(tp, is_critical_to_gameplay);
   tp_flag_set(tp, is_damage_capped);

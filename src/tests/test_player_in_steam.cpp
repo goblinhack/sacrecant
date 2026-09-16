@@ -52,6 +52,8 @@
     }
   }
 
+  tp_flag_set(thing_tp(player), is_combustible);
+
   //
   // Spawn steam on the player
   //

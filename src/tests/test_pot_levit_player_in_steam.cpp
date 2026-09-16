@@ -48,6 +48,8 @@
     goto exit;
   }
 
+  tp_flag_set(thing_tp(player), is_combustible);
+
   if (! thing_carry(g, v, l, player, usable_items)) {
     TEST_FAILED(t, "no item carried");
     goto exit;
