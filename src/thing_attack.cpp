@@ -174,6 +174,11 @@ static auto thing_attack_it(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thing
   }
 
   //
+  // Lunge attack, even if missing
+  //
+  (void) thing_lunge(g, v, l, attacker, victim_at);
+
+  //
   // Attack or miss
   //
   // The attack modifier, say +4 has to beat the defence, say 10
