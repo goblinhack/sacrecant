@@ -320,6 +320,13 @@ static void thing_display_blit(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp t_ma
         if (thing_is_hidden(t_maybe_null) != 0) {
           return;
         }
+
+        //
+        // If engulfed, need to be shown inside the monster
+        //
+        if (thing_is_engulfed(t_maybe_null)) {
+          return;
+        }
       }
 
       //
