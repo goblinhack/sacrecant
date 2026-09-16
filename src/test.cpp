@@ -214,6 +214,8 @@ static std::initializer_list< std::string > tests = {
     "sac_power_crazed_beam_weapon",
     "sac_power_crazed",
     "sac_sickly_health",
+    "sac_soul_feast_living",
+    "sac_soul_feast_undead",
     "sac_weaponless_attack_mob",
     "save_load",
     "slots",

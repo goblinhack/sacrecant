@@ -192,6 +192,8 @@
   if (!test_load_sac_power_crazed_beam_weapon()) { return false; }
   if (!test_load_sac_power_crazed()) { return false; }
   if (!test_load_sac_sickly_health()) { return false; }
+  if (!test_load_sac_soul_feast_living()) { return false; }
+  if (!test_load_sac_soul_feast_undead()) { return false; }
   if (!test_load_sac_weaponless_attack_mob()) { return false; }
   if (!test_load_save_load()) { return false; }
   if (!test_load_slots()) { return false; }

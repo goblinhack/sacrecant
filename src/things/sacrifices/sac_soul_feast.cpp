@@ -11,7 +11,7 @@
 #include "../../my_tps.hpp"
 #include "../../my_ui.hpp"
 
-static auto tp_sac_blood_feast_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
+static auto tp_sac_soul_feast_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
 {
   TRACE();
 
@@ -20,7 +20,7 @@ static auto tp_sac_blood_feast_detail_get(Gamep g, Levelsp v, Levelp l, Thingp m
       UI_INFO2_FMT_STR "The downside. This only works for living enemies. Undead cause you quad damage.\n";
 }
 
-static bool tp_sac_blood_feast_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
+static bool tp_sac_soul_feast_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
 {
   TRACE();
 
@@ -45,7 +45,7 @@ static bool tp_sac_blood_feast_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me
   return true;
 }
 
-static bool tp_sac_blood_feast_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp target, ThingEvent &e)
+static bool tp_sac_soul_feast_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp target, ThingEvent &e)
 {
   TRACE();
 
@@ -72,22 +72,22 @@ static bool tp_sac_blood_feast_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp
   return true;
 }
 
-[[nodiscard]] auto tp_load_sac_blood_feast() -> bool
+[[nodiscard]] auto tp_load_sac_soul_feast() -> bool
 {
   TRACE();
 
-  auto *tp   = tp_load("sac_blood_feast"); // keep as string for scripts
+  auto *tp   = tp_load("sac_soul_feast"); // keep as string for scripts
   auto  name = tp_name(tp);
 
   // begin sort marker1 {
-  thing_detail_set(tp, tp_sac_blood_feast_detail_get);
-  thing_on_damage_set(tp, tp_sac_blood_feast_on_damage);
-  thing_on_attacking_set(tp, tp_sac_blood_feast_on_attacking);
+  thing_detail_set(tp, tp_sac_soul_feast_detail_get);
+  thing_on_damage_set(tp, tp_sac_soul_feast_on_damage);
+  thing_on_attacking_set(tp, tp_sac_soul_feast_on_attacking);
   tp_flag_set(tp, is_hook);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_sacrifice);
   tp_sac_points_set(tp, 20);
-  tp_name_long_set(tp, "blood feast");
+  tp_name_long_set(tp, "soul feast");
   // end sort marker1 }
 
   return true;

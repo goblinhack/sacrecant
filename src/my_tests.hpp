@@ -190,6 +190,8 @@ auto test_load_sac_poison_blood() -> bool;
 auto test_load_sac_power_crazed_beam_weapon() -> bool;
 auto test_load_sac_power_crazed() -> bool;
 auto test_load_sac_sickly_health() -> bool;
+auto test_load_sac_soul_feast_living() -> bool;
+auto test_load_sac_soul_feast_undead() -> bool;
 auto test_load_sac_weaponless_attack_mob() -> bool;
 auto test_load_save_load() -> bool;
 auto test_load_slots() -> bool;
