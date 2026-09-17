@@ -109,7 +109,7 @@ static void thing_attack_player_missed(Gamep g, Levelsp v, Levelp l, Thingp it, 
 //
 // We're trying to attack at this tile. What do we hit first?
 //
-static auto thing_attack_it(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thingp it, ThingEvent *e_in = nullptr) -> bool
+static auto thing_attack_at_do(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thingp it, ThingEvent *e_in = nullptr) -> bool
 {
   TRACE();
 
@@ -118,7 +118,6 @@ static auto thing_attack_it(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thing
 
   auto *source     = attacker;
   auto  event_type = THING_EVENT_MELEE_DAMAGE;
-  auto  damage     = thing_damage_calculate(g, v, l, source, event_type);
 
   //
   // Digestion damage
@@ -132,14 +131,25 @@ static auto thing_attack_it(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thing
     }
   }
 
+  //
+  // Default event.
+  //
   ThingEvent e {
       .reason     = "melee",    //
       .event_type = event_type, //
-      .damage     = damage,     //
       .source     = source,     //
   };
 
-  if (e_in != nullptr) {
+  if (e_in == nullptr) {
+    //
+    // Careful here, as this does cause a random number generation, so can break tests if
+    // you move this.
+    //
+    e.damage = thing_damage_calculate(g, v, l, source, event_type);
+  } else {
+    //
+    // Already given an event. Do not recalculate damage.
+    //
     e = *e_in;
     if (e.source != nullptr) {
       attacker = e.source;
@@ -374,7 +384,7 @@ static auto thing_attack_it(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thing
     }
 
     THING_DBG(g, v, l, attacker, "attack cand");
-    if (thing_attack_it(g, v, l, attacker, cand, e)) {
+    if (thing_attack_at_do(g, v, l, attacker, cand, e)) {
       return true;
     }
   }

@@ -93,7 +93,7 @@
   }
 
   TEST_ASSERT(t, thing_is_dead(player), "expected dead player");
-  TEST_ASSERT(t, game_tick_get(g, v) == 24, "final tick counter value");
+  TEST_ASSERT(t, game_tick_get(g, v) == 19, "final tick counter value");
 
   level_dump(g, v, l, w, h);
   TEST_PASSED(t);

@@ -49,7 +49,7 @@
       = "xxxxxxx"
         "x.....x"
         "xxbxx.x"
-        "xB@Gx.x"
+        "xB@mx.x"
         "xx|xx.x"
         "x.....x"
         "xxxxxxx";
@@ -57,7 +57,7 @@
       = "xxxxxxx"
         "x.....x"
         "xxbxx.x"
-        "xB@Gx.x"
+        "xB@mx.x"
         "xx|xx.x"
         "x.....x"
         "xxxxxxx";

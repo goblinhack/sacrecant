@@ -33,8 +33,8 @@
         "X.....X"
         "XM....X"
         "X@M...X"
-        "XM....X"
-        "X..M..X"
+        "XMM...X"
+        "X.....X"
         "XXXXXXX";
 
   //
@@ -110,7 +110,7 @@
   //
   level_dump(g, v, l, w, h);
   TEST_PROGRESS(t);
-  TEST_ASSERT(t, game_tick_get(g, v) == 13, "final tick counter value");
+  TEST_ASSERT(t, game_tick_get(g, v) == 12, "final tick counter value");
 
   level_dump(g, v, l, w, h);
   TEST_PASSED(t);

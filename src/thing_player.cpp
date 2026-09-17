@@ -843,10 +843,10 @@ static void player_check_if_target_needs_move_confirm_callback(Gamep g, bool val
   THING_DBG(g, v, l, me, "player move to attempt failed");
   TRACE_INDENT();
 
-  THING_DBG(g, v, l, me, "player melee attack attempt");
-  TRACE_INDENT();
+  {
+    THING_DBG(g, v, l, me, "player melee attack attempt");
+    TRACE_INDENT();
 
-  if (0) {
     auto event_type = THING_EVENT_MELEE_DAMAGE;
     auto damage     = thing_damage_calculate(g, v, l, me, event_type);
 
@@ -860,9 +860,6 @@ static void player_check_if_target_needs_move_confirm_callback(Gamep g, bool val
     if (thing_attack_at(g, v, l, me, to, &e)) {
       THING_DBG(g, v, l, me, "player melee attack success");
     }
-  }
-  if (thing_attack_at(g, v, l, me, to)) {
-    THING_DBG(g, v, l, me, "player melee attack success");
   }
 
   //
