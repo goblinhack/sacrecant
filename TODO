@@ -3,14 +3,8 @@ bugs
 
 todo
 ----
-future sacrifices
-  j one-legged:             can only jump, limited jump distance, easily exhausted                melee +400
-  q random-failure:         effects like levitation and ethereal may fail randomly                melee +80
-  s madness:                occasional random spell use                                           melee +100
-  v breathless:             gas weapons, no effect, but tire much quicker                         melee +30
 essential
   - random monsts with difficulty
-  - psi text mentions cutting costs of spells
 spells
   - summoning
     - death knights
@@ -36,6 +30,9 @@ spells
   - more lich like spells
   - spells need to have a cost that can be influenced by specializing
   - shrines that reduce spell points
+future sacrifices
+  q random-failure:         effects like levitation and ethereal may fail randomly                melee +80
+  s madness:                occasional random spell use                                           melee +100
 gameplay
   - shoot from behind double damage
   - traps gas effects

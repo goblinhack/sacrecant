@@ -74,7 +74,7 @@ auto tp_player2_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::stri
     tp_difficulty_set(tp, 1);
     tp_mana_set(tp, 100);
     tp_health_set(tp, "200");
-    tp_sac_points_set(tp, 1);
+    tp_sac_points_set(tp, 2);
     tp_name_long_set(tp, "fisticuffs wizard");
     tp_stat_set(tp, THING_STAT_ATT, "1d4+10");
     tp_stat_set(tp, THING_STAT_DEF, "8");
