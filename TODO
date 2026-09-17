@@ -43,16 +43,6 @@ gameplay
   - anti anti magic areas
   - debug shell "add monst"
   - "You have used up your 5 free stabs included with the basic plan. If you wish to stab more..."
-  - Allies will follow you around and defend you; also thinking you
-    can set an ally with a basic programmed task - explore/defend/attack
-  - Enemy souls can be harvested to add to your life force. Thinking
-    of a pacman like blue ghost you need to hunt down. Only applies to
-    living beings that are toasted.
-  - Allies vanish each level and the life force is returned to you
-  - Life force can be applied to the summoning of allies each level.
-    Each ally that dies in-level, is a permanent loss of life force.
-    Hence you need to balance how many allies to summon with the chance
-    of permanent loss.
 ui
   - random player name e.g. galatrex the dark
 items
@@ -73,10 +63,8 @@ dungeon
   - steam and smoke should spread
   - potion trading station
   - present icon with multiplies for bonus
-  - wandering monster for grinding
   - enchants
-  - lever for a bridge? use an overly for rooms
-  - damage reduction stat
+  - lever for a bridge? use an overlay for rooms
 monsters
   - rainbow scorpion
   - gloater
