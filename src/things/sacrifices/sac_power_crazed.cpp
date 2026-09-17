@@ -98,7 +98,7 @@ static bool tp_sac_power_crazed_on_attacking(Gamep g, Levelsp v, Levelp l, Thing
   tp_flag_set(tp, is_hook);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_sacrifice);
-  tp_sac_points_set(tp, 100);
+  tp_sac_points_set(tp, 6);
   tp_name_long_set(tp, "power crazed");
   tp_stat_set(tp, THING_STAT_ATT, "18");
   tp_stat_set(tp, THING_STAT_DEF, "2");

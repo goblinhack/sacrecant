@@ -29,7 +29,7 @@ static auto tp_sac_tunnel_vision_detail_get(Gamep g, Levelsp v, Levelp l, Thingp
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_sacrifice);
   tp_flag_set(tp, is_vision_180_degrees);
-  tp_sac_points_set(tp, 20);
+  tp_sac_points_set(tp, 2);
   tp_name_long_set(tp, "tunnel vision");
   // end sort marker1 }
 

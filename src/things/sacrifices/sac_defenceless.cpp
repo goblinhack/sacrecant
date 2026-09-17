@@ -31,7 +31,7 @@ static auto tp_sac_defenceless_detail_get(Gamep g, Levelsp v, Levelp l, Thingp m
   tp_flag_set(tp, is_hook);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_sacrifice);
-  tp_sac_points_set(tp, 30);
+  tp_sac_points_set(tp, 3);
   tp_name_long_set(tp, "naked defence");
   tp_stat_set(tp, THING_STAT_DEF, "0");
   // end sort marker1 }

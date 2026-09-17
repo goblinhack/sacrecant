@@ -32,7 +32,7 @@ static auto tp_sac_crit_more_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_sacrifice);
   tp_crit_roll_set(tp, 18);
-  tp_sac_points_set(tp, 10);
+  tp_sac_points_set(tp, 1);
   tp_stat_set(tp, THING_STAT_ATT, "1d8");
   tp_stat_set(tp, THING_STAT_DEF, "1d8");
   tp_stat_set(tp, THING_STAT_STR, "1d8");
