@@ -220,7 +220,6 @@ static void wid_statistics_show_items(Gamep g, Levelsp v, Levelp l, Thingp playe
 
   if (! printed_something) {
     wid_statistics_popup->log_empty_line(g);
-    wid_statistics_popup->log(g, "You did not defeat anything!");
     wid_statistics_popup->log(g, "You were not carrying anything");
   }
   wid_statistics_popup->log_empty_line(g);
