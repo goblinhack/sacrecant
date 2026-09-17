@@ -148,7 +148,7 @@
       list_macro(is_gold, "is_gold"),                                                       /* newline */                                       \
       list_macro(is_grass, "is_grass"),                                                     /* newline */                                       \
       list_macro(is_grouped_thing, "is_grouped_thing"),                                     /* newline */                                       \
-      list_macro(is_hit_when_dead, "is_hit_when_dead"),                                     /* newline */                                       \
+      list_macro(is_blasted_when_dead, "is_blasted_when_dead"),                             /* newline */                                       \
       list_macro(is_indestructible, "is_indestructible"),                                   /* newline */                                       \
       list_macro(is_insectoid, "is_insectoid"),                                             /* newline */                                       \
       list_macro(is_inventory_item, "is_inventory_item"),                                   /* newline */                                       \
@@ -956,7 +956,7 @@ class Tp;
 [[nodiscard]] auto tp_is_gold(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_grass(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_grouped_thing(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_hit_when_dead(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_blasted_when_dead(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_hook(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_immune_to(Tpp tp, ThingEventType val) -> bool;
 [[nodiscard]] auto tp_is_indestructible(Tpp tp) -> bool;

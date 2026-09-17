@@ -422,7 +422,7 @@ static void thing_collision_handle_dead_thing(Gamep g, Levelsp v, Levelp l, Thin
     return;
   }
 
-  if (! thing_is_hit_when_dead(obstacle)) {
+  if (! thing_is_blasted_when_dead(obstacle)) {
     return;
   }
 
@@ -811,7 +811,7 @@ static auto thing_collision_interplolated_process_candidates(Gamep g, Levelsp v,
     // Skip things that are dead; unless we can hit their corpse
     //
     if (thing_is_dead(obstacle)) {
-      if (! thing_is_hit_when_dead(obstacle)) {
+      if (! thing_is_blasted_when_dead(obstacle)) {
         continue;
       }
     }

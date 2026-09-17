@@ -7,7 +7,6 @@ todo
 future sacrifices
   j one-legged:             can only jump, limited jump distance, easily exhausted                melee +400
   q random-failure:         effects like levitation and ethereal may fail randomly                melee +80
-  u wraith-like:            can walk through walls, but can never eat                melee +200
   s madness:                occasional random spell use                                           melee +100
   v breathless:             gas weapons, no effect, but tire much quicker                         melee +30
 essential

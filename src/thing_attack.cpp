@@ -113,6 +113,9 @@ static auto thing_attack_it(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thing
 {
   TRACE();
 
+  THING_DBG(g, v, l, attacker, "attack it");
+  THING_DBG(g, v, l, it, "me");
+
   auto *source     = attacker;
   auto  event_type = THING_EVENT_MELEE_DAMAGE;
   auto  damage     = thing_damage_calculate(g, v, l, source, event_type);
@@ -228,7 +231,7 @@ static auto thing_attack_it(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thing
     }
   }
 
-  THING_DBG(g, v, l, it, "apply melee damage");
+  THING_DBG(g, v, l, it, "apply damage");
   TRACE_INDENT();
 
   thing_damage_apply(g, v, l, it, e);
@@ -263,16 +266,28 @@ static auto thing_attack_it(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thing
     //
     if (thing_is_player(attacker)) {
       //
-      // If the player cannot fire, make sure they are adjacent
+      // Melee attack?
       //
-      if (thing_worn_get(g, v, l, attacker, WORN_TYPE_WEAPON) != nullptr) {
-        THING_DBG(g, v, l, attacker, "player can fire weapons");
-      } else {
-        THING_DBG(g, v, l, attacker, "player cannot fire weapons");
+      if (e && (e->event_type == THING_EVENT_MELEE_DAMAGE)) {
+        THING_DBG(g, v, l, attacker, "player melee attack");
 
         if (! adjacent(attacker_at, attack_at)) {
-          THING_DBG(g, v, l, attacker, "player is not adjacent and cannot fire weapons");
+          THING_DBG(g, v, l, attacker, "player is not adjacent and cannot melee attack");
           return false;
+        }
+      } else {
+        //
+        // If the player cannot fire, make sure they are adjacent
+        //
+        if (thing_worn_get(g, v, l, attacker, WORN_TYPE_WEAPON) != nullptr) {
+          THING_DBG(g, v, l, attacker, "player can fire weapons");
+        } else {
+          THING_DBG(g, v, l, attacker, "player cannot fire weapons");
+
+          if (! adjacent(attacker_at, attack_at)) {
+            THING_DBG(g, v, l, attacker, "player is not adjacent and cannot fire weapons");
+            return false;
+          }
         }
       }
     } else {
@@ -334,12 +349,31 @@ static auto thing_attack_it(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thing
   }
 
   for (auto *cand : cands) {
-    if (thing_is_dead(cand)) {
-      if (! thing_is_hit_when_dead(cand)) {
+    //
+    // Should we ignore this candidate?
+    //
+    if (e && (e->event_type == THING_EVENT_MELEE_DAMAGE)) {
+      //
+      // Don't melee attack dead things
+      //
+      if (thing_is_dead(cand)) {
+        THING_DBG(g, v, l, cand, "ignore dead cand");
         continue;
+      }
+    } else {
+      //
+      // But allow beam weapons to hit corpses.
+      //
+      if (thing_is_dead(cand)) {
+        if (! thing_is_blasted_when_dead(cand)) {
+          THING_DBG(g, v, l, cand, "ignore dead cand");
+          continue;
+        }
+        THING_DBG(g, v, l, cand, "hit dead cand");
       }
     }
 
+    THING_DBG(g, v, l, attacker, "attack cand");
     if (thing_attack_it(g, v, l, attacker, cand, e)) {
       return true;
     }

@@ -155,7 +155,7 @@ static bool tp_skeleton_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker
   tp_flag_set(tp, is_corpse_on_death);
   tp_flag_set(tp, is_described_cursor);
   tp_flag_set(tp, is_flesh);
-  tp_flag_set(tp, is_hit_when_dead);
+  tp_flag_set(tp, is_blasted_when_dead);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_minion);
   tp_flag_set(tp, is_monst);

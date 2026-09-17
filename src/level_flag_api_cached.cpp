@@ -2445,10 +2445,10 @@
   return level_flag_cached(g, v, l, is_effect_ripple, p);
 }
 
-[[nodiscard]] auto level_is_hit_when_dead_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_blasted_when_dead_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_hit_when_dead, p);
+  return level_flag_cached(g, v, l, is_blasted_when_dead, p);
 }
 
 [[nodiscard]] auto level_is_able_to_be_engulfed_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

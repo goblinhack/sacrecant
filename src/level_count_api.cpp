@@ -2397,10 +2397,10 @@
   return level_count(g, v, l, is_effect_ripple, p);
 }
 
-[[nodiscard]] auto level_count_is_hit_when_dead(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_blasted_when_dead(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_hit_when_dead, p);
+  return level_count(g, v, l, is_blasted_when_dead, p);
 }
 
 [[nodiscard]] auto level_count_is_able_to_be_engulfed(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t

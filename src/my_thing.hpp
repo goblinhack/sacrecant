@@ -962,7 +962,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_grouped_thing(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_hit_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_is_hit_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
-[[nodiscard]] auto thing_is_hit_when_dead(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_blasted_when_dead(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_hook(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_hot_check(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_immune_to(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEventType val) -> bool;

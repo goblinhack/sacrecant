@@ -2395,10 +2395,10 @@
   return tp_flag(tp, is_effect_ripple) != 0;
 }
 
-[[nodiscard]] auto tp_is_hit_when_dead(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_blasted_when_dead(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_hit_when_dead) != 0;
+  return tp_flag(tp, is_blasted_when_dead) != 0;
 }
 
 [[nodiscard]] auto tp_is_able_to_be_engulfed(Tpp tp) -> bool

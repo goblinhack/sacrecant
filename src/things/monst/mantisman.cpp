@@ -164,7 +164,7 @@ static bool tp_mantisman_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacke
   tp_flag_set(tp, is_corpse_on_death);
   tp_flag_set(tp, is_described_cursor);
   tp_flag_set(tp, is_flesh_eater);
-  tp_flag_set(tp, is_hit_when_dead);
+  tp_flag_set(tp, is_blasted_when_dead);
   tp_flag_set(tp, is_insectoid);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_monst);

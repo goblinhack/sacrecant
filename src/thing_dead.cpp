@@ -513,7 +513,7 @@ void thing_is_dead_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   return tp_flag(thing_tp(t), is_dead_when_discharged) != 0;
 }
 
-[[nodiscard]] auto thing_is_hit_when_dead(Thingp t) -> bool
+[[nodiscard]] auto thing_is_blasted_when_dead(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -521,7 +521,7 @@ void thing_is_dead_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_hit_when_dead) != 0;
+  return tp_flag(thing_tp(t), is_blasted_when_dead) != 0;
 }
 
 [[nodiscard]] auto thing_is_obs_when_dead(Thingp t) -> bool

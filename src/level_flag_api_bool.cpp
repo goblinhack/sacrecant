@@ -2445,10 +2445,10 @@
   return level_flag(g, v, l, is_effect_ripple, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_hit_when_dead_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_blasted_when_dead_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_hit_when_dead, p, me) != nullptr;
+  return level_flag(g, v, l, is_blasted_when_dead, p, me) != nullptr;
 }
 
 [[nodiscard]] auto level_is_able_to_be_engulfed_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool

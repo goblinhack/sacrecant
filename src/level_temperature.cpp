@@ -47,7 +47,7 @@ void level_tick_begin_temperature(Gamep g, Levelsp v, Levelp l)
       // Ignore burnt grass for example
       //
       if (thing_is_dead(t)) {
-        if (! thing_is_hit_when_dead(t)) {
+        if (! thing_is_blasted_when_dead(t)) {
           continue;
         }
       }
@@ -63,7 +63,7 @@ void level_tick_begin_temperature(Gamep g, Levelsp v, Levelp l)
       // It could be dead now.
       //
       if (thing_is_dead(t)) {
-        if (! thing_is_hit_when_dead(t)) {
+        if (! thing_is_blasted_when_dead(t)) {
           continue;
         }
       }
@@ -247,7 +247,7 @@ void level_thing_pair_temperature_handle(Gamep g, Levelsp v, Levelp l, Thingp a,
 {
   TRACE();
 
-  if (thing_is_hit_when_dead(a) || thing_is_hit_when_dead(b)) {
+  if (thing_is_blasted_when_dead(a) || thing_is_blasted_when_dead(b)) {
     // ok
   } else if (thing_is_dead(a) || thing_is_dead(b)) {
     return;
@@ -341,7 +341,7 @@ void level_tick_end_temperature(Gamep g, Levelsp v, Levelp l)
       // Ignore burnt grass for example
       //
       if (thing_is_dead(t)) {
-        if (! thing_is_hit_when_dead(t)) {
+        if (! thing_is_blasted_when_dead(t)) {
           continue;
         }
       }
