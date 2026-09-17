@@ -156,6 +156,7 @@ static void tp_brazier_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEv
   tp_flag_set(tp, is_physics_water);
   tp_flag_set(tp, is_shovable);
   tp_flag_set(tp, is_submergible); // is seen submerged when in water
+  tp_flag_set(tp, is_obs_to_wall_walker);
   tp_flag_set(tp, is_tickable);
   tp_light_color_set(tp, "orange");
   tp_name_a_or_an_set(tp, "a brazier");

@@ -376,7 +376,7 @@ void thing_moving_from_set(Thingp t, const bpoint &val)
   return tp_flag(thing_tp(t), is_obs_to_movement) != 0;
 }
 
-[[nodiscard]] auto thing_is_able_to_move_through_walls(Thingp t) -> bool
+[[nodiscard]] auto thing_is_wall_walker(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -384,7 +384,7 @@ void thing_moving_from_set(Thingp t, const bpoint &val)
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_able_to_move_through_walls) != 0;
+  return tp_flag(thing_tp(t), is_wall_walker) != 0;
 }
 
 [[nodiscard]] auto thing_is_able_to_move_diagonally(Thingp t) -> bool

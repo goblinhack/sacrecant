@@ -53,7 +53,7 @@ using ThingIdPacked = union {
 /* begin shell marker1 */
 /* shell printf "#define THING_HOOK_MAX " */
 /* shell find . -name "*.cpp" | xargs grep "tp_flag_set(tp, is_hook);" | wc -l */
-#define THING_HOOK_MAX 28
+#define THING_HOOK_MAX 29
 /* end shell marker1 */
 
 //
@@ -835,7 +835,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_able_to_jump(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_lunge(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_move_diagonally(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_able_to_move_through_walls(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_wall_walker(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_move(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_open_things(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_resurrect(Thingp t) -> bool;
@@ -1128,9 +1128,9 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused146(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused147(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused148(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused149(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_wall_walker_pass_through(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused15(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused150(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_obs_to_wall_walker(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused151(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_myopic(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_unused16(Thingp t) -> bool;

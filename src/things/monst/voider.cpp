@@ -156,6 +156,7 @@ static void tp_voider_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_flag_set(tp, is_levitating);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_monst);
+  tp_flag_set(tp, is_obs_to_wall_walker);
   tp_flag_set(tp, is_obs_to_beam);
   tp_flag_set(tp, is_obs_to_jumping_onto);
   tp_flag_set(tp, is_obs_to_movement);

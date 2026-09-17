@@ -1429,7 +1429,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     //
     // Non ethereal
     //
-    if (thing_is_able_to_move_through_walls(me)) {
+    if (thing_is_wall_walker(g, v, l, me)) {
       out = string_append_with_comma(out, "Wall-walker");
     }
     if (thing_is_levitating(g, v, l, me)) {

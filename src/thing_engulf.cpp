@@ -323,6 +323,13 @@
     return false;
   }
 
+  FOR_ALL_HOOKS(g, v, l, me, buff)
+  {
+    if (tp_flag(thing_tp(buff), is_able_to_be_engulfed_blocked) != 0) {
+      return false;
+    }
+  }
+
   FOR_ALL_ACTIVE_ITEMS(g, v, l, me, item)
   {
     if (tp_flag(thing_tp(item), is_able_to_be_engulfed_blocked) != 0) {

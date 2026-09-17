@@ -28,7 +28,7 @@
     return false;
   }
 
-  if (thing_is_able_to_move_through_walls(me)) {
+  if (thing_is_wall_walker(g, v, l, me)) {
     return false;
   }
 
@@ -195,8 +195,12 @@
     //
     // Allow AI to make a path through walls
     //
-    if (thing_is_wall(it)) {
-      if (thing_is_able_to_move_through_walls(me)) {
+    if (thing_is_wall_walker(g, v, l, me)) {
+      if (level_is_obs_to_wall_walker(g, v, l, to)) {
+        return false;
+      }
+
+      if (level_is_wall_walker_pass_through(g, v, l, to)) {
         continue;
       }
     }
@@ -309,15 +313,6 @@
     }
 
     //
-    // Allow walking through walls
-    //
-    if (thing_is_wall(it)) {
-      if (thing_is_able_to_move_through_walls(me)) {
-        continue;
-      }
-    }
-
-    //
     // No stacking of monsters
     //
     if (thing_is_monst(me)) {
@@ -329,6 +324,18 @@
     //
     // A wall or pillar or somesuch?
     //
+    // Allow walking through walls
+    //
+    if (thing_is_wall_walker(g, v, l, me)) {
+      if (level_is_obs_to_wall_walker(g, v, l, to)) {
+        return false;
+      }
+
+      if (level_is_wall_walker_pass_through(g, v, l, to)) {
+        continue;
+      }
+    }
+
     if (thing_is_obs_to_movement(it)) {
       if (thing_is_flat(it) && thing_is_levitating(g, v, l, me)) {
         //

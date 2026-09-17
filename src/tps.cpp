@@ -119,6 +119,7 @@
   if (!tp_load_sac_soul_feast()) { return false; }
   if (!tp_load_sac_tunnel_vision()) { return false; }
   if (!tp_load_sac_unlucky()) { return false; }
+  if (!tp_load_sac_wall_walker()) { return false; }
   if (!tp_load_sac_weaponless()) { return false; }
   if (!tp_load_skeleton_mob()) { return false; }
   if (!tp_load_skeleton()) { return false; }

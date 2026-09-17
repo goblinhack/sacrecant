@@ -49,10 +49,10 @@
   return tp_flag(tp, is_able_to_move_diagonally) != 0;
 }
 
-[[nodiscard]] auto tp_is_able_to_move_through_walls(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_wall_walker(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_able_to_move_through_walls) != 0;
+  return tp_flag(tp, is_wall_walker) != 0;
 }
 
 [[nodiscard]] auto tp_is_able_to_open_things(Tpp tp) -> bool
@@ -1759,16 +1759,16 @@
   return tp_flag(tp, is_unused148) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused149(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_wall_walker_pass_through(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused149) != 0;
+  return tp_flag(tp, is_wall_walker_pass_through) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused150(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_obs_to_wall_walker(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused150) != 0;
+  return tp_flag(tp, is_obs_to_wall_walker) != 0;
 }
 
 [[nodiscard]] auto tp_is_unused151(Tpp tp) -> bool

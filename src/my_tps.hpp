@@ -117,6 +117,7 @@ auto tp_load_sac_sickly_health() -> bool;
 auto tp_load_sac_soul_feast() -> bool;
 auto tp_load_sac_tunnel_vision() -> bool;
 auto tp_load_sac_unlucky() -> bool;
+auto tp_load_sac_wall_walker() -> bool;
 auto tp_load_sac_weaponless() -> bool;
 auto tp_load_skeleton_mob() -> bool;
 auto tp_load_skeleton() -> bool;

@@ -183,6 +183,7 @@ static bool tp_pale_eel_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker
   tp_flag_set(tp, is_flesh);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_monst);
+  tp_flag_set(tp, is_obs_to_wall_walker);
   tp_flag_set(tp, is_physics_explosion);
   tp_flag_set(tp, is_physics_temperature);
   tp_flag_set(tp, is_removable_when_dead_on_err);

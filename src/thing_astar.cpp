@@ -400,7 +400,7 @@ void Astar::init()
     eval_neighbor(current, bpoint(0, 1));
 
     if (allow_diagonal) {
-      if (thing_is_able_to_move_through_walls(me)) {
+      if (thing_is_wall_walker(g, v, l, me)) {
         //
         // Can move through walls in any direction
         //

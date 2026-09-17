@@ -51,10 +51,10 @@
   return level_count(g, v, l, is_able_to_move_diagonally, p);
 }
 
-[[nodiscard]] auto level_count_is_able_to_move_through_walls(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_wall_walker(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_able_to_move_through_walls, p);
+  return level_count(g, v, l, is_wall_walker, p);
 }
 
 [[nodiscard]] auto level_count_is_able_to_open_things(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
@@ -1761,16 +1761,16 @@
   return level_count(g, v, l, is_unused148, p);
 }
 
-[[nodiscard]] auto level_count_is_unused149(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_wall_walker_pass_through(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused149, p);
+  return level_count(g, v, l, is_wall_walker_pass_through, p);
 }
 
-[[nodiscard]] auto level_count_is_unused150(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_obs_to_wall_walker(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused150, p);
+  return level_count(g, v, l, is_obs_to_wall_walker, p);
 }
 
 [[nodiscard]] auto level_count_is_unused151(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t

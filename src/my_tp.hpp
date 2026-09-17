@@ -42,7 +42,7 @@
       list_macro(is_able_to_jump, "is_able_to_jump"),                                       /* newline */                                       \
       list_macro(is_able_to_lunge, "is_able_to_lunge"),                                     /* newline */                                       \
       list_macro(is_able_to_move_diagonally, "is_able_to_move_diagonally"),                 /* newline */                                       \
-      list_macro(is_able_to_move_through_walls, "is_able_to_move_through_walls"),           /* newline */                                       \
+      list_macro(is_wall_walker, "is_wall_walker"),                                         /* newline */                                       \
       list_macro(is_able_to_move, "is_able_to_move"),                                       /* newline */                                       \
       list_macro(is_able_to_open_things, "is_able_to_open_things"),                         /* newline */                                       \
       list_macro(is_able_to_resurrect, "is_able_to_resurrect"),                             /* newline */                                       \
@@ -304,9 +304,9 @@
       list_macro(is_unused146, "is_unused146"),                                             /* newline */                                       \
       list_macro(is_unused147, "is_unused147"),                                             /* newline */                                       \
       list_macro(is_unused148, "is_unused148"),                                             /* newline */                                       \
-      list_macro(is_unused149, "is_unused149"),                                             /* newline */                                       \
+      list_macro(is_wall_walker_pass_through, "is_wall_walker_pass_through"),               /* newline */                                       \
       list_macro(is_unused15, "is_unused15"),                                               /* newline */                                       \
-      list_macro(is_unused150, "is_unused150"),                                             /* newline */                                       \
+      list_macro(is_obs_to_wall_walker, "is_obs_to_wall_walker"),                           /* newline */                                       \
       list_macro(is_unused151, "is_unused151"),                                             /* newline */                                       \
       list_macro(is_myopic, "is_myopic"),                                                   /* newline */                                       \
       list_macro(is_boost, "is_boost"),                                                     /* newline */                                       \
@@ -846,7 +846,7 @@ class Tp;
 [[nodiscard]] auto tp_is_able_to_jump(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_able_to_lunge(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_able_to_move_diagonally(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_able_to_move_through_walls(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_wall_walker(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_able_to_move(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_able_to_open_things(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_able_to_resurrect(Tpp tp) -> bool;
@@ -1119,9 +1119,9 @@ class Tp;
 [[nodiscard]] auto tp_is_unused146(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused147(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused148(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused149(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_wall_walker_pass_through(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused15(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused150(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_obs_to_wall_walker(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused151(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_myopic(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused16(Tpp tp) -> bool;

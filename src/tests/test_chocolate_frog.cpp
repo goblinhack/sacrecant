@@ -87,7 +87,7 @@
       got_item = true;
 
       ThingEvent e {
-          .reason     = "eatr ate item",            //
+          .reason     = "eater ate item",           //
           .event_type = THING_EVENT_USER_INITIATED, //
           .source     = player,                     //
       };

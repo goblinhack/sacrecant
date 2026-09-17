@@ -63,6 +63,19 @@ static auto thing_eat_item(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp eat
     return false;
   }
 
+  if (thing_is_ethereal(g, v, l, eater)) {
+    if (thing_is_player(eater)) {
+      topcon(UI_WARN_FMT_STR "You try to eat, but it passes right through you.\n");
+    }
+
+    auto new_event       = e;
+    new_event.event_type = THING_EVENT_EATEN;
+
+    (void) thing_drop(g, v, l, eater, item, new_event);
+
+    return false;
+  }
+
   {
     auto s = to_string(g, v, l, item);
     THING_DBG(g, v, l, eater, "eat: %s", s.c_str());

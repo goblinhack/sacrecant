@@ -100,6 +100,7 @@ static void tp_skeleton_mob_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_name_long_set(tp, "skeleton mob");
   tp_name_pluralize_set(tp, "skeleton mobs");
   tp_name_short_set(tp, "skeleton mob");
+  tp_flag_set(tp, is_obs_to_wall_walker);
   tp_priority_set(tp, THING_PRIORITY_MOB);
   tp_speed_set(tp, 100);
   tp_temperature_burns_at_set(tp, 100);  // celsius

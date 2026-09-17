@@ -99,6 +99,7 @@ static void tp_kobalos_mob_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_name_apostrophize_set(tp, "kobalos mob'");
   tp_name_long_set(tp, "kobalos mob");
   tp_name_pluralize_set(tp, "kobalos mobs");
+  tp_flag_set(tp, is_obs_to_wall_walker);
   tp_name_short_set(tp, "kobalos mob");
   tp_priority_set(tp, THING_PRIORITY_MOB);
   tp_speed_set(tp, 100);

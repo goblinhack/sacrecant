@@ -8,7 +8,7 @@
 #include "../my_test.hpp"
 #include "../my_thing_inlines.hpp"
 
-[[nodiscard]] static auto test_clown_meat(Gamep g, Testp t) -> bool
+[[nodiscard]] static auto test_wall_walker_food(Gamep g, Testp t) -> bool
 {
   TEST_LOG(t, "begin");
   TRACE();
@@ -60,10 +60,10 @@
   int  health_max = 0;
 
   static std::initializer_list< std::string > items = {
-      "clown_meat", //
-      "clown_meat", //
-      "clown_meat", //
-      "clown_meat", //
+      "chocolate_frog", //
+      "chocolate_frog", //
+      "chocolate_frog", //
+      "chocolate_frog", //
   };
 
   auto *player = thing_player(g);
@@ -72,6 +72,7 @@
     goto exit;
   }
 
+  TEST_ASSERT(t, thing_hook_add(g, v, l, player, tp_find_mand("sac_wall_walker")), "failed to add sacrifice");
   if (! thing_carry(g, v, l, player, items)) {
     TEST_FAILED(t, "no item carried");
     goto exit;
@@ -141,13 +142,13 @@ exit:
   return result;
 }
 
-[[nodiscard]] auto test_load_clown_meat() -> bool // NOLINT
+[[nodiscard]] auto test_load_wall_walker_food() -> bool // NOLINT
 {
   TRACE();
 
-  Testp test = test_load("clown_meat");
+  Testp test = test_load("wall_walker_food");
 
-  test_callback_set(test, test_clown_meat);
+  test_callback_set(test, test_wall_walker_food);
 
   return true;
 }

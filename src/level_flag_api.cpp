@@ -50,10 +50,10 @@
   return level_flag(g, v, l, is_able_to_move_diagonally, p, me);
 }
 
-[[nodiscard]] auto level_is_able_to_move_through_walls(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_wall_walker(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_able_to_move_through_walls, p, me);
+  return level_flag(g, v, l, is_wall_walker, p, me);
 }
 
 [[nodiscard]] auto level_is_able_to_open_things(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
@@ -1760,16 +1760,16 @@
   return level_flag(g, v, l, is_unused148, p, me);
 }
 
-[[nodiscard]] auto level_is_unused149(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_wall_walker_pass_through(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused149, p, me);
+  return level_flag(g, v, l, is_wall_walker_pass_through, p, me);
 }
 
-[[nodiscard]] auto level_is_unused150(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_obs_to_wall_walker(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused150, p, me);
+  return level_flag(g, v, l, is_obs_to_wall_walker, p, me);
 }
 
 [[nodiscard]] auto level_is_unused151(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp

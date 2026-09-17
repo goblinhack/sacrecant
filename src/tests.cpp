@@ -195,6 +195,9 @@
   if (!test_load_sac_sickly_health()) { return false; }
   if (!test_load_sac_soul_feast_living()) { return false; }
   if (!test_load_sac_soul_feast_undead()) { return false; }
+  if (!test_load_sac_wall_walker_obs_locked_door()) { return false; }
+  if (!test_load_sac_wall_walker_obs_vault()) { return false; }
+  if (!test_load_sac_wall_walker_obs_wall()) { return false; }
   if (!test_load_sac_weaponless_attack_mob()) { return false; }
   if (!test_load_save_load()) { return false; }
   if (!test_load_slots()) { return false; }
@@ -228,6 +231,7 @@
   if (!test_load_throw_item_pot_levit()) { return false; }
   if (!test_load_throw_items()) { return false; }
   if (!test_load_trampled_grass()) { return false; }
+  if (!test_load_wall_walker_food()) { return false; }
   if (!test_load_wall()) { return false; }
   if (!test_load_weapon_discharge()) { return false; }
   if (!test_load_weapon_worn_then_stripped()) { return false; }

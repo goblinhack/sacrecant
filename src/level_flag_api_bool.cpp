@@ -51,10 +51,10 @@
   return level_flag(g, v, l, is_able_to_move_diagonally, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_able_to_move_through_walls_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_wall_walker_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_able_to_move_through_walls, p, me) != nullptr;
+  return level_flag(g, v, l, is_wall_walker, p, me) != nullptr;
 }
 
 [[nodiscard]] auto level_is_able_to_open_things_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
@@ -1797,16 +1797,16 @@
   return level_flag(g, v, l, is_unused148, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused149_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_wall_walker_pass_through_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused149, p, me) != nullptr;
+  return level_flag(g, v, l, is_wall_walker_pass_through, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused150_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_obs_to_wall_walker_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused150, p, me) != nullptr;
+  return level_flag(g, v, l, is_obs_to_wall_walker, p, me) != nullptr;
 }
 
 [[nodiscard]] auto level_is_unused151_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool

@@ -156,7 +156,7 @@ static void tp_skullferno_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_flag_set(tp, is_able_to_fire_weapons);
   tp_flag_set(tp, is_able_to_lunge);
   tp_flag_set(tp, is_able_to_move_diagonally);
-  tp_flag_set(tp, is_able_to_move_through_walls);
+  tp_flag_set(tp, is_wall_walker);
   tp_flag_set(tp, is_able_to_move);
   tp_flag_set(tp, is_animated_can_hflip);
   tp_flag_set(tp, is_animated);
@@ -176,6 +176,7 @@ static void tp_skullferno_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_flag_set(tp, is_levitating);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_monst);
+  tp_flag_set(tp, is_obs_to_wall_walker);
   tp_flag_set(tp, is_obs_to_beam);
   tp_flag_set(tp, is_obs_to_jumping_onto);
   tp_flag_set(tp, is_obs_to_movement);

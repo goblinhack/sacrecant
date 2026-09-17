@@ -64,6 +64,7 @@ static void tp_vault_melt(Gamep g, Levelsp v, Levelp l, Thingp me)
     tp_flag_set(tp, is_stone);
     tp_flag_set(tp, is_tiled);
     tp_flag_set(tp, is_vault);
+    tp_flag_set(tp, is_obs_to_wall_walker);
     tp_health_set(tp, "1d200+100");
     tp_is_immune_to_add(tp, THING_EVENT_MELEE_DAMAGE);
     tp_is_immune_to_add(tp, THING_EVENT_WATER_DAMAGE);

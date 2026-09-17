@@ -51,10 +51,10 @@
   return level_flag_cached(g, v, l, is_able_to_move_diagonally, p);
 }
 
-[[nodiscard]] auto level_is_able_to_move_through_walls_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_wall_walker_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_able_to_move_through_walls, p);
+  return level_flag_cached(g, v, l, is_wall_walker, p);
 }
 
 [[nodiscard]] auto level_is_able_to_open_things_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
@@ -1797,16 +1797,16 @@
   return level_flag_cached(g, v, l, is_unused148, p);
 }
 
-[[nodiscard]] auto level_is_unused149_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_wall_walker_pass_through_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused149, p);
+  return level_flag_cached(g, v, l, is_wall_walker_pass_through, p);
 }
 
-[[nodiscard]] auto level_is_unused150_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_obs_to_wall_walker_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused150, p);
+  return level_flag_cached(g, v, l, is_obs_to_wall_walker, p);
 }
 
 [[nodiscard]] auto level_is_unused151_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
