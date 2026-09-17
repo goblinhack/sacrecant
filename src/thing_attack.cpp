@@ -265,7 +265,7 @@ static auto thing_attack_it(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thing
       //
       // If the player cannot fire, make sure they are adjacent
       //
-      if (thing_worn_get(g, v, l, attacker, WORN_TYPE_WEAPON)) {
+      if (thing_worn_get(g, v, l, attacker, WORN_TYPE_WEAPON) != nullptr) {
         THING_DBG(g, v, l, attacker, "player can fire weapons");
       } else {
         THING_DBG(g, v, l, attacker, "player cannot fire weapons");

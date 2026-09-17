@@ -6,7 +6,6 @@
 #include "my_callstack.hpp"
 #include "my_color.hpp"
 #include "my_color_defs.hpp"
-#include "my_dice_rolls.hpp"
 #include "my_game.hpp"
 #include "my_gl.hpp"
 #include "my_main.hpp" // NOLINT
@@ -127,7 +126,7 @@ static void wid_transition_tick(Gamep g, Widp w)
 
 void wid_transition_select(Gamep g)
 {
-  if (wid_transition_window_created_ms != 0u) {
+  if (wid_transition_window_created_ms != 0U) {
     return;
   }
 

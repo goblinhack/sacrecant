@@ -733,14 +733,14 @@ void thing_damage_apply(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   //
   Thingp attacker = nullptr;
   Thingp target   = me;
-  if (e.source) {
+  if (e.source != nullptr) {
     attacker = thing_get_attacker(g, v, l, e.source);
-    if (! attacker) {
+    if (attacker == nullptr) {
       attacker = e.source;
     }
 
     THING_DBG(g, v, l, e.source, "current attacker");
-    if (attacker) {
+    if (attacker != nullptr) {
       THING_DBG(g, v, l, attacker, "real attacker");
     }
 
@@ -757,7 +757,7 @@ void thing_damage_apply(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
     //
     // Call the hooks for the original attacker
     //
-    if (attacker) {
+    if (attacker != nullptr) {
       THING_DBG(g, v, l, attacker, "call real attacker hooks:");
       TRACE_INDENT();
 

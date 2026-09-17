@@ -2893,7 +2893,7 @@ static void level_gen_create_remaining_rooms(LevelGen *lg)
   //
   auto *r = lg->room_entrance = room_random_get(ROOM_TYPE_ENTRANCE);
   if (! room_can_place_at(lg, r, at)) {
-    if (lg->level_num == 0u) {
+    if (lg->level_num == 0U) {
       CROAK("failed to place start room");
     }
     return false;

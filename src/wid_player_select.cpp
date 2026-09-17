@@ -579,7 +579,7 @@ static void wid_player_select_boost_via_mouse_over_end(Gamep g, Widp w)
                   // All done
                   //
                   wid_player_select_all_done(g);
-                } else if (wid_player_select_lucky_dip_window) {
+                } else if (wid_player_select_lucky_dip_window != nullptr) {
                   //
                   // Choose some random player
                   //
@@ -765,7 +765,7 @@ void wid_player_select(Gamep g)
 
   if (v->tick == 0U) {
     TRACE();
-    auto         w = wid_player_select_lucky_dip_window = wid_new_square_button(g, wid_player_select_window, "text");
+    auto        *w = wid_player_select_lucky_dip_window = wid_new_square_button(g, wid_player_select_window, "text");
     spoint const tl(0, y_at);
     spoint const br(player_select_width, y_at);
     wid_set_pos(w, tl, br);
