@@ -197,10 +197,16 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
   //
   auto how_far_i_can_jump = thing_distance_jump(g, v, l, me);
   if (how_far_i_can_jump == 0) {
-    if (thing_is_player(me)) {
-      topcon("You are too tired to jump.");
+    if (thing_is_one_legged(g, v, l, me)) {
+      //
+      // Struggle on
+      //
+    } else {
+      if (thing_is_player(me)) {
+        topcon("You are too tired to jump.");
+      }
+      return false;
     }
-    return false;
   }
 
   thing_jump_truncate(g, v, l, me, to, how_far_i_can_jump);
@@ -240,15 +246,30 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
   //
   // No landing in solid obstacles
   //
-  if (level_is_obs_to_jumping_onto(g, v, l, to, me) != nullptr) {
-    blocked = true;
-    if (thing_is_player(me)) {
-      if (warn) {
-        topcon("There is something in the way of jumping there.");
+  if (to != at) {
+    if (thing_is_one_legged(g, v, l, me)) {
+      if (level_is_obs_to_movement(g, v, l, to, me) != nullptr) {
+        blocked = true;
+        if (thing_is_player(me)) {
+          if (warn) {
+            topcon("There is something in the way there.");
+          }
+        }
+
+        THING_DBG(g, v, l, me, "something in the way of jumping onto");
+      }
+    } else {
+      if (level_is_obs_to_jumping_onto(g, v, l, to, me) != nullptr) {
+        blocked = true;
+        if (thing_is_player(me)) {
+          if (warn) {
+            topcon("There is something in the way of jumping there.");
+          }
+        }
+
+        THING_DBG(g, v, l, me, "something in the way of jumping onto");
       }
     }
-
-    THING_DBG(g, v, l, me, "something in the way of jumping onto");
   }
 
   if (blocked) {
@@ -288,8 +309,12 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
   //
   // Halve stamina for successfiul jumps
   //
-  auto stamina = static_cast< int >(static_cast< float >(thing_stamina(g, v, l, me)) * 0.8);
-  (void) thing_stamina_set(g, v, l, me, stamina);
+  if (thing_is_one_legged(g, v, l, me)) {
+    (void) thing_stamina_decr(g, v, l, me, 1);
+  } else {
+    auto stamina = static_cast< int >(static_cast< float >(thing_stamina(g, v, l, me)) * 0.8);
+    (void) thing_stamina_set(g, v, l, me, stamina);
+  }
 
   THING_DBG(g, v, l, me, "jump begin delta %d,%d", dx, dy);
 

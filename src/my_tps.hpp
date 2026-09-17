@@ -110,6 +110,7 @@ auto tp_load_sac_glass_bones() -> bool;
 auto tp_load_sac_healing_drain() -> bool;
 auto tp_load_sac_hollow_bones() -> bool;
 auto tp_load_sac_noisy() -> bool;
+auto tp_load_sac_one_legged() -> bool;
 auto tp_load_sac_poison_blood() -> bool;
 auto tp_load_sac_poor_vision() -> bool;
 auto tp_load_sac_power_crazed() -> bool;

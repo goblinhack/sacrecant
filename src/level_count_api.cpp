@@ -1755,10 +1755,10 @@
   return level_count(g, v, l, is_unused147, p);
 }
 
-[[nodiscard]] auto level_count_is_unused148(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_one_legged(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused148, p);
+  return level_count(g, v, l, is_one_legged, p);
 }
 
 [[nodiscard]] auto level_count_is_wall_walker_pass_through(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t

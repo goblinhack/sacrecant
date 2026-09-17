@@ -2170,7 +2170,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   return tp_flag(thing_tp(t), is_unused147) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused148(Thingp t) -> bool
+[[nodiscard]] auto thing_is_one_legged(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -2178,7 +2178,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused148) != 0;
+  return tp_flag(thing_tp(t), is_one_legged) != 0;
 }
 
 [[nodiscard]] auto thing_is_wall_walker_pass_through(Thingp t) -> bool

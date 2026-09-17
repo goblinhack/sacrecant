@@ -1753,10 +1753,10 @@
   return tp_flag(tp, is_unused147) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused148(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_one_legged(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused148) != 0;
+  return tp_flag(tp, is_one_legged) != 0;
 }
 
 [[nodiscard]] auto tp_is_wall_walker_pass_through(Tpp tp) -> bool

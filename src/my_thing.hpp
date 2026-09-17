@@ -53,7 +53,7 @@ using ThingIdPacked = union {
 /* begin shell marker1 */
 /* shell printf "#define THING_HOOK_MAX " */
 /* shell find . -name "*.cpp" | xargs grep "tp_flag_set(tp, is_hook);" | wc -l */
-#define THING_HOOK_MAX 29
+#define THING_HOOK_MAX 30
 /* end shell marker1 */
 
 //
@@ -1127,7 +1127,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused145(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused146(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused147(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused148(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_one_legged(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
 [[nodiscard]] auto thing_is_wall_walker_pass_through(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused15(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_obs_to_wall_walker(Thingp t) -> bool;

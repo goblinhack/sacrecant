@@ -1791,10 +1791,10 @@
   return level_flag_cached(g, v, l, is_unused147, p);
 }
 
-[[nodiscard]] auto level_is_unused148_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_one_legged_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused148, p);
+  return level_flag_cached(g, v, l, is_one_legged, p);
 }
 
 [[nodiscard]] auto level_is_wall_walker_pass_through_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

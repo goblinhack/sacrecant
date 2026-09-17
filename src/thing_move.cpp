@@ -32,6 +32,12 @@
     return false;
   }
 
+  if (thing_is_one_legged(g, v, l, me)) {
+    if (! thing_is_jumping(me)) {
+      return thing_jump_to(g, v, l, me, to);
+    }
+  }
+
   //
   // We call moving-to when the move cannot fail
   //

@@ -196,10 +196,13 @@ void tp_player_on_jump_end(Gamep g, Levelsp v, Levelp l, Thingp me)
       (void) thing_spawn(g, v, l, tp_first(is_effect_ripple), me);
     }
   } else {
-    thing_sound_play(g, v, l, me, "player_oof");
     (void) thing_noise_incr(g, v, l, me, THING_NOISE_PLAYER_JUMP);
     auto at = thing_at(g, v, l, me);
-    game_popup_text_add(g, at.x, at.y, std::string("Oof!"));
+
+    if (! thing_is_one_legged(g, v, l, me)) {
+      thing_sound_play(g, v, l, me, "player_oof");
+      game_popup_text_add(g, at.x, at.y, std::string("Oof!"));
+    }
   }
 }
 

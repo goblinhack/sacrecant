@@ -1754,10 +1754,10 @@
   return level_open(g, v, l, is_unused147, p);
 }
 
-[[nodiscard]] auto level_open_is_unused148(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+[[nodiscard]] auto level_open_is_one_legged(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_open(g, v, l, is_unused148, p);
+  return level_open(g, v, l, is_one_legged, p);
 }
 
 [[nodiscard]] auto level_open_is_wall_walker_pass_through(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
