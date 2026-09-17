@@ -938,6 +938,14 @@ void thing_monst_event_loop(Gamep g, Levelsp v, Levelp l, Thingp me)
   }
 
   //
+  // Dormancy tick
+  //
+  if (thing_dormant(g, v, l, me) != 0) {
+    THING_DBG(g, v, l, me, "dormant");
+    return;
+  }
+
+  //
   // Early state check
   //
   switch (monst_state(g, v, l, me)) {

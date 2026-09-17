@@ -57,6 +57,18 @@ void thing_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   }
 
   //
+  // Dormancy tick
+  //
+  if (thing_dormant(g, v, l, me) != 0) {
+    if (thing_dormant_decr(g, v, l, me) > 0) {
+      THING_DBG(g, v, l, me, "dormant");
+      return;
+    }
+
+    THING_DBG(g, v, l, me, "dormancy expired");
+  }
+
+  //
   // Reset damage counts.
   //
   (void) thing_damage_this_tick_set(g, v, l, me, 0);
@@ -103,7 +115,7 @@ void thing_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   // Lifespan tick
   //
   if (thing_lifespan_initial(me) != 0) {
-    if (thing_lifespan_decr(g, v, l, me) == 0) {
+    if (thing_lifespan_decr(g, v, l, me) <= 0) {
       ThingEvent e {
           .reason     = "ran out of life",            //
           .event_type = THING_EVENT_LIFESPAN_EXPIRED, //

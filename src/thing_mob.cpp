@@ -103,8 +103,13 @@
     new_minion->mob_id = mob->id;
     ext_struct->minions.count++;
 
-    THING_DBG(g, v, l, mob, "spawned minion %s", to_string(g, v, l, new_minion).c_str());
+    THING_DBG(g, v, l, mob, "spawned minion %s (max %d)", to_string(g, v, l, new_minion).c_str(), thing_minion_max(g, v, l, mob));
     THING_DBG(g, v, l, new_minion, "new born minion");
+
+    if (thing_mob_minion_count_get(g, v, l, mob) >= thing_minion_max(g, v, l, mob)) {
+      THING_DBG(g, v, l, mob, "spawned max minions => dormant");
+      (void) thing_dormant_set(g, v, l, mob, thing_dormant_max(mob));
+    }
 
     return new_minion;
   }

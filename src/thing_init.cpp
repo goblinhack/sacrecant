@@ -114,9 +114,11 @@
   //
   if (g_opt_tests) {
     (void) thing_lifespan_initial_set(g, v, l, t, thing_lifespan_set(g, v, l, t, tp_lifespan_max_get(tp)));
+    (void) thing_dormant_max_set(g, v, l, t, tp_dormant_max_get(tp));
     (void) thing_ticks_to_stay_dead_initial_set(g, v, l, t, thing_ticks_to_stay_dead_set(g, v, l, t, tp_ticks_to_stay_dead_max_get(tp)));
   } else {
     (void) thing_lifespan_initial_set(g, v, l, t, thing_lifespan_set(g, v, l, t, tp_lifespan_get(tp)));
+    (void) thing_dormant_max_set(g, v, l, t, tp_dormant_get(tp));
     (void) thing_ticks_to_stay_dead_initial_set(g, v, l, t, thing_ticks_to_stay_dead_set(g, v, l, t, tp_ticks_to_stay_dead_get(tp)));
   }
 

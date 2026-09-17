@@ -1238,6 +1238,8 @@ class Tp;
 [[nodiscard]] auto tp_jump_attack_pct_chance_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_lifespan_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_lifespan_max_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_dormant_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_dormant_max_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_light_color(Tpp tp) -> color;
 [[nodiscard]] auto tp_load(const std::string &val) -> Tpp;
 [[nodiscard]] auto tp_mana_get(Tpp tp) -> int;
@@ -1319,6 +1321,7 @@ void tp_is_resistant_to_add(Tpp tp, ThingEventType val);
 void tp_items_collected_max_set(Tpp tp, int val);
 void tp_jump_attack_pct_chance_set(Tpp tp, int val);
 void tp_lifespan_set(Tpp tp, const std::string &val);
+void tp_dormant_set(Tpp tp, const std::string &val);
 void tp_light_color_apply(Tpp tp);
 void tp_light_color_set(Tpp tp, const std::string &val);
 void tp_log_(Tpp tp, const char *fmt, va_list args); // compile error without

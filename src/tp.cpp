@@ -2142,6 +2142,36 @@ void tp_lifespan_set(Tpp tp, const std::string &val)
   return tp->lifespan.max_roll();
 }
 
+void tp_dormant_set(Tpp tp, const std::string &val)
+{
+  TRACE_DEBUG();
+  if (tp == nullptr) [[unlikely]] {
+    ERR("no thing template pointer");
+    return;
+  }
+  tp->dormant = Dice(std::string(val));
+}
+
+[[nodiscard]] auto tp_dormant_get(Tpp tp) -> int
+{
+  TRACE_DEBUG();
+  if (tp == nullptr) [[unlikely]] {
+    ERR("no thing template pointer");
+    return 0;
+  }
+  return tp->dormant.roll();
+}
+
+[[nodiscard]] auto tp_dormant_max_get(Tpp tp) -> int
+{
+  TRACE_DEBUG();
+  if (tp == nullptr) [[unlikely]] {
+    ERR("no thing template pointer");
+    return 0;
+  }
+  return tp->dormant.max_roll();
+}
+
 void tp_ticks_to_stay_dead_set(Tpp tp, const std::string &val)
 {
   TRACE_DEBUG();

@@ -206,6 +206,11 @@ public:
   Dice lifespan;
 
   //
+  // For dormant mobs
+  //
+  Dice dormant;
+
+  //
   // How long to stay dead.
   //
   Dice ticks_to_stay_dead;
