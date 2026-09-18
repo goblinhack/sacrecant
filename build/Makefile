@@ -27,6 +27,7 @@ FORMAT_DIRS=$(DIRS) \
 	    src/things/projectiles \
 	    src/things/rings \
 	    src/things/sacrifices \
+	    src/things/spells \
 	    src/things/staff \
 	    src/things/traps \
 	    src/things/treasure \
@@ -42,8 +43,8 @@ format:
 	$(foreach var,$(FORMAT_DIRS), (cd $(var); sh $(TOP)/build/shell_source.sh do) ;)
 	$(foreach var,$(FORMAT_DIRS), (cd $(var); sh $(TOP)/build/tidy_source.sh do) ;)
 	$(foreach var,$(FORMAT_DIRS), (cd $(var); sh $(TOP)/build/format.sh do) ;)
-	codespell
-	cspell lint . 2>/dev/null | grep -v 3rd | grep "fix:" | sed 's/^.* - //g' | sort | uniq
+	-codespell
+	-cspell lint . 2>/dev/null | grep -v 3rd | grep "fix:" | sed 's/^.* - //g' | sort | uniq
 
 tidy:
 	$(foreach var,$(DIRS), $(MAKE) -C $(var) $(CORES) $@; )

@@ -2148,7 +2148,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   return tp_flag(thing_tp(t), is_unused145) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused146(Thingp t) -> bool
+[[nodiscard]] auto thing_is_unused_spell(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -2156,10 +2156,10 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused146) != 0;
+  return tp_flag(thing_tp(t), is_unused_spell) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused147(Thingp t) -> bool
+[[nodiscard]] auto thing_is_spell(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -2167,7 +2167,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused147) != 0;
+  return tp_flag(thing_tp(t), is_spell) != 0;
 }
 
 [[nodiscard]] auto thing_is_one_legged(Thingp t) -> bool
@@ -3993,7 +3993,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   }
   return t->_value4 -= val;
 }
-[[nodiscard]] auto thing_value5(Thingp t) -> int
+[[nodiscard]] auto thing_spell_cost(Thingp t) -> int
 {
   TRACE_DEBUG();
 
@@ -4001,10 +4001,10 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     ERR("no thing pointer");
     return 0;
   }
-  return t->_value5;
+  return t->_spell_cost;
 }
 
-[[nodiscard]] auto thing_value5_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+[[nodiscard]] auto thing_spell_cost_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
 {
   TRACE_DEBUG();
 
@@ -4012,10 +4012,10 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     ERR("no thing pointer");
     return 0;
   }
-  return t->_value5 = val;
+  return t->_spell_cost = val;
 }
 
-[[nodiscard]] auto thing_value5_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+[[nodiscard]] auto thing_spell_cost_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
 {
   TRACE_DEBUG();
 
@@ -4023,10 +4023,10 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     ERR("no thing pointer");
     return 0;
   }
-  return t->_value5 += val;
+  return t->_spell_cost += val;
 }
 
-[[nodiscard]] auto thing_value5_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+[[nodiscard]] auto thing_spell_cost_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
 {
   TRACE_DEBUG();
 
@@ -4034,10 +4034,10 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     ERR("no thing pointer");
     return 0;
   }
-  if (static_cast< int >(t->_value5) - val <= 0) {
-    return t->_value5 = 0;
+  if (static_cast< int >(t->_spell_cost) - val <= 0) {
+    return t->_spell_cost = 0;
   }
-  return t->_value5 -= val;
+  return t->_spell_cost -= val;
 }
 [[nodiscard]] auto thing_difficulty(Thingp t) -> int
 {

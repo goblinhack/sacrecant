@@ -1741,16 +1741,16 @@
   return tp_flag(tp, is_unused145) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused146(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_unused_spell(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused146) != 0;
+  return tp_flag(tp, is_unused_spell) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused147(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_spell(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused147) != 0;
+  return tp_flag(tp, is_spell) != 0;
 }
 
 [[nodiscard]] auto tp_is_one_legged(Tpp tp) -> bool

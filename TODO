@@ -6,6 +6,8 @@ todo
 essential
   - random monsts with difficulty
 spells
+  - dark school
+  - life school
   - summoning
     - death knights
   - structural
@@ -20,19 +22,17 @@ spells
     - straight to hell
     - plane warp
   - defensive
-    increase max hp
+    - increase max hp
   - offensive
     - etherblast to hit ghosts in walls
     - powerword kill
     - rot living flesh
-
+  - spell orbs
+  - spell multiplier - doubles the points of any orbs collected on same level
   - spell coupons?
   - more lich like spells
   - spells need to have a cost that can be influenced by specializing
   - shrines that reduce spell points
-future sacrifices
-  q random-failure:         effects like levitation and ethereal may fail randomly                melee +80
-  s madness:                occasional random spell use                                           melee +100
 gameplay
   - shoot from behind double damage
   - traps gas effects
@@ -43,8 +43,11 @@ gameplay
   - anti anti magic areas
   - debug shell "add monst"
   - "You have used up your 5 free stabs included with the basic plan. If you wish to stab more..."
-ui
-  - random player name e.g. galatrex the dark
+  - steam and smoke should spread
+  - potion trading station
+  - present icon with multiplies for bonus
+  - enchants
+  - lever for a bridge? use an overlay for rooms
 items
   - potion, feathertail (jump)
   - potion, etherealness (wall throu walls, vaults?)
@@ -59,12 +62,6 @@ items
   - thrown potion, darkness
   - thrown potion, confusion
   - thrown potion, caustic gas
-dungeon
-  - steam and smoke should spread
-  - potion trading station
-  - present icon with multiplies for bonus
-  - enchants
-  - lever for a bridge? use an overlay for rooms
 monsters
   - highenas and wolves
   - rainbow scorpion
@@ -80,3 +77,6 @@ monsters
   - thief that can steal items
   - dropbear
   - barbarian, thrud
+future sacrifices
+  - random-failure:         effects like levitation and ethereal may fail randomly                melee +80
+  - madness:                occasional random spell use                                           melee +100

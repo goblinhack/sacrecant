@@ -149,7 +149,7 @@ public:
   int value2 {0};
   int value3 {0};
   int value4 {0};
-  int value5 {0};
+  int spell_cost {0};
   int crit_roll {20};
   int fumble_roll {1};
   int difficulty {0};

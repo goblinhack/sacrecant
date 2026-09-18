@@ -1779,16 +1779,16 @@
   return level_flag_cached(g, v, l, is_unused145, p);
 }
 
-[[nodiscard]] auto level_is_unused146_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_unused_spell_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused146, p);
+  return level_flag_cached(g, v, l, is_unused_spell, p);
 }
 
-[[nodiscard]] auto level_is_unused147_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_spell_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused147, p);
+  return level_flag_cached(g, v, l, is_spell, p);
 }
 
 [[nodiscard]] auto level_is_one_legged_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

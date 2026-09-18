@@ -95,7 +95,7 @@
   (void) thing_value2_set(g, v, l, t, tp_value2_get(tp));
   (void) thing_value3_set(g, v, l, t, tp_value3_get(tp));
   (void) thing_value4_set(g, v, l, t, tp_value4_get(tp));
-  (void) thing_value5_set(g, v, l, t, tp_value5_get(tp));
+  (void) thing_spell_cost_set(g, v, l, t, tp_spell_cost_get(tp));
   (void) thing_crit_roll_set(g, v, l, t, tp_crit_roll_get(tp));
   (void) thing_fumble_roll_set(g, v, l, t, tp_fumble_roll_get(tp));
   (void) thing_difficulty_set(g, v, l, t, tp_difficulty_get(tp));

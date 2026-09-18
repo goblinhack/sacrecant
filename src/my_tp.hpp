@@ -301,8 +301,8 @@
       list_macro(is_unused143, "is_unused143"),                                             /* newline */                                       \
       list_macro(is_unused144, "is_unused144"),                                             /* newline */                                       \
       list_macro(is_unused145, "is_unused145"),                                             /* newline */                                       \
-      list_macro(is_unused146, "is_unused146"),                                             /* newline */                                       \
-      list_macro(is_unused147, "is_unused147"),                                             /* newline */                                       \
+      list_macro(is_unused_spell, "is_unused_spell"),                                       /* newline */                                       \
+      list_macro(is_spell, "is_spell"),                                                     /* newline */                                       \
       list_macro(is_one_legged, "is_one_legged"),                                           /* newline */                                       \
       list_macro(is_wall_walker_pass_through, "is_wall_walker_pass_through"),               /* newline */                                       \
       list_macro(is_unused15, "is_unused15"),                                               /* newline */                                       \
@@ -572,6 +572,7 @@ ENUM_DEF_H(WORN_TYPE_ENUM, WornType)
       list_macro(THING_ANIM_JOIN_X4_90, "IS_JOIN_X4_90"),                                 /* newline */                                         \
       list_macro(THING_ANIM_JOIN_X4, "IS_JOIN_X4"),                                       /* newline */                                         \
       list_macro(THING_ANIM_IDLE, "idle"),                                                /* newline */                                         \
+      list_macro(THING_ANIM_DORMANT, "dormant"),                                          /* newline */                                         \
       list_macro(THING_ANIM_DEAD, "dead"),                                                /* newline */                                         \
       list_macro(THING_ANIM_OPEN, "open"),                                                /* newline */                                         \
       list_macro(THING_ANIM_BURNT, "burnt"),                                              /* newline */                                         \
@@ -1116,8 +1117,8 @@ class Tp;
 [[nodiscard]] auto tp_is_unused143(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused144(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused145(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused146(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused147(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_unused_spell(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_spell(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_one_legged(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_wall_walker_pass_through(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused15(Tpp tp) -> bool;
@@ -1281,7 +1282,7 @@ class Tp;
 [[nodiscard]] auto tp_value2_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_value3_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_value4_get(Tpp tp) -> int;
-[[nodiscard]] auto tp_value5_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_spell_cost_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_crit_roll_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_fumble_roll_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_variant_get(Tpp tp) -> int;
@@ -1359,7 +1360,7 @@ void tp_value1_set(Tpp tp, int val);
 void tp_value2_set(Tpp tp, int val);
 void tp_value3_set(Tpp tp, int val);
 void tp_value4_set(Tpp tp, int val);
-void tp_value5_set(Tpp tp, int val);
+void tp_spell_cost_set(Tpp tp, int val);
 void tp_crit_roll_set(Tpp tp, int val);
 void tp_fumble_roll_set(Tpp tp, int val);
 void tp_variant_set(Tpp tp, int val);

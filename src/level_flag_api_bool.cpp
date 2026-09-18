@@ -1779,16 +1779,16 @@
   return level_flag(g, v, l, is_unused145, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused146_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_unused_spell_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused146, p, me) != nullptr;
+  return level_flag(g, v, l, is_unused_spell, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused147_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_spell_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused147, p, me) != nullptr;
+  return level_flag(g, v, l, is_spell, p, me) != nullptr;
 }
 
 [[nodiscard]] auto level_is_one_legged_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool

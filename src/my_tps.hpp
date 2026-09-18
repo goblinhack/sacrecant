@@ -124,6 +124,7 @@ auto tp_load_skeleton_mob() -> bool;
 auto tp_load_skeleton() -> bool;
 auto tp_load_skullferno() -> bool;
 auto tp_load_smoke() -> bool;
+auto tp_load_spell_1() -> bool;
 auto tp_load_spider_baby() -> bool;
 auto tp_load_spider() -> bool;
 auto tp_load_spiderweb() -> bool;

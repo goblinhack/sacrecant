@@ -100,6 +100,7 @@ void thing_anim_init(Gamep g, Levelsp v, Levelp l, Thingp t, ThingAnimType anim_
         case THING_ANIM_JOIN_X4_90 :
         case THING_ANIM_JOIN_X4 :
         case THING_ANIM_IDLE :
+        case THING_ANIM_DORMANT :
         case THING_ANIM_MOUSE_OVER :
           if (tp_is_animated_sync_first(tp)) {
             //

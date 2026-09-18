@@ -5145,6 +5145,7 @@ static void gfx_init_tiles()
       "",
       "",
       // ##############################################################################
+      "skeleton_mob.dormant.0",
       "skeleton_mob.idle.0",
       "skeleton_mob.idle.1",
       "skeleton_mob.dead.0",
@@ -5160,8 +5161,8 @@ static void gfx_init_tiles()
       "skeleton.dead.2",
       "",
       "",
-      "",
       // ##############################################################################
+      "kobalos_mob.dormant.0",
       "kobalos_mob.idle.0",
       "kobalos_mob.idle.1",
       "kobalos_mob.dead.0",
@@ -5177,15 +5178,14 @@ static void gfx_init_tiles()
       "",
       "",
       "",
-      "",
       // ##############################################################################
+      "clown_mob.dormant.0",
       "clown_mob.idle.0",
       "clown_mob.idle.1",
       "clown_mob.idle.2",
       "clown_mob.idle.3",
       "clown_mob.idle.4",
       "clown_mob.idle.5",
-      "clown_mob.idle.6",
       "clown_mob.dead.0",
       "clown_mob.dead.1",
       "clown.idle.0",
@@ -5196,6 +5196,7 @@ static void gfx_init_tiles()
       "clown.dead.1",
       "clown.dead.2",
       // ##############################################################################
+      "ghost_mob.dormant.0",
       "ghost_mob.idle.0",
       "ghost_mob.idle.1",
       "ghost_mob.dead.0",
@@ -5209,7 +5210,6 @@ static void gfx_init_tiles()
       "ghost.dead.0",
       "ghost.dead.1",
       "ghost.dead.2",
-      "",
       "",
       "",
       // ##############################################################################

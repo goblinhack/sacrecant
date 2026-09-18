@@ -61,7 +61,7 @@ void thing_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   //
   if (thing_dormant(g, v, l, me) != 0) {
     if (thing_dormant_decr(g, v, l, me) > 0) {
-      THING_DBG(g, v, l, me, "dormant");
+      THING_DBG(g, v, l, me, "dormant count %d", thing_dormant(g, v, l, me));
       return;
     }
 

@@ -1743,16 +1743,16 @@
   return level_count(g, v, l, is_unused145, p);
 }
 
-[[nodiscard]] auto level_count_is_unused146(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_unused_spell(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused146, p);
+  return level_count(g, v, l, is_unused_spell, p);
 }
 
-[[nodiscard]] auto level_count_is_unused147(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_spell(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused147, p);
+  return level_count(g, v, l, is_spell, p);
 }
 
 [[nodiscard]] auto level_count_is_one_legged(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t

@@ -78,6 +78,9 @@
   // Too many minions
   //
   if (thing_mob_minion_count_get(g, v, l, mob) >= thing_minion_max(g, v, l, mob)) {
+    auto dormant_for = thing_dormant_max(mob);
+    THING_DBG(g, v, l, mob, "already spawned max minions => dormant for %d", dormant_for);
+    (void) thing_dormant_set(g, v, l, mob, dormant_for);
     return nullptr;
   }
 
@@ -107,8 +110,9 @@
     THING_DBG(g, v, l, new_minion, "new born minion");
 
     if (thing_mob_minion_count_get(g, v, l, mob) >= thing_minion_max(g, v, l, mob)) {
-      THING_DBG(g, v, l, mob, "spawned max minions => dormant");
-      (void) thing_dormant_set(g, v, l, mob, thing_dormant_max(mob));
+      auto dormant_for = thing_dormant_max(mob);
+      THING_DBG(g, v, l, mob, "spawned max minions => dormant for %d", dormant_for);
+      (void) thing_dormant_set(g, v, l, mob, dormant_for);
     }
 
     return new_minion;

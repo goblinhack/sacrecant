@@ -503,7 +503,7 @@ using Thing = struct Thing {
   int16_t _value2;
   int16_t _value3;
   int16_t _value4;
-  int16_t _value5;
+  int16_t _spell_cost;
   int16_t _crit_roll;
   int16_t _fumble_roll;
   int16_t _difficulty;
@@ -1130,8 +1130,8 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused143(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused144(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused145(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused146(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused147(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_unused_spell(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_spell(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_one_legged(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
 [[nodiscard]] auto thing_is_wall_walker_pass_through(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused15(Thingp t) -> bool;
@@ -1449,10 +1449,10 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_value4_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_value4_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
 [[nodiscard]] auto thing_value4(Thingp t) -> int;
-[[nodiscard]] auto thing_value5_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
-[[nodiscard]] auto thing_value5_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
-[[nodiscard]] auto thing_value5_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
-[[nodiscard]] auto thing_value5(Thingp t) -> int;
+[[nodiscard]] auto thing_spell_cost_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
+[[nodiscard]] auto thing_spell_cost_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
+[[nodiscard]] auto thing_spell_cost_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
+[[nodiscard]] auto thing_spell_cost(Thingp t) -> int;
 [[nodiscard]] auto thing_crit_roll_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
 [[nodiscard]] auto thing_crit_roll_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
 [[nodiscard]] auto thing_crit_roll_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int;

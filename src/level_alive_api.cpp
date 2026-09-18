@@ -1742,16 +1742,16 @@
   return level_alive(g, v, l, is_unused145, p);
 }
 
-[[nodiscard]] auto level_alive_is_unused146(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+[[nodiscard]] auto level_alive_is_unused_spell(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_alive(g, v, l, is_unused146, p);
+  return level_alive(g, v, l, is_unused_spell, p);
 }
 
-[[nodiscard]] auto level_alive_is_unused147(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+[[nodiscard]] auto level_alive_is_spell(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_alive(g, v, l, is_unused147, p);
+  return level_alive(g, v, l, is_spell, p);
 }
 
 [[nodiscard]] auto level_alive_is_one_legged(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp

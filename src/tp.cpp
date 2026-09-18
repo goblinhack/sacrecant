@@ -224,6 +224,7 @@ static std::initializer_list< std::string > tps = {
     "sac_power_crazed",
     "sac_sickly_health",
     "sac_soul_feast",
+    "sac_spell_1",
     "sac_tunnel_vision",
     "sac_unlucky",
     "sac_wall_walker",
@@ -1562,24 +1563,24 @@ void tp_value4_set(Tpp tp, int val)
   return tp->value4;
 }
 
-void tp_value5_set(Tpp tp, int val)
+void tp_spell_cost_set(Tpp tp, int val)
 {
   TRACE_DEBUG();
   if (tp == nullptr) [[unlikely]] {
     ERR("no thing template pointer");
     return;
   }
-  tp->value5 = val;
+  tp->spell_cost = val;
 }
 
-[[nodiscard]] auto tp_value5_get(Tpp tp) -> int
+[[nodiscard]] auto tp_spell_cost_get(Tpp tp) -> int
 {
   TRACE_DEBUG();
   if (tp == nullptr) [[unlikely]] {
     ERR("no thing template pointer");
     return 0;
   }
-  return tp->value5;
+  return tp->spell_cost;
 }
 
 void tp_crit_roll_set(Tpp tp, int val)
