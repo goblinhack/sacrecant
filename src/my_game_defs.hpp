@@ -216,7 +216,7 @@ enum {
   //
   // Maximum number of things
   //
-  TP_ID_MAX = 255,
+  TP_ID_MAX = 512,
 
   LEVEL_ID_REQ = (LEVEL_GRID_ACROSS * LEVEL_GRID_DOWN),
   LEVEL_ID_MAX = (1 << THING_LEVEL_ID_BITS),
