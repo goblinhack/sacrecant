@@ -1202,7 +1202,6 @@ void Game::state_change(GameStateType new_state, const std::string &why)
         case STATE_KEYBOARD_MENU :     [[fallthrough]];
         case STATE_MAIN_MENU :         [[fallthrough]];
         case STATE_INVENTORY_MENU :    [[fallthrough]];
-        case STATE_SPELL_LEARN_MENU :  [[fallthrough]];
         case STATE_COLLECT_MENU :      [[fallthrough]];
         case STATE_THROW_ITEM :        [[fallthrough]];
         case STATE_THROW_MENU :        [[fallthrough]];
@@ -1210,6 +1209,10 @@ void Game::state_change(GameStateType new_state, const std::string &why)
           (void) wid_leftbar_init(g);
           (void) wid_rightbar_init(g);
           (void) wid_actionbar_init(g);
+          break;
+        case STATE_SPELL_LEARN_MENU :
+          (void) wid_leftbar_init(g);
+          (void) wid_rightbar_init(g);
           break;
         case STATE_INIT :               [[fallthrough]];
         case STATE_QUITTING :           [[fallthrough]];
@@ -1284,10 +1287,12 @@ void Game::handle_game_request_to_remake_ui()
   auto *v = game_levels_get(g);
 
   switch (state) {
+    case STATE_SPELL_LEARN_MENU : [[fallthrough]];
     case STATE_PLAYER_SELECT_MENU :
       if (v != nullptr) {
         (void) wid_leftbar_init(g);
         (void) wid_rightbar_init(g);
+        wid_actionbar_fini(g);
         wid_actionbar_fini(g);
       }
       break;
@@ -1297,12 +1302,11 @@ void Game::handle_game_request_to_remake_ui()
         (void) wid_actionbar_init(g);
       }
       break;
-    case STATE_DEAD_MENU :        [[fallthrough]];
-    case STATE_PLAYING :          [[fallthrough]];
-    case STATE_COLLECT_MENU :     [[fallthrough]];
-    case STATE_THROW_ITEM :       [[fallthrough]];
-    case STATE_THROW_MENU :       [[fallthrough]];
-    case STATE_SPELL_LEARN_MENU : [[fallthrough]];
+    case STATE_DEAD_MENU :    [[fallthrough]];
+    case STATE_PLAYING :      [[fallthrough]];
+    case STATE_COLLECT_MENU : [[fallthrough]];
+    case STATE_THROW_ITEM :   [[fallthrough]];
+    case STATE_THROW_MENU :   [[fallthrough]];
     case STATE_INVENTORY_MENU :
       if (v != nullptr) {
         (void) wid_leftbar_init(g);

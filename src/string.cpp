@@ -481,7 +481,7 @@ static auto dynvprintf_(const char *fmt, va_list args) -> const char *
   std::string this_saved_format_string;
 
   if (max_line_len < 0) {
-    CROAK("bad max line len");
+    CROAK("bad max line len %d text [%s]", max_line_len, text.c_str());
   }
 
   // printf("SPLIT1 [%s] max_line_len %d\n", text.c_str(), max_line_len);

@@ -38,27 +38,29 @@
 
 static Widp      wid_total;
 static Widp      wid_spell_learn_window;
+static WidPopup *wid_spell_learn_list;
 static WidPopup *wid_spell_learn_learn_window;
 
 static int  wid_spell_index = 0;
-static Widp wid_spell_shortcut[ TP_ID_MAX ];
 static Widp wid_spell[ TP_ID_MAX ];
 
 static void wid_spell_learn_destroy(Gamep g)
 {
   TRACE();
 
-  memset(wid_spell_shortcut, 0, sizeof(wid_spell_shortcut));
   memset(wid_spell, 0, sizeof(wid_spell));
 
   game_cand_spell_unset(g, nullptr);
 
-  if (wid_spell_learn_window != nullptr) {
-    wid_destroy(g, &wid_spell_learn_window);
-  }
+  delete wid_spell_learn_list;
+  wid_spell_learn_list = nullptr;
 
   delete wid_spell_learn_learn_window;
   wid_spell_learn_learn_window = nullptr;
+
+  if (wid_spell_learn_window != nullptr) {
+    wid_destroy(g, &wid_spell_learn_window);
+  }
 }
 
 static void wid_spell_learn_all_done(Gamep g)
@@ -248,9 +250,7 @@ static void wid_spell_learn_spell_via_mouse_over_end(Gamep g, Widp w)
   wid_player_update_selections(g);
   game_request_to_remake_ui_set(g);
 
-  if (game_state(g) == STATE_SPELL_LEARN_MENU) {
-    (void) sound_play(g, "select");
-  }
+  (void) sound_play(g, "select");
 
   return true;
 }
@@ -358,48 +358,46 @@ static void wid_spell_learn_spell_via_mouse_over_end(Gamep g, Widp w)
   return false;
 }
 
-void wid_spell_learn(Gamep g)
+void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player)
 {
   con("Player select menu: create");
   TRACE_INDENT();
-
-  auto *v = levels_memory_alloc(g);
-  if (v == nullptr) {
-    return;
-  }
-
-  (void) game_levels_set(g, v);
 
   auto *level_select = game_level_get(g, v, LEVEL_ARR_IDX_LEVEL_SELECT);
   if (level_select == nullptr) {
     return;
   }
 
-  level_init(g, v, level_select, LEVEL_ARR_IDX_LEVEL_SELECT);
-
   if (wid_spell_learn_window != nullptr) {
     wid_spell_learn_destroy(g);
   }
 
-  const int player_select_width  = UI_INVENTORY_WIDTH;
-  const int player_select_height = THING_INVENTORY_MAX * 2;
+  std::vector< Tpp > wid_spell_tps;
+
+  for (auto &tp : tp_vec) {
+    if (! tp_is_spell(tp)) {
+      continue;
+    }
+    wid_spell_tps.push_back(tp);
+  }
+
+  const int player_select_width  = UI_INVENTORY_WIDTH + 2;
+  const int player_select_height = TERM_HEIGHT;
 
   const auto button_width  = player_select_width - 2;
   const auto button_height = 0;
   const auto button_step   = 1;
   const auto button_style  = UI_WID_STYLE_SPARSE_NONE;
 
-  auto y_at = 2;
+  auto y_at = 1;
 
   const int left_half  = player_select_width / 2;
   const int right_half = player_select_width - left_half;
-  const int top_half   = player_select_height / 2;
-  const int bot_half   = player_select_height - top_half;
 
   {
     TRACE();
-    spoint const tl((TERM_WIDTH / 2) - left_half, (TERM_HEIGHT / 2) - top_half);
-    spoint const br((TERM_WIDTH / 2) + right_half - 1, (TERM_HEIGHT / 2) + bot_half - 1);
+    spoint const tl((TERM_WIDTH / 2) - left_half, 0);
+    spoint const br((TERM_WIDTH / 2) + right_half - 1, TERM_HEIGHT - 1);
 
     wid_spell_learn_window = wid_new_window(g, "widget spell_learn");
     wid_set_pos(wid_spell_learn_window, tl, br);
@@ -419,7 +417,7 @@ void wid_spell_learn(Gamep g)
     wid_set_style(w, UI_WID_STYLE_BUTTON_OUTLINE);
     wid_set_shape_none(w);
     wid_set_text_centerx(w, 1u);
-    y_at += 1;
+    y_at += 2;
   }
 
   //
@@ -433,23 +431,21 @@ void wid_spell_learn(Gamep g)
     spoint const br(button_width, y_at + button_height);
     wid_set_text_lhs(w, 1u);
     wid_set_pos(w, tl, br);
-    wid_set_text(w, UI_INFO_FMT_STR "Spells");
+    wid_set_text(w, UI_INFO_FMT_STR "Spell name                                Arcana  SP");
     y_at++;
   }
 
-  memset(wid_spell_shortcut, 0, sizeof(wid_spell_shortcut));
+  {
+    spoint inner_tl(1, 5);
+    spoint inner_br(player_select_width - 2, player_select_height - 4);
+
+    wid_spell_learn_list
+        = new WidPopup(g, wid_spell_learn_window, "spell list", inner_tl, inner_br, nullptr, "", false, true, wid_spell_tps.size());
+  }
+
   memset(wid_spell, 0, sizeof(wid_spell));
 
   wid_spell_index = 0;
-
-  std::vector< Tpp > wid_spell_tps;
-
-  for (auto &tp : tp_vec) {
-    if (! tp_is_spell(tp)) {
-      continue;
-    }
-    wid_spell_tps.push_back(tp);
-  }
 
   //
   // Sort by sac_points
@@ -489,67 +485,38 @@ void wid_spell_learn(Gamep g)
     }
 
     //
-    // Key shortcut
+    // Spell shortcut and name
     //
-    if (wid_spell_index <= ('z' - 'a') * 2) {
+    if (wid_spell_index <= ('z' - 'a') * 2 + 1) {
       TRACE();
-      auto *w = wid_new_square_button(g, wid_spell_learn_window, "Key");
+
+      auto spell_cost = tp_spell_cost_get(tp);
 
       std::string s;
+
+      if (spell_cost <= thing_sac_points(g, v, l, player)) {
+        s += "%%fg=gray90$";
+      } else {
+        s += "%%fg=gray50$";
+      }
+
       if (wid_spell_index >= 26) {
         s += static_cast< char >('A' + wid_spell_index - 26);
       } else {
         s += static_cast< char >('a' + wid_spell_index);
       }
-      s += ')';
+      s += ") ";
 
-      spoint const tl(3, y_at);
-      spoint const br(6, y_at + button_height);
-      wid_set_text_lhs(w, 1u);
+      s += capitalize_first(tp_name_long(tp));
+      s = string_sprintf("%-53s", s.c_str());
+      s += "%%fg=reset$";
+      s += "%%fg=red$Fire%%fg=reset$    ";
+      s += string_sprintf("%2d", spell_cost);
+
+      auto w = wid_spell_learn_list->log(g, s, TEXT_FORMAT_LHS);
 
       wid_set_mode(w, WID_MODE_NORMAL);
-      wid_set_color(w, WID_COLOR_TEXT_FG, GRAY50);
       wid_set_style(w, button_style);
-      wid_set_pos(w, tl, br);
-      wid_set_text(w, s);
-
-      wid_set_thing_context(g, v, w, existing_thing);
-      wid_set_on_mouse_down(w, wid_spell_learn_spell_via_mouse_down);
-
-      wid_set_on_mouse_over_begin(w, wid_spell_learn_spell_via_mouse_over_begin);
-      wid_set_on_mouse_over_end(w, wid_spell_learn_spell_via_mouse_over_end);
-
-      wid_spell_shortcut[ wid_spell_index ] = w;
-    }
-
-    //
-    // Spell name
-    //
-    {
-      //
-      // Append sac_points to the name
-      //
-      std::string line;
-
-      line = capitalize_first(tp_name_long(tp));
-
-      auto sac_points = tp_sac_points_get(tp);
-      if (sac_points > 0) {
-        line = string_sprintf("%-41s +%d", line.c_str(), sac_points);
-      } else if (sac_points < 0) {
-        line = string_sprintf("%-41s %d", line.c_str(), sac_points);
-      } else {
-        line = string_sprintf("%-41s -", line.c_str());
-      }
-
-      TRACE();
-      auto *w = wid_new_bar_button(g, wid_spell_learn_window, "Spell");
-
-      spoint const tl(6, y_at);
-      spoint const br(button_width, y_at + button_height);
-      wid_set_text_lhs(w, 1u);
-      wid_set_pos(w, tl, br);
-      wid_set_text(w, line);
 
       wid_set_thing_context(g, v, w, existing_thing);
       wid_set_on_mouse_down(w, wid_spell_learn_spell_via_mouse_down);
@@ -564,20 +531,25 @@ void wid_spell_learn(Gamep g)
     wid_spell_index++;
   }
 
-  y_at++;
+  y_at = player_select_height - 2;
 
   //
   // Total sac_points
   //
   {
     TRACE();
-    auto *w = wid_new_bar_button(g, wid_spell_learn_window, "Boost");
+    wid_total = wid_new_bar_button(g, wid_spell_learn_window, "available SP");
 
     spoint const tl(1, y_at);
     spoint const br(button_width, y_at + button_height);
-    wid_set_pos(w, tl, br);
+    wid_set_pos(wid_total, tl, br);
 
-    wid_total = w;
+    auto total_sac_points = thing_sac_points(g, v, l, player);
+    auto line             = string_sprintf("SPs available to learning                          %2d", total_sac_points);
+
+    wid_set_text_lhs(wid_total, 1u);
+    wid_set_text(wid_total, line);
+    wid_update(g, wid_total);
   }
 
   wid_update(g, wid_spell_learn_window);

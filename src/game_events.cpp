@@ -322,7 +322,7 @@
     return false;
   }
 
-  wid_spell_learn(g);
+  wid_spell_learn(g, v, l, player);
   if (0) {
     wid_inventory_show(g, v, l, player);
   }
