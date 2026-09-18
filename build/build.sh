@@ -897,14 +897,15 @@ uname -a
 
 log_info "Game version               : $MYVER"
 
-log_info "Compiler version           :"
-$CC --version
+CC_VER=$( $CC --version | head -1 )
+log_info "Compiler version           :" $CC_VER
 
 #
 # Useful for debugging
 #
 # cat $MAKEFILE
 
+log_info "Builing..."
 cd ..
 
 echo USE_PRECOMPILED=yep make -f build/Makefile $CORES "$@" all
@@ -915,9 +916,10 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
+log_info "Compiled!"
+
 case "$MY_OS_NAME" in
   *Darwin*)
-    echo dsymutil ${TARGET} 
     dsymutil ${TARGET} 
     ;;
 

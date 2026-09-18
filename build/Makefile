@@ -35,7 +35,7 @@ FORMAT_DIRS=$(DIRS) \
 	    src/tests
 
 all: pre
-	$(foreach var,$(DIRS), $(MAKE) -C $(var) $(CORES) $@; )
+	@$(foreach var,$(DIRS), $(MAKE) -C $(var) $(CORES) $@; )
 
 format:
 	(cd $(TOP)/src; $(TOP)/build/check_tps.sh)
