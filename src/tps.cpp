@@ -112,7 +112,6 @@
   if (!tp_load_sac_healing_drain()) { return false; }
   if (!tp_load_sac_hollow_bones()) { return false; }
   if (!tp_load_sac_noisy()) { return false; }
-  if (!tp_load_sac_one_legged()) { return false; }
   if (!tp_load_sac_poison_blood()) { return false; }
   if (!tp_load_sac_poor_vision()) { return false; }
   if (!tp_load_sac_power_crazed()) { return false; }
@@ -122,6 +121,7 @@
   if (!tp_load_sac_unlucky()) { return false; }
   if (!tp_load_sac_wall_walker()) { return false; }
   if (!tp_load_sac_weaponless()) { return false; }
+  if (!tp_load_sac_wooden_leg()) { return false; }
   if (!tp_load_skeleton_mob()) { return false; }
   if (!tp_load_skeleton()) { return false; }
   if (!tp_load_skullferno()) { return false; }

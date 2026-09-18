@@ -197,7 +197,7 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
   //
   auto how_far_i_can_jump = thing_distance_jump(g, v, l, me);
   if (how_far_i_can_jump == 0) {
-    if (thing_is_one_legged(g, v, l, me)) {
+    if (thing_is_wooden_leg(g, v, l, me)) {
       //
       // Struggle on
       //
@@ -247,7 +247,7 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
   // No landing in solid obstacles
   //
   if (to != at) {
-    if (thing_is_one_legged(g, v, l, me)) {
+    if (thing_is_wooden_leg(g, v, l, me)) {
       if (level_is_obs_to_movement(g, v, l, to, me) != nullptr) {
         blocked = true;
         if (thing_is_player(me)) {
@@ -309,7 +309,7 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
   //
   // Halve stamina for successfiul jumps
   //
-  if (thing_is_one_legged(g, v, l, me)) {
+  if (thing_is_wooden_leg(g, v, l, me)) {
     (void) thing_stamina_decr(g, v, l, me, 1);
   } else {
     auto stamina = static_cast< int >(static_cast< float >(thing_stamina(g, v, l, me)) * 0.8);

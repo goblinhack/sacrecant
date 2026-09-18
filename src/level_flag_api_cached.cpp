@@ -1791,10 +1791,10 @@
   return level_flag_cached(g, v, l, is_spell, p);
 }
 
-[[nodiscard]] auto level_is_one_legged_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_wooden_leg_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_one_legged, p);
+  return level_flag_cached(g, v, l, is_wooden_leg, p);
 }
 
 [[nodiscard]] auto level_is_wall_walker_pass_through_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

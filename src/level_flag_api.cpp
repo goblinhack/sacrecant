@@ -1754,10 +1754,10 @@
   return level_flag(g, v, l, is_spell, p, me);
 }
 
-[[nodiscard]] auto level_is_one_legged(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_wooden_leg(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_one_legged, p, me);
+  return level_flag(g, v, l, is_wooden_leg, p, me);
 }
 
 [[nodiscard]] auto level_is_wall_walker_pass_through(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp

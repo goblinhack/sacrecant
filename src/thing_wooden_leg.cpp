@@ -10,7 +10,7 @@
 #include "my_tp.hpp"
 #include "my_types.hpp"
 
-[[nodiscard]] auto thing_is_one_legged(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool
+[[nodiscard]] auto thing_is_wooden_leg(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool
 {
   TRACE_DEBUG();
 
@@ -21,17 +21,17 @@
 
   FOR_ALL_HOOKS(g, v, l, me, buff)
   {
-    if (thing_is_one_legged(g, v, l, buff)) {
+    if (thing_is_wooden_leg(g, v, l, buff)) {
       return true;
     }
   }
 
   FOR_ALL_ACTIVE_ITEMS(g, v, l, me, item)
   {
-    if (thing_is_one_legged(g, v, l, item)) {
+    if (thing_is_wooden_leg(g, v, l, item)) {
       return true;
     }
   }
 
-  return tp_flag(thing_tp(me), is_one_legged) != 0;
+  return tp_flag(thing_tp(me), is_wooden_leg) != 0;
 }

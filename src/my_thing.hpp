@@ -1132,7 +1132,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused145(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused_spell(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_spell(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_one_legged(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
+[[nodiscard]] auto thing_is_wooden_leg(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
 [[nodiscard]] auto thing_is_wall_walker_pass_through(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused15(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_obs_to_wall_walker(Thingp t) -> bool;

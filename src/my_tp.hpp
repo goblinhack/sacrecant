@@ -303,7 +303,7 @@
       list_macro(is_unused145, "is_unused145"),                                             /* newline */                                       \
       list_macro(is_unused_spell, "is_unused_spell"),                                       /* newline */                                       \
       list_macro(is_spell, "is_spell"),                                                     /* newline */                                       \
-      list_macro(is_one_legged, "is_one_legged"),                                           /* newline */                                       \
+      list_macro(is_wooden_leg, "is_wooden_leg"),                                           /* newline */                                       \
       list_macro(is_wall_walker_pass_through, "is_wall_walker_pass_through"),               /* newline */                                       \
       list_macro(is_unused15, "is_unused15"),                                               /* newline */                                       \
       list_macro(is_obs_to_wall_walker, "is_obs_to_wall_walker"),                           /* newline */                                       \
@@ -1119,7 +1119,7 @@ class Tp;
 [[nodiscard]] auto tp_is_unused145(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused_spell(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_spell(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_one_legged(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_wooden_leg(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_wall_walker_pass_through(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused15(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_obs_to_wall_walker(Tpp tp) -> bool;
