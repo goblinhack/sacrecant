@@ -39,6 +39,7 @@ auto wid_intro1_select(Gamep g) -> void;
 auto wid_intro2_select(Gamep g) -> void;
 auto wid_level_select(Gamep g, Levelsp v, Levelp l) -> void;
 auto wid_player_select(Gamep g) -> void;
+auto wid_spell_learn(Gamep g) -> void;
 auto wid_inventory_mouse_over_begin(Gamep g, Widp w, int relx, int rely, int wheelx, int wheely) -> void;
 auto wid_inventory_mouse_over_end(Gamep g, Widp w) -> void;
 auto wid_inventory_show(Gamep g, Levelsp v, Levelp l, Thingp player) -> void;

@@ -22,7 +22,7 @@
       list_macro(STATE_PLAYING, "PLAYING"),                       /* newline */                                                                 \
       list_macro(STATE_LEVEL_SELECT_MENU, "LEVEL-SELECT-MENU"),   /* newline */                                                                 \
       list_macro(STATE_PLAYER_SELECT_MENU, "PLAYER-SELECT-MENU"), /* newline */                                                                 \
-      list_macro(STATE_SPELL_SELECT_MENU, "SPELL-SELECT-MENU"),   /* newline */                                                                 \
+      list_macro(STATE_SPELL_LEARN_MENU, "SPELL-SELECT-MENU"),    /* newline */                                                                 \
       list_macro(STATE_MOVE_WARNING_MENU, "MOVE-WARNING-MENU"),   /* newline */                                                                 \
       list_macro(STATE_QUITTING, "QUITTING"),                     /* newline */                                                                 \
       list_macro(STATE_KEYBOARD_MENU, "KEYBOARD-MENU"),           /* newline */                                                                 \
@@ -312,16 +312,16 @@ void               game_chosen_sacrifice_set(Gamep g, std::vector< Tpp > t);
 [[nodiscard]] auto game_sacrifice_mouse_over_currently_get(Gamep g) -> Thingp;
 void               game_sacrifice_mouse_over_currently_set(Gamep g, Thingp t);
 
-[[nodiscard]] auto game_cand_sacrifice_get_prev(Gamep g) -> Thingp;
-[[nodiscard]] auto game_cand_sacrifice_get(Gamep g) -> std::vector< Tpp >;
-void               game_sacrifice_clear(Gamep g);
-void               game_cand_sacrifice_set(Gamep g, Thingp t);
-[[nodiscard]] auto game_cand_sacrifice_find(Gamep g, Thingp t) -> bool;
-void               game_cand_sacrifice_unset(Gamep g, Thingp t);
-[[nodiscard]] auto game_chosen_sacrifice_get(Gamep g) -> std::vector< Tpp >;
-void               game_chosen_sacrifice_set(Gamep g, std::vector< Tpp > t);
-[[nodiscard]] auto game_sacrifice_mouse_over_currently_get(Gamep g) -> Thingp;
-void               game_sacrifice_mouse_over_currently_set(Gamep g, Thingp t);
+[[nodiscard]] auto game_cand_spell_get_prev(Gamep g) -> Thingp;
+[[nodiscard]] auto game_cand_spell_get(Gamep g) -> std::vector< Tpp >;
+void               game_spell_clear(Gamep g);
+void               game_cand_spell_set(Gamep g, Thingp t);
+[[nodiscard]] auto game_cand_spell_find(Gamep g, Thingp t) -> bool;
+void               game_cand_spell_unset(Gamep g, Thingp t);
+[[nodiscard]] auto game_chosen_spell_get(Gamep g) -> std::vector< Tpp >;
+void               game_chosen_spell_set(Gamep g, std::vector< Tpp > t);
+[[nodiscard]] auto game_spell_mouse_over_currently_get(Gamep g) -> Thingp;
+void               game_spell_mouse_over_currently_set(Gamep g, Thingp t);
 
 [[nodiscard]] auto game_cand_boost_get_prev(Gamep g) -> Thingp;
 [[nodiscard]] auto game_cand_boost_get(Gamep g) -> std::vector< Tpp >;

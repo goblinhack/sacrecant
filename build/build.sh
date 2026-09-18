@@ -905,7 +905,7 @@ log_info "Compiler version           :" $CC_VER
 #
 # cat $MAKEFILE
 
-log_info "Builing..."
+log_info "Building..."
 cd ..
 
 echo USE_PRECOMPILED=yep make -f build/Makefile $CORES "$@" all

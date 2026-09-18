@@ -89,7 +89,7 @@
     case STATE_KEYBOARD_MENU :      [[fallthrough]];
     case STATE_LEVEL_SELECT_MENU :  [[fallthrough]];
     case STATE_PLAYER_SELECT_MENU : [[fallthrough]];
-    case STATE_SPELL_SELECT_MENU :  [[fallthrough]];
+    case STATE_SPELL_LEARN_MENU :   [[fallthrough]];
     case STATE_LOAD_MENU :          [[fallthrough]];
     case STATE_LOADED :             [[fallthrough]];
     case STATE_MAIN_MENU :          [[fallthrough]];
@@ -167,7 +167,7 @@
       level_select_mouse_motion(g, v, l);
       break;
     case STATE_PLAYER_SELECT_MENU : [[fallthrough]];
-    case STATE_SPELL_SELECT_MENU :  [[fallthrough]];
+    case STATE_SPELL_LEARN_MENU :   [[fallthrough]];
     case STATE_COLLECT_MENU :       [[fallthrough]];
     case STATE_DEAD_MENU :          [[fallthrough]];
     case STATE_GENERATED :          [[fallthrough]];
@@ -322,7 +322,10 @@
     return false;
   }
 
-  wid_inventory_show(g, v, l, player);
+  wid_spell_learn(g);
+  if (0) {
+    wid_inventory_show(g, v, l, player);
+  }
 
   return true;
 }
@@ -644,7 +647,7 @@ static auto game_event_abort(Gamep g) -> bool
     case STATE_KEYBOARD_MENU :      [[fallthrough]];
     case STATE_LEVEL_SELECT_MENU :  [[fallthrough]];
     case STATE_PLAYER_SELECT_MENU : [[fallthrough]];
-    case STATE_SPELL_SELECT_MENU :  [[fallthrough]];
+    case STATE_SPELL_LEARN_MENU :   [[fallthrough]];
     case STATE_LOAD_MENU :          [[fallthrough]];
     case STATE_LOADED :             [[fallthrough]];
     case STATE_MAIN_MENU :          [[fallthrough]];
@@ -672,7 +675,7 @@ static auto game_event_abort(Gamep g) -> bool
     case STATE_MAIN_MENU :          break;
     case STATE_LEVEL_SELECT_MENU :  [[fallthrough]];
     case STATE_PLAYER_SELECT_MENU : [[fallthrough]];
-    case STATE_SPELL_SELECT_MENU :  [[fallthrough]];
+    case STATE_SPELL_LEARN_MENU :   [[fallthrough]];
     case STATE_THROW_ITEM :         [[fallthrough]];
     case STATE_COLLECT_MENU :       [[fallthrough]];
     case STATE_DEAD_MENU :          [[fallthrough]];
@@ -850,7 +853,7 @@ static auto game_event_abort(Gamep g) -> bool
     case STATE_KEYBOARD_MENU :      [[fallthrough]];
     case STATE_LEVEL_SELECT_MENU :  [[fallthrough]];
     case STATE_PLAYER_SELECT_MENU : [[fallthrough]];
-    case STATE_SPELL_SELECT_MENU :  [[fallthrough]];
+    case STATE_SPELL_LEARN_MENU :   [[fallthrough]];
     case STATE_LOAD_MENU :          [[fallthrough]];
     case STATE_LOADED :             [[fallthrough]];
     case STATE_MAIN_MENU :          [[fallthrough]];

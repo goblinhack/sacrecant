@@ -473,7 +473,7 @@ static void level_display_fbo(Gamep g, Levelsp v, Levelp level_above, Levelp l, 
             blit_flush();
             break;
           case STATE_PLAYER_SELECT_MENU : [[fallthrough]];
-          case STATE_SPELL_SELECT_MENU :  [[fallthrough]];
+          case STATE_SPELL_LEARN_MENU :   [[fallthrough]];
           case STATE_COLLECT_MENU :       [[fallthrough]];
           case STATE_DEAD_MENU :          [[fallthrough]];
           case STATE_GENERATED :          [[fallthrough]];

@@ -193,7 +193,7 @@ static auto wid_rightbar_thing_info_add(Gamep g, Levelsp v, Levelp l) -> void
     // Minimaps
     //
     wid_rightbar_create_minimap_level(g);
-  } else if (game_state(g) == STATE_SPELL_SELECT_MENU) {
+  } else if (game_state(g) == STATE_SPELL_LEARN_MENU) {
     //
     // Tp info only
     //

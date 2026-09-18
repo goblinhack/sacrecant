@@ -1138,7 +1138,7 @@ void Game::state_change(GameStateType new_state, const std::string &why)
     case STATE_THROW_MENU :         [[fallthrough]];
     case STATE_QUIT_MENU :          [[fallthrough]];
     case STATE_INVENTORY_MENU :     [[fallthrough]];
-    case STATE_SPELL_SELECT_MENU :  [[fallthrough]];
+    case STATE_SPELL_LEARN_MENU :   [[fallthrough]];
     case STATE_COLLECT_MENU :       [[fallthrough]];
     case STATE_ITEM_MENU :          wid_actionbar_fini(g); break;
     case STATE_GENERATING :         [[fallthrough]];
@@ -1202,7 +1202,7 @@ void Game::state_change(GameStateType new_state, const std::string &why)
         case STATE_KEYBOARD_MENU :     [[fallthrough]];
         case STATE_MAIN_MENU :         [[fallthrough]];
         case STATE_INVENTORY_MENU :    [[fallthrough]];
-        case STATE_SPELL_SELECT_MENU : [[fallthrough]];
+        case STATE_SPELL_LEARN_MENU :  [[fallthrough]];
         case STATE_COLLECT_MENU :      [[fallthrough]];
         case STATE_THROW_ITEM :        [[fallthrough]];
         case STATE_THROW_MENU :        [[fallthrough]];
@@ -1223,16 +1223,16 @@ void Game::state_change(GameStateType new_state, const std::string &why)
         case GAME_STATE_ENUM_MAX :      break;
       }
       break;
-    case STATE_DEAD_MENU :         [[fallthrough]];
-    case STATE_GAME_OVER_MENU :    [[fallthrough]];
-    case STATE_KEYBOARD_MENU :     [[fallthrough]];
-    case STATE_LOAD_MENU :         [[fallthrough]];
-    case STATE_THROW_MENU :        [[fallthrough]];
-    case STATE_SAVE_MENU :         [[fallthrough]];
-    case STATE_QUIT_MENU :         [[fallthrough]];
-    case STATE_COLLECT_MENU :      [[fallthrough]];
-    case STATE_INVENTORY_MENU :    [[fallthrough]];
-    case STATE_SPELL_SELECT_MENU : [[fallthrough]];
+    case STATE_DEAD_MENU :        [[fallthrough]];
+    case STATE_GAME_OVER_MENU :   [[fallthrough]];
+    case STATE_KEYBOARD_MENU :    [[fallthrough]];
+    case STATE_LOAD_MENU :        [[fallthrough]];
+    case STATE_THROW_MENU :       [[fallthrough]];
+    case STATE_SAVE_MENU :        [[fallthrough]];
+    case STATE_QUIT_MENU :        [[fallthrough]];
+    case STATE_COLLECT_MENU :     [[fallthrough]];
+    case STATE_INVENTORY_MENU :   [[fallthrough]];
+    case STATE_SPELL_LEARN_MENU : [[fallthrough]];
     case STATE_ITEM_MENU :
       //
       // Don't want the player to keep moving to an old path when we exit this menu
@@ -1297,12 +1297,12 @@ void Game::handle_game_request_to_remake_ui()
         (void) wid_actionbar_init(g);
       }
       break;
-    case STATE_DEAD_MENU :         [[fallthrough]];
-    case STATE_PLAYING :           [[fallthrough]];
-    case STATE_COLLECT_MENU :      [[fallthrough]];
-    case STATE_THROW_ITEM :        [[fallthrough]];
-    case STATE_THROW_MENU :        [[fallthrough]];
-    case STATE_SPELL_SELECT_MENU : [[fallthrough]];
+    case STATE_DEAD_MENU :        [[fallthrough]];
+    case STATE_PLAYING :          [[fallthrough]];
+    case STATE_COLLECT_MENU :     [[fallthrough]];
+    case STATE_THROW_ITEM :       [[fallthrough]];
+    case STATE_THROW_MENU :       [[fallthrough]];
+    case STATE_SPELL_LEARN_MENU : [[fallthrough]];
     case STATE_INVENTORY_MENU :
       if (v != nullptr) {
         (void) wid_leftbar_init(g);
@@ -1363,7 +1363,7 @@ void Game::tick()
       case STATE_SAVE_MENU :          [[fallthrough]];
       case STATE_QUIT_MENU :          [[fallthrough]];
       case STATE_INVENTORY_MENU :     [[fallthrough]];
-      case STATE_SPELL_SELECT_MENU :  [[fallthrough]];
+      case STATE_SPELL_LEARN_MENU :   [[fallthrough]];
       case STATE_COLLECT_MENU :       [[fallthrough]];
       case STATE_THROW_MENU :         [[fallthrough]];
       case STATE_THROW_ITEM :         [[fallthrough]];
@@ -1508,7 +1508,7 @@ void Game::display()
     case STATE_MAIN_MENU :          [[fallthrough]];
     case STATE_QUITTING :           [[fallthrough]];
     case STATE_INVENTORY_MENU :     [[fallthrough]];
-    case STATE_SPELL_SELECT_MENU :  [[fallthrough]];
+    case STATE_SPELL_LEARN_MENU :   [[fallthrough]];
     case STATE_COLLECT_MENU :       [[fallthrough]];
     case STATE_MOVE_WARNING_MENU :  [[fallthrough]];
     case STATE_KEYBOARD_MENU :      [[fallthrough]];
@@ -3613,6 +3613,27 @@ void game_sacrifice_mouse_over_currently_set(Gamep g, Thingp t)
   }
 
   g->sacrifice_mouse_over_currently = t;
+}
+
+[[nodiscard]] auto game_spell_mouse_over_currently_get(Gamep g) -> Thingp
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    return nullptr;
+  }
+  return g->spell_mouse_over_currently;
+}
+void game_spell_mouse_over_currently_set(Gamep g, Thingp t)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+
+  g->spell_mouse_over_currently = t;
 }
 
 [[nodiscard]] auto game_boost_mouse_over_currently_get(Gamep g) -> Thingp
