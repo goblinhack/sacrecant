@@ -447,10 +447,7 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player)
 
   wid_spell_index = 0;
 
-  //
-  // Sort by sac_points
-  //
-  std::ranges::sort(wid_spell_tps, [](const Tpp &a, const Tpp &b) -> bool { return tp_sac_points_get(a) < tp_sac_points_get(b); });
+  std::vector< Thingp > wid_spell_things;
 
   for (auto &tp : wid_spell_tps) {
     //
@@ -484,13 +481,28 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player)
       }
     }
 
+    wid_spell_things.push_back(existing_thing);
+
+    wid_spell_index++;
+  }
+
+  //
+  // Sort by spell_cost
+  //
+  std::ranges::sort(wid_spell_things, [](const Thingp &a, const Thingp &b) -> bool { return thing_spell_cost(a) < thing_spell_cost(b); });
+
+  wid_spell_index = 0;
+
+  for (auto &t : wid_spell_things) {
+    auto tp = thing_tp(t);
+
     //
     // Spell shortcut and name
     //
     if (wid_spell_index <= ('z' - 'a') * 2 + 1) {
       TRACE();
 
-      auto spell_cost = tp_spell_cost_get(tp);
+      auto spell_cost = thing_spell_cost(t);
 
       std::string s;
 
@@ -518,7 +530,7 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player)
       wid_set_mode(w, WID_MODE_NORMAL);
       wid_set_style(w, button_style);
 
-      wid_set_thing_context(g, v, w, existing_thing);
+      wid_set_thing_context(g, v, w, t);
       wid_set_on_mouse_down(w, wid_spell_learn_spell_via_mouse_down);
 
       wid_set_on_mouse_over_begin(w, wid_spell_learn_spell_via_mouse_over_begin);
