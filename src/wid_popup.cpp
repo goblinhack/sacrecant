@@ -82,6 +82,63 @@ WidPopup::WidPopup(Gamep g, std::string vname, spoint vtl, spoint vbr, Tilep vti
   wid_update(g, wid_popup_container);
 }
 
+WidPopup::WidPopup(Gamep g, Widp parent, std::string vname, spoint vtl, spoint vbr, Tilep vtitle_tile, std::string vbackground,
+                   bool horiz_scroll, bool vert_scoll, int scroll_height)
+    : tl(vtl), br(vbr), title_tile(vtitle_tile), background(std::move(vbackground)), outer_w(br.x - tl.x), outer_h(br.y - tl.y),
+      name(std::move(vname))
+{
+  TRACE();
+
+  int const width  = outer_w;
+  int const height = outer_h;
+
+  auto inner_tl = spoint(0, 0);
+  auto inner_br = spoint(width, height);
+  inner_w       = inner_br.x - inner_tl.x;
+  inner_h       = inner_br.y - inner_tl.y;
+
+  int tile_size = 0;
+  if (title_tile != nullptr) {
+    tile_size = 4;
+  } else {
+    tile_size = 0;
+  }
+
+  if (title_tile != nullptr) {
+    inner_h -= tile_size;
+    inner_tl.y += tile_size;
+  }
+
+  {
+    wid_popup_container = wid_new_window(g, "wid_popup " + this->name);
+    wid_set_pos(wid_popup_container, tl, br);
+    wid_set_style(wid_popup_container, UI_WID_STYLE_BUTTON_OUTLINE);
+    if (! background.empty()) {
+      wid_set_tile(TILE_LAYER_BOX_BG, wid_popup_container, tile_find_mand(background));
+    } else {
+      wid_set_style(wid_popup_container, UI_WID_STYLE_BUTTON_OUTLINE);
+    }
+  }
+
+  if (title_tile != nullptr) {
+    auto *w      = wid_new_square_button(g, wid_popup_container, "widget title " + this->name);
+    wid_title    = w;
+    auto title_x = (outer_w - tile_size) / 2;
+    wid_set_pos(w, spoint(title_x + 0, 1), spoint(title_x + tile_size - 1, tile_size));
+    wid_set_style(w, UI_WID_STYLE_BUTTON_OUTLINE);
+    wid_set_style(w, UI_WID_STYLE_SPARSE_NONE);
+    wid_set_tile(TILE_LAYER_BOX_FG, w, title_tile);
+  }
+
+  {
+    spoint const box_tl(0, tile_size);
+    spoint const box_br(inner_w, inner_h + tile_size);
+    wid_text_area = new WidTextBox(g, box_tl, box_br, wid_popup_container, horiz_scroll, vert_scoll, scroll_height);
+  }
+
+  wid_update(g, wid_popup_container);
+}
+
 //
 // Log a message to the popup
 //

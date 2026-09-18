@@ -66,13 +66,13 @@ ifeq ($(origin USE_PRECOMPILED),undefined)
 
 $(foreach x,$(CPP_SOURCES),\
 $(eval $(BUILD_DIR)/$(call obj_name,$x): $x ;\
-  @$(CC) $(CFLAGS) -c -o $$@ $$<))
+  $(CC) $(CFLAGS) -c -o $$@ $$<))
 
 else
 
 $(foreach x,$(CPP_SOURCES),\
 $(eval $(BUILD_DIR)/$(call obj_name,$x): $x | $(PRECOMPILED_H_OBJ) ;\
-  @$(CC) -include $(PRECOMPILED_H) $(CFLAGS) -c -o $$@ $$<))
+  $(CC) -include $(PRECOMPILED_H) $(CFLAGS) -c -o $$@ $$<))
 
 endif
 
@@ -87,7 +87,7 @@ $(eval $(BUILD_DIR)/$(call obj_name,$x): $x ;\
 # use file list instead of wildcard for link command so we don't accidentally
 # link with old object files for removed source files
 $(TARGET_GAME): $(OBJ_FILES)
-	@(cd $(BUILD_DIR); $(CC) $(OBJECTS) $(LDLIBS) $(LDFLAGS) -o $(TARGET_GAME))
+	cd $(BUILD_DIR); $(CC) $(OBJECTS) $(LDLIBS) $(LDFLAGS) -o $(TARGET_GAME)
 
 #####################################################
 # to show options:

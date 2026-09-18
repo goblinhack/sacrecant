@@ -146,6 +146,14 @@ static auto wid_rightbar_thing_info_add(Gamep g, Levelsp v, Levelp l) -> void
   }
 
   if (! got_one) {
+    auto *sac = game_cand_sacrifice_get_prev(g);
+    if (sac != nullptr) {
+      wid_thing_info(g, v, l, sac, wid_rightbar, UI_RIGHTBAR_WIDTH);
+      got_one = true;
+    }
+  }
+
+  if (! got_one) {
     auto *sac = game_sacrifice_mouse_over_currently_get(g);
     if (sac != nullptr) {
       wid_thing_info(g, v, l, sac, wid_rightbar, UI_RIGHTBAR_WIDTH);
@@ -185,6 +193,11 @@ static auto wid_rightbar_thing_info_add(Gamep g, Levelsp v, Levelp l) -> void
     // Minimaps
     //
     wid_rightbar_create_minimap_level(g);
+  } else if (game_state(g) == STATE_SPELL_SELECT_MENU) {
+    //
+    // Tp info only
+    //
+    wid_rightbar_thing_info_add(g, v, l);
   } else if (game_state(g) == STATE_PLAYER_SELECT_MENU) {
     //
     // Tp info only

@@ -465,32 +465,33 @@ static void level_display_fbo(Gamep g, Levelsp v, Levelp level_above, Levelp l, 
     if (fbo == FBO_MAP_FG_OVERLAY) {
       if (wid_over == nullptr) {
         switch (game_state(g)) {
-          case STATE_THROW_ITEM :         [[fallthrough]];
-          case STATE_LEVEL_SELECT_MENU :  [[fallthrough]];
-          case STATE_PLAYER_SELECT_MENU : [[fallthrough]];
+          case STATE_THROW_ITEM :        [[fallthrough]];
+          case STATE_LEVEL_SELECT_MENU : [[fallthrough]];
           case STATE_PLAYING :
             blit_init();
             level_display_cursor(g, v, l, fbo);
             blit_flush();
             break;
-          case STATE_COLLECT_MENU :      [[fallthrough]];
-          case STATE_DEAD_MENU :         [[fallthrough]];
-          case STATE_GENERATED :         [[fallthrough]];
-          case STATE_GENERATING :        [[fallthrough]];
-          case STATE_INIT :              [[fallthrough]];
-          case STATE_INVENTORY_MENU :    [[fallthrough]];
-          case STATE_ITEM_MENU :         [[fallthrough]];
-          case STATE_KEYBOARD_MENU :     [[fallthrough]];
-          case STATE_LOAD_MENU :         [[fallthrough]];
-          case STATE_LOADED :            [[fallthrough]];
-          case STATE_MAIN_MENU :         [[fallthrough]];
-          case STATE_MOVE_WARNING_MENU : [[fallthrough]];
-          case STATE_QUIT_MENU :         [[fallthrough]];
-          case STATE_QUITTING :          [[fallthrough]];
-          case STATE_SAVE_MENU :         [[fallthrough]];
-          case STATE_GAME_OVER_MENU :    [[fallthrough]];
-          case STATE_THROW_MENU :        [[fallthrough]];
-          case GAME_STATE_ENUM_MAX :     break;
+          case STATE_PLAYER_SELECT_MENU : [[fallthrough]];
+          case STATE_SPELL_SELECT_MENU :  [[fallthrough]];
+          case STATE_COLLECT_MENU :       [[fallthrough]];
+          case STATE_DEAD_MENU :          [[fallthrough]];
+          case STATE_GENERATED :          [[fallthrough]];
+          case STATE_GENERATING :         [[fallthrough]];
+          case STATE_INIT :               [[fallthrough]];
+          case STATE_INVENTORY_MENU :     [[fallthrough]];
+          case STATE_ITEM_MENU :          [[fallthrough]];
+          case STATE_KEYBOARD_MENU :      [[fallthrough]];
+          case STATE_LOAD_MENU :          [[fallthrough]];
+          case STATE_LOADED :             [[fallthrough]];
+          case STATE_MAIN_MENU :          [[fallthrough]];
+          case STATE_MOVE_WARNING_MENU :  [[fallthrough]];
+          case STATE_QUIT_MENU :          [[fallthrough]];
+          case STATE_QUITTING :           [[fallthrough]];
+          case STATE_SAVE_MENU :          [[fallthrough]];
+          case STATE_GAME_OVER_MENU :     [[fallthrough]];
+          case STATE_THROW_MENU :         [[fallthrough]];
+          case GAME_STATE_ENUM_MAX :      break;
         }
       }
 

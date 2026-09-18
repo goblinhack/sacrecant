@@ -255,6 +255,7 @@ void thing_player_init(Gamep g)
     case STATE_KEYBOARD_MENU :      [[fallthrough]];
     case STATE_LEVEL_SELECT_MENU :  [[fallthrough]];
     case STATE_PLAYER_SELECT_MENU : [[fallthrough]];
+    case STATE_SPELL_SELECT_MENU :  [[fallthrough]];
     case STATE_LOAD_MENU :          [[fallthrough]];
     case STATE_LOADED :             [[fallthrough]];
     case STATE_MAIN_MENU :          [[fallthrough]];
@@ -347,6 +348,7 @@ void thing_player_event_loop(Gamep g, Levelsp v, Levelp l)
     case STATE_GAME_OVER_MENU :     [[fallthrough]];
     case STATE_LEVEL_SELECT_MENU :  [[fallthrough]];
     case STATE_PLAYER_SELECT_MENU : [[fallthrough]];
+    case STATE_SPELL_SELECT_MENU :  [[fallthrough]];
     case STATE_DEAD_MENU :
       //
       // If the cursor moved, update what we see

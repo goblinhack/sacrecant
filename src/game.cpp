@@ -318,6 +318,14 @@ public:
   Thingp                   sacrifice_mouse_over_currently {};
 
   //
+  // Which spells were selected
+  //
+  Thingp                   spell_prev_cand {};
+  std::map< Thingp, bool > spell_cand;
+  std::vector< Tpp >       spell_chosen;
+  Thingp                   spell_mouse_over_currently {};
+
+  //
   // Which boosts were selected
   //
   Thingp                   boost_prev_cand {};
@@ -1130,6 +1138,7 @@ void Game::state_change(GameStateType new_state, const std::string &why)
     case STATE_THROW_MENU :         [[fallthrough]];
     case STATE_QUIT_MENU :          [[fallthrough]];
     case STATE_INVENTORY_MENU :     [[fallthrough]];
+    case STATE_SPELL_SELECT_MENU :  [[fallthrough]];
     case STATE_COLLECT_MENU :       [[fallthrough]];
     case STATE_ITEM_MENU :          wid_actionbar_fini(g); break;
     case STATE_GENERATING :         [[fallthrough]];
@@ -1193,6 +1202,7 @@ void Game::state_change(GameStateType new_state, const std::string &why)
         case STATE_KEYBOARD_MENU :     [[fallthrough]];
         case STATE_MAIN_MENU :         [[fallthrough]];
         case STATE_INVENTORY_MENU :    [[fallthrough]];
+        case STATE_SPELL_SELECT_MENU : [[fallthrough]];
         case STATE_COLLECT_MENU :      [[fallthrough]];
         case STATE_THROW_ITEM :        [[fallthrough]];
         case STATE_THROW_MENU :        [[fallthrough]];
@@ -1213,15 +1223,16 @@ void Game::state_change(GameStateType new_state, const std::string &why)
         case GAME_STATE_ENUM_MAX :      break;
       }
       break;
-    case STATE_DEAD_MENU :      [[fallthrough]];
-    case STATE_GAME_OVER_MENU : [[fallthrough]];
-    case STATE_KEYBOARD_MENU :  [[fallthrough]];
-    case STATE_LOAD_MENU :      [[fallthrough]];
-    case STATE_THROW_MENU :     [[fallthrough]];
-    case STATE_SAVE_MENU :      [[fallthrough]];
-    case STATE_QUIT_MENU :      [[fallthrough]];
-    case STATE_COLLECT_MENU :   [[fallthrough]];
-    case STATE_INVENTORY_MENU : [[fallthrough]];
+    case STATE_DEAD_MENU :         [[fallthrough]];
+    case STATE_GAME_OVER_MENU :    [[fallthrough]];
+    case STATE_KEYBOARD_MENU :     [[fallthrough]];
+    case STATE_LOAD_MENU :         [[fallthrough]];
+    case STATE_THROW_MENU :        [[fallthrough]];
+    case STATE_SAVE_MENU :         [[fallthrough]];
+    case STATE_QUIT_MENU :         [[fallthrough]];
+    case STATE_COLLECT_MENU :      [[fallthrough]];
+    case STATE_INVENTORY_MENU :    [[fallthrough]];
+    case STATE_SPELL_SELECT_MENU : [[fallthrough]];
     case STATE_ITEM_MENU :
       //
       // Don't want the player to keep moving to an old path when we exit this menu
@@ -1286,11 +1297,12 @@ void Game::handle_game_request_to_remake_ui()
         (void) wid_actionbar_init(g);
       }
       break;
-    case STATE_DEAD_MENU :    [[fallthrough]];
-    case STATE_PLAYING :      [[fallthrough]];
-    case STATE_COLLECT_MENU : [[fallthrough]];
-    case STATE_THROW_ITEM :   [[fallthrough]];
-    case STATE_THROW_MENU :   [[fallthrough]];
+    case STATE_DEAD_MENU :         [[fallthrough]];
+    case STATE_PLAYING :           [[fallthrough]];
+    case STATE_COLLECT_MENU :      [[fallthrough]];
+    case STATE_THROW_ITEM :        [[fallthrough]];
+    case STATE_THROW_MENU :        [[fallthrough]];
+    case STATE_SPELL_SELECT_MENU : [[fallthrough]];
     case STATE_INVENTORY_MENU :
       if (v != nullptr) {
         (void) wid_leftbar_init(g);
@@ -1351,6 +1363,7 @@ void Game::tick()
       case STATE_SAVE_MENU :          [[fallthrough]];
       case STATE_QUIT_MENU :          [[fallthrough]];
       case STATE_INVENTORY_MENU :     [[fallthrough]];
+      case STATE_SPELL_SELECT_MENU :  [[fallthrough]];
       case STATE_COLLECT_MENU :       [[fallthrough]];
       case STATE_THROW_MENU :         [[fallthrough]];
       case STATE_THROW_ITEM :         [[fallthrough]];
@@ -1495,6 +1508,7 @@ void Game::display()
     case STATE_MAIN_MENU :          [[fallthrough]];
     case STATE_QUITTING :           [[fallthrough]];
     case STATE_INVENTORY_MENU :     [[fallthrough]];
+    case STATE_SPELL_SELECT_MENU :  [[fallthrough]];
     case STATE_COLLECT_MENU :       [[fallthrough]];
     case STATE_MOVE_WARNING_MENU :  [[fallthrough]];
     case STATE_KEYBOARD_MENU :      [[fallthrough]];
@@ -3331,6 +3345,120 @@ void game_chosen_sacrifice_set(Gamep g, std::vector< Tpp > t)
     return;
   }
   g->sacrifice_chosen = std::move(t);
+}
+
+[[nodiscard]] auto game_cand_spell_get(Gamep g) -> std::vector< Tpp >
+{
+  TRACE();
+
+  std::vector< Tpp > out;
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return out;
+  }
+
+  std::vector< Thingp > tmp;
+  for (auto t : g->spell_cand) {
+    Thingp it = t.first;
+    tmp.push_back(it);
+  }
+
+  std::ranges::sort(tmp, [](Thingp a, Thingp b) -> bool { return a->hook_sort_order < b->hook_sort_order; });
+
+  for (auto *t : tmp) {
+    out.push_back(thing_tp(t));
+  }
+
+  return out;
+}
+[[nodiscard]] auto game_cand_spell_get_prev(Gamep g) -> Thingp
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return nullptr;
+  }
+
+  return g->spell_prev_cand;
+}
+void game_cand_spell_set(Gamep g, Thingp t)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+
+  if (t == nullptr) {
+    ERR("no thing pointer");
+    return;
+  }
+
+  g->spell_cand[ t ] = true;
+  g->spell_prev_cand = t;
+  t->hook_sort_order = g->hook_sort_order++;
+}
+void game_cand_spell_unset(Gamep g, Thingp t)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->spell_cand.erase(t);
+  g->spell_prev_cand = {};
+}
+void game_spell_clear(Gamep g)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->spell_cand                 = {};
+  g->spell_chosen               = {};
+  g->spell_prev_cand            = {};
+  g->spell_mouse_over_currently = {};
+}
+[[nodiscard]] auto game_chosen_spell_get(Gamep g) -> std::vector< Tpp >
+{
+  TRACE();
+
+  std::vector< Tpp > out;
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return out;
+  }
+  return g->spell_chosen;
+}
+[[nodiscard]] auto game_cand_spell_find(Gamep g, Thingp t) -> bool
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return false;
+  }
+
+  if (g->spell_cand.contains(t)) {
+    return true;
+  }
+  return false;
+}
+void game_chosen_spell_set(Gamep g, std::vector< Tpp > t)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->spell_chosen = std::move(t);
 }
 
 [[nodiscard]] auto game_cand_boost_get(Gamep g) -> std::vector< Tpp >
