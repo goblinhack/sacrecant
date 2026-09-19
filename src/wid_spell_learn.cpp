@@ -36,11 +36,12 @@
 #include <string>
 #include <vector>
 
-static Widp      wid_total;
-static Widp      wid_spell_learn_window;
-static WidPopup *wid_spell_learn_list;
-static WidPopup *wid_spell_learn_learn_window;
-static WidPopup *wid_over_stats;
+static Widp          wid_total;
+static Widp          wid_spell_learn_window;
+static WidPopup     *wid_spell_learn_list;
+static WidPopup     *wid_spell_learn_learn_window;
+static WidPopup     *wid_over_stats;
+static ThingStatType wid_spell_filter = THING_STAT_NONE;
 
 static Widp wid_spell[ TP_ID_MAX ];
 
@@ -430,23 +431,122 @@ static void wid_spell_learn_spell_via_mouse_over_end(Gamep g, Widp w)
   return false;
 }
 
+[[nodiscard]] static auto wid_spell_learn_stats_arcana_fire_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+{
+  TRACE();
+
+  auto *v = levels_memory_alloc(g);
+  if (v == nullptr) {
+    return 0;
+  }
+
+  auto *l = game_level_get(g, v);
+  if (l == nullptr) {
+    return 0;
+  }
+
+  auto *player = thing_player(g);
+  if (player == nullptr) {
+    return 0;
+  }
+
+  if (wid_spell_filter == THING_STAT_ARCANA_FIRE) {
+    wid_spell_learn(g, v, l, player, THING_STAT_NONE);
+  } else {
+    wid_spell_learn(g, v, l, player, THING_STAT_ARCANA_FIRE);
+  }
+
+  return true;
+}
+
+[[nodiscard]] static auto wid_spell_learn_stats_arcana_life_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+{
+  TRACE();
+
+  auto *v = levels_memory_alloc(g);
+  if (v == nullptr) {
+    return 0;
+  }
+
+  auto *l = game_level_get(g, v);
+  if (l == nullptr) {
+    return 0;
+  }
+
+  auto *player = thing_player(g);
+  if (player == nullptr) {
+    return 0;
+  }
+
+  if (wid_spell_filter == THING_STAT_ARCANA_LIFE) {
+    wid_spell_learn(g, v, l, player, THING_STAT_NONE);
+  } else {
+    wid_spell_learn(g, v, l, player, THING_STAT_ARCANA_LIFE);
+  }
+
+  return true;
+}
+
+[[nodiscard]] static auto wid_spell_learn_stats_arcana_death_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+{
+  TRACE();
+
+  auto *v = levels_memory_alloc(g);
+  if (v == nullptr) {
+    return 0;
+  }
+
+  auto *l = game_level_get(g, v);
+  if (l == nullptr) {
+    return 0;
+  }
+
+  auto *player = thing_player(g);
+  if (player == nullptr) {
+    return 0;
+  }
+
+  if (wid_spell_filter == THING_STAT_ARCANA_DEATH) {
+    wid_spell_learn(g, v, l, player, THING_STAT_NONE);
+  } else {
+    wid_spell_learn(g, v, l, player, THING_STAT_ARCANA_DEATH);
+  }
+
+  return true;
+}
+
+static void wid_spell_learn_stats_arcana_common_mouse_over_begin(Gamep g)
+{
+  TRACE();
+  wid_over_stats->log_empty_line(g);
+  wid_over_stats->log(g, UI_INFO1_FMT_STR "Modifiers can impact costs and mana drain.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log_empty_line(g);
+  wid_over_stats->log(g, UI_INFO1_FMT_STR "SP is used when buying a spell.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log_empty_line(g);
+  wid_over_stats->log(g, UI_INFO1_FMT_STR "Mana is used when casting a spell.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log_empty_line(g);
+  wid_over_stats->log(g, UI_INFO1_FMT_STR "Cost modifier table:\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO2_FMT_STR " -9 mod increases SP by 3.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO2_FMT_STR " -6 mod increases SP by 2.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO2_FMT_STR " -5 mod increases mana by 50%%%.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO2_FMT_STR " -3 mod increases SP by 1.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO2_FMT_STR " +3 mod decreases SP by 1.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO2_FMT_STR " +5 mod decreases mana by 50%%%.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO2_FMT_STR " +6 mod decreases SP by 2.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO2_FMT_STR " +9 mod decreases SP by 3.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log_empty_line(g);
+  wid_over_stats->log(g, UI_INFO1_FMT_STR "Select this option to filter spells to this arcana only.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log_empty_line(g);
+}
+
 static void wid_spell_learn_stats_arcana_fire_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
 {
   TRACE();
 
-  int tlx = 0;
-  int tly = 0;
-  int brx = 0;
-  int bry = 0;
-  wid_get_abs_coords(w, &tlx, &tly, &brx, &bry);
-
-  int const width  = UI_INVENTORY_WIDTH;
-  int const height = 22;
-
-  tlx = UI_LEFTBAR_WIDTH;
-  tly -= 16;
-  brx = tlx + width;
-  bry = tly + height;
+  int tlx = TERM_WIDTH - UI_RIGHTBAR_WIDTH - 2;
+  int brx = tlx + UI_RIGHTBAR_WIDTH;
+  int tly = UI_TOPCON_HEIGHT + 10;
+  int bry = tly + 40;
 
   spoint const tl(tlx, tly);
   spoint const br(brx, bry);
@@ -454,18 +554,9 @@ static void wid_spell_learn_stats_arcana_fire_mouse_over_begin(Gamep g, Widp w, 
   wid_over_stats = new WidPopup(g, "stats", tl, br, nullptr, "", false, false);
   wid_over_stats->log(g, UI_HIGHLIGHT_FMT_STR "Fire Arcana");
   wid_over_stats->log_empty_line(g);
-  wid_over_stats->log(g, UI_INFO1_FMT_STR "With the Fire Arcana, you specialize in all things flaming hot, fireballs, scorched earth etc...\n",
+  wid_over_stats->log(g, UI_INFO2_FMT_STR "With the Fire Arcana, you specialize in all things flaming hot, fireballs, scorched earth etc...\n",
                       TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO2_FMT_STR "Fire modifiers can impact costs and mana drain.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO1_FMT_STR " - -9 modifier increases cost by 3.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO1_FMT_STR " - -6 modifier increases cost by 2.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO1_FMT_STR " - -5 modifier increases casting cost by 50%%%.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO1_FMT_STR " - -3 modifier increases cost by 1.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO1_FMT_STR " - +3 modifier decreases cost by 1.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO1_FMT_STR " - +5 modifier decreases casting cost by 50%%%.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO1_FMT_STR " - +6 modifier decreases cost by 2.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO1_FMT_STR " - +9 modifier decreases cost by 3.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO2_FMT_STR "Select this to filter spells to Fire only.\n", TEXT_FORMAT_LHS);
+  wid_spell_learn_stats_arcana_common_mouse_over_begin(g);
   wid_over_stats->compress(g);
 
   level_cursor_path_reset(g);
@@ -475,19 +566,10 @@ static void wid_spell_learn_stats_arcana_life_mouse_over_begin(Gamep g, Widp w, 
 {
   TRACE();
 
-  int tlx = 0;
-  int tly = 0;
-  int brx = 0;
-  int bry = 0;
-  wid_get_abs_coords(w, &tlx, &tly, &brx, &bry);
-
-  int const width  = UI_INVENTORY_WIDTH;
-  int const height = 21;
-
-  tlx = UI_LEFTBAR_WIDTH;
-  tly -= 18;
-  brx = tlx + width;
-  bry = tly + height;
+  int tlx = TERM_WIDTH - UI_RIGHTBAR_WIDTH - 2;
+  int brx = tlx + UI_RIGHTBAR_WIDTH;
+  int tly = UI_TOPCON_HEIGHT + 10;
+  int bry = tly + 40;
 
   spoint const tl(tlx, tly);
   spoint const br(brx, bry);
@@ -496,18 +578,9 @@ static void wid_spell_learn_stats_arcana_life_mouse_over_begin(Gamep g, Widp w, 
   wid_over_stats->log(g, UI_HIGHLIGHT_FMT_STR "Life Arcana");
   wid_over_stats->log_empty_line(g);
   wid_over_stats->log(g,
-                      UI_INFO1_FMT_STR "With the Life Arcana, you specialize in all things living, plant summoning, healing of allies etc...\n",
+                      UI_INFO2_FMT_STR "With the Life Arcana, you specialize in all things living, plant summoning, healing of allies etc...\n",
                       TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO2_FMT_STR "Modifiers can impact costs and mana drain.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO1_FMT_STR " - -9 modifier increases cost by 3.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO1_FMT_STR " - -6 modifier increases cost by 2.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO1_FMT_STR " - -5 modifier increases casting cost by 50%%%.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO1_FMT_STR " - -3 modifier increases cost by 1.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO1_FMT_STR " - +3 modifier decreases cost by 1.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO1_FMT_STR " - +5 modifier decreases casting cost by 50%%%.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO1_FMT_STR " - +6 modifier decreases cost by 2.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO1_FMT_STR " - +9 modifier decreases cost by 3.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO2_FMT_STR "Select this to filter spells to Life only.\n", TEXT_FORMAT_LHS);
+  wid_spell_learn_stats_arcana_common_mouse_over_begin(g);
   wid_over_stats->log(g, UI_IMPORTANT_FMT_STR "Specializing in Death will make Life spells more costly.\n", TEXT_FORMAT_LHS);
   wid_over_stats->compress(g);
 
@@ -518,19 +591,10 @@ static void wid_spell_learn_stats_arcana_death_mouse_over_begin(Gamep g, Widp w,
 {
   TRACE();
 
-  int tlx = 0;
-  int tly = 0;
-  int brx = 0;
-  int bry = 0;
-  wid_get_abs_coords(w, &tlx, &tly, &brx, &bry);
-
-  int const width  = UI_INVENTORY_WIDTH;
-  int const height = 21;
-
-  tlx = UI_LEFTBAR_WIDTH;
-  tly -= 18;
-  brx = tlx + width;
-  bry = tly + height;
+  int tlx = TERM_WIDTH - UI_RIGHTBAR_WIDTH - 2;
+  int brx = tlx + UI_RIGHTBAR_WIDTH;
+  int tly = UI_TOPCON_HEIGHT + 10;
+  int bry = tly + 40;
 
   spoint const tl(tlx, tly);
   spoint const br(brx, bry);
@@ -538,18 +602,9 @@ static void wid_spell_learn_stats_arcana_death_mouse_over_begin(Gamep g, Widp w,
   wid_over_stats = new WidPopup(g, "stats", tl, br, nullptr, "", false, false);
   wid_over_stats->log(g, UI_HIGHLIGHT_FMT_STR "Death Arcana");
   wid_over_stats->log_empty_line(g);
-  wid_over_stats->log(g, UI_INFO1_FMT_STR "With the Death Arcana, you specialize in all things dead, undead summoning, finger of death etc...\n",
+  wid_over_stats->log(g, UI_INFO2_FMT_STR "With the Death Arcana, you specialize in all things dead, undead summoning, finger of death etc...\n",
                       TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO2_FMT_STR "Modifiers can impact costs and mana drain.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO1_FMT_STR " - -9 modifier increases cost by 3.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO1_FMT_STR " - -6 modifier increases cost by 2.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO1_FMT_STR " - -5 modifier increases casting cost by 50%%%.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO1_FMT_STR " - -3 modifier increases cost by 1.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO1_FMT_STR " - +3 modifier decreases cost by 1.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO1_FMT_STR " - +5 modifier decreases casting cost by 50%%%.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO1_FMT_STR " - +6 modifier decreases cost by 2.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO1_FMT_STR " - +9 modifier decreases cost by 3.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO2_FMT_STR "Select this to filter spells to Death only.\n", TEXT_FORMAT_LHS);
+  wid_spell_learn_stats_arcana_common_mouse_over_begin(g);
   wid_over_stats->log(g, UI_IMPORTANT_FMT_STR "Specializing in Life will make Death spells more costly.\n", TEXT_FORMAT_LHS);
   wid_over_stats->compress(g);
 
@@ -564,10 +619,12 @@ static void wid_spell_learn_stats_mouse_over_end(Gamep g, Widp w)
   wid_over_stats = nullptr;
 }
 
-void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player)
+void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType filter)
 {
   con("Player select menu: create");
   TRACE_INDENT();
+
+  wid_spell_filter = filter;
 
   auto *level_select = game_level_get(g, v, LEVEL_ARR_IDX_LEVEL_SELECT);
   if (level_select == nullptr) {
@@ -668,23 +725,35 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player)
     // Create a temporary thing on the level select map
     //
     auto   at             = bpoint(4 + wid_spell_index / MAP_WIDTH, wid_spell_index % MAP_HEIGHT);
-    Thingp existing_thing = nullptr;
+    Thingp existing_spell = nullptr;
     FOR_ALL_THINGS_AT(g, v, level_select, spell, at)
     {
       if (spell != nullptr) {
-        existing_thing = spell;
+        existing_spell = spell;
         break;
       }
     }
 
-    if (existing_thing == nullptr) {
-      existing_thing = thing_spawn(g, v, level_select, tp, at);
-      if (existing_thing == nullptr) {
+    if (existing_spell == nullptr) {
+      existing_spell = thing_spawn(g, v, level_select, tp, at);
+      if (existing_spell == nullptr) {
         continue;
       }
     }
 
-    wid_spell_things.push_back(existing_thing);
+    if (! filter) {
+      //
+      // All spells
+      //
+      wid_spell_things.push_back(existing_spell);
+    } else {
+      //
+      // Match filter only
+      //
+      if (thing_spell_arcana(g, v, l, existing_spell) == filter) {
+        wid_spell_things.push_back(existing_spell);
+      }
+    }
 
     wid_spell_index++;
   }
@@ -752,8 +821,16 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player)
     spoint const br(18, y_at + 2);
     wid_set_pos(w, tl, br);
     wid_set_text(w, out);
-    wid_set_on_mouse_over_begin(w, wid_spell_learn_stats_arcana_fire_mouse_over_begin);
-    wid_set_on_mouse_over_end(w, wid_spell_learn_stats_mouse_over_end);
+    wid_set_on_mouse_down(w, wid_spell_learn_stats_arcana_fire_mouse_down);
+    if (filter == THING_STAT_ARCANA_FIRE) {
+      wid_set_mode(w, WID_MODE_OVER);
+      wid_set_style(w, UI_WID_STYLE_BUTTON_ROUNDED_SOLID);
+      wid_set_mode(w, WID_MODE_NORMAL);
+      wid_set_style(w, UI_WID_STYLE_BUTTON_ROUNDED_SOLID);
+    } else {
+      wid_set_on_mouse_over_begin(w, wid_spell_learn_stats_arcana_fire_mouse_over_begin);
+      wid_set_on_mouse_over_end(w, wid_spell_learn_stats_mouse_over_end);
+    }
   }
   {
     auto         out = thing_stat_mod_string(g, v, l, player, THING_STAT_ARCANA_LIFE);
@@ -762,8 +839,16 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player)
     spoint const br(27, y_at + 2);
     wid_set_pos(w, tl, br);
     wid_set_text(w, out);
-    wid_set_on_mouse_over_begin(w, wid_spell_learn_stats_arcana_life_mouse_over_begin);
-    wid_set_on_mouse_over_end(w, wid_spell_learn_stats_mouse_over_end);
+    wid_set_on_mouse_down(w, wid_spell_learn_stats_arcana_life_mouse_down);
+    if (filter == THING_STAT_ARCANA_LIFE) {
+      wid_set_mode(w, WID_MODE_OVER);
+      wid_set_style(w, UI_WID_STYLE_BUTTON_ROUNDED_SOLID);
+      wid_set_mode(w, WID_MODE_NORMAL);
+      wid_set_style(w, UI_WID_STYLE_BUTTON_ROUNDED_SOLID);
+    } else {
+      wid_set_on_mouse_over_begin(w, wid_spell_learn_stats_arcana_life_mouse_over_begin);
+      wid_set_on_mouse_over_end(w, wid_spell_learn_stats_mouse_over_end);
+    }
   }
   {
     auto         out = thing_stat_mod_string(g, v, l, player, THING_STAT_ARCANA_DEATH);
@@ -772,8 +857,16 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player)
     spoint const br(36, y_at + 2);
     wid_set_pos(w, tl, br);
     wid_set_text(w, out);
-    wid_set_on_mouse_over_begin(w, wid_spell_learn_stats_arcana_death_mouse_over_begin);
-    wid_set_on_mouse_over_end(w, wid_spell_learn_stats_mouse_over_end);
+    wid_set_on_mouse_down(w, wid_spell_learn_stats_arcana_death_mouse_down);
+    if (filter == THING_STAT_ARCANA_DEATH) {
+      wid_set_mode(w, WID_MODE_OVER);
+      wid_set_style(w, UI_WID_STYLE_BUTTON_ROUNDED_SOLID);
+      wid_set_mode(w, WID_MODE_NORMAL);
+      wid_set_style(w, UI_WID_STYLE_BUTTON_ROUNDED_SOLID);
+    } else {
+      wid_set_on_mouse_over_begin(w, wid_spell_learn_stats_arcana_death_mouse_over_begin);
+      wid_set_on_mouse_over_end(w, wid_spell_learn_stats_mouse_over_end);
+    }
   }
 
   y_at = menu_height - 2;

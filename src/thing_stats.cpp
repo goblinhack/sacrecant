@@ -89,6 +89,7 @@
 [[nodiscard]] auto stat_to_name(ThingStatType stat) -> const std::string
 {
   switch (stat) {
+    case THING_STAT_NONE :         return "-";
     case THING_STAT_ATT :          return "Att";
     case THING_STAT_DMG :          return "Dmg";
     case THING_STAT_DEF :          return "Def";

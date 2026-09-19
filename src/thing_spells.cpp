@@ -19,14 +19,14 @@ ThingStatType thing_spell_arcana(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
 
-  if (thing_stat(g, v, l, me, THING_STAT_ARCANA_FIRE) >= THING_STAT_DEFAULT) {
+  if (thing_stat(g, v, l, me, THING_STAT_ARCANA_FIRE) > THING_STAT_DEFAULT) {
     return THING_STAT_ARCANA_FIRE;
   }
-  if (thing_stat(g, v, l, me, THING_STAT_ARCANA_LIFE) >= THING_STAT_DEFAULT) {
+  if (thing_stat(g, v, l, me, THING_STAT_ARCANA_LIFE) > THING_STAT_DEFAULT) {
     return THING_STAT_ARCANA_LIFE;
   }
-  if (thing_stat(g, v, l, me, THING_STAT_ARCANA_DEATH) >= THING_STAT_DEFAULT) {
-    return THING_STAT_ARCANA_LIFE;
+  if (thing_stat(g, v, l, me, THING_STAT_ARCANA_DEATH) > THING_STAT_DEFAULT) {
+    return THING_STAT_ARCANA_DEATH;
   }
 
   thing_err(g, v, l, me, "no spell arcana");

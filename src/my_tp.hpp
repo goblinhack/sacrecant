@@ -630,7 +630,8 @@ ENUM_DEF_H(THING_EVENT_ENUM, ThingEventType)
 //
 #define THING_STAT_ENUM(list_macro)                                                                                                             \
   CLANG_FORMAT_INDENT()                             /* dummy line for clang indentation fixup */                                                \
-  list_macro(THING_STAT_ATT, "attack"),             /* newline */                                                                               \
+  list_macro(THING_STAT_NONE, "none"),              /* newline */                                                                               \
+      list_macro(THING_STAT_ATT, "attack"),         /* newline */                                                                               \
       list_macro(THING_STAT_DMG, "damage"),         /* newline */                                                                               \
       list_macro(THING_STAT_DEF, "defence"),        /* newline */                                                                               \
       list_macro(THING_STAT_STR, "strength"),       /* newline */                                                                               \
