@@ -110,7 +110,7 @@ static void wid_spell_learn_check_if_done(Gamep g)
   }
 }
 
-static auto wid_player_total_sac_points(Gamep g) -> int
+static auto wid_player_spent_points(Gamep g) -> int
 {
   TRACE();
 
@@ -135,12 +135,79 @@ static auto wid_player_total_sac_points(Gamep g) -> int
   return total_sac_points;
 }
 
+static int wid_player_avail_points(Gamep g)
+{
+  TRACE();
+
+  auto *v = levels_memory_alloc(g);
+  if (v == nullptr) {
+    return 0;
+  }
+
+  auto *l = game_level_get(g, v);
+  if (l == nullptr) {
+    return 0;
+  }
+
+  auto *player = thing_player(g);
+  if (player == nullptr) {
+    return 0;
+  }
+
+  auto spent = wid_player_spent_points(g);
+  auto avail = thing_sac_points(g, v, l, player) - spent;
+
+  return avail;
+}
+
+static void wid_player_update_spending(Gamep g)
+{
+  TRACE();
+
+  auto *v = levels_memory_alloc(g);
+  if (v == nullptr) {
+    return;
+  }
+
+  auto *l = game_level_get(g, v);
+  if (l == nullptr) {
+    return;
+  }
+
+  auto *player = thing_player(g);
+  if (player == nullptr) {
+    return;
+  }
+
+  auto spent = wid_player_spent_points(g);
+  auto avail = wid_player_avail_points(g);
+
+  auto a    = string_sprintf("Sacrificial points (SPs)");
+  auto b    = string_sprintf("Spent:%d", spent);
+  auto c    = string_sprintf("Avail:%d", avail);
+  auto line = string_sprintf("%-32s%10s%10s", a.c_str(), b.c_str(), c.c_str());
+
+  wid_set_text_lhs(wid_total, 1u);
+  wid_set_text(wid_total, line);
+  wid_update(g, wid_total);
+}
+
 static void wid_player_update_selections(Gamep g)
 {
   TRACE();
 
   auto *v = levels_memory_alloc(g);
   if (v == nullptr) {
+    return;
+  }
+
+  auto *l = game_level_get(g, v);
+  if (l == nullptr) {
+    return;
+  }
+
+  auto *player = thing_player(g);
+  if (player == nullptr) {
     return;
   }
 
@@ -173,13 +240,7 @@ static void wid_player_update_selections(Gamep g)
     }
   }
 
-  {
-    auto total_sac_points = wid_player_total_sac_points(g);
-    auto line             = string_sprintf("Sacrificial points (SPs) for spell casting       %d", total_sac_points);
-    wid_set_text_lhs(wid_total, 1u);
-    wid_set_text(wid_total, line);
-    wid_update(g, wid_total);
-  }
+  wid_player_update_spending(g);
 }
 
 static void wid_spell_learn_spell_via_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
@@ -240,10 +301,17 @@ static void wid_spell_learn_spell_via_mouse_over_end(Gamep g, Widp w)
     return false;
   }
 
+  auto cost  = thing_spell_cost(t);
+  auto avail = wid_player_avail_points(g);
+  topcon("cost: %d", cost);
+  topcon("avail: %d", avail);
+
   if (game_cand_spell_find(g, t)) {
     game_cand_spell_unset(g, t);
-  } else {
+    topcon("unset");
+  } else if (cost <= avail) {
     game_cand_spell_set(g, t);
+    topcon("set");
   }
 
   wid_spell_learn_check_if_done(g);
@@ -312,6 +380,7 @@ static void wid_spell_learn_spell_via_mouse_over_end(Gamep g, Widp w)
                 game_spell_mouse_over_currently_set(g, nullptr);
                 w = wid_spell[ c - 'a' ];
                 if (w != nullptr) {
+                  topcon("got one");
                   (void) wid_spell_learn_spell_via_mouse_down(g, w, -1, -1, 0);
                 }
                 break;
@@ -382,7 +451,7 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player)
   }
 
   const int player_select_width  = UI_INVENTORY_WIDTH + 2;
-  const int player_select_height = TERM_HEIGHT;
+  const int player_select_height = TERM_HEIGHT - UI_TOPCON_HEIGHT * 2;
 
   const auto button_width  = player_select_width - 2;
   const auto button_height = 0;
@@ -396,8 +465,8 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player)
 
   {
     TRACE();
-    spoint const tl((TERM_WIDTH / 2) - left_half, 0);
-    spoint const br((TERM_WIDTH / 2) + right_half - 1, TERM_HEIGHT - 1);
+    spoint const tl((TERM_WIDTH / 2) - left_half, UI_TOPCON_HEIGHT);
+    spoint const br((TERM_WIDTH / 2) + right_half - 1, TERM_HEIGHT - UI_TOPCON_HEIGHT);
 
     wid_spell_learn_window = wid_new_window(g, "widget spell_learn");
     wid_set_pos(wid_spell_learn_window, tl, br);
@@ -442,8 +511,6 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player)
     wid_spell_learn_list
         = new WidPopup(g, wid_spell_learn_window, "spell list", inner_tl, inner_br, nullptr, "", false, true, wid_spell_tps.size());
   }
-
-  memset(wid_spell, 0, sizeof(wid_spell));
 
   wid_spell_index = 0;
 
@@ -490,6 +557,8 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player)
   // Sort by spell_cost
   //
   std::ranges::sort(wid_spell_things, [](const Thingp &a, const Thingp &b) -> bool { return thing_spell_cost(a) < thing_spell_cost(b); });
+
+  memset(wid_spell, 0, sizeof(wid_spell));
 
   wid_spell_index = 0;
 
@@ -540,6 +609,7 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player)
     }
 
     y_at += button_step;
+
     wid_spell_index++;
   }
 
@@ -556,15 +626,14 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player)
     spoint const br(button_width, y_at + button_height);
     wid_set_pos(wid_total, tl, br);
 
-    auto total_sac_points = thing_sac_points(g, v, l, player);
-    auto line             = string_sprintf("SPs available to learning                          %2d", total_sac_points);
-
     wid_set_text_lhs(wid_total, 1u);
-    wid_set_text(wid_total, line);
-    wid_update(g, wid_total);
+    wid_player_update_spending(g);
   }
 
   wid_update(g, wid_spell_learn_window);
 
   game_state_change(g, STATE_SPELL_LEARN_MENU, "spell_learn");
+
+  botcon_newline();
+  botcon("Choose your spell(s) to learn");
 }
