@@ -248,20 +248,20 @@ void wid_throw_item_show(Gamep g, Levelsp v, Levelp l, Thingp player, std::vecto
     return;
   }
 
-  const int throw_width  = UI_INVENTORY_WIDTH;
-  const int throw_height = UI_INVENTORY_HEIGHT;
+  const int menu_width  = UI_INVENTORY_WIDTH;
+  const int menu_height = UI_INVENTORY_HEIGHT;
 
-  const auto button_width  = throw_width - 4;
+  const auto button_width  = menu_width - 4;
   const auto button_height = 0;
   const auto button_step   = 1;
   const auto button_style  = UI_WID_STYLE_SPARSE_NONE;
 
   auto y_at = 2;
 
-  const int left_half  = throw_width / 2;
-  const int right_half = throw_width - left_half;
-  const int top_half   = throw_height / 2;
-  const int bot_half   = throw_height - top_half;
+  const int left_half  = menu_width / 2;
+  const int right_half = menu_width - left_half;
+  const int top_half   = menu_height / 2;
+  const int bot_half   = menu_height - top_half;
 
   {
     TRACE();
@@ -281,7 +281,7 @@ void wid_throw_item_show(Gamep g, Levelsp v, Levelp l, Thingp player, std::vecto
     TRACE();
     auto        *w = wid_new_square_button(g, wid_throw_item_window, "text");
     spoint const tl(0, y_at);
-    spoint const br(throw_width, y_at);
+    spoint const br(menu_width, y_at);
     wid_set_pos(w, tl, br);
     wid_set_text(w, UI_FMT_STR "Mouse select an item or press key a-z");
     wid_set_style(w, UI_WID_STYLE_BUTTON_OUTLINE);
@@ -425,8 +425,8 @@ void wid_throw_item_show(Gamep g, Levelsp v, Levelp l, Thingp player, std::vecto
     TRACE();
     auto *w = wid_new_back_button(g, wid_throw_item_window, "BACK");
 
-    spoint const tl((throw_width / 2) - 4, throw_height - 4);
-    spoint const br((throw_width / 2) + 3, throw_height - 2);
+    spoint const tl((menu_width / 2) - 4, menu_height - 4);
+    spoint const br((menu_width / 2) + 3, menu_height - 2);
     wid_set_on_mouse_down(w, wid_throw_item_back);
     wid_set_pos(w, tl, br);
   }

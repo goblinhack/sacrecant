@@ -955,22 +955,29 @@ void wid_cfg_help_select(Gamep g)
     wid_cfg_help_destroy(g);
   }
 
-  auto m = TERM_WIDTH / 2;
+  const int menu_width  = UI_INVENTORY_WIDTH;
+  const int menu_height = TERM_HEIGHT;
 
-  spoint const outer_tl(m - (TERM_WIDTH / 4), 10);
-  spoint const outer_br(m + (TERM_WIDTH / 4), TERM_HEIGHT - 10);
-  auto         width = outer_br.x - outer_tl.x;
+  const int left_half  = menu_width / 2;
+  const int right_half = menu_width - left_half;
+  const int top_half   = menu_height / 2;
+  const int bot_half   = menu_height - top_half;
 
-  wid_cfg_help_window = new WidPopup(g, "Keyboard select", outer_tl, outer_br, nullptr, "", false, true);
   {
+    TRACE();
+    spoint const tl((TERM_WIDTH / 2) - left_half, (TERM_HEIGHT / 2) - top_half);
+    spoint const br((TERM_WIDTH / 2) + right_half - 1, (TERM_HEIGHT / 2) + bot_half - 1);
+
+    wid_cfg_help_window = new WidPopup(g, "Keyboard select", tl, br, nullptr, "", false, true);
+
     TRACE();
     Widp w = wid_cfg_help_window->wid_popup_container;
     wid_set_on_key_down(w, wid_cfg_help_key_down);
     wid_set_style(w, UI_WID_STYLE_BUTTON_OUTLINE);
   }
 
-  auto rhs_button_left  = 5;
-  auto rhs_button_right = 33;
+  auto rhs_button_left  = menu_width - 14;
+  auto rhs_button_right = menu_width - 3;
 
   int y_at = 0;
   {
@@ -979,7 +986,7 @@ void wid_cfg_help_select(Gamep g)
     auto *w = wid_new_square_button(g, p, "Keyboard");
 
     spoint const tl(0, y_at);
-    spoint const br(width, y_at);
+    spoint const br(menu_width, y_at);
     wid_set_shape_none(w);
     wid_set_pos(w, tl, br);
     wid_set_text(w, "Keyboard");
@@ -1001,8 +1008,8 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_save_button(g, p, "Save");
 
-    spoint const tl(width - 17, y_at);
-    spoint const br(width - 12, y_at + 2);
+    spoint const tl(menu_width - 17, y_at);
+    spoint const br(menu_width - 12, y_at + 2);
     wid_set_on_mouse_down(w, wid_cfg_help_save);
     wid_set_pos(w, tl, br);
     wid_set_text(w, "Save");
@@ -1012,8 +1019,8 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_cancel_button(g, p, "Cancel");
 
-    spoint const tl(width - 10, y_at);
-    spoint const br(width - 3, y_at + 2);
+    spoint const tl(menu_width - 10, y_at);
+    spoint const br(menu_width - 3, y_at + 2);
     wid_set_on_mouse_down(w, wid_cfg_help_cancel);
     wid_set_pos(w, tl, br);
     wid_set_text(w, "Cancel");
@@ -1030,7 +1037,7 @@ void wid_cfg_help_select(Gamep g)
     auto *w = wid_new_bar_button(g, p, "");
 
     spoint const tl(1, y_at);
-    spoint const br(width - 3, y_at);
+    spoint const br(menu_width - 3, y_at);
     wid_set_on_mouse_down(w, wid_cfg_help_profile_wasd);
     wid_set_pos(w, tl, br);
     wid_set_text(w, "Use W,A,S,D for moving");
@@ -1042,7 +1049,7 @@ void wid_cfg_help_select(Gamep g)
     auto *w = wid_new_bar_button(g, p, "");
 
     spoint const tl(1, y_at);
-    spoint const br(width - 3, y_at);
+    spoint const br(menu_width - 3, y_at);
     wid_set_on_mouse_down(w, wid_cfg_help_profile_arrow_keys);
     wid_set_pos(w, tl, br);
     wid_set_text(w, "Use arrow keys for moving");
@@ -1058,8 +1065,8 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_square_button(g, p, "save");
 
-    spoint const tl(1, y_at);
-    spoint const br(width / 2, y_at);
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
     wid_set_shape_none(w);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
@@ -1070,8 +1077,9 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_bar_button(g, p, "value");
 
-    spoint const tl((width / 2) + rhs_button_left, y_at);
-    spoint const br((width / 2) + rhs_button_right, y_at);
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
     wid_set_pos(w, tl, br);
     wid_set_text(w, ::to_string(game_key_save_get(g)));
     wid_set_on_mouse_down(w, wid_cfg_key_save);
@@ -1085,8 +1093,8 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_square_button(g, p, "load");
 
-    spoint const tl(1, y_at);
-    spoint const br(width / 2, y_at);
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
     wid_set_shape_none(w);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
@@ -1097,8 +1105,9 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_bar_button(g, p, "value");
 
-    spoint const tl((width / 2) + rhs_button_left, y_at);
-    spoint const br((width / 2) + rhs_button_right, y_at);
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
     wid_set_pos(w, tl, br);
     wid_set_text(w, ::to_string(game_key_load_get(g)));
     wid_set_on_mouse_down(w, wid_cfg_key_load);
@@ -1113,8 +1122,8 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_square_button(g, p, "Move up");
 
-    spoint const tl(1, y_at);
-    spoint const br(width / 2, y_at);
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
     wid_set_shape_none(w);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
@@ -1125,8 +1134,9 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_bar_button(g, p, "value");
 
-    spoint const tl((width / 2) + rhs_button_left, y_at);
-    spoint const br((width / 2) + rhs_button_right, y_at);
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
     wid_set_pos(w, tl, br);
     wid_set_text(w, ::to_string(game_key_move_up_get(g)));
     wid_set_on_mouse_down(w, wid_cfg_key_move_up);
@@ -1141,8 +1151,8 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_square_button(g, p, "Move left");
 
-    spoint const tl(1, y_at);
-    spoint const br(width / 2, y_at);
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
     wid_set_shape_none(w);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
@@ -1153,8 +1163,9 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_bar_button(g, p, "value");
 
-    spoint const tl((width / 2) + rhs_button_left, y_at);
-    spoint const br((width / 2) + rhs_button_right, y_at);
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
     wid_set_pos(w, tl, br);
     wid_set_text(w, ::to_string(game_key_move_left_get(g)));
     wid_set_on_mouse_down(w, wid_cfg_key_move_left);
@@ -1169,8 +1180,8 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_square_button(g, p, "Move down");
 
-    spoint const tl(1, y_at);
-    spoint const br(width / 2, y_at);
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
     wid_set_shape_none(w);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
@@ -1181,8 +1192,9 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_bar_button(g, p, "value");
 
-    spoint const tl((width / 2) + rhs_button_left, y_at);
-    spoint const br((width / 2) + rhs_button_right, y_at);
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
     wid_set_pos(w, tl, br);
     wid_set_text(w, ::to_string(game_key_move_down_get(g)));
     wid_set_on_mouse_down(w, wid_cfg_key_move_down);
@@ -1197,8 +1209,8 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_square_button(g, p, "Move right");
 
-    spoint const tl(1, y_at);
-    spoint const br(width / 2, y_at);
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
     wid_set_shape_none(w);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
@@ -1209,8 +1221,9 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_bar_button(g, p, "value");
 
-    spoint const tl((width / 2) + rhs_button_left, y_at);
-    spoint const br((width / 2) + rhs_button_right, y_at);
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
     wid_set_pos(w, tl, br);
     wid_set_text(w, ::to_string(game_key_move_right_get(g)));
     wid_set_on_mouse_down(w, wid_cfg_key_move_right);
@@ -1225,8 +1238,8 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_square_button(g, p, "fire");
 
-    spoint const tl(1, y_at);
-    spoint const br(width / 2, y_at);
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
     wid_set_shape_none(w);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
@@ -1237,8 +1250,9 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_bar_button(g, p, "value");
 
-    spoint const tl((width / 2) + rhs_button_left, y_at);
-    spoint const br((width / 2) + rhs_button_right, y_at);
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
     wid_set_pos(w, tl, br);
     wid_set_text(w, ::to_string(game_key_fire_get(g)));
     wid_set_on_mouse_down(w, wid_cfg_key_fire);
@@ -1253,8 +1267,8 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_square_button(g, p, "jump");
 
-    spoint const tl(1, y_at);
-    spoint const br(width / 2, y_at);
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
     wid_set_shape_none(w);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
@@ -1265,8 +1279,9 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_bar_button(g, p, "value");
 
-    spoint const tl((width / 2) + rhs_button_left, y_at);
-    spoint const br((width / 2) + rhs_button_right, y_at);
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
     wid_set_pos(w, tl, br);
     wid_set_text(w, ::to_string(game_key_jump_get(g)));
     wid_set_on_mouse_down(w, wid_cfg_key_jump);
@@ -1280,8 +1295,8 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_square_button(g, p, "key_throw");
 
-    spoint const tl(1, y_at);
-    spoint const br(width / 2, y_at);
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
     wid_set_shape_none(w);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
@@ -1292,8 +1307,9 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_bar_button(g, p, "value");
 
-    spoint const tl((width / 2) + rhs_button_left, y_at);
-    spoint const br((width / 2) + rhs_button_right, y_at);
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
     wid_set_pos(w, tl, br);
     wid_set_text(w, ::to_string(game_key_throw_get(g)));
     wid_set_on_mouse_down(w, wid_cfg_key_throw);
@@ -1307,8 +1323,8 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_square_button(g, p, "key_abort");
 
-    spoint const tl(1, y_at);
-    spoint const br(width / 2, y_at);
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
     wid_set_shape_none(w);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
@@ -1319,8 +1335,9 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_bar_button(g, p, "value");
 
-    spoint const tl((width / 2) + rhs_button_left, y_at);
-    spoint const br((width / 2) + rhs_button_right, y_at);
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
     wid_set_pos(w, tl, br);
     wid_set_text(w, ::to_string(game_key_abort_get(g)));
     wid_set_on_mouse_down(w, wid_cfg_key_abort);
@@ -1339,8 +1356,8 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_square_button(g, p, "Wait");
 
-    spoint const tl(1, y_at);
-    spoint const br(width / 2, y_at);
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
     wid_set_shape_none(w);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
@@ -1351,8 +1368,9 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_bar_button(g, p, "value");
 
-    spoint const tl((width / 2) + rhs_button_left, y_at);
-    spoint const br((width / 2) + rhs_button_right, y_at);
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
     wid_set_pos(w, tl, br);
     wid_set_text(w, ::to_string(game_key_wait_get(g)));
     wid_set_on_mouse_down(w, wid_cfg_key_wait);
@@ -1367,8 +1385,8 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_square_button(g, p, "inventory");
 
-    spoint const tl(1, y_at);
-    spoint const br(width / 2, y_at);
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
     wid_set_shape_none(w);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
@@ -1379,8 +1397,9 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_bar_button(g, p, "value");
 
-    spoint const tl((width / 2) + rhs_button_left, y_at);
-    spoint const br((width / 2) + rhs_button_right, y_at);
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
     wid_set_pos(w, tl, br);
     wid_set_text(w, ::to_string(game_key_inventory_get(g)));
     wid_set_on_mouse_down(w, wid_cfg_key_inventory);
@@ -1395,8 +1414,8 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_square_button(g, p, "Learn");
 
-    spoint const tl(1, y_at);
-    spoint const br(width / 2, y_at);
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
     wid_set_shape_none(w);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
@@ -1407,8 +1426,9 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_bar_button(g, p, "value");
 
-    spoint const tl((width / 2) + rhs_button_left, y_at);
-    spoint const br((width / 2) + rhs_button_right, y_at);
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
     wid_set_pos(w, tl, br);
     wid_set_text(w, ::to_string(game_key_learn_get(g)));
     wid_set_on_mouse_down(w, wid_cfg_key_learn);
@@ -1423,8 +1443,8 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_square_button(g, p, "Ascend");
 
-    spoint const tl(1, y_at);
-    spoint const br(width / 2, y_at);
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
     wid_set_shape_none(w);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
@@ -1435,8 +1455,9 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_bar_button(g, p, "value");
 
-    spoint const tl((width / 2) + rhs_button_left, y_at);
-    spoint const br((width / 2) + rhs_button_right, y_at);
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
     wid_set_pos(w, tl, br);
     wid_set_text(w, ::to_string(game_key_ascend_get(g)));
     wid_set_on_mouse_down(w, wid_cfg_key_ascend);
@@ -1451,8 +1472,8 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_square_button(g, p, "Descend");
 
-    spoint const tl(1, y_at);
-    spoint const br(width / 2, y_at);
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
     wid_set_shape_none(w);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
@@ -1463,8 +1484,9 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_bar_button(g, p, "value");
 
-    spoint const tl((width / 2) + rhs_button_left, y_at);
-    spoint const br((width / 2) + rhs_button_right, y_at);
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
     wid_set_pos(w, tl, br);
     wid_set_text(w, ::to_string(game_key_descend_get(g)));
     wid_set_on_mouse_down(w, wid_cfg_key_descend);
@@ -1483,8 +1505,8 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_square_button(g, p, "Change zoom");
 
-    spoint const tl(1, y_at);
-    spoint const br(width / 2, y_at);
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
     wid_set_shape_none(w);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
@@ -1495,8 +1517,9 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_bar_button(g, p, "Change zoom");
 
-    spoint const tl((width / 2) + rhs_button_left, y_at);
-    spoint const br((width / 2) + rhs_button_right, y_at);
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
     wid_set_pos(w, tl, br);
     wid_set_text(w, ::to_string(game_key_zoom_get(g)));
     wid_set_on_mouse_down(w, wid_cfg_key_zoom);
@@ -1511,8 +1534,8 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_square_button(g, p, "Take a screenshot");
 
-    spoint const tl(1, y_at);
-    spoint const br(width / 2, y_at);
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
     wid_set_shape_none(w);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
@@ -1523,8 +1546,9 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_bar_button(g, p, "value");
 
-    spoint const tl((width / 2) + rhs_button_left, y_at);
-    spoint const br((width / 2) + rhs_button_right, y_at);
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
     wid_set_pos(w, tl, br);
     wid_set_text(w, ::to_string(game_key_screenshot_get(g)));
     wid_set_on_mouse_down(w, wid_cfg_key_screenshot);
@@ -1543,8 +1567,8 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_square_button(g, p, "quit");
 
-    spoint const tl(1, y_at);
-    spoint const br(width / 2, y_at);
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
     wid_set_shape_none(w);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
@@ -1555,8 +1579,9 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_bar_button(g, p, "value");
 
-    spoint const tl((width / 2) + rhs_button_left, y_at);
-    spoint const br((width / 2) + rhs_button_right, y_at);
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
     wid_set_pos(w, tl, br);
     wid_set_text(w, ::to_string(game_key_quit_get(g)));
     wid_set_on_mouse_down(w, wid_cfg_key_quit);
@@ -1570,8 +1595,8 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_square_button(g, p, "console");
 
-    spoint const tl(1, y_at);
-    spoint const br(width / 2, y_at);
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
     wid_set_shape_none(w);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
@@ -1582,8 +1607,9 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_bar_button(g, p, "console");
 
-    spoint const tl((width / 2) + rhs_button_left, y_at);
-    spoint const br((width / 2) + rhs_button_right, y_at);
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
     wid_set_pos(w, tl, br);
     wid_set_text(w, ::to_string(game_key_console_get(g)));
     wid_set_on_mouse_down(w, wid_cfg_key_console);
@@ -1597,8 +1623,8 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_square_button(g, p, "help");
 
-    spoint const tl(1, y_at);
-    spoint const br(width / 2, y_at);
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
     wid_set_shape_none(w);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
@@ -1609,8 +1635,9 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_bar_button(g, p, "value");
 
-    spoint const tl((width / 2) + rhs_button_left, y_at);
-    spoint const br((width / 2) + rhs_button_right, y_at);
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
     wid_set_pos(w, tl, br);
     wid_set_text(w, ::to_string(game_key_help_get(g)));
     wid_set_on_mouse_down(w, wid_cfg_key_help);
@@ -1626,8 +1653,8 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_square_button(g, p, "key_unused1");
 
-    spoint const tl(1, y_at);
-    spoint const br(width / 2, y_at);
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
     wid_set_shape_none(w);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
@@ -1638,8 +1665,9 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_bar_button(g, p, "value");
 
-    spoint const tl((width / 2) + rhs_button_left, y_at);
-    spoint const br((width / 2) + rhs_button_right, y_at);
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
     wid_set_pos(w, tl, br);
     wid_set_text(w, ::to_string(game_key_unused1_get(g)));
     wid_set_on_mouse_down(w, wid_cfg_key_unused1);
@@ -1653,8 +1681,8 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_square_button(g, p, "key_unused2");
 
-    spoint const tl(1, y_at);
-    spoint const br(width / 2, y_at);
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
     wid_set_shape_none(w);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
@@ -1665,8 +1693,9 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_bar_button(g, p, "value");
 
-    spoint const tl((width / 2) + rhs_button_left, y_at);
-    spoint const br((width / 2) + rhs_button_right, y_at);
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
     wid_set_pos(w, tl, br);
     wid_set_text(w, ::to_string(game_key_unused2_get(g)));
     wid_set_on_mouse_down(w, wid_cfg_key_unused2);
@@ -1680,8 +1709,8 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_square_button(g, p, "key_unused3");
 
-    spoint const tl(1, y_at);
-    spoint const br(width / 2, y_at);
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
     wid_set_shape_none(w);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
@@ -1692,8 +1721,9 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_bar_button(g, p, "value");
 
-    spoint const tl((width / 2) + rhs_button_left, y_at);
-    spoint const br((width / 2) + rhs_button_right, y_at);
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
     wid_set_pos(w, tl, br);
     wid_set_text(w, ::to_string(game_key_unused3_get(g)));
     wid_set_on_mouse_down(w, wid_cfg_key_unused3);
@@ -1707,8 +1737,8 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_square_button(g, p, "key_unused4");
 
-    spoint const tl(1, y_at);
-    spoint const br(width / 2, y_at);
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
     wid_set_shape_none(w);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
@@ -1719,8 +1749,9 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_bar_button(g, p, "value");
 
-    spoint const tl((width / 2) + rhs_button_left, y_at);
-    spoint const br((width / 2) + rhs_button_right, y_at);
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
     wid_set_pos(w, tl, br);
     wid_set_text(w, ::to_string(game_key_unused4_get(g)));
     wid_set_on_mouse_down(w, wid_cfg_key_unused4);
@@ -1734,8 +1765,8 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_square_button(g, p, "key_unused5");
 
-    spoint const tl(1, y_at);
-    spoint const br(width / 2, y_at);
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
     wid_set_shape_none(w);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
@@ -1746,8 +1777,9 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_bar_button(g, p, "value");
 
-    spoint const tl((width / 2) + rhs_button_left, y_at);
-    spoint const br((width / 2) + rhs_button_right, y_at);
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
     wid_set_pos(w, tl, br);
     wid_set_text(w, ::to_string(game_key_unused5_get(g)));
     wid_set_on_mouse_down(w, wid_cfg_key_unused5);
@@ -1761,8 +1793,8 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_square_button(g, p, "key_unused6");
 
-    spoint const tl(1, y_at);
-    spoint const br(width / 2, y_at);
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
     wid_set_shape_none(w);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
@@ -1773,8 +1805,9 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_bar_button(g, p, "value");
 
-    spoint const tl((width / 2) + rhs_button_left, y_at);
-    spoint const br((width / 2) + rhs_button_right, y_at);
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
     wid_set_pos(w, tl, br);
     wid_set_text(w, ::to_string(game_key_unused6_get(g)));
     wid_set_on_mouse_down(w, wid_cfg_key_unused6);
@@ -1788,8 +1821,8 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_square_button(g, p, "key_unused7");
 
-    spoint const tl(1, y_at);
-    spoint const br(width / 2, y_at);
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
     wid_set_shape_none(w);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
@@ -1800,8 +1833,9 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_bar_button(g, p, "value");
 
-    spoint const tl((width / 2) + rhs_button_left, y_at);
-    spoint const br((width / 2) + rhs_button_right, y_at);
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
     wid_set_pos(w, tl, br);
     wid_set_text(w, ::to_string(game_key_unused7_get(g)));
     wid_set_on_mouse_down(w, wid_cfg_key_unused7);
@@ -1815,8 +1849,8 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_square_button(g, p, "key_unused8");
 
-    spoint const tl(1, y_at);
-    spoint const br(width / 2, y_at);
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
     wid_set_shape_none(w);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
@@ -1827,8 +1861,9 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_bar_button(g, p, "value");
 
-    spoint const tl((width / 2) + rhs_button_left, y_at);
-    spoint const br((width / 2) + rhs_button_right, y_at);
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
     wid_set_pos(w, tl, br);
     wid_set_text(w, ::to_string(game_key_unused8_get(g)));
     wid_set_on_mouse_down(w, wid_cfg_key_unused8);
@@ -1842,8 +1877,8 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_square_button(g, p, "key_unused9");
 
-    spoint const tl(1, y_at);
-    spoint const br(width / 2, y_at);
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
     wid_set_shape_none(w);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
@@ -1854,8 +1889,9 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_bar_button(g, p, "value");
 
-    spoint const tl((width / 2) + rhs_button_left, y_at);
-    spoint const br((width / 2) + rhs_button_right, y_at);
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
     wid_set_pos(w, tl, br);
     wid_set_text(w, ::to_string(game_key_unused9_get(g)));
     wid_set_on_mouse_down(w, wid_cfg_key_unused9);
@@ -1869,8 +1905,8 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_square_button(g, p, "key_unused10");
 
-    spoint const tl(1, y_at);
-    spoint const br(width / 2, y_at);
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
     wid_set_shape_none(w);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
@@ -1881,8 +1917,9 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_bar_button(g, p, "value");
 
-    spoint const tl((width / 2) + rhs_button_left, y_at);
-    spoint const br((width / 2) + rhs_button_right, y_at);
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
     wid_set_pos(w, tl, br);
     wid_set_text(w, ::to_string(game_key_unused10_get(g)));
     wid_set_on_mouse_down(w, wid_cfg_key_unused10);
@@ -1896,8 +1933,8 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_square_button(g, p, "key_unused11");
 
-    spoint const tl(1, y_at);
-    spoint const br(width / 2, y_at);
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
     wid_set_shape_none(w);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
@@ -1908,8 +1945,10 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_bar_button(g, p, "value");
 
-    spoint const tl((width / 2) + rhs_button_left, y_at);
-    spoint const br((width / 2) + rhs_button_right, y_at);
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
+    wid_set_text_rhs(w);
     wid_set_pos(w, tl, br);
     wid_set_text(w, ::to_string(game_key_unused11_get(g)));
     wid_set_on_mouse_down(w, wid_cfg_key_unused11);
@@ -1923,8 +1962,8 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_square_button(g, p, "key_unused12");
 
-    spoint const tl(1, y_at);
-    spoint const br(width / 2, y_at);
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
     wid_set_shape_none(w);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
@@ -1935,8 +1974,9 @@ void wid_cfg_help_select(Gamep g)
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
     auto *w = wid_new_bar_button(g, p, "value");
 
-    spoint const tl((width / 2) + rhs_button_left, y_at);
-    spoint const br((width / 2) + rhs_button_right, y_at);
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
     wid_set_pos(w, tl, br);
     wid_set_text(w, ::to_string(game_key_unused12_get(g)));
     wid_set_on_mouse_down(w, wid_cfg_key_unused12);

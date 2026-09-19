@@ -155,7 +155,7 @@ void wid_main_menu_hide(Gamep g)
 
   auto s = to_string(*key);
 
-  if (s == "<Space>" || s == "<Return>" || s == "n" || s == "N") {
+  if (s == "<Sp>" || s == "<Ret>" || s == "n" || s == "N") {
     TRACE();
     ((void) sound_play(g, "keypress"));
     (void) game_menu_new_game(g, nullptr, 0, 0, 0);

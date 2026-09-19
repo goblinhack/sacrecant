@@ -718,20 +718,20 @@ void wid_player_select(Gamep g)
     wid_player_select_destroy(g);
   }
 
-  const int player_select_width  = UI_INVENTORY_WIDTH;
-  const int player_select_height = UI_INVENTORY_HEIGHT;
+  const int menu_width  = UI_INVENTORY_WIDTH;
+  const int menu_height = UI_INVENTORY_HEIGHT;
 
-  const auto button_width  = player_select_width - 2;
+  const auto button_width  = menu_width - 2;
   const auto button_height = 0;
   const auto button_step   = 1;
   const auto button_style  = UI_WID_STYLE_SPARSE_NONE;
 
   auto y_at = 2;
 
-  const int left_half  = player_select_width / 2;
-  const int right_half = player_select_width - left_half;
-  const int top_half   = player_select_height / 2;
-  const int bot_half   = player_select_height - top_half;
+  const int left_half  = menu_width / 2;
+  const int right_half = menu_width - left_half;
+  const int top_half   = menu_height / 2;
+  const int bot_half   = menu_height - top_half;
 
   {
     TRACE();
@@ -750,7 +750,7 @@ void wid_player_select(Gamep g)
     TRACE();
     auto        *w = wid_new_square_button(g, wid_player_select_window, "text");
     spoint const tl(0, y_at);
-    spoint const br(player_select_width, y_at);
+    spoint const br(menu_width, y_at);
     wid_set_pos(w, tl, br);
     if (v->tick != 0U) {
       wid_set_text(w, UI_INFO_FMT_STR "Choose your next sacrifices");
@@ -767,7 +767,7 @@ void wid_player_select(Gamep g)
     TRACE();
     auto        *w = wid_player_select_lucky_dip_window = wid_new_square_button(g, wid_player_select_window, "text");
     spoint const tl(0, y_at);
-    spoint const br(player_select_width, y_at);
+    spoint const br(menu_width, y_at);
     wid_set_pos(w, tl, br);
     wid_set_text(w, UI_INFO1_FMT_STR "Or press 'SPACE' for unlucky dip!");
     wid_set_style(w, UI_WID_STYLE_BUTTON_OUTLINE);

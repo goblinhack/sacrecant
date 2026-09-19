@@ -45,7 +45,7 @@ static void wid_intro1_destroy(Gamep g)
 
   auto s = to_string(*key);
 
-  if (s == "<Space>" || s == "<Return>" || s == "n" || s == "N") {
+  if (s == "<Sp>" || s == "<Ret>" || s == "n" || s == "N") {
     TRACE();
     (void) sound_play(g, "keypress");
     wid_intro1_destroy(g);
@@ -54,7 +54,7 @@ static void wid_intro1_destroy(Gamep g)
     return true;
   }
 
-  if (s == "<Escape>" || s == "b" || s == "B") {
+  if (s == "<Esc>" || s == "b" || s == "B") {
     TRACE();
     wid_intro1_destroy(g);
     (void) sound_play(g, "select");

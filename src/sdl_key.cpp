@@ -295,7 +295,7 @@
   }
 
   if ((k.scancode == SDL_SCANCODE_ESCAPE) || (k.sym == SDLK_ESCAPE)) {
-    return "<Escape>";
+    return "<Esc>";
   }
 
   if ((k.scancode == SDL_SCANCODE_EXECUTE) || (k.sym == SDLK_EXECUTE)) {
@@ -795,11 +795,11 @@
   }
 
   if ((k.scancode == SDL_SCANCODE_RETURN) || (k.sym == SDLK_RETURN)) {
-    return "<Return>";
+    return "<Ret>";
   }
 
   if ((k.scancode == SDL_SCANCODE_RETURN2) || (k.sym == SDLK_RETURN2)) {
-    return "<Return>";
+    return "<Ret>";
   }
 
   if ((k.scancode == SDL_SCANCODE_RIGHTBRACKET) || (k.sym == SDLK_RIGHTBRACKET)) {
@@ -835,7 +835,7 @@
   }
 
   if ((k.scancode == SDL_SCANCODE_SPACE) || (k.sym == SDLK_SPACE)) {
-    return "<Space>";
+    return "<Sp>";
   }
 
   if ((k.scancode == SDL_SCANCODE_STOP) || (k.sym == SDLK_STOP)) {

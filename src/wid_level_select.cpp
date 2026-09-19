@@ -49,7 +49,7 @@ void wid_level_select_destroy()
 
   auto s = to_string(*key);
 
-  if (s == "<Return>" || s == "<Space>" || s == "<Escape>" || s == "n" || s == "N") {
+  if (s == "<Ret>" || s == "<Sp>" || s == "<Esc>" || s == "n" || s == "N") {
     TRACE();
     (void) sound_play(g, "keypress");
 

@@ -188,7 +188,7 @@ static void wid_player_update_spending(Gamep g)
   auto a    = string_sprintf("Sacrificial points (SPs)");
   auto b    = string_sprintf("Spent:%d", spent);
   auto c    = string_sprintf("Avail:%d", avail);
-  auto line = string_sprintf("%-32s%10s%10s", a.c_str(), b.c_str(), c.c_str());
+  auto line = string_sprintf("%-30s%10s%10s", a.c_str(), b.c_str(), c.c_str());
 
   wid_set_text_lhs(wid_total, 1u);
   wid_set_text(wid_total, line);
@@ -251,7 +251,7 @@ static void wid_player_update_selections(Gamep g)
     s += ") ";
 
     s += capitalize_first(tp_name_long(tp));
-    s = string_sprintf("%-53s", s.c_str());
+    s = string_sprintf("%-51s", s.c_str());
     s += "%%fg=reset$";
     s += "%%fg=orange$Fire%%fg=reset$    ";
     s += string_sprintf("%2d", spell_cost);
@@ -485,22 +485,22 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player)
     wid_spell_tps.push_back(tp);
   }
 
-  const int player_select_width  = UI_INVENTORY_WIDTH + 2;
-  const int player_select_height = TERM_HEIGHT - UI_TOPCON_HEIGHT * 2 - 6;
+  const int menu_width  = UI_INVENTORY_WIDTH;
+  const int menu_height = TERM_HEIGHT - UI_TOPCON_HEIGHT * 2 - 6;
 
-  const auto button_width  = player_select_width - 2;
+  const auto button_width  = menu_width - 2;
   const auto button_height = 0;
   const auto button_step   = 1;
 
   auto y_at = 1;
 
-  const int left_half  = player_select_width / 2;
-  const int right_half = player_select_width - left_half;
+  const int left_half  = menu_width / 2;
+  const int right_half = menu_width - left_half;
 
   {
     TRACE();
     spoint const tl((TERM_WIDTH / 2) - left_half, UI_TOPCON_HEIGHT + 1);
-    spoint const br((TERM_WIDTH / 2) + right_half - 1, tl.y + player_select_height - 1);
+    spoint const br((TERM_WIDTH / 2) + right_half - 1, tl.y + menu_height - 1);
 
     wid_spell_learn_window = wid_new_window(g, "widget spell_learn");
     wid_set_pos(wid_spell_learn_window, tl, br);
@@ -514,7 +514,7 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player)
     TRACE();
     auto        *w = wid_new_square_button(g, wid_spell_learn_window, "text");
     spoint const tl(0, y_at);
-    spoint const br(player_select_width, y_at);
+    spoint const br(menu_width, y_at);
     wid_set_pos(w, tl, br);
     wid_set_text(w, UI_INFO_FMT_STR "Choose spell(s) to learn.");
     wid_set_style(w, UI_WID_STYLE_BUTTON_OUTLINE);
@@ -534,13 +534,13 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player)
     spoint const br(button_width, y_at + button_height);
     wid_set_text_lhs(w, 1u);
     wid_set_pos(w, tl, br);
-    wid_set_text(w, UI_INFO_FMT_STR "Spell name                                Arcana  SP");
+    wid_set_text(w, UI_INFO_FMT_STR "Spell name                              Arcana  SP");
     y_at++;
   }
 
   {
     spoint inner_tl(1, 5);
-    spoint inner_br(player_select_width - 2, player_select_height - 4);
+    spoint inner_br(menu_width - 2, menu_height - 4);
 
     wid_spell_learn_list
         = new WidPopup(g, wid_spell_learn_window, "spell list", inner_tl, inner_br, nullptr, "", false, true, wid_spell_tps.size());
@@ -620,7 +620,7 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player)
     wid_spell_index++;
   }
 
-  y_at = player_select_height - 2;
+  y_at = menu_height - 2;
 
   //
   // Total sac_points
