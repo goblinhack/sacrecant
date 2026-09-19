@@ -40,6 +40,7 @@ static Widp      wid_total;
 static Widp      wid_spell_learn_window;
 static WidPopup *wid_spell_learn_list;
 static WidPopup *wid_spell_learn_learn_window;
+static WidPopup *wid_over_stats;
 
 static Widp wid_spell[ TP_ID_MAX ];
 
@@ -253,7 +254,16 @@ static void wid_player_update_selections(Gamep g)
     s += capitalize_first(tp_name_long(tp));
     s = string_sprintf("%-51s", s.c_str());
     s += "%%fg=reset$";
-    s += "%%fg=orange$Fire%%fg=reset$    ";
+    if (thing_stat(g, v, l, t, THING_STAT_ARCANA_FIRE) >= THING_STAT_DEFAULT) {
+      s += "%%fg=orange$Fire%%fg=reset$    ";
+    } else if (thing_stat(g, v, l, t, THING_STAT_ARCANA_DEATH) >= THING_STAT_DEFAULT) {
+      s += "%%fg=gray50$Death%%fg=reset$   ";
+    } else if (thing_stat(g, v, l, t, THING_STAT_ARCANA_LIFE) >= THING_STAT_DEFAULT) {
+      s += "%%fg=green$Life%%fg=reset$    ";
+    } else {
+      s += "-    ";
+    }
+
     s += string_sprintf("%2d", spell_cost);
 
     wid_set_text(w, s);
@@ -462,6 +472,125 @@ static void wid_spell_learn_spell_via_mouse_over_end(Gamep g, Widp w)
   return false;
 }
 
+static void wid_spell_learn_stats_arcana_fire_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
+{
+  TRACE();
+
+  int tlx = 0;
+  int tly = 0;
+  int brx = 0;
+  int bry = 0;
+  wid_get_abs_coords(w, &tlx, &tly, &brx, &bry);
+
+  int const width  = UI_INVENTORY_WIDTH;
+  int const height = 16;
+
+  tlx = UI_LEFTBAR_WIDTH;
+  tly -= 12;
+  brx = tlx + width;
+  bry = tly + height;
+
+  spoint const tl(tlx, tly);
+  spoint const br(brx, bry);
+
+  wid_over_stats = new WidPopup(g, "stats", tl, br, nullptr, "", false, false);
+  wid_over_stats->log(g, UI_HIGHLIGHT_FMT_STR "Fire Arcana");
+  wid_over_stats->log_empty_line(g);
+  wid_over_stats->log(g, UI_INFO1_FMT_STR "With the Fire Arcana, you specialize in all things flaming hot, fireballs, scorched earth etc...\n",
+                      TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO2_FMT_STR "Fire modifiers can impact costs and mana drain.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO1_FMT_STR " - -3 modifier increases Fire cost by 1.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO1_FMT_STR " - +3 modifier reduces Fire cost by 1.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO1_FMT_STR " - +5 modifier reduces Fire casting mana by 50%%%.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO2_FMT_STR "Select this to filter spells to Fire only.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->compress(g);
+
+  level_cursor_path_reset(g);
+}
+
+static void wid_spell_learn_stats_arcana_life_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
+{
+  TRACE();
+
+  int tlx = 0;
+  int tly = 0;
+  int brx = 0;
+  int bry = 0;
+  wid_get_abs_coords(w, &tlx, &tly, &brx, &bry);
+
+  int const width  = UI_INVENTORY_WIDTH;
+  int const height = 17;
+
+  tlx = UI_LEFTBAR_WIDTH;
+  tly -= 14;
+  brx = tlx + width;
+  bry = tly + height;
+
+  spoint const tl(tlx, tly);
+  spoint const br(brx, bry);
+
+  wid_over_stats = new WidPopup(g, "stats", tl, br, nullptr, "", false, false);
+  wid_over_stats->log(g, UI_HIGHLIGHT_FMT_STR "Life Arcana");
+  wid_over_stats->log_empty_line(g);
+  wid_over_stats->log(g,
+                      UI_INFO1_FMT_STR "With the Life Arcana, you specialize in all things living, plant summoning, healing of allies etc...\n",
+                      TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO2_FMT_STR "Modifiers can impact costs and mana drain.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO1_FMT_STR " - -3 modifier increases Life cost by 1.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO1_FMT_STR " - +3 modifier reduces Life cost by 1.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO1_FMT_STR " - +5 modifier reduces Life casting mana by 50%%%.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO2_FMT_STR "Select this to filter spells to Life only.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_IMPORTANT_FMT_STR "Specializing in Death will make Life spells more costly.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->compress(g);
+
+  level_cursor_path_reset(g);
+}
+
+static void wid_spell_learn_stats_arcana_death_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
+{
+  TRACE();
+
+  int tlx = 0;
+  int tly = 0;
+  int brx = 0;
+  int bry = 0;
+  wid_get_abs_coords(w, &tlx, &tly, &brx, &bry);
+
+  int const width  = UI_INVENTORY_WIDTH;
+  int const height = 17;
+
+  tlx = UI_LEFTBAR_WIDTH;
+  tly -= 14;
+  brx = tlx + width;
+  bry = tly + height;
+
+  spoint const tl(tlx, tly);
+  spoint const br(brx, bry);
+
+  wid_over_stats = new WidPopup(g, "stats", tl, br, nullptr, "", false, false);
+  wid_over_stats->log(g, UI_HIGHLIGHT_FMT_STR "Death Arcana");
+  wid_over_stats->log_empty_line(g);
+  wid_over_stats->log(g, UI_INFO1_FMT_STR "With the Death Arcana, you specialize in all things dead, undead summoning, finger of death etc...\n",
+                      TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO2_FMT_STR "Modifiers can impact costs and mana drain.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO1_FMT_STR " - -3 modifier increases Death cost by 1.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO1_FMT_STR " - +3 modifier reduces Death cost by 1.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO1_FMT_STR " - +5 modifier reduces Death casting mana by 50%%%.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO2_FMT_STR "Select this to filter spells to Death only.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_IMPORTANT_FMT_STR "Specializing in Life will make Death spells more costly.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->compress(g);
+
+  level_cursor_path_reset(g);
+}
+
+static void wid_spell_learn_stats_mouse_over_end(Gamep g, Widp w)
+{
+  TRACE();
+
+  delete wid_over_stats;
+  wid_over_stats = nullptr;
+}
+
 void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player)
 {
   con("Player select menu: create");
@@ -540,7 +669,7 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player)
 
   {
     spoint inner_tl(1, 5);
-    spoint inner_br(menu_width - 2, menu_height - 4);
+    spoint inner_br(menu_width - 2, menu_height - 8);
 
     wid_spell_learn_list
         = new WidPopup(g, wid_spell_learn_window, "spell list", inner_tl, inner_br, nullptr, "", false, true, wid_spell_tps.size());
@@ -620,10 +749,61 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player)
     wid_spell_index++;
   }
 
+  y_at = menu_height - 6;
+
+  //
+  // Filters:
+  //
+  {
+    TRACE();
+    auto w = wid_new_bar_button(g, wid_spell_learn_window, "available SP");
+
+    spoint const tl(1, y_at + 1);
+    spoint const br(button_width, y_at + button_height + 1);
+    wid_set_pos(w, tl, br);
+
+    wid_set_text_lhs(w, 1u);
+    wid_set_text(w, "Filters:");
+  }
+
+  //
+  // Arcana stats:
+  //
+  {
+    auto         out = thing_stat_mod_string(g, v, l, player, THING_STAT_ARCANA_FIRE);
+    auto        *w   = wid_new_bright_button(g, wid_spell_learn_window, stat_to_name(THING_STAT_ARCANA_FIRE).c_str());
+    spoint const tl(10, y_at);
+    spoint const br(18, y_at + 2);
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, out);
+    wid_set_on_mouse_over_begin(w, wid_spell_learn_stats_arcana_fire_mouse_over_begin);
+    wid_set_on_mouse_over_end(w, wid_spell_learn_stats_mouse_over_end);
+  }
+  {
+    auto         out = thing_stat_mod_string(g, v, l, player, THING_STAT_ARCANA_LIFE);
+    auto        *w   = wid_new_bright_button(g, wid_spell_learn_window, stat_to_name(THING_STAT_ARCANA_LIFE).c_str());
+    spoint const tl(19, y_at);
+    spoint const br(27, y_at + 2);
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, out);
+    wid_set_on_mouse_over_begin(w, wid_spell_learn_stats_arcana_life_mouse_over_begin);
+    wid_set_on_mouse_over_end(w, wid_spell_learn_stats_mouse_over_end);
+  }
+  {
+    auto         out = thing_stat_mod_string(g, v, l, player, THING_STAT_ARCANA_DEATH);
+    auto        *w   = wid_new_bright_button(g, wid_spell_learn_window, stat_to_name(THING_STAT_ARCANA_DEATH).c_str());
+    spoint const tl(28, y_at);
+    spoint const br(36, y_at + 2);
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, out);
+    wid_set_on_mouse_over_begin(w, wid_spell_learn_stats_arcana_death_mouse_over_begin);
+    wid_set_on_mouse_over_end(w, wid_spell_learn_stats_mouse_over_end);
+  }
+
   y_at = menu_height - 2;
 
   //
-  // Total sac_points
+  // Total sac points:
   //
   {
     TRACE();

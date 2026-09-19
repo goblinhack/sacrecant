@@ -153,7 +153,7 @@ static void wid_thing_info_stats_dex_mouse_over_begin(Gamep g, Widp w, int /*rel
   wid_over_stats->log(g, UI_HIGHLIGHT_FMT_STR "Dexterity");
   wid_over_stats->log_empty_line(g);
   wid_over_stats->log(g, UI_INFO1_FMT_STR "This is your overall dexterity roll out of a max of 20.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO4_FMT_STR "Use this to break out of tangly spiderwebs and avoid traps.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO2_FMT_STR "Use this to break out of tangly spiderwebs and avoid traps.\n", TEXT_FORMAT_LHS);
   wid_over_stats->compress(g);
 
   level_cursor_path_reset(g);

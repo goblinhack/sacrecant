@@ -629,16 +629,19 @@ ENUM_DEF_H(THING_EVENT_ENUM, ThingEventType)
 // Thing stat enum
 //
 #define THING_STAT_ENUM(list_macro)                                                                                                             \
-  CLANG_FORMAT_INDENT()                           /* dummy line for clang indentation fixup */                                                  \
-  list_macro(THING_STAT_ATT, "attack"),           /* newline */                                                                                 \
-      list_macro(THING_STAT_DMG, "damage"),       /* newline */                                                                                 \
-      list_macro(THING_STAT_DEF, "defence"),      /* newline */                                                                                 \
-      list_macro(THING_STAT_STR, "strength"),     /* newline */                                                                                 \
-      list_macro(THING_STAT_CON, "constitution"), /* newline */                                                                                 \
-      list_macro(THING_STAT_INT, "thievery"),     /* newline */                                                                                 \
-      list_macro(THING_STAT_DEX, "dexterity"),    /* newline */                                                                                 \
-      list_macro(THING_STAT_PSI, "psi"),          /* newline */                                                                                 \
-      list_macro(THING_STAT_LUCK, "luck"),        /* newline */
+  CLANG_FORMAT_INDENT()                             /* dummy line for clang indentation fixup */                                                \
+  list_macro(THING_STAT_ATT, "attack"),             /* newline */                                                                               \
+      list_macro(THING_STAT_DMG, "damage"),         /* newline */                                                                               \
+      list_macro(THING_STAT_DEF, "defence"),        /* newline */                                                                               \
+      list_macro(THING_STAT_STR, "strength"),       /* newline */                                                                               \
+      list_macro(THING_STAT_CON, "constitution"),   /* newline */                                                                               \
+      list_macro(THING_STAT_INT, "thievery"),       /* newline */                                                                               \
+      list_macro(THING_STAT_DEX, "dexterity"),      /* newline */                                                                               \
+      list_macro(THING_STAT_PSI, "psi"),            /* newline */                                                                               \
+      list_macro(THING_STAT_LUCK, "luck"),          /* newline */                                                                               \
+      list_macro(THING_STAT_ARCANA_FIRE, "fire"),   /* newline */                                                                               \
+      list_macro(THING_STAT_ARCANA_LIFE, "life"),   /* newline */                                                                               \
+      list_macro(THING_STAT_ARCANA_DEATH, "death"), /* newline */
 
 ENUM_DEF_H(THING_STAT_ENUM, ThingStatType)
 

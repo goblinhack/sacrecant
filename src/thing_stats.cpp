@@ -86,19 +86,22 @@
   }
 }
 
-[[nodiscard]] static auto stat_to_name(ThingStatType stat) -> const std::string
+[[nodiscard]] auto stat_to_name(ThingStatType stat) -> const std::string
 {
   switch (stat) {
-    case THING_STAT_ATT :  return "Att";
-    case THING_STAT_DMG :  return "Dmg";
-    case THING_STAT_DEF :  return "Def";
-    case THING_STAT_STR :  return "Str";
-    case THING_STAT_CON :  return "Con";
-    case THING_STAT_INT :  return "Int";
-    case THING_STAT_DEX :  return "Dex";
-    case THING_STAT_PSI :  return "Psi";
-    case THING_STAT_LUCK : return "Lck";
-    default :              return "???";
+    case THING_STAT_ATT :          return "Att";
+    case THING_STAT_DMG :          return "Dmg";
+    case THING_STAT_DEF :          return "Def";
+    case THING_STAT_STR :          return "Str";
+    case THING_STAT_CON :          return "Con";
+    case THING_STAT_INT :          return "Int";
+    case THING_STAT_DEX :          return "Dex";
+    case THING_STAT_PSI :          return "Psi";
+    case THING_STAT_LUCK :         return "Lck";
+    case THING_STAT_ARCANA_DEATH : return "Dth";
+    case THING_STAT_ARCANA_LIFE :  return "Lfe";
+    case THING_STAT_ARCANA_FIRE :  return "Fir";
+    case THING_STAT_ENUM_MAX :     return "???";
   }
 }
 
