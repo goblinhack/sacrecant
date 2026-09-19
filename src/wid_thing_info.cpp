@@ -1021,7 +1021,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   parent->log_empty_line(g);
   parent->log_empty_line(g);
 
-  if (0) {
+  if (compiler_unused) {
     auto         out = thing_stat_mod_string(g, v, l, me, THING_STAT_STR);
     auto        *w   = wid_new_bright_button(g, b, "Str");
     spoint const tl(1, text->line_count);
@@ -1032,7 +1032,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     wid_set_on_mouse_over_end(w, wid_thing_info_stats_mouse_over_end);
   }
 
-  if (0) {
+  if (compiler_unused) {
     auto         out = thing_stat_mod_string(g, v, l, me, THING_STAT_CON);
     auto        *w   = wid_new_bright_button(g, b, "Con");
     spoint const tl(11, text->line_count);
@@ -1043,7 +1043,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     wid_set_on_mouse_over_end(w, wid_thing_info_stats_mouse_over_end);
   }
 
-  if (0) {
+  if (compiler_unused) {
     auto         out = thing_stat_mod_string(g, v, l, me, THING_STAT_PSI);
     auto        *w   = wid_new_bright_button(g, b, "Psi");
     spoint const tl(21, text->line_count);
@@ -1054,7 +1054,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     wid_set_on_mouse_over_end(w, wid_thing_info_stats_mouse_over_end);
   }
 
-  if (0) {
+  if (compiler_unused) {
     parent->log_empty_line(g);
     parent->log_empty_line(g);
     parent->log_empty_line(g);
@@ -1182,7 +1182,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   parent->log_empty_line(g);
   parent->log_empty_line(g);
 
-  if (0) {
+  if (compiler_unused) {
     auto         out = thing_stat_mod_string(g, v, l, me, THING_STAT_STR);
     auto        *w   = wid_new_bright_button(g, b, "Str");
     spoint const tl(1, text->line_count);
@@ -1193,7 +1193,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     wid_set_on_mouse_over_end(w, wid_thing_info_stats_mouse_over_end);
   }
 
-  if (0) {
+  if (compiler_unused) {
     auto         out = thing_stat_mod_string(g, v, l, me, THING_STAT_CON);
     auto        *w   = wid_new_bright_button(g, b, "Con");
     spoint const tl(11, text->line_count);
@@ -1204,7 +1204,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     wid_set_on_mouse_over_end(w, wid_thing_info_stats_mouse_over_end);
   }
 
-  if (0) {
+  if (compiler_unused) {
     auto         out = thing_stat_mod_string(g, v, l, me, THING_STAT_PSI);
     auto        *w   = wid_new_bright_button(g, b, "Psi");
     spoint const tl(21, text->line_count);
@@ -1215,7 +1215,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     wid_set_on_mouse_over_end(w, wid_thing_info_stats_mouse_over_end);
   }
 
-  if (0) {
+  if (compiler_unused) {
     parent->log_empty_line(g);
     parent->log_empty_line(g);
     parent->log_empty_line(g);

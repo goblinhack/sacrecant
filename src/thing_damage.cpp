@@ -790,7 +790,7 @@ void thing_damage_apply(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   //
   if (e.damage <= 0) {
     THING_DBG(g, v, l, me, "%s: no damage to apply", to_string(g, v, l, e).c_str());
-    if (attacker && thing_is_player(attacker)) {
+    if ((attacker != nullptr) && thing_is_player(attacker)) {
       topcon("You do no %s damage!", ThingEventType_to_string(e.event_type).c_str());
     }
     return;

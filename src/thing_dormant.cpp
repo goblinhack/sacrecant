@@ -5,6 +5,7 @@
 #include "my_callstack.hpp"
 #include "my_main.hpp"
 #include "my_thing.hpp"
+#include "my_tp.hpp"
 #include "my_types.hpp"
 
 [[nodiscard]] auto thing_dormant(Gamep g, Levelsp v, Levelp l, Thingp me) -> int
@@ -57,7 +58,7 @@
     me->_dormant -= val;
   }
 
-  if (! me->_dormant) {
+  if (me->_dormant == 0) {
     thing_anim_init(g, v, l, me, THING_ANIM_IDLE);
   }
 

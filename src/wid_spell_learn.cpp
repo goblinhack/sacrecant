@@ -12,7 +12,6 @@
 #include "my_level.hpp"
 #include "my_level_inlines.hpp" // NOLINT
 #include "my_main.hpp"
-#include "my_random.hpp"
 #include "my_sdl_proto.hpp"
 #include "my_sound.hpp"
 #include "my_spoint.hpp"
@@ -20,12 +19,12 @@
 #include "my_string.hpp"
 #include "my_thing.hpp"
 #include "my_thing_inlines.hpp" // NOLINT
-#include "my_tile.hpp"
 #include "my_tp.hpp"
 #include "my_tp_inlines.hpp"
 #include "my_types.hpp"
 #include "my_ui.hpp"
 #include "my_wid.hpp"
+#include "my_wid_text_box.hpp"
 #include "my_wids.hpp"
 
 #include <SDL_keyboard.h>
@@ -59,9 +58,14 @@ static void wid_spell_learn_destroy(Gamep g)
   delete wid_spell_learn_learn_window;
   wid_spell_learn_learn_window = nullptr;
 
+  delete wid_over_stats;
+  wid_over_stats = nullptr;
+
   if (wid_spell_learn_window != nullptr) {
     wid_destroy(g, &wid_spell_learn_window);
   }
+
+  wid_total = nullptr;
 
   game_state_reset(g, "close spell window");
 }
@@ -135,7 +139,7 @@ static auto wid_player_spent_points(Gamep g, Levelsp v, Levelp l, Thingp player)
   return spent;
 }
 
-static int wid_player_avail_points(Gamep g, Levelsp v, Levelp l, Thingp player)
+static auto wid_player_avail_points(Gamep g, Levelsp v, Levelp l, Thingp player) -> int
 {
   TRACE();
 
@@ -179,13 +183,13 @@ static void wid_player_update_spell_selections(Gamep g, Levelsp v, Levelp l, Thi
     }
 
     auto *spell = wid_get_thing_context(g, v, w, 0);
-    if (! spell) {
+    if (spell == nullptr) {
       continue;
     }
 
     auto        index      = wid_get_int_context(w);
     auto        spell_cost = thing_spell_cost_for(g, v, l, spell, player);
-    auto        tp         = thing_tp(spell);
+    auto       *tp         = thing_tp(spell);
     std::string s;
 
     if (spell_cost <= avail) {
@@ -310,7 +314,7 @@ static void wid_spell_learn_spell_via_mouse_over_end(Gamep g, Widp w)
     game_cand_spell_set(g, spell);
     (void) sound_play(g, "select");
   } else {
-    topcon("You do not have enough Sacrificial Points to learn that spell.\n");
+    topcon("You do not have enough SPs to learn that spell.\n");
     (void) sound_play(g, "error");
   }
 
@@ -543,10 +547,10 @@ static void wid_spell_learn_stats_arcana_fire_mouse_over_begin(Gamep g, Widp w, 
 {
   TRACE();
 
-  int tlx = TERM_WIDTH - UI_RIGHTBAR_WIDTH - 2;
-  int brx = tlx + UI_RIGHTBAR_WIDTH;
-  int tly = UI_TOPCON_HEIGHT + 10;
-  int bry = tly + 40;
+  int const tlx = TERM_WIDTH - UI_RIGHTBAR_WIDTH - 2;
+  int const brx = tlx + UI_RIGHTBAR_WIDTH;
+  int const tly = UI_TOPCON_HEIGHT + 10;
+  int const bry = tly + 40;
 
   spoint const tl(tlx, tly);
   spoint const br(brx, bry);
@@ -566,10 +570,10 @@ static void wid_spell_learn_stats_arcana_life_mouse_over_begin(Gamep g, Widp w, 
 {
   TRACE();
 
-  int tlx = TERM_WIDTH - UI_RIGHTBAR_WIDTH - 2;
-  int brx = tlx + UI_RIGHTBAR_WIDTH;
-  int tly = UI_TOPCON_HEIGHT + 10;
-  int bry = tly + 40;
+  int const tlx = TERM_WIDTH - UI_RIGHTBAR_WIDTH - 2;
+  int const brx = tlx + UI_RIGHTBAR_WIDTH;
+  int const tly = UI_TOPCON_HEIGHT + 10;
+  int const bry = tly + 40;
 
   spoint const tl(tlx, tly);
   spoint const br(brx, bry);
@@ -591,10 +595,10 @@ static void wid_spell_learn_stats_arcana_death_mouse_over_begin(Gamep g, Widp w,
 {
   TRACE();
 
-  int tlx = TERM_WIDTH - UI_RIGHTBAR_WIDTH - 2;
-  int brx = tlx + UI_RIGHTBAR_WIDTH;
-  int tly = UI_TOPCON_HEIGHT + 10;
-  int bry = tly + 40;
+  int const tlx = TERM_WIDTH - UI_RIGHTBAR_WIDTH - 2;
+  int const brx = tlx + UI_RIGHTBAR_WIDTH;
+  int const tly = UI_TOPCON_HEIGHT + 10;
+  int const bry = tly + 40;
 
   spoint const tl(tlx, tly);
   spoint const br(brx, bry);
@@ -645,7 +649,7 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType 
   }
 
   const int menu_width  = UI_INVENTORY_WIDTH;
-  const int menu_height = TERM_HEIGHT - UI_TOPCON_HEIGHT * 2 - 6;
+  const int menu_height = TERM_HEIGHT - (UI_TOPCON_HEIGHT * 2) - 6;
 
   const auto button_width  = menu_width - 2;
   const auto button_height = 0;
@@ -698,8 +702,8 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType 
   }
 
   {
-    spoint inner_tl(1, 5);
-    spoint inner_br(menu_width - 2, menu_height - 8);
+    spoint const inner_tl(1, 5);
+    spoint const inner_br(menu_width - 2, menu_height - 8);
 
     wid_spell_learn_list
         = new WidPopup(g, wid_spell_learn_window, "spell list", inner_tl, inner_br, nullptr, "", false, true, wid_spell_tps.size());
@@ -724,7 +728,7 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType 
     //
     // Create a temporary thing on the level select map
     //
-    auto   at             = bpoint(4 + wid_spell_index / MAP_WIDTH, wid_spell_index % MAP_HEIGHT);
+    auto   at             = bpoint(4 + (wid_spell_index / MAP_WIDTH), wid_spell_index % MAP_HEIGHT);
     Thingp existing_spell = nullptr;
     FOR_ALL_THINGS_AT(g, v, level_select, spell, at)
     {
@@ -741,7 +745,7 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType 
       }
     }
 
-    if (! filter) {
+    if (filter == 0u) {
       //
       // All spells
       //
@@ -776,11 +780,11 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType 
     //
     // Spell shortcut and name
     //
-    if (wid_spell_index > ('z' - 'a') * 2 + 1) {
+    if (wid_spell_index > (('z' - 'a') * 2) + 1) {
       break;
     }
 
-    auto w = wid_spell_learn_list->log(g, "-", TEXT_FORMAT_LHS);
+    auto *w = wid_spell_learn_list->log(g, "-", TEXT_FORMAT_LHS);
 
     wid_set_thing_context(g, v, w, spell);
     wid_set_int_context(w, wid_spell_index);
@@ -801,7 +805,7 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType 
   //
   {
     TRACE();
-    auto w = wid_new_bar_button(g, wid_spell_learn_window, "available SP");
+    auto *w = wid_new_bar_button(g, wid_spell_learn_window, "available SP");
 
     spoint const tl(1, y_at + 1);
     spoint const br(button_width, y_at + button_height + 1);
@@ -816,7 +820,7 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType 
   //
   {
     auto         out = thing_stat_mod_string(g, v, l, player, THING_STAT_ARCANA_FIRE);
-    auto        *w   = wid_new_bright_button(g, wid_spell_learn_window, stat_to_name(THING_STAT_ARCANA_FIRE).c_str());
+    auto        *w   = wid_new_bright_button(g, wid_spell_learn_window, stat_to_name(THING_STAT_ARCANA_FIRE));
     spoint const tl(10, y_at);
     spoint const br(18, y_at + 2);
     wid_set_pos(w, tl, br);
@@ -834,7 +838,7 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType 
   }
   {
     auto         out = thing_stat_mod_string(g, v, l, player, THING_STAT_ARCANA_LIFE);
-    auto        *w   = wid_new_bright_button(g, wid_spell_learn_window, stat_to_name(THING_STAT_ARCANA_LIFE).c_str());
+    auto        *w   = wid_new_bright_button(g, wid_spell_learn_window, stat_to_name(THING_STAT_ARCANA_LIFE));
     spoint const tl(19, y_at);
     spoint const br(27, y_at + 2);
     wid_set_pos(w, tl, br);
@@ -852,7 +856,7 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType 
   }
   {
     auto         out = thing_stat_mod_string(g, v, l, player, THING_STAT_ARCANA_DEATH);
-    auto        *w   = wid_new_bright_button(g, wid_spell_learn_window, stat_to_name(THING_STAT_ARCANA_DEATH).c_str());
+    auto        *w   = wid_new_bright_button(g, wid_spell_learn_window, stat_to_name(THING_STAT_ARCANA_DEATH));
     spoint const tl(28, y_at);
     spoint const br(36, y_at + 2);
     wid_set_pos(w, tl, br);

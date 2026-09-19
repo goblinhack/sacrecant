@@ -2170,17 +2170,6 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   return tp_flag(thing_tp(t), is_spell) != 0;
 }
 
-[[nodiscard]] auto thing_is_wooden_leg(Thingp t) -> bool
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return false;
-  }
-  return tp_flag(thing_tp(t), is_wooden_leg) != 0;
-}
-
 [[nodiscard]] auto thing_is_wall_walker_pass_through(Thingp t) -> bool
 {
   TRACE_DEBUG();

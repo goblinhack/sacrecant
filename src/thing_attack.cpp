@@ -278,7 +278,7 @@ static auto thing_attack_at_do(Gamep g, Levelsp v, Levelp l, Thingp attacker, Th
       //
       // Melee attack?
       //
-      if (e && (e->event_type == THING_EVENT_MELEE_DAMAGE)) {
+      if ((e != nullptr) && (e->event_type == THING_EVENT_MELEE_DAMAGE)) {
         THING_DBG(g, v, l, attacker, "player melee attack");
 
         if (! adjacent(attacker_at, attack_at)) {
@@ -362,7 +362,7 @@ static auto thing_attack_at_do(Gamep g, Levelsp v, Levelp l, Thingp attacker, Th
     //
     // Should we ignore this candidate?
     //
-    if (e && (e->event_type == THING_EVENT_MELEE_DAMAGE)) {
+    if ((e != nullptr) && (e->event_type == THING_EVENT_MELEE_DAMAGE)) {
       //
       // Don't melee attack dead things
       //

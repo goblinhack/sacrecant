@@ -2,20 +2,13 @@
 // Copyright goblinhack@gmail.com
 //
 
-#include "my_bpoint.hpp"
 #include "my_callstack.hpp"
-#include "my_fpoint.hpp"
-#include "my_globals.hpp"
-#include "my_level.hpp"
 #include "my_main.hpp"
 #include "my_thing.hpp"
-#include "my_thing_callbacks.hpp"
-#include "my_thing_inlines.hpp"
 #include "my_tp.hpp"
-#include "my_tp_class.hpp"
 #include "my_types.hpp"
 
-ThingStatType thing_spell_arcana(Gamep g, Levelsp v, Levelp l, Thingp me)
+auto thing_spell_arcana(Gamep g, Levelsp v, Levelp l, Thingp me) -> ThingStatType
 {
   TRACE();
 
@@ -34,7 +27,7 @@ ThingStatType thing_spell_arcana(Gamep g, Levelsp v, Levelp l, Thingp me)
   return THING_STAT_ARCANA_FIRE;
 }
 
-int thing_spell_cost_for(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user)
+auto thing_spell_cost_for(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user) -> int
 {
   TRACE_DEBUG();
 

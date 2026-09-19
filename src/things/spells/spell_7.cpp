@@ -27,7 +27,7 @@ static auto tp_spell_7_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::stri
   // begin sort marker1 {
   thing_detail_set(tp, tp_spell_7_get);
   tp_flag_set(tp, is_spell);
-tp_stat_set(tp, THING_STAT_ARCANA_FIRE, "11");
+  tp_stat_set(tp, THING_STAT_ARCANA_FIRE, "11");
   tp_flag_set(tp, is_unused_spell);
   tp_flag_set(tp, is_loggable);
   tp_spell_cost_set(tp, 7);

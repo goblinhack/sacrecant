@@ -3,21 +3,10 @@ bugs
 
 todo
 ----
-
-+1
-+2
-+3
-+4
-+5 mana cost halved
-+10 spell cost -1
-
-essential
-  - random monsts with difficulty
 spells
-  - dark school
-  - life school
-  - summoning
+  - death arcana
     - death knights
+  - life arcana
   - structural
     - level reroll
     - walls to chasm swap
@@ -41,6 +30,8 @@ spells
   - more lich like spells
   - spells need to have a cost that can be influenced by specializing
   - shrines that reduce spell points
+essential
+  - random monsts with difficulty
 gameplay
   - shoot from behind double damage
   - traps gas effects
