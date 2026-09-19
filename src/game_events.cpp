@@ -322,10 +322,38 @@
     return false;
   }
 
-  wid_spell_learn(g, v, l, player);
-  if (0) {
-    wid_inventory_show(g, v, l, player);
+  wid_inventory_show(g, v, l, player);
+
+  return true;
+}
+
+[[nodiscard]] auto game_event_learn(Gamep g) -> bool
+{
+  DBG("learn");
+  TRACE_INDENT();
+
+  auto *v = game_levels_get(g);
+  if (v == nullptr) [[unlikely]] {
+    return false;
   }
+
+  auto *l = game_level_get(g, v);
+  if (l == nullptr) [[unlikely]] {
+    return false;
+  }
+
+  if (level_is_level_select(g, v, l)) {
+    (void) sound_play(g, "error");
+    return false;
+  }
+
+  auto *player = thing_player(g);
+  if (player == nullptr) [[unlikely]] {
+    (void) sound_play(g, "error");
+    return false;
+  }
+
+  wid_spell_learn(g, v, l, player);
 
   return true;
 }
@@ -795,6 +823,12 @@ static auto game_event_abort(Gamep g) -> bool
       if (sdlk_eq(*key, game_key_inventory_get(g))) {
         DBG("pressed inventory key");
         (void) game_event_inventory(g);
+        return false; // To avoid click noise
+      }
+
+      if (sdlk_eq(*key, game_key_learn_get(g))) {
+        DBG("pressed learn key");
+        (void) game_event_learn(g);
         return false; // To avoid click noise
       }
 

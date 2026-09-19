@@ -171,6 +171,8 @@ auto operator<<(std::ostream &out, Bits< const Config & > const my) -> std::ostr
     out << bits(tmp);
     tmp = offsetof(Config, key_inventory);
     out << bits(tmp);
+    tmp = offsetof(Config, key_learn);
+    out << bits(tmp);
     tmp = offsetof(Config, key_jump);
     out << bits(tmp);
     tmp = offsetof(Config, key_ascend);
@@ -245,6 +247,7 @@ auto operator<<(std::ostream &out, Bits< const Config & > const my) -> std::ostr
   out << bits(my.t.key_throw);
   out << bits(my.t.key_fire);
   out << bits(my.t.key_inventory);
+  out << bits(my.t.key_learn);
   out << bits(my.t.key_jump);
   out << bits(my.t.key_ascend);
   out << bits(my.t.key_descend);

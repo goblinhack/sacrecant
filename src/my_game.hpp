@@ -254,6 +254,9 @@ auto               game_key_fire_set(Gamep g, SDL_Keysym key) -> void;
 [[nodiscard]] auto game_key_inventory_get(Gamep g) -> SDL_Keysym;
 auto               game_key_inventory_set(Gamep g, SDL_Keysym key) -> void;
 
+[[nodiscard]] auto game_key_learn_get(Gamep g) -> SDL_Keysym;
+auto               game_key_learn_set(Gamep g, SDL_Keysym key) -> void;
+
 [[nodiscard]] auto game_key_jump_get(Gamep g) -> SDL_Keysym;
 auto               game_key_jump_set(Gamep g, SDL_Keysym key) -> void;
 
@@ -344,6 +347,7 @@ void               game_mouse_over_player_set(Gamep g, Thingp t);
 [[nodiscard]] auto game_event_descend(Gamep g) -> bool;
 [[nodiscard]] auto game_event_help(Gamep g) -> bool;
 [[nodiscard]] auto game_event_inventory(Gamep g) -> bool;
+[[nodiscard]] auto game_event_learn(Gamep g) -> bool;
 [[nodiscard]] auto game_event_load(Gamep g) -> bool;
 [[nodiscard]] auto game_event_quit(Gamep g) -> bool;
 [[nodiscard]] auto game_event_save(Gamep g) -> bool;

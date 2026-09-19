@@ -82,6 +82,10 @@ static void wid_cfg_check_for_conflicts(Gamep g, SDL_Keysym code)
     con("%%fg=orange$Conflicting keyboard mapping, disabling key for inventory" UI_RESET_FMT);
     game_key_inventory_set(g, none);
   }
+  if (sdlk_eq(game_key_learn_get(g), code)) {
+    con("%%fg=orange$Conflicting keyboard mapping, disabling key for learn" UI_RESET_FMT);
+    game_key_learn_set(g, none);
+  }
   if (sdlk_eq(game_key_fire_get(g), code)) {
     con("%%fg=orange$Conflicting keyboard mapping, disabling key for firing" UI_RESET_FMT);
     game_key_fire_set(g, none);
@@ -441,6 +445,16 @@ static void wid_cfg_key_inventory_set(Gamep g, SDL_Keysym code)
   wid_cfg_help_select(g);
 }
 
+static void wid_cfg_key_learn_set(Gamep g, SDL_Keysym code)
+{
+  TRACE();
+  local_g_config_changed = true;
+  game_key_learn_set(g, none);
+  wid_cfg_check_for_conflicts(g, code);
+  game_key_learn_set(g, code);
+  wid_cfg_help_select(g);
+}
+
 static void wid_cfg_key_jump_set(Gamep g, SDL_Keysym code)
 {
   TRACE();
@@ -796,6 +810,15 @@ static void grab_key(const std::string &which)
   TRACE();
   grab_key("key_inventory");
   sdl.on_sdl_key_grab    = wid_cfg_key_inventory_set;
+  local_g_config_changed = true;
+  return true;
+}
+
+[[nodiscard]] static auto wid_cfg_key_learn(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+{
+  TRACE();
+  grab_key("key_learn");
+  sdl.on_sdl_key_grab    = wid_cfg_key_learn_set;
   local_g_config_changed = true;
   return true;
 }
@@ -1361,6 +1384,34 @@ void wid_cfg_help_select(Gamep g)
     wid_set_pos(w, tl, br);
     wid_set_text(w, ::to_string(game_key_inventory_get(g)));
     wid_set_on_mouse_down(w, wid_cfg_key_inventory);
+  }
+
+  ///////////////////////////////////////////////////////////////////////
+  // Learn
+  ///////////////////////////////////////////////////////////////////////
+  y_at++;
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_square_button(g, p, "Learn");
+
+    spoint const tl(1, y_at);
+    spoint const br(width / 2, y_at);
+    wid_set_shape_none(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text_lhs(w);
+    wid_set_text(w, "Inventory");
+  }
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_bar_button(g, p, "value");
+
+    spoint const tl((width / 2) + rhs_button_left, y_at);
+    spoint const br((width / 2) + rhs_button_right, y_at);
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, ::to_string(game_key_learn_get(g)));
+    wid_set_on_mouse_down(w, wid_cfg_key_learn);
   }
 
   ///////////////////////////////////////////////////////////////////////

@@ -155,6 +155,7 @@ public:
   SDL_Keysym key_throw      = {};
   SDL_Keysym key_fire       = {};
   SDL_Keysym key_inventory  = {};
+  SDL_Keysym key_learn      = {};
   SDL_Keysym key_jump       = {};
   SDL_Keysym key_ascend     = {};
   SDL_Keysym key_descend    = {};
@@ -428,6 +429,7 @@ void Config::reset()
   key_descend.sym    = SDLK_GREATER;
   key_help.sym       = SDLK_h;
   key_inventory.sym  = SDLK_i;
+  key_learn.sym      = SDLK_l;
   key_fire.sym       = SDLK_SPACE;
   key_jump.sym       = SDLK_j;
   key_throw.sym      = SDLK_t;
@@ -2919,6 +2921,26 @@ void game_key_inventory_set(Gamep g, SDL_Keysym key)
     return;
   }
   g->config.key_inventory = key;
+}
+
+[[nodiscard]] auto game_key_learn_get(Gamep g) -> SDL_Keysym
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    return no_key;
+  }
+  return g->config.key_learn;
+}
+void game_key_learn_set(Gamep g, SDL_Keysym key)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->config.key_learn = key;
 }
 
 [[nodiscard]] auto game_key_jump_get(Gamep g) -> SDL_Keysym

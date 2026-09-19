@@ -14,11 +14,11 @@
 #include <cstdint>
 #include <string>
 
-[[nodiscard]] auto wid_new_bar_button(Gamep g, Widp parent, const std::string &name) -> Widp
+void wid_apply_bar_button(Gamep g, Widp w)
 {
   TRACE();
 
-  auto *w = wid_new_square_button(g, parent, name);
+  wid_set_shape_square(w);
   wid_set_mode(w, WID_MODE_OVER);
   wid_set_style(w, UI_WID_STYLE_BUTTON_BAR);
   wid_set_color(w, WID_COLOR_BG, GREEN);
@@ -26,6 +26,16 @@
   wid_set_mode(w, WID_MODE_NORMAL);
   wid_set_style(w, UI_WID_STYLE_BUTTON_BAR);
   wid_set_color(w, WID_COLOR_BG, GRAY10);
+}
+
+[[nodiscard]] auto wid_new_bar_button(Gamep g, Widp parent, const std::string &name) -> Widp
+{
+  TRACE();
+
+  auto *w = wid_new_square_button(g, parent, name);
+
+  wid_apply_bar_button(g, w);
+
   return w;
 }
 

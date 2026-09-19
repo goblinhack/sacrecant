@@ -28,6 +28,7 @@ static WidPopup *wid_over_save {};
 static WidPopup *wid_over_load {};
 static WidPopup *wid_over_wait {};
 static WidPopup *wid_over_inventory {};
+static WidPopup *wid_over_learn {};
 static WidPopup *wid_over_ascend {};
 static WidPopup *wid_over_fire {};
 static WidPopup *wid_over_descend {};
@@ -248,12 +249,60 @@ static void wid_actionbar_inventory_over_begin(Gamep g, Widp w, int /*relx*/, in
   level_cursor_path_reset(g);
 }
 
+[[nodiscard]] static auto wid_actionbar_learn(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+{
+  log("actionbar learn");
+  TRACE();
+
+  return game_event_learn(g);
+}
+
 static void wid_actionbar_inventory_over_end(Gamep g, Widp w)
 {
   TRACE();
 
   delete wid_over_inventory;
   wid_over_inventory = nullptr;
+}
+
+static void wid_actionbar_learn_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
+{
+  TRACE();
+
+  int tlx = 0;
+  int tly = 0;
+  int brx = 0;
+  int bry = 0;
+  wid_get_abs_coords(w, &tlx, &tly, &brx, &bry);
+
+  int const width  = 32;
+  int const height = 8;
+
+  tlx -= width / 2;
+  brx += width / 2;
+  tly -= height;
+
+  bry -= 1;
+  tly += 1;
+
+  spoint const tl(tlx, tly);
+  spoint const br(brx, bry);
+
+  wid_over_learn = new WidPopup(g, "Learn", tl, br, nullptr, "", false, false);
+  wid_over_learn->log(g, UI_HIGHLIGHT_FMT_STR "Learn");
+  wid_over_learn->log_empty_line(g);
+  wid_over_learn->log(g, "Select this to learn spells.");
+  wid_over_learn->compress(g);
+
+  level_cursor_path_reset(g);
+}
+
+static void wid_actionbar_learn_over_end(Gamep g, Widp w)
+{
+  TRACE();
+
+  delete wid_over_learn;
+  wid_over_learn = nullptr;
 }
 
 [[nodiscard]] static auto wid_actionbar_fire(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
@@ -619,6 +668,7 @@ static auto wid_actionbar_create_window(Gamep g) -> bool
   int  option_width  = 13;
   bool opt_wait      = true;
   bool opt_inventory = true;
+  bool opt_learn     = true;
   bool opt_quit      = true;
   bool opt_zoom      = true;
   bool opt_help      = true;
@@ -641,6 +691,7 @@ static auto wid_actionbar_create_window(Gamep g) -> bool
     opt_fire      = false;
     opt_help      = false;
     opt_inventory = false;
+    opt_learn     = false;
     opt_quit      = false;
     opt_wait      = false;
     opt_zoom      = false;
@@ -655,6 +706,9 @@ static auto wid_actionbar_create_window(Gamep g) -> bool
   }
   if (opt_inventory) {
     menu_string += "opt_inventory";
+  }
+  if (opt_learn) {
+    menu_string += "opt_learn";
   }
   if (opt_quit) {
     menu_string += "opt_quit";
@@ -694,6 +748,9 @@ static auto wid_actionbar_create_window(Gamep g) -> bool
     }
     if (wid_over_inventory != nullptr) {
       wid_raise(g, wid_over_inventory->wid_popup_container);
+    }
+    if (wid_over_learn != nullptr) {
+      wid_raise(g, wid_over_learn->wid_popup_container);
     }
     if (wid_over_ascend != nullptr) {
       wid_raise(g, wid_over_ascend->wid_popup_container);
@@ -806,6 +863,23 @@ static auto wid_actionbar_create_window(Gamep g) -> bool
     wid_set_on_mouse_over_begin(w, wid_actionbar_wait_over_begin);
     wid_set_on_mouse_over_end(w, wid_actionbar_wait_over_end);
     wid_set_text(w, UI_SHORTCUT_FMT_STR "" + ::to_string(game_key_wait_get(g)) + UI_HIGHLIGHT_FMT_STR "" + "Wait");
+    wid_set_mode(w, WID_MODE_OVER);
+    wid_set_style(w, box_highlight_style);
+    wid_set_mode(w, WID_MODE_NORMAL);
+    wid_set_style(w, box_style);
+    x_at += option_width + 1;
+  }
+
+  if (opt_learn) {
+    auto *w      = wid_new_square_button(g, wid_actionbar_container, "widget actionbar learn");
+    auto  tl     = spoint(x_at, 0);
+    option_width = (::to_string(game_key_learn_get(g)) + "Lrn").size();
+    auto br      = spoint(x_at + option_width - 1, 0);
+    wid_set_pos(w, tl, br);
+    wid_set_on_mouse_down(w, wid_actionbar_learn);
+    wid_set_on_mouse_over_begin(w, wid_actionbar_learn_over_begin);
+    wid_set_on_mouse_over_end(w, wid_actionbar_learn_over_end);
+    wid_set_text(w, UI_SHORTCUT_FMT_STR "" + ::to_string(game_key_learn_get(g)) + UI_HIGHLIGHT_FMT_STR "" + "Lrn");
     wid_set_mode(w, WID_MODE_OVER);
     wid_set_style(w, box_highlight_style);
     wid_set_mode(w, WID_MODE_NORMAL);
@@ -938,6 +1012,8 @@ void wid_actionbar_fini(Gamep g)
   wid_over_wait = nullptr;
   delete wid_over_inventory;
   wid_over_inventory = nullptr;
+  delete wid_over_learn;
+  wid_over_learn = nullptr;
   delete wid_over_ascend;
   wid_over_ascend = nullptr;
   delete wid_over_fire;

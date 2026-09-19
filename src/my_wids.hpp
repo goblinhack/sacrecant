@@ -70,6 +70,7 @@ auto wid_seed_select(Gamep g) -> void;
 auto wid_statistics_show(Gamep g, Levelsp v, Levelp l, Thingp player) -> void;
 auto wid_topcon_fini(Gamep g) -> void;
 auto wid_topcon_flush(Gamep g) -> void;
+void wid_apply_bar_button(Gamep g, Widp w);
 auto wid_level_select_destroy() -> void;
 auto wid_topcon_log(const std::string &s) -> void;
 
