@@ -103,6 +103,7 @@
     case THING_STAT_ARCANA_FIRE :  return "Fir";
     case THING_STAT_ENUM_MAX :     return "???";
   }
+  return "???";
 }
 
 [[nodiscard]] auto thing_stat_set(Gamep g, Levelsp v, Levelp l, Thingp me, ThingStatType stat, uint8_t val) -> uint8_t

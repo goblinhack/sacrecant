@@ -3993,52 +3993,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   }
   return t->_value4 -= val;
 }
-[[nodiscard]] auto thing_spell_cost(Thingp t) -> int
-{
-  TRACE_DEBUG();
 
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-  return t->_spell_cost;
-}
-
-[[nodiscard]] auto thing_spell_cost_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-  return t->_spell_cost = val;
-}
-
-[[nodiscard]] auto thing_spell_cost_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-  return t->_spell_cost += val;
-}
-
-[[nodiscard]] auto thing_spell_cost_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-  if (static_cast< int >(t->_spell_cost) - val <= 0) {
-    return t->_spell_cost = 0;
-  }
-  return t->_spell_cost -= val;
-}
 [[nodiscard]] auto thing_difficulty(Thingp t) -> int
 {
   TRACE_DEBUG();
