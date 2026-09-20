@@ -475,7 +475,6 @@ static void wid_actionbar_ascend_over_begin(Gamep g, Widp w, int /*relx*/, int /
   tly -= height;
 
   bry -= 1;
-  tly += 1;
 
   spoint const tl(tlx, tly);
   spoint const br(brx, bry);

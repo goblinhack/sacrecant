@@ -1908,7 +1908,7 @@ void wid_cfg_help_select(Gamep g)
     wid_set_shape_none(w);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
-    wid_set_text(w, "key_cast");
+    wid_set_text(w, "Cast");
   }
   {
     TRACE();

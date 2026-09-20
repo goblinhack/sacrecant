@@ -1366,7 +1366,6 @@ void tp_priority_set(Tpp tp, ThingPriorityType val);
 void tp_rarity_set(Tpp tp, ThingRarityType val);
 void tp_score_value_set(Tpp tp, int val);
 void tp_special_attack_add(Tpp tp, TpSpecialAttack val);
-void tp_spell_option_add(Tpp tp, TpSpellOption val);
 void tp_speed_set(Tpp tp, int val);
 void tp_stamina_set(Tpp tp, const std::string &val);
 void tp_stat_set(Tpp tp, ThingStatType stat, const std::string &val);

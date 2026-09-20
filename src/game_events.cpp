@@ -508,6 +508,8 @@
 
   player_reached_exit(g, v, l);
 
+  (void) level_tick_begin_requested(g, v, l, "player descending");
+
   return true;
 }
 
@@ -548,7 +550,12 @@
     return false;
   }
 
+  THING_DBG(g, v, l, player, "descend");
+  TRACE_INDENT();
+
   player_reached_entrance(g, v, l);
+
+  (void) level_tick_begin_requested(g, v, l, "player ascending");
 
   return true;
 }
