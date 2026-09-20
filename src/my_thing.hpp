@@ -48,6 +48,7 @@ using ThingIdPacked = union {
 #define THING_LIGHT_MAX     (LEVEL_ARR_IDX_MAX * 200) // The size of thing_light
 #define THING_MOVE_PATH_MAX (MAP_WIDTH + MAP_HEIGHT)  // Player/monster move paths (max size uint8_t)
 #define THING_INVENTORY_MAX 26
+#define THING_SPELLBOOK_MAX 20
 #define THING_MINION_MAX    10
 
 /* begin shell marker1 */
@@ -190,7 +191,7 @@ using ThingMissiles = struct ThingMissiles {
 // Inventory items
 //
 using ThingSlot = struct ThingSlot {
-  ThingId item_id;
+  ThingId thing_id;
   //
   // How many of this identical item are there?
   //
@@ -201,6 +202,16 @@ using ThingSlot = struct ThingSlot {
 // Per thing inventory memory
 //
 using ThingInventory = struct ThingInventory {
+  //
+  // This is the max any player or monster can carry
+  //
+  ThingSlot slots[ THING_INVENTORY_MAX ];
+};
+
+//
+// Per thing spell memory
+//
+using ThingSpellBook = struct ThingSpellBook {
   //
   // This is the max any player or monster can carry
   //
@@ -241,6 +252,10 @@ using ThingExt = struct ThingExt {
   // What we're carrying
   //
   ThingInventory inventory;
+  //
+  // Spells we can cast
+  //
+  ThingSpellBook spellbook;
   //
   // Holds the path as we or the monster walk it
   //
@@ -818,6 +833,11 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_inventory_is_empty(Gamep g, Levelsp v, Levelp l, Thingp owner) -> bool;
 [[nodiscard]] auto thing_inventory_item_mergeable(Gamep g, Levelsp v, Levelp l, Thingp a, Thingp b) -> bool;
 [[nodiscard]] auto thing_inventory_remove(Gamep g, Levelsp v, Levelp l, Thingp drop_item, Thingp owner) -> bool;
+[[nodiscard]] auto thing_spellbook_add(Gamep g, Levelsp v, Levelp l, Thingp new_spell, Thingp owner) -> bool;
+[[nodiscard]] auto thing_spellbook_get_spell_count(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp owner) -> int;
+[[nodiscard]] auto thing_spellbook_get_spell_count(Gamep g, Levelsp v, Levelp l, Thingp owner) -> int;
+[[nodiscard]] auto thing_spellbook_is_empty(Gamep g, Levelsp v, Levelp l, Thingp owner) -> bool;
+[[nodiscard]] auto thing_spellbook_remove(Gamep g, Levelsp v, Levelp l, Thingp drop_spell, Thingp owner) -> bool;
 [[nodiscard]] auto thing_invisible(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_able_to_be_buffed(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_be_engulfed_blocked(Thingp t) -> bool;
@@ -1132,7 +1152,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused142(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused143(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused144(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused145(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_able_to_cast_spells(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused_spell(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_spell(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_wooden_leg(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
@@ -1547,6 +1567,7 @@ auto thing_hit_time_step(Gamep g, Levelsp v, Levelp l, Thingp t, int time_step) 
 auto thing_hot_time_step(Gamep g, Levelsp v, Levelp l, Thingp me, int time_step) -> void;
 auto thing_interpolate(Gamep g, Levelsp v, Levelp l, Thingp t, float dt) -> void;
 auto thing_inventory_dump(Gamep g, Levelsp v, Levelp l, Thingp owner) -> void;
+auto thing_spellbook_dump(Gamep g, Levelsp v, Levelp l, Thingp owner) -> void;
 auto thing_is_burning_set(Gamep g, Levelsp v, Levelp l, Thingp t, bool val = true) -> void;
 auto thing_is_burning_unset(Gamep g, Levelsp v, Levelp l, Thingp t) -> void;
 auto thing_is_corpse_set(Gamep g, Levelsp v, Levelp l, Thingp t, bool val = true) -> void;
@@ -1740,21 +1761,21 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
     for (auto _ext_ = thing_ext_struct(_g_, _v_, _owner_); _ext_; _ext_ = nullptr)                                                              \
       for (auto _n_ = 0; _n_ < THING_INVENTORY_MAX; _n_++)                                                                                      \
         for (AUTO(_slot_) = &_ext_->inventory.slots[ _n_ ]; _slot_; (_slot_) = nullptr)                                                         \
-          for (AUTO(_item_) = thing_find_optional(g, v, (_slot_)->item_id), loop2 = (Thingp) 1; loop2 == (Thingp) 1; loop2 = (Thingp) 0)
+          for (AUTO(_item_) = thing_find_optional(g, v, (_slot_)->thing_id), loop2 = (Thingp) 1; loop2 == (Thingp) 1; loop2 = (Thingp) 0)
 
 #define FOR_ALL_INVENTORY_ITEMS(_g_, _v_, _l_, _owner_, _item_)                                                                                 \
   if ((_g_) && (_v_) && (_l_))                                                                                                                  \
     if (AUTO(_ext_) = thing_ext_struct(_g_, _v_, _owner_))                                                                                      \
       for (auto _n_ = 0; _n_ < THING_INVENTORY_MAX; _n_++)                                                                                      \
         if (AUTO(_slot_) = &_ext_->inventory.slots[ _n_ ])                                                                                      \
-          if (AUTO(_item_) = thing_find_optional(g, v, _slot_->item_id))
+          if (AUTO(_item_) = thing_find_optional(g, v, _slot_->thing_id))
 
 #define FOR_ALL_WORN_ITEMS(_g_, _v_, _l_, _owner_, _item_)                                                                                      \
   if ((_g_) && (_v_) && (_l_))                                                                                                                  \
     if (AUTO(_ext_) = thing_ext_struct(_g_, _v_, _owner_))                                                                                      \
       for (auto _n_ = 0; _n_ < THING_INVENTORY_MAX; _n_++)                                                                                      \
         if (AUTO(_slot_) = &_ext_->inventory.slots[ _n_ ])                                                                                      \
-          if (AUTO(_item_) = thing_find_optional(g, v, _slot_->item_id))                                                                        \
+          if (AUTO(_item_) = thing_find_optional(g, v, _slot_->thing_id))                                                                       \
             if (thing_is_worn(_item_))
 
 #define FOR_ALL_ACTIVE_ITEMS(_g_, _v_, _l_, _owner_, _item_)                                                                                    \
@@ -1762,8 +1783,22 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
     if (AUTO(_ext_) = thing_ext_struct(_g_, _v_, _owner_))                                                                                      \
       for (auto _n_ = 0; _n_ < THING_INVENTORY_MAX; _n_++)                                                                                      \
         if (AUTO(_slot_) = &_ext_->inventory.slots[ _n_ ])                                                                                      \
-          if (AUTO(_item_) = thing_find_optional(g, v, _slot_->item_id))                                                                        \
+          if (AUTO(_item_) = thing_find_optional(g, v, _slot_->thing_id))                                                                       \
             if ((thing_is_worn(_item_) && thing_is_active_when_worn(_item_)) || thing_is_active_when_carried(_item_) /* horseshoe */)
+
+#define FOR_ALL_SPELLBOOK_SLOTS(_g_, _v_, _l_, _owner_, _slot_, _spell_)                                                                        \
+  if ((_g_) && (_v_) && (_l_))                                                                                                                  \
+    for (auto _ext_ = thing_ext_struct(_g_, _v_, _owner_); _ext_; _ext_ = nullptr)                                                              \
+      for (auto _n_ = 0; _n_ < THING_SPELLBOOK_MAX; _n_++)                                                                                      \
+        for (AUTO(_slot_) = &_ext_->spellbook.slots[ _n_ ]; _slot_; (_slot_) = nullptr)                                                         \
+          for (AUTO(_spell_) = thing_find_optional(g, v, (_slot_)->thing_id), loop2 = (Thingp) 1; loop2 == (Thingp) 1; loop2 = (Thingp) 0)
+
+#define FOR_ALL_SPELLBOOK_SPELLS(_g_, _v_, _l_, _owner_, _spell_)                                                                               \
+  if ((_g_) && (_v_) && (_l_))                                                                                                                  \
+    if (AUTO(_ext_) = thing_ext_struct(_g_, _v_, _owner_))                                                                                      \
+      for (auto _n_ = 0; _n_ < THING_SPELLBOOK_MAX; _n_++)                                                                                      \
+        if (AUTO(_slot_) = &_ext_->spellbook.slots[ _n_ ])                                                                                      \
+          if (AUTO(_spell_) = thing_find_optional(g, v, _slot_->thing_id))
 
 #define THING_DBG IF_DEBUG thing_dbg
 #define LEVEL_DBG IF_DEBUG level_dbg

@@ -1773,10 +1773,10 @@
   return level_flag_cached(g, v, l, is_unused144, p);
 }
 
-[[nodiscard]] auto level_is_unused145_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_able_to_cast_spells_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused145, p);
+  return level_flag_cached(g, v, l, is_able_to_cast_spells, p);
 }
 
 [[nodiscard]] auto level_is_unused_spell_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

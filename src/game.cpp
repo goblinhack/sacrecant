@@ -3450,7 +3450,7 @@ void game_spell_clear(Gamep g)
   g->spell_prev_cand            = {};
   g->spell_mouse_over_currently = {};
 }
-[[nodiscard]] auto game_chosen_spell_get(Gamep g) -> std::vector< Tpp >
+[[nodiscard]] auto game_chosen_spells_get(Gamep g) -> std::vector< Tpp >
 {
   TRACE();
 

@@ -2137,7 +2137,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   return tp_flag(thing_tp(t), is_unused144) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused145(Thingp t) -> bool
+[[nodiscard]] auto thing_is_able_to_cast_spells(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -2145,7 +2145,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused145) != 0;
+  return tp_flag(thing_tp(t), is_able_to_cast_spells) != 0;
 }
 
 [[nodiscard]] auto thing_is_unused_spell(Thingp t) -> bool

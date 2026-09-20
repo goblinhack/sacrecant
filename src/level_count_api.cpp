@@ -1737,10 +1737,10 @@
   return level_count(g, v, l, is_unused144, p);
 }
 
-[[nodiscard]] auto level_count_is_unused145(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_able_to_cast_spells(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused145, p);
+  return level_count(g, v, l, is_able_to_cast_spells, p);
 }
 
 [[nodiscard]] auto level_count_is_unused_spell(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t

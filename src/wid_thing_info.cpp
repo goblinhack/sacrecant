@@ -1871,6 +1871,49 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   return printed_something;
 }
 
+[[nodiscard]] static auto wid_thing_info_spellbook(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent) -> bool
+{
+  TRACE();
+
+  bool printed_something = false;
+
+  if (! thing_is_able_to_collect_items(me)) {
+    return printed_something;
+  }
+
+  bool first = true;
+
+  FOR_ALL_SPELLBOOK_SLOTS(g, v, l, me, slot, spell)
+  {
+    auto *spell_tp = (spell != nullptr) ? thing_tp(spell) : nullptr;
+    if (spell_tp == nullptr) {
+      continue;
+    }
+
+    if (first) {
+      first = false;
+      (void) parent->log(g, UI_INFO_FMT_STR "Spellbook:", TEXT_FORMAT_LHS);
+    }
+
+    printed_something = true;
+
+    std::string line = "- ";
+
+    line += capitalize_first(thing_name_long(g, v, l, spell));
+
+    line += " ";
+
+    Widp wid = parent->log(g, line, TEXT_FORMAT_LHS);
+
+    wid_set_thing_context(g, v, wid, spell);
+    wid_set_on_mouse_down(wid, wid_thing_info_thing_mouse_down);
+    wid_set_on_mouse_over_begin(wid, wid_thing_info_thing_mouse_over_begin);
+    wid_set_on_mouse_over_end(wid, wid_thing_info_thing_mouse_over_end);
+  }
+
+  return printed_something;
+}
+
 [[nodiscard]] static auto wid_thing_sacrifices(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent) -> bool
 {
   TRACE();
@@ -2270,6 +2313,10 @@ void wid_thing_info(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, i
   }
 
   if (wid_thing_info_items(g, v, l, me, parent)) {
+    parent->log_empty_line(g);
+  }
+
+  if (wid_thing_info_spellbook(g, v, l, me, parent)) {
     parent->log_empty_line(g);
   }
 

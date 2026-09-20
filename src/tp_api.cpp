@@ -1735,10 +1735,10 @@
   return tp_flag(tp, is_unused144) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused145(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_able_to_cast_spells(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused145) != 0;
+  return tp_flag(tp, is_able_to_cast_spells) != 0;
 }
 
 [[nodiscard]] auto tp_is_unused_spell(Tpp tp) -> bool

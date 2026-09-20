@@ -321,7 +321,7 @@ void               game_spell_clear(Gamep g);
 void               game_cand_spell_set(Gamep g, Thingp t);
 [[nodiscard]] auto game_cand_spell_find(Gamep g, Thingp t) -> bool;
 void               game_cand_spell_unset(Gamep g, Thingp t);
-[[nodiscard]] auto game_chosen_spell_get(Gamep g) -> std::vector< Tpp >;
+[[nodiscard]] auto game_chosen_spells_get(Gamep g) -> std::vector< Tpp >;
 void               game_chosen_spell_set(Gamep g, std::vector< Tpp > t);
 [[nodiscard]] auto game_spell_mouse_over_currently_get(Gamep g) -> Thingp;
 void               game_spell_mouse_over_currently_set(Gamep g, Thingp t);

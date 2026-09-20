@@ -70,11 +70,45 @@ static void wid_spell_learn_destroy(Gamep g)
   game_state_reset(g, "close spell window");
 }
 
-static void wid_spell_learn_all_done(Gamep g)
+static void wid_spell_checkout(Gamep g)
 {
   TRACE();
 
+  auto *v = levels_memory_alloc(g);
+  if (v == nullptr) {
+    return;
+  }
+
+  auto *l = game_level_get(g, v);
+  if (l == nullptr) {
+    return;
+  }
+
+  auto *player = thing_player(g);
+  if (player == nullptr) {
+    return;
+  }
+
   game_chosen_spell_set(g, game_cand_spell_get(g));
+
+  //
+  // Add the chosen spell(s)
+  //
+  for (auto *spell_tp : game_chosen_spells_get(g)) {
+    auto *spell = thing_spawn(g, v, l, spell_tp, thing_at(g, v, l, player));
+    if (spell) {
+      auto cost = thing_spell_cost_for(g, v, l, spell, player);
+
+      if (thing_spellbook_add(g, v, l, spell, player)) {
+        (void) thing_sac_points_decr(g, v, l, player, cost);
+      } else {
+        auto the_thing = thing_name_long_the(g, v, l, spell);
+        topcon(UI_WARN_FMT_STR "You fail to add %s to your spellbook." UI_RESET_FMT, the_thing.c_str());
+      }
+    } else {
+      topcon(UI_WARN_FMT_STR "You fail to learn %s." UI_RESET_FMT, tp_name(spell_tp).c_str());
+    }
+  }
 
   wid_spell_learn_destroy(g);
 
@@ -85,7 +119,7 @@ static void wid_spell_learn_all_done(Gamep g)
 {
   TRACE();
 
-  wid_spell_learn_all_done(g);
+  wid_spell_checkout(g);
 
   return true;
 }
@@ -349,7 +383,7 @@ static void wid_spell_learn_spell_via_mouse_over_end(Gamep g, Widp w)
                   //
                   // All done
                   //
-                  wid_spell_learn_all_done(g);
+                  wid_spell_checkout(g);
                 }
                 return true;
 
@@ -745,17 +779,37 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType 
       }
     }
 
-    if (filter == 0u) {
+    //
+    // Already learned?
+    //
+    bool already_learned = {};
+    FOR_ALL_SPELLBOOK_SPELLS(g, v, l, player, learned_spell)
+    {
+      if (thing_tp(learned_spell) == thing_tp(existing_spell)) {
+        already_learned = true;
+        break;
+      }
+    }
+
+    //
+    // Skip already learned
+    //
+    if (! already_learned) {
       //
-      // All spells
+      // Filter?
       //
-      wid_spell_things.push_back(existing_spell);
-    } else {
-      //
-      // Match filter only
-      //
-      if (thing_spell_arcana(g, v, l, existing_spell) == filter) {
+      if (filter == 0u) {
+        //
+        // All spells
+        //
         wid_spell_things.push_back(existing_spell);
+      } else {
+        //
+        // Match filter only
+        //
+        if (thing_spell_arcana(g, v, l, existing_spell) == filter) {
+          wid_spell_things.push_back(existing_spell);
+        }
       }
     }
 

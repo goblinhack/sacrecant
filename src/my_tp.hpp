@@ -300,7 +300,7 @@
       list_macro(is_unused142, "is_unused142"),                                             /* newline */                                       \
       list_macro(is_unused143, "is_unused143"),                                             /* newline */                                       \
       list_macro(is_unused144, "is_unused144"),                                             /* newline */                                       \
-      list_macro(is_unused145, "is_unused145"),                                             /* newline */                                       \
+      list_macro(is_able_to_cast_spells, "is_able_to_cast_spells"),                                             /* newline */                                       \
       list_macro(is_unused_spell, "is_unused_spell"),                                       /* newline */                                       \
       list_macro(is_spell, "is_spell"),                                                     /* newline */                                       \
       list_macro(is_wooden_leg, "is_wooden_leg"),                                           /* newline */                                       \
@@ -1120,7 +1120,7 @@ class Tp;
 [[nodiscard]] auto tp_is_unused142(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused143(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused144(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused145(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_able_to_cast_spells(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused_spell(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_spell(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_wooden_leg(Tpp tp) -> bool;

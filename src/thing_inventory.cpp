@@ -113,7 +113,7 @@
     }
 
     memset(slot, 0, sizeof(*slot));
-    slot->item_id = new_item->id;
+    slot->thing_id = new_item->id;
     slot->count   = 1;
     return true;
   }
