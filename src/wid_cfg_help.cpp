@@ -150,9 +150,89 @@ static void wid_cfg_check_for_conflicts(Gamep g, SDL_Keysym code)
     con("%%fg=orange$Conflicting keyboard mapping, disabling key for unused11" UI_RESET_FMT);
     game_key_unused11_set(g, none);
   }
-  if (sdlk_eq(game_key_unused12_get(g), code)) {
+  if (sdlk_eq(game_key_cast_get(g), code)) {
     con("%%fg=orange$Conflicting keyboard mapping, disabling key for unused12" UI_RESET_FMT);
-    game_key_unused12_set(g, none);
+    game_key_cast_set(g, none);
+  }
+  if (sdlk_eq(game_key_spell1_get(g), code)) {
+    con("%%fg=orange$Conflicting keyboard mapping, disabling key for spell1" UI_RESET_FMT);
+    game_key_spell1_set(g, none);
+  }
+  if (sdlk_eq(game_key_spell2_get(g), code)) {
+    con("%%fg=orange$Conflicting keyboard mapping, disabling key for spell2" UI_RESET_FMT);
+    game_key_spell2_set(g, none);
+  }
+  if (sdlk_eq(game_key_spell3_get(g), code)) {
+    con("%%fg=orange$Conflicting keyboard mapping, disabling key for spell3" UI_RESET_FMT);
+    game_key_spell3_set(g, none);
+  }
+  if (sdlk_eq(game_key_spell4_get(g), code)) {
+    con("%%fg=orange$Conflicting keyboard mapping, disabling key for spell4" UI_RESET_FMT);
+    game_key_spell4_set(g, none);
+  }
+  if (sdlk_eq(game_key_spell5_get(g), code)) {
+    con("%%fg=orange$Conflicting keyboard mapping, disabling key for spell5" UI_RESET_FMT);
+    game_key_spell5_set(g, none);
+  }
+  if (sdlk_eq(game_key_spell6_get(g), code)) {
+    con("%%fg=orange$Conflicting keyboard mapping, disabling key for spell6" UI_RESET_FMT);
+    game_key_spell6_set(g, none);
+  }
+  if (sdlk_eq(game_key_spell7_get(g), code)) {
+    con("%%fg=orange$Conflicting keyboard mapping, disabling key for spell7" UI_RESET_FMT);
+    game_key_spell7_set(g, none);
+  }
+  if (sdlk_eq(game_key_spell8_get(g), code)) {
+    con("%%fg=orange$Conflicting keyboard mapping, disabling key for spell8" UI_RESET_FMT);
+    game_key_spell8_set(g, none);
+  }
+  if (sdlk_eq(game_key_spell9_get(g), code)) {
+    con("%%fg=orange$Conflicting keyboard mapping, disabling key for spell9" UI_RESET_FMT);
+    game_key_spell9_set(g, none);
+  }
+  if (sdlk_eq(game_key_spell10_get(g), code)) {
+    con("%%fg=orange$Conflicting keyboard mapping, disabling key for spell10" UI_RESET_FMT);
+    game_key_spell10_set(g, none);
+  }
+  if (sdlk_eq(game_key_spell11_get(g), code)) {
+    con("%%fg=orange$Conflicting keyboard mapping, disabling key for spell11" UI_RESET_FMT);
+    game_key_spell11_set(g, none);
+  }
+  if (sdlk_eq(game_key_spell12_get(g), code)) {
+    con("%%fg=orange$Conflicting keyboard mapping, disabling key for spell12" UI_RESET_FMT);
+    game_key_spell12_set(g, none);
+  }
+  if (sdlk_eq(game_key_spell13_get(g), code)) {
+    con("%%fg=orange$Conflicting keyboard mapping, disabling key for spell13" UI_RESET_FMT);
+    game_key_spell13_set(g, none);
+  }
+  if (sdlk_eq(game_key_spell14_get(g), code)) {
+    con("%%fg=orange$Conflicting keyboard mapping, disabling key for spell14" UI_RESET_FMT);
+    game_key_spell14_set(g, none);
+  }
+  if (sdlk_eq(game_key_spell15_get(g), code)) {
+    con("%%fg=orange$Conflicting keyboard mapping, disabling key for spell15" UI_RESET_FMT);
+    game_key_spell15_set(g, none);
+  }
+  if (sdlk_eq(game_key_spell16_get(g), code)) {
+    con("%%fg=orange$Conflicting keyboard mapping, disabling key for spell16" UI_RESET_FMT);
+    game_key_spell16_set(g, none);
+  }
+  if (sdlk_eq(game_key_spell17_get(g), code)) {
+    con("%%fg=orange$Conflicting keyboard mapping, disabling key for spell17" UI_RESET_FMT);
+    game_key_spell17_set(g, none);
+  }
+  if (sdlk_eq(game_key_spell18_get(g), code)) {
+    con("%%fg=orange$Conflicting keyboard mapping, disabling key for spell18" UI_RESET_FMT);
+    game_key_spell18_set(g, none);
+  }
+  if (sdlk_eq(game_key_spell19_get(g), code)) {
+    con("%%fg=orange$Conflicting keyboard mapping, disabling key for spell19" UI_RESET_FMT);
+    game_key_spell19_set(g, none);
+  }
+  if (sdlk_eq(game_key_spell20_get(g), code)) {
+    con("%%fg=orange$Conflicting keyboard mapping, disabling key for spell20" UI_RESET_FMT);
+    game_key_spell20_set(g, none);
   }
 }
 
@@ -395,13 +475,213 @@ static void wid_cfg_key_unused11_set(Gamep g, SDL_Keysym code)
   wid_cfg_help_select(g);
 }
 
-static void wid_cfg_key_unused12_set(Gamep g, SDL_Keysym code)
+static void wid_cfg_key_cast_set(Gamep g, SDL_Keysym code)
 {
   TRACE();
   local_g_config_changed = true;
-  game_key_unused12_set(g, none);
+  game_key_cast_set(g, none);
   wid_cfg_check_for_conflicts(g, code);
-  game_key_unused12_set(g, code);
+  game_key_cast_set(g, code);
+  wid_cfg_help_select(g);
+}
+
+static void wid_cfg_key_spell1_set(Gamep g, SDL_Keysym code)
+{
+  TRACE();
+  local_g_config_changed = true;
+  game_key_spell1_set(g, none);
+  wid_cfg_check_for_conflicts(g, code);
+  game_key_spell1_set(g, code);
+  wid_cfg_help_select(g);
+}
+
+static void wid_cfg_key_spell2_set(Gamep g, SDL_Keysym code)
+{
+  TRACE();
+  local_g_config_changed = true;
+  game_key_spell2_set(g, none);
+  wid_cfg_check_for_conflicts(g, code);
+  game_key_spell2_set(g, code);
+  wid_cfg_help_select(g);
+}
+
+static void wid_cfg_key_spell3_set(Gamep g, SDL_Keysym code)
+{
+  TRACE();
+  local_g_config_changed = true;
+  game_key_spell3_set(g, none);
+  wid_cfg_check_for_conflicts(g, code);
+  game_key_spell3_set(g, code);
+  wid_cfg_help_select(g);
+}
+
+static void wid_cfg_key_spell4_set(Gamep g, SDL_Keysym code)
+{
+  TRACE();
+  local_g_config_changed = true;
+  game_key_spell4_set(g, none);
+  wid_cfg_check_for_conflicts(g, code);
+  game_key_spell4_set(g, code);
+  wid_cfg_help_select(g);
+}
+
+static void wid_cfg_key_spell5_set(Gamep g, SDL_Keysym code)
+{
+  TRACE();
+  local_g_config_changed = true;
+  game_key_spell5_set(g, none);
+  wid_cfg_check_for_conflicts(g, code);
+  game_key_spell5_set(g, code);
+  wid_cfg_help_select(g);
+}
+
+static void wid_cfg_key_spell6_set(Gamep g, SDL_Keysym code)
+{
+  TRACE();
+  local_g_config_changed = true;
+  game_key_spell6_set(g, none);
+  wid_cfg_check_for_conflicts(g, code);
+  game_key_spell6_set(g, code);
+  wid_cfg_help_select(g);
+}
+
+static void wid_cfg_key_spell7_set(Gamep g, SDL_Keysym code)
+{
+  TRACE();
+  local_g_config_changed = true;
+  game_key_spell7_set(g, none);
+  wid_cfg_check_for_conflicts(g, code);
+  game_key_spell7_set(g, code);
+  wid_cfg_help_select(g);
+}
+
+static void wid_cfg_key_spell8_set(Gamep g, SDL_Keysym code)
+{
+  TRACE();
+  local_g_config_changed = true;
+  game_key_spell8_set(g, none);
+  wid_cfg_check_for_conflicts(g, code);
+  game_key_spell8_set(g, code);
+  wid_cfg_help_select(g);
+}
+
+static void wid_cfg_key_spell9_set(Gamep g, SDL_Keysym code)
+{
+  TRACE();
+  local_g_config_changed = true;
+  game_key_spell9_set(g, none);
+  wid_cfg_check_for_conflicts(g, code);
+  game_key_spell9_set(g, code);
+  wid_cfg_help_select(g);
+}
+
+static void wid_cfg_key_spell10_set(Gamep g, SDL_Keysym code)
+{
+  TRACE();
+  local_g_config_changed = true;
+  game_key_spell10_set(g, none);
+  wid_cfg_check_for_conflicts(g, code);
+  game_key_spell10_set(g, code);
+  wid_cfg_help_select(g);
+}
+
+static void wid_cfg_key_spell11_set(Gamep g, SDL_Keysym code)
+{
+  TRACE();
+  local_g_config_changed = true;
+  game_key_spell11_set(g, none);
+  wid_cfg_check_for_conflicts(g, code);
+  game_key_spell11_set(g, code);
+  wid_cfg_help_select(g);
+}
+
+static void wid_cfg_key_spell12_set(Gamep g, SDL_Keysym code)
+{
+  TRACE();
+  local_g_config_changed = true;
+  game_key_spell12_set(g, none);
+  wid_cfg_check_for_conflicts(g, code);
+  game_key_spell12_set(g, code);
+  wid_cfg_help_select(g);
+}
+
+static void wid_cfg_key_spell13_set(Gamep g, SDL_Keysym code)
+{
+  TRACE();
+  local_g_config_changed = true;
+  game_key_spell13_set(g, none);
+  wid_cfg_check_for_conflicts(g, code);
+  game_key_spell13_set(g, code);
+  wid_cfg_help_select(g);
+}
+
+static void wid_cfg_key_spell14_set(Gamep g, SDL_Keysym code)
+{
+  TRACE();
+  local_g_config_changed = true;
+  game_key_spell14_set(g, none);
+  wid_cfg_check_for_conflicts(g, code);
+  game_key_spell14_set(g, code);
+  wid_cfg_help_select(g);
+}
+
+static void wid_cfg_key_spell15_set(Gamep g, SDL_Keysym code)
+{
+  TRACE();
+  local_g_config_changed = true;
+  game_key_spell15_set(g, none);
+  wid_cfg_check_for_conflicts(g, code);
+  game_key_spell15_set(g, code);
+  wid_cfg_help_select(g);
+}
+
+static void wid_cfg_key_spell16_set(Gamep g, SDL_Keysym code)
+{
+  TRACE();
+  local_g_config_changed = true;
+  game_key_spell16_set(g, none);
+  wid_cfg_check_for_conflicts(g, code);
+  game_key_spell16_set(g, code);
+  wid_cfg_help_select(g);
+}
+
+static void wid_cfg_key_spell17_set(Gamep g, SDL_Keysym code)
+{
+  TRACE();
+  local_g_config_changed = true;
+  game_key_spell17_set(g, none);
+  wid_cfg_check_for_conflicts(g, code);
+  game_key_spell17_set(g, code);
+  wid_cfg_help_select(g);
+}
+
+static void wid_cfg_key_spell18_set(Gamep g, SDL_Keysym code)
+{
+  TRACE();
+  local_g_config_changed = true;
+  game_key_spell18_set(g, none);
+  wid_cfg_check_for_conflicts(g, code);
+  game_key_spell18_set(g, code);
+  wid_cfg_help_select(g);
+}
+
+static void wid_cfg_key_spell19_set(Gamep g, SDL_Keysym code)
+{
+  TRACE();
+  local_g_config_changed = true;
+  game_key_spell19_set(g, none);
+  wid_cfg_check_for_conflicts(g, code);
+  game_key_spell19_set(g, code);
+  wid_cfg_help_select(g);
+}
+
+static void wid_cfg_key_spell20_set(Gamep g, SDL_Keysym code)
+{
+  TRACE();
+  local_g_config_changed = true;
+  game_key_spell20_set(g, none);
+  wid_cfg_check_for_conflicts(g, code);
+  game_key_spell20_set(g, code);
   wid_cfg_help_select(g);
 }
 
@@ -769,11 +1049,191 @@ static void grab_key(const std::string &which)
   return true;
 }
 
-[[nodiscard]] static auto wid_cfg_key_unused12(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+[[nodiscard]] static auto wid_cfg_key_cast(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_unused12");
-  sdl.on_sdl_key_grab    = wid_cfg_key_unused12_set;
+  grab_key("key_cast");
+  sdl.on_sdl_key_grab    = wid_cfg_key_cast_set;
+  local_g_config_changed = true;
+  return true;
+}
+
+[[nodiscard]] static auto wid_cfg_key_spell1(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+{
+  TRACE();
+  grab_key("key_spell1");
+  sdl.on_sdl_key_grab    = wid_cfg_key_spell1_set;
+  local_g_config_changed = true;
+  return true;
+}
+
+[[nodiscard]] static auto wid_cfg_key_spell2(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+{
+  TRACE();
+  grab_key("key_spell2");
+  sdl.on_sdl_key_grab    = wid_cfg_key_spell2_set;
+  local_g_config_changed = true;
+  return true;
+}
+
+[[nodiscard]] static auto wid_cfg_key_spell3(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+{
+  TRACE();
+  grab_key("key_spell3");
+  sdl.on_sdl_key_grab    = wid_cfg_key_spell3_set;
+  local_g_config_changed = true;
+  return true;
+}
+
+[[nodiscard]] static auto wid_cfg_key_spell4(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+{
+  TRACE();
+  grab_key("key_spell4");
+  sdl.on_sdl_key_grab    = wid_cfg_key_spell4_set;
+  local_g_config_changed = true;
+  return true;
+}
+
+[[nodiscard]] static auto wid_cfg_key_spell5(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+{
+  TRACE();
+  grab_key("key_spell5");
+  sdl.on_sdl_key_grab    = wid_cfg_key_spell5_set;
+  local_g_config_changed = true;
+  return true;
+}
+
+[[nodiscard]] static auto wid_cfg_key_spell6(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+{
+  TRACE();
+  grab_key("key_spell6");
+  sdl.on_sdl_key_grab    = wid_cfg_key_spell6_set;
+  local_g_config_changed = true;
+  return true;
+}
+
+[[nodiscard]] static auto wid_cfg_key_spell7(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+{
+  TRACE();
+  grab_key("key_spell7");
+  sdl.on_sdl_key_grab    = wid_cfg_key_spell7_set;
+  local_g_config_changed = true;
+  return true;
+}
+
+[[nodiscard]] static auto wid_cfg_key_spell8(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+{
+  TRACE();
+  grab_key("key_spell8");
+  sdl.on_sdl_key_grab    = wid_cfg_key_spell8_set;
+  local_g_config_changed = true;
+  return true;
+}
+
+[[nodiscard]] static auto wid_cfg_key_spell9(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+{
+  TRACE();
+  grab_key("key_spell9");
+  sdl.on_sdl_key_grab    = wid_cfg_key_spell9_set;
+  local_g_config_changed = true;
+  return true;
+}
+
+[[nodiscard]] static auto wid_cfg_key_spell10(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+{
+  TRACE();
+  grab_key("key_spell10");
+  sdl.on_sdl_key_grab    = wid_cfg_key_spell10_set;
+  local_g_config_changed = true;
+  return true;
+}
+
+[[nodiscard]] static auto wid_cfg_key_spell11(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+{
+  TRACE();
+  grab_key("key_spell11");
+  sdl.on_sdl_key_grab    = wid_cfg_key_spell11_set;
+  local_g_config_changed = true;
+  return true;
+}
+
+[[nodiscard]] static auto wid_cfg_key_spell12(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+{
+  TRACE();
+  grab_key("key_spell12");
+  sdl.on_sdl_key_grab    = wid_cfg_key_spell12_set;
+  local_g_config_changed = true;
+  return true;
+}
+
+[[nodiscard]] static auto wid_cfg_key_spell13(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+{
+  TRACE();
+  grab_key("key_spell13");
+  sdl.on_sdl_key_grab    = wid_cfg_key_spell13_set;
+  local_g_config_changed = true;
+  return true;
+}
+
+[[nodiscard]] static auto wid_cfg_key_spell14(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+{
+  TRACE();
+  grab_key("key_spell14");
+  sdl.on_sdl_key_grab    = wid_cfg_key_spell14_set;
+  local_g_config_changed = true;
+  return true;
+}
+
+[[nodiscard]] static auto wid_cfg_key_spell15(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+{
+  TRACE();
+  grab_key("key_spell15");
+  sdl.on_sdl_key_grab    = wid_cfg_key_spell15_set;
+  local_g_config_changed = true;
+  return true;
+}
+
+[[nodiscard]] static auto wid_cfg_key_spell16(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+{
+  TRACE();
+  grab_key("key_spell16");
+  sdl.on_sdl_key_grab    = wid_cfg_key_spell16_set;
+  local_g_config_changed = true;
+  return true;
+}
+
+[[nodiscard]] static auto wid_cfg_key_spell17(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+{
+  TRACE();
+  grab_key("key_spell17");
+  sdl.on_sdl_key_grab    = wid_cfg_key_spell17_set;
+  local_g_config_changed = true;
+  return true;
+}
+
+[[nodiscard]] static auto wid_cfg_key_spell18(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+{
+  TRACE();
+  grab_key("key_spell18");
+  sdl.on_sdl_key_grab    = wid_cfg_key_spell18_set;
+  local_g_config_changed = true;
+  return true;
+}
+
+[[nodiscard]] static auto wid_cfg_key_spell19(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+{
+  TRACE();
+  grab_key("key_spell19");
+  sdl.on_sdl_key_grab    = wid_cfg_key_spell19_set;
+  local_g_config_changed = true;
+  return true;
+}
+
+[[nodiscard]] static auto wid_cfg_key_spell20(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+{
+  TRACE();
+  grab_key("key_spell20");
+  sdl.on_sdl_key_grab    = wid_cfg_key_spell20_set;
   local_g_config_changed = true;
   return true;
 }
@@ -1435,7 +1895,36 @@ void wid_cfg_help_select(Gamep g)
   }
 
   ///////////////////////////////////////////////////////////////////////
-  // ascend
+  // Cast
+  ///////////////////////////////////////////////////////////////////////
+  y_at++;
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_square_button(g, p, "Cast");
+
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
+    wid_set_shape_none(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text_lhs(w);
+    wid_set_text(w, "key_cast");
+  }
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_bar_button(g, p, "value");
+
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, ::to_string(game_key_cast_get(g)));
+    wid_set_on_mouse_down(w, wid_cfg_key_cast);
+  }
+
+  ///////////////////////////////////////////////////////////////////////
+  // Ascend
   ///////////////////////////////////////////////////////////////////////
   y_at++;
   {
@@ -1464,7 +1953,7 @@ void wid_cfg_help_select(Gamep g)
   }
 
   ///////////////////////////////////////////////////////////////////////
-  // descend
+  // Descend
   ///////////////////////////////////////////////////////////////////////
   y_at++;
   {
@@ -1495,6 +1984,588 @@ void wid_cfg_help_select(Gamep g)
   ///////////////////////////////////////////////////////////////////////
   y_at++;
   ///////////////////////////////////////////////////////////////////////
+
+  ///////////////////////////////////////////////////////////////////////
+  // spell1
+  ///////////////////////////////////////////////////////////////////////
+  y_at++;
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_square_button(g, p, "key_spell1");
+
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
+    wid_set_shape_none(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text_lhs(w);
+    wid_set_text(w, "Cast spell 1");
+  }
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_bar_button(g, p, "value");
+
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, ::to_string(game_key_spell1_get(g)));
+    wid_set_on_mouse_down(w, wid_cfg_key_spell1);
+  }
+
+  ///////////////////////////////////////////////////////////////////////
+  // spell2
+  ///////////////////////////////////////////////////////////////////////
+  y_at++;
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_square_button(g, p, "key_spell2");
+
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
+    wid_set_shape_none(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text_lhs(w);
+    wid_set_text(w, "Cast spell 2");
+  }
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_bar_button(g, p, "value");
+
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, ::to_string(game_key_spell2_get(g)));
+    wid_set_on_mouse_down(w, wid_cfg_key_spell2);
+  }
+
+  ///////////////////////////////////////////////////////////////////////
+  // spell3
+  ///////////////////////////////////////////////////////////////////////
+  y_at++;
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_square_button(g, p, "key_spell3");
+
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
+    wid_set_shape_none(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text_lhs(w);
+    wid_set_text(w, "Cast spell 3");
+  }
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_bar_button(g, p, "value");
+
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, ::to_string(game_key_spell3_get(g)));
+    wid_set_on_mouse_down(w, wid_cfg_key_spell3);
+  }
+
+  ///////////////////////////////////////////////////////////////////////
+  // spell4
+  ///////////////////////////////////////////////////////////////////////
+  y_at++;
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_square_button(g, p, "key_spell4");
+
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
+    wid_set_shape_none(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text_lhs(w);
+    wid_set_text(w, "Cast spell 4");
+  }
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_bar_button(g, p, "value");
+
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, ::to_string(game_key_spell4_get(g)));
+    wid_set_on_mouse_down(w, wid_cfg_key_spell4);
+  }
+
+  ///////////////////////////////////////////////////////////////////////
+  // spell5
+  ///////////////////////////////////////////////////////////////////////
+  y_at++;
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_square_button(g, p, "key_spell5");
+
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
+    wid_set_shape_none(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text_lhs(w);
+    wid_set_text(w, "Cast spell 5");
+  }
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_bar_button(g, p, "value");
+
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, ::to_string(game_key_spell5_get(g)));
+    wid_set_on_mouse_down(w, wid_cfg_key_spell5);
+  }
+
+  ///////////////////////////////////////////////////////////////////////
+  // spell6
+  ///////////////////////////////////////////////////////////////////////
+  y_at++;
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_square_button(g, p, "key_spell6");
+
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
+    wid_set_shape_none(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text_lhs(w);
+    wid_set_text(w, "Cast spell 6");
+  }
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_bar_button(g, p, "value");
+
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, ::to_string(game_key_spell6_get(g)));
+    wid_set_on_mouse_down(w, wid_cfg_key_spell6);
+  }
+
+  ///////////////////////////////////////////////////////////////////////
+  // spell7
+  ///////////////////////////////////////////////////////////////////////
+  y_at++;
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_square_button(g, p, "key_spell7");
+
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
+    wid_set_shape_none(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text_lhs(w);
+    wid_set_text(w, "Cast spell 7");
+  }
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_bar_button(g, p, "value");
+
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, ::to_string(game_key_spell7_get(g)));
+    wid_set_on_mouse_down(w, wid_cfg_key_spell7);
+  }
+
+  ///////////////////////////////////////////////////////////////////////
+  // spell8
+  ///////////////////////////////////////////////////////////////////////
+  y_at++;
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_square_button(g, p, "key_spell8");
+
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
+    wid_set_shape_none(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text_lhs(w);
+    wid_set_text(w, "Cast spell 8");
+  }
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_bar_button(g, p, "value");
+
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, ::to_string(game_key_spell8_get(g)));
+    wid_set_on_mouse_down(w, wid_cfg_key_spell8);
+  }
+
+  ///////////////////////////////////////////////////////////////////////
+  // spell9
+  ///////////////////////////////////////////////////////////////////////
+  y_at++;
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_square_button(g, p, "key_spell9");
+
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
+    wid_set_shape_none(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text_lhs(w);
+    wid_set_text(w, "Cast spell 9");
+  }
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_bar_button(g, p, "value");
+
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, ::to_string(game_key_spell9_get(g)));
+    wid_set_on_mouse_down(w, wid_cfg_key_spell9);
+  }
+
+  ///////////////////////////////////////////////////////////////////////
+  // spell10
+  ///////////////////////////////////////////////////////////////////////
+  y_at++;
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_square_button(g, p, "key_spell10");
+
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
+    wid_set_shape_none(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text_lhs(w);
+    wid_set_text(w, "Cast spell 10");
+  }
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_bar_button(g, p, "value");
+
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, ::to_string(game_key_spell10_get(g)));
+    wid_set_on_mouse_down(w, wid_cfg_key_spell10);
+  }
+
+  ///////////////////////////////////////////////////////////////////////
+  // spell11
+  ///////////////////////////////////////////////////////////////////////
+  y_at++;
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_square_button(g, p, "key_spell11");
+
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
+    wid_set_shape_none(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text_lhs(w);
+    wid_set_text(w, "Cast spell 11");
+  }
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_bar_button(g, p, "value");
+
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, ::to_string(game_key_spell11_get(g)));
+    wid_set_on_mouse_down(w, wid_cfg_key_spell11);
+  }
+
+  ///////////////////////////////////////////////////////////////////////
+  // spell12
+  ///////////////////////////////////////////////////////////////////////
+  y_at++;
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_square_button(g, p, "key_spell12");
+
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
+    wid_set_shape_none(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text_lhs(w);
+    wid_set_text(w, "Cast spell 12");
+  }
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_bar_button(g, p, "value");
+
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, ::to_string(game_key_spell12_get(g)));
+    wid_set_on_mouse_down(w, wid_cfg_key_spell12);
+  }
+
+  ///////////////////////////////////////////////////////////////////////
+  // spell13
+  ///////////////////////////////////////////////////////////////////////
+  y_at++;
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_square_button(g, p, "key_spell13");
+
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
+    wid_set_shape_none(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text_lhs(w);
+    wid_set_text(w, "Cast spell 13");
+  }
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_bar_button(g, p, "value");
+
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, ::to_string(game_key_spell13_get(g)));
+    wid_set_on_mouse_down(w, wid_cfg_key_spell13);
+  }
+
+  ///////////////////////////////////////////////////////////////////////
+  // spell14
+  ///////////////////////////////////////////////////////////////////////
+  y_at++;
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_square_button(g, p, "key_spell14");
+
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
+    wid_set_shape_none(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text_lhs(w);
+    wid_set_text(w, "Cast spell 14");
+  }
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_bar_button(g, p, "value");
+
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, ::to_string(game_key_spell14_get(g)));
+    wid_set_on_mouse_down(w, wid_cfg_key_spell14);
+  }
+
+  ///////////////////////////////////////////////////////////////////////
+  // spell15
+  ///////////////////////////////////////////////////////////////////////
+  y_at++;
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_square_button(g, p, "key_spell15");
+
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
+    wid_set_shape_none(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text_lhs(w);
+    wid_set_text(w, "Cast spell 15");
+  }
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_bar_button(g, p, "value");
+
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, ::to_string(game_key_spell15_get(g)));
+    wid_set_on_mouse_down(w, wid_cfg_key_spell15);
+  }
+
+  ///////////////////////////////////////////////////////////////////////
+  // spell16
+  ///////////////////////////////////////////////////////////////////////
+  y_at++;
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_square_button(g, p, "key_spell16");
+
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
+    wid_set_shape_none(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text_lhs(w);
+    wid_set_text(w, "Cast spell 16");
+  }
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_bar_button(g, p, "value");
+
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, ::to_string(game_key_spell16_get(g)));
+    wid_set_on_mouse_down(w, wid_cfg_key_spell16);
+  }
+
+  ///////////////////////////////////////////////////////////////////////
+  // spell17
+  ///////////////////////////////////////////////////////////////////////
+  y_at++;
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_square_button(g, p, "key_spell17");
+
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
+    wid_set_shape_none(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text_lhs(w);
+    wid_set_text(w, "Cast spell 17");
+  }
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_bar_button(g, p, "value");
+
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, ::to_string(game_key_spell17_get(g)));
+    wid_set_on_mouse_down(w, wid_cfg_key_spell17);
+  }
+
+  ///////////////////////////////////////////////////////////////////////
+  // spell18
+  ///////////////////////////////////////////////////////////////////////
+  y_at++;
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_square_button(g, p, "key_spell18");
+
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
+    wid_set_shape_none(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text_lhs(w);
+    wid_set_text(w, "Cast spell 18");
+  }
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_bar_button(g, p, "value");
+
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, ::to_string(game_key_spell18_get(g)));
+    wid_set_on_mouse_down(w, wid_cfg_key_spell18);
+  }
+
+  ///////////////////////////////////////////////////////////////////////
+  // spell19
+  ///////////////////////////////////////////////////////////////////////
+  y_at++;
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_square_button(g, p, "key_spell19");
+
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
+    wid_set_shape_none(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text_lhs(w);
+    wid_set_text(w, "Cast spell 19");
+  }
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_bar_button(g, p, "value");
+
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, ::to_string(game_key_spell19_get(g)));
+    wid_set_on_mouse_down(w, wid_cfg_key_spell19);
+  }
+
+  ///////////////////////////////////////////////////////////////////////
+  // spell20
+  ///////////////////////////////////////////////////////////////////////
+  y_at++;
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_square_button(g, p, "key_spell20");
+
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
+    wid_set_shape_none(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text_lhs(w);
+    wid_set_text(w, "Cast spell 20");
+  }
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_bar_button(g, p, "value");
+
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, ::to_string(game_key_spell20_get(g)));
+    wid_set_on_mouse_down(w, wid_cfg_key_spell20);
+  }
+
+  y_at++;
 
   ///////////////////////////////////////////////////////////////////////
   // Zoom
@@ -1952,34 +3023,6 @@ void wid_cfg_help_select(Gamep g)
     wid_set_pos(w, tl, br);
     wid_set_text(w, ::to_string(game_key_unused11_get(g)));
     wid_set_on_mouse_down(w, wid_cfg_key_unused11);
-  }
-  ///////////////////////////////////////////////////////////////////////
-  // unused12
-  ///////////////////////////////////////////////////////////////////////
-  y_at++;
-  {
-    TRACE();
-    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "key_unused12");
-
-    spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
-    wid_set_pos(w, tl, br);
-    wid_set_text_lhs(w);
-    wid_set_text(w, "key_unused12");
-  }
-  {
-    TRACE();
-    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_bar_button(g, p, "value");
-
-    spoint const tl(rhs_button_left, y_at);
-    spoint const br(rhs_button_right, y_at);
-    wid_set_text_rhs(w);
-    wid_set_pos(w, tl, br);
-    wid_set_text(w, ::to_string(game_key_unused12_get(g)));
-    wid_set_on_mouse_down(w, wid_cfg_key_unused12);
   }
 
   wid_update(g, wid_cfg_help_window->wid_text_area->wid_text_area);

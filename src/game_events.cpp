@@ -90,6 +90,7 @@
     case STATE_LEVEL_SELECT_MENU :  [[fallthrough]];
     case STATE_PLAYER_SELECT_MENU : [[fallthrough]];
     case STATE_SPELL_LEARN_MENU :   [[fallthrough]];
+    case STATE_SPELLBOOK_MENU :     [[fallthrough]];
     case STATE_LOAD_MENU :          [[fallthrough]];
     case STATE_LOADED :             [[fallthrough]];
     case STATE_MAIN_MENU :          [[fallthrough]];
@@ -168,6 +169,7 @@
       break;
     case STATE_PLAYER_SELECT_MENU : [[fallthrough]];
     case STATE_SPELL_LEARN_MENU :   [[fallthrough]];
+    case STATE_SPELLBOOK_MENU :     [[fallthrough]];
     case STATE_COLLECT_MENU :       [[fallthrough]];
     case STATE_DEAD_MENU :          [[fallthrough]];
     case STATE_GENERATED :          [[fallthrough]];
@@ -354,6 +356,68 @@
   }
 
   wid_spell_learn(g, v, l, player);
+
+  return true;
+}
+
+[[nodiscard]] auto game_event_cast(Gamep g) -> bool
+{
+  DBG("learn");
+  TRACE_INDENT();
+
+  auto *v = game_levels_get(g);
+  if (v == nullptr) [[unlikely]] {
+    return false;
+  }
+
+  auto *l = game_level_get(g, v);
+  if (l == nullptr) [[unlikely]] {
+    return false;
+  }
+
+  if (level_is_level_select(g, v, l)) {
+    (void) sound_play(g, "error");
+    return false;
+  }
+
+  auto *player = thing_player(g);
+  if (player == nullptr) [[unlikely]] {
+    (void) sound_play(g, "error");
+    return false;
+  }
+
+  wid_spellbook_show(g, v, l, player);
+
+  return true;
+}
+
+[[nodiscard]] auto game_event_cast_spell(Gamep g, int spell) -> bool
+{
+  DBG("learn");
+  TRACE_INDENT();
+
+  auto *v = game_levels_get(g);
+  if (v == nullptr) [[unlikely]] {
+    return false;
+  }
+
+  auto *l = game_level_get(g, v);
+  if (l == nullptr) [[unlikely]] {
+    return false;
+  }
+
+  if (level_is_level_select(g, v, l)) {
+    (void) sound_play(g, "error");
+    return false;
+  }
+
+  auto *player = thing_player(g);
+  if (player == nullptr) [[unlikely]] {
+    (void) sound_play(g, "error");
+    return false;
+  }
+
+  topcon("todo cast spell %d", spell);
 
   return true;
 }
@@ -676,6 +740,7 @@ static auto game_event_abort(Gamep g) -> bool
     case STATE_LEVEL_SELECT_MENU :  [[fallthrough]];
     case STATE_PLAYER_SELECT_MENU : [[fallthrough]];
     case STATE_SPELL_LEARN_MENU :   [[fallthrough]];
+    case STATE_SPELLBOOK_MENU :     [[fallthrough]];
     case STATE_LOAD_MENU :          [[fallthrough]];
     case STATE_LOADED :             [[fallthrough]];
     case STATE_MAIN_MENU :          [[fallthrough]];
@@ -704,6 +769,7 @@ static auto game_event_abort(Gamep g) -> bool
     case STATE_LEVEL_SELECT_MENU :  [[fallthrough]];
     case STATE_PLAYER_SELECT_MENU : [[fallthrough]];
     case STATE_SPELL_LEARN_MENU :   [[fallthrough]];
+    case STATE_SPELLBOOK_MENU :     [[fallthrough]];
     case STATE_THROW_ITEM :         [[fallthrough]];
     case STATE_COLLECT_MENU :       [[fallthrough]];
     case STATE_DEAD_MENU :          [[fallthrough]];
@@ -832,6 +898,132 @@ static auto game_event_abort(Gamep g) -> bool
         return false; // To avoid click noise
       }
 
+      if (sdlk_eq(*key, game_key_cast_get(g))) {
+        DBG("pressed cast key");
+        (void) game_event_cast(g);
+        return false; // To avoid click noise
+      }
+
+      if (sdlk_eq(*key, game_key_spell1_get(g))) {
+        DBG("pressed cast key");
+        (void) game_event_cast_spell(g, 0);
+        return false; // To avoid click noise
+      }
+
+      if (sdlk_eq(*key, game_key_spell2_get(g))) {
+        DBG("pressed cast key");
+        (void) game_event_cast_spell(g, 1);
+        return false; // To avoid click noise
+      }
+
+      if (sdlk_eq(*key, game_key_spell3_get(g))) {
+        DBG("pressed cast key");
+        (void) game_event_cast_spell(g, 2);
+        return false; // To avoid click noise
+      }
+
+      if (sdlk_eq(*key, game_key_spell4_get(g))) {
+        DBG("pressed cast key");
+        (void) game_event_cast_spell(g, 3);
+        return false; // To avoid click noise
+      }
+
+      if (sdlk_eq(*key, game_key_spell5_get(g))) {
+        DBG("pressed cast key");
+        (void) game_event_cast_spell(g, 4);
+        return false; // To avoid click noise
+      }
+
+      if (sdlk_eq(*key, game_key_spell6_get(g))) {
+        DBG("pressed cast key");
+        (void) game_event_cast_spell(g, 5);
+        return false; // To avoid click noise
+      }
+
+      if (sdlk_eq(*key, game_key_spell7_get(g))) {
+        DBG("pressed cast key");
+        (void) game_event_cast_spell(g, 6);
+        return false; // To avoid click noise
+      }
+
+      if (sdlk_eq(*key, game_key_spell8_get(g))) {
+        DBG("pressed cast key");
+        (void) game_event_cast_spell(g, 7);
+        return false; // To avoid click noise
+      }
+
+      if (sdlk_eq(*key, game_key_spell9_get(g))) {
+        DBG("pressed cast key");
+        (void) game_event_cast_spell(g, 8);
+        return false; // To avoid click noise
+      }
+
+      if (sdlk_eq(*key, game_key_spell10_get(g))) {
+        DBG("pressed cast key");
+        (void) game_event_cast_spell(g, 9);
+        return false; // To avoid click noise
+      }
+
+      if (sdlk_eq(*key, game_key_spell11_get(g))) {
+        DBG("pressed cast key");
+        (void) game_event_cast_spell(g, 10);
+        return false; // To avoid click noise
+      }
+
+      if (sdlk_eq(*key, game_key_spell12_get(g))) {
+        DBG("pressed cast key");
+        (void) game_event_cast_spell(g, 11);
+        return false; // To avoid click noise
+      }
+
+      if (sdlk_eq(*key, game_key_spell13_get(g))) {
+        DBG("pressed cast key");
+        (void) game_event_cast_spell(g, 12);
+        return false; // To avoid click noise
+      }
+
+      if (sdlk_eq(*key, game_key_spell14_get(g))) {
+        DBG("pressed cast key");
+        (void) game_event_cast_spell(g, 13);
+        return false; // To avoid click noise
+      }
+
+      if (sdlk_eq(*key, game_key_spell15_get(g))) {
+        DBG("pressed cast key");
+        (void) game_event_cast_spell(g, 14);
+        return false; // To avoid click noise
+      }
+
+      if (sdlk_eq(*key, game_key_spell16_get(g))) {
+        DBG("pressed cast key");
+        (void) game_event_cast_spell(g, 15);
+        return false; // To avoid click noise
+      }
+
+      if (sdlk_eq(*key, game_key_spell17_get(g))) {
+        DBG("pressed cast key");
+        (void) game_event_cast_spell(g, 16);
+        return false; // To avoid click noise
+      }
+
+      if (sdlk_eq(*key, game_key_spell18_get(g))) {
+        DBG("pressed cast key");
+        (void) game_event_cast_spell(g, 17);
+        return false; // To avoid click noise
+      }
+
+      if (sdlk_eq(*key, game_key_spell19_get(g))) {
+        DBG("pressed cast key");
+        (void) game_event_cast_spell(g, 18);
+        return false; // To avoid click noise
+      }
+
+      if (sdlk_eq(*key, game_key_spell20_get(g))) {
+        DBG("pressed cast key");
+        (void) game_event_cast_spell(g, 19);
+        return false; // To avoid click noise
+      }
+
       if (sdlk_eq(*key, game_key_ascend_get(g))) {
         DBG("pressed ascend key");
         (void) sound_play(g, "keypress");
@@ -888,6 +1080,7 @@ static auto game_event_abort(Gamep g) -> bool
     case STATE_LEVEL_SELECT_MENU :  [[fallthrough]];
     case STATE_PLAYER_SELECT_MENU : [[fallthrough]];
     case STATE_SPELL_LEARN_MENU :   [[fallthrough]];
+    case STATE_SPELLBOOK_MENU :     [[fallthrough]];
     case STATE_LOAD_MENU :          [[fallthrough]];
     case STATE_LOADED :             [[fallthrough]];
     case STATE_MAIN_MENU :          [[fallthrough]];

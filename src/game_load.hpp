@@ -347,8 +347,108 @@ auto operator>>(std::istream &in, Bits< Config & > my) -> std::istream &
       return in;
     }
     in >> bits(tmp);
-    if (tmp != offsetof(Config, key_unused12)) {
-      game_load_error = "Config structure changed: offsetof(Config, key_unused12))";
+    if (tmp != offsetof(Config, key_cast)) {
+      game_load_error = "Config structure changed: offsetof(Config, key_cast))";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(Config, key_spell1)) {
+      game_load_error = "Config structure changed: offsetof(Config, key_spell1))";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(Config, key_spell2)) {
+      game_load_error = "Config structure changed: offsetof(Config, key_spell2))";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(Config, key_spell3)) {
+      game_load_error = "Config structure changed: offsetof(Config, key_spell3))";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(Config, key_spell4)) {
+      game_load_error = "Config structure changed: offsetof(Config, key_spell4))";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(Config, key_spell5)) {
+      game_load_error = "Config structure changed: offsetof(Config, key_spell5))";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(Config, key_spell6)) {
+      game_load_error = "Config structure changed: offsetof(Config, key_spell6))";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(Config, key_spell7)) {
+      game_load_error = "Config structure changed: offsetof(Config, key_spell7))";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(Config, key_spell8)) {
+      game_load_error = "Config structure changed: offsetof(Config, key_spell8))";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(Config, key_spell9)) {
+      game_load_error = "Config structure changed: offsetof(Config, key_spell9))";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(Config, key_spell10)) {
+      game_load_error = "Config structure changed: offsetof(Config, key_spell10))";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(Config, key_spell11)) {
+      game_load_error = "Config structure changed: offsetof(Config, key_spell11))";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(Config, key_spell12)) {
+      game_load_error = "Config structure changed: offsetof(Config, key_spell12))";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(Config, key_spell13)) {
+      game_load_error = "Config structure changed: offsetof(Config, key_spell13))";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(Config, key_spell14)) {
+      game_load_error = "Config structure changed: offsetof(Config, key_spell14))";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(Config, key_spell15)) {
+      game_load_error = "Config structure changed: offsetof(Config, key_spell15))";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(Config, key_spell16)) {
+      game_load_error = "Config structure changed: offsetof(Config, key_spell16))";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(Config, key_spell17)) {
+      game_load_error = "Config structure changed: offsetof(Config, key_spell17))";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(Config, key_spell18)) {
+      game_load_error = "Config structure changed: offsetof(Config, key_spell18))";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(Config, key_spell19)) {
+      game_load_error = "Config structure changed: offsetof(Config, key_spell19))";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(Config, key_spell20)) {
+      game_load_error = "Config structure changed: offsetof(Config, key_spell20))";
       return in;
     }
     in >> bits(tmp);
@@ -456,7 +556,27 @@ auto operator>>(std::istream &in, Bits< Config & > my) -> std::istream &
   in >> bits(my.t.key_unused9);
   in >> bits(my.t.key_unused10);
   in >> bits(my.t.key_unused11);
-  in >> bits(my.t.key_unused12);
+  in >> bits(my.t.key_cast);
+  in >> bits(my.t.key_spell1);
+  in >> bits(my.t.key_spell2);
+  in >> bits(my.t.key_spell3);
+  in >> bits(my.t.key_spell4);
+  in >> bits(my.t.key_spell5);
+  in >> bits(my.t.key_spell6);
+  in >> bits(my.t.key_spell7);
+  in >> bits(my.t.key_spell8);
+  in >> bits(my.t.key_spell9);
+  in >> bits(my.t.key_spell10);
+  in >> bits(my.t.key_spell11);
+  in >> bits(my.t.key_spell12);
+  in >> bits(my.t.key_spell13);
+  in >> bits(my.t.key_spell14);
+  in >> bits(my.t.key_spell15);
+  in >> bits(my.t.key_spell16);
+  in >> bits(my.t.key_spell17);
+  in >> bits(my.t.key_spell18);
+  in >> bits(my.t.key_spell19);
+  in >> bits(my.t.key_spell20);
   in >> bits(my.t.key_abort);
   in >> bits(my.t.key_throw);
   in >> bits(my.t.key_fire);

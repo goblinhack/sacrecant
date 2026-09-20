@@ -198,6 +198,11 @@ static auto wid_rightbar_thing_info_add(Gamep g, Levelsp v, Levelp l) -> void
     // Tp info only
     //
     wid_rightbar_thing_info_add(g, v, l);
+  } else if (game_state(g) == STATE_SPELLBOOK_MENU) {
+    //
+    // Tp info only
+    //
+    wid_rightbar_thing_info_add(g, v, l);
   } else if (game_state(g) == STATE_PLAYER_SELECT_MENU) {
     //
     // Tp info only

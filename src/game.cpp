@@ -150,7 +150,27 @@ public:
   SDL_Keysym key_unused9    = {};
   SDL_Keysym key_unused10   = {};
   SDL_Keysym key_unused11   = {};
-  SDL_Keysym key_unused12   = {};
+  SDL_Keysym key_cast       = {};
+  SDL_Keysym key_spell1     = {};
+  SDL_Keysym key_spell2     = {};
+  SDL_Keysym key_spell3     = {};
+  SDL_Keysym key_spell4     = {};
+  SDL_Keysym key_spell5     = {};
+  SDL_Keysym key_spell6     = {};
+  SDL_Keysym key_spell7     = {};
+  SDL_Keysym key_spell8     = {};
+  SDL_Keysym key_spell9     = {};
+  SDL_Keysym key_spell10    = {};
+  SDL_Keysym key_spell11    = {};
+  SDL_Keysym key_spell12    = {};
+  SDL_Keysym key_spell13    = {};
+  SDL_Keysym key_spell14    = {};
+  SDL_Keysym key_spell15    = {};
+  SDL_Keysym key_spell16    = {};
+  SDL_Keysym key_spell17    = {};
+  SDL_Keysym key_spell18    = {};
+  SDL_Keysym key_spell19    = {};
+  SDL_Keysym key_spell20    = {};
   SDL_Keysym key_abort      = {};
   SDL_Keysym key_throw      = {};
   SDL_Keysym key_fire       = {};
@@ -430,6 +450,7 @@ void Config::reset()
   key_help.sym       = SDLK_h;
   key_inventory.sym  = SDLK_i;
   key_learn.sym      = SDLK_l;
+  key_cast.sym       = SDLK_c;
   key_fire.sym       = SDLK_SPACE;
   key_jump.sym       = SDLK_j;
   key_throw.sym      = SDLK_t;
@@ -444,9 +465,40 @@ void Config::reset()
   key_screenshot.sym = SDLK_F10;
   key_wait.sym       = SDLK_PERIOD;
   key_zoom.sym       = SDLK_z;
-  music_volume       = {MIX_MAX_VOLUME / 4};
-  sdl_delay          = 1;
-  sound_volume       = {MIX_MAX_VOLUME / 2};
+  key_spell1.sym     = SDLK_1;
+  key_spell2.sym     = SDLK_2;
+  key_spell3.sym     = SDLK_3;
+  key_spell4.sym     = SDLK_4;
+  key_spell5.sym     = SDLK_5;
+  key_spell6.sym     = SDLK_6;
+  key_spell7.sym     = SDLK_7;
+  key_spell8.sym     = SDLK_8;
+  key_spell9.sym     = SDLK_9;
+  key_spell10.sym    = SDLK_0;
+  key_spell11.sym    = SDLK_1;
+  key_spell11.mod    = KMOD_SHIFT;
+  key_spell12.sym    = SDLK_2;
+  key_spell12.mod    = KMOD_SHIFT;
+  key_spell13.sym    = SDLK_3;
+  key_spell13.mod    = KMOD_SHIFT;
+  key_spell14.sym    = SDLK_4;
+  key_spell14.mod    = KMOD_SHIFT;
+  key_spell15.sym    = SDLK_5;
+  key_spell15.mod    = KMOD_SHIFT;
+  key_spell16.sym    = SDLK_6;
+  key_spell16.mod    = KMOD_SHIFT;
+  key_spell17.sym    = SDLK_7;
+  key_spell17.mod    = KMOD_SHIFT;
+  key_spell18.sym    = SDLK_8;
+  key_spell18.mod    = KMOD_SHIFT;
+  key_spell19.sym    = SDLK_9;
+  key_spell19.mod    = KMOD_SHIFT;
+  key_spell20.sym    = SDLK_0;
+  key_spell20.mod    = KMOD_SHIFT;
+
+  music_volume = {MIX_MAX_VOLUME / 4};
+  sdl_delay    = 1;
+  sound_volume = {MIX_MAX_VOLUME / 2};
 }
 
 void game_config_reset(Gamep g) { g->config.reset(); }
@@ -1141,6 +1193,7 @@ void Game::state_change(GameStateType new_state, const std::string &why)
     case STATE_QUIT_MENU :          [[fallthrough]];
     case STATE_INVENTORY_MENU :     [[fallthrough]];
     case STATE_SPELL_LEARN_MENU :   [[fallthrough]];
+    case STATE_SPELLBOOK_MENU :     [[fallthrough]];
     case STATE_COLLECT_MENU :       [[fallthrough]];
     case STATE_ITEM_MENU :          wid_actionbar_fini(g); break;
     case STATE_GENERATING :         [[fallthrough]];
@@ -1203,7 +1256,6 @@ void Game::state_change(GameStateType new_state, const std::string &why)
         case STATE_SAVE_MENU :         [[fallthrough]];
         case STATE_KEYBOARD_MENU :     [[fallthrough]];
         case STATE_MAIN_MENU :         [[fallthrough]];
-        case STATE_INVENTORY_MENU :    [[fallthrough]];
         case STATE_COLLECT_MENU :      [[fallthrough]];
         case STATE_THROW_ITEM :        [[fallthrough]];
         case STATE_THROW_MENU :        [[fallthrough]];
@@ -1212,6 +1264,8 @@ void Game::state_change(GameStateType new_state, const std::string &why)
           (void) wid_rightbar_init(g);
           (void) wid_actionbar_init(g);
           break;
+        case STATE_SPELLBOOK_MENU : [[fallthrough]];
+        case STATE_INVENTORY_MENU : [[fallthrough]];
         case STATE_SPELL_LEARN_MENU :
           (void) wid_leftbar_init(g);
           (void) wid_rightbar_init(g);
@@ -1238,6 +1292,7 @@ void Game::state_change(GameStateType new_state, const std::string &why)
     case STATE_COLLECT_MENU :     [[fallthrough]];
     case STATE_INVENTORY_MENU :   [[fallthrough]];
     case STATE_SPELL_LEARN_MENU : [[fallthrough]];
+    case STATE_SPELLBOOK_MENU :   [[fallthrough]];
     case STATE_ITEM_MENU :
       //
       // Don't want the player to keep moving to an old path when we exit this menu
@@ -1290,6 +1345,11 @@ void Game::handle_game_request_to_remake_ui()
 
   switch (state) {
     case STATE_SPELL_LEARN_MENU : [[fallthrough]];
+    case STATE_COLLECT_MENU :     [[fallthrough]];
+    case STATE_THROW_ITEM :       [[fallthrough]];
+    case STATE_THROW_MENU :       [[fallthrough]];
+    case STATE_INVENTORY_MENU :   [[fallthrough]];
+    case STATE_SPELLBOOK_MENU :   [[fallthrough]];
     case STATE_PLAYER_SELECT_MENU :
       if (v != nullptr) {
         (void) wid_leftbar_init(g);
@@ -1304,12 +1364,8 @@ void Game::handle_game_request_to_remake_ui()
         (void) wid_actionbar_init(g);
       }
       break;
-    case STATE_DEAD_MENU :    [[fallthrough]];
-    case STATE_PLAYING :      [[fallthrough]];
-    case STATE_COLLECT_MENU : [[fallthrough]];
-    case STATE_THROW_ITEM :   [[fallthrough]];
-    case STATE_THROW_MENU :   [[fallthrough]];
-    case STATE_INVENTORY_MENU :
+    case STATE_DEAD_MENU : [[fallthrough]];
+    case STATE_PLAYING :
       if (v != nullptr) {
         (void) wid_leftbar_init(g);
         (void) wid_rightbar_init(g);
@@ -1370,6 +1426,7 @@ void Game::tick()
       case STATE_QUIT_MENU :          [[fallthrough]];
       case STATE_INVENTORY_MENU :     [[fallthrough]];
       case STATE_SPELL_LEARN_MENU :   [[fallthrough]];
+      case STATE_SPELLBOOK_MENU :     [[fallthrough]];
       case STATE_COLLECT_MENU :       [[fallthrough]];
       case STATE_THROW_MENU :         [[fallthrough]];
       case STATE_THROW_ITEM :         [[fallthrough]];
@@ -1515,6 +1572,7 @@ void Game::display()
     case STATE_QUITTING :           [[fallthrough]];
     case STATE_INVENTORY_MENU :     [[fallthrough]];
     case STATE_SPELL_LEARN_MENU :   [[fallthrough]];
+    case STATE_SPELLBOOK_MENU :     [[fallthrough]];
     case STATE_COLLECT_MENU :       [[fallthrough]];
     case STATE_MOVE_WARNING_MENU :  [[fallthrough]];
     case STATE_KEYBOARD_MENU :      [[fallthrough]];
@@ -2823,16 +2881,16 @@ void game_key_unused11_set(Gamep g, SDL_Keysym key)
   g->config.key_unused11 = key;
 }
 
-[[nodiscard]] auto game_key_unused12_get(Gamep g) -> SDL_Keysym
+[[nodiscard]] auto game_key_cast_get(Gamep g) -> SDL_Keysym
 {
   TRACE();
 
   if (g == nullptr) [[unlikely]] {
     return no_key;
   }
-  return g->config.key_unused12;
+  return g->config.key_cast;
 }
-void game_key_unused12_set(Gamep g, SDL_Keysym key)
+void game_key_cast_set(Gamep g, SDL_Keysym key)
 {
   TRACE();
 
@@ -2840,7 +2898,407 @@ void game_key_unused12_set(Gamep g, SDL_Keysym key)
     ERR("no game pointer");
     return;
   }
-  g->config.key_unused12 = key;
+  g->config.key_cast = key;
+}
+
+[[nodiscard]] auto game_key_spell1_get(Gamep g) -> SDL_Keysym
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    return no_key;
+  }
+  return g->config.key_spell1;
+}
+void game_key_spell1_set(Gamep g, SDL_Keysym key)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->config.key_spell1 = key;
+}
+
+[[nodiscard]] auto game_key_spell2_get(Gamep g) -> SDL_Keysym
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    return no_key;
+  }
+  return g->config.key_spell2;
+}
+void game_key_spell2_set(Gamep g, SDL_Keysym key)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->config.key_spell2 = key;
+}
+
+[[nodiscard]] auto game_key_spell3_get(Gamep g) -> SDL_Keysym
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    return no_key;
+  }
+  return g->config.key_spell3;
+}
+void game_key_spell3_set(Gamep g, SDL_Keysym key)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->config.key_spell3 = key;
+}
+
+[[nodiscard]] auto game_key_spell4_get(Gamep g) -> SDL_Keysym
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    return no_key;
+  }
+  return g->config.key_spell4;
+}
+void game_key_spell4_set(Gamep g, SDL_Keysym key)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->config.key_spell4 = key;
+}
+
+[[nodiscard]] auto game_key_spell5_get(Gamep g) -> SDL_Keysym
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    return no_key;
+  }
+  return g->config.key_spell5;
+}
+void game_key_spell5_set(Gamep g, SDL_Keysym key)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->config.key_spell5 = key;
+}
+
+[[nodiscard]] auto game_key_spell6_get(Gamep g) -> SDL_Keysym
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    return no_key;
+  }
+  return g->config.key_spell6;
+}
+void game_key_spell6_set(Gamep g, SDL_Keysym key)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->config.key_spell6 = key;
+}
+
+[[nodiscard]] auto game_key_spell7_get(Gamep g) -> SDL_Keysym
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    return no_key;
+  }
+  return g->config.key_spell7;
+}
+void game_key_spell7_set(Gamep g, SDL_Keysym key)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->config.key_spell7 = key;
+}
+
+[[nodiscard]] auto game_key_spell8_get(Gamep g) -> SDL_Keysym
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    return no_key;
+  }
+  return g->config.key_spell8;
+}
+void game_key_spell8_set(Gamep g, SDL_Keysym key)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->config.key_spell8 = key;
+}
+
+[[nodiscard]] auto game_key_spell9_get(Gamep g) -> SDL_Keysym
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    return no_key;
+  }
+  return g->config.key_spell9;
+}
+void game_key_spell9_set(Gamep g, SDL_Keysym key)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->config.key_spell9 = key;
+}
+
+[[nodiscard]] auto game_key_spell10_get(Gamep g) -> SDL_Keysym
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    return no_key;
+  }
+  return g->config.key_spell10;
+}
+void game_key_spell10_set(Gamep g, SDL_Keysym key)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->config.key_spell10 = key;
+}
+
+[[nodiscard]] auto game_key_spell11_get(Gamep g) -> SDL_Keysym
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    return no_key;
+  }
+  return g->config.key_spell11;
+}
+void game_key_spell11_set(Gamep g, SDL_Keysym key)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->config.key_spell11 = key;
+}
+
+[[nodiscard]] auto game_key_spell12_get(Gamep g) -> SDL_Keysym
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    return no_key;
+  }
+  return g->config.key_spell12;
+}
+void game_key_spell12_set(Gamep g, SDL_Keysym key)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->config.key_spell12 = key;
+}
+
+[[nodiscard]] auto game_key_spell13_get(Gamep g) -> SDL_Keysym
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    return no_key;
+  }
+  return g->config.key_spell13;
+}
+void game_key_spell13_set(Gamep g, SDL_Keysym key)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->config.key_spell13 = key;
+}
+
+[[nodiscard]] auto game_key_spell14_get(Gamep g) -> SDL_Keysym
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    return no_key;
+  }
+  return g->config.key_spell14;
+}
+void game_key_spell14_set(Gamep g, SDL_Keysym key)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->config.key_spell14 = key;
+}
+
+[[nodiscard]] auto game_key_spell15_get(Gamep g) -> SDL_Keysym
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    return no_key;
+  }
+  return g->config.key_spell15;
+}
+void game_key_spell15_set(Gamep g, SDL_Keysym key)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->config.key_spell15 = key;
+}
+
+[[nodiscard]] auto game_key_spell16_get(Gamep g) -> SDL_Keysym
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    return no_key;
+  }
+  return g->config.key_spell16;
+}
+void game_key_spell16_set(Gamep g, SDL_Keysym key)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->config.key_spell16 = key;
+}
+
+[[nodiscard]] auto game_key_spell17_get(Gamep g) -> SDL_Keysym
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    return no_key;
+  }
+  return g->config.key_spell17;
+}
+void game_key_spell17_set(Gamep g, SDL_Keysym key)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->config.key_spell17 = key;
+}
+
+[[nodiscard]] auto game_key_spell18_get(Gamep g) -> SDL_Keysym
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    return no_key;
+  }
+  return g->config.key_spell18;
+}
+void game_key_spell18_set(Gamep g, SDL_Keysym key)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->config.key_spell18 = key;
+}
+
+[[nodiscard]] auto game_key_spell19_get(Gamep g) -> SDL_Keysym
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    return no_key;
+  }
+  return g->config.key_spell19;
+}
+void game_key_spell19_set(Gamep g, SDL_Keysym key)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->config.key_spell19 = key;
+}
+
+[[nodiscard]] auto game_key_spell20_get(Gamep g) -> SDL_Keysym
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    return no_key;
+  }
+  return g->config.key_spell20;
+}
+void game_key_spell20_set(Gamep g, SDL_Keysym key)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->config.key_spell20 = key;
 }
 
 [[nodiscard]] auto game_key_abort_get(Gamep g) -> SDL_Keysym

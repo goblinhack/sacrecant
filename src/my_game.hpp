@@ -14,29 +14,30 @@
 #include <vector>
 
 #define GAME_STATE_ENUM(list_macro)                                                                                                             \
-  CLANG_FORMAT_INDENT()                                           /* dummy line for clang indentation fixup */                                  \
-  list_macro(STATE_INIT, "INIT"),                                 /* newline */                                                                 \
-      list_macro(STATE_MAIN_MENU, "MAIN-MENU"),                   /* newline */                                                                 \
-      list_macro(STATE_GENERATING, "GENERATING"),                 /* newline */                                                                 \
-      list_macro(STATE_GENERATED, "GENERATED"),                   /* newline */                                                                 \
-      list_macro(STATE_PLAYING, "PLAYING"),                       /* newline */                                                                 \
-      list_macro(STATE_LEVEL_SELECT_MENU, "LEVEL-SELECT-MENU"),   /* newline */                                                                 \
-      list_macro(STATE_PLAYER_SELECT_MENU, "PLAYER-SELECT-MENU"), /* newline */                                                                 \
-      list_macro(STATE_SPELL_LEARN_MENU, "SPELL-SELECT-MENU"),    /* newline */                                                                 \
-      list_macro(STATE_MOVE_WARNING_MENU, "MOVE-WARNING-MENU"),   /* newline */                                                                 \
-      list_macro(STATE_QUITTING, "QUITTING"),                     /* newline */                                                                 \
-      list_macro(STATE_KEYBOARD_MENU, "KEYBOARD-MENU"),           /* newline */                                                                 \
-      list_macro(STATE_LOAD_MENU, "LOAD-MENU"),                   /* newline */                                                                 \
-      list_macro(STATE_LOADED, "LOADED"),                         /* newline */                                                                 \
-      list_macro(STATE_INVENTORY_MENU, "INVENTORY-MENU"),         /* newline */                                                                 \
-      list_macro(STATE_COLLECT_MENU, "COLLECT-MENU"),             /* newline */                                                                 \
-      list_macro(STATE_THROW_MENU, "THROW-MENU"),                 /* newline */                                                                 \
-      list_macro(STATE_THROW_ITEM, "THROW-ITEM"),                 /* newline */                                                                 \
-      list_macro(STATE_ITEM_MENU, "ITEM-MENU"),                   /* newline */                                                                 \
-      list_macro(STATE_DEAD_MENU, "DEAD-MENU"),                   /* newline */                                                                 \
-      list_macro(STATE_GAME_OVER_MENU, "GAME-OVER-MENU"),         /* newline */                                                                 \
-      list_macro(STATE_SAVE_MENU, "SAVE-MENU"),                   /* newline */                                                                 \
-      list_macro(STATE_QUIT_MENU, "QUIT-MENU"),                   /* newline */
+  CLANG_FORMAT_INDENT()                                                 /* dummy line for clang indentation fixup */                            \
+  list_macro(STATE_INIT, "STATE_INIT"),                                 /* newline */                                                           \
+      list_macro(STATE_MAIN_MENU, "STATE_MAIN_MENU"),                   /* newline */                                                           \
+      list_macro(STATE_GENERATING, "STATE_GENERATING"),                 /* newline */                                                           \
+      list_macro(STATE_GENERATED, "STATE_GENERATED"),                   /* newline */                                                           \
+      list_macro(STATE_PLAYING, "STATE_PLAYING"),                       /* newline */                                                           \
+      list_macro(STATE_LEVEL_SELECT_MENU, "STATE_LEVEL_SELECT_MENU"),   /* newline */                                                           \
+      list_macro(STATE_PLAYER_SELECT_MENU, "STATE_PLAYER_SELECT_MENU"), /* newline */                                                           \
+      list_macro(STATE_SPELL_LEARN_MENU, "STATE_SPELL_LEARN_MENU"),     /* newline */                                                           \
+      list_macro(STATE_SPELLBOOK_MENU, "STATE_SPELLBOOK_MENU"),         /* newline */                                                           \
+      list_macro(STATE_MOVE_WARNING_MENU, "STATE_MOVE_WARNING_MENU"),   /* newline */                                                           \
+      list_macro(STATE_QUITTING, "STATE_QUITTING"),                     /* newline */                                                           \
+      list_macro(STATE_KEYBOARD_MENU, "STATE_KEYBOARD_MENU"),           /* newline */                                                           \
+      list_macro(STATE_LOAD_MENU, "STATE_LOAD_MENU"),                   /* newline */                                                           \
+      list_macro(STATE_LOADED, "STATE_LOADED"),                         /* newline */                                                           \
+      list_macro(STATE_INVENTORY_MENU, "STATE_INVENTORY_MENU"),         /* newline */                                                           \
+      list_macro(STATE_COLLECT_MENU, "STATE_COLLECT_MENU"),             /* newline */                                                           \
+      list_macro(STATE_THROW_MENU, "STATE_THROW_MENU"),                 /* newline */                                                           \
+      list_macro(STATE_THROW_ITEM, "STATE_THROW_ITEM"),                 /* newline */                                                           \
+      list_macro(STATE_ITEM_MENU, "STATE_ITEM_MENU"),                   /* newline */                                                           \
+      list_macro(STATE_DEAD_MENU, "STATE_DEAD_MENU"),                   /* newline */                                                           \
+      list_macro(STATE_GAME_OVER_MENU, "STATE_GAME_OVER_MENU"),         /* newline */                                                           \
+      list_macro(STATE_SAVE_MENU, "STATE_SAVE_MENU"),                   /* newline */                                                           \
+      list_macro(STATE_QUIT_MENU, "STATE_QUIT_MENU"),                   /* newline */
 
 ENUM_DEF_H(GAME_STATE_ENUM, GameStateType)
 
@@ -239,8 +240,68 @@ auto               game_key_unused10_set(Gamep g, SDL_Keysym key) -> void;
 [[nodiscard]] auto game_key_unused11_get(Gamep g) -> SDL_Keysym;
 auto               game_key_unused11_set(Gamep g, SDL_Keysym key) -> void;
 
-[[nodiscard]] auto game_key_unused12_get(Gamep g) -> SDL_Keysym;
-auto               game_key_unused12_set(Gamep g, SDL_Keysym key) -> void;
+[[nodiscard]] auto game_key_cast_get(Gamep g) -> SDL_Keysym;
+auto               game_key_cast_set(Gamep g, SDL_Keysym key) -> void;
+
+[[nodiscard]] auto game_key_spell1_get(Gamep g) -> SDL_Keysym;
+auto               game_key_spell1_set(Gamep g, SDL_Keysym key) -> void;
+
+[[nodiscard]] auto game_key_spell2_get(Gamep g) -> SDL_Keysym;
+auto               game_key_spell2_set(Gamep g, SDL_Keysym key) -> void;
+
+[[nodiscard]] auto game_key_spell3_get(Gamep g) -> SDL_Keysym;
+auto               game_key_spell3_set(Gamep g, SDL_Keysym key) -> void;
+
+[[nodiscard]] auto game_key_spell4_get(Gamep g) -> SDL_Keysym;
+auto               game_key_spell4_set(Gamep g, SDL_Keysym key) -> void;
+
+[[nodiscard]] auto game_key_spell5_get(Gamep g) -> SDL_Keysym;
+auto               game_key_spell5_set(Gamep g, SDL_Keysym key) -> void;
+
+[[nodiscard]] auto game_key_spell6_get(Gamep g) -> SDL_Keysym;
+auto               game_key_spell6_set(Gamep g, SDL_Keysym key) -> void;
+
+[[nodiscard]] auto game_key_spell7_get(Gamep g) -> SDL_Keysym;
+auto               game_key_spell7_set(Gamep g, SDL_Keysym key) -> void;
+
+[[nodiscard]] auto game_key_spell8_get(Gamep g) -> SDL_Keysym;
+auto               game_key_spell8_set(Gamep g, SDL_Keysym key) -> void;
+
+[[nodiscard]] auto game_key_spell9_get(Gamep g) -> SDL_Keysym;
+auto               game_key_spell9_set(Gamep g, SDL_Keysym key) -> void;
+
+[[nodiscard]] auto game_key_spell10_get(Gamep g) -> SDL_Keysym;
+auto               game_key_spell10_set(Gamep g, SDL_Keysym key) -> void;
+
+[[nodiscard]] auto game_key_spell11_get(Gamep g) -> SDL_Keysym;
+auto               game_key_spell11_set(Gamep g, SDL_Keysym key) -> void;
+
+[[nodiscard]] auto game_key_spell12_get(Gamep g) -> SDL_Keysym;
+auto               game_key_spell12_set(Gamep g, SDL_Keysym key) -> void;
+
+[[nodiscard]] auto game_key_spell13_get(Gamep g) -> SDL_Keysym;
+auto               game_key_spell13_set(Gamep g, SDL_Keysym key) -> void;
+
+[[nodiscard]] auto game_key_spell14_get(Gamep g) -> SDL_Keysym;
+auto               game_key_spell14_set(Gamep g, SDL_Keysym key) -> void;
+
+[[nodiscard]] auto game_key_spell15_get(Gamep g) -> SDL_Keysym;
+auto               game_key_spell15_set(Gamep g, SDL_Keysym key) -> void;
+
+[[nodiscard]] auto game_key_spell16_get(Gamep g) -> SDL_Keysym;
+auto               game_key_spell16_set(Gamep g, SDL_Keysym key) -> void;
+
+[[nodiscard]] auto game_key_spell17_get(Gamep g) -> SDL_Keysym;
+auto               game_key_spell17_set(Gamep g, SDL_Keysym key) -> void;
+
+[[nodiscard]] auto game_key_spell18_get(Gamep g) -> SDL_Keysym;
+auto               game_key_spell18_set(Gamep g, SDL_Keysym key) -> void;
+
+[[nodiscard]] auto game_key_spell19_get(Gamep g) -> SDL_Keysym;
+auto               game_key_spell19_set(Gamep g, SDL_Keysym key) -> void;
+
+[[nodiscard]] auto game_key_spell20_get(Gamep g) -> SDL_Keysym;
+auto               game_key_spell20_set(Gamep g, SDL_Keysym key) -> void;
 
 [[nodiscard]] auto game_key_abort_get(Gamep g) -> SDL_Keysym;
 auto               game_key_abort_set(Gamep g, SDL_Keysym key) -> void;
@@ -348,6 +409,8 @@ void               game_mouse_over_player_set(Gamep g, Thingp t);
 [[nodiscard]] auto game_event_help(Gamep g) -> bool;
 [[nodiscard]] auto game_event_inventory(Gamep g) -> bool;
 [[nodiscard]] auto game_event_learn(Gamep g) -> bool;
+[[nodiscard]] auto game_event_cast(Gamep g) -> bool;
+[[nodiscard]] auto game_event_cast_spell(Gamep g, int spell) -> bool;
 [[nodiscard]] auto game_event_load(Gamep g) -> bool;
 [[nodiscard]] auto game_event_quit(Gamep g) -> bool;
 [[nodiscard]] auto game_event_save(Gamep g) -> bool;
