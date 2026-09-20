@@ -1316,6 +1316,50 @@ auto tp_special_attack_get_random(Tpp tp, TpSpecialAttack &out) -> bool
   return false;
 }
 
+void tp_spell_option_add(Tpp tp, TpSpellOption val)
+{
+  TRACE_DEBUG();
+  if (tp == nullptr) [[unlikely]] {
+    ERR("no thing template pointer");
+    return;
+  }
+
+  if (tp->spell_options.contains(val.type)) {
+    tp_err(tp, "spell option type %s already set", val.type.c_str());
+    return;
+  }
+
+  tp->spell_options[ val.type ] = val;
+}
+
+auto tp_spell_options_get(Tpp tp) -> std::map< std::string, TpSpellOption >
+{
+  TRACE_DEBUG();
+
+  std::map< std::string, TpSpellOption > out;
+
+  if (tp == nullptr) [[unlikely]] {
+    ERR("no thing template pointer");
+    return out;
+  }
+
+  return tp->spell_options;
+}
+
+auto tp_spell_options_exist(Tpp tp) -> bool
+{
+  TRACE_DEBUG();
+
+  std::map< std::string, TpSpellOption > out;
+
+  if (tp == nullptr) [[unlikely]] {
+    ERR("no thing template pointer");
+    return false;
+  }
+
+  return ! tp->spell_options.empty();
+}
+
 void tp_is_immune_to_add(Tpp tp, ThingEventType val)
 {
   TRACE_DEBUG();

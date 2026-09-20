@@ -391,9 +391,52 @@
   return true;
 }
 
-[[nodiscard]] auto game_event_cast_spell(Gamep g, int spell) -> bool
+[[nodiscard]] auto game_event_cast_spell(Gamep g, Thingp spell, int option) -> bool
 {
-  DBG("learn");
+  DBG("cast");
+  TRACE_INDENT();
+
+  auto *v = game_levels_get(g);
+  if (v == nullptr) [[unlikely]] {
+    return false;
+  }
+
+  auto *l = game_level_get(g, v);
+  if (l == nullptr) [[unlikely]] {
+    return false;
+  }
+
+  if (! spell) {
+    (void) sound_play(g, "error");
+    return false;
+  }
+
+  if (level_is_level_select(g, v, l)) {
+    (void) sound_play(g, "error");
+    return false;
+  }
+
+  auto *player = thing_player(g);
+  if (player == nullptr) [[unlikely]] {
+    (void) sound_play(g, "error");
+    return false;
+  }
+
+  auto options = tp_spell_options_get(thing_tp(spell));
+  if (option >= (int) options.size()) {
+    topcon("No such spell option.");
+    (void) sound_play(g, "error");
+    return false;
+  }
+
+  topcon("todo cast spell %s option %d", thing_name_short(g, v, l, spell).c_str(), option);
+
+  return true;
+}
+
+[[nodiscard]] auto game_event_cast_spell_default(Gamep g, int index) -> bool
+{
+  DBG("cast");
   TRACE_INDENT();
 
   auto *v = game_levels_get(g);
@@ -417,9 +460,13 @@
     return false;
   }
 
-  topcon("todo cast spell %d", spell);
+  auto spell = thing_spellbook_get_spell_n(g, v, l, player, index);
+  if (! spell) {
+    (void) sound_play(g, "error");
+    return false;
+  }
 
-  return true;
+  return game_event_cast_spell(g, spell, 0);
 }
 
 [[nodiscard]] auto game_event_descend(Gamep g) -> bool
@@ -906,121 +953,121 @@ static auto game_event_abort(Gamep g) -> bool
 
       if (sdlk_eq(*key, game_key_spell1_get(g))) {
         DBG("pressed cast key");
-        (void) game_event_cast_spell(g, 0);
+        (void) game_event_cast_spell_default(g, 0);
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell2_get(g))) {
         DBG("pressed cast key");
-        (void) game_event_cast_spell(g, 1);
+        (void) game_event_cast_spell_default(g, 1);
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell3_get(g))) {
         DBG("pressed cast key");
-        (void) game_event_cast_spell(g, 2);
+        (void) game_event_cast_spell_default(g, 2);
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell4_get(g))) {
         DBG("pressed cast key");
-        (void) game_event_cast_spell(g, 3);
+        (void) game_event_cast_spell_default(g, 3);
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell5_get(g))) {
         DBG("pressed cast key");
-        (void) game_event_cast_spell(g, 4);
+        (void) game_event_cast_spell_default(g, 4);
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell6_get(g))) {
         DBG("pressed cast key");
-        (void) game_event_cast_spell(g, 5);
+        (void) game_event_cast_spell_default(g, 5);
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell7_get(g))) {
         DBG("pressed cast key");
-        (void) game_event_cast_spell(g, 6);
+        (void) game_event_cast_spell_default(g, 6);
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell8_get(g))) {
         DBG("pressed cast key");
-        (void) game_event_cast_spell(g, 7);
+        (void) game_event_cast_spell_default(g, 7);
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell9_get(g))) {
         DBG("pressed cast key");
-        (void) game_event_cast_spell(g, 8);
+        (void) game_event_cast_spell_default(g, 8);
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell10_get(g))) {
         DBG("pressed cast key");
-        (void) game_event_cast_spell(g, 9);
+        (void) game_event_cast_spell_default(g, 9);
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell11_get(g))) {
         DBG("pressed cast key");
-        (void) game_event_cast_spell(g, 10);
+        (void) game_event_cast_spell_default(g, 10);
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell12_get(g))) {
         DBG("pressed cast key");
-        (void) game_event_cast_spell(g, 11);
+        (void) game_event_cast_spell_default(g, 11);
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell13_get(g))) {
         DBG("pressed cast key");
-        (void) game_event_cast_spell(g, 12);
+        (void) game_event_cast_spell_default(g, 12);
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell14_get(g))) {
         DBG("pressed cast key");
-        (void) game_event_cast_spell(g, 13);
+        (void) game_event_cast_spell_default(g, 13);
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell15_get(g))) {
         DBG("pressed cast key");
-        (void) game_event_cast_spell(g, 14);
+        (void) game_event_cast_spell_default(g, 14);
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell16_get(g))) {
         DBG("pressed cast key");
-        (void) game_event_cast_spell(g, 15);
+        (void) game_event_cast_spell_default(g, 15);
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell17_get(g))) {
         DBG("pressed cast key");
-        (void) game_event_cast_spell(g, 16);
+        (void) game_event_cast_spell_default(g, 16);
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell18_get(g))) {
         DBG("pressed cast key");
-        (void) game_event_cast_spell(g, 17);
+        (void) game_event_cast_spell_default(g, 17);
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell19_get(g))) {
         DBG("pressed cast key");
-        (void) game_event_cast_spell(g, 18);
+        (void) game_event_cast_spell_default(g, 18);
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell20_get(g))) {
         DBG("pressed cast key");
-        (void) game_event_cast_spell(g, 19);
+        (void) game_event_cast_spell_default(g, 19);
         return false; // To avoid click noise
       }
 

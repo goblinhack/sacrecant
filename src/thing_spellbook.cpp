@@ -189,6 +189,36 @@
 }
 
 //
+// Get the nth spell
+//
+[[nodiscard]] auto thing_spellbook_get_spell_n(Gamep g, Levelsp v, Levelp l, Thingp owner, int index) -> Thingp
+{
+  TRACE();
+
+  auto *ext_struct = thing_ext_struct(g, v, owner);
+  if (ext_struct == nullptr) {
+    return 0;
+  }
+
+  int walk_index {};
+
+  FOR_ALL_SPELLBOOK_SLOTS(g, v, l, owner, slot, spell)
+  {
+    if (spell == nullptr) {
+      continue;
+    }
+
+    if (index == walk_index) {
+      return spell;
+    }
+
+    walk_index++;
+  }
+
+  return nullptr;
+}
+
+//
 // Drop an spell to the spellbook
 //
 void thing_spellbook_dump(Gamep g, Levelsp v, Levelp l, Thingp owner)

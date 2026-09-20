@@ -51,6 +51,11 @@ public:
   std::map< std::string, TpSpecialAttack > special_attacks;
 
   //
+  // All spell options for this spell
+  //
+  std::map< std::string, TpSpellOption > spell_options;
+
+  //
   // Immunity to various damage types
   //
   bool is_immune[ THING_EVENT_ENUM_MAX ] {};

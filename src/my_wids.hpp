@@ -69,6 +69,7 @@ auto wid_save_destroy(Gamep g) -> void;
 auto wid_save_select(Gamep g) -> void;
 auto wid_seed_select(Gamep g) -> void;
 auto wid_statistics_show(Gamep g, Levelsp v, Levelp l, Thingp player) -> void;
+void wid_spell_options_show(Gamep g, Levelsp v, Levelp l, Thingp player, Thingp spell);
 auto wid_topcon_fini(Gamep g) -> void;
 auto wid_topcon_flush(Gamep g) -> void;
 void wid_apply_bar_button(Gamep g, Widp w);

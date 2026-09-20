@@ -6,7 +6,6 @@
 #include "my_callstack.hpp"
 #include "my_color_defs.hpp"
 #include "my_game.hpp"
-#include "my_game_inlines.hpp"
 #include "my_level.hpp"
 #include "my_sdl_proto.hpp"
 #include "my_sound.hpp"
@@ -26,30 +25,31 @@
 #include <cstring>
 #include <string>
 
-static Widp wid_spellbook_window;
+static Widp wid_spell_options_window;
 
-static Widp wid_shortcut[ THING_SPELLBOOK_MAX ];
-static Widp wid_spell[ THING_SPELLBOOK_MAX ];
+static Widp   wid_shortcut[ THING_SPELLBOOK_MAX ];
+static Widp   wid_spell_option[ THING_SPELLBOOK_MAX ];
+static Thingp wid_spell_option_chosen;
 
-static void wid_spellbook_destroy(Gamep g)
+static void wid_spell_options_destroy(Gamep g)
 {
   TRACE();
 
   memset(wid_shortcut, 0, sizeof(wid_shortcut));
-  memset(wid_spell, 0, sizeof(wid_spell));
+  memset(wid_spell_option, 0, sizeof(wid_spell_option));
 
-  if (wid_spellbook_window != nullptr) {
-    wid_destroy(g, &wid_spellbook_window);
+  if (wid_spell_options_window != nullptr) {
+    wid_destroy(g, &wid_spell_options_window);
 
     game_state_reset(g, "close spellbook");
   }
 }
 
-void wid_spellbook_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
+void wid_spell_options_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
 {
   TRACE();
 
-  for (auto &n : wid_spell) {
+  for (auto &n : wid_spell_option) {
     if (n != nullptr) {
       if (n != wid_over) {
         wid_set_color(n, WID_COLOR_BG, GRAY10);
@@ -73,7 +73,7 @@ void wid_spellbook_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/,
   }
 }
 
-void wid_spellbook_mouse_over_end(Gamep g, Widp w)
+void wid_spell_options_mouse_over_end(Gamep g, Widp w)
 {
   TRACE();
 
@@ -92,7 +92,7 @@ void wid_spellbook_mouse_over_end(Gamep g, Widp w)
   }
 }
 
-[[nodiscard]] static auto wid_spellbook_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+[[nodiscard]] static auto wid_spell_options_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
 
@@ -101,54 +101,23 @@ void wid_spellbook_mouse_over_end(Gamep g, Widp w)
     return false;
   }
 
-  auto *l = game_level_get(g, v);
-  if (l == nullptr) [[unlikely]] {
+  auto *t = wid_get_thing_context(g, v, w, 0);
+  if (t == nullptr) {
     return false;
   }
 
-  auto *player = thing_player(g);
-  if (player == nullptr) [[unlikely]] {
-    return false;
-  }
+  wid_spell_options_destroy(g);
 
-  auto *spell = wid_get_thing_context(g, v, w, 0);
-  if (spell == nullptr) {
-    return false;
-  }
-
-  wid_spellbook_destroy(g);
-
-  auto index = wid_get_int_context(w);
-  if (! tp_spell_options_exist(thing_tp(spell))) {
-    (void) game_event_cast_spell_default(g, index);
-    return true;
-  }
-
-  wid_spell_options_show(g, v, l, player, spell);
+  (void) game_event_cast_spell(g, wid_spell_option_chosen, wid_get_int_context(w));
 
   return true;
 }
 
-static void wid_spellbook_key_down_which_spell(Gamep g, Widp w, const struct SDL_Keysym *key, int index)
+static void wid_spell_options_key_down_which_spell(Gamep g, Widp w, const struct SDL_Keysym *key, int index)
 {
   TRACE();
 
-  auto *v = game_levels_get(g);
-  if (v == nullptr) [[unlikely]] {
-    return;
-  }
-
-  auto *l = game_level_get(g, v);
-  if (l == nullptr) [[unlikely]] {
-    return;
-  }
-
-  auto *player = thing_player(g);
-  if (player == nullptr) [[unlikely]] {
-    return;
-  }
-
-  for (auto &n : wid_spell) {
+  for (auto &n : wid_spell_option) {
     w = n;
     if (w != nullptr) {
       wid_set_color(w, WID_COLOR_BG, GRAY10);
@@ -157,31 +126,24 @@ static void wid_spellbook_key_down_which_spell(Gamep g, Widp w, const struct SDL
 
   wid_unset_focus(g);
 
-  w = wid_spell[ index ];
-  if (w == nullptr) {
+  auto options = tp_spell_options_get(thing_tp(wid_spell_option_chosen));
+  if (index >= (int) options.size()) {
     return;
   }
 
-  auto *spell = wid_get_thing_context(g, v, w, 0);
-  if (spell == nullptr) {
-    return;
+  w = wid_spell_option[ index ];
+  if (w != nullptr) {
+    (void) wid_spell_options_mouse_down(g, w, -1, -1, 0);
+    wid_set_color(w, WID_COLOR_BG, GREEN);
+    wid_set_color(w, WID_COLOR_TEXT_FG, WHITE);
   }
 
-  (void) wid_spellbook_mouse_down(g, w, -1, -1, 0);
-  wid_set_color(w, WID_COLOR_BG, GREEN);
-  wid_set_color(w, WID_COLOR_TEXT_FG, WHITE);
+  wid_spell_options_destroy(g);
 
-  wid_spellbook_destroy(g);
-
-  if (! tp_spell_options_exist(thing_tp(spell))) {
-    (void) game_event_cast_spell_default(g, index);
-    return;
-  }
-
-  wid_spell_options_show(g, v, l, player, spell);
+  (void) game_event_cast_spell(g, wid_spell_option_chosen, index);
 }
 
-[[nodiscard]] static auto wid_spellbook_key_down(Gamep g, Widp w, const struct SDL_Keysym *key) -> bool
+[[nodiscard]] static auto wid_spell_options_key_down(Gamep g, Widp w, const struct SDL_Keysym *key) -> bool
 {
   TRACE();
 
@@ -191,112 +153,115 @@ static void wid_spellbook_key_down_which_spell(Gamep g, Widp w, const struct SDL
   }
 
   if (sdlk_eq(*key, game_key_spell1_get(g))) {
-    wid_spellbook_key_down_which_spell(g, w, key, 0);
+    wid_spell_options_key_down_which_spell(g, w, key, 0);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell2_get(g))) {
-    wid_spellbook_key_down_which_spell(g, w, key, 1);
+    wid_spell_options_key_down_which_spell(g, w, key, 1);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell3_get(g))) {
-    wid_spellbook_key_down_which_spell(g, w, key, 2);
+    wid_spell_options_key_down_which_spell(g, w, key, 2);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell4_get(g))) {
-    wid_spellbook_key_down_which_spell(g, w, key, 3);
+    wid_spell_options_key_down_which_spell(g, w, key, 3);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell5_get(g))) {
-    wid_spellbook_key_down_which_spell(g, w, key, 4);
+    wid_spell_options_key_down_which_spell(g, w, key, 4);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell6_get(g))) {
-    wid_spellbook_key_down_which_spell(g, w, key, 5);
+    wid_spell_options_key_down_which_spell(g, w, key, 5);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell7_get(g))) {
-    wid_spellbook_key_down_which_spell(g, w, key, 6);
+    wid_spell_options_key_down_which_spell(g, w, key, 6);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell8_get(g))) {
-    wid_spellbook_key_down_which_spell(g, w, key, 7);
+    wid_spell_options_key_down_which_spell(g, w, key, 7);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell9_get(g))) {
-    wid_spellbook_key_down_which_spell(g, w, key, 8);
+    wid_spell_options_key_down_which_spell(g, w, key, 8);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell10_get(g))) {
-    wid_spellbook_key_down_which_spell(g, w, key, 9);
+    wid_spell_options_key_down_which_spell(g, w, key, 9);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell11_get(g))) {
-    wid_spellbook_key_down_which_spell(g, w, key, 10);
+    wid_spell_options_key_down_which_spell(g, w, key, 10);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell12_get(g))) {
-    wid_spellbook_key_down_which_spell(g, w, key, 11);
+    wid_spell_options_key_down_which_spell(g, w, key, 11);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell13_get(g))) {
-    wid_spellbook_key_down_which_spell(g, w, key, 12);
+    wid_spell_options_key_down_which_spell(g, w, key, 12);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell14_get(g))) {
-    wid_spellbook_key_down_which_spell(g, w, key, 13);
+    wid_spell_options_key_down_which_spell(g, w, key, 13);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell15_get(g))) {
-    wid_spellbook_key_down_which_spell(g, w, key, 14);
+    wid_spell_options_key_down_which_spell(g, w, key, 14);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell16_get(g))) {
-    wid_spellbook_key_down_which_spell(g, w, key, 15);
+    wid_spell_options_key_down_which_spell(g, w, key, 15);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell17_get(g))) {
-    wid_spellbook_key_down_which_spell(g, w, key, 16);
+    wid_spell_options_key_down_which_spell(g, w, key, 16);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell18_get(g))) {
-    wid_spellbook_key_down_which_spell(g, w, key, 17);
+    wid_spell_options_key_down_which_spell(g, w, key, 17);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell19_get(g))) {
-    wid_spellbook_key_down_which_spell(g, w, key, 18);
+    wid_spell_options_key_down_which_spell(g, w, key, 18);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell20_get(g))) {
-    wid_spellbook_key_down_which_spell(g, w, key, 19);
+    wid_spell_options_key_down_which_spell(g, w, key, 19);
     return true;
   }
 
   switch (key->mod) {
+    case KMOD_SHIFT :
+    case KMOD_LCTRL :
+    case KMOD_RCTRL :
     default :
       switch (key->sym) {
-        default : break;
+        default :
         case SDLK_ESCAPE :
           (void) sound_play(g, "keypress");
-          wid_spellbook_destroy(g);
+          wid_spell_options_destroy(g);
           return true;
       }
   }
@@ -307,19 +272,21 @@ static void wid_spellbook_key_down_which_spell(Gamep g, Widp w, const struct SDL
   return false;
 }
 
-[[nodiscard]] static auto wid_spellbook_back(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+[[nodiscard]] static auto wid_spell_options_back(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  wid_spellbook_destroy(g);
+  wid_spell_options_destroy(g);
   return true;
 }
 
-void wid_spellbook_show(Gamep g, Levelsp v, Levelp l, Thingp player)
+void wid_spell_options_show(Gamep g, Levelsp v, Levelp l, Thingp player, Thingp spell)
 {
   TRACE();
 
-  if (wid_spellbook_window != nullptr) {
-    wid_spellbook_destroy(g);
+  wid_spell_option_chosen = spell;
+
+  if (wid_spell_options_window != nullptr) {
+    wid_spell_options_destroy(g);
   }
 
   if (thing_is_dead(player)) {
@@ -330,8 +297,6 @@ void wid_spellbook_show(Gamep g, Levelsp v, Levelp l, Thingp player)
   if (ext_struct == nullptr) {
     return;
   }
-
-  thing_spellbook_dump(g, v, l, player);
 
   const int menu_width  = UI_INVENTORY_WIDTH;
   const int menu_height = UI_INVENTORY_HEIGHT;
@@ -353,27 +318,22 @@ void wid_spellbook_show(Gamep g, Levelsp v, Levelp l, Thingp player)
     spoint const tl((TERM_WIDTH / 2) - left_half, (TERM_HEIGHT / 2) - top_half);
     spoint const br((TERM_WIDTH / 2) + right_half - 1, (TERM_HEIGHT / 2) + bot_half - 1);
 
-    wid_spellbook_window = wid_new_window(g, "widget spellbook");
-    wid_set_pos(wid_spellbook_window, tl, br);
-    wid_set_style(wid_spellbook_window, UI_WID_STYLE_BUTTON_OUTLINE);
-    wid_set_on_key_down(wid_spellbook_window, wid_spellbook_key_down);
-    wid_set_text(wid_spellbook_window, "Spellbook");
-    wid_set_text_top(wid_spellbook_window, 1u);
-    wid_raise(g, wid_spellbook_window);
+    wid_spell_options_window = wid_new_window(g, "widget spellbook");
+    wid_set_pos(wid_spell_options_window, tl, br);
+    wid_set_style(wid_spell_options_window, UI_WID_STYLE_BUTTON_OUTLINE);
+    wid_set_on_key_down(wid_spell_options_window, wid_spell_options_key_down);
+    wid_set_text(wid_spell_options_window, "Spell options");
+    wid_set_text_top(wid_spell_options_window, 1u);
+    wid_raise(g, wid_spell_options_window);
   }
 
   {
     TRACE();
-    auto        *w = wid_new_square_button(g, wid_spellbook_window, "text");
+    auto        *w = wid_new_square_button(g, wid_spell_options_window, "text");
     spoint const tl(0, y_at);
     spoint const br(menu_width, y_at);
     wid_set_pos(w, tl, br);
-    if (thing_spellbook_get_spell_count(g, v, l, player)) {
-      wid_set_text(w, UI_FMT_STR "Mouse select a spell or press shortcut to cast");
-    } else {
-      wid_set_text(w, UI_FMT_STR "You need to learn a spell first");
-      (void) sound_play(g, "error");
-    }
+    wid_set_text(w, UI_FMT_STR "Mouse select a spell option");
     wid_set_style(w, UI_WID_STYLE_BUTTON_OUTLINE);
     wid_set_shape_none(w);
     wid_set_text_centerx(w, 1u);
@@ -381,21 +341,22 @@ void wid_spellbook_show(Gamep g, Levelsp v, Levelp l, Thingp player)
   }
 
   memset(wid_shortcut, 0, sizeof(wid_shortcut));
-  memset(wid_spell, 0, sizeof(wid_spell));
+  memset(wid_spell_option, 0, sizeof(wid_spell_option));
 
-  FOR_ALL_SPELLBOOK_SLOTS(g, v, l, player, slot, spell)
-  {
-    auto *tp = (spell != nullptr) ? thing_tp(spell) : nullptr;
+  auto options = tp_spell_options_get(thing_tp(spell));
+  auto index   = 0;
+  for (auto o : options) {
+    auto option = o.second;
 
     //
     // Key shortcut
     //
     {
       TRACE();
-      auto *w = wid_new_square_button(g, wid_spellbook_window, "Key");
+      auto *w = wid_new_square_button(g, wid_spell_options_window, "Key");
 
       std::string s;
-      switch (_n_) {
+      switch (index) {
         case 0 :  s += ::to_string(game_key_spell1_get(g)); break;
         case 1 :  s += ::to_string(game_key_spell2_get(g)); break;
         case 2 :  s += ::to_string(game_key_spell3_get(g)); break;
@@ -420,7 +381,7 @@ void wid_spellbook_show(Gamep g, Levelsp v, Levelp l, Thingp player)
       s += ')';
 
       spoint const tl(3, y_at);
-      spoint const br(13, y_at + button_height);
+      spoint const br(6, y_at + button_height);
       wid_set_text_lhs(w, 1u);
 
       wid_set_mode(w, WID_MODE_NORMAL);
@@ -430,15 +391,15 @@ void wid_spellbook_show(Gamep g, Levelsp v, Levelp l, Thingp player)
       wid_set_text(w, s);
 
       if (spell != nullptr) {
-        wid_set_int_context(w, _n_);
+        wid_set_int_context(w, index);
         wid_set_thing_context(g, v, w, spell);
-        wid_set_on_mouse_down(w, wid_spellbook_mouse_down);
+        wid_set_on_mouse_down(w, wid_spell_options_mouse_down);
       }
 
-      wid_set_on_mouse_over_begin(w, wid_spellbook_mouse_over_begin);
-      wid_set_on_mouse_over_end(w, wid_spellbook_mouse_over_end);
+      wid_set_on_mouse_over_begin(w, wid_spell_options_mouse_over_begin);
+      wid_set_on_mouse_over_end(w, wid_spell_options_mouse_over_end);
 
-      wid_shortcut[ _n_ ] = w;
+      wid_shortcut[ index ] = w;
     }
 
     //
@@ -448,7 +409,7 @@ void wid_spellbook_show(Gamep g, Levelsp v, Levelp l, Thingp player)
       std::string line;
 
       if (spell != nullptr) {
-        line = tp_name_long(tp);
+        line = option.name;
       } else {
         line = "-";
       }
@@ -457,41 +418,43 @@ void wid_spellbook_show(Gamep g, Levelsp v, Levelp l, Thingp player)
 
       {
         TRACE();
-        auto *w = wid_new_bar_button(g, wid_spellbook_window, "Spell");
+        auto *w = wid_new_bar_button(g, wid_spell_options_window, "Spell");
 
-        spoint const tl(15, y_at);
+        spoint const tl(7, y_at);
         spoint const br(button_width, y_at + button_height);
         wid_set_text_lhs(w, 1u);
         wid_set_pos(w, tl, br);
-        wid_set_text(w, line);
+        wid_set_text(w, capitalize_first(line));
 
         if (spell != nullptr) {
-          wid_set_int_context(w, _n_);
+          wid_set_int_context(w, index);
           wid_set_thing_context(g, v, w, spell);
-          wid_set_on_mouse_down(w, wid_spellbook_mouse_down);
+          wid_set_on_mouse_down(w, wid_spell_options_mouse_down);
         }
 
-        wid_set_on_mouse_over_begin(w, wid_spellbook_mouse_over_begin);
-        wid_set_on_mouse_over_end(w, wid_spellbook_mouse_over_end);
+        wid_set_on_mouse_over_begin(w, wid_spell_options_mouse_over_begin);
+        wid_set_on_mouse_over_end(w, wid_spell_options_mouse_over_end);
 
-        wid_spell[ _n_ ] = w;
+        wid_spell_option[ index ] = w;
       }
     }
 
     y_at += button_step;
+
+    index++;
   }
 
   {
     TRACE();
-    auto *w = wid_new_back_button(g, wid_spellbook_window, "BACK");
+    auto *w = wid_new_back_button(g, wid_spell_options_window, "BACK");
 
     spoint const tl((menu_width / 2) - 4, menu_height - 4);
     spoint const br((menu_width / 2) + 3, menu_height - 2);
-    wid_set_on_mouse_down(w, wid_spellbook_back);
+    wid_set_on_mouse_down(w, wid_spell_options_back);
     wid_set_pos(w, tl, br);
   }
 
-  wid_update(g, wid_spellbook_window);
+  wid_update(g, wid_spell_options_window);
 
   game_state_change(g, STATE_SPELLBOOK_MENU, "spellbook");
 }

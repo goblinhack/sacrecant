@@ -97,8 +97,8 @@ static void wid_spell_checkout(Gamep g)
   for (auto *spell_tp : game_chosen_spells_get(g)) {
     auto *spell = thing_spawn(g, v, l, spell_tp, thing_at(g, v, l, player));
     if (spell) {
-      auto cost      = thing_spell_cost_for(g, v, l, spell, player);
-      auto the_thing = thing_name_long_the(g, v, l, spell);
+      auto cost = thing_spell_cost_for(g, v, l, spell, player);
+      auto name = thing_name_long(g, v, l, spell);
 
       //
       // Only decrement the sac points if the spell was added successfully.
@@ -110,17 +110,18 @@ static void wid_spell_checkout(Gamep g)
         (void) thing_sac_points_decr(g, v, l, player, cost);
 
         if (cost == 1) {
-          topcon(UI_INFO_FMT_STR "You spent %d SP on spell %s." UI_RESET_FMT, cost, the_thing.c_str());
+          topcon(UI_INFO_FMT_STR "You spent %d SP on spell %s." UI_RESET_FMT, cost, name.c_str());
         } else {
-          topcon(UI_INFO_FMT_STR "You spent %d SPs on spell %s." UI_RESET_FMT, cost, the_thing.c_str());
+          topcon(UI_INFO_FMT_STR "You spent %d SPs on spell %s." UI_RESET_FMT, cost, name.c_str());
         }
+        (void) level_tick_begin_requested(g, v, l, "player learned a spell");
       } else {
         //
         // Too many spells?
         //
         topcon(UI_IMPORTANT_FMT_STR
                "You fail to learn %s and add it to your spellbook. You have not been charged for this transaction!" UI_RESET_FMT,
-               the_thing.c_str());
+               name.c_str());
       }
     } else {
       //

@@ -34,5 +34,21 @@ static auto tp_spell_1_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::stri
   tp_name_long_set(tp, "spell 1");
   // end sort marker1 }
 
+  tp_spell_option_add(tp,
+                      TpSpellOption {
+                          .type = "1",         //
+                          .name = "fireburst", //
+                      });
+  tp_spell_option_add(tp,
+                      TpSpellOption {
+                          .type = "2",                                 //
+                          .name = "radial burst, including your tile", //
+                      });
+  tp_spell_option_add(tp,
+                      TpSpellOption {
+                          .type = "3",                                 //
+                          .name = "radial burst, excluding your tile", //
+                      });
+
   return true;
 }

@@ -10,6 +10,7 @@
 #include "my_enum.hpp"
 #include "my_types.hpp"
 
+#include <map>
 #include <stdarg.h>
 #include <string>
 
@@ -300,7 +301,7 @@
       list_macro(is_unused142, "is_unused142"),                                             /* newline */                                       \
       list_macro(is_unused143, "is_unused143"),                                             /* newline */                                       \
       list_macro(is_unused144, "is_unused144"),                                             /* newline */                                       \
-      list_macro(is_able_to_cast_spells, "is_able_to_cast_spells"),                                             /* newline */                                       \
+      list_macro(is_able_to_cast_spells, "is_able_to_cast_spells"),                         /* newline */                                       \
       list_macro(is_unused_spell, "is_unused_spell"),                                       /* newline */                                       \
       list_macro(is_spell, "is_spell"),                                                     /* newline */                                       \
       list_macro(is_wooden_leg, "is_wooden_leg"),                                           /* newline */                                       \
@@ -792,6 +793,20 @@ using TpSpecialAttack = struct TpSpecialAttack {
   // Some attacks are done only at distant
   //
   bool when_distant {};
+};
+
+//
+// Spell sub options
+//
+using TpSpellOption = struct TpSpellOption {
+  //
+  // Unique name
+  //
+  std::string type = {}; // NOLINT
+  //
+  // User readable name
+  //
+  std::string name = {}; // NOLINT
 };
 
 class Tp;
@@ -1297,6 +1312,9 @@ class Tp;
 
 // begin sort marker2 {
 auto tp_special_attack_get_random(Tpp tp, TpSpecialAttack &out) -> bool;
+void tp_spell_option_add(Tpp tp, TpSpellOption val);
+auto tp_spell_options_get(Tpp tp) -> std::map< std::string, TpSpellOption >;
+auto tp_spell_options_exist(Tpp tp) -> bool;
 void tp_attack_count_max_per_tick_set(Tpp tp, int val);
 void tp_chance_set(Tpp tp, ThingChanceType e, const std::string &val);
 void tp_charge_count_set(Tpp tp, int val);
@@ -1348,6 +1366,7 @@ void tp_priority_set(Tpp tp, ThingPriorityType val);
 void tp_rarity_set(Tpp tp, ThingRarityType val);
 void tp_score_value_set(Tpp tp, int val);
 void tp_special_attack_add(Tpp tp, TpSpecialAttack val);
+void tp_spell_option_add(Tpp tp, TpSpellOption val);
 void tp_speed_set(Tpp tp, int val);
 void tp_stamina_set(Tpp tp, const std::string &val);
 void tp_stat_set(Tpp tp, ThingStatType stat, const std::string &val);
