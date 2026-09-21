@@ -1360,6 +1360,50 @@ auto tp_spell_options_exist(Tpp tp) -> bool
   return ! tp->spell_options.empty();
 }
 
+void tp_spell_upgrade_add(Tpp tp, TpSpellUpgrade val)
+{
+  TRACE_DEBUG();
+  if (tp == nullptr) [[unlikely]] {
+    ERR("no thing template pointer");
+    return;
+  }
+
+  if (tp->spell_upgrades.contains(val.type)) {
+    tp_err(tp, "spell option type %s already set", val.type.c_str());
+    return;
+  }
+
+  tp->spell_upgrades[ val.type ] = val;
+}
+
+auto tp_spell_upgrades_get(Tpp tp) -> std::map< std::string, TpSpellUpgrade >
+{
+  TRACE_DEBUG();
+
+  std::map< std::string, TpSpellUpgrade > out;
+
+  if (tp == nullptr) [[unlikely]] {
+    ERR("no thing template pointer");
+    return out;
+  }
+
+  return tp->spell_upgrades;
+}
+
+auto tp_spell_upgrades_exist(Tpp tp) -> bool
+{
+  TRACE_DEBUG();
+
+  std::map< std::string, TpSpellUpgrade > out;
+
+  if (tp == nullptr) [[unlikely]] {
+    ERR("no thing template pointer");
+    return false;
+  }
+
+  return ! tp->spell_upgrades.empty();
+}
+
 void tp_is_immune_to_add(Tpp tp, ThingEventType val)
 {
   TRACE_DEBUG();
@@ -1638,24 +1682,24 @@ void tp_value3_set(Tpp tp, int val)
   return tp->value3;
 }
 
-void tp_value4_set(Tpp tp, int val)
+void tp_effect_radius_set(Tpp tp, int val)
 {
   TRACE_DEBUG();
   if (tp == nullptr) [[unlikely]] {
     ERR("no thing template pointer");
     return;
   }
-  tp->value4 = val;
+  tp->effect_radius = val;
 }
 
-[[nodiscard]] auto tp_value4_get(Tpp tp) -> int
+[[nodiscard]] auto tp_effect_radius_get(Tpp tp) -> int
 {
   TRACE_DEBUG();
   if (tp == nullptr) [[unlikely]] {
     ERR("no thing template pointer");
     return 0;
   }
-  return tp->value4;
+  return tp->effect_radius;
 }
 
 void tp_spell_cost_set(Tpp tp, int val)

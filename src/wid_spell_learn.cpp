@@ -32,6 +32,7 @@
 #include <algorithm>
 #include <cstdint>
 #include <cstring>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -42,13 +43,17 @@ static WidPopup     *wid_spell_learn_learn_window;
 static WidPopup     *wid_over_stats;
 static ThingStatType wid_spell_filter = THING_STAT_NONE;
 
+static std::map< Thingp, std::set< std::string > > wid_spell_upgrades;
+
 static Widp wid_spell[ TP_ID_MAX ];
+static Widp wid_upgrade[ TP_ID_MAX ];
 
 static void wid_spell_learn_destroy(Gamep g)
 {
   TRACE();
 
   memset(wid_spell, 0, sizeof(wid_spell));
+  memset(wid_upgrade, 0, sizeof(wid_upgrade));
 
   game_cand_spell_unset(g, nullptr);
 
@@ -65,9 +70,37 @@ static void wid_spell_learn_destroy(Gamep g)
     wid_destroy(g, &wid_spell_learn_window);
   }
 
-  wid_total = nullptr;
+  wid_total          = nullptr;
+  wid_spell_upgrades = {};
 
   game_state_reset(g, "close spell window");
+}
+
+static bool wid_spell_upgrade_find(Gamep g, Levelsp v, Levelp l, Thingp spell, std::string upgrade)
+{
+  TRACE();
+
+  for (auto i : wid_spell_upgrades) {
+    if (i.first == spell) {
+      return i.second.find(upgrade) != i.second.end();
+    }
+  }
+
+  return false;
+}
+
+static void wid_spell_upgrade_add(Gamep g, Levelsp v, Levelp l, Thingp spell, std::string upgrade)
+{
+  TRACE();
+
+  wid_spell_upgrades[ spell ].insert(upgrade);
+}
+
+static void wid_spell_upgrade_remove(Gamep g, Levelsp v, Levelp l, Thingp spell, std::string upgrade)
+{
+  TRACE();
+
+  wid_spell_upgrades[ spell ].erase(upgrade);
 }
 
 static void wid_spell_checkout(Gamep g)
@@ -131,6 +164,33 @@ static void wid_spell_checkout(Gamep g)
     }
   }
 
+  //
+  // Upgrade any spells
+  //
+  for (auto i : wid_spell_upgrades) {
+    Thingp spell = i.first;
+    auto   cost  = thing_spell_cost_for(g, v, l, spell, player);
+    auto   name  = thing_name_long(g, v, l, spell);
+
+    for (auto u_name : i.second) {
+      FOR_ALL_SPELLBOOK_SPELLS(g, v, l, player, learned_spell)
+      {
+        if (thing_tp(learned_spell) == thing_tp(spell)) {
+          for (auto upgrade : tp_spell_upgrades_get(thing_tp(learned_spell))) {
+            TpSpellUpgrade u = upgrade.second;
+            if (u.name == u_name) {
+              if (thing_on_upgrade_do(g, v, l, learned_spell, u)) {
+                topcon(UI_INFO_FMT_STR "You spent %d SP on upgrade '%s' for spell %s." UI_RESET_FMT, cost, u_name.c_str(), name.c_str());
+              } else {
+                topcon(UI_INFO_FMT_STR "You spent %d SPs on upgrade '%s' for spell %s." UI_RESET_FMT, cost, u_name.c_str(), name.c_str());
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
   wid_spell_learn_destroy(g);
 
   game_spell_clear(g);
@@ -149,7 +209,7 @@ static void wid_spell_learn_check_if_done(Gamep g)
 {
   TRACE();
 
-  if (game_cand_spell_get(g).empty()) {
+  if (game_cand_spell_get(g).empty() && wid_spell_upgrades.empty()) {
     delete wid_spell_learn_learn_window;
     wid_spell_learn_learn_window = nullptr;
     return;
@@ -157,7 +217,7 @@ static void wid_spell_learn_check_if_done(Gamep g)
 
   if (wid_spell_learn_learn_window == nullptr) {
     auto         m = TERM_WIDTH / 2;
-    auto         n = TERM_HEIGHT - 5;
+    auto         n = TERM_HEIGHT - 4;
     spoint const outer_tl(m - (UI_WID_POPUP_WIDTH_NORMAL / 2), n - 3);
     spoint const outer_br(m + (UI_WID_POPUP_WIDTH_NORMAL / 2), n + 1);
     auto         width = outer_br.x - outer_tl.x;
@@ -178,16 +238,36 @@ static auto wid_player_spent_points(Gamep g, Levelsp v, Levelp l, Thingp player)
 {
   TRACE();
 
-  Widp w = nullptr;
-  int  spent {};
+  int spent {};
 
-  for (auto &n : wid_spell) {
-    w = n;
-    if (w != nullptr) {
-      auto *spell = wid_get_thing_context(g, v, w, 0);
-      if (game_cand_spell_find(g, spell)) {
-        spent += thing_spell_cost_for(g, v, l, spell, player);
-      }
+  for (auto &w : wid_spell) {
+    if (w == nullptr) {
+      continue;
+    }
+
+    auto *spell = wid_get_thing_context(g, v, w, 0);
+    if (spell == nullptr) {
+      continue;
+    }
+
+    if (game_cand_spell_find(g, spell)) {
+      spent += thing_spell_cost_for(g, v, l, spell, player);
+    }
+  }
+
+  for (auto &w : wid_upgrade) {
+    if (w == nullptr) {
+      continue;
+    }
+
+    auto *spell = wid_get_thing_context(g, v, w, 0);
+    if (spell == nullptr) {
+      continue;
+    }
+
+    auto upgrade = wid_get_string_context(w);
+    if (wid_spell_upgrade_find(g, v, l, spell, upgrade)) {
+      spent += thing_spell_cost_for(g, v, l, spell, player);
     }
   }
 
@@ -288,6 +368,44 @@ static void wid_player_update_spell_selections(Gamep g, Levelsp v, Levelp l, Thi
     }
   }
 
+  for (auto &n : wid_upgrade) {
+    w = n;
+    if (w == nullptr) {
+      continue;
+    }
+
+    auto *spell = wid_get_thing_context(g, v, w, 0);
+    if (spell == nullptr) {
+      continue;
+    }
+
+    auto        upgrade    = wid_get_string_context(w);
+    auto        spell_cost = thing_spell_cost_for(g, v, l, spell, player);
+    std::string s;
+
+    if (spell_cost <= avail) {
+      s += "%%fg=gray90$";
+    } else {
+      s += "%%fg=gray50$";
+    }
+
+    s += " + Upgrade: ";
+    s += capitalize_first(upgrade);
+
+    wid_set_text(w, s);
+    wid_apply_bar_button(g, w);
+
+    if (wid_spell_upgrade_find(g, v, l, spell, upgrade)) {
+      wid_set_mode(w, WID_MODE_OVER);
+      wid_set_style(w, UI_WID_STYLE_BUTTON_BAR);
+      wid_set_color(w, WID_COLOR_BG, RED);
+      wid_set_color(w, WID_COLOR_TEXT_FG, WHITE);
+      wid_set_mode(w, WID_MODE_NORMAL);
+      wid_set_style(w, UI_WID_STYLE_BUTTON_BAR);
+      wid_set_color(w, WID_COLOR_BG, RED);
+    }
+  }
+
   wid_player_update_spending(g, v, l, player);
 }
 
@@ -362,7 +480,10 @@ static void wid_spell_learn_spell_via_mouse_over_end(Gamep g, Widp w)
   auto cost  = thing_spell_cost_for(g, v, l, spell, player);
   auto avail = wid_player_avail_points(g, v, l, player);
 
-  if (game_cand_spell_find(g, spell)) {
+  if (thing_spellbook_is_learned_spell(g, v, l, spell, player)) {
+    topcon("You already know this spell. Choose an upgrade.\n");
+    (void) sound_play(g, "error");
+  } else if (game_cand_spell_find(g, spell)) {
     game_cand_spell_unset(g, spell);
     (void) sound_play(g, "select");
   } else if (cost <= avail) {
@@ -370,6 +491,56 @@ static void wid_spell_learn_spell_via_mouse_over_end(Gamep g, Widp w)
     (void) sound_play(g, "select");
   } else {
     topcon("You do not have enough SPs to learn that spell.\n");
+    (void) sound_play(g, "error");
+  }
+
+  wid_spell_learn_check_if_done(g);
+  wid_player_update_spell_selections(g, v, l, player);
+  game_request_to_remake_ui_set(g);
+
+  return true;
+}
+
+[[nodiscard]] static auto wid_spell_upgrade_spell_via_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+{
+  TRACE();
+
+  auto *v = levels_memory_alloc(g);
+  if (v == nullptr) {
+    return 0;
+  }
+
+  auto *l = game_level_get(g, v);
+  if (l == nullptr) {
+    return 0;
+  }
+
+  auto *player = thing_player(g);
+  if (player == nullptr) {
+    return 0;
+  }
+
+  auto *spell = wid_get_thing_context(g, v, w, 0);
+  if (spell == nullptr) {
+    return false;
+  }
+
+  auto cost  = thing_spell_cost_for(g, v, l, spell, player);
+  auto avail = wid_player_avail_points(g, v, l, player);
+
+  auto upgrade = wid_get_string_context(w);
+  if (upgrade == "") {
+    return false;
+  }
+
+  if (wid_spell_upgrade_find(g, v, l, spell, upgrade)) {
+    wid_spell_upgrade_remove(g, v, l, spell, upgrade);
+    (void) sound_play(g, "select");
+  } else if (cost <= avail) {
+    wid_spell_upgrade_add(g, v, l, spell, upgrade);
+    (void) sound_play(g, "select");
+  } else {
+    topcon("You do not have enough SPs to upgrade that spell.\n");
     (void) sound_play(g, "error");
   }
 
@@ -678,6 +849,13 @@ static void wid_spell_learn_stats_mouse_over_end(Gamep g, Widp w)
   wid_over_stats = nullptr;
 }
 
+[[nodiscard]] static auto wid_spell_learn_back(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+{
+  TRACE();
+  wid_spell_learn_destroy(g);
+  return true;
+}
+
 void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType filter)
 {
   con("Player select menu: create");
@@ -704,7 +882,7 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType 
   }
 
   const int menu_width  = UI_INVENTORY_WIDTH;
-  const int menu_height = TERM_HEIGHT - (UI_TOPCON_HEIGHT * 2) - 6;
+  const int menu_height = TERM_HEIGHT - (UI_TOPCON_HEIGHT * 2);
 
   const auto button_width  = menu_width - 2;
   const auto button_height = 0;
@@ -758,13 +936,14 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType 
 
   {
     spoint const inner_tl(1, 5);
-    spoint const inner_br(menu_width - 2, menu_height - 8);
+    spoint const inner_br(menu_width - 2, menu_height - 12);
 
     wid_spell_learn_list
-        = new WidPopup(g, wid_spell_learn_window, "spell list", inner_tl, inner_br, nullptr, "", false, true, wid_spell_tps.size());
+        = new WidPopup(g, wid_spell_learn_window, "spell list", inner_tl, inner_br, nullptr, "", false, true, wid_spell_tps.size() * 2);
   }
 
-  int wid_spell_index = 0;
+  int wid_spell_index   = 0;
+  int wid_upgrade_index = 0;
 
   std::vector< Thingp > wid_spell_things;
 
@@ -803,11 +982,11 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType 
     //
     // Already learned?
     //
-    bool already_learned = {};
+    Thingp already_learned = {};
     FOR_ALL_SPELLBOOK_SPELLS(g, v, l, player, learned_spell)
     {
       if (thing_tp(learned_spell) == thing_tp(existing_spell)) {
-        already_learned = true;
+        already_learned = learned_spell;
         break;
       }
     }
@@ -815,7 +994,26 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType 
     //
     // Skip already learned
     //
-    if (! already_learned) {
+    if (already_learned) {
+      //
+      // Upgrades?
+      //
+      if (thing_is_upgradable(g, v, l, already_learned)) {
+        if (filter == 0u) {
+          //
+          // All spells
+          //
+          wid_spell_things.push_back(existing_spell);
+        } else {
+          //
+          // Match filter only
+          //
+          if (thing_spell_arcana(g, v, l, existing_spell) == filter) {
+            wid_spell_things.push_back(existing_spell);
+          }
+        }
+      }
+    } else {
       //
       // Filter?
       //
@@ -863,17 +1061,43 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType 
 
     wid_set_thing_context(g, v, w, spell);
     wid_set_int_context(w, wid_spell_index);
-    wid_set_on_mouse_down(w, wid_spell_learn_spell_via_mouse_down);
     wid_set_on_mouse_over_begin(w, wid_spell_learn_spell_via_mouse_over_begin);
     wid_set_on_mouse_over_end(w, wid_spell_learn_spell_via_mouse_over_end);
+    wid_set_on_mouse_down(w, wid_spell_learn_spell_via_mouse_down);
     wid_apply_bar_button(g, w);
+    y_at += button_step;
+
+    //
+    // Add upgrades?
+    //
+    FOR_ALL_SPELLBOOK_SPELLS(g, v, l, player, learned_spell)
+    {
+      if (thing_tp(spell) == thing_tp(learned_spell)) {
+        for (auto i : tp_spell_upgrades_get(thing_tp(spell))) {
+          auto u = i.second;
+          if (thing_is_upgradable(g, v, l, learned_spell, u)) {
+            auto *w_upgrade = wid_spell_learn_list->log(g, "-", TEXT_FORMAT_LHS);
+
+            wid_set_thing_context(g, v, w_upgrade, spell);
+            wid_set_int_context(w_upgrade, wid_spell_index);
+            wid_set_string_context(w_upgrade, u.name);
+            wid_set_on_mouse_down(w_upgrade, wid_spell_upgrade_spell_via_mouse_down);
+            wid_set_on_mouse_over_begin(w_upgrade, wid_spell_learn_spell_via_mouse_over_begin);
+            wid_set_on_mouse_over_end(w_upgrade, wid_spell_learn_spell_via_mouse_over_end);
+            wid_apply_bar_button(g, w_upgrade);
+            y_at += button_step;
+            wid_upgrade[ wid_upgrade_index++ ] = w_upgrade;
+          }
+        }
+        break;
+      }
+    }
 
     wid_spell[ wid_spell_index ] = w;
-    y_at += button_step;
     wid_spell_index++;
   }
 
-  y_at = menu_height - 6;
+  y_at = menu_height - 10;
 
   //
   // Filters:
@@ -948,7 +1172,7 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType 
     }
   }
 
-  y_at = menu_height - 2;
+  y_at = menu_height - 6;
 
   //
   // Total sac points:
@@ -964,6 +1188,16 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType 
     wid_set_text_lhs(wid_total, 1u);
     wid_player_update_spell_selections(g, v, l, player);
     wid_player_update_spending(g, v, l, player);
+  }
+
+  {
+    TRACE();
+    auto *w = wid_new_back_button(g, wid_spell_learn_window, "BACK");
+
+    spoint const tl((menu_width / 2) - 4, menu_height - 4);
+    spoint const br((menu_width / 2) + 3, menu_height - 2);
+    wid_set_on_mouse_down(w, wid_spell_learn_back);
+    wid_set_pos(w, tl, br);
   }
 
   wid_update(g, wid_spell_learn_window);

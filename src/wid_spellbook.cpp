@@ -113,6 +113,7 @@ void wid_spellbook_mouse_over_end(Gamep g, Widp w)
 
   auto *spell = wid_get_thing_context(g, v, w, 0);
   if (spell == nullptr) {
+    (void) sound_play(g, "error");
     return false;
   }
 
@@ -159,11 +160,13 @@ static void wid_spellbook_key_down_which_spell(Gamep g, Widp w, const struct SDL
 
   w = wid_spell[ index ];
   if (w == nullptr) {
+    (void) sound_play(g, "error");
     return;
   }
 
   auto *spell = wid_get_thing_context(g, v, w, 0);
   if (spell == nullptr) {
+    (void) sound_play(g, "error");
     return;
   }
 
@@ -334,7 +337,7 @@ void wid_spellbook_show(Gamep g, Levelsp v, Levelp l, Thingp player)
   thing_spellbook_dump(g, v, l, player);
 
   const int menu_width  = UI_INVENTORY_WIDTH;
-  const int menu_height = UI_INVENTORY_HEIGHT;
+  const int menu_height = THING_SPELLBOOK_MAX + 9;
 
   const auto button_width  = menu_width - 4;
   const auto button_height = 0;
@@ -432,9 +435,9 @@ void wid_spellbook_show(Gamep g, Levelsp v, Levelp l, Thingp player)
       if (spell != nullptr) {
         wid_set_int_context(w, _n_);
         wid_set_thing_context(g, v, w, spell);
-        wid_set_on_mouse_down(w, wid_spellbook_mouse_down);
       }
 
+      wid_set_on_mouse_down(w, wid_spellbook_mouse_down);
       wid_set_on_mouse_over_begin(w, wid_spellbook_mouse_over_begin);
       wid_set_on_mouse_over_end(w, wid_spellbook_mouse_over_end);
 
@@ -448,7 +451,7 @@ void wid_spellbook_show(Gamep g, Levelsp v, Levelp l, Thingp player)
       std::string line;
 
       if (spell != nullptr) {
-        line = tp_name_long(tp);
+        line = capitalize(tp_name_long(tp));
       } else {
         line = "-";
       }
@@ -468,9 +471,9 @@ void wid_spellbook_show(Gamep g, Levelsp v, Levelp l, Thingp player)
         if (spell != nullptr) {
           wid_set_int_context(w, _n_);
           wid_set_thing_context(g, v, w, spell);
-          wid_set_on_mouse_down(w, wid_spellbook_mouse_down);
         }
 
+        wid_set_on_mouse_down(w, wid_spellbook_mouse_down);
         wid_set_on_mouse_over_begin(w, wid_spellbook_mouse_over_begin);
         wid_set_on_mouse_over_end(w, wid_spellbook_mouse_over_end);
 

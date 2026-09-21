@@ -49,6 +49,22 @@ static auto tp_wand_energy_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -
   return what;
 }
 
+[[nodiscard]] static auto tp_wand_energy_get_weapon_list(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::vector< Tpp >
+{
+  TRACE();
+
+  std::vector< Tpp > out;
+
+  for (auto i : thing_special_attack_get_all(g, v, l, me)) {
+    auto tp = tp_find_opt(i.what);
+    if (tp) {
+      out.push_back(tp);
+    }
+  }
+
+  return out;
+}
+
 [[nodiscard]] auto tp_load_wand_energy() -> bool
 {
   TRACE();
@@ -60,6 +76,7 @@ static auto tp_wand_energy_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -
   thing_description_set(tp, tp_wand_energy_description_get);
   thing_detail_set(tp, tp_wand_energy_detail_get);
   thing_on_use_weapon_request_set(tp, tp_wand_energy_on_use_weapon_request);
+  thing_get_weapon_list_set(tp, tp_wand_energy_get_weapon_list);
   tp_charge_count_set(tp, 5000);
   tp_flag_set(tp, is_able_to_be_buffed);
   tp_flag_set(tp, is_able_to_be_invisible);

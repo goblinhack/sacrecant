@@ -46,6 +46,37 @@ void thing_on_use_weapon_request_set(Tpp tp, thing_on_use_weapon_request_t callb
   return tp->on_use_weapon_request(g, v, l, me, user);
 }
 
+void thing_get_weapon_list_set(Tpp tp, thing_get_weapon_list_t callback)
+{
+  TRACE();
+  if (tp == nullptr) [[unlikely]] {
+    ERR("no thing template pointer");
+    return;
+  }
+  tp->get_weapon_list = callback;
+}
+
+[[nodiscard]] auto thing_get_weapon_list(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::vector< Tpp >
+{
+  TRACE();
+
+  std::vector< Tpp > none;
+
+  auto *tp = thing_tp(me);
+  if (tp == nullptr) [[unlikely]] {
+    ERR("no thing template pointer");
+    return none;
+  }
+  if (tp->get_weapon_list == nullptr) {
+    //
+    // Assume success
+    //
+    return none;
+  }
+
+  return tp->get_weapon_list(g, v, l, me);
+}
+
 [[nodiscard]] auto thing_fire_at(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp item, Tpp fire_what, const bpoint &target) -> bool
 {
   TRACE();

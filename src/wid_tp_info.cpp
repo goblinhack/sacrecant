@@ -58,7 +58,7 @@
 
   std::string name_str;
   name_str = tp_name_long(me);
-  name_str = capitalize(name_str);
+  name_str = capitalize_first(name_str);
 
   parent->log(g, UI_INFO_FMT_STR + name_str + UI_RESET_FMT);
 
@@ -128,13 +128,13 @@
     auto space = (width - 4) / 2;
 
     if (title_allowed) {
-      auto line = string_sprintf("- %-*s%*s",                                            //
-                                 space, capitalize(ThingEventType_to_string(e)).c_str(), //
+      auto line = string_sprintf("- %-*s%*s",                                                  //
+                                 space, capitalize_first(ThingEventType_to_string(e)).c_str(), //
                                  space, damage_str.c_str());
       parent->log(g, line, TEXT_FORMAT_RHS);
     } else {
-      auto line = string_sprintf("%-*s%*s",                                              //
-                                 space, capitalize(ThingEventType_to_string(e)).c_str(), //
+      auto line = string_sprintf("%-*s%*s",                                                    //
+                                 space, capitalize_first(ThingEventType_to_string(e)).c_str(), //
                                  space, damage_str.c_str());
       parent->log(g, line, TEXT_FORMAT_RHS);
     }
@@ -168,8 +168,8 @@
     auto damage_str = val.roll;
 
     auto space = (width - 4) / 2;
-    auto line  = string_sprintf("- %-*s%*s",                         //
-                                space, capitalize(val.name).c_str(), //
+    auto line  = string_sprintf("- %-*s%*s",                               //
+                                space, capitalize_first(val.name).c_str(), //
                                 space, damage_str.c_str());
     parent->log(g, line, TEXT_FORMAT_LHS);
 
@@ -189,6 +189,68 @@
         }
       }
     }
+
+    printed_something = true;
+  }
+
+  return printed_something;
+}
+
+//
+// Add spell options
+//
+[[nodiscard]] auto wid_tp_info_spell_options(Gamep g, Levelsp v, Levelp l, Tpp me, WidPopup *parent, int width, bool title_allowed) -> bool
+{
+  TRACE();
+
+  bool printed_something = false;
+
+  if (title_allowed) {
+    if (! me->spell_options.empty()) {
+      parent->log(g, UI_INFO_FMT_STR "Spell options:", TEXT_FORMAT_LHS);
+    }
+  }
+
+  //
+  // Check for things matching the dice roll first.
+  //
+  for (const auto &d : me->spell_options) {
+    auto val = d.second;
+
+    auto space = (width - 4) / 2;
+    auto line  = string_sprintf("- %-*s", space, capitalize_first(val.name).c_str());
+    parent->log(g, UI_INFO2_FMT_STR + line, TEXT_FORMAT_LHS);
+
+    printed_something = true;
+  }
+
+  return printed_something;
+}
+
+//
+// Add spell upgrades
+//
+[[nodiscard]] auto wid_tp_info_spell_upgrades(Gamep g, Levelsp v, Levelp l, Tpp me, WidPopup *parent, int width, bool title_allowed) -> bool
+{
+  TRACE();
+
+  bool printed_something = false;
+
+  if (title_allowed) {
+    if (! me->spell_upgrades.empty()) {
+      parent->log(g, UI_INFO_FMT_STR "Spell upgrades:", TEXT_FORMAT_LHS);
+    }
+  }
+
+  //
+  // Check for things matching the dice roll first.
+  //
+  for (const auto &d : me->spell_upgrades) {
+    auto val = d.second;
+
+    auto space = (width - 4) / 2;
+    auto line  = string_sprintf("- %-*s", space, capitalize_first(val.name).c_str());
+    parent->log(g, UI_INFO2_FMT_STR + line, TEXT_FORMAT_LHS);
 
     printed_something = true;
   }
@@ -249,7 +311,7 @@
       continue;
     }
 
-    out = string_append_with_comma(out, capitalize(ThingEventType_to_string(e)));
+    out = string_append_with_comma(out, capitalize_first(ThingEventType_to_string(e)));
   }
 
   if (out.empty()) {
@@ -315,7 +377,7 @@
       continue;
     }
 
-    out = string_append_with_comma(out, capitalize(ThingEventType_to_string(e)));
+    out = string_append_with_comma(out, capitalize_first(ThingEventType_to_string(e)));
   }
 
   if (out.empty()) {
@@ -357,6 +419,14 @@ void wid_tp_info(Gamep g, Levelsp v, Levelp l, Tpp me, WidPopup *parent, int wid
   }
 
   if (wid_tp_info_special_attacks(g, v, l, me, parent, width, true /* title allowed */)) {
+    parent->log_empty_line(g);
+  }
+
+  if (wid_tp_info_spell_options(g, v, l, me, parent, width, true /* title allowed */)) {
+    parent->log_empty_line(g);
+  }
+
+  if (wid_tp_info_spell_upgrades(g, v, l, me, parent, width, true /* title allowed */)) {
     parent->log_empty_line(g);
   }
 

@@ -43,9 +43,17 @@ using thing_on_spawned_t = void (*)(Gamep, Levelsp, Levelp, Thingp me, ThingEven
 auto thing_on_spawned_set(Tpp tp, thing_on_spawned_t callback) -> void;
 auto thing_on_spawned(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent *e = nullptr) -> void;
 
-using thing_hook_on_attached_t = void (*)(Gamep, Levelsp, Levelp, Thingp me);
-auto thing_hook_on_attached_set(Tpp tp, thing_hook_on_attached_t callback) -> void;
-auto thing_hook_on_attached(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
+using thing_on_hook_attached_t = void (*)(Gamep, Levelsp, Levelp, Thingp me);
+auto thing_on_hook_attached_set(Tpp tp, thing_on_hook_attached_t callback) -> void;
+auto thing_on_hook_attached(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
+
+using thing_on_upgrade_possible_t = bool (*)(Gamep, Levelsp, Levelp, Thingp me, TpSpellUpgrade);
+auto thing_on_upgrade_possible_set(Tpp tp, thing_on_upgrade_possible_t callback) -> void;
+auto thing_on_upgrade_possible(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade) -> bool;
+
+using thing_on_upgrade_do_t = bool (*)(Gamep, Levelsp, Levelp, Thingp me, TpSpellUpgrade);
+auto thing_on_upgrade_do_set(Tpp tp, thing_on_upgrade_do_t callback) -> void;
+auto thing_on_upgrade_do(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade) -> bool;
 
 using thing_on_levitated_t = void (*)(Gamep, Levelsp, Levelp, Thingp me);
 auto thing_on_levitated_set(Tpp tp, thing_on_levitated_t callback) -> void;
@@ -90,6 +98,10 @@ auto               thing_on_drop_success_set(Tpp tp, thing_on_drop_success_t cal
 using thing_on_use_weapon_request_t = Tpp (*)(Gamep, Levelsp, Levelp, Thingp me, Thingp user);
 auto               thing_on_use_weapon_request_set(Tpp tp, thing_on_use_weapon_request_t callback) -> void;
 [[nodiscard]] auto thing_on_use_weapon_request(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp user) -> Tpp;
+
+using thing_get_weapon_list_t = std::vector< Tpp > (*)(Gamep, Levelsp, Levelp, Thingp me);
+auto               thing_get_weapon_list_set(Tpp tp, thing_get_weapon_list_t callback) -> void;
+[[nodiscard]] auto thing_get_weapon_list(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::vector< Tpp >;
 
 using thing_on_use_t = bool (*)(Gamep, Levelsp, Levelp, Thingp me, Thingp user);
 auto               thing_on_use_set(Tpp tp, thing_on_use_t callback) -> void;

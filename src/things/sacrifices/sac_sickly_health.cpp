@@ -16,7 +16,7 @@ static auto tp_sac_sickly_health_detail_get(Gamep g, Levelsp v, Levelp l, Thingp
   return UI_INFO1_FMT_STR "With this sacrifice, your maximum health is reduced by 10%%\n";
 }
 
-void tp_sac_sickly_health_hook_on_attached(Gamep g, Levelsp v, Levelp l, Thingp me)
+void tp_sac_sickly_health_on_hook_attached(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
 
@@ -49,7 +49,7 @@ void tp_sac_sickly_health_hook_on_attached(Gamep g, Levelsp v, Levelp l, Thingp 
 
   // begin sort marker1 {
   thing_detail_set(tp, tp_sac_sickly_health_detail_get);
-  thing_hook_on_attached_set(tp, tp_sac_sickly_health_hook_on_attached);
+  thing_on_hook_attached_set(tp, tp_sac_sickly_health_on_hook_attached);
   tp_flag_set(tp, is_hook);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_sacrifice);

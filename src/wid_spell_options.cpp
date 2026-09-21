@@ -298,8 +298,10 @@ void wid_spell_options_show(Gamep g, Levelsp v, Levelp l, Thingp player, Thingp 
     return;
   }
 
+  auto options = tp_spell_options_get(thing_tp(spell));
+
   const int menu_width  = UI_INVENTORY_WIDTH;
-  const int menu_height = UI_INVENTORY_HEIGHT;
+  const int menu_height = options.size() + 9;
 
   const auto button_width  = menu_width - 4;
   const auto button_height = 0;
@@ -343,8 +345,7 @@ void wid_spell_options_show(Gamep g, Levelsp v, Levelp l, Thingp player, Thingp 
   memset(wid_shortcut, 0, sizeof(wid_shortcut));
   memset(wid_spell_option, 0, sizeof(wid_spell_option));
 
-  auto options = tp_spell_options_get(thing_tp(spell));
-  auto index   = 0;
+  auto index = 0;
   for (auto o : options) {
     auto option = o.second;
 

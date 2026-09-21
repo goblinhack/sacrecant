@@ -251,7 +251,7 @@ static void thing_hook_sort(Gamep g, Levelsp v, Levelp l, Thingp me)
 
     thing_hook_sort(g, v, l, me);
 
-    thing_hook_on_attached(g, v, l, new_hook);
+    thing_on_hook_attached(g, v, l, new_hook);
 
     return new_hook;
   }
@@ -402,17 +402,17 @@ static auto thing_hook_detach_from_owner(Gamep g, Levelsp v, Levelp l, Thingp me
   return thing_hook_detach_from_owner(g, v, l, hook_owner, me);
 }
 
-void thing_hook_on_attached_set(Tpp tp, thing_hook_on_attached_t callback)
+void thing_on_hook_attached_set(Tpp tp, thing_on_hook_attached_t callback)
 {
   TRACE();
   if (tp == nullptr) [[unlikely]] {
     ERR("no thing template pointer");
     return;
   }
-  tp->hook_on_attached = callback;
+  tp->on_hook_attached = callback;
 }
 
-void thing_hook_on_attached(Gamep g, Levelsp v, Levelp l, Thingp me)
+void thing_on_hook_attached(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
   auto *tp = thing_tp(me);
@@ -420,8 +420,8 @@ void thing_hook_on_attached(Gamep g, Levelsp v, Levelp l, Thingp me)
     ERR("no thing template pointer");
     return;
   }
-  if (tp->hook_on_attached == nullptr) {
+  if (tp->on_hook_attached == nullptr) {
     return;
   }
-  tp->hook_on_attached(g, v, l, me);
+  tp->on_hook_attached(g, v, l, me);
 }

@@ -76,6 +76,40 @@
 }
 
 //
+// Is this spell known?
+//
+[[nodiscard]] auto thing_spellbook_is_learned_spell(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp owner) -> bool
+{
+  TRACE();
+
+  if (! thing_is_player(owner) && ! thing_is_monst(owner)) {
+    thing_err(g, v, l, owner, "unexpected thing for %s", __FUNCTION__);
+    return false;
+  }
+
+  if (spell == nullptr) {
+    return false;
+  }
+
+  auto *ext_struct = thing_ext_struct(g, v, owner);
+  if (ext_struct == nullptr) {
+    return false;
+  }
+
+  //
+  // Look for a free slot
+  //
+  FOR_ALL_SPELLBOOK_SPELLS(g, v, l, owner, a_spell)
+  {
+    if (thing_tp(spell) == thing_tp(a_spell)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+//
 // Drop an spell to the spellbook
 //
 [[nodiscard]] auto thing_spellbook_remove(Gamep g, Levelsp v, Levelp l, Thingp drop_spell, Thingp owner) -> bool

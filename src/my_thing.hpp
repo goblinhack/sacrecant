@@ -517,7 +517,7 @@ using Thing = struct Thing {
   int16_t _value1;
   int16_t _value2;
   int16_t _value3;
-  int16_t _value4;
+  int16_t _effect_radius;
   int16_t _spell_cost;
   int16_t _crit_roll;
   int16_t _fumble_roll;
@@ -711,6 +711,9 @@ using Thing = struct Thing {
 
 // begin sort marker1 {
 [[nodiscard]] auto astar_solve(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint src, bpoint dst) -> std::vector< bpoint >;
+[[nodiscard]] auto thing_spellbook_is_learned_spell(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp owner) -> bool;
+[[nodiscard]] bool thing_is_upgradable(Gamep g, Levelsp v, Levelp l, Thingp me);
+[[nodiscard]] bool thing_is_upgradable(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade u);
 [[nodiscard]] auto thing_spellbook_get_spell_n(Gamep g, Levelsp v, Levelp l, Thingp owner, int index) -> Thingp;
 [[nodiscard]] auto level_vision_blocker_at(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &at) -> bool;
 [[nodiscard]] auto thing_spell_arcana(Gamep g, Levelsp v, Levelp l, Thingp me) -> ThingStatType;
@@ -725,9 +728,12 @@ using Thing = struct Thing {
 [[nodiscard]] auto player_move_to_next(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto player_move_to(Gamep g, Levelsp v, Levelp l, bpoint to) -> bool;
 [[nodiscard]] auto stat_to_mod(int val) -> int;
+[[nodiscard]] auto stat_to_mod_string(int val) -> const std::string;
 [[nodiscard]] auto thing_age_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_age_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto stat_to_name(ThingStatType stat) -> const std::string;
+[[nodiscard]] auto stat_to_opposing_stat(ThingStatType stat) -> ThingStatType;
+[[nodiscard]] auto stat_to_name_long(ThingStatType stat) -> const std::string;
 [[nodiscard]] auto thing_age_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
 [[nodiscard]] auto thing_age(Thingp t) -> int;
 [[nodiscard]] auto thing_alloc(Gamep g, Levelsp v, Levelp l, Tpp tp, bpoint p) -> Thingp;
@@ -1469,10 +1475,10 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_value3_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_value3_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
 [[nodiscard]] auto thing_value3(Thingp t) -> int;
-[[nodiscard]] auto thing_value4_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
-[[nodiscard]] auto thing_value4_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
-[[nodiscard]] auto thing_value4_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
-[[nodiscard]] auto thing_value4(Thingp t) -> int;
+[[nodiscard]] auto thing_effect_radius_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
+[[nodiscard]] auto thing_effect_radius_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
+[[nodiscard]] auto thing_effect_radius_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
+[[nodiscard]] auto thing_effect_radius(Gamep g, Levelsp v, Levelp l, Thingp t) -> int;
 [[nodiscard]] auto thing_spell_cost_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_spell_cost_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_spell_cost_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
@@ -1514,6 +1520,9 @@ using Thing = struct Thing {
 [[nodiscard]] auto wid_tp_info_damage(Gamep g, Levelsp v, Levelp l, Tpp me, WidPopup *parent, int width, bool title_allowed) -> bool;
 [[nodiscard]] auto wid_tp_info_icon(Gamep g, Tpp me, WidPopup *parent) -> bool;
 [[nodiscard]] auto wid_tp_info_special_attacks(Gamep g, Levelsp v, Levelp l, Tpp me, WidPopup *parent, int width, bool title_allowed) -> bool;
+[[nodiscard]] auto wid_tp_info_spell_options(Gamep g, Levelsp v, Levelp l, Tpp me, WidPopup *parent, int width, bool title_allowed) -> bool;
+[[nodiscard]] auto wid_tp_info_spell_upgrades(Gamep g, Levelsp v, Levelp l, Tpp me, WidPopup *parent, int width, bool title_allowed) -> bool;
+[[nodiscard]] auto thing_special_attack_get_all(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::vector< TpSpecialAttack >;
 // end sort marker1 }
 
 // begin sort marker2 {

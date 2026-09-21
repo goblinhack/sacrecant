@@ -51,7 +51,7 @@
   }
 }
 
-[[nodiscard]] static auto stat_to_mod_string(int val) -> const std::string
+[[nodiscard]] auto stat_to_mod_string(int val) -> const std::string
 {
   if (val <= THING_STAT_MIN) {
     return "-9";
@@ -102,6 +102,48 @@
     case THING_STAT_ARCANA_DEATH : return "Dth";
     case THING_STAT_ARCANA_LIFE :  return "Lfe";
     case THING_STAT_ARCANA_FIRE :  return "Fir";
+    case THING_STAT_ENUM_MAX :     return "???";
+  }
+  return "???";
+}
+
+[[nodiscard]] auto stat_to_opposing_stat(ThingStatType stat) -> ThingStatType
+{
+  switch (stat) {
+    case THING_STAT_NONE :         return THING_STAT_NONE;
+    case THING_STAT_ATT :          return THING_STAT_NONE;
+    case THING_STAT_DMG :          return THING_STAT_NONE;
+    case THING_STAT_DEF :          return THING_STAT_NONE;
+    case THING_STAT_STR :          return THING_STAT_NONE;
+    case THING_STAT_CON :          return THING_STAT_NONE;
+    case THING_STAT_INT :          return THING_STAT_NONE;
+    case THING_STAT_DEX :          return THING_STAT_NONE;
+    case THING_STAT_PSI :          return THING_STAT_NONE;
+    case THING_STAT_LUCK :         return THING_STAT_NONE;
+    case THING_STAT_ARCANA_DEATH : return THING_STAT_ARCANA_LIFE;
+    case THING_STAT_ARCANA_LIFE :  return THING_STAT_ARCANA_DEATH;
+    case THING_STAT_ARCANA_FIRE :  return THING_STAT_NONE;
+    case THING_STAT_ENUM_MAX :     return THING_STAT_NONE;
+  }
+  return THING_STAT_NONE;
+}
+
+[[nodiscard]] auto stat_to_name_long(ThingStatType stat) -> const std::string
+{
+  switch (stat) {
+    case THING_STAT_NONE :         return "-";
+    case THING_STAT_ATT :          return "Attack";
+    case THING_STAT_DMG :          return "Damage";
+    case THING_STAT_DEF :          return "Defence";
+    case THING_STAT_STR :          return "Strength";
+    case THING_STAT_CON :          return "Constitution";
+    case THING_STAT_INT :          return "Intelligence";
+    case THING_STAT_DEX :          return "Dexterity";
+    case THING_STAT_PSI :          return "Psi";
+    case THING_STAT_LUCK :         return "Luck";
+    case THING_STAT_ARCANA_DEATH : return "Death";
+    case THING_STAT_ARCANA_LIFE :  return "Life";
+    case THING_STAT_ARCANA_FIRE :  return "Fire";
     case THING_STAT_ENUM_MAX :     return "???";
   }
   return "???";
@@ -299,6 +341,22 @@
         THING_DBG(g, v, l, me, "mod: %s +%d (from buff)", stat_string.c_str(), out);
       } else {
         THING_DBG(g, v, l, me, "mod: %s %d (from buff)", stat_string.c_str(), out);
+      }
+    }
+  }
+
+  FOR_ALL_SPELLBOOK_SPELLS(g, v, l, me, spell)
+  {
+    auto mod = thing_stat_mod(g, v, l, spell, stat);
+
+    out += mod;
+
+    IF_DEBUG2
+    {
+      if (mod > 0) {
+        THING_DBG(g, v, l, me, "mod: %s +%d (from spell)", stat_string.c_str(), out);
+      } else {
+        THING_DBG(g, v, l, me, "mod: %s %d (from spell)", stat_string.c_str(), out);
       }
     }
   }

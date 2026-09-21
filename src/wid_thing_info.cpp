@@ -285,6 +285,50 @@ static void wid_thing_info_stats_lck_mouse_over_begin(Gamep g, Widp w, int /*rel
   level_cursor_path_reset(g);
 }
 
+static void wid_thing_info_stats_spell_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
+{
+  TRACE();
+
+  int tlx = 0;
+  int tly = 0;
+  int brx = 0;
+  int bry = 0;
+  wid_get_abs_coords(w, &tlx, &tly, &brx, &bry);
+
+  int const width  = 32;
+  int const height = 12;
+
+  tlx = UI_LEFTBAR_WIDTH;
+  brx = tlx + width;
+  bry = tly + height;
+
+  spoint const tl(tlx, tly);
+  spoint const br(brx, bry);
+
+  wid_over_stats = new WidPopup(g, "stats", tl, br, nullptr, "", false, false);
+  wid_over_stats->log(g, UI_HIGHLIGHT_FMT_STR "Arcana modifiers");
+  wid_over_stats->log_empty_line(g);
+  wid_over_stats->log(g, UI_INFO1_FMT_STR "Arcana modifiers can impact spell costs and mana drain.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log_empty_line(g);
+  wid_over_stats->log(g, UI_INFO1_FMT_STR "SP is used when buying a spell.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log_empty_line(g);
+  wid_over_stats->log(g, UI_INFO1_FMT_STR "Mana is used when casting a spell.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log_empty_line(g);
+  wid_over_stats->log(g, UI_INFO1_FMT_STR "Cost modifier table:\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO2_FMT_STR " -9 mod increases SP by 3.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO2_FMT_STR " -6 mod increases SP by 2.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO2_FMT_STR " -5 mod increases mana by 50%%%.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO2_FMT_STR " -3 mod increases SP by 1.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO2_FMT_STR " +3 mod decreases SP by 1.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO2_FMT_STR " +5 mod decreases mana by 50%%%.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO2_FMT_STR " +6 mod decreases SP by 2.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO2_FMT_STR " +9 mod decreases SP by 3.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log_empty_line(g);
+  wid_over_stats->compress(g);
+
+  level_cursor_path_reset(g);
+}
+
 static void wid_thing_info_stats_health_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
 {
   TRACE();
@@ -972,7 +1016,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
       continue;
     }
 
-    out = string_append_with_comma(out, capitalize(ThingEventType_to_string(e)));
+    out = string_append_with_comma(out, capitalize_first(ThingEventType_to_string(e)));
   }
 
   if (out.empty()) {
@@ -1061,17 +1105,6 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   }
 
   {
-    auto         out = thing_stat_mod_string(g, v, l, me, THING_STAT_DEX);
-    auto        *w   = wid_new_bright_button(g, b, "Dex");
-    spoint const tl(21, text->line_count);
-    spoint const br(30, text->line_count + 2);
-    wid_set_pos(w, tl, br);
-    wid_set_text(w, out);
-    wid_set_on_mouse_over_begin(w, wid_thing_info_stats_dex_mouse_over_begin);
-    wid_set_on_mouse_over_end(w, wid_thing_info_stats_mouse_over_end);
-  }
-
-  {
     auto         out = thing_stat_mod_string(g, v, l, me, THING_STAT_DMG);
     auto        *w   = wid_new_bright_button(g, b, "Dmg");
     spoint const tl(1, text->line_count);
@@ -1090,6 +1123,17 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     wid_set_pos(w, tl, br);
     wid_set_text(w, out);
     wid_set_on_mouse_over_begin(w, wid_thing_info_stats_lck_mouse_over_begin);
+    wid_set_on_mouse_over_end(w, wid_thing_info_stats_mouse_over_end);
+  }
+
+  {
+    auto         out = thing_stat_mod_string(g, v, l, me, THING_STAT_DEX);
+    auto        *w   = wid_new_bright_button(g, b, "Dex");
+    spoint const tl(21, text->line_count);
+    spoint const br(30, text->line_count + 2);
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, out);
+    wid_set_on_mouse_over_begin(w, wid_thing_info_stats_dex_mouse_over_begin);
     wid_set_on_mouse_over_end(w, wid_thing_info_stats_mouse_over_end);
   }
 
@@ -1222,17 +1266,6 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   }
 
   {
-    auto         out = thing_stat_mod_string(g, v, l, me, THING_STAT_DEX);
-    auto        *w   = wid_new_bright_button(g, b, "Dex");
-    spoint const tl(21, text->line_count);
-    spoint const br(30, text->line_count + 2);
-    wid_set_pos(w, tl, br);
-    wid_set_text(w, out);
-    wid_set_on_mouse_over_begin(w, wid_thing_info_stats_dex_mouse_over_begin);
-    wid_set_on_mouse_over_end(w, wid_thing_info_stats_mouse_over_end);
-  }
-
-  {
     auto         out = thing_stat_mod_string(g, v, l, me, THING_STAT_DMG);
     auto        *w   = wid_new_bright_button(g, b, "Dmg");
     spoint const tl(1, text->line_count);
@@ -1254,10 +1287,267 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     wid_set_on_mouse_over_end(w, wid_thing_info_stats_mouse_over_end);
   }
 
+  {
+    auto         out = thing_stat_mod_string(g, v, l, me, THING_STAT_DEX);
+    auto        *w   = wid_new_bright_button(g, b, "Dex");
+    spoint const tl(21, text->line_count);
+    spoint const br(30, text->line_count + 2);
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, out);
+    wid_set_on_mouse_over_begin(w, wid_thing_info_stats_dex_mouse_over_begin);
+    wid_set_on_mouse_over_end(w, wid_thing_info_stats_mouse_over_end);
+  }
+
   parent->log_empty_line(g);
   parent->log_empty_line(g);
   parent->log_empty_line(g);
   parent->log_empty_line(g);
+
+  return true;
+}
+
+//
+// Add spell stats
+//
+[[nodiscard]] static auto wid_thing_info_spell_stats(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, int /*width*/) -> bool
+{
+  TRACE();
+
+  auto *text = parent->wid_text_area;
+  auto *b    = parent->wid_text_area->wid_text_area;
+
+  bool any_set = false;
+
+  FOR_ALL_THING_STAT(stat)
+  {
+    if (thing_stat_mod(g, v, l, me, stat) != 0) {
+      any_set = true;
+    }
+  }
+
+  if (! any_set) {
+    return false;
+  }
+
+  {
+    auto  out = thing_stat_mod_string(g, v, l, me, THING_STAT_ARCANA_FIRE);
+    auto *w   = wid_new_square_button(g, b, "Fre");
+    wid_set_on_mouse_over_begin(w, wid_thing_info_stats_spell_mouse_over_begin);
+    wid_set_on_mouse_over_end(w, wid_thing_info_stats_mouse_over_end);
+    spoint const tl(1, text->line_count);
+    spoint const br(10, text->line_count + 2);
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, out);
+  }
+
+  {
+    auto         out = thing_stat_mod_string(g, v, l, me, THING_STAT_ARCANA_DEATH);
+    auto        *w   = wid_new_square_button(g, b, "Dth");
+    spoint const tl(11, text->line_count);
+    spoint const br(20, text->line_count + 2);
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, out);
+    wid_set_on_mouse_over_begin(w, wid_thing_info_stats_spell_mouse_over_begin);
+    wid_set_on_mouse_over_end(w, wid_thing_info_stats_mouse_over_end);
+  }
+
+  {
+    auto         out = thing_stat_mod_string(g, v, l, me, THING_STAT_ARCANA_LIFE);
+    auto        *w   = wid_new_bright_button(g, b, "Lfe");
+    spoint const tl(21, text->line_count);
+    spoint const br(30, text->line_count + 2);
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, out);
+    wid_set_on_mouse_over_begin(w, wid_thing_info_stats_spell_mouse_over_begin);
+    wid_set_on_mouse_over_end(w, wid_thing_info_stats_mouse_over_end);
+  }
+
+  parent->log_empty_line(g);
+  parent->log_empty_line(g);
+  parent->log_empty_line(g);
+  parent->log_empty_line(g);
+
+  return true;
+}
+
+//
+// Add spell stats
+//
+[[nodiscard]] static auto wid_thing_info_spell_owner_stats(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, int /*width*/) -> bool
+{
+  TRACE();
+
+  bool any_set = false;
+
+  FOR_ALL_THING_STAT(stat)
+  {
+    if (thing_stat_mod(g, v, l, me, stat) != 0) {
+      any_set = true;
+    }
+  }
+
+  if (! any_set) {
+    return false;
+  }
+
+  FOR_ALL_THING_STAT(stat)
+  {
+    auto mod        = thing_stat_mod(g, v, l, me, stat);
+    auto total_stat = thing_stat(g, v, l, me, stat);
+    if (! mod) {
+      continue;
+    }
+
+    switch (stat) {
+      case THING_STAT_NONE :
+      case THING_STAT_ATT :
+      case THING_STAT_DMG :
+      case THING_STAT_DEF :
+      case THING_STAT_STR :
+      case THING_STAT_CON :
+      case THING_STAT_INT :
+      case THING_STAT_DEX :
+      case THING_STAT_PSI :
+      case THING_STAT_LUCK :
+      case THING_STAT_ENUM_MAX :     break;
+      case THING_STAT_ARCANA_DEATH : [[fallthrough]];
+      case THING_STAT_ARCANA_LIFE :  [[fallthrough]];
+      case THING_STAT_ARCANA_FIRE :
+        {
+          auto opposing_arcana = stat_to_opposing_stat(stat);
+          auto line            = string_sprintf("%s arcana: %s", stat_to_name_long(stat).c_str(), stat_to_mod_string(total_stat).c_str());
+
+          TRACE();
+          parent->log(g, UI_INFO_FMT_STR + line, TEXT_FORMAT_LHS);
+
+          TRACE();
+          if (stat_to_opposing_stat(stat) != THING_STAT_NONE) {
+            switch (thing_stat_mod(g, v, l, me, stat)) {
+              case 9 :
+                line = string_sprintf("- +3 SP cost for %s spells", stat_to_name_long(opposing_arcana).c_str());
+                parent->log(g, line, TEXT_FORMAT_LHS);
+                break;
+              case 8 :
+                line = string_sprintf("- +2 SP cost for %s spells", stat_to_name_long(opposing_arcana).c_str());
+                parent->log(g, line, TEXT_FORMAT_LHS);
+                break;
+              case 7 :
+                line = string_sprintf("- +2 SP cost for %s spells", stat_to_name_long(opposing_arcana).c_str());
+                parent->log(g, line, TEXT_FORMAT_LHS);
+                break;
+              case 6 :
+                line = string_sprintf("- +2 SP cost for %s spells", stat_to_name_long(opposing_arcana).c_str());
+                parent->log(g, line, TEXT_FORMAT_LHS);
+                break;
+              case 5 :
+                line = string_sprintf("- +1 SP cost for %s spells", stat_to_name_long(opposing_arcana).c_str());
+                parent->log(g, line, TEXT_FORMAT_LHS);
+                break;
+              case 4 :
+                line = string_sprintf("- +1 SP cost for %s spells", stat_to_name_long(opposing_arcana).c_str());
+                parent->log(g, line, TEXT_FORMAT_LHS);
+                break;
+              case 3 :
+                line = string_sprintf("- +1 SP cost for %s spells", stat_to_name_long(opposing_arcana).c_str());
+                parent->log(g, line, TEXT_FORMAT_LHS);
+                break;
+              case 2 : break;
+              case 1 : break;
+              case 0 : break;
+            }
+          }
+
+          TRACE();
+          switch (thing_stat_mod(g, v, l, me, stat)) {
+            case -9 :
+              line = string_sprintf("- +3 SP cost for %s spells", stat_to_name_long(stat).c_str());
+              parent->log(g, line, TEXT_FORMAT_LHS);
+              break;
+            case -8 :
+              line = string_sprintf("- +2 SP cost for %s spells", stat_to_name_long(stat).c_str());
+              parent->log(g, line, TEXT_FORMAT_LHS);
+              break;
+            case -7 :
+              line = string_sprintf("- +2 SP cost for %s spells", stat_to_name_long(stat).c_str());
+              parent->log(g, line, TEXT_FORMAT_LHS);
+              break;
+            case -6 :
+              line = string_sprintf("- +2 SP cost for %s spells", stat_to_name_long(stat).c_str());
+              parent->log(g, line, TEXT_FORMAT_LHS);
+              break;
+            case -5 :
+              line = string_sprintf("- +1 SP cost for %s spells", stat_to_name_long(stat).c_str());
+              parent->log(g, line, TEXT_FORMAT_LHS);
+              break;
+            case -4 :
+              line = string_sprintf("- +1 SP cost for %s spells", stat_to_name_long(stat).c_str());
+              parent->log(g, line, TEXT_FORMAT_LHS);
+              break;
+            case -3 :
+              line = string_sprintf("- +1 SP cost for %s spells", stat_to_name_long(stat).c_str());
+              parent->log(g, line, TEXT_FORMAT_LHS);
+              break;
+            case -2 : break;
+            case -1 : break;
+            case 0 :  break;
+            case 1 :  break;
+            case 2 :  break;
+            case 3 :
+              line = string_sprintf("- -1 SP cost for %s spells", stat_to_name_long(stat).c_str());
+              parent->log(g, line, TEXT_FORMAT_LHS);
+              break;
+            case 4 :
+              line = string_sprintf("- -1 SP cost for %s spells", stat_to_name_long(stat).c_str());
+              parent->log(g, line, TEXT_FORMAT_LHS);
+              break;
+            case 5 :
+              line = string_sprintf("- -1 SP cost for %s spells", stat_to_name_long(stat).c_str());
+              parent->log(g, line, TEXT_FORMAT_LHS);
+              break;
+            case 6 :
+              line = string_sprintf("- -2 SP cost for %s spells", stat_to_name_long(stat).c_str());
+              parent->log(g, line, TEXT_FORMAT_LHS);
+              break;
+            case 7 :
+              line = string_sprintf("- -2 SP cost for %s spells", stat_to_name_long(stat).c_str());
+              parent->log(g, line, TEXT_FORMAT_LHS);
+              break;
+            case 8 :
+              line = string_sprintf("- -2 SP cost for %s spells", stat_to_name_long(stat).c_str());
+              parent->log(g, line, TEXT_FORMAT_LHS);
+              break;
+            case 9 :
+              line = string_sprintf("- -3 SP cost for %s spells", stat_to_name_long(stat).c_str());
+              parent->log(g, line, TEXT_FORMAT_LHS);
+              break;
+          }
+
+          TRACE();
+          switch (thing_stat_mod(g, v, l, me, stat)) {
+            case -9 : [[fallthrough]];
+            case -8 : [[fallthrough]];
+            case -7 : [[fallthrough]];
+            case -6 : [[fallthrough]];
+            case -5 : parent->log(g, "- x2 Mana used on casting", TEXT_FORMAT_LHS); break;
+            case -4 : break;
+            case -3 : break;
+            case -2 : break;
+            case -1 : break;
+            case 0 :  break;
+            case 1 :  break;
+            case 2 :  break;
+            case 3 :  break;
+            case 4 :  break;
+            case 5 :  [[fallthrough]];
+            case 6 :  [[fallthrough]];
+            case 7 :  [[fallthrough]];
+            case 8 :  [[fallthrough]];
+            case 9 :  parent->log(g, "- Half Mana used on casting", TEXT_FORMAT_LHS); break;
+          }
+          break;
+        }
+    }
+  }
 
   return true;
 }
@@ -1315,7 +1605,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
       continue;
     }
 
-    out = string_append_with_comma(out, capitalize(ThingEventType_to_string(e)));
+    out = string_append_with_comma(out, capitalize_first(ThingEventType_to_string(e)));
   }
 
   if (out.empty()) {
@@ -1381,7 +1671,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
       continue;
     }
 
-    out = string_append_with_comma(out, capitalize(ThingEventType_to_string(e)));
+    out = string_append_with_comma(out, capitalize_first(ThingEventType_to_string(e)));
   }
 
   if (out.empty()) {
@@ -1906,7 +2196,6 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     Widp wid = parent->log(g, line, TEXT_FORMAT_LHS);
 
     wid_set_thing_context(g, v, wid, spell);
-    wid_set_on_mouse_down(wid, wid_thing_info_thing_mouse_down);
     wid_set_on_mouse_over_begin(wid, wid_thing_info_thing_mouse_over_begin);
     wid_set_on_mouse_over_end(wid, wid_thing_info_thing_mouse_over_end);
   }
@@ -2273,6 +2562,28 @@ void wid_thing_info(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, i
     //
     // Keep it terse
     //
+  } else if (thing_is_spell(me)) {
+    //
+    // Items can have immunities and the like
+    //
+    if (wid_thing_info_spell_stats(g, v, l, me, parent, width)) {}
+
+    if (wid_tp_info_damage(g, v, l, tp, parent, width, true /* title allowed */)) {
+      parent->log_empty_line(g);
+    }
+
+    if (wid_tp_info_special_attacks(g, v, l, tp, parent, width, true /* title allowed */)) {
+      parent->log_empty_line(g);
+    }
+
+    if (wid_tp_info_spell_options(g, v, l, tp, parent, width, true /* title allowed */)) {
+      parent->log_empty_line(g);
+    }
+
+    if (wid_tp_info_spell_upgrades(g, v, l, tp, parent, width, true /* title allowed */)) {
+      parent->log_empty_line(g);
+    }
+
   } else if (thing_is_item(me) || thing_is_hook(me)) {
     //
     // Items can have immunities and the like
@@ -2299,8 +2610,7 @@ void wid_thing_info(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, i
       parent->log_empty_line(g);
     }
 
-    auto *fire_what_tp = thing_on_use_weapon_request(g, v, l, me, nullptr /* intentional to avoid use */);
-    if (fire_what_tp != nullptr) {
+    for (auto fire_what_tp : thing_get_weapon_list(g, v, l, me)) {
       auto charge_count = thing_charge_count(me);
       if (charge_count > 0) {
         auto tmp = string_sprintf(" (x%d charges):", charge_count);
@@ -2316,8 +2626,14 @@ void wid_thing_info(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, i
     parent->log_empty_line(g);
   }
 
-  if (wid_thing_info_spellbook(g, v, l, me, parent)) {
-    parent->log_empty_line(g);
+  if (thing_is_player(me)) {
+    if (wid_thing_info_spellbook(g, v, l, me, parent)) {
+      parent->log_empty_line(g);
+    }
+
+    if (wid_thing_info_spell_owner_stats(g, v, l, me, parent, width)) {
+      parent->log_empty_line(g);
+    }
   }
 
   if (wid_thing_sacrifices(g, v, l, me, parent)) {

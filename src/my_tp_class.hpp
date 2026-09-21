@@ -56,6 +56,11 @@ public:
   std::map< std::string, TpSpellOption > spell_options;
 
   //
+  // All spell upgrades for this spell
+  //
+  std::map< std::string, TpSpellUpgrade > spell_upgrades;
+
+  //
   // Immunity to various damage types
   //
   bool is_immune[ THING_EVENT_ENUM_MAX ] {};
@@ -153,7 +158,7 @@ public:
   int value1 {0};
   int value2 {0};
   int value3 {0};
-  int value4 {0};
+  int effect_radius {0};
   int spell_cost {0};
   int crit_roll {20};
   int fumble_roll {1};
@@ -288,7 +293,9 @@ public:
   thing_z_depth_get_t           z_depth_get           = {};
   thing_mouse_down_t            mouse_down            = {};
   thing_on_spawned_t            on_spawned            = {};
-  thing_hook_on_attached_t      hook_on_attached      = {};
+  thing_on_hook_attached_t      on_hook_attached      = {};
+  thing_on_upgrade_possible_t   on_upgrade_possible   = {};
+  thing_on_upgrade_do_t         on_upgrade_do         = {};
   thing_on_levitated_t          on_levitated          = {};
   thing_on_invisible_t          on_invisible          = {};
   thing_on_level_populated_t    on_level_populated    = {};
@@ -301,6 +308,7 @@ public:
   thing_on_carry_success_t      on_carry_success      = {};
   thing_on_drop_success_t       on_drop_success       = {};
   thing_on_use_weapon_request_t on_use_weapon_request = {};
+  thing_get_weapon_list_t       get_weapon_list       = {};
   thing_on_use_t                on_use                = {};
   thing_on_eaten_t              on_eaten              = {};
   thing_on_worn_request_t       on_worn_request       = {};

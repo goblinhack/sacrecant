@@ -20,7 +20,7 @@ static auto tp_sac_wooden_leg_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me
       UI_INFO4_FMT_STR "Even still, frequent rests will be required...\n";                                                //
 }
 
-void tp_sac_wooden_leg_hook_on_attached(Gamep g, Levelsp v, Levelp l, Thingp me)
+void tp_sac_wooden_leg_on_hook_attached(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
 
@@ -54,7 +54,7 @@ void tp_sac_wooden_leg_hook_on_attached(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   // begin sort marker1 {
   thing_detail_set(tp, tp_sac_wooden_leg_detail_get);
-  thing_hook_on_attached_set(tp, tp_sac_wooden_leg_hook_on_attached);
+  thing_on_hook_attached_set(tp, tp_sac_wooden_leg_on_hook_attached);
   tp_flag_set(tp, is_hook);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_sacrifice);

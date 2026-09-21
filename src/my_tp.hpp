@@ -809,6 +809,20 @@ using TpSpellOption = struct TpSpellOption {
   std::string name = {}; // NOLINT
 };
 
+//
+// Spell sub options
+//
+using TpSpellUpgrade = struct TpSpellUpgrade {
+  //
+  // Unique name
+  //
+  std::string type = {}; // NOLINT
+  //
+  // User readable name
+  //
+  std::string name = {}; // NOLINT
+};
+
 class Tp;
 
 // begin sort marker1 {
@@ -1300,7 +1314,7 @@ class Tp;
 [[nodiscard]] auto tp_value1_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_value2_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_value3_get(Tpp tp) -> int;
-[[nodiscard]] auto tp_value4_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_effect_radius_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_spell_cost_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_crit_roll_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_fumble_roll_get(Tpp tp) -> int;
@@ -1315,6 +1329,9 @@ auto tp_special_attack_get_random(Tpp tp, TpSpecialAttack &out) -> bool;
 void tp_spell_option_add(Tpp tp, TpSpellOption val);
 auto tp_spell_options_get(Tpp tp) -> std::map< std::string, TpSpellOption >;
 auto tp_spell_options_exist(Tpp tp) -> bool;
+void tp_spell_upgrade_add(Tpp tp, TpSpellUpgrade val);
+auto tp_spell_upgrades_get(Tpp tp) -> std::map< std::string, TpSpellUpgrade >;
+auto tp_spell_upgrades_exist(Tpp tp) -> bool;
 void tp_attack_count_max_per_tick_set(Tpp tp, int val);
 void tp_chance_set(Tpp tp, ThingChanceType e, const std::string &val);
 void tp_charge_count_set(Tpp tp, int val);
@@ -1381,7 +1398,7 @@ void tp_tiles_push_back(Tpp tp, ThingAnimType val, Tilep tile_p);
 void tp_value1_set(Tpp tp, int val);
 void tp_value2_set(Tpp tp, int val);
 void tp_value3_set(Tpp tp, int val);
-void tp_value4_set(Tpp tp, int val);
+void tp_effect_radius_set(Tpp tp, int val);
 void tp_spell_cost_set(Tpp tp, int val);
 void tp_crit_roll_set(Tpp tp, int val);
 void tp_fumble_roll_set(Tpp tp, int val);
