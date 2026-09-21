@@ -1326,10 +1326,10 @@ class Tp;
 
 // begin sort marker2 {
 auto tp_special_attack_get_random(Tpp tp, TpSpecialAttack &out) -> bool;
-void tp_spell_option_add(Tpp tp, TpSpellOption val);
+void tp_spell_option_add(Tpp tp, const TpSpellOption &val);
 auto tp_spell_options_get(Tpp tp) -> std::map< std::string, TpSpellOption >;
 auto tp_spell_options_exist(Tpp tp) -> bool;
-void tp_spell_upgrade_add(Tpp tp, TpSpellUpgrade val);
+void tp_spell_upgrade_add(Tpp tp, const TpSpellUpgrade &val);
 auto tp_spell_upgrades_get(Tpp tp) -> std::map< std::string, TpSpellUpgrade >;
 auto tp_spell_upgrades_exist(Tpp tp) -> bool;
 void tp_attack_count_max_per_tick_set(Tpp tp, int val);

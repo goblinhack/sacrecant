@@ -49,11 +49,11 @@ auto thing_on_hook_attached(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
 
 using thing_on_upgrade_possible_t = bool (*)(Gamep, Levelsp, Levelp, Thingp me, TpSpellUpgrade);
 auto thing_on_upgrade_possible_set(Tpp tp, thing_on_upgrade_possible_t callback) -> void;
-auto thing_on_upgrade_possible(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade) -> bool;
+auto thing_on_upgrade_possible(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade /*u*/) -> bool;
 
 using thing_on_upgrade_do_t = bool (*)(Gamep, Levelsp, Levelp, Thingp me, TpSpellUpgrade);
 auto thing_on_upgrade_do_set(Tpp tp, thing_on_upgrade_do_t callback) -> void;
-auto thing_on_upgrade_do(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade) -> bool;
+auto thing_on_upgrade_do(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade /*u*/) -> bool;
 
 using thing_on_levitated_t = void (*)(Gamep, Levelsp, Levelp, Thingp me);
 auto thing_on_levitated_set(Tpp tp, thing_on_levitated_t callback) -> void;

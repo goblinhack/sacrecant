@@ -10,9 +10,9 @@
 #include "my_sdl_proto.hpp"
 #include "my_sound.hpp"
 #include "my_spoint.hpp"
+#include "my_string.hpp"
 #include "my_thing.hpp"
 #include "my_thing_inlines.hpp"
-#include "my_tile.hpp"
 #include "my_tp.hpp"
 #include "my_types.hpp"
 #include "my_ui.hpp"
@@ -45,7 +45,7 @@ static void wid_spell_options_destroy(Gamep g)
   }
 }
 
-void wid_spell_options_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
+static void wid_spell_options_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
 {
   TRACE();
 
@@ -73,7 +73,7 @@ void wid_spell_options_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*rel
   }
 }
 
-void wid_spell_options_mouse_over_end(Gamep g, Widp w)
+static void wid_spell_options_mouse_over_end(Gamep g, Widp w)
 {
   TRACE();
 
@@ -113,7 +113,7 @@ void wid_spell_options_mouse_over_end(Gamep g, Widp w)
   return true;
 }
 
-static void wid_spell_options_key_down_which_spell(Gamep g, Widp w, const struct SDL_Keysym *key, int index)
+static void wid_spell_options_key_down_which_spell(Gamep g, Widp w, int index)
 {
   TRACE();
 
@@ -153,102 +153,102 @@ static void wid_spell_options_key_down_which_spell(Gamep g, Widp w, const struct
   }
 
   if (sdlk_eq(*key, game_key_spell1_get(g))) {
-    wid_spell_options_key_down_which_spell(g, w, key, 0);
+    wid_spell_options_key_down_which_spell(g, w, 0);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell2_get(g))) {
-    wid_spell_options_key_down_which_spell(g, w, key, 1);
+    wid_spell_options_key_down_which_spell(g, w, 1);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell3_get(g))) {
-    wid_spell_options_key_down_which_spell(g, w, key, 2);
+    wid_spell_options_key_down_which_spell(g, w, 2);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell4_get(g))) {
-    wid_spell_options_key_down_which_spell(g, w, key, 3);
+    wid_spell_options_key_down_which_spell(g, w, 3);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell5_get(g))) {
-    wid_spell_options_key_down_which_spell(g, w, key, 4);
+    wid_spell_options_key_down_which_spell(g, w, 4);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell6_get(g))) {
-    wid_spell_options_key_down_which_spell(g, w, key, 5);
+    wid_spell_options_key_down_which_spell(g, w, 5);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell7_get(g))) {
-    wid_spell_options_key_down_which_spell(g, w, key, 6);
+    wid_spell_options_key_down_which_spell(g, w, 6);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell8_get(g))) {
-    wid_spell_options_key_down_which_spell(g, w, key, 7);
+    wid_spell_options_key_down_which_spell(g, w, 7);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell9_get(g))) {
-    wid_spell_options_key_down_which_spell(g, w, key, 8);
+    wid_spell_options_key_down_which_spell(g, w, 8);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell10_get(g))) {
-    wid_spell_options_key_down_which_spell(g, w, key, 9);
+    wid_spell_options_key_down_which_spell(g, w, 9);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell11_get(g))) {
-    wid_spell_options_key_down_which_spell(g, w, key, 10);
+    wid_spell_options_key_down_which_spell(g, w, 10);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell12_get(g))) {
-    wid_spell_options_key_down_which_spell(g, w, key, 11);
+    wid_spell_options_key_down_which_spell(g, w, 11);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell13_get(g))) {
-    wid_spell_options_key_down_which_spell(g, w, key, 12);
+    wid_spell_options_key_down_which_spell(g, w, 12);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell14_get(g))) {
-    wid_spell_options_key_down_which_spell(g, w, key, 13);
+    wid_spell_options_key_down_which_spell(g, w, 13);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell15_get(g))) {
-    wid_spell_options_key_down_which_spell(g, w, key, 14);
+    wid_spell_options_key_down_which_spell(g, w, 14);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell16_get(g))) {
-    wid_spell_options_key_down_which_spell(g, w, key, 15);
+    wid_spell_options_key_down_which_spell(g, w, 15);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell17_get(g))) {
-    wid_spell_options_key_down_which_spell(g, w, key, 16);
+    wid_spell_options_key_down_which_spell(g, w, 16);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell18_get(g))) {
-    wid_spell_options_key_down_which_spell(g, w, key, 17);
+    wid_spell_options_key_down_which_spell(g, w, 17);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell19_get(g))) {
-    wid_spell_options_key_down_which_spell(g, w, key, 18);
+    wid_spell_options_key_down_which_spell(g, w, 18);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell20_get(g))) {
-    wid_spell_options_key_down_which_spell(g, w, key, 19);
+    wid_spell_options_key_down_which_spell(g, w, 19);
     return true;
   }
 
@@ -346,7 +346,7 @@ void wid_spell_options_show(Gamep g, Levelsp v, Levelp l, Thingp player, Thingp 
   memset(wid_spell_option, 0, sizeof(wid_spell_option));
 
   auto index = 0;
-  for (auto o : options) {
+  for (const auto &o : options) {
     auto option = o.second;
 
     //

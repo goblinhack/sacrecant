@@ -410,7 +410,7 @@ void               game_mouse_over_player_set(Gamep g, Thingp t);
 [[nodiscard]] auto game_event_inventory(Gamep g) -> bool;
 [[nodiscard]] auto game_event_learn(Gamep g) -> bool;
 [[nodiscard]] auto game_event_cast(Gamep g) -> bool;
-[[nodiscard]] auto game_event_cast_spell_default(Gamep g, int spell) -> bool;
+[[nodiscard]] auto game_event_cast_spell_default(Gamep g, int index) -> bool;
 [[nodiscard]] auto game_event_cast_spell(Gamep g, Thingp spell, int option) -> bool;
 [[nodiscard]] auto game_event_load(Gamep g) -> bool;
 [[nodiscard]] auto game_event_quit(Gamep g) -> bool;

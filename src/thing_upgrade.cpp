@@ -2,26 +2,29 @@
 // Copyright goblinhack@gmail.com
 //
 
+#include <utility>
+
 #include "my_callstack.hpp"
 #include "my_main.hpp"
 #include "my_thing.hpp"
+#include "my_thing_callbacks.hpp"
 #include "my_thing_inlines.hpp"
 #include "my_tp.hpp"
 #include "my_types.hpp"
 
-bool thing_is_upgradable(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade u)
+auto thing_is_upgradable(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade u) -> bool
 {
   TRACE();
 
-  return thing_on_upgrade_possible(g, v, l, me, u);
+  return thing_on_upgrade_possible(g, v, l, me, std::move(u));
 }
 
-bool thing_is_upgradable(Gamep g, Levelsp v, Levelp l, Thingp me)
+auto thing_is_upgradable(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool
 {
   TRACE();
 
-  for (auto i : tp_spell_upgrades_get(thing_tp(me))) {
-    TpSpellUpgrade u = i.second;
+  for (const auto &i : tp_spell_upgrades_get(thing_tp(me))) {
+    TpSpellUpgrade const u = i.second;
     if (thing_on_upgrade_possible(g, v, l, me, u)) {
       return true;
     }
@@ -40,7 +43,7 @@ void thing_on_upgrade_possible_set(Tpp tp, thing_on_upgrade_possible_t callback)
   tp->on_upgrade_possible = callback;
 }
 
-bool thing_on_upgrade_possible(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade u)
+auto thing_on_upgrade_possible(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade u) -> bool
 {
   TRACE();
   auto *tp = thing_tp(me);
@@ -51,7 +54,7 @@ bool thing_on_upgrade_possible(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellU
   if (tp->on_upgrade_possible == nullptr) {
     return false;
   }
-  return tp->on_upgrade_possible(g, v, l, me, u);
+  return tp->on_upgrade_possible(g, v, l, me, std::move(u));
 }
 
 void thing_on_upgrade_do_set(Tpp tp, thing_on_upgrade_do_t callback)
@@ -64,7 +67,7 @@ void thing_on_upgrade_do_set(Tpp tp, thing_on_upgrade_do_t callback)
   tp->on_upgrade_do = callback;
 }
 
-bool thing_on_upgrade_do(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade u)
+auto thing_on_upgrade_do(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade u) -> bool
 {
   TRACE();
   auto *tp = thing_tp(me);
@@ -75,5 +78,5 @@ bool thing_on_upgrade_do(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade
   if (tp->on_upgrade_do == nullptr) {
     return false;
   }
-  return tp->on_upgrade_do(g, v, l, me, u);
+  return tp->on_upgrade_do(g, v, l, me, std::move(u));
 }

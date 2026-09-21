@@ -101,7 +101,7 @@ static auto thing_drop_item(Gamep g, Levelsp v, Levelp l, Thingp user, Thingp it
           THING_DBG(g, v, l, thing_copy, "drop: %s (thing copy)", s.c_str());
           TRACE_INDENT();
 
-          slot->thing_id           = thing_copy->id;
+          slot->thing_id          = thing_copy->id;
           thing_copy->_is_carried = true;
 
           //

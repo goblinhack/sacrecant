@@ -18,6 +18,7 @@
 #include "my_sprintf.hpp"
 #include "my_string.hpp"
 #include "my_thing.hpp"
+#include "my_thing_callbacks.hpp"
 #include "my_thing_inlines.hpp" // NOLINT
 #include "my_tp.hpp"
 #include "my_tp_inlines.hpp"
@@ -32,6 +33,7 @@
 #include <algorithm>
 #include <cstdint>
 #include <cstring>
+#include <map>
 #include <set>
 #include <string>
 #include <vector>
@@ -76,27 +78,27 @@ static void wid_spell_learn_destroy(Gamep g)
   game_state_reset(g, "close spell window");
 }
 
-static bool wid_spell_upgrade_find(Gamep g, Levelsp v, Levelp l, Thingp spell, std::string upgrade)
+static auto wid_spell_upgrade_find(Thingp spell, const std::string &upgrade) -> bool
 {
   TRACE();
 
   for (auto i : wid_spell_upgrades) {
     if (i.first == spell) {
-      return i.second.find(upgrade) != i.second.end();
+      return i.second.contains(upgrade);
     }
   }
 
   return false;
 }
 
-static void wid_spell_upgrade_add(Gamep g, Levelsp v, Levelp l, Thingp spell, std::string upgrade)
+static void wid_spell_upgrade_add(Thingp spell, const std::string &upgrade)
 {
   TRACE();
 
   wid_spell_upgrades[ spell ].insert(upgrade);
 }
 
-static void wid_spell_upgrade_remove(Gamep g, Levelsp v, Levelp l, Thingp spell, std::string upgrade)
+static void wid_spell_upgrade_remove(Thingp spell, const std::string &upgrade)
 {
   TRACE();
 
@@ -129,7 +131,7 @@ static void wid_spell_checkout(Gamep g)
   //
   for (auto *spell_tp : game_chosen_spells_get(g)) {
     auto *spell = thing_spawn(g, v, l, spell_tp, thing_at(g, v, l, player));
-    if (spell) {
+    if (spell != nullptr) {
       auto cost = thing_spell_cost_for(g, v, l, spell, player);
       auto name = thing_name_long(g, v, l, spell);
 
@@ -167,17 +169,17 @@ static void wid_spell_checkout(Gamep g)
   //
   // Upgrade any spells
   //
-  for (auto i : wid_spell_upgrades) {
+  for (const auto &i : wid_spell_upgrades) {
     Thingp spell = i.first;
     auto   cost  = thing_spell_cost_for(g, v, l, spell, player);
     auto   name  = thing_name_long(g, v, l, spell);
 
-    for (auto u_name : i.second) {
+    for (const auto &u_name : i.second) {
       FOR_ALL_SPELLBOOK_SPELLS(g, v, l, player, learned_spell)
       {
         if (thing_tp(learned_spell) == thing_tp(spell)) {
-          for (auto upgrade : tp_spell_upgrades_get(thing_tp(learned_spell))) {
-            TpSpellUpgrade u = upgrade.second;
+          for (const auto &upgrade : tp_spell_upgrades_get(thing_tp(learned_spell))) {
+            TpSpellUpgrade const u = upgrade.second;
             if (u.name == u_name) {
               if (thing_on_upgrade_do(g, v, l, learned_spell, u)) {
                 topcon(UI_INFO_FMT_STR "You spent %d SP on upgrade '%s' for spell %s." UI_RESET_FMT, cost, u_name.c_str(), name.c_str());
@@ -266,7 +268,7 @@ static auto wid_player_spent_points(Gamep g, Levelsp v, Levelp l, Thingp player)
     }
 
     auto upgrade = wid_get_string_context(w);
-    if (wid_spell_upgrade_find(g, v, l, spell, upgrade)) {
+    if (wid_spell_upgrade_find(spell, upgrade)) {
       spent += thing_spell_cost_for(g, v, l, spell, player);
     }
   }
@@ -395,7 +397,7 @@ static void wid_player_update_spell_selections(Gamep g, Levelsp v, Levelp l, Thi
     wid_set_text(w, s);
     wid_apply_bar_button(g, w);
 
-    if (wid_spell_upgrade_find(g, v, l, spell, upgrade)) {
+    if (wid_spell_upgrade_find(spell, upgrade)) {
       wid_set_mode(w, WID_MODE_OVER);
       wid_set_style(w, UI_WID_STYLE_BUTTON_BAR);
       wid_set_color(w, WID_COLOR_BG, RED);
@@ -529,15 +531,15 @@ static void wid_spell_learn_spell_via_mouse_over_end(Gamep g, Widp w)
   auto avail = wid_player_avail_points(g, v, l, player);
 
   auto upgrade = wid_get_string_context(w);
-  if (upgrade == "") {
+  if (upgrade.empty()) {
     return false;
   }
 
-  if (wid_spell_upgrade_find(g, v, l, spell, upgrade)) {
-    wid_spell_upgrade_remove(g, v, l, spell, upgrade);
+  if (wid_spell_upgrade_find(spell, upgrade)) {
+    wid_spell_upgrade_remove(spell, upgrade);
     (void) sound_play(g, "select");
   } else if (cost <= avail) {
-    wid_spell_upgrade_add(g, v, l, spell, upgrade);
+    wid_spell_upgrade_add(spell, upgrade);
     (void) sound_play(g, "select");
   } else {
     topcon("You do not have enough SPs to upgrade that spell.\n");
@@ -841,7 +843,7 @@ static void wid_spell_learn_stats_arcana_death_mouse_over_begin(Gamep g, Widp w,
   level_cursor_path_reset(g);
 }
 
-static void wid_spell_learn_stats_mouse_over_end(Gamep g, Widp w)
+static void wid_spell_learn_stats_mouse_over_end(Gamep /*g*/, Widp w)
 {
   TRACE();
 
@@ -994,12 +996,12 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType 
     //
     // Skip already learned
     //
-    if (already_learned) {
+    if (already_learned != nullptr) {
       //
       // Upgrades?
       //
       if (thing_is_upgradable(g, v, l, already_learned)) {
-        if (filter == 0u) {
+        if (filter == 0U) {
           //
           // All spells
           //
@@ -1017,7 +1019,7 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType 
       //
       // Filter?
       //
-      if (filter == 0u) {
+      if (filter == 0U) {
         //
         // All spells
         //
@@ -1073,7 +1075,7 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType 
     FOR_ALL_SPELLBOOK_SPELLS(g, v, l, player, learned_spell)
     {
       if (thing_tp(spell) == thing_tp(learned_spell)) {
-        for (auto i : tp_spell_upgrades_get(thing_tp(spell))) {
+        for (const auto &i : tp_spell_upgrades_get(thing_tp(spell))) {
           auto u = i.second;
           if (thing_is_upgradable(g, v, l, learned_spell, u)) {
             auto *w_upgrade = wid_spell_learn_list->log(g, "-", TEXT_FORMAT_LHS);
@@ -1199,6 +1201,8 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType 
     wid_set_on_mouse_down(w, wid_spell_learn_back);
     wid_set_pos(w, tl, br);
   }
+
+  wid_spell_learn_list->compress(g);
 
   wid_update(g, wid_spell_learn_window);
 

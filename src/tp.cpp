@@ -1316,7 +1316,7 @@ auto tp_special_attack_get_random(Tpp tp, TpSpecialAttack &out) -> bool
   return false;
 }
 
-void tp_spell_option_add(Tpp tp, TpSpellOption val)
+void tp_spell_option_add(Tpp tp, const TpSpellOption &val)
 {
   TRACE_DEBUG();
   if (tp == nullptr) [[unlikely]] {
@@ -1350,7 +1350,7 @@ auto tp_spell_options_exist(Tpp tp) -> bool
 {
   TRACE_DEBUG();
 
-  std::map< std::string, TpSpellOption > out;
+  std::map< std::string, TpSpellOption > const out;
 
   if (tp == nullptr) [[unlikely]] {
     ERR("no thing template pointer");
@@ -1360,7 +1360,7 @@ auto tp_spell_options_exist(Tpp tp) -> bool
   return ! tp->spell_options.empty();
 }
 
-void tp_spell_upgrade_add(Tpp tp, TpSpellUpgrade val)
+void tp_spell_upgrade_add(Tpp tp, const TpSpellUpgrade &val)
 {
   TRACE_DEBUG();
   if (tp == nullptr) [[unlikely]] {
@@ -1394,7 +1394,7 @@ auto tp_spell_upgrades_exist(Tpp tp) -> bool
 {
   TRACE_DEBUG();
 
-  std::map< std::string, TpSpellUpgrade > out;
+  std::map< std::string, TpSpellUpgrade > const out;
 
   if (tp == nullptr) [[unlikely]] {
     ERR("no thing template pointer");

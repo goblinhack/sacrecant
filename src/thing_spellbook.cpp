@@ -6,7 +6,6 @@
 #include "my_main.hpp"
 #include "my_thing.hpp"
 #include "my_thing_inlines.hpp"
-#include "my_tp.hpp"
 #include "my_types.hpp"
 
 #include <cstring>
@@ -231,7 +230,7 @@
 
   auto *ext_struct = thing_ext_struct(g, v, owner);
   if (ext_struct == nullptr) {
-    return 0;
+    return nullptr;
   }
 
   int walk_index {};

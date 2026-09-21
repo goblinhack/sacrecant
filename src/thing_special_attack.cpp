@@ -101,7 +101,7 @@ auto thing_special_attack_get_all(Gamep g, Levelsp v, Levelp l, Thingp me) -> st
 
   auto *tp = thing_tp(me);
 
-  for (auto i : tp->special_attacks) {
+  for (const auto &i : tp->special_attacks) {
     out.push_back(i.second);
   }
 

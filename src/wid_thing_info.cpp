@@ -1394,7 +1394,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   {
     auto mod        = thing_stat_mod(g, v, l, me, stat);
     auto total_stat = thing_stat(g, v, l, me, stat);
-    if (! mod) {
+    if (mod == 0) {
       continue;
     }
 
@@ -2610,7 +2610,7 @@ void wid_thing_info(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, i
       parent->log_empty_line(g);
     }
 
-    for (auto fire_what_tp : thing_get_weapon_list(g, v, l, me)) {
+    for (auto *fire_what_tp : thing_get_weapon_list(g, v, l, me)) {
       auto charge_count = thing_charge_count(me);
       if (charge_count > 0) {
         auto tmp = string_sprintf(" (x%d charges):", charge_count);

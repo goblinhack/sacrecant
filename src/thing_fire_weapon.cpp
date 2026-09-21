@@ -10,6 +10,7 @@
 #include "my_thing_inlines.hpp"
 #include "my_tp.hpp"
 #include "my_types.hpp"
+#include <vector>
 
 void thing_on_use_weapon_request_set(Tpp tp, thing_on_use_weapon_request_t callback)
 {
