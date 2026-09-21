@@ -430,7 +430,11 @@
     return false;
   }
 
-  topcon("todo cast spell %s option %d", thing_name_short(g, v, l, spell).c_str(), option);
+  if (! thing_spell_cast(g, v, l, spell, player, option)) {
+    topcon("Spell casting failed!");
+    (void) sound_play(g, "error");
+    return false;
+  }
 
   return true;
 }

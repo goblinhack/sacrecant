@@ -5,8 +5,27 @@
 #include "my_callstack.hpp"
 #include "my_main.hpp"
 #include "my_thing.hpp"
+#include "my_thing_inlines.hpp"
 #include "my_tp.hpp"
+#include "my_tp_inlines.hpp"
 #include "my_types.hpp"
+
+auto thing_spell_cast(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, int option) -> bool
+{
+  TRACE();
+
+  topcon("todo cast spell %s option %d", thing_name_short(g, v, l, spell).c_str(), option);
+  auto options = tp_spell_options_get(thing_tp(spell));
+  if (option) {
+    if (option >= (int) options.size()) {
+      return false;
+    }
+  }
+
+  ThingEvent e        = {};
+  e.event_int_context = option;
+  return thing_on_cast_request(g, v, l, spell, user, e);
+}
 
 auto thing_spell_arcana(Gamep g, Levelsp v, Levelp l, Thingp me) -> ThingStatType
 {
@@ -154,4 +173,34 @@ auto thing_spell_cost_for(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp use
     return t->_spell_cost = 0;
   }
   return t->_spell_cost -= val;
+}
+
+void thing_on_cast_request_set(Tpp tp, thing_on_cast_request_t callback)
+{
+  TRACE();
+  if (tp == nullptr) [[unlikely]] {
+    ERR("no thing template pointer");
+    return;
+  }
+  tp->on_cast_request = callback;
+}
+
+[[nodiscard]] auto thing_on_cast_request(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp user, ThingEvent &e) -> bool
+{
+  TRACE();
+  auto *tp = thing_tp(item);
+  if (tp == nullptr) [[unlikely]] {
+    ERR("no thing template pointer");
+    return false;
+  }
+
+  if (tp->on_cast_request == nullptr) {
+    return true;
+  }
+
+  if (! thing_is_player(user) && ! thing_is_monst(user)) {
+    thing_err(g, v, l, user, "unexpected thing for %s", __FUNCTION__);
+    return false;
+  }
+  return tp->on_cast_request(g, v, l, item, user, e);
 }

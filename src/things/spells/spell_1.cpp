@@ -22,6 +22,15 @@ static auto tp_spell_1_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::stri
       + std::to_string(thing_effect_radius(g, v, l, me));
 }
 
+static bool tp_spell_1_on_cast_request(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp dropper, ThingEvent &e)
+{
+  TRACE();
+
+  topcon("todo");
+
+  return false;
+}
+
 static auto tp_spell_1_on_upgrade_possible(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade u) -> bool
 {
   TRACE();
@@ -66,6 +75,7 @@ static auto tp_spell_1_on_upgrade_do(Gamep g, Levelsp v, Levelp l, Thingp me, Tp
   thing_detail_set(tp, tp_spell_1_get);
   thing_on_upgrade_possible_set(tp, tp_spell_1_on_upgrade_possible);
   thing_on_upgrade_do_set(tp, tp_spell_1_on_upgrade_do);
+  thing_on_cast_request_set(tp, tp_spell_1_on_cast_request);
   tp_flag_set(tp, is_spell);
   tp_stat_set(tp, THING_STAT_ARCANA_FIRE, "11");
   tp_flag_set(tp, is_unused_spell);

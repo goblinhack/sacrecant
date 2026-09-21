@@ -712,6 +712,7 @@ using Thing = struct Thing {
 // begin sort marker1 {
 [[nodiscard]] auto astar_solve(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint src, bpoint dst) -> std::vector< bpoint >;
 [[nodiscard]] auto thing_spellbook_is_learned_spell(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp owner) -> bool;
+[[nodiscard]] auto thing_spell_cast(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, int o) -> bool;
 [[nodiscard]] auto thing_is_upgradable(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_upgradable(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade u) -> bool;
 [[nodiscard]] auto thing_spellbook_get_spell_n(Gamep g, Levelsp v, Levelp l, Thingp owner, int index) -> Thingp;
