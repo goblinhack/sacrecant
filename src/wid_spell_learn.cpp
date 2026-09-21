@@ -198,7 +198,7 @@ static void wid_spell_checkout(Gamep g)
   game_spell_clear(g);
 }
 
-[[nodiscard]] static auto wid_learn_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+[[nodiscard]] static auto wid_learn_mouse_down(Gamep g, Widp /*w*/, int /*x*/, int /*y*/, uint32_t /*button*/) -> bool
 {
   TRACE();
 
@@ -455,7 +455,7 @@ static void wid_spell_learn_spell_via_mouse_over_end(Gamep g, Widp w)
   }
 }
 
-[[nodiscard]] static auto wid_spell_learn_spell_via_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+[[nodiscard]] static auto wid_spell_learn_spell_via_mouse_down(Gamep g, Widp w, int /*x*/, int /*y*/, uint32_t /*button*/) -> bool
 {
   TRACE();
 
@@ -503,7 +503,7 @@ static void wid_spell_learn_spell_via_mouse_over_end(Gamep g, Widp w)
   return true;
 }
 
-[[nodiscard]] static auto wid_spell_upgrade_spell_via_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+[[nodiscard]] static auto wid_spell_upgrade_spell_via_mouse_down(Gamep g, Widp w, int /*x*/, int /*y*/, uint32_t /*button*/) -> bool
 {
   TRACE();
 
@@ -663,7 +663,7 @@ static void wid_spell_learn_spell_via_mouse_over_end(Gamep g, Widp w)
   return false;
 }
 
-[[nodiscard]] static auto wid_spell_learn_stats_arcana_fire_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+[[nodiscard]] static auto wid_spell_learn_stats_arcana_fire_mouse_down(Gamep g, Widp /*w*/, int /*x*/, int /*y*/, uint32_t /*button*/) -> bool
 {
   TRACE();
 
@@ -691,7 +691,7 @@ static void wid_spell_learn_spell_via_mouse_over_end(Gamep g, Widp w)
   return true;
 }
 
-[[nodiscard]] static auto wid_spell_learn_stats_arcana_life_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+[[nodiscard]] static auto wid_spell_learn_stats_arcana_life_mouse_down(Gamep g, Widp /*w*/, int /*x*/, int /*y*/, uint32_t /*button*/) -> bool
 {
   TRACE();
 
@@ -719,7 +719,7 @@ static void wid_spell_learn_spell_via_mouse_over_end(Gamep g, Widp w)
   return true;
 }
 
-[[nodiscard]] static auto wid_spell_learn_stats_arcana_death_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+[[nodiscard]] static auto wid_spell_learn_stats_arcana_death_mouse_down(Gamep g, Widp /*w*/, int /*x*/, int /*y*/, uint32_t /*button*/) -> bool
 {
   TRACE();
 
@@ -771,7 +771,7 @@ static void wid_spell_learn_stats_arcana_common_mouse_over_begin(Gamep g)
   wid_over_stats->log_empty_line(g);
 }
 
-static void wid_spell_learn_stats_arcana_fire_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
+static void wid_spell_learn_stats_arcana_fire_mouse_over_begin(Gamep g, Widp /*w*/, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
 {
   TRACE();
 
@@ -794,7 +794,7 @@ static void wid_spell_learn_stats_arcana_fire_mouse_over_begin(Gamep g, Widp w, 
   level_cursor_path_reset(g);
 }
 
-static void wid_spell_learn_stats_arcana_life_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
+static void wid_spell_learn_stats_arcana_life_mouse_over_begin(Gamep g, Widp /*w*/, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
 {
   TRACE();
 
@@ -819,7 +819,7 @@ static void wid_spell_learn_stats_arcana_life_mouse_over_begin(Gamep g, Widp w, 
   level_cursor_path_reset(g);
 }
 
-static void wid_spell_learn_stats_arcana_death_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
+static void wid_spell_learn_stats_arcana_death_mouse_over_begin(Gamep g, Widp /*w*/, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
 {
   TRACE();
 
@@ -843,7 +843,7 @@ static void wid_spell_learn_stats_arcana_death_mouse_over_begin(Gamep g, Widp w,
   level_cursor_path_reset(g);
 }
 
-static void wid_spell_learn_stats_mouse_over_end(Gamep /*g*/, Widp w)
+static void wid_spell_learn_stats_mouse_over_end(Gamep /*g*/, Widp /*w*/)
 {
   TRACE();
 
@@ -851,11 +851,41 @@ static void wid_spell_learn_stats_mouse_over_end(Gamep /*g*/, Widp w)
   wid_over_stats = nullptr;
 }
 
-[[nodiscard]] static auto wid_spell_learn_back(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+[[nodiscard]] static auto wid_spell_learn_back(Gamep g, Widp /*w*/, int /*x*/, int /*y*/, uint32_t /*button*/) -> bool
 {
   TRACE();
   wid_spell_learn_destroy(g);
   return true;
+}
+
+[[nodiscard]] static auto wid_spell_learn_how_many_items(Gamep g, Levelsp v, Levelp l, Thingp player, std::vector< Thingp > wid_spell_things)
+    -> int
+{
+  TRACE();
+
+  int y_at = 0;
+
+  for (auto &spell : wid_spell_things) {
+    y_at++;
+
+    //
+    // Add upgrades?
+    //
+    FOR_ALL_SPELLBOOK_SPELLS(g, v, l, player, learned_spell)
+    {
+      if (thing_tp(spell) == thing_tp(learned_spell)) {
+        for (const auto &i : tp_spell_upgrades_get(thing_tp(spell))) {
+          auto u = i.second;
+          if (thing_is_upgradable(g, v, l, learned_spell, u)) {
+            y_at++;
+          }
+        }
+        break;
+      }
+    }
+  }
+
+  return y_at;
 }
 
 void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType filter)
@@ -934,14 +964,6 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType 
     wid_set_pos(w, tl, br);
     wid_set_text(w, UI_INFO_FMT_STR "Spell name                              Arcana  SP");
     y_at++;
-  }
-
-  {
-    spoint const inner_tl(1, 5);
-    spoint const inner_br(menu_width - 2, menu_height - 12);
-
-    wid_spell_learn_list
-        = new WidPopup(g, wid_spell_learn_window, "spell list", inner_tl, inner_br, nullptr, "", false, true, wid_spell_tps.size() * 2);
   }
 
   int wid_spell_index   = 0;
@@ -1035,6 +1057,17 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType 
     }
 
     wid_spell_index++;
+  }
+
+  //
+  // Create the scrolling spell list
+  //
+  {
+    auto         needed_height = wid_spell_learn_how_many_items(g, v, l, player, wid_spell_things);
+    spoint const inner_tl(1, 5);
+    spoint const inner_br(menu_width - 2, menu_height - 12);
+
+    wid_spell_learn_list = new WidPopup(g, wid_spell_learn_window, "spell list", inner_tl, inner_br, nullptr, "", false, true, needed_height);
   }
 
   //
@@ -1201,8 +1234,6 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType 
     wid_set_on_mouse_down(w, wid_spell_learn_back);
     wid_set_pos(w, tl, br);
   }
-
-  wid_spell_learn_list->compress(g);
 
   wid_update(g, wid_spell_learn_window);
 
