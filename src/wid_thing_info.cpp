@@ -609,6 +609,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   TRACE();
 
   std::string name_str;
+
   if (thing_is_player(me)) {
     name_str = game_player_name_get(g);
   } else {
@@ -617,6 +618,12 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   name_str = capitalize(name_str);
 
   parent->log(g, UI_INFO_FMT_STR + name_str + UI_RESET_FMT);
+
+  if (thing_is_player(me)) {
+    name_str = tp_name_long(thing_tp(me));
+    name_str = capitalize(name_str);
+    parent->log(g, UI_INFO_FMT_STR + name_str + UI_RESET_FMT);
+  }
 
   return true;
 }
