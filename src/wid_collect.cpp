@@ -211,6 +211,7 @@ static void wid_collect_mouse_over_end(Gamep g, Widp w)
             auto c = wid_event_to_char(key);
             switch (c) {
               case 'a' :
+                (void) sound_play(g, "keypress");
                 for (auto &n : wid_item) {
                   w = n;
                   if (w != nullptr) {
@@ -247,6 +248,7 @@ static void wid_collect_mouse_over_end(Gamep g, Widp w)
               case 'x' :
               case 'y' :
               case 'z' :
+                (void) sound_play(g, "keypress");
                 for (auto &n : wid_item) {
                   w = n;
                   if (w != nullptr) {
@@ -292,6 +294,7 @@ static void wid_collect_mouse_over_end(Gamep g, Widp w)
 {
   TRACE();
   wid_collect_destroy(g);
+  (void) sound_play(g, "select");
   return true;
 }
 

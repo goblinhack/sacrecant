@@ -146,18 +146,18 @@ static void wid_cfg_sound_destroy()
             switch (c) {
               case 'c' :
               case 'C' :
-                ((void) sound_play(g, "keypress"));
+                (void) sound_play(g, "keypress");
                 (void) wid_cfg_sound_cancel(g, nullptr, 0, 0, 0);
                 return true;
               case 's' :
               case 'S' :
-                ((void) sound_play(g, "keypress"));
+                (void) sound_play(g, "keypress");
                 (void) wid_cfg_sound_save(g, nullptr, 0, 0, 0);
                 return true;
               case 'b' :
               case 'B' :
               case SDLK_ESCAPE :
-                ((void) sound_play(g, "keypress"));
+                (void) sound_play(g, "keypress");
                 (void) wid_cfg_sound_cancel(g, nullptr, 0, 0, 0);
                 return true;
             }

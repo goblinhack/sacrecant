@@ -51,6 +51,7 @@ static void wid_warning_destroy()
             switch (c) {
               case 'y' :
               case 'Y' :
+                (void) sound_play(g, "keypress");
                 DBG("widget warning: yes");
                 if (callback != nullptr) {
                   (void) sound_play(g, "keypress");
@@ -60,6 +61,7 @@ static void wid_warning_destroy()
                 break;
               case 'n' :
               case 'N' :
+                (void) sound_play(g, "keypress");
                 DBG("widget warning: no");
                 if (callback != nullptr) {
                   (void) sound_play(g, "keypress");
@@ -72,6 +74,7 @@ static void wid_warning_destroy()
               case 'B' :
               case SDLK_ESCAPE :
                 {
+                  (void) sound_play(g, "keypress");
                   if (callback != nullptr) {
                     DBG("widget warning: default, no");
                     (void) sound_play(g, "keypress");

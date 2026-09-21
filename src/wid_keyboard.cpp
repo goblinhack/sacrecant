@@ -504,11 +504,17 @@ static void wid_keyboard_set_focus(Gamep g, wid_keyboard_ctx *ctx, int focusx, i
   (void) sound_play(g, "keypress");
 
   switch (key->sym) {
-    case '`' :            return false;
+    case '`' : return false;
 
-    case SDLK_ESCAPE :    (ctx->cancelled)(g, ctx->w, wid_get_text(ctx->input)); return true;
+    case SDLK_ESCAPE :
+      (void) sound_play(g, "keypress");
+      (ctx->cancelled)(g, ctx->w, wid_get_text(ctx->input));
+      return true;
 
-    case SDLK_RETURN :    (ctx->selected)(g, ctx->w, wid_get_text(ctx->input)); return true;
+    case SDLK_RETURN :
+      (void) sound_play(g, "keypress");
+      (ctx->selected)(g, ctx->w, wid_get_text(ctx->input));
+      return true;
 
     case SDLK_BACKSPACE :
     case SDLK_DELETE :

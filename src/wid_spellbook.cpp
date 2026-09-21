@@ -118,6 +118,7 @@ static void wid_spellbook_mouse_over_end(Gamep g, Widp w)
   }
 
   wid_spellbook_destroy(g);
+  (void) sound_play(g, "select");
 
   auto index = wid_get_int_context(w);
   if (! tp_spell_options_exist(thing_tp(spell))) {
@@ -175,6 +176,7 @@ static void wid_spellbook_key_down_which_spell(Gamep g, Widp w, int index)
   wid_set_color(w, WID_COLOR_TEXT_FG, WHITE);
 
   wid_spellbook_destroy(g);
+  (void) sound_play(g, "select");
 
   if (! tp_spell_options_exist(thing_tp(spell))) {
     (void) game_event_cast_spell_default(g, index);
@@ -194,101 +196,121 @@ static void wid_spellbook_key_down_which_spell(Gamep g, Widp w, int index)
   }
 
   if (sdlk_eq(*key, game_key_spell1_get(g))) {
+    (void) sound_play(g, "keypress");
     wid_spellbook_key_down_which_spell(g, w, 0);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell2_get(g))) {
+    (void) sound_play(g, "keypress");
     wid_spellbook_key_down_which_spell(g, w, 1);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell3_get(g))) {
+    (void) sound_play(g, "keypress");
     wid_spellbook_key_down_which_spell(g, w, 2);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell4_get(g))) {
+    (void) sound_play(g, "keypress");
     wid_spellbook_key_down_which_spell(g, w, 3);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell5_get(g))) {
+    (void) sound_play(g, "keypress");
     wid_spellbook_key_down_which_spell(g, w, 4);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell6_get(g))) {
+    (void) sound_play(g, "keypress");
     wid_spellbook_key_down_which_spell(g, w, 5);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell7_get(g))) {
+    (void) sound_play(g, "keypress");
     wid_spellbook_key_down_which_spell(g, w, 6);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell8_get(g))) {
+    (void) sound_play(g, "keypress");
     wid_spellbook_key_down_which_spell(g, w, 7);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell9_get(g))) {
+    (void) sound_play(g, "keypress");
     wid_spellbook_key_down_which_spell(g, w, 8);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell10_get(g))) {
+    (void) sound_play(g, "keypress");
     wid_spellbook_key_down_which_spell(g, w, 9);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell11_get(g))) {
+    (void) sound_play(g, "keypress");
     wid_spellbook_key_down_which_spell(g, w, 10);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell12_get(g))) {
+    (void) sound_play(g, "keypress");
     wid_spellbook_key_down_which_spell(g, w, 11);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell13_get(g))) {
+    (void) sound_play(g, "keypress");
     wid_spellbook_key_down_which_spell(g, w, 12);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell14_get(g))) {
+    (void) sound_play(g, "keypress");
     wid_spellbook_key_down_which_spell(g, w, 13);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell15_get(g))) {
+    (void) sound_play(g, "keypress");
     wid_spellbook_key_down_which_spell(g, w, 14);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell16_get(g))) {
+    (void) sound_play(g, "keypress");
     wid_spellbook_key_down_which_spell(g, w, 15);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell17_get(g))) {
+    (void) sound_play(g, "keypress");
     wid_spellbook_key_down_which_spell(g, w, 16);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell18_get(g))) {
+    (void) sound_play(g, "keypress");
     wid_spellbook_key_down_which_spell(g, w, 17);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell19_get(g))) {
+    (void) sound_play(g, "keypress");
     wid_spellbook_key_down_which_spell(g, w, 18);
     return true;
   }
 
   if (sdlk_eq(*key, game_key_spell20_get(g))) {
+    (void) sound_play(g, "keypress");
     wid_spellbook_key_down_which_spell(g, w, 19);
     return true;
   }
@@ -313,7 +335,10 @@ static void wid_spellbook_key_down_which_spell(Gamep g, Widp w, int index)
 [[nodiscard]] static auto wid_spellbook_back(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
+
   wid_spellbook_destroy(g);
+  (void) sound_play(g, "select");
+
   return true;
 }
 

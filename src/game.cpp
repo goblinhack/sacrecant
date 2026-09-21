@@ -1259,21 +1259,18 @@ void Game::state_change(GameStateType new_state, const std::string &why)
         case STATE_COLLECT_MENU :      [[fallthrough]];
         case STATE_THROW_ITEM :        [[fallthrough]];
         case STATE_THROW_MENU :        [[fallthrough]];
+        case STATE_SPELLBOOK_MENU :    [[fallthrough]];
+        case STATE_INVENTORY_MENU :    [[fallthrough]];
+        case STATE_SPELL_LEARN_MENU :  [[fallthrough]];
         case STATE_ITEM_MENU :
           (void) wid_leftbar_init(g);
           (void) wid_rightbar_init(g);
           (void) wid_actionbar_init(g);
           break;
-        case STATE_SPELLBOOK_MENU : [[fallthrough]];
-        case STATE_INVENTORY_MENU : [[fallthrough]];
-        case STATE_SPELL_LEARN_MENU :
-          (void) wid_leftbar_init(g);
-          (void) wid_rightbar_init(g);
-          break;
         case STATE_INIT :               [[fallthrough]];
         case STATE_QUITTING :           [[fallthrough]];
         case STATE_DEAD_MENU :          [[fallthrough]];
-        case STATE_PLAYER_SELECT_MENU : [[fallthrough]]; ;
+        case STATE_PLAYER_SELECT_MENU : [[fallthrough]];
         case STATE_GAME_OVER_MENU :     [[fallthrough]];
         case STATE_PLAYING :            [[fallthrough]];
         case STATE_LEVEL_SELECT_MENU :  [[fallthrough]];

@@ -7,12 +7,14 @@
 #include "my_game.hpp"
 #include "my_main.hpp"
 #include "my_sdl_proto.hpp"
+#include "my_sound.hpp"
 #include "my_spoint.hpp"
 #include "my_types.hpp"
 #include "my_ui.hpp"
 #include "my_wid.hpp"
 #include "my_wid_popup.hpp"
 #include "my_wids.hpp"
+
 #include <SDL_keyboard.h>
 #include <SDL_keycode.h>
 #include <cstdint>
@@ -113,12 +115,21 @@ static void wid_cfg_mouse_destroy()
             auto c = wid_event_to_char(key);
             switch (c) {
               case 'c' :
-              case 'C' :         (void) wid_cfg_mouse_cancel(g, nullptr, 0, 0, 0); return true;
+              case 'C' :
+                (void) sound_play(g, "keypress");
+                (void) wid_cfg_mouse_cancel(g, nullptr, 0, 0, 0);
+                return true;
               case 's' :
-              case 'S' :         (void) wid_cfg_mouse_save(g, nullptr, 0, 0, 0); return true;
+              case 'S' :
+                (void) sound_play(g, "keypress");
+                (void) wid_cfg_mouse_save(g, nullptr, 0, 0, 0);
+                return true;
               case 'b' :
               case 'B' :
-              case SDLK_ESCAPE : (void) wid_cfg_mouse_cancel(g, nullptr, 0, 0, 0); return true;
+              case SDLK_ESCAPE :
+                (void) sound_play(g, "keypress");
+                (void) wid_cfg_mouse_cancel(g, nullptr, 0, 0, 0);
+                return true;
             }
           }
       }

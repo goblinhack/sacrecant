@@ -13,15 +13,15 @@ void sounds_load(Gamep g)
   //
   // Critical UI sounds
   //
-  (void) sound_load(0.1F /* volume */, "data/sounds/ui/keypress.ogg", "keypress");
+  (void) sound_load(0.2F /* volume */, "data/sounds/ui/keypress.ogg", "keypress", 2);
   (void) sound_load(0.2F /* volume */, "data/sounds/ui/mouse_click.ogg", "click", 2 /* concurrent_max */);
   (void) sound_load(0.5F /* volume */, "data/sounds/ui/error.ogg", "error");
   (void) sound_load(1.0F /* volume */, "data/sounds/ui/chest_open.ogg", "chest_open", 2 /* concurrent_max */);
   (void) sound_load(1.0F /* volume */, "data/sounds/ui/bonus.ogg", "bonus", 2 /* concurrent_max */);
-  (void) sound_load(0.5F /* volume */, "data/sounds/ui/start.ogg", "start", 2 /* concurrent_max */);
+  (void) sound_load(0.2F /* volume */, "data/sounds/ui/start.ogg", "start", 2 /* concurrent_max */);
   (void) sound_load(1.0F /* volume */, "data/sounds/ui/enter.ogg", "enter", 2 /* concurrent_max */);
   (void) sound_load(1.0F /* volume */, "data/sounds/ui/enter2.ogg", "enter2", 2 /* concurrent_max */);
-  (void) sound_load(0.5F /* volume */, "data/sounds/ui/select.ogg", "select", 2 /* concurrent_max */);
+  (void) sound_load(0.2F /* volume */, "data/sounds/ui/select.ogg", "select", 2 /* concurrent_max */);
   (void) sound_load(1.0F /* volume */, "data/sounds/ui/door_open.ogg", "door_open", 2 /* concurrent_max */);
   (void) sound_load(1.0F /* volume */, "data/sounds/ui/door_stone.ogg", "door_open_secret", 2 /* concurrent_max */);
   (void) sound_load(1.0F /* volume */, "data/sounds/ui/item_collect.ogg", "item_collect", 2 /* concurrent_max */);

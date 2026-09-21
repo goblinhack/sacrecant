@@ -53,9 +53,8 @@ static void wid_intro2_destroy(Gamep g)
 
   if (s == "<Sp>" || s == "<Ret>" || s == "n" || s == "N") {
     TRACE();
-    (void) sound_play(g, "keypress");
     wid_intro2_destroy(g);
-    (void) sound_play(g, "select");
+    (void) sound_play(g, "keypress");
     wid_player_select(g);
     return true;
   }

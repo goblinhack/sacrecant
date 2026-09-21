@@ -9,6 +9,7 @@
 #include "my_globals.hpp"
 #include "my_level.hpp"
 #include "my_sdl_proto.hpp"
+#include "my_sound.hpp"
 #include "my_spoint.hpp"
 #include "my_thing.hpp"
 #include "my_thing_inlines.hpp"
@@ -18,6 +19,7 @@
 #include "my_wid.hpp"
 #include "my_wid_popup.hpp"
 #include "my_wids.hpp"
+
 #include <cmath>
 #include <cstdint>
 #include <string>
@@ -51,6 +53,7 @@ static std::string last_menu_string;
 
   log("actionbar save");
 
+  (void) sound_play(g, "click");
   return game_event_save(g);
 }
 
@@ -98,6 +101,7 @@ static void wid_actionbar_save_over_end(Gamep g, Widp w)
 {
   log("actionbar load");
   TRACE();
+  (void) sound_play(g, "click");
   return game_event_load(g);
 }
 
@@ -215,6 +219,7 @@ static void wid_actionbar_wait_over_end(Gamep g, Widp w)
   log("actionbar inventory");
   TRACE();
 
+  (void) sound_play(g, "click");
   return game_event_inventory(g);
 }
 
@@ -250,11 +255,20 @@ static void wid_actionbar_inventory_over_begin(Gamep g, Widp w, int /*relx*/, in
   level_cursor_path_reset(g);
 }
 
+static void wid_actionbar_inventory_over_end(Gamep g, Widp w)
+{
+  TRACE();
+
+  delete wid_over_inventory;
+  wid_over_inventory = nullptr;
+}
+
 [[nodiscard]] static auto wid_actionbar_learn(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   log("actionbar learn");
   TRACE();
 
+  (void) sound_play(g, "click");
   return game_event_learn(g);
 }
 
@@ -263,15 +277,8 @@ static void wid_actionbar_inventory_over_begin(Gamep g, Widp w, int /*relx*/, in
   log("actionbar cast");
   TRACE();
 
+  (void) sound_play(g, "click");
   return game_event_cast(g);
-}
-
-static void wid_actionbar_inventory_over_end(Gamep g, Widp w)
-{
-  TRACE();
-
-  delete wid_over_inventory;
-  wid_over_inventory = nullptr;
 }
 
 static void wid_actionbar_learn_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
@@ -434,7 +441,7 @@ static void wid_actionbar_fire_over_begin(Gamep g, Widp w, int /*relx*/, int /*r
   wid_over_fire->log_empty_line(g);
   wid_over_fire->log(g, "Hover the mouse over your chosen enemy and press this key to blast them to deserved oblivion.");
   wid_over_fire->log_empty_line(g);
-  wid_over_fire->log(g, "For melee damage, simply try to walk into the monster to deliver a knuckle sandwich.");
+  wid_over_fire->log(g, "For melee damage, walk into the monster to deliver a knuckle sandwich.");
   wid_over_fire->log_empty_line(g);
   wid_over_fire->compress(g);
 
@@ -454,6 +461,7 @@ static void wid_actionbar_fire_over_end(Gamep g, Widp w)
   log("actionbar ascend");
   TRACE();
 
+  (void) sound_play(g, "click");
   return game_event_ascend(g);
 }
 
@@ -501,6 +509,7 @@ static void wid_actionbar_ascend_over_end(Gamep g, Widp w)
   log("actionbar descend");
   TRACE();
 
+  (void) sound_play(g, "click");
   return game_event_descend(g);
 }
 
@@ -549,6 +558,7 @@ static void wid_actionbar_descend_over_end(Gamep g, Widp w)
   log("actionbar quit");
   TRACE();
 
+  (void) sound_play(g, "click");
   return game_event_quit(g);
 }
 
@@ -596,6 +606,7 @@ static void wid_actionbar_quit_over_end(Gamep g, Widp w)
   log("actionbar zoom");
   TRACE();
 
+  (void) sound_play(g, "click");
   game_map_zoom_toggle(g);
 
   return true;
@@ -645,6 +656,7 @@ static void wid_actionbar_zoom_over_end(Gamep g, Widp w)
   log("actionbar help");
   TRACE();
 
+  (void) sound_play(g, "click");
   return game_event_help(g);
 }
 

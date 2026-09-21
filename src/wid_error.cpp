@@ -62,7 +62,7 @@ static void wid_error_destroy(Gamep g)
               case SDLK_ESCAPE :
                 {
                   TRACE();
-                  (void) sound_play(g, "keypress");
+                  (void) sound_play(g, "select");
                   wid_error_destroy(g);
                   return true;
                 }

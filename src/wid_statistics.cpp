@@ -64,6 +64,7 @@ static void wid_statistics_destroy(Gamep g)
             switch (c) {
               case 'q' :
               case 'Q' :
+                (void) sound_play(g, "keypress");
                 if (g_opt_quick_start) {
                   DIE_CLEAN("Quick quit");
                 }

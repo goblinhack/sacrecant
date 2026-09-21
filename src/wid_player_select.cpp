@@ -109,6 +109,7 @@ static void wid_player_select_all_done(Gamep g)
 {
   TRACE();
 
+  (void) sound_play(g, "select");
   wid_player_select_all_done(g);
 
   return true;
@@ -574,6 +575,7 @@ static void wid_player_select_boost_via_mouse_over_end(Gamep g, Widp w)
             auto c = wid_event_to_char(key);
             switch (c) {
               case ' ' :
+                (void) sound_play(g, "keypress");
                 if (wid_player_select_continue_window != nullptr) {
                   //
                   // All done
@@ -612,6 +614,7 @@ static void wid_player_select_boost_via_mouse_over_end(Gamep g, Widp w)
               case '7' :
               case '8' :
               case '9' :
+                (void) sound_play(g, "keypress");
                 game_mouse_over_player_set(g, nullptr);
                 w = wid_player[ c - '0' ];
                 if (w != nullptr) {
@@ -645,6 +648,7 @@ static void wid_player_select_boost_via_mouse_over_end(Gamep g, Widp w)
               case 'x' :
               case 'y' :
               case 'z' :
+                (void) sound_play(g, "keypress");
                 game_sacrifice_mouse_over_currently_set(g, nullptr);
                 w = wid_sacrifice[ c - 'a' ];
                 if (w != nullptr) {
@@ -678,6 +682,7 @@ static void wid_player_select_boost_via_mouse_over_end(Gamep g, Widp w)
               case 'X' :
               case 'Y' :
               case 'Z' :
+                (void) sound_play(g, "keypress");
                 game_boost_mouse_over_currently_set(g, nullptr);
                 w = wid_boost[ c - 'A' ];
                 if (w != nullptr) {

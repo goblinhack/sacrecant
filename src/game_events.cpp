@@ -948,152 +948,175 @@ static auto game_event_abort(Gamep g) -> bool
       if (sdlk_eq(*key, game_key_inventory_get(g))) {
         DBG("pressed inventory key");
         (void) game_event_inventory(g);
+        (void) sound_play(g, "keypress");
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_learn_get(g))) {
         DBG("pressed learn key");
         (void) game_event_learn(g);
+        (void) sound_play(g, "keypress");
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_cast_get(g))) {
         DBG("pressed cast key");
         (void) game_event_cast(g);
+        (void) sound_play(g, "keypress");
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell1_get(g))) {
         DBG("pressed cast key");
         (void) game_event_cast_spell_default(g, 0);
+        (void) sound_play(g, "keypress");
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell2_get(g))) {
         DBG("pressed cast key");
         (void) game_event_cast_spell_default(g, 1);
+        (void) sound_play(g, "keypress");
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell3_get(g))) {
         DBG("pressed cast key");
         (void) game_event_cast_spell_default(g, 2);
+        (void) sound_play(g, "keypress");
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell4_get(g))) {
         DBG("pressed cast key");
         (void) game_event_cast_spell_default(g, 3);
+        (void) sound_play(g, "keypress");
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell5_get(g))) {
         DBG("pressed cast key");
         (void) game_event_cast_spell_default(g, 4);
+        (void) sound_play(g, "keypress");
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell6_get(g))) {
         DBG("pressed cast key");
         (void) game_event_cast_spell_default(g, 5);
+        (void) sound_play(g, "keypress");
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell7_get(g))) {
         DBG("pressed cast key");
         (void) game_event_cast_spell_default(g, 6);
+        (void) sound_play(g, "keypress");
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell8_get(g))) {
         DBG("pressed cast key");
         (void) game_event_cast_spell_default(g, 7);
+        (void) sound_play(g, "keypress");
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell9_get(g))) {
         DBG("pressed cast key");
         (void) game_event_cast_spell_default(g, 8);
+        (void) sound_play(g, "keypress");
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell10_get(g))) {
         DBG("pressed cast key");
         (void) game_event_cast_spell_default(g, 9);
+        (void) sound_play(g, "keypress");
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell11_get(g))) {
         DBG("pressed cast key");
         (void) game_event_cast_spell_default(g, 10);
+        (void) sound_play(g, "keypress");
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell12_get(g))) {
         DBG("pressed cast key");
         (void) game_event_cast_spell_default(g, 11);
+        (void) sound_play(g, "keypress");
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell13_get(g))) {
         DBG("pressed cast key");
         (void) game_event_cast_spell_default(g, 12);
+        (void) sound_play(g, "keypress");
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell14_get(g))) {
         DBG("pressed cast key");
         (void) game_event_cast_spell_default(g, 13);
+        (void) sound_play(g, "keypress");
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell15_get(g))) {
         DBG("pressed cast key");
         (void) game_event_cast_spell_default(g, 14);
+        (void) sound_play(g, "keypress");
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell16_get(g))) {
         DBG("pressed cast key");
         (void) game_event_cast_spell_default(g, 15);
+        (void) sound_play(g, "keypress");
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell17_get(g))) {
         DBG("pressed cast key");
         (void) game_event_cast_spell_default(g, 16);
+        (void) sound_play(g, "keypress");
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell18_get(g))) {
         DBG("pressed cast key");
         (void) game_event_cast_spell_default(g, 17);
+        (void) sound_play(g, "keypress");
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell19_get(g))) {
         DBG("pressed cast key");
         (void) game_event_cast_spell_default(g, 18);
+        (void) sound_play(g, "keypress");
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_spell20_get(g))) {
         DBG("pressed cast key");
         (void) game_event_cast_spell_default(g, 19);
+        (void) sound_play(g, "keypress");
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_ascend_get(g))) {
         DBG("pressed ascend key");
-        (void) sound_play(g, "keypress");
         (void) game_event_ascend(g);
+        (void) sound_play(g, "keypress");
         return false; // To avoid click noise
       }
 
       if (sdlk_eq(*key, game_key_descend_get(g))) {
         DBG("pressed descend key");
-        (void) sound_play(g, "keypress");
         (void) game_event_descend(g);
+        (void) sound_play(g, "keypress");
         return false; // To avoid click noise
       }
 
@@ -1101,6 +1124,7 @@ static auto game_event_abort(Gamep g) -> bool
         DBG("pressed jump key");
         TRACE_INDENT();
         game_event_jump(g);
+        (void) sound_play(g, "keypress");
         return true;
       }
 
@@ -1108,6 +1132,7 @@ static auto game_event_abort(Gamep g) -> bool
         DBG("pressed throw key");
         TRACE_INDENT();
         game_event_throw(g);
+        (void) sound_play(g, "keypress");
         return true;
       }
 

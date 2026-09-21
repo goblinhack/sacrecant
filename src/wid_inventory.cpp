@@ -201,6 +201,7 @@ void wid_inventory_mouse_over_end(Gamep g, Widp w)
 {
   TRACE();
   wid_inventory_destroy(g);
+  (void) sound_play(g, "select");
   return true;
 }
 

@@ -66,7 +66,7 @@ static void wid_hiscore_destroy(Gamep g)
               case SDLK_ESCAPE :
                 {
                   TRACE();
-                  (void) sound_play(g, "keypress");
+                  (void) sound_play(g, "select");
                   wid_hiscore_destroy(g);
                   return true;
                 }

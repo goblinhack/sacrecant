@@ -179,6 +179,7 @@ static void wid_throw_item_mouse_over_end(Gamep g, Widp w)
               case 'x' :
               case 'y' :
               case 'z' :
+                (void) sound_play(g, "keypress");
                 for (auto &n : wid_item) {
                   w = n;
                   if (w != nullptr) {

@@ -194,6 +194,7 @@ static void wid_spell_checkout(Gamep g)
   }
 
   wid_spell_learn_destroy(g);
+  (void) sound_play(g, "select");
 
   game_spell_clear(g);
 }
@@ -607,6 +608,7 @@ static void wid_spell_learn_spell_via_mouse_over_end(Gamep g, Widp w)
               case 'x' :
               case 'y' :
               case 'z' :
+                (void) sound_play(g, "keypress");
                 game_spell_mouse_over_currently_set(g, nullptr);
                 w = wid_spell[ c - 'a' ];
                 if (w != nullptr) {
@@ -639,6 +641,7 @@ static void wid_spell_learn_spell_via_mouse_over_end(Gamep g, Widp w)
               case 'X' :
               case 'Y' :
               case 'Z' :
+                (void) sound_play(g, "keypress");
                 game_spell_mouse_over_currently_set(g, nullptr);
                 w = wid_spell[ c - 'A' + 26 ];
                 if (w != nullptr) {
@@ -855,6 +858,7 @@ static void wid_spell_learn_stats_mouse_over_end(Gamep g, Widp w)
 {
   TRACE();
   wid_spell_learn_destroy(g);
+  (void) sound_play(g, "select");
   return true;
 }
 
