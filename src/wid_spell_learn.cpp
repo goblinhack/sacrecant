@@ -82,7 +82,7 @@ static auto wid_spell_upgrade_find(Thingp spell, const std::string &upgrade) -> 
 {
   TRACE();
 
-  for (auto i : wid_spell_upgrades) {
+  for (const auto &i : wid_spell_upgrades) {
     if (i.first == spell) {
       return i.second.contains(upgrade);
     }
@@ -198,7 +198,7 @@ static void wid_spell_checkout(Gamep g)
   game_spell_clear(g);
 }
 
-[[nodiscard]] static auto wid_learn_mouse_down(Gamep g, Widp /*w*/, int /*x*/, int /*y*/, uint32_t /*button*/) -> bool
+[[nodiscard]] static auto wid_learn_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
 
@@ -455,7 +455,7 @@ static void wid_spell_learn_spell_via_mouse_over_end(Gamep g, Widp w)
   }
 }
 
-[[nodiscard]] static auto wid_spell_learn_spell_via_mouse_down(Gamep g, Widp w, int /*x*/, int /*y*/, uint32_t /*button*/) -> bool
+[[nodiscard]] static auto wid_spell_learn_spell_via_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
 
@@ -503,7 +503,7 @@ static void wid_spell_learn_spell_via_mouse_over_end(Gamep g, Widp w)
   return true;
 }
 
-[[nodiscard]] static auto wid_spell_upgrade_spell_via_mouse_down(Gamep g, Widp w, int /*x*/, int /*y*/, uint32_t /*button*/) -> bool
+[[nodiscard]] static auto wid_spell_upgrade_spell_via_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
 
@@ -663,7 +663,7 @@ static void wid_spell_learn_spell_via_mouse_over_end(Gamep g, Widp w)
   return false;
 }
 
-[[nodiscard]] static auto wid_spell_learn_stats_arcana_fire_mouse_down(Gamep g, Widp /*w*/, int /*x*/, int /*y*/, uint32_t /*button*/) -> bool
+[[nodiscard]] static auto wid_spell_learn_stats_arcana_fire_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
 
@@ -691,7 +691,7 @@ static void wid_spell_learn_spell_via_mouse_over_end(Gamep g, Widp w)
   return true;
 }
 
-[[nodiscard]] static auto wid_spell_learn_stats_arcana_life_mouse_down(Gamep g, Widp /*w*/, int /*x*/, int /*y*/, uint32_t /*button*/) -> bool
+[[nodiscard]] static auto wid_spell_learn_stats_arcana_life_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
 
@@ -719,7 +719,7 @@ static void wid_spell_learn_spell_via_mouse_over_end(Gamep g, Widp w)
   return true;
 }
 
-[[nodiscard]] static auto wid_spell_learn_stats_arcana_death_mouse_down(Gamep g, Widp /*w*/, int /*x*/, int /*y*/, uint32_t /*button*/) -> bool
+[[nodiscard]] static auto wid_spell_learn_stats_arcana_death_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
 
@@ -771,7 +771,7 @@ static void wid_spell_learn_stats_arcana_common_mouse_over_begin(Gamep g)
   wid_over_stats->log_empty_line(g);
 }
 
-static void wid_spell_learn_stats_arcana_fire_mouse_over_begin(Gamep g, Widp /*w*/, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
+static void wid_spell_learn_stats_arcana_fire_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
 {
   TRACE();
 
@@ -794,7 +794,7 @@ static void wid_spell_learn_stats_arcana_fire_mouse_over_begin(Gamep g, Widp /*w
   level_cursor_path_reset(g);
 }
 
-static void wid_spell_learn_stats_arcana_life_mouse_over_begin(Gamep g, Widp /*w*/, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
+static void wid_spell_learn_stats_arcana_life_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
 {
   TRACE();
 
@@ -819,7 +819,7 @@ static void wid_spell_learn_stats_arcana_life_mouse_over_begin(Gamep g, Widp /*w
   level_cursor_path_reset(g);
 }
 
-static void wid_spell_learn_stats_arcana_death_mouse_over_begin(Gamep g, Widp /*w*/, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
+static void wid_spell_learn_stats_arcana_death_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
 {
   TRACE();
 
@@ -843,7 +843,7 @@ static void wid_spell_learn_stats_arcana_death_mouse_over_begin(Gamep g, Widp /*
   level_cursor_path_reset(g);
 }
 
-static void wid_spell_learn_stats_mouse_over_end(Gamep /*g*/, Widp /*w*/)
+static void wid_spell_learn_stats_mouse_over_end(Gamep g, Widp w)
 {
   TRACE();
 
@@ -851,15 +851,15 @@ static void wid_spell_learn_stats_mouse_over_end(Gamep /*g*/, Widp /*w*/)
   wid_over_stats = nullptr;
 }
 
-[[nodiscard]] static auto wid_spell_learn_back(Gamep g, Widp /*w*/, int /*x*/, int /*y*/, uint32_t /*button*/) -> bool
+[[nodiscard]] static auto wid_spell_learn_back(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
   wid_spell_learn_destroy(g);
   return true;
 }
 
-[[nodiscard]] static auto wid_spell_learn_how_many_items(Gamep g, Levelsp v, Levelp l, Thingp player, std::vector< Thingp > wid_spell_things)
-    -> int
+[[nodiscard]] static auto wid_spell_learn_how_many_items(Gamep g, Levelsp v, Levelp l, Thingp player,
+                                                         const std::vector< Thingp > &wid_spell_things) -> int
 {
   TRACE();
 
