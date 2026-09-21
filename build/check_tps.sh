@@ -5,7 +5,7 @@ do
     find . -name "*.cpp" | xargs grep -q "tp_load(\"$tp\")"
     if [ $? -eq 1 ]; then
         echo ======== ERROR: Template "$tp": not found =========
-        find . -name "*.cpp" | grep "tp_find_mand(\"" | grep "$tp"
+        find . -name "*.cpp" | xargs grep "tp_find_mand(\"" | grep "$tp"
         exit 1
     fi
 done

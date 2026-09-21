@@ -39,6 +39,7 @@ all: pre
 
 format:
 	(cd $(TOP)/src; $(TOP)/build/check_tps.sh)
+	(cd $(TOP)/src; $(TOP)/build/check_sound.sh)
 	$(foreach var,$(FORMAT_DIRS), (cd $(var); cp $(TOP)/.clang-format .) ;)
 	$(foreach var,$(FORMAT_DIRS), (cd $(var); sh $(TOP)/build/shell_source.sh do) ;)
 	$(foreach var,$(FORMAT_DIRS), (cd $(var); sh $(TOP)/build/tidy_source.sh do) ;)
