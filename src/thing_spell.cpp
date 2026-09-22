@@ -26,7 +26,7 @@ auto thing_spell_cast(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, c
     //
     bool found_it {};
 
-    for (const auto& o : tp_spell_options_get(thing_tp(spell))) {
+    for (const auto &o : tp_spell_options_get(thing_tp(spell))) {
       auto option = o.second;
       if (option.name == option_name) {
         found_it = true;

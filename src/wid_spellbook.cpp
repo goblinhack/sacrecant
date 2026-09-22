@@ -3,7 +3,6 @@
 //
 
 #include "my_ascii.hpp"
-#include "my_bpoint.hpp"
 #include "my_callstack.hpp"
 #include "my_color_defs.hpp"
 #include "my_game.hpp"
@@ -18,10 +17,8 @@
 #include "my_sprintf.hpp"
 #include "my_string.hpp"
 #include "my_thing.hpp"
-#include "my_thing_callbacks.hpp"
 #include "my_thing_inlines.hpp" // NOLINT
 #include "my_tp.hpp"
-#include "my_tp_inlines.hpp"
 #include "my_types.hpp"
 #include "my_ui.hpp"
 #include "my_wid.hpp"
@@ -33,8 +30,6 @@
 #include <algorithm>
 #include <cstdint>
 #include <cstring>
-#include <map>
-#include <set>
 #include <string>
 #include <vector>
 
@@ -711,7 +706,7 @@ void wid_spellbook(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType fi
 
   {
     TRACE();
-    spoint const tl((TERM_WIDTH / 2) - left_half, TERM_HEIGHT / 2 - top_half + 1);
+    spoint const tl((TERM_WIDTH / 2) - left_half, (TERM_HEIGHT / 2) - top_half + 1);
     spoint const br((TERM_WIDTH / 2) + right_half - 1, tl.y + menu_height - 1);
 
     wid_spellbook_window = wid_new_window(g, "widget spellbook");

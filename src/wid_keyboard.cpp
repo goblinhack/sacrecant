@@ -20,10 +20,10 @@
 
 #include <SDL_keyboard.h>
 #include <SDL_keycode.h>
-#include <strings.h>
 #include <cstddef>
 #include <cstdint>
 #include <string>
+#include <strings.h>
 
 /*
  * How keys appear on screen

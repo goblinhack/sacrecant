@@ -12,8 +12,6 @@
 #include "my_tp.hpp"
 #include "my_types.hpp"
 
-#include <strings.h>
-#include <string.h>
 #include <algorithm>
 #include <cctype>
 #include <cerrno>
@@ -27,8 +25,9 @@
 #include <locale>
 #include <ranges>
 #include <sstream>
-#include <cstring>
+#include <string.h>
 #include <string>
+#include <strings.h>
 #include <utility>
 #include <vector>
 
