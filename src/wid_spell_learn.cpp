@@ -38,7 +38,7 @@
 #include <string>
 #include <vector>
 
-static Widp          wid_total;
+static Widp          wid_available_sp;
 static Widp          wid_spell_learn_window;
 static WidPopup     *wid_spell_learn_list;
 static WidPopup     *wid_spell_learn_learn_window;
@@ -72,7 +72,7 @@ static void wid_spell_learn_destroy(Gamep g)
     wid_destroy(g, &wid_spell_learn_window);
   }
 
-  wid_total          = nullptr;
+  wid_available_sp   = nullptr;
   wid_spell_upgrades = {};
 
   game_state_reset(g, "close spell window");
@@ -299,9 +299,9 @@ static void wid_player_update_spending(Gamep g, Levelsp v, Levelp l, Thingp play
   auto c    = string_sprintf("Avail:%d", avail);
   auto line = string_sprintf("%-30s%10s%10s", a.c_str(), b.c_str(), c.c_str());
 
-  wid_set_text_lhs(wid_total, 1u);
-  wid_set_text(wid_total, line);
-  wid_update(g, wid_total);
+  wid_set_text_lhs(wid_available_sp, 1u);
+  wid_set_text(wid_available_sp, line);
+  wid_update(g, wid_available_sp);
 }
 
 static void wid_player_update_spell_selections(Gamep g, Levelsp v, Levelp l, Thingp player)
@@ -1143,7 +1143,7 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType 
   //
   {
     TRACE();
-    auto *w = wid_new_bar_button(g, wid_spell_learn_window, "available SP");
+    auto *w = wid_new_bar_button(g, wid_spell_learn_window, "filter");
 
     spoint const tl(1, y_at + 1);
     spoint const br(button_width, y_at + button_height + 1);
@@ -1218,13 +1218,13 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType 
   //
   {
     TRACE();
-    wid_total = wid_new_bar_button(g, wid_spell_learn_window, "available SP");
+    wid_available_sp = wid_new_bar_button(g, wid_spell_learn_window, "available SP");
 
     spoint const tl(1, y_at);
     spoint const br(button_width, y_at + button_height);
-    wid_set_pos(wid_total, tl, br);
+    wid_set_pos(wid_available_sp, tl, br);
 
-    wid_set_text_lhs(wid_total, 1u);
+    wid_set_text_lhs(wid_available_sp, 1u);
     wid_player_update_spell_selections(g, v, l, player);
     wid_player_update_spending(g, v, l, player);
   }

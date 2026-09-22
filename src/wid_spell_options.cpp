@@ -109,6 +109,7 @@ static void wid_spell_options_mouse_over_end(Gamep g, Widp w)
   }
 
   wid_spell_options_destroy(g);
+  (void) sound_play(g, "select");
 
   (void) game_event_cast_spell(g, wid_spell_option_chosen, wid_get_string_context(w));
 

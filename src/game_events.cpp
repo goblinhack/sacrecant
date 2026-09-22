@@ -388,7 +388,7 @@
     return false;
   }
 
-  wid_spellbook_show(g, v, l, player);
+  wid_spellbook(g, v, l, player);
 
   return true;
 }
