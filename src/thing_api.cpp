@@ -3890,52 +3890,6 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   }
   return t->_value2 -= val;
 }
-[[nodiscard]] auto thing_value3(Thingp t) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-  return t->_value3;
-}
-
-[[nodiscard]] auto thing_value3_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-  return t->_value3 = val;
-}
-
-[[nodiscard]] auto thing_value3_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-  return t->_value3 += val;
-}
-
-[[nodiscard]] auto thing_value3_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-  if (static_cast< int >(t->_value3) - val <= 0) {
-    return t->_value3 = 0;
-  }
-  return t->_value3 -= val;
-}
 [[nodiscard]] auto thing_effect_radius(Gamep g, Levelsp v, Levelp l, Thingp t) -> int
 {
   TRACE_DEBUG();

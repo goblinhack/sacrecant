@@ -546,7 +546,7 @@ using Thing = struct Thing {
   int16_t _keys_carried;
   int16_t _value1;
   int16_t _value2;
-  int16_t _value3;
+  int16_t _mana_cost;
   int16_t _effect_radius;
   int16_t _spell_cost;
   int16_t _crit_roll;
@@ -741,6 +741,7 @@ using Thing = struct Thing {
 
 // begin sort marker1 {
 [[nodiscard]] auto astar_solve(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint src, bpoint dst) -> std::vector< bpoint >;
+[[nodiscard]] auto thing_mana_cost_for(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user) -> int;
 [[nodiscard]] auto thing_spell_cast_target(Gamep g, Levelsp v, Levelp l, ThingEventp e) -> bool;
 [[nodiscard]] auto thing_spellbook_is_learned_spell(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp owner) -> bool;
 [[nodiscard]] auto thing_spell_cast(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, const std::string &option_name) -> bool;
@@ -1503,10 +1504,10 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_value2_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_value2_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
 [[nodiscard]] auto thing_value2(Thingp t) -> int;
-[[nodiscard]] auto thing_value3_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
-[[nodiscard]] auto thing_value3_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
-[[nodiscard]] auto thing_value3_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
-[[nodiscard]] auto thing_value3(Thingp t) -> int;
+[[nodiscard]] auto thing_mana_cost_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
+[[nodiscard]] auto thing_mana_cost_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
+[[nodiscard]] auto thing_mana_cost_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
+[[nodiscard]] auto thing_mana_cost(Gamep g, Levelsp v, Levelp l, Thingp t) -> int;
 [[nodiscard]] auto thing_effect_radius_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_effect_radius_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_effect_radius_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;

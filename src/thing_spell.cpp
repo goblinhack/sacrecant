@@ -271,7 +271,7 @@ void thing_on_cast_request_set(Tpp tp, thing_on_cast_request_t callback)
   if (ok) {
     if (e.spell_info.spell_was_cast) {
       if (thing_is_player(user)) {
-        auto cost = thing_spell_cost(g, v, l, spell);
+        auto cost = thing_mana_cost(g, v, l, spell);
         auto name = thing_name_long(g, v, l, spell);
         (void) thing_mana_decr(g, v, l, user, cost);
         topcon("You spent %d mana on casting spell %s.", cost, name.c_str());

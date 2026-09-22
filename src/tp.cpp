@@ -1662,24 +1662,24 @@ void tp_value2_set(Tpp tp, int val)
   return tp->value2;
 }
 
-void tp_value3_set(Tpp tp, int val)
+void tp_mana_cost_set(Tpp tp, int val)
 {
   TRACE_DEBUG();
   if (tp == nullptr) [[unlikely]] {
     ERR("no thing template pointer");
     return;
   }
-  tp->value3 = val;
+  tp->mana_cost = val;
 }
 
-[[nodiscard]] auto tp_value3_get(Tpp tp) -> int
+[[nodiscard]] auto tp_mana_cost_get(Tpp tp) -> int
 {
   TRACE_DEBUG();
   if (tp == nullptr) [[unlikely]] {
     ERR("no thing template pointer");
     return 0;
   }
-  return tp->value3;
+  return tp->mana_cost;
 }
 
 void tp_effect_radius_set(Tpp tp, int val)

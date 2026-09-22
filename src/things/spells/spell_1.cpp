@@ -4,6 +4,7 @@
 
 #include "../../my_callstack.hpp"
 #include "../../my_main.hpp"
+#include "../../my_sprintf.hpp"
 #include "../../my_thing_callbacks.hpp"
 #include "../../my_thing_inlines.hpp"
 #include "../../my_tp.hpp"
@@ -20,10 +21,12 @@ static auto tp_spell_1_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::stri
 {
   TRACE();
 
+  auto s = string_sprintf("- %-*s%2d", UI_RIGHTBAR_WIDTH - 6, "Effect radius: ", thing_effect_radius(g, v, l, me));
   return                                                                                                         //
       UI_INFO1_FMT_STR "Conjure a devastating fireball, targeted at your enemies or radially around yourself.\n" //
-      UI_INFO2_FMT_STR "Effect radius: " UI_INFO1_FMT_STR
-      + std::to_string(thing_effect_radius(g, v, l, me));
+      UI_INFO2_FMT_STR "Can be upgraded in power and distance.\n"                                                //
+      UI_RESET_FMT
+      + s;
 }
 
 static bool tp_spell_1_on_cast_request(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, ThingEvent &e)
@@ -50,18 +53,21 @@ static bool tp_spell_1_on_cast_request(Gamep g, Levelsp v, Levelp l, Thingp spel
 
     THING_DBG(g, v, l, user, "got target");
     e.spell_info.spell_was_cast = true;
+    thing_sound_play(g, v, l, user, "spell");
     return true;
   }
 
   if (e.spell_info.option_name == option_2) {
     topcon("todo option 2");
     e.spell_info.spell_was_cast = true;
+    thing_sound_play(g, v, l, user, "spell");
     return true;
   }
 
   if (e.spell_info.option_name == option_3) {
     topcon("todo option 3");
     e.spell_info.spell_was_cast = true;
+    thing_sound_play(g, v, l, user, "spell");
     return true;
   }
 
@@ -116,10 +122,10 @@ static auto tp_spell_1_on_upgrade_do(Gamep g, Levelsp v, Levelp l, Thingp me, Tp
   thing_on_cast_request_set(tp, tp_spell_1_on_cast_request);
   tp_flag_set(tp, is_spell);
   tp_stat_set(tp, THING_STAT_ARCANA_FIRE, "11");
-  tp_flag_set(tp, is_unused_spell);
   tp_effect_radius_set(tp, 3);
   tp_flag_set(tp, is_loggable);
   tp_spell_cost_set(tp, 1);
+  tp_mana_cost_set(tp, 50);
   tp_name_long_set(tp, "fireball");
   // end sort marker1 }
 

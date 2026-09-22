@@ -1563,14 +1563,53 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
 //
 // Add spell cost
 //
-[[nodiscard]] static auto wid_thing_info_spell_cost(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, int /*width*/,
-                                                    bool /*title_allowed*/) -> bool
+[[nodiscard]] static auto wid_thing_info_spell_cost(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, int width, bool /*title_allowed*/)
+    -> bool
 {
   TRACE();
 
-  auto cost_str = string_sprintf(UI_INFO2_FMT_STR "Mana cost: " UI_INFO1_FMT_STR "%u", thing_spell_cost(g, v, l, me));
+  auto *player = thing_player(g);
+  if (player == nullptr) {
+    return false;
+  }
 
-  parent->log(g, cost_str, TEXT_FORMAT_LHS);
+  if (thing_spell_cost(g, v, l, me) != thing_spell_cost_for(g, v, l, me, player)) {
+    auto space = (width - 4) / 2;
+    auto line  = string_sprintf("- %-*s%*d",        //
+                                space, "Retail SP", //
+                                space, thing_spell_cost(g, v, l, me));
+    parent->log(g, line, TEXT_FORMAT_RHS);
+
+    line = string_sprintf("- %-*s%*d",     //
+                          space, "To you", //
+                          space, thing_spell_cost_for(g, v, l, me, player));
+    parent->log(g, UI_IMPORTANT_FMT_STR + line, TEXT_FORMAT_RHS);
+  } else {
+    auto space = (width - 4) / 2;
+    auto line  = string_sprintf("- %-*s%*d",         //
+                                space, "Spell cost", //
+                                space, thing_spell_cost(g, v, l, me));
+    parent->log(g, line, TEXT_FORMAT_RHS);
+  }
+
+  if (thing_mana_cost(g, v, l, me) != thing_mana_cost_for(g, v, l, me, player)) {
+    auto space = (width - 4) / 2;
+    auto line  = string_sprintf("- %-*s%*d",          //
+                                space, "Retail Mana", //
+                                space, thing_mana_cost(g, v, l, me));
+    parent->log(g, line, TEXT_FORMAT_RHS);
+
+    line = string_sprintf("- %-*s%*d",     //
+                          space, "To you", //
+                          space, thing_mana_cost_for(g, v, l, me, player));
+    parent->log(g, UI_IMPORTANT_FMT_STR + line, TEXT_FORMAT_RHS);
+  } else {
+    auto space = (width - 4) / 2;
+    auto line  = string_sprintf("- %-*s%*d",        //
+                                space, "Mana cost", //
+                                space, thing_mana_cost(g, v, l, me));
+    parent->log(g, line, TEXT_FORMAT_RHS);
+  }
 
   return true;
 }

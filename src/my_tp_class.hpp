@@ -157,7 +157,7 @@ public:
 
   int value1 {0};
   int value2 {0};
-  int value3 {0};
+  int mana_cost {0};
   int effect_radius {0};
   int spell_cost {0};
   int crit_roll {20};
