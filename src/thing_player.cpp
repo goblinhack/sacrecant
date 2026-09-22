@@ -186,11 +186,11 @@ void thing_player_init(Gamep g)
   TRACE_INDENT();
 
   switch (game_state(g)) {
-    case STATE_THROW_ITEM :
+    case STATE_CHOOSE_THROW_TARGET :
       {
         auto *player = thing_player(g);
         if (player != nullptr) {
-          auto *item = thing_find(g, v, g_thing_throw_id);
+          auto *item = thing_find(g, v, game_throw_id_get(g));
           if (item != nullptr) {
             if (! thing_throw_to(g, v, l, player, item, v->cursor_at)) {
               topcon(UI_WARN_FMT_STR "You failed to throw the item." UI_RESET_FMT);
@@ -199,6 +199,23 @@ void thing_player_init(Gamep g)
           }
         }
         game_state_reset(g, "finished throwing");
+      }
+      break;
+    case STATE_CHOOSE_SPELL_TARGET :
+      {
+        auto *player = thing_player(g);
+        if (player != nullptr) {
+          auto e = game_spell_cast_get(g);
+          if (e) {
+            e->spell_info.target     = v->cursor_at;
+            e->spell_info.target_set = true;
+            if (! thing_spell_cast_target(g, v, l, e)) {
+              topcon(UI_WARN_FMT_STR "You failed to cast the spell there." UI_RESET_FMT);
+              (void) sound_play(g, v, l, "error");
+            }
+          }
+        }
+        game_state_reset(g, "finished casting");
       }
       break;
     case STATE_PLAYING :
@@ -301,7 +318,8 @@ void thing_player_event_loop(Gamep g, Levelsp v, Levelp l)
 
   switch (game_state(g)) {
     case STATE_PLAYING :
-    case STATE_THROW_ITEM :
+    case STATE_CHOOSE_THROW_TARGET :
+    case STATE_CHOOSE_SPELL_TARGET :
       //
       // If the me pressed the mouse, we need to apply the current cursor path and start moving.
       //

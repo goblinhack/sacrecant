@@ -29,8 +29,6 @@
 #include <utility>
 #include <vector>
 
-ThingId g_thing_throw_id; // What we're throwing
-
 static Widp wid_throw_item_window;
 
 static Widp                  wid_shortcut[ THING_INVENTORY_MAX ];
@@ -50,7 +48,7 @@ static void wid_throw_item_destroy(Gamep g)
     wid_destroy(g, &wid_throw_item_window);
   }
 
-  g_thing_throw_id = 0;
+  game_throw_id_set(g, 0);
 }
 
 static void wid_throw_item_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
@@ -128,8 +126,8 @@ static void wid_throw_item_mouse_over_end(Gamep g, Widp w)
   topcon("Choose your target.");
   wid_throw_item_destroy(g);
 
-  g_thing_throw_id = item->id;
-  game_state_change(g, STATE_THROW_ITEM, "choose a target");
+  game_throw_id_set(g, item->id);
+  game_state_change(g, STATE_CHOOSE_THROW_TARGET, "choose a target");
 
   return true;
 }

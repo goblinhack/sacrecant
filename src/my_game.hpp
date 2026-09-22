@@ -14,30 +14,31 @@
 #include <vector>
 
 #define GAME_STATE_ENUM(list_macro)                                                                                                             \
-  CLANG_FORMAT_INDENT()                                                 /* dummy line for clang indentation fixup */                            \
-  list_macro(STATE_INIT, "STATE_INIT"),                                 /* newline */                                                           \
-      list_macro(STATE_MAIN_MENU, "STATE_MAIN_MENU"),                   /* newline */                                                           \
-      list_macro(STATE_GENERATING, "STATE_GENERATING"),                 /* newline */                                                           \
-      list_macro(STATE_GENERATED, "STATE_GENERATED"),                   /* newline */                                                           \
-      list_macro(STATE_PLAYING, "STATE_PLAYING"),                       /* newline */                                                           \
-      list_macro(STATE_LEVEL_SELECT_MENU, "STATE_LEVEL_SELECT_MENU"),   /* newline */                                                           \
-      list_macro(STATE_PLAYER_SELECT_MENU, "STATE_PLAYER_SELECT_MENU"), /* newline */                                                           \
-      list_macro(STATE_SPELL_LEARN_MENU, "STATE_SPELL_LEARN_MENU"),     /* newline */                                                           \
-      list_macro(STATE_SPELLBOOK_MENU, "STATE_SPELLBOOK_MENU"),         /* newline */                                                           \
-      list_macro(STATE_MOVE_WARNING_MENU, "STATE_MOVE_WARNING_MENU"),   /* newline */                                                           \
-      list_macro(STATE_QUITTING, "STATE_QUITTING"),                     /* newline */                                                           \
-      list_macro(STATE_KEYBOARD_MENU, "STATE_KEYBOARD_MENU"),           /* newline */                                                           \
-      list_macro(STATE_LOAD_MENU, "STATE_LOAD_MENU"),                   /* newline */                                                           \
-      list_macro(STATE_LOADED, "STATE_LOADED"),                         /* newline */                                                           \
-      list_macro(STATE_INVENTORY_MENU, "STATE_INVENTORY_MENU"),         /* newline */                                                           \
-      list_macro(STATE_COLLECT_MENU, "STATE_COLLECT_MENU"),             /* newline */                                                           \
-      list_macro(STATE_THROW_MENU, "STATE_THROW_MENU"),                 /* newline */                                                           \
-      list_macro(STATE_THROW_ITEM, "STATE_THROW_ITEM"),                 /* newline */                                                           \
-      list_macro(STATE_ITEM_MENU, "STATE_ITEM_MENU"),                   /* newline */                                                           \
-      list_macro(STATE_DEAD_MENU, "STATE_DEAD_MENU"),                   /* newline */                                                           \
-      list_macro(STATE_GAME_OVER_MENU, "STATE_GAME_OVER_MENU"),         /* newline */                                                           \
-      list_macro(STATE_SAVE_MENU, "STATE_SAVE_MENU"),                   /* newline */                                                           \
-      list_macro(STATE_QUIT_MENU, "STATE_QUIT_MENU"),                   /* newline */
+  CLANG_FORMAT_INDENT()                                                   /* dummy line for clang indentation fixup */                          \
+  list_macro(STATE_INIT, "STATE_INIT"),                                   /* newline */                                                         \
+      list_macro(STATE_MAIN_MENU, "STATE_MAIN_MENU"),                     /* newline */                                                         \
+      list_macro(STATE_GENERATING, "STATE_GENERATING"),                   /* newline */                                                         \
+      list_macro(STATE_GENERATED, "STATE_GENERATED"),                     /* newline */                                                         \
+      list_macro(STATE_PLAYING, "STATE_PLAYING"),                         /* newline */                                                         \
+      list_macro(STATE_LEVEL_SELECT_MENU, "STATE_LEVEL_SELECT_MENU"),     /* newline */                                                         \
+      list_macro(STATE_PLAYER_SELECT_MENU, "STATE_PLAYER_SELECT_MENU"),   /* newline */                                                         \
+      list_macro(STATE_SPELL_LEARN_MENU, "STATE_SPELL_LEARN_MENU"),       /* newline */                                                         \
+      list_macro(STATE_SPELLBOOK_MENU, "STATE_SPELLBOOK_MENU"),           /* newline */                                                         \
+      list_macro(STATE_MOVE_WARNING_MENU, "STATE_MOVE_WARNING_MENU"),     /* newline */                                                         \
+      list_macro(STATE_QUITTING, "STATE_QUITTING"),                       /* newline */                                                         \
+      list_macro(STATE_KEYBOARD_MENU, "STATE_KEYBOARD_MENU"),             /* newline */                                                         \
+      list_macro(STATE_LOAD_MENU, "STATE_LOAD_MENU"),                     /* newline */                                                         \
+      list_macro(STATE_LOADED, "STATE_LOADED"),                           /* newline */                                                         \
+      list_macro(STATE_INVENTORY_MENU, "STATE_INVENTORY_MENU"),           /* newline */                                                         \
+      list_macro(STATE_COLLECT_MENU, "STATE_COLLECT_MENU"),               /* newline */                                                         \
+      list_macro(STATE_THROW_MENU, "STATE_THROW_MENU"),                   /* newline */                                                         \
+      list_macro(STATE_CHOOSE_THROW_TARGET, "STATE_CHOOSE_THROW_TARGET"), /* newline */                                                         \
+      list_macro(STATE_CHOOSE_SPELL_TARGET, "STATE_CHOOSE_SPELL_TARGET"), /* newline */                                                         \
+      list_macro(STATE_ITEM_MENU, "STATE_ITEM_MENU"),                     /* newline */                                                         \
+      list_macro(STATE_DEAD_MENU, "STATE_DEAD_MENU"),                     /* newline */                                                         \
+      list_macro(STATE_GAME_OVER_MENU, "STATE_GAME_OVER_MENU"),           /* newline */                                                         \
+      list_macro(STATE_SAVE_MENU, "STATE_SAVE_MENU"),                     /* newline */                                                         \
+      list_macro(STATE_QUIT_MENU, "STATE_QUIT_MENU"),                     /* newline */
 
 ENUM_DEF_H(GAME_STATE_ENUM, GameStateType)
 
@@ -401,6 +402,12 @@ void               game_boost_mouse_over_currently_set(Gamep g, Thingp t);
 [[nodiscard]] auto game_mouse_over_player_get(Gamep g) -> Thingp;
 void               game_mouse_over_player_set(Gamep g, Thingp t);
 
+[[nodiscard]] auto game_throw_id_get(Gamep g) -> ThingId;
+void               game_throw_id_set(Gamep g, ThingId id);
+
+[[nodiscard]] auto game_spell_cast_get(Gamep g) -> ThingEventp;
+void               game_spell_cast_set(Gamep g, ThingEvent);
+
 [[nodiscard]] auto game_is_new_highest_hiscore(Gamep g, uint32_t score) -> bool;
 [[nodiscard]] auto game_is_new_hiscore(Gamep g, uint32_t score) -> bool;
 [[nodiscard]] auto game_wait_for_tick_to_finish(Gamep g, Levelsp v, Levelp l) -> bool;
@@ -411,7 +418,7 @@ void               game_mouse_over_player_set(Gamep g, Thingp t);
 [[nodiscard]] auto game_event_learn(Gamep g) -> bool;
 [[nodiscard]] auto game_event_cast(Gamep g) -> bool;
 [[nodiscard]] auto game_event_cast_spell_default(Gamep g, int index) -> bool;
-[[nodiscard]] auto game_event_cast_spell(Gamep g, Thingp spell, int option) -> bool;
+[[nodiscard]] auto game_event_cast_spell(Gamep g, Thingp spell, const std::string &option_name) -> bool;
 [[nodiscard]] auto game_event_load(Gamep g) -> bool;
 [[nodiscard]] auto game_event_quit(Gamep g) -> bool;
 [[nodiscard]] auto game_event_save(Gamep g) -> bool;

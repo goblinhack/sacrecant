@@ -103,6 +103,4 @@ auto wid_topcon_log(const std::string &s) -> void;
 //
 enum { WID_PULSE_ANIM_MS = 1500 };
 
-extern ThingId g_thing_throw_id; // What we're throwing
-
 #endif

@@ -91,6 +91,7 @@
       case THING_EVENT_MELEE_DAMAGE :     [[fallthrough]];
       case THING_EVENT_POISON_DAMAGE :    [[fallthrough]];
       case THING_EVENT_ENGULF_DAMAGE :    [[fallthrough]];
+      case THING_EVENT_SPELL_DAMAGE :     [[fallthrough]];
       case THING_EVENT_EXPLOSION_DAMAGE : [[fallthrough]];
       case THING_EVENT_FIRE_DAMAGE :      [[fallthrough]];
       case THING_EVENT_WATER_DAMAGE : //
@@ -259,6 +260,20 @@
 }
 
 //
+// Add spell cost
+//
+[[nodiscard]] auto wid_tp_info_spell_cost(Gamep g, Levelsp v, Levelp l, Tpp me, WidPopup *parent, int width, bool title_allowed) -> bool
+{
+  TRACE();
+
+  auto cost_str = string_sprintf(UI_INFO2_FMT_STR "Mana cost " UI_INFO1_FMT_STR "%u", tp_spell_cost_get(me));
+
+  parent->log(g, cost_str, TEXT_FORMAT_LHS);
+
+  return true;
+}
+
+//
 // Add immunities
 //
 [[nodiscard]] static auto wid_tp_info_immunity(Gamep g, Tpp me, WidPopup *parent) -> bool
@@ -284,6 +299,7 @@
       case THING_EVENT_POISON_DAMAGE :    [[fallthrough]];
       case THING_EVENT_ENGULF_DAMAGE :    [[fallthrough]];
       case THING_EVENT_EXPLOSION_DAMAGE : [[fallthrough]];
+      case THING_EVENT_SPELL_DAMAGE :     [[fallthrough]];
       case THING_EVENT_FIRE_DAMAGE :      [[fallthrough]];
       case THING_EVENT_WATER_DAMAGE : //
         show_string = true;
@@ -349,6 +365,7 @@
       case THING_EVENT_POISON_DAMAGE :    [[fallthrough]];
       case THING_EVENT_ENGULF_DAMAGE :    [[fallthrough]];
       case THING_EVENT_THROWN_DAMAGE :    [[fallthrough]];
+      case THING_EVENT_SPELL_DAMAGE :     [[fallthrough]];
       case THING_EVENT_EXPLOSION_DAMAGE : [[fallthrough]];
       case THING_EVENT_FIRE_DAMAGE :      [[fallthrough]];
       case THING_EVENT_WATER_DAMAGE : //
@@ -427,6 +444,10 @@ void wid_tp_info(Gamep g, Levelsp v, Levelp l, Tpp me, WidPopup *parent, int wid
   }
 
   if (wid_tp_info_spell_upgrades(g, v, l, me, parent, width, true /* title allowed */)) {
+    parent->log_empty_line(g);
+  }
+
+  if (wid_tp_info_spell_cost(g, v, l, me, parent, width, true /* title allowed */)) {
     parent->log_empty_line(g);
   }
 

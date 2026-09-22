@@ -141,6 +141,9 @@
     case THING_EVENT_ENGULF_DAMAGE : //
       s += "digested";
       break;
+    case THING_EVENT_SPELL_DAMAGE : //
+      s += "blasted to bits";
+      break;
     case THING_EVENT_POISON_DAMAGE : //
       s += "poisoned";
       break;

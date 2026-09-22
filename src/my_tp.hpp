@@ -601,6 +601,7 @@ ENUM_DEF_H(THING_ANIM_ENUM, ThingAnimType)
       list_macro(THING_EVENT_WATER_DAMAGE, "water-damage"),          /* newline */                                                              \
       list_macro(THING_EVENT_CRUSH_DAMAGE, "crush-damage"),          /* newline */                                                              \
       list_macro(THING_EVENT_FALL, "fall-damage"),                   /* newline */                                                              \
+      list_macro(THING_EVENT_SPELL_DAMAGE, "spell-damage"),          /* newline */                                                              \
       list_macro(THING_EVENT_EXPLOSION_DAMAGE, "explosion-damage"),  /* newline */                                                              \
       list_macro(THING_EVENT_USER_INITIATED, "user-initiated"),      /* newline */                                                              \
       list_macro(THING_EVENT_LIFESPAN_EXPIRED, "lifespan-expired"),  /* newline */                                                              \

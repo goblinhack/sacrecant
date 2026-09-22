@@ -295,8 +295,8 @@ static Thingp g_item;
 
   (void) wid_item_menu_destroy();
 
-  g_thing_throw_id = item->id;
-  game_state_change(g, STATE_THROW_ITEM, "choose a target");
+  game_throw_id_set(g, item->id);
+  game_state_change(g, STATE_CHOOSE_THROW_TARGET, "choose a target");
 
   return true;
 }

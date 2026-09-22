@@ -39,6 +39,7 @@ static bool tp_sac_glass_bones_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me
     case THING_EVENT_POISON_DAMAGE : [[fallthrough]];
     case THING_EVENT_CRUSH_DAMAGE :  [[fallthrough]];
     case THING_EVENT_MELEE_DAMAGE :  [[fallthrough]];
+    case THING_EVENT_SPELL_DAMAGE :  [[fallthrough]];
     case THING_EVENT_EXPLOSION_DAMAGE :
       THING_DBG(g, v, l, owner, "receive double damage %d->%d", e.damage, e.damage * 2);
       e.damage *= 2;

@@ -331,6 +331,16 @@ public:
   Thingp player_mouse_over_currently {};
 
   //
+  // What we're throwing
+  //
+  ThingId throw_id {};
+
+  //
+  // What we're casting while targeting
+  //
+  ThingEvent spell_cast {};
+
+  //
   // Which sacrifices were selected
   //
   Thingp                   sacrifice_prev_cand {};
@@ -386,7 +396,6 @@ public:
   void init();
   void load_select();
   void player_name_set(const char *player_name);
-  void popup_cleanup();
   void popup_text_add(spoint p, const std::string &);
   void seed_clear();
   void seed_set(const char *seed = nullptr);
@@ -680,6 +689,24 @@ void Game::cleanup()
   }
 
   wid_console_clear(this);
+
+  request_to_remake_ui       = {};
+  request_to_save_game       = {};
+  request_to_update_cursor   = {};
+  request_reached_exit       = {};
+  request_reached_entrance   = {};
+  request_to_end_game        = {};
+  request_to_end_game_reason = {};
+
+  game_player_clear(this);
+  game_sacrifice_clear(this);
+  game_spell_clear(this);
+  game_boost_clear(this);
+
+  hook_sort_order = {};
+
+  throw_id   = {};
+  spell_cast = {};
 }
 void game_cleanup(Gamep g)
 {
@@ -1175,7 +1202,8 @@ void Game::state_change(GameStateType new_state, const std::string &why)
       //
       game_request_to_update_cursor_set(g);
       break;
-    case STATE_THROW_ITEM :
+    case STATE_CHOOSE_THROW_TARGET :
+    case STATE_CHOOSE_SPELL_TARGET :
       //
       // After a window closes, and we transition back to playing state,
       // the cursor is missing. We need to recreate it.
@@ -1233,7 +1261,8 @@ void Game::state_change(GameStateType new_state, const std::string &why)
       break;
     case STATE_LEVEL_SELECT_MENU : [[fallthrough]];
     case STATE_PLAYING :           [[fallthrough]];
-    case STATE_THROW_ITEM :
+    case STATE_CHOOSE_SPELL_TARGET :
+    case STATE_CHOOSE_THROW_TARGET :
       //
       // When we transition back to playing, we need to update for the time spent in
       // another state not updating the frame counter.
@@ -1250,18 +1279,19 @@ void Game::state_change(GameStateType new_state, const std::string &why)
           game_map_zoom_update(g);
           thing_player_init(g);
           break;
-        case STATE_QUIT_MENU :         [[fallthrough]];
-        case STATE_MOVE_WARNING_MENU : [[fallthrough]];
-        case STATE_LOAD_MENU :         [[fallthrough]];
-        case STATE_SAVE_MENU :         [[fallthrough]];
-        case STATE_KEYBOARD_MENU :     [[fallthrough]];
-        case STATE_MAIN_MENU :         [[fallthrough]];
-        case STATE_COLLECT_MENU :      [[fallthrough]];
-        case STATE_THROW_ITEM :        [[fallthrough]];
-        case STATE_THROW_MENU :        [[fallthrough]];
-        case STATE_SPELLBOOK_MENU :    [[fallthrough]];
-        case STATE_INVENTORY_MENU :    [[fallthrough]];
-        case STATE_SPELL_LEARN_MENU :  [[fallthrough]];
+        case STATE_QUIT_MENU :           [[fallthrough]];
+        case STATE_MOVE_WARNING_MENU :   [[fallthrough]];
+        case STATE_LOAD_MENU :           [[fallthrough]];
+        case STATE_SAVE_MENU :           [[fallthrough]];
+        case STATE_KEYBOARD_MENU :       [[fallthrough]];
+        case STATE_MAIN_MENU :           [[fallthrough]];
+        case STATE_COLLECT_MENU :        [[fallthrough]];
+        case STATE_CHOOSE_THROW_TARGET : [[fallthrough]];
+        case STATE_CHOOSE_SPELL_TARGET : [[fallthrough]];
+        case STATE_THROW_MENU :          [[fallthrough]];
+        case STATE_SPELLBOOK_MENU :      [[fallthrough]];
+        case STATE_INVENTORY_MENU :      [[fallthrough]];
+        case STATE_SPELL_LEARN_MENU :    [[fallthrough]];
         case STATE_ITEM_MENU :
           (void) wid_leftbar_init(g);
           (void) wid_rightbar_init(g);
@@ -1341,12 +1371,13 @@ void Game::handle_game_request_to_remake_ui()
   auto *v = game_levels_get(g);
 
   switch (state) {
-    case STATE_SPELL_LEARN_MENU : [[fallthrough]];
-    case STATE_COLLECT_MENU :     [[fallthrough]];
-    case STATE_THROW_ITEM :       [[fallthrough]];
-    case STATE_THROW_MENU :       [[fallthrough]];
-    case STATE_INVENTORY_MENU :   [[fallthrough]];
-    case STATE_SPELLBOOK_MENU :   [[fallthrough]];
+    case STATE_SPELL_LEARN_MENU :    [[fallthrough]];
+    case STATE_COLLECT_MENU :        [[fallthrough]];
+    case STATE_CHOOSE_THROW_TARGET : [[fallthrough]];
+    case STATE_CHOOSE_SPELL_TARGET : [[fallthrough]];
+    case STATE_THROW_MENU :          [[fallthrough]];
+    case STATE_INVENTORY_MENU :      [[fallthrough]];
+    case STATE_SPELLBOOK_MENU :      [[fallthrough]];
     case STATE_PLAYER_SELECT_MENU :
       if (v != nullptr) {
         (void) wid_leftbar_init(g);
@@ -1409,28 +1440,29 @@ void Game::tick()
         // so need to allow ticking to complete
         //
         [[fallthrough]];
-      case STATE_PLAYING :            levels_tick(g, v); break;
-      case STATE_PLAYER_SELECT_MENU : [[fallthrough]]; ;
-      case STATE_LEVEL_SELECT_MENU :  [[fallthrough]];
-      case STATE_INIT :               [[fallthrough]];
-      case STATE_MAIN_MENU :          [[fallthrough]];
-      case STATE_QUITTING :           [[fallthrough]];
-      case STATE_MOVE_WARNING_MENU :  [[fallthrough]];
-      case STATE_KEYBOARD_MENU :      [[fallthrough]];
-      case STATE_LOAD_MENU :          [[fallthrough]];
-      case STATE_LOADED :             [[fallthrough]];
-      case STATE_SAVE_MENU :          [[fallthrough]];
-      case STATE_QUIT_MENU :          [[fallthrough]];
-      case STATE_INVENTORY_MENU :     [[fallthrough]];
-      case STATE_SPELL_LEARN_MENU :   [[fallthrough]];
-      case STATE_SPELLBOOK_MENU :     [[fallthrough]];
-      case STATE_COLLECT_MENU :       [[fallthrough]];
-      case STATE_THROW_MENU :         [[fallthrough]];
-      case STATE_THROW_ITEM :         [[fallthrough]];
-      case STATE_ITEM_MENU :          [[fallthrough]];
-      case STATE_GENERATING :         [[fallthrough]];
-      case STATE_GENERATED :          [[fallthrough]];
-      case GAME_STATE_ENUM_MAX :      break;
+      case STATE_PLAYING :             levels_tick(g, v); break;
+      case STATE_PLAYER_SELECT_MENU :  [[fallthrough]]; ;
+      case STATE_LEVEL_SELECT_MENU :   [[fallthrough]];
+      case STATE_INIT :                [[fallthrough]];
+      case STATE_MAIN_MENU :           [[fallthrough]];
+      case STATE_QUITTING :            [[fallthrough]];
+      case STATE_MOVE_WARNING_MENU :   [[fallthrough]];
+      case STATE_KEYBOARD_MENU :       [[fallthrough]];
+      case STATE_LOAD_MENU :           [[fallthrough]];
+      case STATE_LOADED :              [[fallthrough]];
+      case STATE_SAVE_MENU :           [[fallthrough]];
+      case STATE_QUIT_MENU :           [[fallthrough]];
+      case STATE_INVENTORY_MENU :      [[fallthrough]];
+      case STATE_SPELL_LEARN_MENU :    [[fallthrough]];
+      case STATE_SPELLBOOK_MENU :      [[fallthrough]];
+      case STATE_COLLECT_MENU :        [[fallthrough]];
+      case STATE_THROW_MENU :          [[fallthrough]];
+      case STATE_CHOOSE_THROW_TARGET : [[fallthrough]];
+      case STATE_CHOOSE_SPELL_TARGET : [[fallthrough]];
+      case STATE_ITEM_MENU :           [[fallthrough]];
+      case STATE_GENERATING :          [[fallthrough]];
+      case STATE_GENERATED :           [[fallthrough]];
+      case GAME_STATE_ENUM_MAX :       break;
     }
   }
 
@@ -1555,9 +1587,10 @@ void Game::display()
       //
       // Needed else we can't see the level select things
       //
-    case STATE_THROW_ITEM : [[fallthrough]];
-    case STATE_PLAYING :    [[fallthrough]];
-    case STATE_DEAD_MENU :  [[fallthrough]];
+    case STATE_CHOOSE_THROW_TARGET : [[fallthrough]];
+    case STATE_CHOOSE_SPELL_TARGET : [[fallthrough]];
+    case STATE_PLAYING :             [[fallthrough]];
+    case STATE_DEAD_MENU :           [[fallthrough]];
     case STATE_GAME_OVER_MENU :
       level_mouse_position_get(g, v, l);
       level_display(g, v, l);
@@ -4375,4 +4408,49 @@ void game_request_to_end_game_reason_set(Gamep g, const std::string &val)
     return;
   }
   g->request_to_end_game_reason = val;
+}
+
+[[nodiscard]] auto game_throw_id_get(Gamep g) -> ThingId
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return 0;
+  }
+
+  return g->throw_id;
+}
+void game_throw_id_set(Gamep g, ThingId id)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->throw_id = id;
+}
+
+[[nodiscard]] auto game_spell_cast_get(Gamep g) -> ThingEventp
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return nullptr;
+  }
+
+  return &g->spell_cast;
+}
+void game_spell_cast_set(Gamep g, ThingEvent e)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+
+  g->spell_cast = e;
 }

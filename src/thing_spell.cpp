@@ -10,21 +10,81 @@
 #include "my_tp_inlines.hpp"
 #include "my_types.hpp"
 
-auto thing_spell_cast(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, int option) -> bool
+auto thing_spell_cast(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, const std::string &option_name) -> bool
 {
   TRACE();
 
-  topcon("todo cast spell %s option %d", thing_name_short(g, v, l, spell).c_str(), option);
-  auto options = tp_spell_options_get(thing_tp(spell));
-  if (option) {
-    if (option >= (int) options.size()) {
+  if (option_name.empty()) {
+    //
+    // Default option
+    //
+  } else {
+    //
+    // Check the option exists
+    //
+    bool found_it {};
+
+    for (auto o : tp_spell_options_get(thing_tp(spell))) {
+      auto option = o.second;
+      if (option.name == option_name) {
+        found_it = true;
+        break;
+      }
+    }
+
+    if (! found_it) {
+      thing_err(g, v, l, spell, "spell option %s not found", option_name.c_str());
       return false;
     }
   }
 
-  ThingEvent e        = {};
-  e.event_int_context = option;
+  ThingEvent e             = {};
+  e.event_type             = THING_EVENT_SPELL_DAMAGE;
+  e.source                 = user;
+  e.spell_info.spell       = spell;
+  e.spell_info.option_name = option_name;
+
+  if (option_name.empty()) {
+    THING_DBG(g, v, l, user, "casting (default option)");
+  } else {
+    THING_DBG(g, v, l, user, "casting (option %s)", option_name.c_str());
+  }
+  TRACE_INDENT();
+  THING_DBG(g, v, l, spell, "this");
+
   return thing_on_cast_request(g, v, l, spell, user, e);
+}
+
+auto thing_spell_cast_target(Gamep g, Levelsp v, Levelp l, ThingEventp e) -> bool
+{
+  TRACE();
+
+  if (! e) {
+    return false;
+  }
+
+  auto spell = e->spell_info.spell;
+  if (! spell) {
+    err("cannot cast spell, none set");
+    return false;
+  }
+
+  auto user = e->source;
+  if (! user) {
+    thing_err(g, v, l, spell, "cannot cast spell, no caster");
+    return false;
+  }
+
+  if (! e->spell_info.target_set) {
+    thing_err(g, v, l, user, "cannot cast spell, no target set");
+    return false;
+  }
+
+  THING_DBG(g, v, l, user, "casting at %d,%d (option %s)", e->spell_info.target.x, e->spell_info.target.y, e->spell_info.option_name.c_str());
+  TRACE_INDENT();
+  THING_DBG(g, v, l, spell, "this");
+
+  return thing_on_cast_request(g, v, l, spell, user, *e);
 }
 
 auto thing_spell_arcana(Gamep g, Levelsp v, Levelp l, Thingp me) -> ThingStatType
@@ -60,7 +120,7 @@ auto thing_spell_cost_for(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp use
     return 0;
   }
 
-  auto cost   = thing_spell_cost(spell);
+  auto cost   = thing_spell_cost(g, v, l, spell);
   auto arcana = thing_spell_arcana(g, v, l, spell);
 
   switch (thing_stat_mod(g, v, l, user, arcana)) {
@@ -128,7 +188,7 @@ auto thing_spell_cost_for(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp use
   return cost;
 }
 
-[[nodiscard]] auto thing_spell_cost(Thingp t) -> int
+[[nodiscard]] auto thing_spell_cost(Gamep g, Levelsp v, Levelp l, Thingp t) -> int
 {
   TRACE_DEBUG();
 
@@ -185,10 +245,11 @@ void thing_on_cast_request_set(Tpp tp, thing_on_cast_request_t callback)
   tp->on_cast_request = callback;
 }
 
-[[nodiscard]] auto thing_on_cast_request(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp user, ThingEvent &e) -> bool
+[[nodiscard]] auto thing_on_cast_request(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, ThingEvent &e) -> bool
 {
   TRACE();
-  auto *tp = thing_tp(item);
+
+  auto *tp = thing_tp(spell);
   if (tp == nullptr) [[unlikely]] {
     ERR("no thing template pointer");
     return false;
@@ -202,5 +263,20 @@ void thing_on_cast_request_set(Tpp tp, thing_on_cast_request_t callback)
     thing_err(g, v, l, user, "unexpected thing for %s", __FUNCTION__);
     return false;
   }
-  return tp->on_cast_request(g, v, l, item, user, e);
+
+  auto ok = tp->on_cast_request(g, v, l, spell, user, e);
+
+  if (ok) {
+    if (e.spell_info.spell_was_cast) {
+      if (thing_is_player(user)) {
+        auto cost = thing_spell_cost(g, v, l, spell);
+        auto name = thing_name_long(g, v, l, spell);
+        (void) thing_mana_decr(g, v, l, user, cost);
+        topcon("You spent %d mana on casting spell %s.", cost, name.c_str());
+        (void) level_tick_begin_requested(g, v, l, "player cast a spell");
+      }
+    }
+  }
+
+  return ok;
 }

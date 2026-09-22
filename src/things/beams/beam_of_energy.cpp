@@ -20,7 +20,7 @@ static void tp_beam_of_energy_on_spawned(Gamep g, Levelsp v, Levelp l, Thingp me
   // Only create sound for the first particle
   //
   if (e_maybe_null) {
-    if (! e_maybe_null->event_int_context) {
+    if (! e_maybe_null->missile_index) {
       thing_sound_play(g, v, l, me, "beam_weapon");
     }
   }

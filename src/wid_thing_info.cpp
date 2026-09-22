@@ -996,6 +996,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
       case THING_EVENT_POISON_DAMAGE :    [[fallthrough]];
       case THING_EVENT_ENGULF_DAMAGE :    [[fallthrough]];
       case THING_EVENT_EXPLOSION_DAMAGE : [[fallthrough]];
+      case THING_EVENT_SPELL_DAMAGE :     [[fallthrough]];
       case THING_EVENT_FIRE_DAMAGE :      [[fallthrough]];
       case THING_EVENT_WATER_DAMAGE : //
         show_string = true;
@@ -1560,6 +1561,20 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
 }
 
 //
+// Add spell cost
+//
+[[nodiscard]] auto wid_thing_info_spell_cost(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, int width, bool title_allowed) -> bool
+{
+  TRACE();
+
+  auto cost_str = string_sprintf(UI_INFO2_FMT_STR "Mana cost: " UI_INFO1_FMT_STR "%u", thing_spell_cost(g, v, l, me));
+
+  parent->log(g, cost_str, TEXT_FORMAT_LHS);
+
+  return true;
+}
+
+//
 // Add resistances
 //
 [[nodiscard]] auto wid_thing_info_resistance(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, int /*width*/) -> bool
@@ -1584,6 +1599,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
       case THING_EVENT_POISON_DAMAGE :    [[fallthrough]];
       case THING_EVENT_THROWN_DAMAGE :    [[fallthrough]];
       case THING_EVENT_ENGULF_DAMAGE :    [[fallthrough]];
+      case THING_EVENT_SPELL_DAMAGE :     [[fallthrough]];
       case THING_EVENT_EXPLOSION_DAMAGE : [[fallthrough]];
       case THING_EVENT_FIRE_DAMAGE :      [[fallthrough]];
       case THING_EVENT_WATER_DAMAGE : //
@@ -1651,6 +1667,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
       case THING_EVENT_THROWN_DAMAGE :    [[fallthrough]];
       case THING_EVENT_ENGULF_DAMAGE :    [[fallthrough]];
       case THING_EVENT_EXPLOSION_DAMAGE : [[fallthrough]];
+      case THING_EVENT_SPELL_DAMAGE :     [[fallthrough]];
       case THING_EVENT_FIRE_DAMAGE :      [[fallthrough]];
       case THING_EVENT_WATER_DAMAGE : //
         show_string = true;
@@ -2460,7 +2477,9 @@ void wid_thing_info(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, i
     }
   } else {
     if (wid_thing_info_detail(g, v, l, me, parent)) {
-      parent->log_empty_line(g);
+      if (! thing_is_spell(me)) {
+        parent->log_empty_line(g);
+      }
     }
   }
 
@@ -2474,7 +2493,9 @@ void wid_thing_info(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, i
 
   if (wid_thing_info_stealth_bar(g, v, l, me, tp, parent, width)) {}
 
-  parent->log_empty_line(g);
+  if (! thing_is_spell(me)) {
+    parent->log_empty_line(g);
+  }
 
   if (wid_thing_info_buffs(g, v, l, me, parent)) {
     parent->log_empty_line(g);
@@ -2570,9 +2591,10 @@ void wid_thing_info(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, i
     // Keep it terse
     //
   } else if (thing_is_spell(me)) {
-    //
-    // Items can have immunities and the like
-    //
+    if (wid_thing_info_spell_cost(g, v, l, me, parent, width, true /* title allowed */)) {
+      parent->log_empty_line(g);
+    }
+
     if (wid_thing_info_spell_stats(g, v, l, me, parent, width)) {}
 
     if (wid_tp_info_damage(g, v, l, tp, parent, width, true /* title allowed */)) {

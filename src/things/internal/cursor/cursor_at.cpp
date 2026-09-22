@@ -32,20 +32,36 @@ static auto tp_cursor_at_display_get_tile_info(Gamep g, Levelsp v, Levelp l, con
   }
 
   //
-  // Not seen this tile?
-  //
-  if (! level_has_seen(g, v, l, p)) {
-    return tile;
-  }
-
-  //
   // Targeting?
   //
-  if (game_state(g) == STATE_THROW_ITEM) {
+  if (game_state(g) == STATE_CHOOSE_THROW_TARGET) {
     if (distance(p, thing_at(g, v, l, player)) > thing_distance_throw(g, v, l, player)) {
       return tp_tiles_get(tp, THING_ANIM_CURSOR_TARGET_OUT_OF_RANGE, 0);
     }
     return tp_tiles_get(tp, THING_ANIM_CURSOR_TARGET, 0);
+  }
+
+  //
+  // Spell targeting
+  //
+  if (game_state(g) == STATE_CHOOSE_SPELL_TARGET) {
+    auto e = game_spell_cast_get(g);
+    if (e) {
+      auto spell = e->spell_info.spell;
+      if (spell) {
+        if (distance(p, thing_at(g, v, l, player)) > thing_effect_radius(g, v, l, spell)) {
+          return tp_tiles_get(tp, THING_ANIM_CURSOR_TARGET_OUT_OF_RANGE, 0);
+        }
+        return tp_tiles_get(tp, THING_ANIM_CURSOR_TARGET, 0);
+      }
+    }
+  }
+
+  //
+  // Not seen this tile?
+  //
+  if (! level_has_seen(g, v, l, p)) {
+    return tile;
   }
 
   //

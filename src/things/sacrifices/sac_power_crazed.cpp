@@ -42,6 +42,7 @@ static bool tp_sac_power_crazed_on_damage(Gamep g, Levelsp v, Levelp l, Thingp m
     case THING_EVENT_POISON_DAMAGE : [[fallthrough]];
     case THING_EVENT_CRUSH_DAMAGE :  [[fallthrough]];
     case THING_EVENT_MELEE_DAMAGE :  [[fallthrough]];
+    case THING_EVENT_SPELL_DAMAGE :  [[fallthrough]];
     case THING_EVENT_EXPLOSION_DAMAGE :
       THING_DBG(g, v, l, owner, "receive quad damage %d->%d", e.damage, e.damage * 4);
       e.damage *= 4;

@@ -100,6 +100,32 @@ ENUM_DEF_H(PLAYER_STATE_ENUM, PlayerStateType)
 ENUM_DEF_H(MONST_STATE_ENUM, MonstState)
 
 //
+// Spell container
+//
+using ThingSpell = struct ThingSpell {
+  //
+  // The spell
+  //
+  Thingp spell {};
+  //
+  // Which spell sub option?
+  //
+  std::string option_name {};
+  //
+  // Where to target the spell
+  //
+  bpoint target {};
+  //
+  // Optional
+  //
+  bool target_set {};
+  //
+  // Indicates successful casting
+  //
+  bool spell_was_cast {};
+};
+
+//
 // Some kind of event that befalls a thing. Usually an attack
 //
 using ThingEvent = struct ThingEvent {
@@ -116,10 +142,6 @@ using ThingEvent = struct ThingEvent {
   //
   int damage {};
   //
-  // Some data we want to pass to the thing on spawn.
-  //
-  int event_int_context {};
-  //
   // Whodunnit?
   //
   Thingp source = nullptr;
@@ -127,6 +149,14 @@ using ThingEvent = struct ThingEvent {
   // Optional, might be set when the thing chooses an attack
   //
   TpSpecialAttack special_attack = {};
+  //
+  // For casting spells
+  //
+  ThingSpell spell_info {};
+  //
+  // Some data we want to pass to the thing on spawn.
+  //
+  uint8_t missile_index {};
   //
   // Additional attack information
   //
@@ -711,8 +741,9 @@ using Thing = struct Thing {
 
 // begin sort marker1 {
 [[nodiscard]] auto astar_solve(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint src, bpoint dst) -> std::vector< bpoint >;
+[[nodiscard]] auto thing_spell_cast_target(Gamep g, Levelsp v, Levelp l, ThingEventp e) -> bool;
 [[nodiscard]] auto thing_spellbook_is_learned_spell(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp owner) -> bool;
-[[nodiscard]] auto thing_spell_cast(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, int o) -> bool;
+[[nodiscard]] auto thing_spell_cast(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, const std::string &option_name) -> bool;
 [[nodiscard]] auto thing_is_upgradable(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_upgradable(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade u) -> bool;
 [[nodiscard]] auto thing_spellbook_get_spell_n(Gamep g, Levelsp v, Levelp l, Thingp owner, int index) -> Thingp;
@@ -1483,7 +1514,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_spell_cost_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_spell_cost_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_spell_cost_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
-[[nodiscard]] auto thing_spell_cost(Thingp t) -> int;
+[[nodiscard]] auto thing_spell_cost(Gamep g, Levelsp v, Levelp l, Thingp t) -> int;
 [[nodiscard]] auto thing_crit_roll_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
 [[nodiscard]] auto thing_crit_roll_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
 [[nodiscard]] auto thing_crit_roll_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int;
@@ -1523,6 +1554,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto wid_tp_info_special_attacks(Gamep g, Levelsp v, Levelp l, Tpp me, WidPopup *parent, int width, bool title_allowed) -> bool;
 [[nodiscard]] auto wid_tp_info_spell_options(Gamep g, Levelsp v, Levelp l, Tpp me, WidPopup *parent, int width, bool title_allowed) -> bool;
 [[nodiscard]] auto wid_tp_info_spell_upgrades(Gamep g, Levelsp v, Levelp l, Tpp me, WidPopup *parent, int width, bool title_allowed) -> bool;
+[[nodiscard]] auto wid_tp_info_spell_cost(Gamep g, Levelsp v, Levelp l, Tpp me, WidPopup *parent, int width, bool title_allowed) -> bool;
 [[nodiscard]] auto thing_special_attack_get_all(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::vector< TpSpecialAttack >;
 // end sort marker1 }
 

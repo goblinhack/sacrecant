@@ -32,16 +32,6 @@ static auto tp_cursor_path_display_get_tile_info(Gamep g, Levelsp v, Levelp l, c
     return tile;
   }
 
-  //
-  // Targeting?
-  //
-  if (game_state(g) == STATE_THROW_ITEM) {
-    if (distance(p, thing_at(g, v, l, player)) > thing_distance_throw(g, v, l, player)) {
-      return tp_tiles_get(tp, THING_ANIM_CURSOR_TARGET_OUT_OF_RANGE, 0);
-    }
-    return tp_tiles_get(tp, THING_ANIM_CURSOR_TARGET, 0);
-  }
-
   if (level_is_cursor_path_warning_bool(g, v, l, p, player)) {
     return tp_tiles_get(tp, THING_ANIM_CURSOR_WARNING, 0);
   }

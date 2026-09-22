@@ -94,7 +94,8 @@ static void wid_spell_options_mouse_over_end(Gamep g, Widp w)
 
 [[nodiscard]] static auto wid_spell_options_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
-  TRACE();
+  DBG("spell option: mouse down");
+  TRACE_INDENT();
 
   auto *v = game_levels_get(g);
   if (v == nullptr) [[unlikely]] {
@@ -108,14 +109,15 @@ static void wid_spell_options_mouse_over_end(Gamep g, Widp w)
 
   wid_spell_options_destroy(g);
 
-  (void) game_event_cast_spell(g, wid_spell_option_chosen, wid_get_int_context(w));
+  (void) game_event_cast_spell(g, wid_spell_option_chosen, wid_get_string_context(w));
 
   return true;
 }
 
 static void wid_spell_options_key_down_which_spell(Gamep g, Widp w, int index)
 {
-  TRACE();
+  DBG("spell option: index %d", index);
+  TRACE_INDENT();
 
   for (auto &n : wid_spell_option) {
     w = n;
@@ -137,10 +139,6 @@ static void wid_spell_options_key_down_which_spell(Gamep g, Widp w, int index)
     wid_set_color(w, WID_COLOR_BG, GREEN);
     wid_set_color(w, WID_COLOR_TEXT_FG, WHITE);
   }
-
-  wid_spell_options_destroy(g);
-
-  (void) game_event_cast_spell(g, wid_spell_option_chosen, index);
 }
 
 [[nodiscard]] static auto wid_spell_options_key_down(Gamep g, Widp w, const struct SDL_Keysym *key) -> bool
@@ -414,6 +412,7 @@ void wid_spell_options_show(Gamep g, Levelsp v, Levelp l, Thingp player, Thingp 
 
       if (spell != nullptr) {
         wid_set_int_context(w, index);
+        wid_set_string_context(w, option.name);
         wid_set_thing_context(g, v, w, spell);
         wid_set_on_mouse_down(w, wid_spell_options_mouse_down);
       }
@@ -450,6 +449,7 @@ void wid_spell_options_show(Gamep g, Levelsp v, Levelp l, Thingp player, Thingp 
 
         if (spell != nullptr) {
           wid_set_int_context(w, index);
+          wid_set_string_context(w, option.name);
           wid_set_thing_context(g, v, w, spell);
           wid_set_on_mouse_down(w, wid_spell_options_mouse_down);
         }

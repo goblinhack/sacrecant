@@ -228,6 +228,7 @@ using ThingSlotp   = struct ThingSlot *;
 using ThingExtp    = struct ThingExt *;
 using ThingLightp  = struct ThingLight *;
 using ThingPlayerp = struct ThingPlayer *;
+using ThingEventp  = struct ThingEvent *;
 using Tilep        = class Tile *;
 using TpId         = uint32_t;
 using Tpp          = class Tp *;

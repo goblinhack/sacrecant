@@ -5,12 +5,16 @@
 #include "../../my_callstack.hpp"
 #include "../../my_main.hpp"
 #include "../../my_thing_callbacks.hpp"
+#include "../../my_thing_inlines.hpp"
 #include "../../my_tp.hpp"
 #include "../../my_tps.hpp"
 #include "../../my_ui.hpp"
 
 static const std::string upgrade_1 = "increase radius";
 static const std::string upgrade_2 = "increase damage";
+static const std::string option_1  = "targeted fireball";
+static const std::string option_2  = "radial, including your tile";
+static const std::string option_3  = "radial, excluding your tile";
 
 static auto tp_spell_1_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
 {
@@ -18,16 +22,50 @@ static auto tp_spell_1_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::stri
 
   return                                                                                                         //
       UI_INFO1_FMT_STR "Conjure a devastating fireball, targeted at your enemies or radially around yourself.\n" //
-      UI_INFO2_FMT_STR "Spell effect radius: "                                                                   //
+      UI_INFO2_FMT_STR "Effect radius: " UI_INFO1_FMT_STR
       + std::to_string(thing_effect_radius(g, v, l, me));
 }
 
-static bool tp_spell_1_on_cast_request(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp dropper, ThingEvent &e)
+static bool tp_spell_1_on_cast_request(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, ThingEvent &e)
 {
   TRACE();
 
-  topcon("todo");
+  THING_DBG(g, v, l, user, "cast request");
+  TRACE_INDENT();
+  THING_DBG(g, v, l, spell, "this");
 
+  if (e.spell_info.option_name.empty() || (e.spell_info.option_name == option_1)) {
+    //
+    // If target is not set, get one
+    //
+    if (! e.spell_info.target_set) {
+      THING_DBG(g, v, l, user, "need target");
+      if (thing_is_player(user)) {
+        topcon("Choose a target for this spell.");
+        game_spell_cast_set(g, e);
+        game_state_change(g, STATE_CHOOSE_SPELL_TARGET, "choose a target");
+      }
+      return true;
+    }
+
+    THING_DBG(g, v, l, user, "got target");
+    e.spell_info.spell_was_cast = true;
+    return true;
+  }
+
+  if (e.spell_info.option_name == option_2) {
+    topcon("todo option 2");
+    e.spell_info.spell_was_cast = true;
+    return true;
+  }
+
+  if (e.spell_info.option_name == option_3) {
+    topcon("todo option 3");
+    e.spell_info.spell_was_cast = true;
+    return true;
+  }
+
+  thing_err(g, v, l, spell, "unknown spell option: %s", e.spell_info.option_name.c_str());
   return false;
 }
 
@@ -97,18 +135,18 @@ static auto tp_spell_1_on_upgrade_do(Gamep g, Levelsp v, Levelp l, Thingp me, Tp
                        });
   tp_spell_option_add(tp,
                       TpSpellOption {
-                          .type = "1",                 //
-                          .name = "targeted fireball", //
+                          .type = "1", //
+                          .name = option_1,
                       });
   tp_spell_option_add(tp,
                       TpSpellOption {
-                          .type = "2",                           //
-                          .name = "radial, including your tile", //
+                          .type = "2", //
+                          .name = option_2,
                       });
   tp_spell_option_add(tp,
                       TpSpellOption {
-                          .type = "3",                           //
-                          .name = "radial, excluding your tile", //
+                          .type = "3", //
+                          .name = option_3,
                       });
 
   return true;

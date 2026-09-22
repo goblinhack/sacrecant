@@ -83,7 +83,7 @@ auto thing_beam_weapon_fire_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what
     }
 
     ThingEvent e {};
-    e.event_int_context = index++;
+    e.missile_index = index++;
 
     auto *beam_weapon = thing_spawn_missile(g, v, l, me, what, beam_at, &e);
     if (beam_weapon == nullptr) {

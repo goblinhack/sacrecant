@@ -60,8 +60,11 @@ static void thing_killed_player(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEv
       case THING_EVENT_ENGULF_DAMAGE : //
         topcon(UI_IMPORTANT_FMT_STR "You are digested to death by %s." UI_RESET_FMT, by_the_thing.c_str());
         break;
-      case THING_EVENT_POISON_DAMAGE : topcon(UI_IMPORTANT_FMT_STR "You are killed by poison." UI_RESET_FMT); break;
+      case THING_EVENT_POISON_DAMAGE : //
+        topcon(UI_IMPORTANT_FMT_STR "You are killed by poison." UI_RESET_FMT);
+        break;
       case THING_EVENT_THROWN_DAMAGE : [[fallthrough]];
+      case THING_EVENT_SPELL_DAMAGE :  [[fallthrough]];
       case THING_EVENT_MELEE_DAMAGE : //
         topcon(UI_IMPORTANT_FMT_STR "You are killed by %s." UI_RESET_FMT, by_the_thing.c_str());
         break;
@@ -131,6 +134,7 @@ static void thing_killed_player(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEv
         topcon(UI_IMPORTANT_FMT_STR "You are poisoned and die." UI_RESET_FMT);
         break;
       case THING_EVENT_THROWN_DAMAGE : [[fallthrough]];
+      case THING_EVENT_SPELL_DAMAGE :  [[fallthrough]];
       case THING_EVENT_MELEE_DAMAGE : //
         topcon(UI_IMPORTANT_FMT_STR "You are beaten to death." UI_RESET_FMT);
         break;
@@ -217,8 +221,11 @@ static void thing_killed_by_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
     case THING_EVENT_ENGULF_DAMAGE : //
       topcon("%s is engulfed by %s.", the_thing.c_str(), by_player.c_str());
       break;
-    case THING_EVENT_POISON_DAMAGE : topcon("%s is killed by poison.", the_thing.c_str()); break;
+    case THING_EVENT_POISON_DAMAGE : //
+      topcon("%s is killed by poison.", the_thing.c_str());
+      break;
     case THING_EVENT_THROWN_DAMAGE : [[fallthrough]];
+    case THING_EVENT_SPELL_DAMAGE :  [[fallthrough]];
     case THING_EVENT_MELEE_DAMAGE : //
       topcon("%s is killed by %s.", the_thing.c_str(), by_player.c_str());
       break;
