@@ -262,7 +262,7 @@
 //
 // Add spell cost
 //
-[[nodiscard]] auto wid_tp_info_spell_cost(Gamep g, Levelsp v, Levelp l, Tpp me, WidPopup *parent, int width, bool title_allowed) -> bool
+[[nodiscard]] auto wid_tp_info_spell_cost(Gamep g, Levelsp v, Levelp l, Tpp me, WidPopup *parent, int  /*width*/, bool  /*title_allowed*/) -> bool
 {
   TRACE();
 

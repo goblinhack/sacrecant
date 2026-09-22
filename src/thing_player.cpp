@@ -21,7 +21,6 @@
 #include "my_types.hpp"
 #include "my_ui.hpp"
 #include "my_wid_warning.hpp"
-#include "my_wids.hpp"
 
 #include <cmath>
 #include <cstdint>
@@ -205,8 +204,8 @@ void thing_player_init(Gamep g)
       {
         auto *player = thing_player(g);
         if (player != nullptr) {
-          auto e = game_spell_cast_get(g);
-          if (e) {
+          auto *e = game_spell_cast_get(g);
+          if (e != nullptr) {
             e->spell_info.target     = v->cursor_at;
             e->spell_info.target_set = true;
             if (! thing_spell_cast_target(g, v, l, e)) {

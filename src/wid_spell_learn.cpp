@@ -869,7 +869,7 @@ static void wid_spell_learn_stats_mouse_over_end(Gamep g, Widp w)
 
   int y_at = 0;
 
-  for (auto &spell : wid_spell_things) {
+  for (const auto &spell : wid_spell_things) {
     y_at++;
 
     //

@@ -33,6 +33,7 @@
 #include <SDL_keycode.h>
 #include <SDL_mouse.h>
 #include <SDL_version.h>
+#include <strings.h>
 #include <array>
 #include <cstdarg>
 #include <cstddef>
@@ -40,7 +41,6 @@
 #include <cstdio>
 #include <cstring>
 #include <string>
-#include <strings.h>
 #include <vector>
 
 #ifdef ENABLE_DEBUG_GFX_GL_BLEND

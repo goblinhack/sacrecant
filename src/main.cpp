@@ -31,6 +31,7 @@
 
 #include <SDL_events.h>
 #include <SDL_video.h>
+#include <strings.h>
 #include <chrono>
 #include <cmath>
 #include <csignal>
@@ -40,7 +41,6 @@
 #include <iostream>
 #include <locale>
 #include <print>
-#include <strings.h>
 
 //
 // Used to stop the compiler removing unused code I want to keep

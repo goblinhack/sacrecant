@@ -4,10 +4,10 @@
 
 #include "my_sprintf.hpp"
 
-#include <cstdarg>
-#include <cstdio>
-#include <cstdlib>
 #include <stdio.h>
+#include <cstdarg>
+#include <cstdlib>
+#include <cstdio>
 #include <string>
 
 // https://stackoverflow.com/questions/40159892/using-asprintf-on-windows

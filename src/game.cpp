@@ -4452,5 +4452,5 @@ void game_spell_cast_set(Gamep g, ThingEvent e)
     return;
   }
 
-  g->spell_cast = e;
+  g->spell_cast = std::move(e);
 }

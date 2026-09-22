@@ -110,7 +110,7 @@ using ThingSpell = struct ThingSpell {
   //
   // Which spell sub option?
   //
-  std::string option_name {};
+  std::string option_name;
   //
   // Where to target the spell
   //

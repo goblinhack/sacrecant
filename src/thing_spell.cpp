@@ -3,12 +3,14 @@
 //
 
 #include "my_callstack.hpp"
+#include "my_level.hpp"
 #include "my_main.hpp"
 #include "my_thing.hpp"
+#include "my_thing_callbacks.hpp"
 #include "my_thing_inlines.hpp"
 #include "my_tp.hpp"
-#include "my_tp_inlines.hpp"
 #include "my_types.hpp"
+#include <string>
 
 auto thing_spell_cast(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, const std::string &option_name) -> bool
 {
@@ -24,7 +26,7 @@ auto thing_spell_cast(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, c
     //
     bool found_it {};
 
-    for (auto o : tp_spell_options_get(thing_tp(spell))) {
+    for (const auto& o : tp_spell_options_get(thing_tp(spell))) {
       auto option = o.second;
       if (option.name == option_name) {
         found_it = true;
@@ -59,18 +61,18 @@ auto thing_spell_cast_target(Gamep g, Levelsp v, Levelp l, ThingEventp e) -> boo
 {
   TRACE();
 
-  if (! e) {
+  if (e == nullptr) {
     return false;
   }
 
-  auto spell = e->spell_info.spell;
-  if (! spell) {
+  auto *spell = e->spell_info.spell;
+  if (spell == nullptr) {
     err("cannot cast spell, none set");
     return false;
   }
 
-  auto user = e->source;
-  if (! user) {
+  auto *user = e->source;
+  if (user == nullptr) {
     thing_err(g, v, l, spell, "cannot cast spell, no caster");
     return false;
   }

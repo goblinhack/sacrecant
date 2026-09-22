@@ -1563,7 +1563,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
 //
 // Add spell cost
 //
-[[nodiscard]] auto wid_thing_info_spell_cost(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, int width, bool title_allowed) -> bool
+[[nodiscard]] static auto wid_thing_info_spell_cost(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, int  /*width*/, bool  /*title_allowed*/) -> bool
 {
   TRACE();
 
