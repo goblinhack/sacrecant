@@ -445,11 +445,11 @@ static void wid_spellbook_key_down_which_spell(Gamep g, Widp w, int index)
   switch (key->mod) {
     default :
       switch (key->sym) {
-        default : break;
         case SDLK_ESCAPE :
           (void) sound_play(g, "keypress");
           wid_spellbook_destroy(g);
           return true;
+        default : break;
       }
   }
 

@@ -278,11 +278,11 @@ static void wid_spell_options_key_down_which_spell(Gamep g, Widp w, int index)
     case KMOD_RCTRL :
     default :
       switch (key->sym) {
-        default :
         case SDLK_ESCAPE :
           (void) sound_play(g, "keypress");
           wid_spell_options_destroy(g);
           return true;
+        default : break;
       }
   }
 

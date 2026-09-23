@@ -1200,7 +1200,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused140(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused141(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused142(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused143(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_explosion_minor(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_internal(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused15(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused151(Thingp t) -> bool;

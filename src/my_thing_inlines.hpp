@@ -248,7 +248,7 @@
   return tp_flag(thing_tp(t), is_lava) != 0;
 }
 
-[[nodiscard]] static inline auto thing_is_explosion(Thingp t) -> bool
+[[nodiscard]] static inline auto thing_is_explosion_major(Thingp t) -> bool
 {
 #ifdef DEBUG_BUILD
   TRACE_DEBUG();
@@ -258,7 +258,7 @@
   }
 #endif
 
-  return tp_flag(thing_tp(t), is_explosion) != 0;
+  return tp_flag(thing_tp(t), is_explosion_major) != 0;
 }
 
 [[nodiscard]] static inline auto thing_is_player(const Thingp t) -> bool

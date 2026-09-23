@@ -23,7 +23,7 @@ void level_tick_explosion(Gamep g, Levelsp v, Levelp l)
   FOR_ALL_MAP_POINTS(g, v, l, x, y)
   {
     bpoint p(x, y);
-    if (! level_is_explosion_bool(g, v, l, p)) {
+    if (! level_is_explosion_major_bool(g, v, l, p)) {
       continue;
     }
 

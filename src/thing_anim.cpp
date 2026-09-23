@@ -49,6 +49,8 @@ void thing_anim_init(Gamep g, Levelsp v, Levelp l, Thingp t, ThingAnimType anim_
     }
     auto *tile = tp_tiles_get(tp, t->anim_type, index);
     if (tile != nullptr) {
+      t->anim_ms_remaining = tile_delay_ms(tile);
+
       switch (t->anim_type) {
         case THING_ANIM_JOIN_BL :
         case THING_ANIM_JOIN_BL2 :
@@ -170,7 +172,7 @@ void thing_anim_time_step(Gamep g, Levelsp v, Levelp l, Thingp t, Tpp tp, int ti
   }
 
   if (g_opt_tests) {
-    if (thing_is_level_curr(t)) {
+    if (thing_is_explosion_major(t)) {
       THING_DBG(g, v, l, t, "anim %s index %d [%s] anim_ms_remaining %u", tile_name(tile).c_str(), t->anim_index,
                 ThingAnimType_to_string(t->anim_type).c_str(), t->anim_ms_remaining);
     }

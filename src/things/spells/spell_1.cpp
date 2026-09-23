@@ -22,7 +22,7 @@ static auto tp_spell_firestorm_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> s
 {
   TRACE();
 
-  auto        explosion_tp = tp_find_mand("explosion");
+  auto        explosion_tp = tp_find_mand("explosion_minor");
   auto        space        = (UI_RIGHTBAR_WIDTH - 4) / 2;
   auto        damage_str   = tp_damage_dice_roll_string(explosion_tp, THING_EVENT_EXPLOSION_DAMAGE);
   auto        damage_mod   = thing_stat_mod(g, v, l, me, THING_STAT_DMG);
@@ -95,8 +95,8 @@ static void tp_spell_firestorm_spawn_explosion(Gamep g, Levelsp v, Levelp l, Thi
   TRACE();
 
   if (level_is_obs_to_explosion(g, v, l, p) == nullptr) {
-    if (! level_is_explosion_bool(g, v, l, p)) {
-      auto explosion = thing_spawn(g, v, l, tp_first(is_explosion), p, &e);
+    if (! level_is_explosion_major_bool(g, v, l, p)) {
+      auto explosion = thing_spawn(g, v, l, tp_first(is_explosion_major), p, &e);
       if (explosion) {
         auto spell_stat = thing_stat(g, v, l, spell, THING_STAT_DMG);
         (void) thing_stat_set(g, v, l, explosion, THING_STAT_DMG, spell_stat);

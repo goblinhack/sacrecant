@@ -5847,7 +5847,7 @@ void wid_move_to_abs_centered(Gamep g, Widp w, int x, int y)
     return true;
   }
 
-  if (! game_time_have_x_tenths_passed_since(1, wid_last_destroy_event)) {
+  if (! game_time_have_x_tenths_passed_since(2, wid_last_destroy_event)) {
     // DBG("wid_some_recent_event_occurred: Too soon since last wid destroy event");
     return true;
   }

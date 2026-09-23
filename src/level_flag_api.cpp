@@ -374,10 +374,10 @@
   return level_flag(g, v, l, is_exit, p, me);
 }
 
-[[nodiscard]] auto level_is_explosion(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_explosion_major(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_explosion, p, me);
+  return level_flag(g, v, l, is_explosion_major, p, me);
 }
 
 [[nodiscard]] auto level_is_extinguished_on_death(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
@@ -1724,10 +1724,10 @@
   return level_flag(g, v, l, is_unused142, p, me);
 }
 
-[[nodiscard]] auto level_is_unused143(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_explosion_minor(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused143, p, me);
+  return level_flag(g, v, l, is_explosion_minor, p, me);
 }
 
 [[nodiscard]] auto level_is_internal(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp

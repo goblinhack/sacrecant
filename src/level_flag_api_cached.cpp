@@ -375,10 +375,10 @@
   return level_flag_cached(g, v, l, is_exit, p);
 }
 
-[[nodiscard]] auto level_is_explosion_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_explosion_major_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_explosion, p);
+  return level_flag_cached(g, v, l, is_explosion_major, p);
 }
 
 [[nodiscard]] auto level_is_extinguished_on_death_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
@@ -1761,10 +1761,10 @@
   return level_flag_cached(g, v, l, is_unused142, p);
 }
 
-[[nodiscard]] auto level_is_unused143_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_explosion_minor_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused143, p);
+  return level_flag_cached(g, v, l, is_explosion_minor, p);
 }
 
 [[nodiscard]] auto level_is_internal_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
