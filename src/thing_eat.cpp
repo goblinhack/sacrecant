@@ -63,7 +63,7 @@ static auto thing_eat_item(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp eat
     return false;
   }
 
-  if (thing_is_ethereal(g, v, l, eater)) {
+  if (thing_is_ethereal(g, v, l, eater) || thing_is_wall_walker(g, v, l, eater)) {
     if (thing_is_player(eater)) {
       topcon(UI_WARN_FMT_STR "You try to eat, but it passes right through you.\n");
     }
@@ -72,6 +72,10 @@ static auto thing_eat_item(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp eat
     new_event.event_type = THING_EVENT_EATEN;
 
     (void) thing_drop(g, v, l, eater, item, new_event);
+
+    if (thing_is_tick_on_eaten(item)) {
+      (void) level_tick_begin_requested(g, v, l, "failed to eat");
+    }
 
     return false;
   }
@@ -88,6 +92,10 @@ static auto thing_eat_item(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp eat
         auto the_thing = thing_name_long_the(g, v, l, item);
         topcon(UI_WARN_FMT_STR "You failed to eat %s." UI_RESET_FMT, the_thing.c_str());
       }
+    }
+
+    if (thing_is_tick_on_eaten(item)) {
+      (void) level_tick_begin_requested(g, v, l, "failed to eat");
     }
     return false;
   }

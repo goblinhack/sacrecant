@@ -1574,6 +1574,9 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   }
 
   if (thing_spell_cost(g, v, l, me) != thing_spell_cost_for(g, v, l, me, player)) {
+    //
+    // Discount?
+    //
     auto space = (width - 4) / 2;
     auto line  = string_sprintf("- %-*s%*d",        //
                                 space, "Retail SP", //
@@ -1593,6 +1596,9 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   }
 
   if (thing_mana_cost(g, v, l, me) != thing_mana_cost_for(g, v, l, me, player)) {
+    //
+    // Discount?
+    //
     auto space = (width - 4) / 2;
     auto line  = string_sprintf("- %-*s%*d",          //
                                 space, "Retail Mana", //

@@ -55,9 +55,8 @@
   // The guts of the test
   //
   bool result {};
-  int  eat_count  = 0;
-  int  health     = 0;
-  int  health_max = 0;
+  int  eat_count = 0;
+  int  health    = 0;
 
   static std::initializer_list< std::string > items = {
       "chocolate_frog", //
@@ -93,11 +92,10 @@
           .source     = player,                     //
       };
 
-      TEST_ASSERT(t, thing_eat(g, v, l, player, an_item, e), "failed to eat");
+      (void) thing_eat(g, v, l, player, an_item, e);
 
       TRACE();
       level_dump(g, v, l, w, h);
-      TEST_ASSERT(t, game_event_wait(g), "failed to wait");
 
       if (! game_wait_for_tick_to_finish(g, v, l)) {
         TEST_FAILED(t, "wait loop failed");
@@ -114,9 +112,8 @@
 
   TEST_ASSERT(t, eat_count == (int) items.size(), "did not eat expected item amount");
 
-  health     = thing_health(g, v, l, player);
-  health_max = thing_health_max(g, v, l, player);
-  TEST_ASSERT(t, health == health_max, "expected full health");
+  health = thing_health(g, v, l, player);
+  TEST_ASSERT(t, health == 10, "expected food to have no impact");
 
   //
   // Check the level contents
