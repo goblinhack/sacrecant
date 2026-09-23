@@ -387,6 +387,7 @@ void level_destroy(Gamep g, Levelsp v, Levelp l)
     case is_obs_to_explosion :        [[fallthrough]];
     case is_obs_to_falling_onto :     [[fallthrough]];
     case is_obs_to_fire :             [[fallthrough]];
+    case is_obs_to_jumping_onto :     [[fallthrough]];
     case is_obs_to_jumping_over :     [[fallthrough]];
     case is_obs_to_throwing_over :    [[fallthrough]];
     case is_obs_to_hearing :          [[fallthrough]];
