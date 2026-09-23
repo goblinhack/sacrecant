@@ -726,11 +726,11 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
 //
 // Health bar
 //
-[[nodiscard]] auto wid_thing_info_health_bar(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp tp, WidPopup *parent, int width) -> bool
+[[nodiscard]] static auto wid_thing_info_health_bar(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp tp, WidPopup *parent, int width) -> bool
 {
   TRACE();
 
-  if (! tp_is_shown_health(tp)) {
+  if (! thing_is_shown_health(me)) {
     return false;
   }
 
@@ -852,7 +852,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     return false;
   }
 
-  if (! tp_is_shown_stamina(tp)) {
+  if (! thing_is_shown_stamina(me)) {
     return false;
   }
 
@@ -1633,7 +1633,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     return false;
   }
 
-  if (thing_spell_range(g, v, l, me)) {
+  if (thing_spell_range(g, v, l, me) != 0) {
     auto space = (width - 4) / 2;
     auto line  = string_sprintf("- %-*s%*d",          //
                                 space, "Spell range", //
@@ -1641,7 +1641,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     parent->log(g, line, TEXT_FORMAT_RHS);
   }
 
-  if (thing_spell_range_max(g, v, l, me)) {
+  if (thing_spell_range_max(g, v, l, me) != 0) {
     auto space = (width - 4) / 2;
     auto line  = string_sprintf("- %-*s%*d",            //
                                 space, "  upgrade max", //
@@ -1649,7 +1649,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     parent->log(g, UI_INFO2_FMT_STR + line, TEXT_FORMAT_RHS);
   }
 
-  if (thing_spell_radius(g, v, l, me)) {
+  if (thing_spell_radius(g, v, l, me) != 0) {
     auto space = (width - 4) / 2;
     auto line  = string_sprintf("- %-*s%*d",           //
                                 space, "Spell radius", //
@@ -1657,7 +1657,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     parent->log(g, line, TEXT_FORMAT_RHS);
   }
 
-  if (thing_spell_radius_max(g, v, l, me)) {
+  if (thing_spell_radius_max(g, v, l, me) != 0) {
     auto space = (width - 4) / 2;
     auto line  = string_sprintf("- %-*s%*d",            //
                                 space, "  upgrade max", //

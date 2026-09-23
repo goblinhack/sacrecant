@@ -91,7 +91,7 @@ static void level_blit_light(Gamep g, Levelsp v, Levelp l, color c)
   }
 }
 
-static void level_display_spell_effect(Gamep g, Levelsp v, Levelp l, const bpoint &p, FboEnum fbo)
+static void level_display_spell_effect(Gamep g, Levelsp v, Levelp l, FboEnum fbo)
 {
   TRACE_DEBUG();
 
@@ -106,14 +106,14 @@ static void level_display_spell_effect(Gamep g, Levelsp v, Levelp l, const bpoin
   switch (game_state(g)) {
     case STATE_CHOOSE_SPELL_TARGET :
       {
-        auto e = game_spell_cast_get(g);
-        if (e) {
-          auto spell = e->spell_info.spell;
-          if (spell) {
+        auto *e = game_spell_cast_get(g);
+        if (e != nullptr) {
+          auto *spell = e->spell_info.spell;
+          if (spell != nullptr) {
             auto radius = thing_spell_radius(g, v, l, spell);
             for (auto dx = -radius; dx <= radius; dx++) {
               for (auto dy = -radius; dy <= radius; dy++) {
-                bpoint effect(v->cursor_at.x + dx, v->cursor_at.y + dy);
+                bpoint const effect(v->cursor_at.x + dx, v->cursor_at.y + dy);
 
                 if (is_oob(effect)) {
                   continue;
@@ -271,23 +271,20 @@ static void level_display_cursor(Gamep g, Levelsp v, Levelp l, FboEnum fbo)
     return;
   }
 
-  blit_init();
-  for (auto y = v->miny; y < v->maxy; y++) {
-    for (auto x = v->minx; x < v->maxx; x++) {
-      bpoint const p(x, y);
-      level_display_spell_effect(g, v, l, p, fbo);
-    }
-  }
-  blit_flush();
+  //
+  // Show the spell target area
+  //
+  level_display_spell_effect(g, v, l, fbo);
 
-  blit_init();
+  //
+  // Show the cursor and path
+  //
   for (auto y = v->miny; y < v->maxy; y++) {
     for (auto x = v->minx; x < v->maxx; x++) {
       bpoint const p(x, y);
       level_display_cursor(g, v, l, p, fbo);
     }
   }
-  blit_flush();
 }
 
 static void level_display_slot(Gamep g, Levelsp v, Levelp l, const bpoint &p, int slot, MapZDepthType depth, FboEnum fbo)

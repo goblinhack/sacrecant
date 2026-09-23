@@ -3,14 +3,12 @@
 //
 
 #include "my_callstack.hpp"
-#include "my_level.hpp"
+#include "my_game.hpp"
 #include "my_main.hpp"
 #include "my_thing.hpp"
-#include "my_thing_callbacks.hpp"
-#include "my_thing_inlines.hpp"
-#include "my_tp.hpp"
 #include "my_types.hpp"
-#include <string>
+#include <algorithm>
+#include <limits>
 
 [[nodiscard]] auto thing_mana(Gamep g, Levelsp v, Levelp l, Thingp t) -> int
 {

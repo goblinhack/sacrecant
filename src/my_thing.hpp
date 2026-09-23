@@ -740,6 +740,7 @@ using Thing = struct Thing {
 
 // begin sort marker1 {
 [[nodiscard]] auto astar_solve(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint src, bpoint dst) -> std::vector< bpoint >;
+[[nodiscard]] auto thing_is_shown_health(Thingp me) -> bool;
 [[nodiscard]] auto level_vision_blocker_at(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &at) -> bool;
 [[nodiscard]] auto monst_state_to_string(MonstState state) -> std::string;
 [[nodiscard]] auto monst_state(Gamep g, Levelsp v, Levelp l, Thingp me) -> MonstState;
@@ -1462,11 +1463,11 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_spell_arcana(Gamep g, Levelsp v, Levelp l, Thingp me) -> ThingStatType;
 [[nodiscard]] auto thing_spell_cast_target(Gamep g, Levelsp v, Levelp l, ThingEventp e) -> bool;
 [[nodiscard]] auto thing_spell_cast(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, const std::string &option_name) -> bool;
-[[nodiscard]] auto thing_spell_cost_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
+[[nodiscard]] auto thing_spell_cost_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_spell_cost_for(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user) -> int;
-[[nodiscard]] auto thing_spell_cost_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
-[[nodiscard]] auto thing_spell_cost_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int;
-[[nodiscard]] auto thing_spell_cost(Gamep g, Levelsp v, Levelp l, Thingp me) -> int;
+[[nodiscard]] auto thing_spell_cost_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
+[[nodiscard]] auto thing_spell_cost_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
+[[nodiscard]] auto thing_spell_cost(Gamep g, Levelsp v, Levelp l, Thingp t) -> int;
 [[nodiscard]] auto thing_spell_radius_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
 [[nodiscard]] auto thing_spell_radius_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
 [[nodiscard]] auto thing_spell_radius_max_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
@@ -1507,9 +1508,9 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_stat(Gamep g, Levelsp v, Levelp l, Thingp me, ThingStatType stat) -> int;
 [[nodiscard]] auto thing_strip_item(Gamep g, Levelsp v, Levelp l, Thingp owner, Thingp item, ThingEvent &e) -> bool;
 [[nodiscard]] auto thing_strip_slot(Gamep g, Levelsp v, Levelp l, Thingp me, WornType w, ThingEvent &e) -> bool;
-[[nodiscard]] auto thing_submerged_pct_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
-[[nodiscard]] auto thing_submerged_pct_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
-[[nodiscard]] auto thing_submerged_pct_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int;
+[[nodiscard]] auto thing_submerged_pct_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
+[[nodiscard]] auto thing_submerged_pct_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
+[[nodiscard]] auto thing_submerged_pct_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
 [[nodiscard]] auto thing_teleport_handle(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_teleport_random(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_temperature_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;

@@ -3,6 +3,7 @@
 //
 
 #include "my_callstack.hpp"
+#include "my_game.hpp"
 #include "my_level.hpp"
 #include "my_main.hpp"
 #include "my_thing.hpp"
@@ -12,6 +13,8 @@
 #include "my_types.hpp"
 #include "my_ui.hpp"
 
+#include <algorithm>
+#include <limits>
 #include <string>
 
 [[nodiscard]] static auto thing_spell_cast_do(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, ThingEvent &e) -> bool;
