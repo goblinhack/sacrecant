@@ -740,6 +740,8 @@ using Thing = struct Thing {
 
 // begin sort marker1 {
 [[nodiscard]] auto astar_solve(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint src, bpoint dst) -> std::vector< bpoint >;
+[[nodiscard]] auto thing_stat_long_string(Gamep g, Levelsp v, Levelp l, Thingp me, ThingStatType stat) -> std::string;
+[[nodiscard]] auto stat_is_arcana(ThingStatType stat) -> bool;
 [[nodiscard]] auto thing_is_shown_health(Thingp me) -> bool;
 [[nodiscard]] auto level_vision_blocker_at(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &at) -> bool;
 [[nodiscard]] auto monst_state_to_string(MonstState state) -> std::string;

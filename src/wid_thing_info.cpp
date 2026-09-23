@@ -1644,7 +1644,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   if (thing_spell_range_max(g, v, l, me) != 0) {
     auto space = (width - 4) / 2;
     auto line  = string_sprintf("- %-*s%*d",            //
-                                space, "  upgrade max", //
+                                space, "  Upgrade max", //
                                 space, thing_spell_range_max(g, v, l, me));
     parent->log(g, UI_INFO2_FMT_STR + line, TEXT_FORMAT_RHS);
   }
@@ -1660,9 +1660,47 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   if (thing_spell_radius_max(g, v, l, me) != 0) {
     auto space = (width - 4) / 2;
     auto line  = string_sprintf("- %-*s%*d",            //
-                                space, "  upgrade max", //
+                                space, "  Upgrade max", //
                                 space, thing_spell_radius_max(g, v, l, me));
     parent->log(g, UI_INFO2_FMT_STR + line, TEXT_FORMAT_RHS);
+  }
+
+  return true;
+}
+
+//
+// Add spell stat detail
+//
+[[nodiscard]] static auto wid_thing_info_spell_stat_detail(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, int width,
+                                                           bool /*title_allowed*/) -> bool
+{
+  TRACE();
+
+  bool any_set = false;
+
+  FOR_ALL_THING_STAT(stat)
+  {
+    if (stat_is_arcana(stat)) {
+      continue;
+    }
+
+    if (thing_stat_mod(g, v, l, me, stat) != 0) {
+      any_set = true;
+    }
+  }
+
+  if (! any_set) {
+    return false;
+  }
+
+  parent->log(g, "- Modifiers:", TEXT_FORMAT_LHS);
+
+  FOR_ALL_THING_STAT(stat)
+  {
+    if (thing_stat_mod(g, v, l, me, stat) != 0) {
+      auto line = thing_stat_long_string(g, v, l, me, stat);
+      parent->log(g, UI_INFO2_FMT_STR "    " + line, TEXT_FORMAT_LHS);
+    }
   }
 
   return true;
@@ -2685,6 +2723,13 @@ void wid_thing_info(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, i
   } else if (thing_is_spell(me)) {
     if (wid_thing_info_spell_cost(g, v, l, me, parent, width, true /* title allowed */)) {}
     if (wid_thing_info_spell_info(g, v, l, me, parent, width, true /* title allowed */)) {}
+
+    //
+    // Not sure if this is useful as we need to show damage in a human readable form
+    //
+    if (compiler_unused) {
+      if (wid_thing_info_spell_stat_detail(g, v, l, me, parent, width, true /* title allowed */)) {}
+    }
 
     parent->log_empty_line(g);
 
