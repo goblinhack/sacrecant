@@ -145,23 +145,23 @@ static void wid_spell_checkout(Gamep g)
         (void) thing_sac_points_decr(g, v, l, player, cost);
 
         if (cost == 1) {
-          topcon(UI_INFO_FMT_STR "You spent %d SP on spell %s." UI_RESET_FMT, cost, name.c_str());
+          topcon(UI_INFO_FMT_STR "You spent %d SP on spell %s." UI_RESET_FMT, cost, capitalize(name).c_str());
         } else {
-          topcon(UI_INFO_FMT_STR "You spent %d SPs on spell %s." UI_RESET_FMT, cost, name.c_str());
+          topcon(UI_INFO_FMT_STR "You spent %d SPs on spell %s." UI_RESET_FMT, cost, capitalize(name).c_str());
         }
         (void) level_tick_begin_requested(g, v, l, "player learned a spell");
       } else {
         //
         // Too many spells?
         //
-        topcon(UI_WARN_FMT_STR "You fail to learn %s and add it to your spellbook!" UI_RESET_FMT, name.c_str());
+        topcon(UI_WARN_FMT_STR "You fail to learn %s and add it to your spellbook!" UI_RESET_FMT, capitalize(name).c_str());
         topcon("You have not been charged for this transaction!");
       }
     } else {
       //
       // Odd
       //
-      topcon(UI_WARN_FMT_STR "You fail to learn %s." UI_RESET_FMT, tp_name(spell_tp).c_str());
+      topcon(UI_WARN_FMT_STR "You fail to learn %s." UI_RESET_FMT, capitalize(tp_name(spell_tp)).c_str());
     }
   }
 
@@ -181,14 +181,16 @@ static void wid_spell_checkout(Gamep g)
             TpSpellUpgrade const u = upgrade.second;
             if (u.name == u_name) {
               if (thing_on_upgrade_do(g, v, l, learned_spell, u)) {
-                topcon(UI_INFO_FMT_STR "You spent %d SP on upgrade '%s' for spell %s." UI_RESET_FMT, cost, u_name.c_str(), name.c_str());
+                topcon(UI_INFO_FMT_STR "You spent %d SP on upgrade '%s' for spell %s." UI_RESET_FMT, cost, capitalize(u_name).c_str(),
+                       capitalize(name).c_str());
                 //
                 // Successfully upgraded
                 //
                 (void) thing_sac_points_decr(g, v, l, player, cost);
 
               } else {
-                topcon(UI_INFO_FMT_STR "You spent %d SPs on upgrade '%s' for spell %s." UI_RESET_FMT, cost, u_name.c_str(), name.c_str());
+                topcon(UI_INFO_FMT_STR "You spent %d SPs on upgrade '%s' for spell %s." UI_RESET_FMT, cost, capitalize(u_name).c_str(),
+                       capitalize(name).c_str());
               }
             }
           }

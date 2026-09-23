@@ -102,6 +102,10 @@ static bool tp_spell_1_on_cast_do(Gamep g, Levelsp v, Levelp l, Thingp spell, Th
           continue;
         }
 
+        if (distance(p, at) > radius) {
+          continue;
+        }
+
         if (level_is_obs_to_explosion(g, v, l, p) == nullptr) {
           if (! level_is_explosion_bool(g, v, l, p)) {
             (void) thing_spawn(g, v, l, tp_first(is_explosion), p, &e);
@@ -180,7 +184,7 @@ static auto tp_spell_1_on_upgrade_do(Gamep g, Levelsp v, Levelp l, Thingp me, Tp
   thing_on_cast_do_set(tp, tp_spell_1_on_cast_do);
   tp_flag_set(tp, is_spell);
   tp_stat_set(tp, THING_STAT_ARCANA_FIRE, "11");
-  tp_spell_radius_set(tp, 1);
+  tp_spell_radius_set(tp, 2);
   tp_spell_radius_max_set(tp, 6);
   tp_spell_range_set(tp, 8);
   tp_spell_range_max_set(tp, 12);

@@ -1729,10 +1729,10 @@
   return tp_flag(tp, is_unused143) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused144(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_internal(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused144) != 0;
+  return tp_flag(tp, is_internal) != 0;
 }
 
 [[nodiscard]] auto tp_is_able_to_cast_spells(Tpp tp) -> bool

@@ -115,6 +115,7 @@ static auto tp_cursor_at_display_get_tile_info(Gamep g, Levelsp v, Levelp l, con
   tp_flag_set(tp, is_blit_centered);
   tp_flag_set(tp, is_blit_shown_in_overlay);
   tp_flag_set(tp, is_cursor);
+  tp_flag_set(tp, is_internal);
   // end sort marker1 }
 
   auto *tile = tile_find_mand("cursor_at.nopath");

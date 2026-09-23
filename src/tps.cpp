@@ -178,6 +178,7 @@
   if (!tp_load_spell_7()) { return false; }
   if (!tp_load_spell_8()) { return false; }
   if (!tp_load_spell_9()) { return false; }
+  if (!tp_load_spell_effect()) { return false; }
   if (!tp_load_spider_baby()) { return false; }
   if (!tp_load_spider()) { return false; }
   if (!tp_load_spiderweb()) { return false; }

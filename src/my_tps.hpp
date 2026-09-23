@@ -176,6 +176,7 @@ auto tp_load_spell_6() -> bool;
 auto tp_load_spell_7() -> bool;
 auto tp_load_spell_8() -> bool;
 auto tp_load_spell_9() -> bool;
+auto tp_load_spell_effect() -> bool;
 auto tp_load_spider_baby() -> bool;
 auto tp_load_spider() -> bool;
 auto tp_load_spiderweb() -> bool;

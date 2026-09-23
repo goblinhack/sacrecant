@@ -91,6 +91,76 @@ static void level_blit_light(Gamep g, Levelsp v, Levelp l, color c)
   }
 }
 
+static void level_display_spell_effect(Gamep g, Levelsp v, Levelp l, const bpoint &p, FboEnum fbo)
+{
+  TRACE_DEBUG();
+
+  //
+  // Cursors do not use up slots on the map, to avoid them interacting with anything
+  //
+  static Tpp tp_once;
+  if (tp_once == nullptr) {
+    tp_once = tp_find_mand("spell_effect");
+  }
+
+  switch (game_state(g)) {
+    case STATE_CHOOSE_SPELL_TARGET :
+      {
+        auto e = game_spell_cast_get(g);
+        if (e) {
+          auto spell = e->spell_info.spell;
+          if (spell) {
+            auto radius = thing_spell_radius(g, v, l, spell);
+            for (auto dx = -radius; dx <= radius; dx++) {
+              for (auto dy = -radius; dy <= radius; dy++) {
+                bpoint effect(v->cursor_at.x + dx, v->cursor_at.y + dy);
+
+                if (is_oob(effect)) {
+                  continue;
+                }
+
+                if (distance(effect, v->cursor_at) > radius) {
+                  continue;
+                }
+
+                spoint   tl;
+                spoint   br;
+                uint16_t tile_index = 0;
+                thing_display_get_tile_info(g, v, l, effect, tp_once, NULL_THING, tl, br, &tile_index);
+                thing_display(g, v, l, effect, tp_once, NULL_THING, tl, br, tile_index, fbo);
+              }
+            }
+          }
+        }
+      }
+      break;
+    case STATE_PLAYING :             [[fallthrough]];
+    case STATE_CHOOSE_THROW_TARGET : [[fallthrough]];
+    case STATE_LEVEL_SELECT_MENU :   [[fallthrough]];
+    case STATE_PLAYER_SELECT_MENU :  [[fallthrough]];
+    case STATE_SPELL_LEARN_MENU :    [[fallthrough]];
+    case STATE_SPELLBOOK_MENU :      [[fallthrough]];
+    case STATE_COLLECT_MENU :        [[fallthrough]];
+    case STATE_DEAD_MENU :           [[fallthrough]];
+    case STATE_GENERATED :           [[fallthrough]];
+    case STATE_GENERATING :          [[fallthrough]];
+    case STATE_INIT :                [[fallthrough]];
+    case STATE_INVENTORY_MENU :      [[fallthrough]];
+    case STATE_ITEM_MENU :           [[fallthrough]];
+    case STATE_KEYBOARD_MENU :       [[fallthrough]];
+    case STATE_LOAD_MENU :           [[fallthrough]];
+    case STATE_LOADED :              [[fallthrough]];
+    case STATE_MAIN_MENU :           [[fallthrough]];
+    case STATE_MOVE_WARNING_MENU :   [[fallthrough]];
+    case STATE_QUIT_MENU :           [[fallthrough]];
+    case STATE_QUITTING :            [[fallthrough]];
+    case STATE_SAVE_MENU :           [[fallthrough]];
+    case STATE_GAME_OVER_MENU :      [[fallthrough]];
+    case STATE_THROW_MENU :          [[fallthrough]];
+    case GAME_STATE_ENUM_MAX :       return;
+  }
+}
+
 static void level_display_cursor(Gamep g, Levelsp v, Levelp l, const bpoint &p, FboEnum fbo)
 {
   TRACE_DEBUG();
@@ -201,12 +271,23 @@ static void level_display_cursor(Gamep g, Levelsp v, Levelp l, FboEnum fbo)
     return;
   }
 
+  blit_init();
+  for (auto y = v->miny; y < v->maxy; y++) {
+    for (auto x = v->minx; x < v->maxx; x++) {
+      bpoint const p(x, y);
+      level_display_spell_effect(g, v, l, p, fbo);
+    }
+  }
+  blit_flush();
+
+  blit_init();
   for (auto y = v->miny; y < v->maxy; y++) {
     for (auto x = v->minx; x < v->maxx; x++) {
       bpoint const p(x, y);
       level_display_cursor(g, v, l, p, fbo);
     }
   }
+  blit_flush();
 }
 
 static void level_display_slot(Gamep g, Levelsp v, Levelp l, const bpoint &p, int slot, MapZDepthType depth, FboEnum fbo)

@@ -300,7 +300,7 @@
       list_macro(is_unused141, "is_unused141"),                                             /* newline */                                       \
       list_macro(is_unused142, "is_unused142"),                                             /* newline */                                       \
       list_macro(is_unused143, "is_unused143"),                                             /* newline */                                       \
-      list_macro(is_unused144, "is_unused144"),                                             /* newline */                                       \
+      list_macro(is_internal, "is_internal"),                                               /* newline */                                       \
       list_macro(is_able_to_cast_spells, "is_able_to_cast_spells"),                         /* newline */                                       \
       list_macro(is_unused_spell, "is_unused_spell"),                                       /* newline */                                       \
       list_macro(is_spell, "is_spell"),                                                     /* newline */                                       \
@@ -1157,7 +1157,7 @@ class Tp;
 [[nodiscard]] auto tp_is_unused141(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused142(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused143(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused144(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_internal(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused15(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused151(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused16(Tpp tp) -> bool;

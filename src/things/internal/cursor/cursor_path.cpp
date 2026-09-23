@@ -52,6 +52,7 @@ static auto tp_cursor_path_display_get_tile_info(Gamep g, Levelsp v, Levelp l, c
   // begin sort marker1 {
   thing_display_get_tile_info_set(tp, tp_cursor_path_display_get_tile_info);
   tp_flag_set(tp, is_blit_centered);
+  tp_flag_set(tp, is_internal);
   tp_flag_set(tp, is_blit_shown_in_overlay);
   tp_flag_set(tp, is_cursor_path);
   // end sort marker1 }

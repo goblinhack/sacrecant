@@ -447,7 +447,7 @@ void wid_spell_options_show(Gamep g, Levelsp v, Levelp l, Thingp player, Thingp 
         spoint const br(button_width, y_at + button_height);
         wid_set_text_lhs(w, 1u);
         wid_set_pos(w, tl, br);
-        wid_set_text(w, capitalize_first(line));
+        wid_set_text(w, capitalize(line));
 
         if (spell != nullptr) {
           wid_set_int_context(w, index);

@@ -20,6 +20,7 @@
   tp_flag_set(tp, is_animated);
   tp_flag_set(tp, is_blit_centered);
   tp_flag_set(tp, is_blit_outlined);
+  tp_flag_set(tp, is_internal);
   tp_flag_set(tp, is_level_closed_icon);
   tp_z_depth_set(tp, MAP_Z_DEPTH_OBJ);
   // end sort marker1 }

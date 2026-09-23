@@ -21,6 +21,7 @@
   tp_flag_set(tp, is_blit_centered);
   tp_flag_set(tp, is_blit_outlined);
   tp_flag_set(tp, is_level_curr);
+  tp_flag_set(tp, is_internal);
   tp_z_depth_set(tp, MAP_Z_DEPTH_OBJ);
   // end sort marker1 }
 

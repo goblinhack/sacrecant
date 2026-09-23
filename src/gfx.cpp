@@ -4919,7 +4919,7 @@ static void gfx_init_tiles()
       "cursor_at.warning",
       "cursor_at.target",
       "cursor_at.target_out_of_range",
-      "",
+      "spell_effect",
       "",
       "",
       "",

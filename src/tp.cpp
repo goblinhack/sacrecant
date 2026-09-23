@@ -284,6 +284,7 @@ static std::initializer_list< std::string > tps = {
     "spell_7",
     "spell_8",
     "spell_9",
+    "spell_effect",
     "spider_baby",
     "spider_giant",
     "spiderweb",
