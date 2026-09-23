@@ -38,7 +38,7 @@ void sounds_load(Gamep g)
   (void) sound_load(1.0F /* volume */, "data/sounds/misc/fall.ogg", "fall");
   (void) sound_load(0.2F /* volume */, "data/sounds/misc/rock.ogg", "rock", 3 /* concurrent_max */);
   (void) sound_load(1.0F /* volume */, "data/sounds/misc/teleport.ogg", "teleport");
-  (void) sound_load(1.0F /* volume */, "data/sounds/impacts/explosion.ogg", "explosion", 10 /* concurrent_max */);
+  (void) sound_load(0.5F /* volume */, "data/sounds/impacts/explosion.ogg", "explosion", 10 /* concurrent_max */);
   (void) sound_load(1.0F /* volume */, "data/sounds/impacts/splash.ogg", "splash");
   (void) sound_load(1.0F /* volume */, "data/sounds/misc/footstep.ogg", "footstep");
   (void) sound_load(1.0F /* volume */, "data/sounds/misc/footstep_foliage.ogg", "footstep_foliage");
