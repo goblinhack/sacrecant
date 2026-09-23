@@ -95,6 +95,11 @@ static void level_display_spell_effect(Gamep g, Levelsp v, Levelp l, FboEnum fbo
 {
   TRACE_DEBUG();
 
+  auto *player = thing_player(g);
+  if (! player) {
+    return;
+  }
+
   //
   // Cursors do not use up slots on the map, to avoid them interacting with anything
   //
@@ -110,7 +115,13 @@ static void level_display_spell_effect(Gamep g, Levelsp v, Levelp l, FboEnum fbo
         if (e != nullptr) {
           auto *spell = e->spell_info.spell;
           if (spell != nullptr) {
-            auto radius = thing_spell_radius(g, v, l, spell);
+            auto radius      = thing_spell_radius(g, v, l, spell);
+            auto spell_range = thing_spell_range(g, v, l, spell);
+
+            if (distance(v->cursor_at, thing_at(g, v, l, player)) > spell_range) {
+              return;
+            }
+
             for (auto dx = -radius; dx <= radius; dx++) {
               for (auto dy = -radius; dy <= radius; dy++) {
                 bpoint const effect(v->cursor_at.x + dx, v->cursor_at.y + dy);

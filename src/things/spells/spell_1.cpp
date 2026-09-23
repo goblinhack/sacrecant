@@ -113,8 +113,9 @@ static bool tp_spell_firestorm_on_cast_do(Gamep g, Levelsp v, Levelp l, Thingp s
   TRACE_INDENT();
   THING_DBG(g, v, l, spell, "this");
 
-  auto at     = thing_at(g, v, l, spell);
-  auto radius = thing_spell_radius(g, v, l, spell);
+  auto user_at      = thing_at(g, v, l, user);
+  auto spell_radius = thing_spell_radius(g, v, l, spell);
+  auto spell_range  = thing_spell_range(g, v, l, spell);
 
   if (e.spell_info.option_name.empty() || (e.spell_info.option_name == option_1_targeted)) {
     if (! e.spell_info.target_set) {
@@ -122,12 +123,22 @@ static bool tp_spell_firestorm_on_cast_do(Gamep g, Levelsp v, Levelp l, Thingp s
       return false;
     }
 
-    at = e.spell_info.target;
-    for (auto dx = -radius; dx <= radius; dx++) {
-      for (auto dy = -radius; dy <= radius; dy++) {
-        bpoint p(at.x + dx, at.y + dy);
+    //
+    // Check the range
+    //
+    auto target = e.spell_info.target;
+    if (distance(target, user_at) > spell_range) {
+      if (thing_is_player(user)) {
+        topcon("That tile is out of range.");
+      }
+      return false;
+    }
+
+    for (auto dx = -spell_radius; dx <= spell_radius; dx++) {
+      for (auto dy = -spell_radius; dy <= spell_radius; dy++) {
+        bpoint p(target.x + dx, target.y + dy);
         if (! is_oob(p)) {
-          if (distance(p, at) <= radius) {
+          if (distance(p, target) <= spell_radius) {
             tp_spell_firestorm_spawn_explosion(g, v, l, spell, user, p, e);
           }
         }
@@ -140,12 +151,12 @@ static bool tp_spell_firestorm_on_cast_do(Gamep g, Levelsp v, Levelp l, Thingp s
   }
 
   if (e.spell_info.option_name == option_2_radial_including_player_tile) {
-    at = thing_at(g, v, l, user);
-    for (auto dx = -radius; dx <= radius; dx++) {
-      for (auto dy = -radius; dy <= radius; dy++) {
-        bpoint p(at.x + dx, at.y + dy);
+    auto target = thing_at(g, v, l, user);
+    for (auto dx = -spell_radius; dx <= spell_radius; dx++) {
+      for (auto dy = -spell_radius; dy <= spell_radius; dy++) {
+        bpoint p(target.x + dx, target.y + dy);
         if (! is_oob(p)) {
-          if (distance(p, at) <= radius) {
+          if (distance(p, target) <= spell_radius) {
             tp_spell_firestorm_spawn_explosion(g, v, l, spell, user, p, e);
           }
         }
@@ -157,13 +168,13 @@ static bool tp_spell_firestorm_on_cast_do(Gamep g, Levelsp v, Levelp l, Thingp s
   }
 
   if (e.spell_info.option_name == option_3_radial_excluding_player_tile) {
-    at = thing_at(g, v, l, user);
-    for (auto dx = -radius; dx <= radius; dx++) {
-      for (auto dy = -radius; dy <= radius; dy++) {
-        bpoint p(at.x + dx, at.y + dy);
+    auto target = thing_at(g, v, l, user);
+    for (auto dx = -spell_radius; dx <= spell_radius; dx++) {
+      for (auto dy = -spell_radius; dy <= spell_radius; dy++) {
+        bpoint p(target.x + dx, target.y + dy);
         if (! is_oob(p)) {
-          if (p != at) {
-            if (distance(p, at) <= radius) {
+          if (p != target) {
+            if (distance(p, target) <= spell_radius) {
               tp_spell_firestorm_spawn_explosion(g, v, l, spell, user, p, e);
             }
           }
