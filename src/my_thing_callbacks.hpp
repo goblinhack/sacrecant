@@ -84,8 +84,9 @@ auto               thing_on_carry_request_set(Tpp tp, thing_on_carry_request_t c
 [[nodiscard]] auto thing_on_carry_request(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp user, ThingEvent & /*e*/) -> bool;
 
 using thing_on_cast_request_t = bool (*)(Gamep, Levelsp, Levelp, Thingp me, Thingp caster, ThingEvent &);
-auto               thing_on_cast_request_set(Tpp tp, thing_on_cast_request_t callback) -> void;
-[[nodiscard]] auto thing_on_cast_request(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, ThingEvent & /*e*/) -> bool;
+auto thing_on_cast_request_set(Tpp tp, thing_on_cast_request_t callback) -> void;
+using thing_on_cast_do_t = bool (*)(Gamep, Levelsp, Levelp, Thingp me, Thingp caster, ThingEvent &);
+auto thing_on_cast_do_set(Tpp tp, thing_on_cast_do_t callback) -> void;
 
 using thing_on_drop_request_t = bool (*)(Gamep, Levelsp, Levelp, Thingp me, Thingp dropper, ThingEvent &);
 auto               thing_on_drop_request_set(Tpp tp, thing_on_drop_request_t callback) -> void;

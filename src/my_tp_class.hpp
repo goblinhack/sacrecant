@@ -322,6 +322,7 @@ public:
   thing_on_carry_request_t      on_carry_request      = {};
   thing_on_drop_request_t       on_drop_request       = {};
   thing_on_cast_request_t       on_cast_request       = {};
+  thing_on_cast_do_t            on_cast_do            = {};
   thing_on_carry_success_t      on_carry_success      = {};
   thing_on_drop_success_t       on_drop_success       = {};
   thing_on_use_weapon_request_t on_use_weapon_request = {};

@@ -119,10 +119,6 @@ using ThingSpell = struct ThingSpell {
   // Optional
   //
   bool target_set {};
-  //
-  // Indicates successful casting
-  //
-  bool spell_was_cast {};
 };
 
 //

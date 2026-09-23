@@ -154,9 +154,8 @@ static void wid_spell_checkout(Gamep g)
         //
         // Too many spells?
         //
-        topcon(UI_IMPORTANT_FMT_STR
-               "You fail to learn %s and add it to your spellbook. You have not been charged for this transaction!" UI_RESET_FMT,
-               name.c_str());
+        topcon(UI_WARN_FMT_STR "You fail to learn %s and add it to your spellbook!" UI_RESET_FMT, name.c_str());
+        topcon("You have not been charged for this transaction!");
       }
     } else {
       //
@@ -809,7 +808,7 @@ static void wid_spell_learn_stats_arcana_life_mouse_over_begin(Gamep g, Widp w, 
                       UI_INFO2_FMT_STR "With the Life Arcana, you specialize in all things living, plant summoning, healing of allies etc...\n",
                       TEXT_FORMAT_LHS);
   wid_spell_learn_stats_arcana_common_mouse_over_begin(g);
-  wid_over_stats->log(g, UI_IMPORTANT_FMT_STR "Specializing in Death will make Life spells more costly.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_WARN_FMT_STR "Specializing in Death will make Life spells more costly.\n", TEXT_FORMAT_LHS);
   wid_over_stats->compress(g);
 
   level_cursor_path_reset(g);
@@ -833,7 +832,7 @@ static void wid_spell_learn_stats_arcana_death_mouse_over_begin(Gamep g, Widp w,
   wid_over_stats->log(g, UI_INFO2_FMT_STR "With the Death Arcana, you specialize in all things dead, undead summoning, finger of death etc...\n",
                       TEXT_FORMAT_LHS);
   wid_spell_learn_stats_arcana_common_mouse_over_begin(g);
-  wid_over_stats->log(g, UI_IMPORTANT_FMT_STR "Specializing in Life will make Death spells more costly.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_WARN_FMT_STR "Specializing in Life will make Death spells more costly.\n", TEXT_FORMAT_LHS);
   wid_over_stats->compress(g);
 
   level_cursor_path_reset(g);

@@ -10,7 +10,11 @@
 #include "my_thing_inlines.hpp"
 #include "my_tp.hpp"
 #include "my_types.hpp"
+#include "my_ui.hpp"
+
 #include <string>
+
+[[nodiscard]] static auto thing_spell_cast_do(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, ThingEvent &e) -> bool;
 
 auto thing_spell_cast(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, const std::string &option_name) -> bool
 {
@@ -54,7 +58,7 @@ auto thing_spell_cast(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, c
   TRACE_INDENT();
   THING_DBG(g, v, l, spell, "this");
 
-  return thing_on_cast_request(g, v, l, spell, user, e);
+  return thing_spell_cast_do(g, v, l, spell, user, e);
 }
 
 auto thing_spell_cast_target(Gamep g, Levelsp v, Levelp l, ThingEventp e) -> bool
@@ -86,7 +90,7 @@ auto thing_spell_cast_target(Gamep g, Levelsp v, Levelp l, ThingEventp e) -> boo
   TRACE_INDENT();
   THING_DBG(g, v, l, spell, "this");
 
-  return thing_on_cast_request(g, v, l, spell, user, *e);
+  return thing_spell_cast_do(g, v, l, spell, user, *e);
 }
 
 auto thing_spell_arcana(Gamep g, Levelsp v, Levelp l, Thingp me) -> ThingStatType
@@ -247,7 +251,17 @@ void thing_on_cast_request_set(Tpp tp, thing_on_cast_request_t callback)
   tp->on_cast_request = callback;
 }
 
-[[nodiscard]] auto thing_on_cast_request(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, ThingEvent &e) -> bool
+void thing_on_cast_do_set(Tpp tp, thing_on_cast_do_t callback)
+{
+  TRACE();
+  if (tp == nullptr) [[unlikely]] {
+    ERR("no thing template pointer");
+    return;
+  }
+  tp->on_cast_do = callback;
+}
+
+[[nodiscard]] static auto thing_spell_cast_do(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, ThingEvent &e) -> bool
 {
   TRACE();
 
@@ -266,21 +280,46 @@ void thing_on_cast_request_set(Tpp tp, thing_on_cast_request_t callback)
     return false;
   }
 
-  auto ok = tp->on_cast_request(g, v, l, spell, user, e);
+  auto old_state = game_state(g);
+  auto ok        = tp->on_cast_request(g, v, l, spell, user, e);
+  auto new_state = game_state(g);
 
-  if (ok) {
-    if (e.spell_info.spell_was_cast) {
-      if (thing_is_player(user)) {
-        auto cost = thing_spell_mana_cost(g, v, l, spell);
-        auto name = thing_name_long(g, v, l, spell);
-        (void) thing_mana_decr(g, v, l, user, cost);
-        topcon("You spent %d mana on casting spell %s.", cost, name.c_str());
-        (void) level_tick_begin_requested(g, v, l, "player cast a spell");
-      }
-    }
+  if (! ok) {
+    return ok;
   }
 
-  return ok;
+  auto cost  = thing_spell_mana_cost(g, v, l, spell);
+  auto avail = thing_mana(g, v, l, user);
+  auto name  = thing_name_long(g, v, l, spell);
+
+  if (avail < cost) {
+    if (thing_is_player(user)) {
+      topcon(UI_WARN_FMT_STR "You don't have enough Mana for casting spell %s." UI_RESET_FMT, name.c_str());
+      game_state_reset(g, "failed to cast spell");
+    }
+    return false;
+  }
+
+  //
+  // Probably looking for a target.
+  //
+  if (old_state != new_state) {
+    return ok;
+  }
+
+  if (! tp->on_cast_do(g, v, l, spell, user, e)) {
+    topcon(UI_WARN_FMT_STR "You fail to cast spell %s." UI_RESET_FMT, name.c_str());
+    (void) level_tick_begin_requested(g, v, l, "player cast a spell");
+    return false;
+  }
+
+  (void) thing_mana_decr(g, v, l, user, cost);
+  if (thing_is_player(user)) {
+    topcon("You spent %d Mana on casting spell %s.", cost, name.c_str());
+    (void) level_tick_begin_requested(g, v, l, "player cast a spell");
+  }
+
+  return true;
 }
 
 [[nodiscard]] auto thing_spell_radius(Gamep g, Levelsp v, Levelp l, Thingp me) -> int

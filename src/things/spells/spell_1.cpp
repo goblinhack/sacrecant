@@ -3,6 +3,7 @@
 //
 
 #include "../../my_callstack.hpp"
+#include "../../my_level_inlines.hpp"
 #include "../../my_main.hpp"
 #include "../../my_sprintf.hpp"
 #include "../../my_thing_callbacks.hpp"
@@ -13,7 +14,7 @@
 
 static const std::string upgrade_1 = "increase radius and range";
 static const std::string upgrade_2 = "increase damage";
-static const std::string option_1  = "targeted fireball";
+static const std::string option_1  = "targeted firestorm";
 static const std::string option_2  = "radial, including your tile";
 static const std::string option_3  = "radial, excluding your tile";
 
@@ -21,9 +22,9 @@ static auto tp_spell_1_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::stri
 {
   TRACE();
 
-  return                                                                                                         //
-      UI_INFO1_FMT_STR "Conjure a devastating fireball, targeted at your enemies or radially around yourself.\n" //
-      UI_INFO2_FMT_STR "Can be upgraded in power and distance.\n";                                               //
+  return                                                                                                          //
+      UI_INFO1_FMT_STR "Conjure a devastating firestorm, targeted at your enemies or radially around yourself.\n" //
+      UI_INFO2_FMT_STR "Can be upgraded in power and distance.\n";                                                //
 }
 
 static bool tp_spell_1_on_cast_request(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, ThingEvent &e)
@@ -48,27 +49,84 @@ static bool tp_spell_1_on_cast_request(Gamep g, Levelsp v, Levelp l, Thingp spel
       return true;
     }
 
+    return true;
+  }
+
+  if (e.spell_info.option_name == option_2) {
+    topcon("todo option 2");
+    return true;
+  }
+
+  if (e.spell_info.option_name == option_3) {
+    topcon("todo option 3");
+    return true;
+  }
+
+  thing_err(g, v, l, spell, "unknown spell option: %s", e.spell_info.option_name.c_str());
+  return false;
+}
+
+static bool tp_spell_1_on_cast_do(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, ThingEvent &e)
+{
+  TRACE();
+
+  THING_DBG(g, v, l, user, "cast do");
+  TRACE_INDENT();
+  THING_DBG(g, v, l, spell, "this");
+
+  auto at     = thing_at(g, v, l, spell);
+  auto radius = thing_spell_radius(g, v, l, spell);
+
+  if (e.spell_info.option_name.empty() || (e.spell_info.option_name == option_1)) {
+    //
+    // If target is not set, get one
+    //
+    if (! e.spell_info.target_set) {
+      THING_DBG(g, v, l, user, "need target");
+      if (thing_is_player(user)) {
+        topcon("Choose a target for this spell.");
+        game_spell_cast_set(g, e);
+        game_state_change(g, STATE_CHOOSE_SPELL_TARGET, "choose a target");
+      }
+      return true;
+    }
+
     THING_DBG(g, v, l, user, "got target");
-    e.spell_info.spell_was_cast = true;
+    at = e.spell_info.target;
+
+    for (auto dx = -radius; dx <= radius; dx++) {
+      for (auto dy = -radius; dy <= radius; dy++) {
+        bpoint p(at.x + dx, at.y + dy);
+
+        if (is_oob(p)) {
+          continue;
+        }
+
+        if (level_is_obs_to_explosion(g, v, l, p) == nullptr) {
+          if (! level_is_explosion_bool(g, v, l, p)) {
+            (void) thing_spawn(g, v, l, tp_first(is_explosion), p, &e);
+          }
+        }
+      }
+    }
+
     thing_sound_play(g, v, l, user, "spell");
     return true;
   }
 
   if (e.spell_info.option_name == option_2) {
     topcon("todo option 2");
-    e.spell_info.spell_was_cast = true;
     thing_sound_play(g, v, l, user, "spell");
     return true;
   }
 
   if (e.spell_info.option_name == option_3) {
     topcon("todo option 3");
-    e.spell_info.spell_was_cast = true;
     thing_sound_play(g, v, l, user, "spell");
     return true;
   }
 
-  thing_err(g, v, l, spell, "unknown spell option: %s", e.spell_info.option_name.c_str());
+  thing_err(g, v, l, spell, "unknown spell casting option: %s", e.spell_info.option_name.c_str());
   return false;
 }
 
@@ -119,16 +177,17 @@ static auto tp_spell_1_on_upgrade_do(Gamep g, Levelsp v, Levelp l, Thingp me, Tp
   thing_on_upgrade_possible_set(tp, tp_spell_1_on_upgrade_possible);
   thing_on_upgrade_do_set(tp, tp_spell_1_on_upgrade_do);
   thing_on_cast_request_set(tp, tp_spell_1_on_cast_request);
+  thing_on_cast_do_set(tp, tp_spell_1_on_cast_do);
   tp_flag_set(tp, is_spell);
   tp_stat_set(tp, THING_STAT_ARCANA_FIRE, "11");
-  tp_spell_radius_set(tp, 3);
+  tp_spell_radius_set(tp, 1);
   tp_spell_radius_max_set(tp, 6);
   tp_spell_range_set(tp, 8);
   tp_spell_range_max_set(tp, 12);
   tp_flag_set(tp, is_loggable);
   tp_spell_cost_set(tp, 1);
-  tp_spell_mana_cost_set(tp, 50);
-  tp_name_long_set(tp, "fireball");
+  tp_spell_mana_cost_set(tp, 10);
+  tp_name_long_set(tp, "firestorm");
   // end sort marker1 }
 
   tp_spell_upgrade_add(tp,

@@ -65,7 +65,7 @@ static auto thing_eat_item(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp eat
 
   if (thing_is_ethereal(g, v, l, eater) || thing_is_wall_walker(g, v, l, eater)) {
     if (thing_is_player(eater)) {
-      topcon(UI_WARN_FMT_STR "You try to eat, but it passes right through you.\n");
+      topcon(UI_WARN_FMT_STR "You try to eat, but it passes right through you.\n" UI_RESET_FMT);
     }
 
     auto new_event       = e;
