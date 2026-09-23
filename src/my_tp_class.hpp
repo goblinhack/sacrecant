@@ -155,18 +155,31 @@ public:
   //
   int attack_max_per_tick {0};
 
-  int value1 {0};
-  int value2 {0};
-  int mana_cost {0};
-  int effect_radius {0};
+  //
+  // Spell related
+  //
+  int mana {0};
+  int mana_max {0};
+  int spell_mana_cost {0};
+  int sac_points {0};
+  int sac_points_max {0};
   int spell_cost {0};
+  int spell_radius {0};
+  int spell_radius_max {0};
+  int spell_range {0};
+  int spell_range_max {0};
+
+  //
+  // Crit and fumble rolls
+  //
   int crit_roll {20};
   int fumble_roll {1};
+
+  //
+  // Game difficulty
+  //
   int difficulty {0};
-  int mana_max {0};
-  int sac_points_max {0};
-  int mana {0};
-  int sac_points {0};
+
   int jump_attack_pct_chance {0};
   int items_collected_max {0};
   int hearing_threshold {0};
@@ -175,6 +188,9 @@ public:
   int distance_avoid_target {0};
   int stamina {0};
   int score_value {0};
+
+  int value1 {0};
+  int value2 {0};
 
   //
   // Max number of minions the thing can spawn

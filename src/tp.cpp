@@ -1662,44 +1662,104 @@ void tp_value2_set(Tpp tp, int val)
   return tp->value2;
 }
 
-void tp_mana_cost_set(Tpp tp, int val)
+void tp_spell_mana_cost_set(Tpp tp, int val)
 {
   TRACE_DEBUG();
   if (tp == nullptr) [[unlikely]] {
     ERR("no thing template pointer");
     return;
   }
-  tp->mana_cost = val;
+  tp->spell_mana_cost = val;
 }
 
-[[nodiscard]] auto tp_mana_cost_get(Tpp tp) -> int
+[[nodiscard]] auto tp_spell_mana_cost_get(Tpp tp) -> int
 {
   TRACE_DEBUG();
   if (tp == nullptr) [[unlikely]] {
     ERR("no thing template pointer");
     return 0;
   }
-  return tp->mana_cost;
+  return tp->spell_mana_cost;
 }
 
-void tp_effect_radius_set(Tpp tp, int val)
+void tp_spell_radius_set(Tpp tp, int val)
 {
   TRACE_DEBUG();
   if (tp == nullptr) [[unlikely]] {
     ERR("no thing template pointer");
     return;
   }
-  tp->effect_radius = val;
+  tp->spell_radius = val;
 }
 
-[[nodiscard]] auto tp_effect_radius_get(Tpp tp) -> int
+[[nodiscard]] auto tp_spell_radius_get(Tpp tp) -> int
 {
   TRACE_DEBUG();
   if (tp == nullptr) [[unlikely]] {
     ERR("no thing template pointer");
     return 0;
   }
-  return tp->effect_radius;
+  return tp->spell_radius;
+}
+
+void tp_spell_radius_max_set(Tpp tp, int val)
+{
+  TRACE_DEBUG();
+  if (tp == nullptr) [[unlikely]] {
+    ERR("no thing template pointer");
+    return;
+  }
+  tp->spell_radius_max = val;
+}
+
+[[nodiscard]] auto tp_spell_radius_max_get(Tpp tp) -> int
+{
+  TRACE_DEBUG();
+  if (tp == nullptr) [[unlikely]] {
+    ERR("no thing template pointer");
+    return 0;
+  }
+  return tp->spell_radius_max;
+}
+
+void tp_spell_range_set(Tpp tp, int val)
+{
+  TRACE_DEBUG();
+  if (tp == nullptr) [[unlikely]] {
+    ERR("no thing template pointer");
+    return;
+  }
+  tp->spell_range = val;
+}
+
+[[nodiscard]] auto tp_spell_range_get(Tpp tp) -> int
+{
+  TRACE_DEBUG();
+  if (tp == nullptr) [[unlikely]] {
+    ERR("no thing template pointer");
+    return 0;
+  }
+  return tp->spell_range;
+}
+
+void tp_spell_range_max_set(Tpp tp, int val)
+{
+  TRACE_DEBUG();
+  if (tp == nullptr) [[unlikely]] {
+    ERR("no thing template pointer");
+    return;
+  }
+  tp->spell_range_max = val;
+}
+
+[[nodiscard]] auto tp_spell_range_max_get(Tpp tp) -> int
+{
+  TRACE_DEBUG();
+  if (tp == nullptr) [[unlikely]] {
+    ERR("no thing template pointer");
+    return 0;
+  }
+  return tp->spell_range_max;
 }
 
 void tp_spell_cost_set(Tpp tp, int val)

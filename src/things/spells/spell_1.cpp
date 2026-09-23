@@ -11,7 +11,7 @@
 #include "../../my_tps.hpp"
 #include "../../my_ui.hpp"
 
-static const std::string upgrade_1 = "increase radius";
+static const std::string upgrade_1 = "increase radius and range";
 static const std::string upgrade_2 = "increase damage";
 static const std::string option_1  = "targeted fireball";
 static const std::string option_2  = "radial, including your tile";
@@ -21,12 +21,9 @@ static auto tp_spell_1_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::stri
 {
   TRACE();
 
-  auto s = string_sprintf("- %-*s%2d", UI_RIGHTBAR_WIDTH - 6, "Effect radius: ", thing_effect_radius(g, v, l, me));
   return                                                                                                         //
       UI_INFO1_FMT_STR "Conjure a devastating fireball, targeted at your enemies or radially around yourself.\n" //
-      UI_INFO2_FMT_STR "Can be upgraded in power and distance.\n"                                                //
-      UI_RESET_FMT
-      + s;
+      UI_INFO2_FMT_STR "Can be upgraded in power and distance.\n";                                               //
 }
 
 static bool tp_spell_1_on_cast_request(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, ThingEvent &e)
@@ -79,17 +76,18 @@ static auto tp_spell_1_on_upgrade_possible(Gamep g, Levelsp v, Levelp l, Thingp 
 {
   TRACE();
 
+  bool upgradeable = false;
+
   if (u.name == upgrade_1) {
-    if (thing_effect_radius(g, v, l, me) < 4) {
-      return true;
-    }
+    upgradeable = (thing_spell_radius(g, v, l, me) < thing_spell_radius_max(g, v, l, me));
+    upgradeable |= (thing_spell_range(g, v, l, me) < thing_spell_range_max(g, v, l, me));
   }
 
   if (u.name == upgrade_2) {
-    return true;
+    upgradeable = true;
   }
 
-  return false;
+  return upgradeable;
 }
 
 static auto tp_spell_1_on_upgrade_do(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade u) -> bool
@@ -97,7 +95,8 @@ static auto tp_spell_1_on_upgrade_do(Gamep g, Levelsp v, Levelp l, Thingp me, Tp
   TRACE();
 
   if (u.name == upgrade_1) {
-    (void) thing_effect_radius_incr(g, v, l, me);
+    (void) thing_spell_radius_incr(g, v, l, me);
+    (void) thing_spell_range_incr(g, v, l, me);
     return true;
   }
 
@@ -122,10 +121,13 @@ static auto tp_spell_1_on_upgrade_do(Gamep g, Levelsp v, Levelp l, Thingp me, Tp
   thing_on_cast_request_set(tp, tp_spell_1_on_cast_request);
   tp_flag_set(tp, is_spell);
   tp_stat_set(tp, THING_STAT_ARCANA_FIRE, "11");
-  tp_effect_radius_set(tp, 3);
+  tp_spell_radius_set(tp, 3);
+  tp_spell_radius_max_set(tp, 6);
+  tp_spell_range_set(tp, 8);
+  tp_spell_range_max_set(tp, 12);
   tp_flag_set(tp, is_loggable);
   tp_spell_cost_set(tp, 1);
-  tp_mana_cost_set(tp, 50);
+  tp_spell_mana_cost_set(tp, 50);
   tp_name_long_set(tp, "fireball");
   // end sort marker1 }
 

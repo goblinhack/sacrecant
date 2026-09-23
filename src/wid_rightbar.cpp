@@ -138,23 +138,31 @@ static auto wid_rightbar_thing_info_add(Gamep g, Levelsp v, Levelp l) -> void
   }
 
   if (! got_one) {
-    auto *sac = game_cand_sacrifice_get_prev(g);
-    if (sac != nullptr) {
-      wid_thing_info(g, v, l, sac, wid_rightbar, UI_RIGHTBAR_WIDTH);
-      got_one = true;
-    }
-  }
-
-  if (! got_one) {
-    auto *sac = game_cand_sacrifice_get_prev(g);
-    if (sac != nullptr) {
-      wid_thing_info(g, v, l, sac, wid_rightbar, UI_RIGHTBAR_WIDTH);
-      got_one = true;
-    }
-  }
-
-  if (! got_one) {
     auto *sac = game_sacrifice_mouse_over_currently_get(g);
+    if (sac != nullptr) {
+      wid_thing_info(g, v, l, sac, wid_rightbar, UI_RIGHTBAR_WIDTH);
+      got_one = true;
+    }
+  }
+
+  if (! got_one) {
+    auto *sac = game_cand_sacrifice_get_prev(g);
+    if (sac != nullptr) {
+      wid_thing_info(g, v, l, sac, wid_rightbar, UI_RIGHTBAR_WIDTH);
+      got_one = true;
+    }
+  }
+
+  if (! got_one) {
+    auto *sac = game_spell_mouse_over_currently_get(g);
+    if (sac != nullptr) {
+      wid_thing_info(g, v, l, sac, wid_rightbar, UI_RIGHTBAR_WIDTH);
+      got_one = true;
+    }
+  }
+
+  if (! got_one) {
+    auto *sac = game_cand_spell_get_prev(g);
     if (sac != nullptr) {
       wid_thing_info(g, v, l, sac, wid_rightbar, UI_RIGHTBAR_WIDTH);
       got_one = true;

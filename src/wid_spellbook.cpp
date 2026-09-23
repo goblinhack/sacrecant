@@ -81,7 +81,7 @@ static auto wid_player_spent_points(Gamep g, Levelsp v, Levelp l, Thingp player)
     }
 
     if (game_cand_spell_find(g, spell)) {
-      spent += thing_mana_cost_for(g, v, l, spell, player);
+      spent += thing_spell_mana_cost_for(g, v, l, spell, player);
     }
   }
 
@@ -119,9 +119,6 @@ static void wid_player_update_spell_selections(Gamep g, Levelsp v, Levelp l, Thi
   auto avail = wid_player_avail_points(g, v, l, player);
   Widp w     = nullptr;
 
-  wid_unset_focus(g);
-  wid_mouse_over_end(g);
-
   for (auto &n : wid_spell) {
     w = n;
     if (w == nullptr) {
@@ -133,12 +130,12 @@ static void wid_player_update_spell_selections(Gamep g, Levelsp v, Levelp l, Thi
       continue;
     }
 
-    auto        index     = wid_get_int_context(w);
-    auto        mana_cost = thing_mana_cost_for(g, v, l, spell, player);
-    auto       *tp        = thing_tp(spell);
+    auto        index           = wid_get_int_context(w);
+    auto        spell_mana_cost = thing_spell_mana_cost_for(g, v, l, spell, player);
+    auto       *tp              = thing_tp(spell);
     std::string s;
 
-    if (mana_cost <= avail) {
+    if (spell_mana_cost <= avail) {
       s += "%%fg=gray90$";
     } else {
       s += "%%fg=gray50$";
@@ -180,7 +177,7 @@ static void wid_player_update_spell_selections(Gamep g, Levelsp v, Levelp l, Thi
       default :                      s += "-    "; break;
     }
 
-    s += string_sprintf("%2d", mana_cost);
+    s += string_sprintf("%2d", spell_mana_cost);
 
     wid_set_text(w, s);
     wid_apply_bar_button(g, w);
@@ -214,12 +211,7 @@ static void wid_spellbook_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*
   }
 
   game_spell_mouse_over_currently_set(g, spell);
-
-  level_cursor_describe_clear(g, v);
-
-  if (level_cursor_describe_add(g, v, spell)) {
-    game_request_to_remake_ui_set(g);
-  }
+  game_request_to_remake_ui_set(g);
 }
 
 static void wid_spellbook_mouse_over_end(Gamep g, Widp w)
@@ -237,10 +229,7 @@ static void wid_spellbook_mouse_over_end(Gamep g, Widp w)
   }
 
   game_spell_mouse_over_currently_set(g, nullptr);
-
-  if (level_cursor_describe_remove(g, v, spell)) {
-    game_request_to_remake_ui_set(g);
-  }
+  game_request_to_remake_ui_set(g);
 }
 
 [[nodiscard]] static auto wid_spellbook_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
@@ -267,7 +256,7 @@ static void wid_spellbook_mouse_over_end(Gamep g, Widp w)
     return false;
   }
 
-  auto cost  = thing_mana_cost_for(g, v, l, spell, player);
+  auto cost  = thing_spell_mana_cost_for(g, v, l, spell, player);
   auto avail = wid_player_avail_points(g, v, l, player);
 
   if (cost > avail) {
@@ -691,6 +680,8 @@ void wid_spellbook(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType fi
     wid_spellbook_destroy(g);
   }
 
+  level_cursor_describe_clear(g, v);
+
   const int menu_width  = UI_INVENTORY_WIDTH;
   const int menu_height = needed_height + 18;
 
@@ -794,11 +785,11 @@ void wid_spellbook(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType fi
   }
 
   //
-  // Sort by mana_cost
+  // Sort by spell_mana_cost
   //
   std::ranges::sort(wid_spell_things, [ g, v, l, player ](const Thingp &a, const Thingp &b) -> bool {
     TRACE();
-    return thing_mana_cost_for(g, v, l, a, player) < thing_mana_cost_for(g, v, l, b, player);
+    return thing_spell_mana_cost_for(g, v, l, a, player) < thing_spell_mana_cost_for(g, v, l, b, player);
   });
 
   memset(wid_spell, 0, sizeof(wid_spell));

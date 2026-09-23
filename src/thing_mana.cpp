@@ -136,7 +136,7 @@
   return t->_mana_max -= val;
 }
 
-auto thing_mana_cost_for(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user) -> int
+auto thing_spell_mana_cost_for(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user) -> int
 {
   TRACE_DEBUG();
 
@@ -150,7 +150,7 @@ auto thing_mana_cost_for(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user
     return 0;
   }
 
-  auto cost   = thing_mana_cost(g, v, l, spell);
+  auto cost   = thing_spell_mana_cost(g, v, l, spell);
   auto arcana = thing_spell_arcana(g, v, l, spell);
 
   switch (thing_stat_mod(g, v, l, user, arcana)) {
@@ -182,7 +182,7 @@ auto thing_mana_cost_for(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user
   return cost;
 }
 
-[[nodiscard]] auto thing_mana_cost(Gamep g, Levelsp v, Levelp l, Thingp t) -> int
+[[nodiscard]] auto thing_spell_mana_cost(Gamep g, Levelsp v, Levelp l, Thingp t) -> int
 {
   TRACE_DEBUG();
 
@@ -190,10 +190,10 @@ auto thing_mana_cost_for(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user
     ERR("no thing pointer");
     return 0;
   }
-  return t->_mana_cost;
+  return t->_spell_mana_cost;
 }
 
-[[nodiscard]] auto thing_mana_cost_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+[[nodiscard]] auto thing_spell_mana_cost_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
 {
   TRACE_DEBUG();
 
@@ -201,10 +201,10 @@ auto thing_mana_cost_for(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user
     ERR("no thing pointer");
     return 0;
   }
-  return t->_mana_cost = val;
+  return t->_spell_mana_cost = val;
 }
 
-[[nodiscard]] auto thing_mana_cost_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+[[nodiscard]] auto thing_spell_mana_cost_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
 {
   TRACE_DEBUG();
 
@@ -212,10 +212,10 @@ auto thing_mana_cost_for(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user
     ERR("no thing pointer");
     return 0;
   }
-  return t->_mana_cost += val;
+  return t->_spell_mana_cost += val;
 }
 
-[[nodiscard]] auto thing_mana_cost_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+[[nodiscard]] auto thing_spell_mana_cost_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
 {
   TRACE_DEBUG();
 
@@ -223,8 +223,8 @@ auto thing_mana_cost_for(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user
     ERR("no thing pointer");
     return 0;
   }
-  if (static_cast< int >(t->_mana_cost) - val <= 0) {
-    return t->_mana_cost = 0;
+  if (static_cast< int >(t->_spell_mana_cost) - val <= 0) {
+    return t->_spell_mana_cost = 0;
   }
-  return t->_mana_cost -= val;
+  return t->_spell_mana_cost -= val;
 }

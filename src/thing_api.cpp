@@ -2137,61 +2137,6 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   return tp_flag(thing_tp(t), is_unused144) != 0;
 }
 
-[[nodiscard]] auto thing_is_able_to_cast_spells(Thingp t) -> bool
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return false;
-  }
-  return tp_flag(thing_tp(t), is_able_to_cast_spells) != 0;
-}
-
-[[nodiscard]] auto thing_is_unused_spell(Thingp t) -> bool
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return false;
-  }
-  return tp_flag(thing_tp(t), is_unused_spell) != 0;
-}
-
-[[nodiscard]] auto thing_is_spell(Thingp t) -> bool
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return false;
-  }
-  return tp_flag(thing_tp(t), is_spell) != 0;
-}
-
-[[nodiscard]] auto thing_is_wall_walker_pass_through(Thingp t) -> bool
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return false;
-  }
-  return tp_flag(thing_tp(t), is_wall_walker_pass_through) != 0;
-}
-
-[[nodiscard]] auto thing_is_obs_to_wall_walker(Thingp t) -> bool
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return false;
-  }
-  return tp_flag(thing_tp(t), is_obs_to_wall_walker) != 0;
-}
-
 [[nodiscard]] auto thing_is_unused151(Thingp t) -> bool
 {
   TRACE_DEBUG();
@@ -3889,52 +3834,6 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     return t->_value2 = 0;
   }
   return t->_value2 -= val;
-}
-[[nodiscard]] auto thing_effect_radius(Gamep g, Levelsp v, Levelp l, Thingp t) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-  return t->_effect_radius;
-}
-
-[[nodiscard]] auto thing_effect_radius_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-  return t->_effect_radius = val;
-}
-
-[[nodiscard]] auto thing_effect_radius_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-  return t->_effect_radius += val;
-}
-
-[[nodiscard]] auto thing_effect_radius_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-  if (static_cast< int >(t->_effect_radius) - val <= 0) {
-    return t->_effect_radius = 0;
-  }
-  return t->_effect_radius -= val;
 }
 
 [[nodiscard]] auto thing_difficulty(Thingp t) -> int

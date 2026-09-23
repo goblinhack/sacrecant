@@ -296,7 +296,7 @@ static void wid_thing_info_stats_spell_mouse_over_begin(Gamep g, Widp w, int /*r
   wid_get_abs_coords(w, &tlx, &tly, &brx, &bry);
 
   int const width  = 32;
-  int const height = 12;
+  int const height = 24;
 
   tlx = UI_LEFTBAR_WIDTH;
   brx = tlx + width;
@@ -308,21 +308,21 @@ static void wid_thing_info_stats_spell_mouse_over_begin(Gamep g, Widp w, int /*r
   wid_over_stats = new WidPopup(g, "stats", tl, br, nullptr, "", false, false);
   wid_over_stats->log(g, UI_HIGHLIGHT_FMT_STR "Arcana modifiers");
   wid_over_stats->log_empty_line(g);
-  wid_over_stats->log(g, UI_INFO1_FMT_STR "Arcana modifiers can impact spell costs and mana drain.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO1_FMT_STR "Arcana modifiers can impact spell costs (SP) and Mana drain.\n", TEXT_FORMAT_LHS);
   wid_over_stats->log_empty_line(g);
   wid_over_stats->log(g, UI_INFO1_FMT_STR "SP is used when buying a spell.\n", TEXT_FORMAT_LHS);
   wid_over_stats->log_empty_line(g);
   wid_over_stats->log(g, UI_INFO1_FMT_STR "Mana is used when casting a spell.\n", TEXT_FORMAT_LHS);
   wid_over_stats->log_empty_line(g);
   wid_over_stats->log(g, UI_INFO1_FMT_STR "Cost modifier table:\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO2_FMT_STR " -9 mod increases SP by 3.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO2_FMT_STR " -6 mod increases SP by 2.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO2_FMT_STR " -5 mod increases mana by 50%%%.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO2_FMT_STR " -3 mod increases SP by 1.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO2_FMT_STR " +3 mod decreases SP by 1.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO2_FMT_STR " +5 mod decreases mana by 50%%%.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO2_FMT_STR " +6 mod decreases SP by 2.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO2_FMT_STR " +9 mod decreases SP by 3.\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO2_FMT_STR " -9 mod increases SP cost by 3\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO2_FMT_STR " -6 mod increases SP cost by 2\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO2_FMT_STR " -5 mod incrs Mana cost by 50%%\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO2_FMT_STR " -3 mod increases SP cost by 1\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO2_FMT_STR " +3 mod decreases SP cost by 1\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO2_FMT_STR " +5 mod decrs Mana cost by 50%%\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO2_FMT_STR " +6 mod decreases SP cost by 2\n", TEXT_FORMAT_LHS);
+  wid_over_stats->log(g, UI_INFO2_FMT_STR " +9 mod decreases SP cost by 3\n", TEXT_FORMAT_LHS);
   wid_over_stats->log_empty_line(g);
   wid_over_stats->compress(g);
 
@@ -1595,26 +1595,74 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     parent->log(g, line, TEXT_FORMAT_RHS);
   }
 
-  if (thing_mana_cost(g, v, l, me) != thing_mana_cost_for(g, v, l, me, player)) {
+  if (thing_spell_mana_cost(g, v, l, me) != thing_spell_mana_cost_for(g, v, l, me, player)) {
     //
     // Discount?
     //
     auto space = (width - 4) / 2;
     auto line  = string_sprintf("- %-*s%*d",          //
                                 space, "Retail Mana", //
-                                space, thing_mana_cost(g, v, l, me));
+                                space, thing_spell_mana_cost(g, v, l, me));
     parent->log(g, line, TEXT_FORMAT_RHS);
 
     line = string_sprintf("- %-*s%*d",     //
                           space, "To you", //
-                          space, thing_mana_cost_for(g, v, l, me, player));
+                          space, thing_spell_mana_cost_for(g, v, l, me, player));
     parent->log(g, UI_IMPORTANT_FMT_STR + line, TEXT_FORMAT_RHS);
   } else {
     auto space = (width - 4) / 2;
     auto line  = string_sprintf("- %-*s%*d",        //
                                 space, "Mana cost", //
-                                space, thing_mana_cost(g, v, l, me));
+                                space, thing_spell_mana_cost(g, v, l, me));
     parent->log(g, line, TEXT_FORMAT_RHS);
+  }
+
+  return true;
+}
+
+//
+// Add spell info
+//
+[[nodiscard]] static auto wid_thing_info_spell_info(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, int width, bool /*title_allowed*/)
+    -> bool
+{
+  TRACE();
+
+  auto *player = thing_player(g);
+  if (player == nullptr) {
+    return false;
+  }
+
+  if (thing_spell_range(g, v, l, me)) {
+    auto space = (width - 4) / 2;
+    auto line  = string_sprintf("- %-*s%*d",          //
+                                space, "Spell range", //
+                                space, thing_spell_range(g, v, l, me));
+    parent->log(g, line, TEXT_FORMAT_RHS);
+  }
+
+  if (thing_spell_range_max(g, v, l, me)) {
+    auto space = (width - 4) / 2;
+    auto line  = string_sprintf("- %-*s%*d",            //
+                                space, "  upgrade max", //
+                                space, thing_spell_range_max(g, v, l, me));
+    parent->log(g, UI_INFO2_FMT_STR + line, TEXT_FORMAT_RHS);
+  }
+
+  if (thing_spell_radius(g, v, l, me)) {
+    auto space = (width - 4) / 2;
+    auto line  = string_sprintf("- %-*s%*d",           //
+                                space, "Spell radius", //
+                                space, thing_spell_radius(g, v, l, me));
+    parent->log(g, line, TEXT_FORMAT_RHS);
+  }
+
+  if (thing_spell_radius_max(g, v, l, me)) {
+    auto space = (width - 4) / 2;
+    auto line  = string_sprintf("- %-*s%*d",            //
+                                space, "  upgrade max", //
+                                space, thing_spell_radius_max(g, v, l, me));
+    parent->log(g, UI_INFO2_FMT_STR + line, TEXT_FORMAT_RHS);
   }
 
   return true;
@@ -2523,9 +2571,7 @@ void wid_thing_info(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, i
     }
   } else {
     if (wid_thing_info_detail(g, v, l, me, parent)) {
-      if (! thing_is_spell(me)) {
-        parent->log_empty_line(g);
-      }
+      parent->log_empty_line(g);
     }
   }
 
@@ -2637,9 +2683,10 @@ void wid_thing_info(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, i
     // Keep it terse
     //
   } else if (thing_is_spell(me)) {
-    if (wid_thing_info_spell_cost(g, v, l, me, parent, width, true /* title allowed */)) {
-      parent->log_empty_line(g);
-    }
+    if (wid_thing_info_spell_cost(g, v, l, me, parent, width, true /* title allowed */)) {}
+    if (wid_thing_info_spell_info(g, v, l, me, parent, width, true /* title allowed */)) {}
+
+    parent->log_empty_line(g);
 
     if (wid_thing_info_spell_stats(g, v, l, me, parent, width)) {}
 

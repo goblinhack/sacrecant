@@ -183,6 +183,11 @@ static void wid_spell_checkout(Gamep g)
             if (u.name == u_name) {
               if (thing_on_upgrade_do(g, v, l, learned_spell, u)) {
                 topcon(UI_INFO_FMT_STR "You spent %d SP on upgrade '%s' for spell %s." UI_RESET_FMT, cost, u_name.c_str(), name.c_str());
+                //
+                // Successfully upgraded
+                //
+                (void) thing_sac_points_decr(g, v, l, player, cost);
+
               } else {
                 topcon(UI_INFO_FMT_STR "You spent %d SPs on upgrade '%s' for spell %s." UI_RESET_FMT, cost, u_name.c_str(), name.c_str());
               }
@@ -311,9 +316,6 @@ static void wid_player_update_spell_selections(Gamep g, Levelsp v, Levelp l, Thi
   auto avail = wid_player_avail_points(g, v, l, player);
   Widp w     = nullptr;
 
-  wid_unset_focus(g);
-  wid_mouse_over_end(g);
-
   for (auto &n : wid_spell) {
     w = n;
     if (w == nullptr) {
@@ -427,12 +429,7 @@ static void wid_spell_learn_spell_via_mouse_over_begin(Gamep g, Widp w, int /*re
   }
 
   game_spell_mouse_over_currently_set(g, spell);
-
-  level_cursor_describe_clear(g, v);
-
-  if (level_cursor_describe_add(g, v, spell)) {
-    game_request_to_remake_ui_set(g);
-  }
+  game_request_to_remake_ui_set(g);
 }
 
 static void wid_spell_learn_spell_via_mouse_over_end(Gamep g, Widp w)
@@ -450,10 +447,7 @@ static void wid_spell_learn_spell_via_mouse_over_end(Gamep g, Widp w)
   }
 
   game_spell_mouse_over_currently_set(g, nullptr);
-
-  if (level_cursor_describe_remove(g, v, spell)) {
-    game_request_to_remake_ui_set(g);
-  }
+  game_request_to_remake_ui_set(g);
 }
 
 [[nodiscard]] static auto wid_spell_learn_spell_via_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
@@ -497,6 +491,7 @@ static void wid_spell_learn_spell_via_mouse_over_end(Gamep g, Widp w)
     (void) sound_play(g, "error");
   }
 
+  game_spell_mouse_over_currently_set(g, nullptr);
   wid_spell_learn_check_if_done(g);
   wid_player_update_spell_selections(g, v, l, player);
   game_request_to_remake_ui_set(g);
@@ -609,7 +604,6 @@ static void wid_spell_learn_spell_via_mouse_over_end(Gamep g, Widp w)
               case 'y' :
               case 'z' :
                 (void) sound_play(g, "keypress");
-                game_spell_mouse_over_currently_set(g, nullptr);
                 w = wid_spell[ c - 'a' ];
                 if (w != nullptr) {
                   (void) wid_spell_learn_spell_via_mouse_down(g, w, -1, -1, 0);
@@ -642,7 +636,6 @@ static void wid_spell_learn_spell_via_mouse_over_end(Gamep g, Widp w)
               case 'Y' :
               case 'Z' :
                 (void) sound_play(g, "keypress");
-                game_spell_mouse_over_currently_set(g, nullptr);
                 w = wid_spell[ c - 'A' + 26 ];
                 if (w != nullptr) {
                   (void) wid_spell_learn_spell_via_mouse_down(g, w, -1, -1, 0);
@@ -908,6 +901,8 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType 
     wid_spell_learn_destroy(g);
   }
 
+  level_cursor_describe_clear(g, v);
+
   std::vector< Tpp > wid_spell_tps;
 
   for (auto &tp : tp_vec) {
@@ -1031,13 +1026,13 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType 
           //
           // All spells
           //
-          wid_spell_things.push_back(existing_spell);
+          wid_spell_things.push_back(already_learned);
         } else {
           //
           // Match filter only
           //
-          if (thing_spell_arcana(g, v, l, existing_spell) == filter) {
-            wid_spell_things.push_back(existing_spell);
+          if (thing_spell_arcana(g, v, l, already_learned) == filter) {
+            wid_spell_things.push_back(already_learned);
           }
         }
       }
@@ -1117,7 +1112,7 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType 
           if (thing_is_upgradable(g, v, l, learned_spell, u)) {
             auto *w_upgrade = wid_spell_learn_list->log(g, "-", TEXT_FORMAT_LHS);
 
-            wid_set_thing_context(g, v, w_upgrade, spell);
+            wid_set_thing_context(g, v, w_upgrade, learned_spell);
             wid_set_int_context(w_upgrade, wid_spell_index);
             wid_set_string_context(w_upgrade, u.name);
             wid_set_on_mouse_down(w_upgrade, wid_spell_upgrade_spell_via_mouse_down);

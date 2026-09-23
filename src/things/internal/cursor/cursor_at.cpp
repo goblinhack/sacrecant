@@ -35,7 +35,15 @@ static auto tp_cursor_at_display_get_tile_info(Gamep g, Levelsp v, Levelp l, con
   // Targeting?
   //
   if (game_state(g) == STATE_CHOOSE_THROW_TARGET) {
-    if (distance(p, thing_at(g, v, l, player)) > thing_distance_throw(g, v, l, player)) {
+    if (! thing_vision_can_see_tile(g, v, l, player, p)) {
+      //
+      // Can't see this tile
+      //
+      return tp_tiles_get(tp, THING_ANIM_CURSOR_TARGET_OUT_OF_RANGE, 0);
+    } else if (distance(p, thing_at(g, v, l, player)) > thing_distance_throw(g, v, l, player)) {
+      //
+      // Too far
+      //
       return tp_tiles_get(tp, THING_ANIM_CURSOR_TARGET_OUT_OF_RANGE, 0);
     }
     return tp_tiles_get(tp, THING_ANIM_CURSOR_TARGET, 0);
@@ -49,7 +57,15 @@ static auto tp_cursor_at_display_get_tile_info(Gamep g, Levelsp v, Levelp l, con
     if (e) {
       auto spell = e->spell_info.spell;
       if (spell) {
-        if (distance(p, thing_at(g, v, l, player)) > thing_effect_radius(g, v, l, spell)) {
+        if (! thing_vision_can_see_tile(g, v, l, player, p)) {
+          //
+          // Can't see this tile
+          //
+          return tp_tiles_get(tp, THING_ANIM_CURSOR_TARGET_OUT_OF_RANGE, 0);
+        } else if (distance(p, thing_at(g, v, l, player)) > thing_spell_range(g, v, l, spell)) {
+          //
+          // Too far
+          //
           return tp_tiles_get(tp, THING_ANIM_CURSOR_TARGET_OUT_OF_RANGE, 0);
         }
         return tp_tiles_get(tp, THING_ANIM_CURSOR_TARGET, 0);

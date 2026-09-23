@@ -198,9 +198,6 @@ static void wid_player_update_selections(Gamep g)
 
   Widp w = nullptr;
 
-  wid_unset_focus(g);
-  wid_mouse_over_end(g);
-
   for (auto &n : wid_player) {
     w = n;
     if (w != nullptr) {
@@ -306,12 +303,7 @@ static void wid_player_select_player_via_mouse_over_begin(Gamep g, Widp w, int /
   }
 
   game_mouse_over_player_set(g, t);
-
-  level_cursor_describe_clear(g, v);
-
-  if (level_cursor_describe_add(g, v, t)) {
-    game_request_to_remake_ui_set(g);
-  }
+  game_request_to_remake_ui_set(g);
 }
 
 static void wid_player_select_player_via_mouse_over_end(Gamep g, Widp w)
@@ -329,10 +321,7 @@ static void wid_player_select_player_via_mouse_over_end(Gamep g, Widp w)
   }
 
   game_mouse_over_player_set(g, nullptr);
-
-  if (level_cursor_describe_remove(g, v, t)) {
-    game_request_to_remake_ui_set(g);
-  }
+  game_request_to_remake_ui_set(g);
 }
 
 [[nodiscard]] static auto wid_player_select_player_via_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
@@ -405,12 +394,7 @@ static void wid_player_select_sacrifice_via_mouse_over_begin(Gamep g, Widp w, in
   }
 
   game_sacrifice_mouse_over_currently_set(g, t);
-
-  level_cursor_describe_clear(g, v);
-
-  if (level_cursor_describe_add(g, v, t)) {
-    game_request_to_remake_ui_set(g);
-  }
+  game_request_to_remake_ui_set(g);
 }
 
 static void wid_player_select_sacrifice_via_mouse_over_end(Gamep g, Widp w)
@@ -428,10 +412,7 @@ static void wid_player_select_sacrifice_via_mouse_over_end(Gamep g, Widp w)
   }
 
   game_sacrifice_mouse_over_currently_set(g, nullptr);
-
-  if (level_cursor_describe_remove(g, v, t)) {
-    game_request_to_remake_ui_set(g);
-  }
+  game_request_to_remake_ui_set(g);
 }
 
 [[nodiscard]] static auto wid_player_select_sacrifice_via_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
@@ -440,6 +421,11 @@ static void wid_player_select_sacrifice_via_mouse_over_end(Gamep g, Widp w)
 
   auto *v = levels_memory_alloc(g);
   if (v == nullptr) {
+    return false;
+  }
+
+  auto *l = game_level_get(g, v);
+  if (l == nullptr) {
     return false;
   }
 
@@ -456,6 +442,7 @@ static void wid_player_select_sacrifice_via_mouse_over_end(Gamep g, Widp w)
     game_cand_sacrifice_set(g, t);
   }
 
+  game_sacrifice_mouse_over_currently_set(g, nullptr);
   wid_player_select_check_if_done(g);
   wid_player_update_selections(g);
   game_request_to_remake_ui_set(g);
@@ -482,12 +469,7 @@ static void wid_player_select_boost_via_mouse_over_begin(Gamep g, Widp w, int /*
   }
 
   game_boost_mouse_over_currently_set(g, t);
-
-  level_cursor_describe_clear(g, v);
-
-  if (level_cursor_describe_add(g, v, t)) {
-    game_request_to_remake_ui_set(g);
-  }
+  game_request_to_remake_ui_set(g);
 }
 
 static void wid_player_select_boost_via_mouse_over_end(Gamep g, Widp w)
@@ -505,10 +487,7 @@ static void wid_player_select_boost_via_mouse_over_end(Gamep g, Widp w)
   }
 
   game_boost_mouse_over_currently_set(g, nullptr);
-
-  if (level_cursor_describe_remove(g, v, t)) {
-    game_request_to_remake_ui_set(g);
-  }
+  game_request_to_remake_ui_set(g);
 }
 
 [[nodiscard]] static auto wid_player_select_boost_via_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
@@ -537,7 +516,7 @@ static void wid_player_select_boost_via_mouse_over_end(Gamep g, Widp w)
     auto sac_points_change = tp_sac_points_get(thing_tp(t));
     if (total_sac_points + sac_points_change < 0) {
       (void) sound_play(g, "error");
-      topcon("Not enough sac_points to buy this boost.\n");
+      topcon("Not enough sac points to buy this boost.\n");
       return true;
     }
 
@@ -649,10 +628,10 @@ static void wid_player_select_boost_via_mouse_over_end(Gamep g, Widp w)
               case 'y' :
               case 'z' :
                 (void) sound_play(g, "keypress");
-                game_sacrifice_mouse_over_currently_set(g, nullptr);
                 w = wid_sacrifice[ c - 'a' ];
                 if (w != nullptr) {
                   (void) wid_player_select_sacrifice_via_mouse_down(g, w, -1, -1, 0);
+                  return true;
                 }
                 break;
 
@@ -687,6 +666,7 @@ static void wid_player_select_boost_via_mouse_over_end(Gamep g, Widp w)
                 w = wid_boost[ c - 'A' ];
                 if (w != nullptr) {
                   (void) wid_player_select_boost_via_mouse_down(g, w, -1, -1, 0);
+                  return true;
                 }
                 break;
             }

@@ -34,3 +34,25 @@
 
   return tp_flag(thing_tp(me), is_wall_walker) != 0;
 }
+
+[[nodiscard]] auto thing_is_wall_walker_pass_through(Thingp t) -> bool
+{
+  TRACE_DEBUG();
+
+  if (t == nullptr) {
+    ERR("no thing pointer");
+    return false;
+  }
+  return tp_flag(thing_tp(t), is_wall_walker_pass_through) != 0;
+}
+
+[[nodiscard]] auto thing_is_obs_to_wall_walker(Thingp t) -> bool
+{
+  TRACE_DEBUG();
+
+  if (t == nullptr) {
+    ERR("no thing pointer");
+    return false;
+  }
+  return tp_flag(thing_tp(t), is_obs_to_wall_walker) != 0;
+}

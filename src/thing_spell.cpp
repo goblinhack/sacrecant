@@ -271,7 +271,7 @@ void thing_on_cast_request_set(Tpp tp, thing_on_cast_request_t callback)
   if (ok) {
     if (e.spell_info.spell_was_cast) {
       if (thing_is_player(user)) {
-        auto cost = thing_mana_cost(g, v, l, spell);
+        auto cost = thing_spell_mana_cost(g, v, l, spell);
         auto name = thing_name_long(g, v, l, spell);
         (void) thing_mana_decr(g, v, l, user, cost);
         topcon("You spent %d mana on casting spell %s.", cost, name.c_str());
@@ -281,4 +281,305 @@ void thing_on_cast_request_set(Tpp tp, thing_on_cast_request_t callback)
   }
 
   return ok;
+}
+
+[[nodiscard]] auto thing_spell_radius(Gamep g, Levelsp v, Levelp l, Thingp me) -> int
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+  return me->_spell_radius;
+}
+
+[[nodiscard]] auto thing_spell_radius_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+
+  if (val > std::numeric_limits< decltype(me->_spell_radius) >::max()) {
+    thing_err(g, v, l, me, "value overflow: %d", val);
+    return 0;
+  }
+
+  game_request_to_remake_ui_set(g);
+
+  me->_spell_radius = val;
+  if (me->_spell_radius_max != 0) {
+    me->_spell_radius = std::min(me->_spell_radius_max, me->_spell_radius);
+  }
+
+  if (thing_is_spell(me)) {
+    THING_DBG(g, v, l, me, "spell radius set to %d", me->_spell_radius);
+  }
+
+  return me->_spell_radius;
+}
+
+[[nodiscard]] auto thing_spell_radius_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+
+  return thing_spell_radius_set(g, v, l, me, me->_spell_radius + val);
+}
+
+[[nodiscard]] auto thing_spell_radius_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+
+  if (static_cast< int >(me->_spell_radius) - val <= 0) {
+    return me->_spell_radius = 0;
+  }
+
+  return thing_spell_radius_set(g, v, l, me, me->_spell_radius - val);
+}
+
+[[nodiscard]] auto thing_spell_radius_max(Gamep g, Levelsp v, Levelp l, Thingp me) -> int
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+  return me->_spell_radius_max;
+}
+
+[[nodiscard]] auto thing_spell_radius_max_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+
+  if (val > std::numeric_limits< decltype(me->_spell_radius_max) >::max()) {
+    thing_err(g, v, l, me, "value overflow: %d", val);
+    return 0;
+  }
+
+  game_request_to_remake_ui_set(g);
+
+  auto new_spell_radius_max = me->_spell_radius_max = val;
+
+  if (me->_spell_radius > new_spell_radius_max) {
+    (void) thing_spell_radius_set(g, v, l, me, new_spell_radius_max);
+  }
+
+  if (thing_is_spell(me)) {
+    THING_DBG(g, v, l, me, "spell radius max set to %d", me->_spell_radius_max);
+  }
+
+  return new_spell_radius_max;
+}
+
+[[nodiscard]] auto thing_spell_radius_max_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+  return thing_spell_radius_max_set(g, v, l, me, me->_spell_radius_max + val);
+}
+
+[[nodiscard]] auto thing_spell_radius_max_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+
+  if (static_cast< int >(me->_spell_radius_max) - val <= 0) {
+    return me->_spell_radius_max = 0;
+  }
+
+  return thing_spell_radius_max_set(g, v, l, me, me->_spell_radius_max - val);
+}
+
+[[nodiscard]] auto thing_spell_range(Gamep g, Levelsp v, Levelp l, Thingp me) -> int
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+  return me->_spell_range;
+}
+
+[[nodiscard]] auto thing_spell_range_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+
+  if (val > std::numeric_limits< decltype(me->_spell_range) >::max()) {
+    thing_err(g, v, l, me, "value overflow: %d", val);
+    return 0;
+  }
+
+  game_request_to_remake_ui_set(g);
+
+  me->_spell_range = val;
+  if (me->_spell_range_max != 0) {
+    me->_spell_range = std::min(me->_spell_range_max, me->_spell_range);
+  }
+
+  if (thing_is_spell(me)) {
+    THING_DBG(g, v, l, me, "spell range set to %d", me->_spell_range);
+  }
+
+  return me->_spell_range;
+}
+
+[[nodiscard]] auto thing_spell_range_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+
+  return thing_spell_range_set(g, v, l, me, me->_spell_range + val);
+}
+
+[[nodiscard]] auto thing_spell_range_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+
+  if (static_cast< int >(me->_spell_range) - val <= 0) {
+    return me->_spell_range = 0;
+  }
+
+  return thing_spell_range_set(g, v, l, me, me->_spell_range - val);
+}
+
+[[nodiscard]] auto thing_spell_range_max(Gamep g, Levelsp v, Levelp l, Thingp me) -> int
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+  return me->_spell_range_max;
+}
+
+[[nodiscard]] auto thing_spell_range_max_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+
+  if (val > std::numeric_limits< decltype(me->_spell_range_max) >::max()) {
+    thing_err(g, v, l, me, "value overflow: %d", val);
+    return 0;
+  }
+
+  game_request_to_remake_ui_set(g);
+
+  auto new_spell_range_max = me->_spell_range_max = val;
+
+  if (me->_spell_range > new_spell_range_max) {
+    (void) thing_spell_range_set(g, v, l, me, new_spell_range_max);
+  }
+
+  if (thing_is_spell(me)) {
+    THING_DBG(g, v, l, me, "spell range max set to %d", me->_spell_range_max);
+  }
+
+  return new_spell_range_max;
+}
+
+[[nodiscard]] auto thing_spell_range_max_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+  return thing_spell_range_max_set(g, v, l, me, me->_spell_range_max + val);
+}
+
+[[nodiscard]] auto thing_spell_range_max_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+
+  if (static_cast< int >(me->_spell_range_max) - val <= 0) {
+    return me->_spell_range_max = 0;
+  }
+
+  return thing_spell_range_max_set(g, v, l, me, me->_spell_range_max - val);
+}
+
+[[nodiscard]] auto thing_is_able_to_cast_spells(Thingp t) -> bool
+{
+  TRACE_DEBUG();
+
+  if (t == nullptr) {
+    ERR("no thing pointer");
+    return false;
+  }
+  return tp_flag(thing_tp(t), is_able_to_cast_spells) != 0;
+}
+
+[[nodiscard]] auto thing_is_unused_spell(Thingp t) -> bool
+{
+  TRACE_DEBUG();
+
+  if (t == nullptr) {
+    ERR("no thing pointer");
+    return false;
+  }
+  return tp_flag(thing_tp(t), is_unused_spell) != 0;
+}
+
+[[nodiscard]] auto thing_is_spell(Thingp t) -> bool
+{
+  TRACE_DEBUG();
+
+  if (t == nullptr) {
+    ERR("no thing pointer");
+    return false;
+  }
+  return tp_flag(thing_tp(t), is_spell) != 0;
 }

@@ -45,8 +45,9 @@ void thing_enhance(Gamep g, Levelsp v, Levelp l, Thingp t, Tpp tp)
   (void) thing_jump_attack_pct_chance_incr(g, v, l, t, tp_jump_attack_pct_chance_get(tp));
   (void) thing_items_collected_max_incr(g, v, l, t, tp_items_collected_max_get(tp));
   (void) thing_value2_incr(g, v, l, t, tp_value2_get(tp));
-  (void) thing_mana_cost_incr(g, v, l, t, tp_mana_cost_get(tp));
-  (void) thing_effect_radius_incr(g, v, l, t, tp_effect_radius_get(tp));
+  (void) thing_spell_mana_cost_incr(g, v, l, t, tp_spell_mana_cost_get(tp));
+  (void) thing_spell_radius_incr(g, v, l, t, tp_spell_radius_get(tp));
+  (void) thing_spell_range_incr(g, v, l, t, tp_spell_range_get(tp));
   (void) thing_spell_cost_incr(g, v, l, t, tp_spell_cost_get(tp));
   (void) thing_crit_roll_incr(g, v, l, t, tp_crit_roll_get(tp));
   (void) thing_fumble_roll_incr(g, v, l, t, tp_fumble_roll_get(tp));
