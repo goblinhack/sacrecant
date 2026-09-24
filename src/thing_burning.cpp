@@ -100,7 +100,7 @@ void thing_continue_to_burn_check(Gamep g, Levelsp v, Levelp l, Thingp me)
   }
 
   ThingEvent e {
-      .reason     = {},                      //
+      .reason     = "continue to burn",
       .event_type = THING_EVENT_FIRE_DAMAGE, //
       .damage     = d4(),                    //
   };
