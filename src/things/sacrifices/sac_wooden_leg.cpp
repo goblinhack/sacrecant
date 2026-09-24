@@ -59,8 +59,8 @@ void tp_sac_wooden_leg_on_hook_attached(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_sacrifice);
   tp_flag_set(tp, is_wooden_leg);
-  tp_sac_points_set(tp, 7);
   tp_name_long_set(tp, "wooden leg");
+  tp_sac_points_set(tp, 7);
   // end sort marker1 }
 
   return true;

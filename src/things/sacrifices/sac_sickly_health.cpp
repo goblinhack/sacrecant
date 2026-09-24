@@ -53,8 +53,8 @@ void tp_sac_sickly_health_on_hook_attached(Gamep g, Levelsp v, Levelp l, Thingp 
   tp_flag_set(tp, is_hook);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_sacrifice);
-  tp_sac_points_set(tp, 1);
   tp_name_long_set(tp, "sickly health");
+  tp_sac_points_set(tp, 1);
   // end sort marker1 }
 
   return true;

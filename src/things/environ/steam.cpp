@@ -50,14 +50,13 @@ static auto tp_steam_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) ->
   tp_temperature_initial_set(tp, 100); // celsius
   tp_weight_set(tp, WEIGHT_NONE);      // grams
   tp_z_depth_set(tp, MAP_Z_DEPTH_GAS);
-  // end sort marker1 }
+  // end sort marker2 }
 
   auto delay = 200;
-
   for (auto frame = 0; frame < 16; frame++) {
     auto *tile = tile_find_mand(name + std::string(".idle.") + std::to_string(frame));
-    tile_delay_ms_set(tile, delay);
     tp_tiles_push_back(tp, THING_ANIM_IDLE, tile);
+    tile_delay_ms_set(tile, delay);
   }
 
   return true;

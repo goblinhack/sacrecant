@@ -29,7 +29,6 @@ static auto tp_rubble_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -
   tp_flag_set(tp, is_able_to_fall);
   tp_flag_set(tp, is_blit_if_has_seen);
   tp_flag_set(tp, is_blit_on_ground);
-  tp_flag_set(tp, is_wall_walker_pass_through);
   tp_flag_set(tp, is_blit_shown_in_chasms);
   tp_flag_set(tp, is_collision_square);
   tp_flag_set(tp, is_described_cursor);
@@ -45,6 +44,7 @@ static auto tp_rubble_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -
   tp_flag_set(tp, is_rubble);
   tp_flag_set(tp, is_stone);
   tp_flag_set(tp, is_submergible); // is seen submerged when in water
+  tp_flag_set(tp, is_wall_walker_pass_through);
   tp_health_set(tp, "1d100");
   tp_is_immune_to_add(tp, THING_EVENT_FIRE_DAMAGE);
   tp_is_immune_to_add(tp, THING_EVENT_MELEE_DAMAGE);

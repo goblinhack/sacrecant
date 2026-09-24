@@ -454,12 +454,12 @@ void tp_load_player_common(Tpp tp)
   tp_distance_throw_set(tp, 6);
   tp_distance_vision_set(tp, MAP_WIDTH); // tiles
   tp_flag_set(tp, is_able_to_be_buffed);
-  tp_flag_set(tp, is_able_to_cast_spells);
   tp_flag_set(tp, is_able_to_be_engulfed);
   tp_flag_set(tp, is_able_to_be_ensnared);
   tp_flag_set(tp, is_able_to_be_invisible);
   tp_flag_set(tp, is_able_to_be_levitated);
   tp_flag_set(tp, is_able_to_be_teleported);
+  tp_flag_set(tp, is_able_to_cast_spells);
   tp_flag_set(tp, is_able_to_collect_items);
   tp_flag_set(tp, is_able_to_collect_keys);
   tp_flag_set(tp, is_able_to_crush_grass);
@@ -479,11 +479,11 @@ void tp_load_player_common(Tpp tp)
   tp_flag_set(tp, is_animated);
   tp_flag_set(tp, is_attackable_by_monst);
   tp_flag_set(tp, is_blit_centered);
-  tp_flag_set(tp, is_blit_shown_in_overlay);
   tp_flag_set(tp, is_blit_hit_outline_w_invis_inside);
-  tp_flag_set(tp, is_blit_shown_in_chasms);
-  tp_flag_set(tp, is_blit_when_obscured_outline);
   tp_flag_set(tp, is_blit_if_has_seen);
+  tp_flag_set(tp, is_blit_shown_in_chasms);
+  tp_flag_set(tp, is_blit_shown_in_overlay);
+  tp_flag_set(tp, is_blit_when_obscured_outline);
   tp_flag_set(tp, is_burnable); // is capable of being burned by fire
   tp_flag_set(tp, is_collision_circle_large);
   tp_flag_set(tp, is_corpse_on_death);
@@ -496,9 +496,9 @@ void tp_load_player_common(Tpp tp)
   tp_flag_set(tp, is_light_source, MAP_WIDTH / 2);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_obs_to_beam);
-  tp_flag_set(tp, is_obs_to_wall_walker);
   tp_flag_set(tp, is_obs_to_jumping_onto);
   tp_flag_set(tp, is_obs_to_movement);
+  tp_flag_set(tp, is_obs_to_wall_walker);
   tp_flag_set(tp, is_physics_explosion);
   tp_flag_set(tp, is_physics_temperature);
   tp_flag_set(tp, is_physics_trap);

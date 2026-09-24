@@ -75,8 +75,8 @@ static auto tp_wand_fire_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> 
   // begin sort marker1 {
   thing_description_set(tp, tp_wand_fire_description_get);
   thing_detail_set(tp, tp_wand_fire_detail_get);
-  thing_on_use_weapon_request_set(tp, tp_wand_fire_on_use_weapon_request);
   thing_get_weapon_list_set(tp, tp_wand_fire_get_weapon_list);
+  thing_on_use_weapon_request_set(tp, tp_wand_fire_on_use_weapon_request);
   tp_charge_count_set(tp, 5000);
   tp_flag_set(tp, is_able_to_be_buffed);
   tp_flag_set(tp, is_able_to_be_invisible);

@@ -38,7 +38,6 @@ static void tp_rock_melt(Gamep g, Levelsp v, Levelp l, Thingp me)
     tp_distance_light_penetration_pixels_set(tp, TILE_WIDTH);
     tp_flag_set(tp, is_blit_centered);
     tp_flag_set(tp, is_blit_if_has_seen);
-    tp_flag_set(tp, is_wall_walker_pass_through);
     tp_flag_set(tp, is_blit_obscures);
     tp_flag_set(tp, is_blit_per_pixel_lighting);
     tp_flag_set(tp, is_blit_shown_in_chasms);
@@ -64,6 +63,7 @@ static void tp_rock_melt(Gamep g, Levelsp v, Levelp l, Thingp me)
     tp_flag_set(tp, is_rock);
     tp_flag_set(tp, is_stone);
     tp_flag_set(tp, is_tiled);
+    tp_flag_set(tp, is_wall_walker_pass_through);
     tp_health_set(tp, "1d200+200");
     tp_is_immune_to_add(tp, THING_EVENT_MELEE_DAMAGE);
     tp_is_immune_to_add(tp, THING_EVENT_WATER_DAMAGE);

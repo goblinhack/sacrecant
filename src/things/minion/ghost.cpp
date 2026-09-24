@@ -116,7 +116,6 @@ static void tp_ghost_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEven
   tp_flag_set(tp, is_able_to_be_teleported);
   tp_flag_set(tp, is_able_to_lunge);
   tp_flag_set(tp, is_able_to_move_diagonally);
-  tp_flag_set(tp, is_wall_walker);
   tp_flag_set(tp, is_able_to_move);
   tp_flag_set(tp, is_able_to_see_through_walls);
   tp_flag_set(tp, is_animated_can_hflip);
@@ -146,6 +145,7 @@ static void tp_ghost_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEven
   tp_flag_set(tp, is_tickable);
   tp_flag_set(tp, is_undead);
   tp_flag_set(tp, is_vision_180_degrees);
+  tp_flag_set(tp, is_wall_walker);
   tp_health_set(tp, "1");
   tp_hearing_threshold_set(tp, 6); // smaller values => better hearing
   tp_is_immune_to_add(tp, THING_EVENT_WATER_DAMAGE);

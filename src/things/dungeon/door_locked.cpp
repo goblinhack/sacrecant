@@ -263,6 +263,7 @@ static void tp_door_locked_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, Thi
   tp_damage_set(tp, THING_EVENT_MELEE_DAMAGE, "1d4");
   tp_distance_light_penetration_pixels_set(tp, TILE_WIDTH / 2);
   tp_flag_set(tp, is_animated);
+  tp_flag_set(tp, is_attackable_by_player);
   tp_flag_set(tp, is_blit_centered);
   tp_flag_set(tp, is_blit_if_has_seen);
   tp_flag_set(tp, is_blit_shown_in_chasms);
@@ -274,10 +275,8 @@ static void tp_door_locked_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, Thi
   tp_flag_set(tp, is_door_locked);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_obs_to_beam);
-  tp_flag_set(tp, is_attackable_by_player);
   tp_flag_set(tp, is_obs_to_cursor_path);
   tp_flag_set(tp, is_obs_to_falling_onto);
-  tp_flag_set(tp, is_obs_to_wall_walker);
   tp_flag_set(tp, is_obs_to_jumping_onto);
   tp_flag_set(tp, is_obs_to_jumping_over);
   tp_flag_set(tp, is_obs_to_movement);
@@ -286,6 +285,7 @@ static void tp_door_locked_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, Thi
   tp_flag_set(tp, is_obs_to_throwing_onto);
   tp_flag_set(tp, is_obs_to_throwing_over);
   tp_flag_set(tp, is_obs_to_vision);
+  tp_flag_set(tp, is_obs_to_wall_walker);
   tp_flag_set(tp, is_openable);
   tp_flag_set(tp, is_physics_explosion);
   tp_flag_set(tp, is_physics_temperature);

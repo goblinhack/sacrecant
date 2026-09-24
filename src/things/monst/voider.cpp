@@ -145,6 +145,7 @@ static void tp_voider_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_flag_set(tp, is_biome_graveyard);
   tp_flag_set(tp, is_biome_nethervoid);
   tp_flag_set(tp, is_biome_underhell);
+  tp_flag_set(tp, is_blasted_when_dead);
   tp_flag_set(tp, is_blit_centered);
   tp_flag_set(tp, is_blit_hit_outline_w_invis_inside);
   tp_flag_set(tp, is_blit_shown_in_chasms);
@@ -152,15 +153,14 @@ static void tp_voider_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_flag_set(tp, is_combustible);
   tp_flag_set(tp, is_described_cursor);
   tp_flag_set(tp, is_ethereal);
-  tp_flag_set(tp, is_blasted_when_dead);
   tp_flag_set(tp, is_levitating);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_monst);
-  tp_flag_set(tp, is_obs_to_wall_walker);
   tp_flag_set(tp, is_obs_to_beam);
   tp_flag_set(tp, is_obs_to_jumping_onto);
   tp_flag_set(tp, is_obs_to_movement);
   tp_flag_set(tp, is_obs_to_teleporting_onto);
+  tp_flag_set(tp, is_obs_to_wall_walker);
   tp_flag_set(tp, is_physics_explosion);
   tp_flag_set(tp, is_removable_when_dead_on_err);
   tp_flag_set(tp, is_shown_health);

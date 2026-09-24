@@ -16,8 +16,8 @@
   auto  name = tp_name(tp);
 
   // begin sort marker1 {
-  tp_flag_set(tp, is_level_select_bg);
   tp_flag_set(tp, is_internal);
+  tp_flag_set(tp, is_level_select_bg);
   tp_z_depth_set(tp, MAP_Z_DEPTH_OBJ);
   // end sort marker1 }
 

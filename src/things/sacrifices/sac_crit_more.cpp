@@ -28,20 +28,20 @@ static auto tp_sac_crit_more_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   // begin sort marker1 {
   thing_detail_set(tp, tp_sac_crit_more_detail_get);
+  tp_crit_roll_set(tp, 18);
   tp_flag_set(tp, is_hook);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_sacrifice);
-  tp_crit_roll_set(tp, 18);
+  tp_name_long_set(tp, "improved crit");
   tp_sac_points_set(tp, 1);
   tp_stat_set(tp, THING_STAT_ATT, "1d8");
-  tp_stat_set(tp, THING_STAT_DEF, "1d8");
-  tp_stat_set(tp, THING_STAT_STR, "1d8");
   tp_stat_set(tp, THING_STAT_CON, "1d8");
-  tp_stat_set(tp, THING_STAT_INT, "1d8");
+  tp_stat_set(tp, THING_STAT_DEF, "1d8");
   tp_stat_set(tp, THING_STAT_DEX, "1d8");
-  tp_stat_set(tp, THING_STAT_PSI, "1d8");
+  tp_stat_set(tp, THING_STAT_INT, "1d8");
   tp_stat_set(tp, THING_STAT_LUCK, "1d8");
-  tp_name_long_set(tp, "improved crit");
+  tp_stat_set(tp, THING_STAT_PSI, "1d8");
+  tp_stat_set(tp, THING_STAT_STR, "1d8");
   // end sort marker1 }
 
   return true;

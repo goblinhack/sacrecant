@@ -57,6 +57,7 @@ static void tp_skeleton_mob_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   thing_detail_set(tp, tp_skeleton_mob_detail_get);
   thing_on_death_set(tp, tp_skeleton_mob_on_death);
   thing_on_tick_begin_set(tp, tp_skeleton_mob_tick_begin);
+  tp_dormant_set(tp, "1d20");
   tp_flag_set(tp, is_able_to_be_teleported);
   tp_flag_set(tp, is_able_to_fall_sound);
   tp_flag_set(tp, is_able_to_fall);
@@ -82,6 +83,7 @@ static void tp_skeleton_mob_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_flag_set(tp, is_obs_to_jumping_onto);
   tp_flag_set(tp, is_obs_to_movement);
   tp_flag_set(tp, is_obs_to_teleporting_onto);
+  tp_flag_set(tp, is_obs_to_wall_walker);
   tp_flag_set(tp, is_physics_explosion);
   tp_flag_set(tp, is_physics_temperature);
   tp_flag_set(tp, is_physics_water);
@@ -100,10 +102,8 @@ static void tp_skeleton_mob_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_name_long_set(tp, "skeleton mob");
   tp_name_pluralize_set(tp, "skeleton mobs");
   tp_name_short_set(tp, "skeleton mob");
-  tp_flag_set(tp, is_obs_to_wall_walker);
   tp_priority_set(tp, THING_PRIORITY_MOB);
   tp_speed_set(tp, 100);
-  tp_dormant_set(tp, "1d20");
   tp_temperature_burns_at_set(tp, 100);  // celsius
   tp_temperature_damage_at_set(tp, 100); // celsius
   tp_temperature_initial_set(tp, 20);    // celsius
