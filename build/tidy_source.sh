@@ -9,6 +9,8 @@
 PATH=/opt/local/libexec/gnubin:$PATH
 export PATH
 
+DO=$1
+
 process_file() {
     PRE=$(mktemp) || exit 1
     PAYLOAD=$(mktemp) || exit 1
@@ -26,7 +28,7 @@ process_file() {
       mv $PAYLOAD.tmp $PAYLOAD
       cat $PRE $PAYLOAD $POST > $OUT
       diff $OUT $IN
-      if [ "$1" = "do" ]; then
+      if [ "$DO" = "do" ]; then
           mv $OUT $IN
       fi
     done

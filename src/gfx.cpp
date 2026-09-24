@@ -5636,12 +5636,12 @@ void gfx_init()
   gfx_ui_init_intro3_bg();
   gfx_ui_init_lava();
   gfx_ui_init_main_alt_fg();
-  gfx_ui_init_transition();
   gfx_ui_init_main_bg();
   gfx_ui_init_main_fg();
   gfx_ui_init_progress_bar();
   gfx_ui_init_solid();
   gfx_ui_init_stat_bar();
+  gfx_ui_init_transition();
   gfx_ui_init_worlds();
   // end sort marker1 }
 }

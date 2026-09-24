@@ -740,9 +740,6 @@ using Thing = struct Thing {
 
 // begin sort marker1 {
 [[nodiscard]] auto astar_solve(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint src, bpoint dst) -> std::vector< bpoint >;
-[[nodiscard]] auto thing_stat_long_string(Gamep g, Levelsp v, Levelp l, Thingp me, ThingStatType stat) -> std::string;
-[[nodiscard]] auto stat_is_arcana(ThingStatType stat) -> bool;
-[[nodiscard]] auto thing_is_shown_health(Thingp me) -> bool;
 [[nodiscard]] auto level_vision_blocker_at(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &at) -> bool;
 [[nodiscard]] auto monst_state_to_string(MonstState state) -> std::string;
 [[nodiscard]] auto monst_state(Gamep g, Levelsp v, Levelp l, Thingp me) -> MonstState;
@@ -753,6 +750,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto player_move_request(Gamep g, bool up, bool down, bool left, bool right, bool fire) -> bool;
 [[nodiscard]] auto player_move_to_next(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto player_move_to(Gamep g, Levelsp v, Levelp l, bpoint to) -> bool;
+[[nodiscard]] auto stat_is_arcana(ThingStatType stat) -> bool;
 [[nodiscard]] auto stat_to_mod_string(int val) -> const std::string;
 [[nodiscard]] auto stat_to_mod(int val) -> int;
 [[nodiscard]] auto stat_to_name_long(ThingStatType stat) -> const std::string;
@@ -1019,6 +1017,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_entrance(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_ethereal(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_exit(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_explosion(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_extinguished_on_death(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_falling_continues(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_falling_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
@@ -1042,6 +1041,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_immune_to(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEventType val) -> bool;
 [[nodiscard]] auto thing_is_indestructible(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_insectoid(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_internal(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_inventory_item(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_invisible(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_item_mergeable(Thingp t) -> bool;
@@ -1113,6 +1113,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_sacrifice(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_scheduled_for_cleanup(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_shovable(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
+[[nodiscard]] auto thing_is_shown_health(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_shown_noise(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_shown_spell_radius(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_shown_stamina(Thingp me) -> bool;
@@ -1200,8 +1201,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused140(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused141(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused142(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_explosion(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_internal(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused15(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused151(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused16(Thingp t) -> bool;
@@ -1345,11 +1344,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_lifespan(Gamep g, Levelsp v, Levelp l, Thingp me) -> int;
 [[nodiscard]] auto thing_light_struct(Gamep g, Thingp t) -> ThingLightp;
 [[nodiscard]] auto thing_lunge(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &to) -> bool;
-[[nodiscard]] auto thing_spell_mana_cost_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
-[[nodiscard]] auto thing_spell_mana_cost_for(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user) -> int;
-[[nodiscard]] auto thing_spell_mana_cost_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
-[[nodiscard]] auto thing_spell_mana_cost_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
-[[nodiscard]] auto thing_spell_mana_cost(Gamep g, Levelsp v, Levelp l, Thingp t) -> int;
 [[nodiscard]] auto thing_mana_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_mana_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_mana_max_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
@@ -1470,6 +1464,11 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_spell_cost_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_spell_cost_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
 [[nodiscard]] auto thing_spell_cost(Gamep g, Levelsp v, Levelp l, Thingp t) -> int;
+[[nodiscard]] auto thing_spell_mana_cost_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
+[[nodiscard]] auto thing_spell_mana_cost_for(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user) -> int;
+[[nodiscard]] auto thing_spell_mana_cost_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
+[[nodiscard]] auto thing_spell_mana_cost_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
+[[nodiscard]] auto thing_spell_mana_cost(Gamep g, Levelsp v, Levelp l, Thingp t) -> int;
 [[nodiscard]] auto thing_spell_radius_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
 [[nodiscard]] auto thing_spell_radius_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
 [[nodiscard]] auto thing_spell_radius_max_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
@@ -1501,6 +1500,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_stamina_max(Gamep g, Levelsp v, Levelp l, Thingp me) -> int;
 [[nodiscard]] auto thing_stamina_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int;
 [[nodiscard]] auto thing_stamina(Gamep g, Levelsp v, Levelp l, Thingp me) -> int;
+[[nodiscard]] auto thing_stat_long_string(Gamep g, Levelsp v, Levelp l, Thingp me, ThingStatType stat) -> std::string;
 [[nodiscard]] auto thing_stat_mod_string(Gamep g, Levelsp v, Levelp l, Thingp me, ThingStatType stat) -> std::string;
 [[nodiscard]] auto thing_stat_mod(Gamep g, Levelsp v, Levelp l, Thingp me, ThingStatType stat) -> int;
 [[nodiscard]] auto thing_stat_set(Gamep g, Levelsp v, Levelp l, Thingp me, ThingStatType stat, uint8_t val) -> uint8_t;
@@ -1625,7 +1625,6 @@ auto thing_hit_time_step(Gamep g, Levelsp v, Levelp l, Thingp t, int time_step) 
 auto thing_hot_time_step(Gamep g, Levelsp v, Levelp l, Thingp me, int time_step) -> void;
 auto thing_interpolate(Gamep g, Levelsp v, Levelp l, Thingp t, float dt) -> void;
 auto thing_inventory_dump(Gamep g, Levelsp v, Levelp l, Thingp owner) -> void;
-auto thing_spellbook_dump(Gamep g, Levelsp v, Levelp l, Thingp owner) -> void;
 auto thing_is_burning_set(Gamep g, Levelsp v, Levelp l, Thingp t, bool val = true) -> void;
 auto thing_is_burning_unset(Gamep g, Levelsp v, Levelp l, Thingp t) -> void;
 auto thing_is_corpse_set(Gamep g, Levelsp v, Levelp l, Thingp t, bool val = true) -> void;
@@ -1684,6 +1683,7 @@ auto thing_set_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp me, const bpo
 auto thing_set_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp me, int dx, int dy) -> void;
 auto thing_set_dir_from_target(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &p) -> void;
 auto thing_sound_play(Gamep g, Levelsp v, Levelp l, Thingp t, const std::string &alias) -> void;
+auto thing_spellbook_dump(Gamep g, Levelsp v, Levelp l, Thingp owner) -> void;
 auto thing_stats_dump(Gamep g, Levelsp v) -> void;
 auto thing_submerged_update(Gamep g, Levelsp v, Levelp l, Thingp t) -> void;
 auto thing_temperature_damage_handle(Gamep g, Levelsp v, Levelp l, Thingp source, Thingp me, int n, ThingEvent /*e*/ = {}) -> void;

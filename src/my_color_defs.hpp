@@ -10,7 +10,6 @@
 // begin sort marker1 {
 extern color BLACK;
 extern color BLUE;
-extern color GRAYBLUE;
 extern color BLUE1;
 extern color BLUE2;
 extern color BLUE3;
@@ -42,6 +41,7 @@ extern color GRAY60;
 extern color GRAY70;
 extern color GRAY80;
 extern color GRAY90;
+extern color GRAYBLUE;
 extern color GREEN;
 extern color GREEN1;
 extern color GREEN2;
