@@ -986,20 +986,12 @@ void thing_damage_apply(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   THING_DBG(g, v, l, me, "%s: apply damage", to_string(g, v, l, e).c_str());
   TRACE_INDENT();
 
-  if (thing_is_player(me)) {
-    thing_damage_to_player(g, v, l, me, e);
-  } else if ((attacker != nullptr) && thing_is_player(attacker)) {
-    thing_damage_by_player(g, v, l, me, e);
-  } else if (thing_is_monst(me)) {
-    thing_damage_by_other(g, v, l, me, e);
-  }
-
   //
   // Change the health
   //
   if (thing_health_decr(g, v, l, me, e.damage) <= 0) {
     //
-    // Damage type specifics
+    // Fatal damage
     //
     switch (e.event_type) {
       case THING_EVENT_NONE :             [[fallthrough]];
@@ -1081,6 +1073,17 @@ void thing_damage_apply(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
 
     thing_dead(g, v, l, me, e);
   } else {
+    //
+    // Non fatal damage
+    //
+    if (thing_is_player(me)) {
+      thing_damage_to_player(g, v, l, me, e);
+    } else if ((attacker != nullptr) && thing_is_player(attacker)) {
+      thing_damage_by_player(g, v, l, me, e);
+    } else if (thing_is_monst(me)) {
+      thing_damage_by_other(g, v, l, me, e);
+    }
+
     //
     // Damage type specifics
     //

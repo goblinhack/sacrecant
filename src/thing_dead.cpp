@@ -146,10 +146,10 @@ static void thing_killed_player(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEv
         topcon(UI_IMPORTANT_FMT_STR "You die in the blast." UI_RESET_FMT);
         break;
       case THING_EVENT_FIRE_DAMAGE : //
-        topcon(UI_IMPORTANT_FMT_STR "You are burnt to death." UI_RESET_FMT);
+        topcon(UI_IMPORTANT_FMT_STR "You are incinerated." UI_RESET_FMT);
         break;
       case THING_EVENT_ENERGY_DAMAGE : //
-        topcon(UI_IMPORTANT_FMT_STR "You are blasted to death." UI_RESET_FMT);
+        topcon(UI_IMPORTANT_FMT_STR "You are disintegrated." UI_RESET_FMT);
         break;
       case THING_EVENT_EATEN : //
         topcon(UI_IMPORTANT_FMT_STR "You are eaten." UI_RESET_FMT);
@@ -263,7 +263,7 @@ static void thing_killed_by_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
       if (thing_is_burning(me)) {
         topcon("%s is killed by %s.", the_thing.c_str(), by_player.c_str());
       } else {
-        topcon("%s is burnt to death by %s.", the_thing.c_str(), by_player.c_str());
+        topcon("%s is incinerated by %s.", the_thing.c_str(), by_player.c_str());
       }
       break;
     case THING_EVENT_ENERGY_DAMAGE : //
@@ -372,7 +372,7 @@ static void thing_killed_by_other(Gamep g, Levelsp v, Levelp l, Thingp me, Thing
         topcon("%s is killed with blast damage from %s.", the_thing.c_str(), by_attacker.c_str());
         break;
       case THING_EVENT_FIRE_DAMAGE : //
-        topcon("%s is burnt to death by %s.", the_thing.c_str(), by_attacker.c_str());
+        topcon("%s is incinerated by %s.", the_thing.c_str(), by_attacker.c_str());
         break;
       case THING_EVENT_ENERGY_DAMAGE : //
         topcon("%s is blasted to bits by %s.", the_thing.c_str(), by_attacker.c_str());
@@ -425,7 +425,7 @@ static void thing_killed_by_other(Gamep g, Levelsp v, Levelp l, Thingp me, Thing
         topcon("%s is blasted and killed.", the_thing.c_str());
         break;
       case THING_EVENT_FIRE_DAMAGE : //
-        topcon("%s is burnt to death.", the_thing.c_str());
+        topcon("%s is incinerated.", the_thing.c_str());
         break;
       case THING_EVENT_ENERGY_DAMAGE : //
         topcon("%s is blasted to bits.", the_thing.c_str());

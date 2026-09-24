@@ -4,26 +4,23 @@ bugs
 todo
 ----
 spells
-  - death arcana
-    - death knights
-  - life arcana
-  - structural
+  - geomancy
     - level reroll
     - walls to chasm swap
     - walls to plants
     - flood area
     - descent
-  - warp
-    - random
-    - directed
-    - straight to hell
     - plane warp
-  - defensive
-    - increase max hp
-  - offensive
-    - etherblast to hit ghosts in walls
+  - necromancy
+    - death knights
+    - straight to hell
     - powerword kill
     - rot living flesh
+  - biomancy
+    - increase max hp
+  - pyromancy
+    - etherblast to hit ghosts in walls
+
   - spell orbs
   - spell multiplier - doubles the points of any orbs collected on same level
   - spell coupons?
