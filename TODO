@@ -1,5 +1,7 @@
 bugs
 ----
+spell tests
+ghosts and blast strike
 
 todo
 ----
@@ -19,7 +21,9 @@ spells
   - biomancy
     - increase max hp
   - pyromancy
-    - etherblast to hit ghosts in walls
+    - burn all vis bushes
+    - burn all vis monsts
+    - penetrating fire to hit ghosts in walls
 
   - spell orbs
   - spell multiplier - doubles the points of any orbs collected on same level

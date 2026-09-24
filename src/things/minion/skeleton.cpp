@@ -42,7 +42,7 @@ static auto tp_skeleton_assess_tp(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp m
   }
 
   if (tp_is_fire(tp)) {
-    return THING_ENVIRON_HATES;
+    return THING_ENVIRON_DISLIKES;
   }
 
   if (tp_is_water_shallow(tp)) {
@@ -65,7 +65,7 @@ static auto tp_skeleton_assess_tile(Gamep g, Levelsp v, Levelp l, const bpoint &
   }
 
   if (level_is_fire_cached(g, v, l, at)) {
-    return THING_ENVIRON_HATES;
+    return THING_ENVIRON_DISLIKES;
   }
 
   if (level_is_water_shallow_cached(g, v, l, at)) {
@@ -176,6 +176,7 @@ static bool tp_skeleton_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker
   tp_health_set(tp, "1d3");
   tp_hearing_threshold_set(tp, 6); // smaller values => better hearing
   tp_is_immune_to_add(tp, THING_EVENT_WATER_DAMAGE);
+  tp_is_resistant_to_add(tp, THING_EVENT_FIRE_DAMAGE);
   tp_name_a_or_an_set(tp, "a skeleton");
   tp_name_apostrophize_set(tp, "skeleton'");
   tp_name_long_set(tp, "skeleton");
