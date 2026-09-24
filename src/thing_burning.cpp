@@ -76,7 +76,7 @@ void thing_continue_to_burn_check(Gamep g, Levelsp v, Levelp l, Thingp me)
         if (level_count_is_fire(g, v, l, thing_at(g, v, l, me)) < 2) {
           THING_DBG(g, v, l, me, "spawn additional flames");
           TRACE_INDENT();
-          (void) thing_spawn(g, v, l, tp_first(is_fire), me);
+          (void) thing_spawn(g, v, l, tp_first(is_fire_normal), me);
 
           if (thing_is_player(me)) {
             if (thing_is_immune_to(g, v, l, me, THING_EVENT_FIRE_DAMAGE)) {

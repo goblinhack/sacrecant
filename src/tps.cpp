@@ -57,6 +57,7 @@
   if (!tp_load_entrance()) { return false; }
   if (!tp_load_exit()) { return false; }
   if (!tp_load_explosion()) { return false; }
+  if (!tp_load_fire_magical()) { return false; }
   if (!tp_load_fire()) { return false; }
   if (!tp_load_floor()) { return false; }
   if (!tp_load_foliage()) { return false; }

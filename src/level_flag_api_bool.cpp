@@ -1755,10 +1755,10 @@
   return level_flag(g, v, l, is_unused141, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused142_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_fire_normal_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused142, p, me) != nullptr;
+  return level_flag(g, v, l, is_fire_normal, p, me) != nullptr;
 }
 
 [[nodiscard]] auto level_is_internal_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
@@ -2025,10 +2025,10 @@
   return level_flag(g, v, l, is_able_to_jump_land_then_pounce, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused188_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_fire_magical_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused188, p, me) != nullptr;
+  return level_flag(g, v, l, is_fire_magical, p, me) != nullptr;
 }
 
 [[nodiscard]] auto level_is_skeleton_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool

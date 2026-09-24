@@ -1717,10 +1717,10 @@
   return tp_flag(tp, is_unused141) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused142(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_fire_normal(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused142) != 0;
+  return tp_flag(tp, is_fire_normal) != 0;
 }
 
 [[nodiscard]] auto tp_is_internal(Tpp tp) -> bool
@@ -1987,10 +1987,10 @@
   return tp_flag(tp, is_able_to_jump_land_then_pounce) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused188(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_fire_magical(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused188) != 0;
+  return tp_flag(tp, is_fire_magical) != 0;
 }
 
 [[nodiscard]] auto tp_is_skeleton(Tpp tp) -> bool

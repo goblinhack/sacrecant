@@ -56,11 +56,11 @@ static void tp_brazier_on_shoved(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp
       // If we can't, then spawn over the brazier
       //
       if (! level_is_fire_bool(g, v, l, thing_at(g, v, l, me))) {
-        (void) thing_spawn(g, v, l, tp_first(is_fire), me);
+        (void) thing_spawn(g, v, l, tp_first(is_fire_normal), me);
       }
     } else {
       if (! level_is_fire_bool(g, v, l, fire_at)) {
-        (void) thing_spawn(g, v, l, tp_first(is_fire), fire_at);
+        (void) thing_spawn(g, v, l, tp_first(is_fire_normal), fire_at);
       }
 
       if (! level_is_smoke_bool(g, v, l, thing_at(g, v, l, me))) {
@@ -72,7 +72,7 @@ static void tp_brazier_on_shoved(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp
     // Spawn over the brazier
     //
     if (! level_is_fire_bool(g, v, l, thing_at(g, v, l, me))) {
-      (void) thing_spawn(g, v, l, tp_first(is_fire), me);
+      (void) thing_spawn(g, v, l, tp_first(is_fire_normal), me);
     }
   }
 }
@@ -86,7 +86,7 @@ static void tp_brazier_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEv
   //
   if (e.event_type != THING_EVENT_SHOVED) {
     if (! level_is_fire_bool(g, v, l, thing_at(g, v, l, me))) {
-      (void) thing_spawn(g, v, l, tp_first(is_fire), me);
+      (void) thing_spawn(g, v, l, tp_first(is_fire_normal), me);
     }
   }
 

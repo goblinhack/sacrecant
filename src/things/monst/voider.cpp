@@ -152,6 +152,7 @@ static void tp_voider_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_flag_set(tp, is_collision_circle_large);
   tp_flag_set(tp, is_combustible);
   tp_flag_set(tp, is_described_cursor);
+  tp_flag_set(tp, is_described_when_killed);
   tp_flag_set(tp, is_ethereal);
   tp_flag_set(tp, is_levitating);
   tp_flag_set(tp, is_loggable);
@@ -183,7 +184,6 @@ static void tp_voider_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_temperature_initial_set(tp, 0); // celsius
   tp_weight_set(tp, WEIGHT_HUMAN);   // grams
   tp_z_depth_set(tp, MAP_Z_DEPTH_FLOATING_MONST);
-  tp_flag_set(tp, is_described_when_killed);
   // end sort marker1 }
 
   auto delay = 1000;

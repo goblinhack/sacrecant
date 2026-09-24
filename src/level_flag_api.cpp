@@ -1718,10 +1718,10 @@
   return level_flag(g, v, l, is_unused141, p, me);
 }
 
-[[nodiscard]] auto level_is_unused142(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_fire_normal(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused142, p, me);
+  return level_flag(g, v, l, is_fire_normal, p, me);
 }
 
 [[nodiscard]] auto level_is_internal(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
@@ -1988,10 +1988,10 @@
   return level_flag(g, v, l, is_able_to_jump_land_then_pounce, p, me);
 }
 
-[[nodiscard]] auto level_is_unused188(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_fire_magical(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused188, p, me);
+  return level_flag(g, v, l, is_fire_magical, p, me);
 }
 
 [[nodiscard]] auto level_is_skeleton(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp

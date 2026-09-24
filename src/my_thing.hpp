@@ -1021,6 +1021,8 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_extinguished_on_death(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_falling_continues(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_falling_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
+[[nodiscard]] auto thing_is_fire_magical(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_fire_normal(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_fish(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_flammable(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_flat(Thingp t) -> bool;
@@ -1200,14 +1202,12 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused14(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused140(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused141(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused142(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused15(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused151(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused16(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused17(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused18(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused183(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused188(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused19(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused2(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused20(Thingp t) -> bool;

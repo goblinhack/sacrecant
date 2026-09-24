@@ -1755,10 +1755,10 @@
   return level_flag_cached(g, v, l, is_unused141, p);
 }
 
-[[nodiscard]] auto level_is_unused142_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_fire_normal_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused142, p);
+  return level_flag_cached(g, v, l, is_fire_normal, p);
 }
 
 [[nodiscard]] auto level_is_internal_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
@@ -2025,10 +2025,10 @@
   return level_flag_cached(g, v, l, is_able_to_jump_land_then_pounce, p);
 }
 
-[[nodiscard]] auto level_is_unused188_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_fire_magical_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused188, p);
+  return level_flag_cached(g, v, l, is_fire_magical, p);
 }
 
 [[nodiscard]] auto level_is_skeleton_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

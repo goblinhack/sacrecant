@@ -153,6 +153,7 @@ static void tp_argusul_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_flag_set(tp, is_collision_circle_large);
   tp_flag_set(tp, is_corpse_on_death);
   tp_flag_set(tp, is_described_cursor);
+  tp_flag_set(tp, is_described_when_killed);
   tp_flag_set(tp, is_flesh);
   tp_flag_set(tp, is_levitating);
   tp_flag_set(tp, is_loggable);
@@ -188,7 +189,6 @@ static void tp_argusul_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_temperature_initial_set(tp, 20);    // celsius
   tp_weight_set(tp, WEIGHT_HUMAN);       // grams
   tp_z_depth_set(tp, MAP_Z_DEPTH_FLOATING_MONST);
-  tp_flag_set(tp, is_described_when_killed);
   // end sort marker1 }
 
   tp_special_attack_add(tp,

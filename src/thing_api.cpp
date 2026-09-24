@@ -2104,7 +2104,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   return tp_flag(thing_tp(t), is_unused141) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused142(Thingp t) -> bool
+[[nodiscard]] auto thing_is_fire_normal(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -2112,7 +2112,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused142) != 0;
+  return tp_flag(thing_tp(t), is_fire_normal) != 0;
 }
 
 [[nodiscard]] auto thing_is_explosion(Thingp t) -> bool
@@ -2456,7 +2456,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   return tp_flag(thing_tp(t), is_rubble) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused188(Thingp t) -> bool
+[[nodiscard]] auto thing_is_fire_magical(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -2464,7 +2464,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused188) != 0;
+  return tp_flag(thing_tp(t), is_fire_magical) != 0;
 }
 
 [[nodiscard]] auto thing_is_skeleton(Thingp t) -> bool

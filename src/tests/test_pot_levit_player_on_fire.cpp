@@ -98,11 +98,11 @@
   //
   level_dump(g, v, l, w, h);
   TEST_PROGRESS(t);
-  if (thing_spawn(g, v, l, tp_first(is_fire), player) == nullptr) {
+  if (thing_spawn(g, v, l, tp_first(is_fire_normal), player) == nullptr) {
     TEST_FAILED(t, "spawn failed");
     goto exit;
   }
-  if (thing_spawn(g, v, l, tp_first(is_fire), player) == nullptr) {
+  if (thing_spawn(g, v, l, tp_first(is_fire_normal), player) == nullptr) {
     TEST_FAILED(t, "spawn failed");
     goto exit;
   }

@@ -313,14 +313,14 @@
       list_macro(is_unused14, "is_unused14"),                                               /* newline */                                       \
       list_macro(is_unused140, "is_unused140"),                                             /* newline */                                       \
       list_macro(is_unused141, "is_unused141"),                                             /* newline */                                       \
-      list_macro(is_unused142, "is_unused142"),                                             /* newline */                                       \
+      list_macro(is_fire_normal, "is_fire_normal"),                                         /* newline */                                       \
       list_macro(is_unused15, "is_unused15"),                                               /* newline */                                       \
       list_macro(is_unused151, "is_unused151"),                                             /* newline */                                       \
       list_macro(is_unused16, "is_unused16"),                                               /* newline */                                       \
       list_macro(is_unused17, "is_unused17"),                                               /* newline */                                       \
       list_macro(is_unused18, "is_unused18"),                                               /* newline */                                       \
       list_macro(is_unused183, "is_unused183"),                                             /* newline */                                       \
-      list_macro(is_unused188, "is_unused188"),                                             /* newline */                                       \
+      list_macro(is_fire_magical, "is_fire_magical"),                                       /* newline */                                       \
       list_macro(is_unused19, "is_unused19"),                                               /* newline */                                       \
       list_macro(is_unused2, "is_unused2"),                                                 /* newline */                                       \
       list_macro(is_unused20, "is_unused20"),                                               /* newline */                                       \
@@ -980,6 +980,8 @@ class Tp;
 [[nodiscard]] auto tp_is_exit(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_explosion(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_extinguished_on_death(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_fire_magical(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_fire_normal(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_fire(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_fish(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_flammable(Tpp tp) -> bool;
@@ -1155,14 +1157,12 @@ class Tp;
 [[nodiscard]] auto tp_is_unused14(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused140(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused141(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused142(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused15(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused151(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused16(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused17(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused18(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused183(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused188(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused19(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused2(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused20(Tpp tp) -> bool;

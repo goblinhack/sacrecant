@@ -86,7 +86,7 @@
     }
   }
 
-  if (thing_spawn(g, v, l, tp_first(is_fire), thing_at(g, v, l, player) + bpoint(6, 0)) == nullptr) {
+  if (thing_spawn(g, v, l, tp_first(is_fire_normal), thing_at(g, v, l, player) + bpoint(6, 0)) == nullptr) {
     TEST_FAILED(t, "spawn failed");
   }
 

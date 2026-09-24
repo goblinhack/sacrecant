@@ -172,6 +172,7 @@ static bool tp_spider_baby_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attac
   tp_flag_set(tp, is_burnable); // is capable of being burned by fire
   tp_flag_set(tp, is_collision_circle_large);
   tp_flag_set(tp, is_described_cursor);
+  tp_flag_set(tp, is_described_when_killed);
   tp_flag_set(tp, is_flesh_eater);
   tp_flag_set(tp, is_insectoid);
   tp_flag_set(tp, is_loggable);
@@ -207,7 +208,6 @@ static bool tp_spider_baby_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attac
   tp_temperature_initial_set(tp, 20);   // celsius
   tp_weight_set(tp, WEIGHT_LIGHT);      // grams
   tp_z_depth_set(tp, MAP_Z_DEPTH_MONST);
-  tp_flag_set(tp, is_described_when_killed);
   // end sort marker1 }
 
   auto delay = 800;

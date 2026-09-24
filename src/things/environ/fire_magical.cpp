@@ -15,14 +15,14 @@
 #include "../../my_tps.hpp"
 #include "../../my_types.hpp"
 
-static auto tp_fire_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
+static auto tp_magical_fire_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
 {
   TRACE();
 
-  return "brightly burning fire";
+  return "brightly burning magical fire";
 }
 
-static void tp_fire_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
+static void tp_magical_fire_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
 
@@ -30,7 +30,7 @@ static void tp_fire_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   // Don't spawn fire too soon after creation or we get a firestorm
   //
   if (thing_age(me) <= 1) {
-    return;
+    //    return;
   }
 
   const std::initializer_list< bpoint > points = {
@@ -117,11 +117,11 @@ static void tp_fire_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
 
     THING_DBG(g, v, l, me, "spawn spreading fire");
 
-    (void) thing_spawn(g, v, l, tp_first(is_fire_normal), p);
+    (void) thing_spawn(g, v, l, tp_first(is_fire_magical), p);
   }
 }
 
-static void tp_fire_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
+static void tp_magical_fire_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
 {
   TRACE();
 
@@ -131,7 +131,7 @@ static void tp_fire_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent
   if (level_alive_is_combustible(g, v, l, thing_at(g, v, l, me)) != nullptr) {
     if (! level_is_fire_bool(g, v, l, thing_at(g, v, l, me))) {
       THING_DBG(g, v, l, me, "spawn fire to continue to burn");
-      (void) thing_spawn(g, v, l, tp_first(is_fire_normal), me);
+      (void) thing_spawn(g, v, l, tp_first(is_fire_magical), me);
     }
   }
 
@@ -143,7 +143,7 @@ static void tp_fire_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent
   }
 }
 
-static void tp_fire_on_fall_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
+static void tp_magical_fire_on_fall_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
 
@@ -174,19 +174,19 @@ static void tp_fire_on_fall_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   }
 }
 
-[[nodiscard]] auto tp_load_fire() -> bool
+[[nodiscard]] auto tp_load_fire_magical() -> bool
 {
   TRACE();
 
-  auto *tp   = tp_load("fire"); // keep as string for scripts
+  auto *tp   = tp_load("fire_magical"); // keep as string for scripts
   auto  name = tp_name(tp);
 
   // begin sort marker1 {
-  thing_description_set(tp, tp_fire_description_get);
-  thing_on_death_set(tp, tp_fire_on_death);
-  thing_on_fall_begin_set(tp, tp_fire_on_fall_begin);
-  thing_on_tick_begin_set(tp, tp_fire_tick_begin);
-  tp_damage_set(tp, THING_EVENT_FIRE_DAMAGE, "1d6");
+  thing_description_set(tp, tp_magical_fire_description_get);
+  thing_on_death_set(tp, tp_magical_fire_on_death);
+  thing_on_fall_begin_set(tp, tp_magical_fire_on_fall_begin);
+  thing_on_tick_begin_set(tp, tp_magical_fire_tick_begin);
+  tp_damage_set(tp, THING_EVENT_FIRE_DAMAGE, "1d12+6");
   tp_flag_set(tp, is_able_to_be_teleported);
   tp_flag_set(tp, is_able_to_fall);
   tp_flag_set(tp, is_animated);
@@ -196,7 +196,7 @@ static void tp_fire_on_fall_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_flag_set(tp, is_cursor_path_hazard);
   tp_flag_set(tp, is_cursor_path_warning);
   tp_flag_set(tp, is_described_cursor);
-  tp_flag_set(tp, is_fire_normal);
+  tp_flag_set(tp, is_fire_magical);
   tp_flag_set(tp, is_fire);
   tp_flag_set(tp, is_gaseous);
   tp_flag_set(tp, is_light_flicker);
@@ -210,13 +210,13 @@ static void tp_fire_on_fall_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_flag_set(tp, is_tickable);
   tp_health_set(tp, "1d5"); // to allow it to be damaged by water
   tp_is_immune_to_add(tp, THING_EVENT_FIRE_DAMAGE);
-  tp_lifespan_set(tp, "1d6+3");
-  tp_light_color_set(tp, "orange");
-  tp_name_a_or_an_set(tp, "fire");
-  tp_name_apostrophize_set(tp, "fires'");
-  tp_name_long_set(tp, "fire");
-  tp_name_pluralize_set(tp, "fires");
-  tp_name_short_set(tp, "fire");
+  tp_lifespan_set(tp, "1d20+20");
+  tp_light_color_set(tp, "green");
+  tp_name_a_or_an_set(tp, "magical fire");
+  tp_name_apostrophize_set(tp, "magical fires'");
+  tp_name_long_set(tp, "magical fire");
+  tp_name_pluralize_set(tp, "magical fires");
+  tp_name_short_set(tp, "magical fire");
   tp_priority_set(tp, THING_PRIORITY_FIRE);
   tp_temperature_burns_at_set(tp, 500); // celsius
   tp_temperature_initial_set(tp, 500);  // celsius

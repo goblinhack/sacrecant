@@ -22,10 +22,10 @@ static auto tp_spell_fire_storm_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> 
 {
   TRACE();
 
-  auto        explosion_tp = tp_find_mand("explosion");
-  auto        space        = (UI_RIGHTBAR_WIDTH - 4) / 2;
-  auto        damage_str   = tp_damage_dice_roll_string(explosion_tp, THING_EVENT_EXPLOSION_DAMAGE);
-  auto        damage_mod   = thing_stat_mod(g, v, l, me, THING_STAT_DMG);
+  auto        tp_damage  = tp_find_mand("fire_magical");
+  auto        space      = (UI_RIGHTBAR_WIDTH - 4) / 2;
+  auto        damage_str = tp_damage_dice_roll_string(tp_damage, THING_EVENT_EXPLOSION_DAMAGE);
+  auto        damage_mod = thing_stat_mod(g, v, l, me, THING_STAT_DMG);
   std::string line;
 
   if (damage_mod) {
@@ -41,14 +41,14 @@ static auto tp_spell_fire_storm_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> 
 
   return //
       UI_INFO1_FMT_STR
-      "Conjure a devastating cloud of pure fire, targeted at your enemies or radially around yourself.\n" //
+      "Conjure a devastating cloud of pure magical fire, targeted at your enemies or radially around yourself.\n" //
       UI_INFO2_FMT_STR
-      "Although not as immediately destructive as Blast Strike, flames will continue to burn long after conjuration.\n" UI_INFO1_FMT_STR
-      "Upgrades are as follows:\n"                       //
-      UI_INFO1_FMT_STR "- Radius and range:\n"           //
-      UI_INFO2_FMT_STR "  One extra tile per upgrade.\n" //
-      UI_INFO1_FMT_STR "- Damage upgrade:\n"             //
-      UI_INFO2_FMT_STR "  One extra health point of damage for each explosion per upgrade.\n"
+      "Although not as immediately destructive as Blast Strike, magical flames will continue to burn long after conjuration.\n" //
+      UI_INFO1_FMT_STR "Upgrades are as follows:\n"                                                                             //
+      UI_INFO1_FMT_STR "- Radius and range:\n"                                                                                  //
+      UI_INFO2_FMT_STR "  One extra tile per upgrade.\n"                                                                        //
+      UI_INFO1_FMT_STR "- Damage upgrade:\n"                                                                                    //
+      UI_INFO2_FMT_STR "  One extra health point of damage per tile.\n"
       + line; //
 }
 
@@ -98,7 +98,7 @@ static void tp_spell_fire_storm_spawn_fire(Gamep g, Levelsp v, Levelp l, Thingp 
 
   if (level_is_obs_to_fire(g, v, l, p) == nullptr) {
     if (! level_is_fire_bool(g, v, l, p)) {
-      auto fire = thing_spawn(g, v, l, tp_first(is_fire), p, &e);
+      auto fire = thing_spawn(g, v, l, tp_first(is_fire_magical), p, &e);
       if (fire) {
         auto spell_stat = thing_stat(g, v, l, spell, THING_STAT_DMG);
         (void) thing_stat_set(g, v, l, fire, THING_STAT_DMG, spell_stat);

@@ -619,16 +619,19 @@ void levels_test(Gamep g)
     Overrides overrides;
 
     overrides[ 'm' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("mantisman"); };
+    overrides[ 'k' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("kobalos"); };
+    overrides[ '!' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("fire_magical"); };
+    overrides[ 's' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("spider_giant"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "fire", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxx",
                     /* line */ (const char *) "xxxxxxxxxxx",
+                    /* line */ (const char *) "xx...!!!sxx",
                     /* line */ (const char *) "xx...!!!!xx",
-                    /* line */ (const char *) "xx...!!!!xx",
-                    /* line */ (const char *) "xx...!!!!xx",
+                    /* line */ (const char *) "xx...!!!.xx",
                     /* line */ (const char *) "xx.@.!!!mxx",
                     /* line */ (const char *) "xx...!!!!xx",
-                    /* line */ (const char *) "xx.E.!!!!xx",
+                    /* line */ (const char *) "xx.E.!!!kxx",
                     /* line */ (const char *) "xx...!!!!xx",
                     /* line */ (const char *) "xxxxxxxxxxx",
                     /* line */ (const char *) "xxxxxxxxxxx",

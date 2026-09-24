@@ -148,7 +148,7 @@
       break;
     }
 
-    if (thing_spawn(g, v, l, tp_random(g, v, l, is_fire), thing_at(g, v, l, player)) == nullptr) {
+    if (thing_spawn(g, v, l, tp_random(g, v, l, is_fire_normal), thing_at(g, v, l, player)) == nullptr) {
       TEST_FAILED(t, "failed to spawn thing");
       break;
     }

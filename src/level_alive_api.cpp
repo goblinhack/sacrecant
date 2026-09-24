@@ -1718,10 +1718,10 @@
   return level_alive(g, v, l, is_unused141, p);
 }
 
-[[nodiscard]] auto level_alive_is_unused142(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+[[nodiscard]] auto level_alive_is_fire_normal(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_alive(g, v, l, is_unused142, p);
+  return level_alive(g, v, l, is_fire_normal, p);
 }
 
 [[nodiscard]] auto level_alive_is_internal(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
@@ -1988,10 +1988,10 @@
   return level_alive(g, v, l, is_able_to_jump_land_then_pounce, p);
 }
 
-[[nodiscard]] auto level_alive_is_unused188(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+[[nodiscard]] auto level_alive_is_fire_magical(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_alive(g, v, l, is_unused188, p);
+  return level_alive(g, v, l, is_fire_magical, p);
 }
 
 [[nodiscard]] auto level_alive_is_skeleton(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp

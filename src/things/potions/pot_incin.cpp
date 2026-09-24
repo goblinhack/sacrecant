@@ -107,7 +107,7 @@ static bool tp_pot_incin_on_use(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp 
     }
   }
 
-  (void) thing_spawn(g, v, l, tp_first(is_fire), thing_at(g, v, l, user));
+  (void) thing_spawn(g, v, l, tp_first(is_fire_normal), thing_at(g, v, l, user));
 
   ThingEvent e {
       .reason     = "drank a potion of incineration",

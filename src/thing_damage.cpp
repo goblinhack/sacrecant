@@ -1046,11 +1046,11 @@ void thing_damage_apply(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
             if (level_is_flammable_bool(g, v, l, thing_at(g, v, l, me))) {
               THING_DBG(g, v, l, me, "spawn flames as tile is flammable");
               TRACE_INDENT();
-              (void) thing_spawn(g, v, l, tp_first(is_fire), me);
+              (void) thing_spawn(g, v, l, tp_first(is_fire_normal), me);
             } else if (thing_is_combustible(me)) {
               THING_DBG(g, v, l, me, "spawn flames as thing is combustible");
               TRACE_INDENT();
-              (void) thing_spawn(g, v, l, tp_first(is_fire), me);
+              (void) thing_spawn(g, v, l, tp_first(is_fire_normal), me);
             }
           }
         }

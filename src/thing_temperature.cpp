@@ -56,7 +56,7 @@ void thing_temperature_handle(Gamep g, Levelsp v, Levelp l, Thingp source, Thing
         // But only if combustible.
         //
         THING_DBG(g, v, l, me, "set on fire");
-        (void) thing_spawn(g, v, l, tp_random(g, v, l, is_fire), me);
+        (void) thing_spawn(g, v, l, tp_first(is_fire_normal), me);
         thing_is_burning_set(g, v, l, me);
       }
     } else {
@@ -201,7 +201,7 @@ void tp_temperature_init(Tpp tp)
     heat_exchange_set = true;
   }
   if (tp_is_spiderweb(tp) || tp_is_chocolate(tp) || tp_is_insectoid(tp) || tp_is_edible(tp)) {
-    tp_temperature_thermal_conductivity_set(tp, THERMAL_CONDUCTIVITY_UNKNOWN);
+    tp_temperature_thermal_conductivity_set(tp, THERMAL_CONDUCTIVITY_HIGH);
     tp_temperature_heat_capacity_set(tp, HEAT_CAPACITY_UNKNOWN);
     heat_exchange_set = true;
   }
