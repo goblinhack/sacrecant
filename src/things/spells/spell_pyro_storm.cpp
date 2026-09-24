@@ -18,7 +18,7 @@ static const std::string option_1_targeted                     = "targeted pyro 
 static const std::string option_2_radial_including_player_tile = "radial, including your tile";
 static const std::string option_3_radial_excluding_player_tile = "radial, excluding your tile";
 
-static auto tp_spell_fire_storm_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
+static auto tp_spell_pyro_storm_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
 {
   TRACE();
 
@@ -39,20 +39,19 @@ static auto tp_spell_fire_storm_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> 
                           space, damage_str.c_str());
   }
 
-  return //
-      UI_INFO1_FMT_STR
-      "Conjure a devastating cloud of pure magical fire, targeted at your enemies or radially around yourself.\n" //
-      UI_INFO2_FMT_STR
-      "Although not as immediately destructive as Blast Strike, magical flames will continue to burn long after conjuration.\n" //
-      UI_INFO1_FMT_STR "Upgrades are as follows:\n"                                                                             //
-      UI_INFO1_FMT_STR "- Radius and range:\n"                                                                                  //
-      UI_INFO2_FMT_STR "  One extra tile per upgrade.\n"                                                                        //
-      UI_INFO1_FMT_STR "- Damage upgrade:\n"                                                                                    //
+  return                                                                                                                           //
+      UI_INFO1_FMT_STR "Conjure a devastating cloud of pure magical fire, targeted at your enemies or radially around yourself.\n" //
+      UI_INFO2_FMT_STR "Although not as immediately destructive as Blast Strike, magical flames will continue to burn long after " //
+                       "conjuration and cause more damage than normal fire.\n"                                                     //
+      UI_INFO1_FMT_STR "Upgrades are as follows:\n"                                                                                //
+      UI_INFO1_FMT_STR "- Radius and range:\n"                                                                                     //
+      UI_INFO2_FMT_STR "  One extra tile per upgrade.\n"                                                                           //
+      UI_INFO1_FMT_STR "- Damage upgrade:\n"                                                                                       //
       UI_INFO2_FMT_STR "  One extra health point of damage per tile.\n"
       + line; //
 }
 
-static bool tp_spell_fire_storm_on_cast_request(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, ThingEvent &e)
+static bool tp_spell_pyro_storm_on_cast_request(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, ThingEvent &e)
 {
   TRACE();
 
@@ -92,7 +91,7 @@ static bool tp_spell_fire_storm_on_cast_request(Gamep g, Levelsp v, Levelp l, Th
   return false;
 }
 
-static void tp_spell_fire_storm_spawn_fire(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, bpoint p, ThingEvent &e)
+static void tp_spell_pyro_storm_spawn_fire(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, bpoint p, ThingEvent &e)
 {
   TRACE();
 
@@ -107,7 +106,7 @@ static void tp_spell_fire_storm_spawn_fire(Gamep g, Levelsp v, Levelp l, Thingp 
   }
 }
 
-static bool tp_spell_fire_storm_on_cast_do(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, ThingEvent &e)
+static bool tp_spell_pyro_storm_on_cast_do(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, ThingEvent &e)
 {
   TRACE();
 
@@ -141,7 +140,7 @@ static bool tp_spell_fire_storm_on_cast_do(Gamep g, Levelsp v, Levelp l, Thingp 
         bpoint p(target.x + dx, target.y + dy);
         if (! is_oob(p)) {
           if (distance(p, target) <= spell_radius) {
-            tp_spell_fire_storm_spawn_fire(g, v, l, spell, user, p, e);
+            tp_spell_pyro_storm_spawn_fire(g, v, l, spell, user, p, e);
           }
         }
       }
@@ -159,7 +158,7 @@ static bool tp_spell_fire_storm_on_cast_do(Gamep g, Levelsp v, Levelp l, Thingp 
         bpoint p(target.x + dx, target.y + dy);
         if (! is_oob(p)) {
           if (distance(p, target) <= spell_radius) {
-            tp_spell_fire_storm_spawn_fire(g, v, l, spell, user, p, e);
+            tp_spell_pyro_storm_spawn_fire(g, v, l, spell, user, p, e);
           }
         }
       }
@@ -177,7 +176,7 @@ static bool tp_spell_fire_storm_on_cast_do(Gamep g, Levelsp v, Levelp l, Thingp 
         if (! is_oob(p)) {
           if (p != target) {
             if (distance(p, target) <= spell_radius) {
-              tp_spell_fire_storm_spawn_fire(g, v, l, spell, user, p, e);
+              tp_spell_pyro_storm_spawn_fire(g, v, l, spell, user, p, e);
             }
           }
         }
@@ -192,7 +191,7 @@ static bool tp_spell_fire_storm_on_cast_do(Gamep g, Levelsp v, Levelp l, Thingp 
   return false;
 }
 
-static auto tp_spell_fire_storm_on_upgrade_possible(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade u) -> bool
+static auto tp_spell_pyro_storm_on_upgrade_possible(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade u) -> bool
 {
   TRACE();
 
@@ -210,7 +209,7 @@ static auto tp_spell_fire_storm_on_upgrade_possible(Gamep g, Levelsp v, Levelp l
   return upgradeable;
 }
 
-static auto tp_spell_fire_storm_on_upgrade_do(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade u) -> bool
+static auto tp_spell_pyro_storm_on_upgrade_do(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade u) -> bool
 {
   TRACE();
 
@@ -233,29 +232,29 @@ static auto tp_spell_fire_storm_on_upgrade_do(Gamep g, Levelsp v, Levelp l, Thin
   return false;
 }
 
-[[nodiscard]] auto tp_load_spell_fire_storm() -> bool
+[[nodiscard]] auto tp_load_spell_pyro_storm() -> bool
 {
   TRACE();
 
-  auto *tp   = tp_load("spell_fire_storm"); // keep as string for scripts
+  auto *tp   = tp_load("spell_pyro_storm"); // keep as string for scripts
   auto  name = tp_name(tp);
 
   // begin sort marker1 {
-  thing_detail_set(tp, tp_spell_fire_storm_get);
-  thing_on_cast_do_set(tp, tp_spell_fire_storm_on_cast_do);
-  thing_on_cast_request_set(tp, tp_spell_fire_storm_on_cast_request);
-  thing_on_upgrade_do_set(tp, tp_spell_fire_storm_on_upgrade_do);
-  thing_on_upgrade_possible_set(tp, tp_spell_fire_storm_on_upgrade_possible);
+  thing_detail_set(tp, tp_spell_pyro_storm_get);
+  thing_on_cast_do_set(tp, tp_spell_pyro_storm_on_cast_do);
+  thing_on_cast_request_set(tp, tp_spell_pyro_storm_on_cast_request);
+  thing_on_upgrade_do_set(tp, tp_spell_pyro_storm_on_upgrade_do);
+  thing_on_upgrade_possible_set(tp, tp_spell_pyro_storm_on_upgrade_possible);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_spell);
   tp_name_long_set(tp, "pyro storm");
-  tp_spell_cost_set(tp, 1);
+  tp_spell_cost_set(tp, 2);
   tp_spell_mana_cost_set(tp, 10);
   tp_spell_radius_max_set(tp, 6);
   tp_spell_radius_set(tp, 2);
   tp_spell_range_max_set(tp, 12);
   tp_spell_range_set(tp, 8);
-  tp_stat_set(tp, THING_STAT_ARCANA_FIRE, "11");
+  tp_stat_set(tp, THING_STAT_ARCANA_PYRO, "11");
   // end sort marker1 }
 
   tp_spell_upgrade_add(tp,

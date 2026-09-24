@@ -1337,37 +1337,51 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     return false;
   }
 
-  {
-    auto  out = thing_stat_mod_string(g, v, l, me, THING_STAT_ARCANA_FIRE);
-    auto *w   = wid_new_square_button(g, b, "Fre");
+  spoint tl(1, text->line_count);
+  spoint br(10, text->line_count + 2);
+
+  if (thing_stat_mod(g, v, l, me, THING_STAT_ARCANA_PYRO)) {
+    auto  out = thing_stat_mod_string(g, v, l, me, THING_STAT_ARCANA_PYRO);
+    auto *w   = wid_new_square_button(g, b, stat_to_name_short(THING_STAT_ARCANA_PYRO));
     wid_set_on_mouse_over_begin(w, wid_thing_info_stats_spell_mouse_over_begin);
     wid_set_on_mouse_over_end(w, wid_thing_info_stats_mouse_over_end);
-    spoint const tl(1, text->line_count);
-    spoint const br(10, text->line_count + 2);
     wid_set_pos(w, tl, br);
     wid_set_text(w, out);
+    tl.x += 10;
+    br.x += 10;
   }
 
-  {
-    auto         out = thing_stat_mod_string(g, v, l, me, THING_STAT_ARCANA_DEATH);
-    auto        *w   = wid_new_square_button(g, b, "Dth");
-    spoint const tl(11, text->line_count);
-    spoint const br(20, text->line_count + 2);
-    wid_set_pos(w, tl, br);
-    wid_set_text(w, out);
+  if (thing_stat_mod(g, v, l, me, THING_STAT_ARCANA_GEO)) {
+    auto  out = thing_stat_mod_string(g, v, l, me, THING_STAT_ARCANA_GEO);
+    auto *w   = wid_new_square_button(g, b, stat_to_name_short(THING_STAT_ARCANA_GEO));
     wid_set_on_mouse_over_begin(w, wid_thing_info_stats_spell_mouse_over_begin);
     wid_set_on_mouse_over_end(w, wid_thing_info_stats_mouse_over_end);
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, out);
+    tl.x += 10;
+    br.x += 10;
   }
 
-  {
-    auto         out = thing_stat_mod_string(g, v, l, me, THING_STAT_ARCANA_LIFE);
-    auto        *w   = wid_new_bright_button(g, b, "Lfe");
-    spoint const tl(21, text->line_count);
-    spoint const br(30, text->line_count + 2);
+  if (thing_stat_mod(g, v, l, me, THING_STAT_ARCANA_NECRO)) {
+    auto  out = thing_stat_mod_string(g, v, l, me, THING_STAT_ARCANA_NECRO);
+    auto *w   = wid_new_square_button(g, b, stat_to_name_short(THING_STAT_ARCANA_NECRO));
     wid_set_pos(w, tl, br);
     wid_set_text(w, out);
     wid_set_on_mouse_over_begin(w, wid_thing_info_stats_spell_mouse_over_begin);
     wid_set_on_mouse_over_end(w, wid_thing_info_stats_mouse_over_end);
+    tl.x += 10;
+    br.x += 10;
+  }
+
+  if (thing_stat_mod(g, v, l, me, THING_STAT_ARCANA_BIO)) {
+    auto  out = thing_stat_mod_string(g, v, l, me, THING_STAT_ARCANA_BIO);
+    auto *w   = wid_new_bright_button(g, b, stat_to_name_short(THING_STAT_ARCANA_BIO));
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, out);
+    wid_set_on_mouse_over_begin(w, wid_thing_info_stats_spell_mouse_over_begin);
+    wid_set_on_mouse_over_end(w, wid_thing_info_stats_mouse_over_end);
+    tl.x += 10;
+    br.x += 10;
   }
 
   parent->log_empty_line(g);
@@ -1418,9 +1432,10 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
       case THING_STAT_PSI :
       case THING_STAT_LUCK :
       case THING_STAT_ENUM_MAX :     break;
-      case THING_STAT_ARCANA_DEATH : [[fallthrough]];
-      case THING_STAT_ARCANA_LIFE :  [[fallthrough]];
-      case THING_STAT_ARCANA_FIRE :
+      case THING_STAT_ARCANA_NECRO : [[fallthrough]];
+      case THING_STAT_ARCANA_BIO :   [[fallthrough]];
+      case THING_STAT_ARCANA_PYRO :  [[fallthrough]];
+      case THING_STAT_ARCANA_GEO :
         {
           auto opposing_arcana = stat_to_opposing_stat(stat);
           auto line            = string_sprintf("%s arcana: %s", stat_to_name_long(stat).c_str(), stat_to_mod_string(total_stat).c_str());

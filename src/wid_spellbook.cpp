@@ -167,17 +167,20 @@ static void wid_player_update_spell_selections(Gamep g, Levelsp v, Levelp l, Thi
     s += ") ";
 
     s += capitalize_first(tp_name_long(tp));
-    s = string_sprintf("%-50s", s.c_str());
+    s = string_sprintf("%-40s", s.c_str());
     s += "%%fg=reset$";
 
+    auto arcana      = thing_spell_arcana(g, v, l, spell);
+    auto arcana_name = stat_to_name_long(arcana);
     switch (thing_spell_arcana(g, v, l, spell)) {
-      case THING_STAT_ARCANA_FIRE :  s += "%%fg=orange$Fire%%fg=reset$    "; break;
-      case THING_STAT_ARCANA_DEATH : s += "%%fg=gray50$Death%%fg=reset$   "; break;
-      case THING_STAT_ARCANA_LIFE :  s += "%%fg=green$Life%%fg=reset$    "; break;
+      case THING_STAT_ARCANA_GEO :   s += "%%fg=lime$" + arcana_name + "%%fg=reset$    "; break;
+      case THING_STAT_ARCANA_PYRO :  s += "%%fg=orange$" + arcana_name + "%%fg=reset$    "; break;
+      case THING_STAT_ARCANA_NECRO : s += "%%fg=gray50$" + arcana_name + "%%fg=reset$   "; break;
+      case THING_STAT_ARCANA_BIO :   s += "%%fg=green$" + arcana_name + "%%fg=reset$     "; break;
       default :                      s += "-    "; break;
     }
 
-    s += string_sprintf("%2d", spell_mana_cost);
+    s += string_sprintf("      %2d", spell_mana_cost);
 
     wid_set_text(w, s);
     wid_apply_bar_button(g, w);
@@ -459,7 +462,7 @@ static void wid_spellbook_key_down_which_spell(Gamep g, Widp w, int index)
   return false;
 }
 
-[[nodiscard]] static auto wid_spellbook_stats_arcana_fire_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+[[nodiscard]] static auto wid_spellbook_stats_arcana_geo_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
 
@@ -478,16 +481,16 @@ static void wid_spellbook_key_down_which_spell(Gamep g, Widp w, int index)
     return 0;
   }
 
-  if (wid_spell_filter == THING_STAT_ARCANA_FIRE) {
+  if (wid_spell_filter == THING_STAT_ARCANA_GEO) {
     wid_spellbook(g, v, l, player, THING_STAT_NONE);
   } else {
-    wid_spellbook(g, v, l, player, THING_STAT_ARCANA_FIRE);
+    wid_spellbook(g, v, l, player, THING_STAT_ARCANA_GEO);
   }
 
   return true;
 }
 
-[[nodiscard]] static auto wid_spellbook_stats_arcana_life_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+[[nodiscard]] static auto wid_spellbook_stats_arcana_pyro_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
 
@@ -506,16 +509,16 @@ static void wid_spellbook_key_down_which_spell(Gamep g, Widp w, int index)
     return 0;
   }
 
-  if (wid_spell_filter == THING_STAT_ARCANA_LIFE) {
+  if (wid_spell_filter == THING_STAT_ARCANA_PYRO) {
     wid_spellbook(g, v, l, player, THING_STAT_NONE);
   } else {
-    wid_spellbook(g, v, l, player, THING_STAT_ARCANA_LIFE);
+    wid_spellbook(g, v, l, player, THING_STAT_ARCANA_PYRO);
   }
 
   return true;
 }
 
-[[nodiscard]] static auto wid_spellbook_stats_arcana_death_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+[[nodiscard]] static auto wid_spellbook_stats_arcana_bio_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
 
@@ -534,109 +537,69 @@ static void wid_spellbook_key_down_which_spell(Gamep g, Widp w, int index)
     return 0;
   }
 
-  if (wid_spell_filter == THING_STAT_ARCANA_DEATH) {
+  if (wid_spell_filter == THING_STAT_ARCANA_BIO) {
     wid_spellbook(g, v, l, player, THING_STAT_NONE);
   } else {
-    wid_spellbook(g, v, l, player, THING_STAT_ARCANA_DEATH);
+    wid_spellbook(g, v, l, player, THING_STAT_ARCANA_BIO);
   }
 
   return true;
 }
 
-static void wid_spellbook_stats_arcana_common_mouse_over_begin(Gamep g)
+[[nodiscard]] static auto wid_spellbook_stats_arcana_necro_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  wid_over_stats->log_empty_line(g);
-  wid_over_stats->log(g, UI_INFO1_FMT_STR "Modifiers can impact costs and mana drain.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log_empty_line(g);
-  wid_over_stats->log(g, UI_INFO1_FMT_STR "SP is used when buying a spell.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log_empty_line(g);
-  wid_over_stats->log(g, UI_INFO1_FMT_STR "Mana is used when casting a spell.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log_empty_line(g);
-  wid_over_stats->log(g, UI_INFO1_FMT_STR "Cost modifier table:\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO2_FMT_STR " -9 mod increases SP by 3.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO2_FMT_STR " -6 mod increases SP by 2.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO2_FMT_STR " -5 mod increases mana by 50%%%.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO2_FMT_STR " -3 mod increases SP by 1.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO2_FMT_STR " +3 mod decreases SP by 1.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO2_FMT_STR " +5 mod decreases mana by 50%%%.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO2_FMT_STR " +6 mod decreases SP by 2.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log(g, UI_INFO2_FMT_STR " +9 mod decreases SP by 3.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log_empty_line(g);
-  wid_over_stats->log(g, UI_INFO1_FMT_STR "Select this option to filter spells to this arcana only.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->log_empty_line(g);
+
+  auto *v = levels_memory_alloc(g);
+  if (v == nullptr) {
+    return 0;
+  }
+
+  auto *l = game_level_get(g, v);
+  if (l == nullptr) {
+    return 0;
+  }
+
+  auto *player = thing_player(g);
+  if (player == nullptr) {
+    return 0;
+  }
+
+  if (wid_spell_filter == THING_STAT_ARCANA_NECRO) {
+    wid_spellbook(g, v, l, player, THING_STAT_NONE);
+  } else {
+    wid_spellbook(g, v, l, player, THING_STAT_ARCANA_NECRO);
+  }
+
+  return true;
 }
 
-static void wid_spellbook_stats_arcana_fire_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
+static void wid_spellbook_stats_arcana_pyro_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
 {
   TRACE();
 
-  int const tlx = TERM_WIDTH - UI_RIGHTBAR_WIDTH - 2;
-  int const brx = tlx + UI_RIGHTBAR_WIDTH;
-  int const tly = UI_TOPCON_HEIGHT + 10;
-  int const bry = tly + 40;
-
-  spoint const tl(tlx, tly);
-  spoint const br(brx, bry);
-
-  wid_over_stats = new WidPopup(g, "stats", tl, br, nullptr, "", false, false);
-  wid_over_stats->log(g, UI_HIGHLIGHT_FMT_STR "Fire Arcana");
-  wid_over_stats->log_empty_line(g);
-  wid_over_stats->log(g, UI_INFO2_FMT_STR "With the Fire Arcana, you specialize in all things flaming hot, fireballs, scorched earth etc...\n",
-                      TEXT_FORMAT_LHS);
-  wid_spellbook_stats_arcana_common_mouse_over_begin(g);
-  wid_over_stats->compress(g);
-
-  level_cursor_path_reset(g);
+  wid_over_stats = wid_arcana_pyro_mouse_over_begin(g);
 }
 
-static void wid_spellbook_stats_arcana_life_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
+static void wid_spellbook_stats_arcana_geo_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
 {
   TRACE();
 
-  int const tlx = TERM_WIDTH - UI_RIGHTBAR_WIDTH - 2;
-  int const brx = tlx + UI_RIGHTBAR_WIDTH;
-  int const tly = UI_TOPCON_HEIGHT + 10;
-  int const bry = tly + 40;
-
-  spoint const tl(tlx, tly);
-  spoint const br(brx, bry);
-
-  wid_over_stats = new WidPopup(g, "stats", tl, br, nullptr, "", false, false);
-  wid_over_stats->log(g, UI_HIGHLIGHT_FMT_STR "Life Arcana");
-  wid_over_stats->log_empty_line(g);
-  wid_over_stats->log(g,
-                      UI_INFO2_FMT_STR "With the Life Arcana, you specialize in all things living, plant summoning, healing of allies etc...\n",
-                      TEXT_FORMAT_LHS);
-  wid_spellbook_stats_arcana_common_mouse_over_begin(g);
-  wid_over_stats->log(g, UI_IMPORTANT_FMT_STR "Specializing in Death will make Life spells more costly.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->compress(g);
-
-  level_cursor_path_reset(g);
+  wid_over_stats = wid_arcana_geo_mouse_over_begin(g);
 }
 
-static void wid_spellbook_stats_arcana_death_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
+static void wid_spellbook_stats_arcana_bio_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
 {
   TRACE();
 
-  int const tlx = TERM_WIDTH - UI_RIGHTBAR_WIDTH - 2;
-  int const brx = tlx + UI_RIGHTBAR_WIDTH;
-  int const tly = UI_TOPCON_HEIGHT + 10;
-  int const bry = tly + 40;
+  wid_over_stats = wid_arcana_bio_mouse_over_begin(g);
+}
 
-  spoint const tl(tlx, tly);
-  spoint const br(brx, bry);
+static void wid_spellbook_stats_arcana_necro_mouse_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
+{
+  TRACE();
 
-  wid_over_stats = new WidPopup(g, "stats", tl, br, nullptr, "", false, false);
-  wid_over_stats->log(g, UI_HIGHLIGHT_FMT_STR "Death Arcana");
-  wid_over_stats->log_empty_line(g);
-  wid_over_stats->log(g, UI_INFO2_FMT_STR "With the Death Arcana, you specialize in all things dead, undead summoning, finger of death etc...\n",
-                      TEXT_FORMAT_LHS);
-  wid_spellbook_stats_arcana_common_mouse_over_begin(g);
-  wid_over_stats->log(g, UI_IMPORTANT_FMT_STR "Specializing in Life will make Death spells more costly.\n", TEXT_FORMAT_LHS);
-  wid_over_stats->compress(g);
-
-  level_cursor_path_reset(g);
+  wid_over_stats = wid_arcana_necro_mouse_over_begin(g);
 }
 
 static void wid_spellbook_stats_mouse_over_end(Gamep g, Widp w)
@@ -737,7 +700,7 @@ void wid_spellbook(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType fi
     spoint const br(button_width, y_at + button_height);
     wid_set_text_lhs(w, 1u);
     wid_set_pos(w, tl, br);
-    wid_set_text(w, UI_INFO_FMT_STR "Spell name                            Arcana  Mana");
+    wid_set_text(w, UI_INFO_FMT_STR "Spell name                   Arcana      Mana Cost");
     y_at++;
   }
 
@@ -841,56 +804,74 @@ void wid_spellbook(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType fi
   // Arcana stats:
   //
   {
-    auto         out = thing_stat_mod_string(g, v, l, player, THING_STAT_ARCANA_FIRE);
-    auto        *w   = wid_new_bright_button(g, wid_spellbook_window, stat_to_name(THING_STAT_ARCANA_FIRE));
+    auto         out = thing_stat_mod_string(g, v, l, player, THING_STAT_ARCANA_PYRO);
+    auto        *w   = wid_new_bright_button(g, wid_spellbook_window, stat_to_name_short(THING_STAT_ARCANA_PYRO));
     spoint const tl(10, y_at);
     spoint const br(18, y_at + 2);
     wid_set_pos(w, tl, br);
     wid_set_text(w, out);
-    wid_set_on_mouse_down(w, wid_spellbook_stats_arcana_fire_mouse_down);
-    if (filter == THING_STAT_ARCANA_FIRE) {
+    wid_set_on_mouse_down(w, wid_spellbook_stats_arcana_pyro_mouse_down);
+    if (filter == THING_STAT_ARCANA_PYRO) {
       wid_set_mode(w, WID_MODE_OVER);
       wid_set_style(w, UI_WID_STYLE_BUTTON_ROUNDED_SOLID);
       wid_set_mode(w, WID_MODE_NORMAL);
       wid_set_style(w, UI_WID_STYLE_BUTTON_ROUNDED_SOLID);
     } else {
-      wid_set_on_mouse_over_begin(w, wid_spellbook_stats_arcana_fire_mouse_over_begin);
+      wid_set_on_mouse_over_begin(w, wid_spellbook_stats_arcana_pyro_mouse_over_begin);
       wid_set_on_mouse_over_end(w, wid_spellbook_stats_mouse_over_end);
     }
   }
   {
-    auto         out = thing_stat_mod_string(g, v, l, player, THING_STAT_ARCANA_LIFE);
-    auto        *w   = wid_new_bright_button(g, wid_spellbook_window, stat_to_name(THING_STAT_ARCANA_LIFE));
+    auto         out = thing_stat_mod_string(g, v, l, player, THING_STAT_ARCANA_GEO);
+    auto        *w   = wid_new_bright_button(g, wid_spellbook_window, stat_to_name_short(THING_STAT_ARCANA_GEO));
     spoint const tl(19, y_at);
     spoint const br(27, y_at + 2);
     wid_set_pos(w, tl, br);
     wid_set_text(w, out);
-    wid_set_on_mouse_down(w, wid_spellbook_stats_arcana_life_mouse_down);
-    if (filter == THING_STAT_ARCANA_LIFE) {
+    wid_set_on_mouse_down(w, wid_spellbook_stats_arcana_geo_mouse_down);
+    if (filter == THING_STAT_ARCANA_GEO) {
       wid_set_mode(w, WID_MODE_OVER);
       wid_set_style(w, UI_WID_STYLE_BUTTON_ROUNDED_SOLID);
       wid_set_mode(w, WID_MODE_NORMAL);
       wid_set_style(w, UI_WID_STYLE_BUTTON_ROUNDED_SOLID);
     } else {
-      wid_set_on_mouse_over_begin(w, wid_spellbook_stats_arcana_life_mouse_over_begin);
+      wid_set_on_mouse_over_begin(w, wid_spellbook_stats_arcana_geo_mouse_over_begin);
       wid_set_on_mouse_over_end(w, wid_spellbook_stats_mouse_over_end);
     }
   }
   {
-    auto         out = thing_stat_mod_string(g, v, l, player, THING_STAT_ARCANA_DEATH);
-    auto        *w   = wid_new_bright_button(g, wid_spellbook_window, stat_to_name(THING_STAT_ARCANA_DEATH));
+    auto         out = thing_stat_mod_string(g, v, l, player, THING_STAT_ARCANA_BIO);
+    auto        *w   = wid_new_bright_button(g, wid_spellbook_window, stat_to_name_short(THING_STAT_ARCANA_BIO));
     spoint const tl(28, y_at);
     spoint const br(36, y_at + 2);
     wid_set_pos(w, tl, br);
     wid_set_text(w, out);
-    wid_set_on_mouse_down(w, wid_spellbook_stats_arcana_death_mouse_down);
-    if (filter == THING_STAT_ARCANA_DEATH) {
+    wid_set_on_mouse_down(w, wid_spellbook_stats_arcana_bio_mouse_down);
+    if (filter == THING_STAT_ARCANA_BIO) {
       wid_set_mode(w, WID_MODE_OVER);
       wid_set_style(w, UI_WID_STYLE_BUTTON_ROUNDED_SOLID);
       wid_set_mode(w, WID_MODE_NORMAL);
       wid_set_style(w, UI_WID_STYLE_BUTTON_ROUNDED_SOLID);
     } else {
-      wid_set_on_mouse_over_begin(w, wid_spellbook_stats_arcana_death_mouse_over_begin);
+      wid_set_on_mouse_over_begin(w, wid_spellbook_stats_arcana_bio_mouse_over_begin);
+      wid_set_on_mouse_over_end(w, wid_spellbook_stats_mouse_over_end);
+    }
+  }
+  {
+    auto         out = thing_stat_mod_string(g, v, l, player, THING_STAT_ARCANA_NECRO);
+    auto        *w   = wid_new_bright_button(g, wid_spellbook_window, stat_to_name_short(THING_STAT_ARCANA_NECRO));
+    spoint const tl(37, y_at);
+    spoint const br(45, y_at + 2);
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, out);
+    wid_set_on_mouse_down(w, wid_spellbook_stats_arcana_necro_mouse_down);
+    if (filter == THING_STAT_ARCANA_NECRO) {
+      wid_set_mode(w, WID_MODE_OVER);
+      wid_set_style(w, UI_WID_STYLE_BUTTON_ROUNDED_SOLID);
+      wid_set_mode(w, WID_MODE_NORMAL);
+      wid_set_style(w, UI_WID_STYLE_BUTTON_ROUNDED_SOLID);
+    } else {
+      wid_set_on_mouse_over_begin(w, wid_spellbook_stats_arcana_necro_mouse_over_begin);
       wid_set_on_mouse_over_end(w, wid_spellbook_stats_mouse_over_end);
     }
   }

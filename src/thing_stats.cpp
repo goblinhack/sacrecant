@@ -88,7 +88,7 @@
   }
 }
 
-[[nodiscard]] auto stat_to_name(ThingStatType stat) -> const std::string
+[[nodiscard]] auto stat_to_name_short(ThingStatType stat) -> const std::string
 {
   switch (stat) {
     case THING_STAT_NONE :         return "-";
@@ -101,9 +101,10 @@
     case THING_STAT_DEX :          return "Dex";
     case THING_STAT_PSI :          return "Psi";
     case THING_STAT_LUCK :         return "Lck";
-    case THING_STAT_ARCANA_DEATH : return "Dth";
-    case THING_STAT_ARCANA_LIFE :  return "Lfe";
-    case THING_STAT_ARCANA_FIRE :  return "Fir";
+    case THING_STAT_ARCANA_NECRO : return "Nec";
+    case THING_STAT_ARCANA_BIO :   return "Bio";
+    case THING_STAT_ARCANA_PYRO :  return "Pyr";
+    case THING_STAT_ARCANA_GEO :   return "Geo";
     case THING_STAT_ENUM_MAX :     return "???";
   }
   return "???";
@@ -122,9 +123,10 @@
     case THING_STAT_DEX :          return THING_STAT_NONE;
     case THING_STAT_PSI :          return THING_STAT_NONE;
     case THING_STAT_LUCK :         return THING_STAT_NONE;
-    case THING_STAT_ARCANA_DEATH : return THING_STAT_ARCANA_LIFE;
-    case THING_STAT_ARCANA_LIFE :  return THING_STAT_ARCANA_DEATH;
-    case THING_STAT_ARCANA_FIRE :  return THING_STAT_NONE;
+    case THING_STAT_ARCANA_NECRO : return THING_STAT_ARCANA_BIO;
+    case THING_STAT_ARCANA_BIO :   return THING_STAT_ARCANA_NECRO;
+    case THING_STAT_ARCANA_PYRO :  return THING_STAT_ARCANA_GEO;
+    case THING_STAT_ARCANA_GEO :   return THING_STAT_ARCANA_PYRO;
     case THING_STAT_ENUM_MAX :     return THING_STAT_NONE;
   }
   return THING_STAT_NONE;
@@ -143,9 +145,10 @@
     case THING_STAT_DEX :          return "Dexterity";
     case THING_STAT_PSI :          return "Psi";
     case THING_STAT_LUCK :         return "Luck";
-    case THING_STAT_ARCANA_DEATH : return "Death";
-    case THING_STAT_ARCANA_LIFE :  return "Life";
-    case THING_STAT_ARCANA_FIRE :  return "Fire";
+    case THING_STAT_ARCANA_NECRO : return "Necromancy";
+    case THING_STAT_ARCANA_BIO :   return "Biomancy";
+    case THING_STAT_ARCANA_PYRO :  return "Pyromancy";
+    case THING_STAT_ARCANA_GEO :   return "Geomancy";
     case THING_STAT_ENUM_MAX :     return "???";
   }
   return "???";
@@ -164,9 +167,10 @@
     case THING_STAT_DEX :          return false;
     case THING_STAT_PSI :          return false;
     case THING_STAT_LUCK :         return false;
-    case THING_STAT_ARCANA_DEATH : return true;
-    case THING_STAT_ARCANA_LIFE :  return true;
-    case THING_STAT_ARCANA_FIRE :  return true;
+    case THING_STAT_ARCANA_NECRO : return true;
+    case THING_STAT_ARCANA_BIO :   return true;
+    case THING_STAT_ARCANA_PYRO :  return true;
+    case THING_STAT_ARCANA_GEO :   return true;
     case THING_STAT_ENUM_MAX :     return false;
   }
   return false;
@@ -226,7 +230,7 @@
 
   auto              mod       = thing_stat_mod(g, v, l, me, stat);
   auto              mod_str   = thing_stat_mod_value_string(g, v, l, me, stat);
-  std::string const stat_name = stat_to_name(stat);
+  std::string const stat_name = stat_to_name_short(stat);
   std::string       stat_str;
 
   if (mod < -5) {
@@ -254,7 +258,7 @@
   auto              val       = thing_stat(g, v, l, me, stat);
   auto              mod       = thing_stat_mod(g, v, l, me, stat);
   auto              mod_str   = thing_stat_mod_value_string(g, v, l, me, stat);
-  std::string const stat_name = stat_to_name(stat);
+  std::string const stat_name = stat_to_name_short(stat);
   std::string       stat_str;
 
   switch (stat) {
@@ -293,7 +297,7 @@
   auto              val       = thing_stat(g, v, l, me, stat);
   auto              mod       = thing_stat_mod(g, v, l, me, stat);
   auto              mod_str   = thing_stat_mod_value_string(g, v, l, me, stat);
-  std::string const stat_name = stat_to_name(stat);
+  std::string const stat_name = stat_to_name_short(stat);
   std::string       stat_str;
 
   switch (stat) {
@@ -398,7 +402,7 @@
     return THING_STAT_DEFAULT;
   }
 
-  auto stat_string = stat_to_name(stat);
+  auto stat_string = stat_to_name_short(stat);
   int  out         = me->_stat[ stat ];
 
   IF_DEBUG2

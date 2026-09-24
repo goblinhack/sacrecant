@@ -754,7 +754,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto stat_to_mod_string(int val) -> const std::string;
 [[nodiscard]] auto stat_to_mod(int val) -> int;
 [[nodiscard]] auto stat_to_name_long(ThingStatType stat) -> const std::string;
-[[nodiscard]] auto stat_to_name(ThingStatType stat) -> const std::string;
+[[nodiscard]] auto stat_to_name_short(ThingStatType stat) -> const std::string;
 [[nodiscard]] auto stat_to_opposing_stat(ThingStatType stat) -> ThingStatType;
 [[nodiscard]] auto thing_age_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_age_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;

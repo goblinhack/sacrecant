@@ -129,7 +129,7 @@
   if (!tp_load_smoke()) { return false; }
   if (!tp_load_spell_blast_strike()) { return false; }
   if (!tp_load_spell_effect()) { return false; }
-  if (!tp_load_spell_fire_storm()) { return false; }
+  if (!tp_load_spell_pyro_storm()) { return false; }
   if (!tp_load_spider_baby()) { return false; }
   if (!tp_load_spider()) { return false; }
   if (!tp_load_spiderweb()) { return false; }

@@ -100,19 +100,22 @@ auto thing_spell_arcana(Gamep g, Levelsp v, Levelp l, Thingp me) -> ThingStatTyp
 {
   TRACE();
 
-  if (thing_stat(g, v, l, me, THING_STAT_ARCANA_FIRE) > THING_STAT_DEFAULT) {
-    return THING_STAT_ARCANA_FIRE;
+  if (thing_stat(g, v, l, me, THING_STAT_ARCANA_GEO) > THING_STAT_DEFAULT) {
+    return THING_STAT_ARCANA_GEO;
   }
-  if (thing_stat(g, v, l, me, THING_STAT_ARCANA_LIFE) > THING_STAT_DEFAULT) {
-    return THING_STAT_ARCANA_LIFE;
+  if (thing_stat(g, v, l, me, THING_STAT_ARCANA_PYRO) > THING_STAT_DEFAULT) {
+    return THING_STAT_ARCANA_PYRO;
   }
-  if (thing_stat(g, v, l, me, THING_STAT_ARCANA_DEATH) > THING_STAT_DEFAULT) {
-    return THING_STAT_ARCANA_DEATH;
+  if (thing_stat(g, v, l, me, THING_STAT_ARCANA_BIO) > THING_STAT_DEFAULT) {
+    return THING_STAT_ARCANA_BIO;
+  }
+  if (thing_stat(g, v, l, me, THING_STAT_ARCANA_NECRO) > THING_STAT_DEFAULT) {
+    return THING_STAT_ARCANA_NECRO;
   }
 
   thing_err(g, v, l, me, "no spell arcana");
 
-  return THING_STAT_ARCANA_FIRE;
+  return THING_STAT_ARCANA_PYRO;
 }
 
 auto thing_spell_cost_for(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user) -> int
@@ -157,13 +160,13 @@ auto thing_spell_cost_for(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp use
   ThingStatType opposing_arcana {};
   bool          opposing_arcana_set {};
 
-  if (arcana == THING_STAT_ARCANA_LIFE) {
+  if (arcana == THING_STAT_ARCANA_BIO) {
     opposing_arcana_set = true;
-    opposing_arcana     = THING_STAT_ARCANA_DEATH;
+    opposing_arcana     = THING_STAT_ARCANA_NECRO;
   }
-  if (arcana == THING_STAT_ARCANA_DEATH) {
+  if (arcana == THING_STAT_ARCANA_NECRO) {
     opposing_arcana_set = true;
-    opposing_arcana     = THING_STAT_ARCANA_LIFE;
+    opposing_arcana     = THING_STAT_ARCANA_BIO;
   }
 
   if (opposing_arcana_set) {

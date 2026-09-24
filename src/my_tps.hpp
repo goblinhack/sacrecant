@@ -127,7 +127,7 @@ auto tp_load_skullferno() -> bool;
 auto tp_load_smoke() -> bool;
 auto tp_load_spell_blast_strike() -> bool;
 auto tp_load_spell_effect() -> bool;
-auto tp_load_spell_fire_storm() -> bool;
+auto tp_load_spell_pyro_storm() -> bool;
 auto tp_load_spider_baby() -> bool;
 auto tp_load_spider() -> bool;
 auto tp_load_spiderweb() -> bool;

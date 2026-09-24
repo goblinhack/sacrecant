@@ -253,7 +253,7 @@ static auto tp_spell_blast_strike_on_upgrade_do(Gamep g, Levelsp v, Levelp l, Th
   tp_spell_radius_set(tp, 2);
   tp_spell_range_max_set(tp, 12);
   tp_spell_range_set(tp, 8);
-  tp_stat_set(tp, THING_STAT_ARCANA_FIRE, "11");
+  tp_stat_set(tp, THING_STAT_ARCANA_PYRO, "11");
   // end sort marker1 }
 
   tp_spell_upgrade_add(tp,
