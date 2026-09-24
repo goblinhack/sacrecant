@@ -224,15 +224,15 @@ static void thing_display_outlined_blit(Gamep g, Tpp tp, spoint tl, spoint br, T
     return false;
   }
 
+  if (! thing_is_invisible(g, v, l, t_maybe_null)) {
+    return false;
+  }
+
   //
-  // Player cannot see it!
+  // Player cannot see it when invisible.
   //
   if (! thing_is_player(t_maybe_null)) {
     return true;
-  }
-
-  if (! thing_is_invisible(g, v, l, t_maybe_null)) {
-    return false;
   }
 
   tile_blit(tile, x1, x2, y1, y2, tl, br, fg);
@@ -311,6 +311,7 @@ static void thing_display_blit(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp t_ma
         // Jumping/thrown/levitating things need to be seen over other things
         //
         if (thing_is_levitating(g, v, l, t_maybe_null) || thing_is_jumping(t_maybe_null) || thing_is_thrown(t_maybe_null)) {
+          thing_topcon(g, v, l, t_maybe_null, "overla");
           break;
         }
 

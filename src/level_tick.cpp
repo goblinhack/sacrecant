@@ -426,6 +426,15 @@ static void level_tick_body(Gamep g, Levelsp v, Levelp l, float dt, bool tick_is
       t_speed = static_cast< float >(player_speed);
     }
 
+    //
+    // Some things move slowly, like spiders, but jump fast. If we do not match the players
+    // speed then we may only see a fraction of the jump interpolated and then the spider
+    // zips to the finish line.
+    //
+    if (thing_is_jumping(t)) {
+      t_speed = static_cast< float >(player_speed);
+    }
+
     auto old_thing_dt = t->thing_dt;
 
     if (thing_is_projectile(t)) {
