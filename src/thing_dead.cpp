@@ -5,6 +5,7 @@
 #include "my_callstack.hpp"
 #include "my_game.hpp"
 #include "my_game_inlines.hpp"
+#include "my_game_popups.hpp"
 #include "my_level.hpp"
 #include "my_main.hpp"
 #include "my_string.hpp"
@@ -171,11 +172,15 @@ static void thing_killed_player(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEv
 }
 
 //
-// The player has attacked
+// The monster has attacked by the player
 //
 static void thing_killed_by_player(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
 {
   TRACE();
+
+  if (! thing_is_described_when_killed(me)) {
+    return;
+  }
 
   auto *player = e.source;
   if (player == nullptr) [[unlikely]] {
@@ -190,7 +195,26 @@ static void thing_killed_by_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
     p->defeated[ tp_id_get(thing_tp(me)) ]++;
   }
 
+  auto at = thing_at(g, v, l, me);
+
+  //
+  // Popup for damage to monsters
+  //
+  {
+    std::string msg;
+    if (e.crit) {
+      msg = "Dead! CRIT! -" + std::to_string(e.damage);
+    } else {
+      msg = "Dead! -" + std::to_string(e.damage);
+    }
+    game_popup_text_add(g, at.x, at.y, msg, WHITE);
+  }
+
   if (! thing_is_described_when_killed(me)) {
+    return;
+  }
+
+  if (! thing_vision_can_see_tile(g, v, l, player, at)) {
     return;
   }
 
@@ -267,12 +291,178 @@ static void thing_killed_by_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
 }
 
 //
+// The monster has been attacked by something else
+//
+static void thing_killed_by_other(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
+{
+  TRACE();
+
+  if (! thing_is_described_when_killed(me)) {
+    return;
+  }
+
+  auto *player = thing_player(g);
+  if (player == nullptr) [[unlikely]] {
+    return;
+  }
+
+  if (thing_is_dead(me) || thing_is_corpse(me)) {
+    return;
+  }
+
+  if (! thing_on_same_level_as_player(g, v, me)) {
+    return;
+  }
+
+  auto at = thing_at(g, v, l, me);
+
+  //
+  // Popup for damage to monsters
+  //
+  {
+    std::string msg;
+    if (e.crit) {
+      msg = "Dead! CRIT! -" + std::to_string(e.damage);
+    } else {
+      msg = "Dead! -" + std::to_string(e.damage);
+    }
+    game_popup_text_add(g, at.x, at.y, msg, WHITE);
+  }
+
+  if (! thing_vision_can_see_tile(g, v, l, player, at)) {
+    return;
+  }
+
+  auto the_thing = capitalize_first(thing_name_long_the(g, v, l, me));
+
+  std::string by_attacker;
+  if (e.source) {
+    auto *fired_by = thing_missile_fired_by_get(g, v, l, e.source);
+    if (fired_by != nullptr) {
+      by_attacker = thing_name_apostrophize_the(g, v, l, fired_by) + " " + thing_name_long(g, v, l, e.source);
+    } else {
+      by_attacker = thing_name_long_the(g, v, l, e.source);
+    }
+
+    switch (e.event_type) {
+      case THING_EVENT_THROWN : //
+        topcon("%s is thrown and killer by %s.", the_thing.c_str(), by_attacker.c_str());
+        break;
+      case THING_EVENT_SHOVED : //
+        topcon("%s is knocked over and killed by %s.", the_thing.c_str(), by_attacker.c_str());
+        break;
+      case THING_EVENT_CRUSH_DAMAGE : //
+        topcon("%s is crushed to death by %s.", the_thing.c_str(), by_attacker.c_str());
+        break;
+      case THING_EVENT_ENGULF_DAMAGE : //
+        topcon("%s is engulfed and killed by %s.", the_thing.c_str(), by_attacker.c_str());
+        break;
+      case THING_EVENT_POISON_DAMAGE : //
+        topcon("%s is killed by poison.", the_thing.c_str());
+        break;
+      case THING_EVENT_THROWN_DAMAGE : [[fallthrough]];
+      case THING_EVENT_SPELL_DAMAGE :  [[fallthrough]];
+      case THING_EVENT_MELEE_DAMAGE : //
+        topcon("%s is killed by %s.", the_thing.c_str(), by_attacker.c_str());
+        break;
+      case THING_EVENT_WATER_DAMAGE : //
+        topcon("%s is killed with water damage from %s.", the_thing.c_str(), by_attacker.c_str());
+        break;
+      case THING_EVENT_EXPLOSION_DAMAGE : //
+        topcon("%s is killed with blast damage from %s.", the_thing.c_str(), by_attacker.c_str());
+        break;
+      case THING_EVENT_FIRE_DAMAGE : //
+        topcon("%s is burnt to death by %s.", the_thing.c_str(), by_attacker.c_str());
+        break;
+      case THING_EVENT_ENERGY_DAMAGE : //
+        topcon("%s is blasted to bits by %s.", the_thing.c_str(), by_attacker.c_str());
+        break;
+      case THING_EVENT_EATEN : //
+        topcon("%s is eaten and killed by %s.", the_thing.c_str(), by_attacker.c_str());
+        break;
+      case THING_EVENT_CARRIED :          [[fallthrough]];
+      case THING_EVENT_CARRIED_MERGED :   break;
+      case THING_EVENT_OPEN :             [[fallthrough]];
+      case THING_EVENT_USED :             [[fallthrough]];
+      case THING_EVENT_LEVITATED :        [[fallthrough]];
+      case THING_EVENT_NONE :             [[fallthrough]];
+      case THING_EVENT_GAME_OVER :        [[fallthrough]];
+      case THING_EVENT_FALL :             [[fallthrough]];
+      case THING_EVENT_LIFESPAN_EXPIRED : [[fallthrough]];
+      case THING_EVENT_MELT :             [[fallthrough]];
+      case THING_EVENT_USER_INITIATED :   [[fallthrough]];
+      case THING_EVENT_SPAWNED :          [[fallthrough]];
+      case THING_EVENT_ENUM_MAX : //
+        ERR("unexpected event: %s", ThingEventType_to_string(e.event_type).c_str());
+        break;
+    }
+  } else {
+    switch (e.event_type) {
+      case THING_EVENT_THROWN : //
+        topcon("%s is thrown and killed.", the_thing.c_str());
+        break;
+      case THING_EVENT_SHOVED : //
+        topcon("%s is knocked over and killed.", the_thing.c_str());
+        break;
+      case THING_EVENT_CRUSH_DAMAGE : //
+        topcon("%s is crushed to death.", the_thing.c_str());
+        break;
+      case THING_EVENT_ENGULF_DAMAGE : //
+        topcon("%s is engulfed killed.", the_thing.c_str());
+        break;
+      case THING_EVENT_POISON_DAMAGE : //
+        topcon("%s is killed by poison.", the_thing.c_str());
+        break;
+      case THING_EVENT_THROWN_DAMAGE : [[fallthrough]];
+      case THING_EVENT_SPELL_DAMAGE :  [[fallthrough]];
+      case THING_EVENT_MELEE_DAMAGE : //
+        topcon("%s is hit and killed.", the_thing.c_str());
+        break;
+      case THING_EVENT_WATER_DAMAGE : //
+        topcon("%s is killed by water.", the_thing.c_str());
+        break;
+      case THING_EVENT_EXPLOSION_DAMAGE : //
+        topcon("%s is blasted and killed.", the_thing.c_str());
+        break;
+      case THING_EVENT_FIRE_DAMAGE : //
+        topcon("%s is burnt to death.", the_thing.c_str());
+        break;
+      case THING_EVENT_ENERGY_DAMAGE : //
+        topcon("%s is blasted to bits.", the_thing.c_str());
+        break;
+      case THING_EVENT_EATEN : //
+        topcon("%s is eaten and killed.", the_thing.c_str());
+        break;
+      case THING_EVENT_CARRIED :          [[fallthrough]];
+      case THING_EVENT_CARRIED_MERGED :   break;
+      case THING_EVENT_OPEN :             [[fallthrough]];
+      case THING_EVENT_USED :             [[fallthrough]];
+      case THING_EVENT_LEVITATED :        [[fallthrough]];
+      case THING_EVENT_NONE :             [[fallthrough]];
+      case THING_EVENT_GAME_OVER :        [[fallthrough]];
+      case THING_EVENT_FALL :             [[fallthrough]];
+      case THING_EVENT_LIFESPAN_EXPIRED : [[fallthrough]];
+      case THING_EVENT_MELT :             [[fallthrough]];
+      case THING_EVENT_USER_INITIATED :   [[fallthrough]];
+      case THING_EVENT_SPAWNED :          break;
+      case THING_EVENT_ENUM_MAX : //
+        ERR("unexpected event: %s", ThingEventType_to_string(e.event_type).c_str());
+        break;
+    }
+  }
+}
+
+//
 // Initiate the death process
 //
 void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
 {
   THING_DBG(g, v, l, me, "is dead");
   TRACE_INDENT();
+
+  if (e.reason.empty()) {
+    thing_croak(g, v, l, me, "no death reason set");
+  }
 
   if (thing_is_corpse(me)) {
     if (! thing_is_able_to_resurrect(me)) {
@@ -310,6 +500,8 @@ void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
     thing_killed_player(g, v, l, me, e);
   } else if ((killer != nullptr) && thing_is_player(killer)) {
     thing_killed_by_player(g, v, l, me, e);
+  } else if (thing_is_monst(me)) {
+    thing_killed_by_other(g, v, l, me, e);
   }
 
   thing_is_dead_set(g, v, l, me);

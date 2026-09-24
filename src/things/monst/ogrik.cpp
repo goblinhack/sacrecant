@@ -170,6 +170,7 @@ static void tp_ogrik_on_moved(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_temperature_melts_at_set(tp, 250); // celsius
   tp_weight_set(tp, WEIGHT_VVHEAVY);    // grams
   tp_z_depth_set(tp, MAP_Z_DEPTH_MONST);
+  tp_flag_set(tp, is_described_when_killed);
   // end sort marker1 }
 
   tp_special_attack_add(tp,

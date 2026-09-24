@@ -123,6 +123,7 @@
   //
   // Kill the monster. Dumping the chest again.
   //
+  e.reason = "test case test_player_engulfed_treasure_chest";
   thing_dead(g, v, l, monst, e);
 
   //

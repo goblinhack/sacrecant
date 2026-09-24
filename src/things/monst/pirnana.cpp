@@ -191,6 +191,7 @@ static bool tp_pirnana_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker,
   tp_temperature_initial_set(tp, 20);   // celsius
   tp_weight_set(tp, WEIGHT_HUMAN);      // grams
   tp_z_depth_set(tp, MAP_Z_DEPTH_MONST);
+  tp_flag_set(tp, is_described_when_killed);
   // end sort marker1 }
 
   auto delay = 500;

@@ -615,19 +615,25 @@ void levels_test(Gamep g)
                   /* line */ (const char *) "xxxxxxxxxxx",
                   /* end */ nullptr);
 
-  level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "fire", __FUNCTION__, __LINE__, no_overrides, 0,
-                  /* line */ (const char *) "xxxxxxxxxxx",
-                  /* line */ (const char *) "xxxxxxxxxxx",
-                  /* line */ (const char *) "xx.......xx",
-                  /* line */ (const char *) "xx...!!!.xx",
-                  /* line */ (const char *) "xx...b!b.xx",
-                  /* line */ (const char *) "xx.@.!b!.xx",
-                  /* line */ (const char *) "xx...b!b.xx",
-                  /* line */ (const char *) "xx.E.!!!.xx",
-                  /* line */ (const char *) "xx.......xx",
-                  /* line */ (const char *) "xxxxxxxxxxx",
-                  /* line */ (const char *) "xxxxxxxxxxx",
-                  /* end */ nullptr);
+  {
+    Overrides overrides;
+
+    overrides[ 'm' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("mantisman"); };
+
+    level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "fire", __FUNCTION__, __LINE__, overrides, 0,
+                    /* line */ (const char *) "xxxxxxxxxxx",
+                    /* line */ (const char *) "xxxxxxxxxxx",
+                    /* line */ (const char *) "xx...!!!!xx",
+                    /* line */ (const char *) "xx...!!!!xx",
+                    /* line */ (const char *) "xx...!!!!xx",
+                    /* line */ (const char *) "xx.@.!!!mxx",
+                    /* line */ (const char *) "xx...!!!!xx",
+                    /* line */ (const char *) "xx.E.!!!!xx",
+                    /* line */ (const char *) "xx...!!!!xx",
+                    /* line */ (const char *) "xxxxxxxxxxx",
+                    /* line */ (const char *) "xxxxxxxxxxx",
+                    /* end */ nullptr);
+  }
 
   level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "firemaze", __FUNCTION__, __LINE__, no_overrides, 0,
                   /* line */ (const char *) "           ",

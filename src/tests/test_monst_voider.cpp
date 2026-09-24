@@ -72,8 +72,9 @@
   TEST_ASSERT(t, monst, "was expecting to find a monster");
 
   //
-  // Kill the monster. Dumping the chest again.
+  // Kill the monster.
   //
+  e.reason = "test case test_monst_voider";
   thing_dead(g, v, l, monst, e);
 
   for (auto tries = 0; tries < 1; tries++) {

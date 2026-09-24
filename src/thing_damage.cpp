@@ -584,6 +584,164 @@ static void thing_damage_by_player(Gamep g, Levelsp v, Levelp l, Thingp it, Thin
 }
 
 //
+// Something has attacked
+//
+static void thing_damage_by_other(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
+{
+  TRACE();
+
+  auto *player = thing_player(g);
+  if (player == nullptr) [[unlikely]] {
+    return;
+  }
+
+  if (thing_is_dead(me) || thing_is_corpse(me)) {
+    return;
+  }
+
+  if (! thing_on_same_level_as_player(g, v, me)) {
+    return;
+  }
+
+  auto at = thing_at(g, v, l, me);
+
+  //
+  // Popup for damage to monsters
+  //
+  {
+    std::string msg;
+    if (e.crit) {
+      msg = "CRIT! -" + std::to_string(e.damage);
+    } else {
+      msg = "-" + std::to_string(e.damage);
+    }
+    game_popup_text_add(g, at.x, at.y, msg, WHITE);
+  }
+
+  if (! thing_vision_can_see_tile(g, v, l, player, at)) {
+    return;
+  }
+
+  auto the_thing = capitalize_first(thing_name_long_the(g, v, l, me));
+
+  std::string by_attacker;
+  if (e.source) {
+    auto *fired_by = thing_missile_fired_by_get(g, v, l, e.source);
+    if (fired_by != nullptr) {
+      by_attacker = thing_name_apostrophize_the(g, v, l, fired_by) + " " + thing_name_long(g, v, l, e.source);
+    } else {
+      by_attacker = thing_name_long_the(g, v, l, e.source);
+    }
+
+    switch (e.event_type) {
+      case THING_EVENT_THROWN : //
+        topcon("%s is thrown by %s.", the_thing.c_str(), by_attacker.c_str());
+        break;
+      case THING_EVENT_SHOVED : //
+        topcon("%s is knocked over by %s.", the_thing.c_str(), by_attacker.c_str());
+        break;
+      case THING_EVENT_CRUSH_DAMAGE : //
+        topcon("%s is crushed by %s.", the_thing.c_str(), by_attacker.c_str());
+        break;
+      case THING_EVENT_ENGULF_DAMAGE : //
+        topcon("%s is engulfed by %s.", the_thing.c_str(), by_attacker.c_str());
+        break;
+      case THING_EVENT_POISON_DAMAGE : //
+        topcon("%s is poisoned.", the_thing.c_str());
+        break;
+      case THING_EVENT_THROWN_DAMAGE : [[fallthrough]];
+      case THING_EVENT_SPELL_DAMAGE :  [[fallthrough]];
+      case THING_EVENT_MELEE_DAMAGE : //
+        topcon("%s is hit by %s.", the_thing.c_str(), by_attacker.c_str());
+        break;
+      case THING_EVENT_WATER_DAMAGE : //
+        topcon("%s is hit with water damage from %s.", the_thing.c_str(), by_attacker.c_str());
+        break;
+      case THING_EVENT_EXPLOSION_DAMAGE : //
+        topcon("%s is hit with blast damage from %s.", the_thing.c_str(), by_attacker.c_str());
+        break;
+      case THING_EVENT_FIRE_DAMAGE : //
+        topcon("%s is burnt by %s.", the_thing.c_str(), by_attacker.c_str());
+        break;
+      case THING_EVENT_ENERGY_DAMAGE : //
+        topcon("%s is blasted by %s.", the_thing.c_str(), by_attacker.c_str());
+        break;
+      case THING_EVENT_EATEN : //
+        topcon("%s is eaten by %s.", the_thing.c_str(), by_attacker.c_str());
+        break;
+      case THING_EVENT_CARRIED :          [[fallthrough]];
+      case THING_EVENT_CARRIED_MERGED :   break;
+      case THING_EVENT_OPEN :             [[fallthrough]];
+      case THING_EVENT_USED :             [[fallthrough]];
+      case THING_EVENT_LEVITATED :        [[fallthrough]];
+      case THING_EVENT_NONE :             [[fallthrough]];
+      case THING_EVENT_GAME_OVER :        [[fallthrough]];
+      case THING_EVENT_FALL :             [[fallthrough]];
+      case THING_EVENT_LIFESPAN_EXPIRED : [[fallthrough]];
+      case THING_EVENT_MELT :             [[fallthrough]];
+      case THING_EVENT_USER_INITIATED :   [[fallthrough]];
+      case THING_EVENT_SPAWNED :          [[fallthrough]];
+      case THING_EVENT_ENUM_MAX : //
+        ERR("unexpected event: %s", ThingEventType_to_string(e.event_type).c_str());
+        break;
+    }
+  } else {
+    switch (e.event_type) {
+      case THING_EVENT_THROWN : //
+        topcon("%s is thrown.", the_thing.c_str());
+        break;
+      case THING_EVENT_SHOVED : //
+        topcon("%s is knocked over.", the_thing.c_str());
+        break;
+      case THING_EVENT_CRUSH_DAMAGE : //
+        topcon("%s is crushed.", the_thing.c_str());
+        break;
+      case THING_EVENT_ENGULF_DAMAGE : //
+        topcon("%s is engulfed.", the_thing.c_str());
+        break;
+      case THING_EVENT_POISON_DAMAGE : //
+        topcon("%s is poisoned.", the_thing.c_str());
+        break;
+      case THING_EVENT_THROWN_DAMAGE : [[fallthrough]];
+      case THING_EVENT_SPELL_DAMAGE :  [[fallthrough]];
+      case THING_EVENT_MELEE_DAMAGE : //
+        topcon("%s is hit.", the_thing.c_str());
+        break;
+      case THING_EVENT_WATER_DAMAGE : //
+        topcon("%s is damaged by water.", the_thing.c_str());
+        break;
+      case THING_EVENT_EXPLOSION_DAMAGE : //
+        topcon("%s is blasted.", the_thing.c_str());
+        break;
+      case THING_EVENT_FIRE_DAMAGE : //
+        topcon("%s is burning.", the_thing.c_str());
+        break;
+      case THING_EVENT_ENERGY_DAMAGE : //
+        topcon("%s is blasted.", the_thing.c_str());
+        break;
+      case THING_EVENT_EATEN : //
+        topcon("%s is being eaten.", the_thing.c_str());
+        break;
+      case THING_EVENT_CARRIED :          [[fallthrough]];
+      case THING_EVENT_CARRIED_MERGED :   break;
+      case THING_EVENT_OPEN :             [[fallthrough]];
+      case THING_EVENT_USED :             [[fallthrough]];
+      case THING_EVENT_LEVITATED :        [[fallthrough]];
+      case THING_EVENT_NONE :             [[fallthrough]];
+      case THING_EVENT_GAME_OVER :        [[fallthrough]];
+      case THING_EVENT_FALL :             [[fallthrough]];
+      case THING_EVENT_LIFESPAN_EXPIRED : [[fallthrough]];
+      case THING_EVENT_MELT :             [[fallthrough]];
+      case THING_EVENT_USER_INITIATED :   [[fallthrough]];
+      case THING_EVENT_SPAWNED :          break;
+      case THING_EVENT_ENUM_MAX : //
+        ERR("unexpected event: %s", ThingEventType_to_string(e.event_type).c_str());
+        break;
+    }
+  }
+}
+
+//
 // Do not apply too much for one event
 //
 static void thing_damage_cap_for_this_event(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
@@ -832,6 +990,8 @@ void thing_damage_apply(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
     thing_damage_to_player(g, v, l, me, e);
   } else if ((attacker != nullptr) && thing_is_player(attacker)) {
     thing_damage_by_player(g, v, l, me, e);
+  } else if (thing_is_monst(me)) {
+    thing_damage_by_other(g, v, l, me, e);
   }
 
   //

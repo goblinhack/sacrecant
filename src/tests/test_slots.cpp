@@ -168,6 +168,7 @@
     TRACE_INDENT();
 
     ThingEvent e {};
+    e.reason = "test case test_slots";
     thing_dead(g, v, l, m, e);
   }
 

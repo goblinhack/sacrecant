@@ -68,7 +68,7 @@ void thing_temperature_handle(Gamep g, Levelsp v, Levelp l, Thingp source, Thing
   }
 
   //
-  // If not meltt already, melt it if over the threshold temperature.
+  // If not melting already, melt it if over the threshold temperature.
   //
   if ((Tm != 0) && (n >= Tm)) {
     THING_DBG(g, v, l, me, "melt");
