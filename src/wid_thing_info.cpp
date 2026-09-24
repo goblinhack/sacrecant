@@ -726,7 +726,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
 //
 // Health bar
 //
-[[nodiscard]] static auto wid_thing_info_health_bar(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp tp, WidPopup *parent, int width) -> bool
+[[nodiscard]] static auto wid_thing_info_health_bar(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, int width) -> bool
 {
   TRACE();
 
@@ -844,7 +844,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
 //
 // Stamina bar
 //
-[[nodiscard]] auto wid_thing_info_stamina_bar(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp tp, WidPopup *parent, int width) -> bool
+[[nodiscard]] auto wid_thing_info_stamina_bar(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp /*tp*/, WidPopup *parent, int width) -> bool
 {
   TRACE();
 
@@ -1671,8 +1671,8 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
 //
 // Add spell stat detail
 //
-[[nodiscard]] static auto wid_thing_info_spell_stat_detail(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, int width,
-                                                           bool /*title_allowed*/) -> bool
+[[nodiscard]] static auto wid_thing_info_spell_stat_detail(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, bool /*title_allowed*/)
+    -> bool
 {
   TRACE();
 
@@ -2613,7 +2613,7 @@ void wid_thing_info(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, i
     }
   }
 
-  if (wid_thing_info_health_bar(g, v, l, me, tp, parent, width)) {}
+  if (wid_thing_info_health_bar(g, v, l, me, parent, width)) {}
 
   if (wid_thing_info_stamina_bar(g, v, l, me, tp, parent, width)) {}
 
@@ -2728,7 +2728,7 @@ void wid_thing_info(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, i
     // Not sure if this is useful as we need to show damage in a human readable form
     //
     if (compiler_unused) {
-      if (wid_thing_info_spell_stat_detail(g, v, l, me, parent, width, true /* title allowed */)) {}
+      if (wid_thing_info_spell_stat_detail(g, v, l, me, parent, true /* title allowed */)) {}
     }
 
     parent->log_empty_line(g);

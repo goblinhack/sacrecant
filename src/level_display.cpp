@@ -96,7 +96,7 @@ static void level_display_spell_effect(Gamep g, Levelsp v, Levelp l, FboEnum fbo
   TRACE_DEBUG();
 
   auto *player = thing_player(g);
-  if (! player) {
+  if (player == nullptr) {
     return;
   }
 
