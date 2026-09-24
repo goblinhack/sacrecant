@@ -23,7 +23,7 @@
   if (thing_is_lava(me)) {
     return true;
   }
-  if (thing_is_explosion_major(me)) {
+  if (thing_is_explosion(me)) {
     return true;
   }
   return false;

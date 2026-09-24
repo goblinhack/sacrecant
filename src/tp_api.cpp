@@ -373,10 +373,10 @@
   return tp_flag(tp, is_exit) != 0;
 }
 
-[[nodiscard]] auto tp_is_explosion_major(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_explosion(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_explosion_major) != 0;
+  return tp_flag(tp, is_explosion) != 0;
 }
 
 [[nodiscard]] auto tp_is_extinguished_on_death(Tpp tp) -> bool
@@ -1721,12 +1721,6 @@
 {
   TRACE_DEBUG();
   return tp_flag(tp, is_unused142) != 0;
-}
-
-[[nodiscard]] auto tp_is_explosion_minor(Tpp tp) -> bool
-{
-  TRACE_DEBUG();
-  return tp_flag(tp, is_explosion_minor) != 0;
 }
 
 [[nodiscard]] auto tp_is_internal(Tpp tp) -> bool

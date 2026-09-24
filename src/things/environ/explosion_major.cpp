@@ -10,28 +10,28 @@
 #include "../../my_tps.hpp"
 #include "../../my_types.hpp"
 
-static void tp_explosion_major_spawned(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent *e_maybe_null)
+static void tp_explosion_spawned(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent *e_maybe_null)
 {
   TRACE();
 
   thing_sound_play(g, v, l, me, "explosion");
 }
 
-[[nodiscard]] auto tp_load_explosion_major() -> bool
+[[nodiscard]] auto tp_load_explosion() -> bool
 {
   TRACE();
 
-  auto *tp   = tp_load("explosion_major"); // keep as string for scripts
+  auto *tp   = tp_load("explosion"); // keep as string for scripts
   auto  name = tp_name(tp);
 
   // begin sort marker1 {
-  thing_on_spawned_set(tp, tp_explosion_major_spawned);
-  tp_damage_set(tp, THING_EVENT_EXPLOSION_DAMAGE, "20+1d20");
+  thing_on_spawned_set(tp, tp_explosion_spawned);
+  tp_damage_set(tp, THING_EVENT_EXPLOSION_DAMAGE, "10+1d10");
   tp_flag_set(tp, is_animated_sync_first);
   tp_flag_set(tp, is_animated);
   tp_flag_set(tp, is_blit_on_ground);
   tp_flag_set(tp, is_blit_shown_in_chasms);
-  tp_flag_set(tp, is_explosion_major);
+  tp_flag_set(tp, is_explosion);
   tp_flag_set(tp, is_gaseous);
   tp_flag_set(tp, is_light_source, 7);
   tp_flag_set(tp, is_loggable);

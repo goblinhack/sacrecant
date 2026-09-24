@@ -375,10 +375,10 @@
   return level_count(g, v, l, is_exit, p);
 }
 
-[[nodiscard]] auto level_count_is_explosion_major(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_explosion(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_explosion_major, p);
+  return level_count(g, v, l, is_explosion, p);
 }
 
 [[nodiscard]] auto level_count_is_extinguished_on_death(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
@@ -1723,12 +1723,6 @@
 {
   TRACE_DEBUG();
   return level_count(g, v, l, is_unused142, p);
-}
-
-[[nodiscard]] auto level_count_is_explosion_minor(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
-{
-  TRACE_DEBUG();
-  return level_count(g, v, l, is_explosion_minor, p);
 }
 
 [[nodiscard]] auto level_count_is_internal(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t

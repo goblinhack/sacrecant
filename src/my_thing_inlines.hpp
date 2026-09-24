@@ -248,19 +248,6 @@
   return tp_flag(thing_tp(t), is_lava) != 0;
 }
 
-[[nodiscard]] static inline auto thing_is_explosion_major(Thingp t) -> bool
-{
-#ifdef DEBUG_BUILD
-  TRACE_DEBUG();
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-#endif
-
-  return tp_flag(thing_tp(t), is_explosion_major) != 0;
-}
-
 [[nodiscard]] static inline auto thing_is_player(const Thingp t) -> bool
 {
 #ifdef DEBUG_BUILD
