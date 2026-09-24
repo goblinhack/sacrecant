@@ -1150,7 +1150,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_undead(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unlocked(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unlucky(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused_spell(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_unused_146(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused1(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused10(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused100(Thingp t) -> bool;

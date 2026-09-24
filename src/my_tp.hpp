@@ -264,7 +264,7 @@
       list_macro(is_treasure, "is_treasure"),                                               /* newline */                                       \
       list_macro(is_undead, "is_undead"),                                                   /* newline */                                       \
       list_macro(is_unlucky, "is_unlucky"),                                                 /* newline */                                       \
-      list_macro(is_unused_spell, "is_unused_spell"),                                       /* newline */                                       \
+      list_macro(is_unused_146, "is_unused_146"),                                           /* newline */                                       \
       list_macro(is_unused1, "is_unused1"),                                                 /* newline */                                       \
       list_macro(is_unused10, "is_unused10"),                                               /* newline */                                       \
       list_macro(is_unused100, "is_unused100"),                                             /* newline */                                       \
@@ -1105,7 +1105,7 @@ class Tp;
 [[nodiscard]] auto tp_is_treasure(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_undead(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unlucky(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused_spell(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_unused_146(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused1(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused10(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused100(Tpp tp) -> bool;

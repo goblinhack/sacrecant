@@ -4068,3 +4068,14 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   }
   return t->_priority = val;
 }
+
+[[nodiscard]] auto thing_is_unused_146(Thingp t) -> bool
+{
+  TRACE_DEBUG();
+
+  if (t == nullptr) {
+    ERR("no thing pointer");
+    return false;
+  }
+  return tp_flag(thing_tp(t), is_unused_146) != 0;
+}

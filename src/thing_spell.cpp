@@ -604,17 +604,6 @@ void thing_on_cast_do_set(Tpp tp, thing_on_cast_do_t callback)
   return tp_flag(thing_tp(t), is_able_to_cast_spells) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused_spell(Thingp t) -> bool
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return false;
-  }
-  return tp_flag(thing_tp(t), is_unused_spell) != 0;
-}
-
 [[nodiscard]] auto thing_is_spell(Thingp t) -> bool
 {
   TRACE_DEBUG();

@@ -1736,10 +1736,10 @@
   return level_open(g, v, l, is_able_to_cast_spells, p);
 }
 
-[[nodiscard]] auto level_open_is_unused_spell(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+[[nodiscard]] auto level_open_is_unused_146(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_open(g, v, l, is_unused_spell, p);
+  return level_open(g, v, l, is_unused_146, p);
 }
 
 [[nodiscard]] auto level_open_is_spell(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp

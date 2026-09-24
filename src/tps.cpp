@@ -126,57 +126,6 @@
   if (!tp_load_skeleton()) { return false; }
   if (!tp_load_skullferno()) { return false; }
   if (!tp_load_smoke()) { return false; }
-  if (!tp_load_spell_10()) { return false; }
-  if (!tp_load_spell_11()) { return false; }
-  if (!tp_load_spell_12()) { return false; }
-  if (!tp_load_spell_13()) { return false; }
-  if (!tp_load_spell_14()) { return false; }
-  if (!tp_load_spell_15()) { return false; }
-  if (!tp_load_spell_16()) { return false; }
-  if (!tp_load_spell_17()) { return false; }
-  if (!tp_load_spell_18()) { return false; }
-  if (!tp_load_spell_19()) { return false; }
-  if (!tp_load_spell_2()) { return false; }
-  if (!tp_load_spell_20()) { return false; }
-  if (!tp_load_spell_21()) { return false; }
-  if (!tp_load_spell_22()) { return false; }
-  if (!tp_load_spell_23()) { return false; }
-  if (!tp_load_spell_24()) { return false; }
-  if (!tp_load_spell_25()) { return false; }
-  if (!tp_load_spell_26()) { return false; }
-  if (!tp_load_spell_27()) { return false; }
-  if (!tp_load_spell_28()) { return false; }
-  if (!tp_load_spell_29()) { return false; }
-  if (!tp_load_spell_3()) { return false; }
-  if (!tp_load_spell_30()) { return false; }
-  if (!tp_load_spell_31()) { return false; }
-  if (!tp_load_spell_32()) { return false; }
-  if (!tp_load_spell_33()) { return false; }
-  if (!tp_load_spell_34()) { return false; }
-  if (!tp_load_spell_35()) { return false; }
-  if (!tp_load_spell_36()) { return false; }
-  if (!tp_load_spell_37()) { return false; }
-  if (!tp_load_spell_38()) { return false; }
-  if (!tp_load_spell_39()) { return false; }
-  if (!tp_load_spell_4()) { return false; }
-  if (!tp_load_spell_40()) { return false; }
-  if (!tp_load_spell_41()) { return false; }
-  if (!tp_load_spell_42()) { return false; }
-  if (!tp_load_spell_43()) { return false; }
-  if (!tp_load_spell_44()) { return false; }
-  if (!tp_load_spell_45()) { return false; }
-  if (!tp_load_spell_46()) { return false; }
-  if (!tp_load_spell_47()) { return false; }
-  if (!tp_load_spell_48()) { return false; }
-  if (!tp_load_spell_49()) { return false; }
-  if (!tp_load_spell_5()) { return false; }
-  if (!tp_load_spell_50()) { return false; }
-  if (!tp_load_spell_51()) { return false; }
-  if (!tp_load_spell_52()) { return false; }
-  if (!tp_load_spell_6()) { return false; }
-  if (!tp_load_spell_7()) { return false; }
-  if (!tp_load_spell_8()) { return false; }
-  if (!tp_load_spell_9()) { return false; }
   if (!tp_load_spell_effect()) { return false; }
   if (!tp_load_spell_firestorm()) { return false; }
   if (!tp_load_spider_baby()) { return false; }

@@ -1736,10 +1736,10 @@
   return level_flag(g, v, l, is_able_to_cast_spells, p, me);
 }
 
-[[nodiscard]] auto level_is_unused_spell(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_unused_146(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused_spell, p, me);
+  return level_flag(g, v, l, is_unused_146, p, me);
 }
 
 [[nodiscard]] auto level_is_spell(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
