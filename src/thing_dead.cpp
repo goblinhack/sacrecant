@@ -3,6 +3,7 @@
 //
 
 #include "my_callstack.hpp"
+#include "my_color_defs.hpp"
 #include "my_game.hpp"
 #include "my_game_inlines.hpp"
 #include "my_game_popups.hpp"
@@ -336,7 +337,7 @@ static void thing_killed_by_other(Gamep g, Levelsp v, Levelp l, Thingp me, Thing
   auto the_thing = capitalize_first(thing_name_long_the(g, v, l, me));
 
   std::string by_attacker;
-  if (e.source) {
+  if (e.source != nullptr) {
     auto *fired_by = thing_missile_fired_by_get(g, v, l, e.source);
     if (fired_by != nullptr) {
       by_attacker = thing_name_apostrophize_the(g, v, l, fired_by) + " " + thing_name_long(g, v, l, e.source);

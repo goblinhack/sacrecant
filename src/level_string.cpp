@@ -122,15 +122,15 @@
         c = CHARMAP_MOB2;
       }
 
-      if (level_alive_is_monst1(g, v, l, p)) {
+      if (level_alive_is_monst1(g, v, l, p) != nullptr) {
         c = CHARMAP_MONST1;
-      } else if (level_alive_is_monst2(g, v, l, p)) {
+      } else if (level_alive_is_monst2(g, v, l, p) != nullptr) {
         c = CHARMAP_MONST2;
-      } else if (level_alive_is_monst(g, v, l, p)) {
+      } else if (level_alive_is_monst(g, v, l, p) != nullptr) {
         c = CHARMAP_MONST1;
       }
 
-      if (level_alive_is_minion(g, v, l, p)) {
+      if (level_alive_is_minion(g, v, l, p) != nullptr) {
         c = CHARMAP_MONST1;
       }
 

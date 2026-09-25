@@ -1340,7 +1340,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   spoint tl(1, text->line_count);
   spoint br(10, text->line_count + 2);
 
-  if (thing_stat_mod(g, v, l, me, THING_STAT_ARCANA_PYRO)) {
+  if (thing_stat_mod(g, v, l, me, THING_STAT_ARCANA_PYRO) != 0) {
     auto  out = thing_stat_mod_string(g, v, l, me, THING_STAT_ARCANA_PYRO);
     auto *w   = wid_new_square_button(g, b, stat_to_name_short(THING_STAT_ARCANA_PYRO));
     wid_set_on_mouse_over_begin(w, wid_thing_info_stats_spell_mouse_over_begin);
@@ -1351,7 +1351,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     br.x += 10;
   }
 
-  if (thing_stat_mod(g, v, l, me, THING_STAT_ARCANA_GEO)) {
+  if (thing_stat_mod(g, v, l, me, THING_STAT_ARCANA_GEO) != 0) {
     auto  out = thing_stat_mod_string(g, v, l, me, THING_STAT_ARCANA_GEO);
     auto *w   = wid_new_square_button(g, b, stat_to_name_short(THING_STAT_ARCANA_GEO));
     wid_set_on_mouse_over_begin(w, wid_thing_info_stats_spell_mouse_over_begin);
@@ -1362,7 +1362,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     br.x += 10;
   }
 
-  if (thing_stat_mod(g, v, l, me, THING_STAT_ARCANA_NECRO)) {
+  if (thing_stat_mod(g, v, l, me, THING_STAT_ARCANA_NECRO) != 0) {
     auto  out = thing_stat_mod_string(g, v, l, me, THING_STAT_ARCANA_NECRO);
     auto *w   = wid_new_square_button(g, b, stat_to_name_short(THING_STAT_ARCANA_NECRO));
     wid_set_pos(w, tl, br);
@@ -1373,7 +1373,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     br.x += 10;
   }
 
-  if (thing_stat_mod(g, v, l, me, THING_STAT_ARCANA_BIO)) {
+  if (thing_stat_mod(g, v, l, me, THING_STAT_ARCANA_BIO) != 0) {
     auto  out = thing_stat_mod_string(g, v, l, me, THING_STAT_ARCANA_BIO);
     auto *w   = wid_new_bright_button(g, b, stat_to_name_short(THING_STAT_ARCANA_BIO));
     wid_set_pos(w, tl, br);
