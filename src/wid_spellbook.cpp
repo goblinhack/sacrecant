@@ -135,12 +135,26 @@ static void wid_player_update_spell_selections(Gamep g, Levelsp v, Levelp l, Thi
     auto       *tp              = thing_tp(spell);
     std::string s;
 
+    //
+    // Add icon
+    //
+    s += "%%fg=white$";
+    s += "%%tp=";
+    s += tp_name(tp);
+    s += "$ ";
+
+    //
+    // Add faded out or highlighted
+    //
     if (spell_mana_cost <= avail) {
       s += "%%fg=gray90$";
     } else {
       s += "%%fg=gray50$";
     }
 
+    //
+    // Add spell shortcut
+    //
     switch (index) {
       case 0 :  s += ::to_string(game_key_spell1_get(g)); break;
       case 1 :  s += ::to_string(game_key_spell2_get(g)); break;
@@ -166,21 +180,28 @@ static void wid_player_update_spell_selections(Gamep g, Levelsp v, Levelp l, Thi
 
     s += ") ";
 
-    s += capitalize_first(tp_name_long(tp));
-    s = string_sprintf("%-40s", s.c_str());
+    //
+    // Add spell name
+    //
+    s += capitalize_first(string_sprintf("%-21s", tp_name_long(tp).c_str()));
     s += "%%fg=reset$";
 
-    auto arcana      = thing_spell_arcana(g, v, l, spell);
-    auto arcana_name = stat_to_name_long(arcana);
+    //
+    // Add arcana
+    //
+    auto        arcana      = thing_spell_arcana(g, v, l, spell);
+    auto        arcana_name = stat_to_name_long(arcana);
+    std::string tmp;
     switch (thing_spell_arcana(g, v, l, spell)) {
-      case THING_STAT_ARCANA_GEO :   s += "%%fg=lime$" + arcana_name + "%%fg=reset$    "; break;
-      case THING_STAT_ARCANA_PYRO :  s += "%%fg=orange$" + arcana_name + "%%fg=reset$    "; break;
-      case THING_STAT_ARCANA_NECRO : s += "%%fg=gray50$" + arcana_name + "%%fg=reset$   "; break;
-      case THING_STAT_ARCANA_BIO :   s += "%%fg=green$" + arcana_name + "%%fg=reset$     "; break;
-      default :                      s += "-    "; break;
+      case THING_STAT_ARCANA_GEO :   tmp = "%%fg=lime$" + arcana_name + "%%fg=reset$    "; break;
+      case THING_STAT_ARCANA_PYRO :  tmp = "%%fg=orange$" + arcana_name + "%%fg=reset$    "; break;
+      case THING_STAT_ARCANA_NECRO : tmp = "%%fg=gray50$" + arcana_name + "%%fg=reset$   "; break;
+      case THING_STAT_ARCANA_BIO :   tmp = "%%fg=green$" + arcana_name + "%%fg=reset$     "; break;
+      default :                      tmp = "-    "; break;
     }
 
-    s += string_sprintf("      %2d", spell_mana_cost);
+    s += capitalize_first(string_sprintf("%-22s", tmp.c_str()));
+    s += string_sprintf("        %2d", spell_mana_cost);
 
     wid_set_text(w, s);
     wid_apply_bar_button(g, w);
@@ -270,6 +291,9 @@ static void wid_spellbook_mouse_over_end(Gamep g, Widp w)
 
   (void) sound_play(g, "select");
   wid_spellbook_destroy(g);
+
+  game_spell_mouse_over_currently_set(g, spell);
+  game_request_to_remake_ui_set(g);
 
   auto index = wid_get_int_context(w);
   if (! tp_spell_options_exist(thing_tp(spell))) {
@@ -700,7 +724,7 @@ void wid_spellbook(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType fi
     spoint const br(button_width, y_at + button_height);
     wid_set_text_lhs(w, 1u);
     wid_set_pos(w, tl, br);
-    wid_set_text(w, UI_INFO_FMT_STR "Spell name                   Arcana      Mana Cost");
+    wid_set_text(w, UI_INFO_FMT_STR "Spell name                    Arcana     Mana Cost");
     y_at++;
   }
 

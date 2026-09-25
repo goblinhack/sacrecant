@@ -319,6 +319,9 @@ void wid_spell_options_show(Gamep g, Levelsp v, Levelp l, Thingp player, Thingp 
     return;
   }
 
+  game_spell_mouse_over_currently_set(g, spell);
+  game_request_to_remake_ui_set(g);
+
   auto options = tp_spell_options_get(thing_tp(spell));
 
   const int menu_width  = UI_INVENTORY_WIDTH;

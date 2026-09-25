@@ -283,5 +283,9 @@ static auto tp_spell_pyro_storm_on_upgrade_do(Gamep g, Levelsp v, Levelp l, Thin
                           .name = option_3_radial_excluding_player_tile,
                       });
 
+  auto *tile = tile_find_mand("icon_" + name);
+  tile_size_set(tile, TILE_WIDTH, TILE_HEIGHT);
+  tp_tiles_push_back(tp, THING_ANIM_IDLE, tile);
+
   return true;
 }
