@@ -67,8 +67,8 @@
     return nullptr;
   }
 
-  auto *ext_struct = thing_ext_struct(g, v, me);
-  if (ext_struct == nullptr) {
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
     thing_err(g, v, l, me, "missing ext struct");
     return nullptr;
   }
@@ -102,7 +102,7 @@
     memset(slot, 0, sizeof(*slot));
     slot->missile_id         = new_missile->id;
     new_missile->fired_by_id = me->id;
-    ext_struct->missiles.count++;
+    ext->missiles.count++;
 
     THING_DBG(g, v, l, me, "spawned missile %s", to_string(g, v, l, new_missile).c_str());
     THING_DBG(g, v, l, new_missile, "new born missile");
@@ -147,12 +147,12 @@
     return 0;
   }
 
-  auto *ext_struct = thing_ext_struct(g, v, me);
-  if (ext_struct == nullptr) {
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
     return 0;
   }
 
-  return ext_struct->missiles.count;
+  return ext->missiles.count;
 }
 
 //
@@ -171,8 +171,8 @@
     return false;
   }
 
-  auto *ext_struct = thing_ext_struct(g, v, me);
-  if (ext_struct == nullptr) {
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
     return false;
   }
 
@@ -195,12 +195,12 @@
       return false;
     }
 
-    if (ext_struct->missiles.count <= 0) {
+    if (ext->missiles.count <= 0) {
       thing_err(g, v, l, me, "has unexpected missile count when detaching: %s", to_string(g, v, l, missile).c_str());
       return false;
     }
 
-    ext_struct->missiles.count--;
+    ext->missiles.count--;
     memset(slot, 0, sizeof(*slot));
     missile->fired_by_id = 0;
 
@@ -220,7 +220,7 @@
       THING_DBG(g, v, l, specific_missile, "could not detach missile");
       TRACE_INDENT();
       THING_DBG(g, v, l, me, "from me");
-    } else if (ext_struct->missiles.count != 0) {
+    } else if (ext->missiles.count != 0) {
       THING_DBG(g, v, l, me, "could not detach missile");
     }
   }
@@ -293,8 +293,8 @@ void thing_dump_missiles(Gamep g, Levelsp v, Levelp l, Thingp me)
     return;
   }
 
-  auto *ext_struct = thing_ext_struct(g, v, me);
-  if (ext_struct == nullptr) {
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
     return;
   }
 

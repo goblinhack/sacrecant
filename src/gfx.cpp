@@ -5281,7 +5281,7 @@ static void gfx_init_tiles()
       "",
       "",
       // ##############################################################################
-      "icon_spell_blast_strike",
+      "icon_spell_air_strike",
       "icon_spell_pyro_storm",
       "",
       "",

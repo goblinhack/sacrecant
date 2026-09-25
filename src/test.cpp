@@ -224,6 +224,8 @@ static std::initializer_list< std::string > tests = {
     "sac_weaponless_attack_mob",
     "save_load",
     "slots",
+    "spell_air_strike",
+    "spell_pyro_storm",
     "spiderweb_monst_not_trapped_due_to_ethereal",
     "spiderweb_monst_not_trapped_due_to_levitation",
     "spiderweb_monst_trapped",

@@ -121,16 +121,19 @@
       if (level_is_mob2_bool(g, v, l, p)) {
         c = CHARMAP_MOB2;
       }
-      if (level_is_monst1_bool(g, v, l, p)) {
+
+      if (level_alive_is_monst1(g, v, l, p)) {
         c = CHARMAP_MONST1;
-      } else if (level_is_monst2_bool(g, v, l, p)) {
+      } else if (level_alive_is_monst2(g, v, l, p)) {
         c = CHARMAP_MONST2;
-      } else if (level_is_monst_bool(g, v, l, p)) {
+      } else if (level_alive_is_monst(g, v, l, p)) {
         c = CHARMAP_MONST1;
       }
-      if (level_is_minion_bool(g, v, l, p)) {
+
+      if (level_alive_is_minion(g, v, l, p)) {
         c = CHARMAP_MONST1;
       }
+
       if (level_is_pillar_bool(g, v, l, p)) {
         c = CHARMAP_PILLAR;
       }
@@ -150,6 +153,9 @@
         c = CHARMAP_EXIT;
       }
       if (level_is_fire_bool(g, v, l, p)) {
+        c = CHARMAP_FIRE;
+      }
+      if (level_is_explosion_bool(g, v, l, p)) {
         c = CHARMAP_FIRE;
       }
       if (level_is_player_bool(g, v, l, p)) {

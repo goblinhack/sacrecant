@@ -202,6 +202,8 @@
   if (!test_load_sac_weaponless_attack_mob()) { return false; }
   if (!test_load_save_load()) { return false; }
   if (!test_load_slots()) { return false; }
+  if (!test_load_spell_air_strike()) { return false; }
+  if (!test_load_spell_pyro_storm()) { return false; }
   if (!test_load_spiderweb_monst_not_trapped_due_to_ethereal()) { return false; }
   if (!test_load_spiderweb_monst_not_trapped_due_to_levitation()) { return false; }
   if (!test_load_spiderweb_monst_trapped()) { return false; }

@@ -28,8 +28,8 @@ static void thing_dump_buffs(Gamep g, Levelsp v, Levelp l, Thingp me)
     return;
   }
 
-  auto *ext_struct = thing_ext_struct(g, v, me);
-  if (ext_struct == nullptr) {
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
     return;
   }
 
@@ -58,12 +58,12 @@ static void thing_dump_buffs(Gamep g, Levelsp v, Levelp l, Thingp me)
     return 0;
   }
 
-  auto *ext_struct = thing_ext_struct(g, v, me);
-  if (ext_struct == nullptr) {
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
     return 0;
   }
 
-  return ext_struct->hooks.count;
+  return ext->hooks.count;
 }
 
 //
@@ -85,8 +85,8 @@ static void thing_dump_buffs(Gamep g, Levelsp v, Levelp l, Thingp me)
     return nullptr;
   }
 
-  auto *ext_struct = thing_ext_struct(g, v, me);
-  if (ext_struct == nullptr) {
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
     return nullptr;
   }
 
@@ -111,8 +111,8 @@ static void thing_hook_sort(Gamep g, Levelsp v, Levelp l, Thingp me)
     return;
   }
 
-  auto *ext_struct = thing_ext_struct(g, v, me);
-  if (ext_struct == nullptr) {
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
     thing_err(g, v, l, me, "missing ext struct");
     return;
   }
@@ -162,12 +162,12 @@ static void thing_hook_sort(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   new_buffs.count = count;
 
-  if (ext_struct->hooks.count != count) {
+  if (ext->hooks.count != count) {
     thing_dump_buffs(g, v, l, me);
     thing_err(g, v, l, me, "sorting hooks failed");
   }
 
-  ext_struct->hooks = new_buffs;
+  ext->hooks = new_buffs;
 }
 
 //
@@ -191,8 +191,8 @@ static void thing_hook_sort(Gamep g, Levelsp v, Levelp l, Thingp me)
     return nullptr;
   }
 
-  auto *ext_struct = thing_ext_struct(g, v, me);
-  if (ext_struct == nullptr) {
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
     thing_err(g, v, l, me, "missing ext struct");
     return nullptr;
   }
@@ -244,7 +244,7 @@ static void thing_hook_sort(Gamep g, Levelsp v, Levelp l, Thingp me)
     memset(slot, 0, sizeof(*slot));
     slot->hook_id           = new_hook->id;
     new_hook->hook_owner_id = me->id;
-    ext_struct->hooks.count++;
+    ext->hooks.count++;
 
     THING_DBG(g, v, l, me, "added hook %s", to_string(g, v, l, new_hook).c_str());
     THING_DBG(g, v, l, new_hook, "new born hook");
@@ -296,8 +296,8 @@ static void thing_hook_sort(Gamep g, Levelsp v, Levelp l, Thingp me)
     return false;
   }
 
-  auto *ext_struct = thing_ext_struct(g, v, me);
-  if (ext_struct == nullptr) {
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
     return false;
   }
 
@@ -320,12 +320,12 @@ static void thing_hook_sort(Gamep g, Levelsp v, Levelp l, Thingp me)
       return false;
     }
 
-    if (ext_struct->hooks.count <= 0) {
+    if (ext->hooks.count <= 0) {
       thing_err(g, v, l, me, "has unexpected hook count when detaching: %s", to_string(g, v, l, hook).c_str());
       return false;
     }
 
-    ext_struct->hooks.count--;
+    ext->hooks.count--;
     memset(slot, 0, sizeof(*slot));
     hook->hook_owner_id = 0;
 
@@ -345,7 +345,7 @@ static void thing_hook_sort(Gamep g, Levelsp v, Levelp l, Thingp me)
       THING_DBG(g, v, l, specific_hook, "could not detach hook");
       TRACE_INDENT();
       THING_DBG(g, v, l, me, "from me");
-    } else if (ext_struct->hooks.count != 0) {
+    } else if (ext->hooks.count != 0) {
       THING_DBG(g, v, l, me, "could not detach hook");
     }
   }

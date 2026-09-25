@@ -89,7 +89,8 @@ auto thing_spell_cast_target(Gamep g, Levelsp v, Levelp l, ThingEventp e) -> boo
     return false;
   }
 
-  THING_DBG(g, v, l, user, "casting at %d,%d (option %s)", e->spell_info.target.x, e->spell_info.target.y, e->spell_info.option_name.c_str());
+  THING_DBG(g, v, l, user, "casting at %d,%d (mana %d option %s)", e->spell_info.target.x, e->spell_info.target.y, thing_mana(g, v, l, user),
+            e->spell_info.option_name.c_str());
   TRACE_INDENT();
   THING_DBG(g, v, l, spell, "this");
 

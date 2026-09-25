@@ -32,6 +32,14 @@
   std::string const expect1
       = "XXXXXXXXXXXX"
         "X..........X"
+        "X.......!!!X"
+        "X.@.....!!!X"
+        "X.......!!!X"
+        "X..........X"
+        "XXXXXXXXXXXX";
+  std::string const expect2
+      = "XXXXXXXXXXXX"
+        "X..........X"
         "X.......CCCX"
         "X.@.....CCCX"
         "X.......CCCX"
@@ -77,7 +85,7 @@
   e.reason = "test case test_monst_voider";
   thing_dead(g, v, l, monst, e);
 
-  for (auto tries = 0; tries < 1; tries++) {
+  for (auto tries = 0; tries < 4; tries++) {
     TEST_LOOP_PROGRESS(t, g, v, l, tries, w, h);
 
     TEST_ASSERT(t, game_event_wait(g), "failed to wait");
@@ -101,12 +109,36 @@
     }
   }
 
+  for (auto tries = 0; tries < 4; tries++) {
+    TEST_LOOP_PROGRESS(t, g, v, l, tries, w, h);
+
+    TEST_ASSERT(t, game_event_wait(g), "failed to wait");
+
+    if (! game_wait_for_tick_to_finish(g, v, l)) {
+      TEST_FAILED(t, "wait loop failed");
+      goto exit;
+    }
+  }
+
+  //
+  // Check the level contents
+  //
+  level_dump(g, v, l, w, h);
+  TEST_PROGRESS(t);
+  {
+    TRACE();
+    if (! (result = level_match_contents(g, v, l, t, w, h, expect2.c_str()))) {
+      TEST_FAILED(t, "unexpected contents");
+      goto exit;
+    }
+  }
+
   //
   // Check the tick is as expected
   //
   level_dump(g, v, l, w, h);
   TEST_PROGRESS(t);
-  TEST_ASSERT(t, game_tick_get(g, v) == 1, "final tick counter value");
+  TEST_ASSERT(t, game_tick_get(g, v) == 8, "final tick counter value");
 
   level_dump(g, v, l, w, h);
   TEST_PASSED(t);

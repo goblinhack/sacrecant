@@ -41,7 +41,7 @@ static auto tp_spell_pyro_storm_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> 
 
   return                                                                                                                           //
       UI_INFO1_FMT_STR "Conjure a devastating cloud of pure magical fire, targeted at your enemies or radially around yourself.\n" //
-      UI_INFO2_FMT_STR "Although not as immediately destructive as Blast Strike, magical flames will continue to burn long after " //
+      UI_INFO2_FMT_STR "Although not as immediately destructive as Air Strike, magical flames will continue to burn long after "   //
                        "conjuration and cause more damage than normal fire.\n"                                                     //
       UI_INFO1_FMT_STR "Upgrades are as follows:\n"                                                                                //
       UI_INFO1_FMT_STR "- Radius and range:\n"                                                                                     //

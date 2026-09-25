@@ -18,13 +18,13 @@ void thing_move_path_reset(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
 
-  auto *ext_struct = thing_ext_struct(g, v, me);
-  if (ext_struct == nullptr) {
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
     return;
   }
 
-  ext_struct->move_path.size      = 0;
-  ext_struct->move_path.confirmed = 0;
+  ext->move_path.size      = 0;
+  ext->move_path.confirmed = 0;
 }
 
 //
@@ -34,16 +34,16 @@ void thing_move_path_confirm(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
 
-  auto *ext_struct = thing_ext_struct(g, v, me);
-  if (ext_struct == nullptr) {
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
     return;
   }
 
-  if (ext_struct->move_path.size == 0U) {
+  if (ext->move_path.size == 0U) {
     return;
   }
 
-  ext_struct->move_path.confirmed = true;
+  ext->move_path.confirmed = true;
 }
 
 //
@@ -53,12 +53,12 @@ void thing_move_path_confirm(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
 
-  auto *ext_struct = thing_ext_struct(g, v, me);
-  if (ext_struct == nullptr) {
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
     return 0;
   }
 
-  return ext_struct->move_path.size;
+  return ext->move_path.size;
 }
 
 //
@@ -79,24 +79,24 @@ void thing_move_path_confirm(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   move_confirmed = false;
 
-  auto *ext_struct = thing_ext_struct(g, v, me);
-  if (ext_struct == nullptr) {
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
     return false;
   }
 
-  if (ext_struct->move_path.size == 0) {
+  if (ext->move_path.size == 0) {
     return false;
   }
 
-  out = ext_struct->move_path.points[ 0 ];
+  out = ext->move_path.points[ 0 ];
 
-  for (int index = 0; index < ext_struct->move_path.size - 1; index++) {
-    ext_struct->move_path.points[ index ] = ext_struct->move_path.points[ index + 1 ];
+  for (int index = 0; index < ext->move_path.size - 1; index++) {
+    ext->move_path.points[ index ] = ext->move_path.points[ index + 1 ];
   }
-  ext_struct->move_path.size--;
+  ext->move_path.size--;
 
-  move_confirmed                  = ext_struct->move_path.confirmed;
-  ext_struct->move_path.confirmed = false;
+  move_confirmed           = ext->move_path.confirmed;
+  ext->move_path.confirmed = false;
 
   return true;
 }
@@ -109,14 +109,14 @@ static auto thing_move_path_confirmed(Gamep g, Levelsp v, Levelp l, Thingp me, c
 {
   TRACE();
 
-  auto *ext_struct = thing_ext_struct(g, v, me);
-  if (ext_struct == nullptr) {
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
     thing_err(g, v, l, me, "no ext struct");
     return false;
   }
 
-  int index                  = 0;
-  ext_struct->move_path.size = 0;
+  int index           = 0;
+  ext->move_path.size = 0;
 
   IF_DEBUG2
   {
@@ -127,15 +127,15 @@ static auto thing_move_path_confirmed(Gamep g, Levelsp v, Levelp l, Thingp me, c
   }
 
   for (auto p : move_path) {
-    ext_struct->move_path.points[ index ].x = p.x;
-    ext_struct->move_path.points[ index ].y = p.y;
-    ext_struct->move_path.size              = ++index;
-    if (index >= ARRAY_SIZE(ext_struct->move_path.points)) {
+    ext->move_path.points[ index ].x = p.x;
+    ext->move_path.points[ index ].y = p.y;
+    ext->move_path.size              = ++index;
+    if (index >= ARRAY_SIZE(ext->move_path.points)) {
       break;
     }
   }
 
-  ext_struct->move_path.confirmed = confirmed ? 1 : 0;
+  ext->move_path.confirmed = confirmed ? 1 : 0;
 
   return true;
 }
@@ -167,16 +167,16 @@ static auto thing_move_path_confirmed(Gamep g, Levelsp v, Levelp l, Thingp me, c
 {
   TRACE();
 
-  auto *ext_struct = thing_ext_struct(g, v, me);
-  if (ext_struct == nullptr) {
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
     return false;
   }
 
-  if (ext_struct->move_path.size == 0) {
+  if (ext->move_path.size == 0) {
     return false;
   }
 
-  out = ext_struct->move_path.points[ ext_struct->move_path.size - 1 ];
+  out = ext->move_path.points[ ext->move_path.size - 1 ];
 
   return true;
 }

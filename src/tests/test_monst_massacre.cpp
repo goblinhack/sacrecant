@@ -34,7 +34,7 @@
         "Xmmmmmmmm.mmmmX"
         "Xmmmmmmmmmmmm.X"
         "Xmmmmmmmmm..mmX"
-        "Xxxmmmmmmm.mmmX"
+        "Xxxmmmmmmm.m..X"
         "X@xmmmmmmmmmmmX"
         "XXXXXXXXXXXXXXX";
 

@@ -27,12 +27,12 @@
     return 0;
   }
 
-  auto *ext_struct = thing_ext_struct(g, v, mob);
-  if (ext_struct == nullptr) {
+  auto *ext = thing_ext_struct(g, v, mob);
+  if (ext == nullptr) {
     return 0;
   }
 
-  return ext_struct->minions.count;
+  return ext->minions.count;
 }
 
 //
@@ -68,8 +68,8 @@
     return nullptr;
   }
 
-  auto *ext_struct = thing_ext_struct(g, v, mob);
-  if (ext_struct == nullptr) {
+  auto *ext = thing_ext_struct(g, v, mob);
+  if (ext == nullptr) {
     thing_err(g, v, l, mob, "mob is missing ext struct");
     return nullptr;
   }
@@ -104,7 +104,7 @@
     memset(slot, 0, sizeof(*slot));
     slot->minion_id    = new_minion->id;
     new_minion->mob_id = mob->id;
-    ext_struct->minions.count++;
+    ext->minions.count++;
 
     THING_DBG(g, v, l, mob, "spawned minion %s (max %d)", to_string(g, v, l, new_minion).c_str(), thing_minion_max(g, v, l, mob));
     THING_DBG(g, v, l, new_minion, "new born minion");
@@ -142,8 +142,8 @@
     return false;
   }
 
-  auto *ext_struct = thing_ext_struct(g, v, mob);
-  if (ext_struct == nullptr) {
+  auto *ext = thing_ext_struct(g, v, mob);
+  if (ext == nullptr) {
     return false;
   }
 
@@ -164,12 +164,12 @@
       return false;
     }
 
-    if (ext_struct->minions.count <= 0) {
+    if (ext->minions.count <= 0) {
       thing_err(g, v, l, mob, "mob has unexpected minion count when detaching: %s", to_string(g, v, l, minion).c_str());
       return false;
     }
 
-    ext_struct->minions.count--;
+    ext->minions.count--;
     memset(slot, 0, sizeof(*slot));
     minion->mob_id = 0;
 
@@ -233,8 +233,8 @@ void thing_mob_dump_minions(Gamep g, Levelsp v, Levelp l, Thingp mob)
     return;
   }
 
-  auto *ext_struct = thing_ext_struct(g, v, mob);
-  if (ext_struct == nullptr) {
+  auto *ext = thing_ext_struct(g, v, mob);
+  if (ext == nullptr) {
     return;
   }
 

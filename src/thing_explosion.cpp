@@ -13,7 +13,9 @@ void thing_explosion_handle(Gamep g, Levelsp v, Levelp l, Thingp me)
   TRACE();
 
   if (thing_is_ethereal(g, v, l, me)) {
-    return;
+    if (! thing_is_physics_explosion(me)) {
+      return;
+    }
   }
 
   auto  at         = thing_at(g, v, l, me);

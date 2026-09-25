@@ -200,6 +200,8 @@ auto test_load_sac_wall_walker_obs_wall() -> bool;
 auto test_load_sac_weaponless_attack_mob() -> bool;
 auto test_load_save_load() -> bool;
 auto test_load_slots() -> bool;
+auto test_load_spell_air_strike() -> bool;
+auto test_load_spell_pyro_storm() -> bool;
 auto test_load_spiderweb_monst_not_trapped_due_to_ethereal() -> bool;
 auto test_load_spiderweb_monst_not_trapped_due_to_levitation() -> bool;
 auto test_load_spiderweb_monst_trapped() -> bool;

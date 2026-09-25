@@ -127,7 +127,7 @@
   if (!tp_load_skeleton()) { return false; }
   if (!tp_load_skullferno()) { return false; }
   if (!tp_load_smoke()) { return false; }
-  if (!tp_load_spell_blast_strike()) { return false; }
+  if (!tp_load_spell_air_strike()) { return false; }
   if (!tp_load_spell_effect()) { return false; }
   if (!tp_load_spell_pyro_storm()) { return false; }
   if (!tp_load_spider_baby()) { return false; }

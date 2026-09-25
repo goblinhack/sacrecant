@@ -181,13 +181,13 @@ static void tp_skullferno_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_flag_set(tp, is_obs_to_movement);
   tp_flag_set(tp, is_obs_to_teleporting_onto);
   tp_flag_set(tp, is_obs_to_wall_walker);
+  tp_flag_set(tp, is_physics_explosion);
   tp_flag_set(tp, is_removable_when_dead_on_err);
   tp_flag_set(tp, is_shown_health);
   tp_flag_set(tp, is_tickable);
   tp_flag_set(tp, is_undead);
   tp_flag_set(tp, is_vision_360_degrees);
   tp_flag_set(tp, is_wall_walker);
-  tp_flag_set(tp, is_physics_explosion);
   tp_health_set(tp, "1d4");
   tp_hearing_threshold_set(tp, 8); // smaller values => better hearing
   tp_is_immune_to_add(tp, THING_EVENT_FIRE_DAMAGE);

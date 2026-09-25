@@ -30,9 +30,9 @@
   std::string const expect1
       = "xxxxxxxxxxxxxx"
         "x............x"
-        "x............x"
-        "x@..........!x"
-        "x............x"
+        "x..........!!x"
+        "x@.........!!x"
+        "x..........!!x"
         "x............x"
         "xxxxxxxxxxxxxx";
   Levelp  l      = nullptr;

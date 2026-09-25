@@ -45,11 +45,7 @@
   }
 
   if (new_spell == nullptr) {
-    return false;
-  }
-
-  auto *ext_struct = thing_ext_struct(g, v, owner);
-  if (ext_struct == nullptr) {
+    thing_err(g, v, l, owner, "no spell set");
     return false;
   }
 
@@ -65,6 +61,8 @@
     memset(slot, 0, sizeof(*slot));
     slot->thing_id = new_spell->id;
     slot->count    = 1;
+
+    (void) thing_pop(g, v, new_spell);
     return true;
   }
 
@@ -87,11 +85,6 @@
   }
 
   if (spell == nullptr) {
-    return false;
-  }
-
-  auto *ext_struct = thing_ext_struct(g, v, owner);
-  if (ext_struct == nullptr) {
     return false;
   }
 
@@ -122,11 +115,6 @@
   }
 
   if (drop_spell == nullptr) {
-    return false;
-  }
-
-  auto *ext_struct = thing_ext_struct(g, v, owner);
-  if (ext_struct == nullptr) {
     return false;
   }
 
@@ -171,11 +159,6 @@
     return -1;
   }
 
-  auto *ext_struct = thing_ext_struct(g, v, owner);
-  if (ext_struct == nullptr) {
-    return -1;
-  }
-
   //
   // Look for the thing
   //
@@ -204,11 +187,6 @@
 
   int count = 0;
 
-  auto *ext_struct = thing_ext_struct(g, v, owner);
-  if (ext_struct == nullptr) {
-    return 0;
-  }
-
   FOR_ALL_SPELLBOOK_SLOTS(g, v, l, owner, slot, spell)
   {
     if (spell == nullptr) {
@@ -227,11 +205,6 @@
 [[nodiscard]] auto thing_spellbook_get_spell_n(Gamep g, Levelsp v, Levelp l, Thingp owner, int index) -> Thingp
 {
   TRACE();
-
-  auto *ext_struct = thing_ext_struct(g, v, owner);
-  if (ext_struct == nullptr) {
-    return nullptr;
-  }
 
   int walk_index {};
 
@@ -262,11 +235,6 @@ void thing_spellbook_dump(Gamep g, Levelsp v, Levelp l, Thingp owner)
 
   if (! thing_is_player(owner) && ! thing_is_monst(owner)) {
     thing_err(g, v, l, owner, "unexpected thing for %s", __FUNCTION__);
-    return;
-  }
-
-  auto *ext_struct = thing_ext_struct(g, v, owner);
-  if (ext_struct == nullptr) {
     return;
   }
 

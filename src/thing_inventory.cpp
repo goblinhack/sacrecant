@@ -69,8 +69,8 @@
     return false;
   }
 
-  auto *ext_struct = thing_ext_struct(g, v, owner);
-  if (ext_struct == nullptr) {
+  auto *ext = thing_ext_struct(g, v, owner);
+  if (ext == nullptr) {
     return false;
   }
 
@@ -141,8 +141,8 @@
     return false;
   }
 
-  auto *ext_struct = thing_ext_struct(g, v, owner);
-  if (ext_struct == nullptr) {
+  auto *ext = thing_ext_struct(g, v, owner);
+  if (ext == nullptr) {
     return false;
   }
 
@@ -187,8 +187,8 @@
     return -1;
   }
 
-  auto *ext_struct = thing_ext_struct(g, v, owner);
-  if (ext_struct == nullptr) {
+  auto *ext = thing_ext_struct(g, v, owner);
+  if (ext == nullptr) {
     return -1;
   }
 
@@ -220,8 +220,8 @@
 
   int count = 0;
 
-  auto *ext_struct = thing_ext_struct(g, v, owner);
-  if (ext_struct == nullptr) {
+  auto *ext = thing_ext_struct(g, v, owner);
+  if (ext == nullptr) {
     return 0;
   }
 
@@ -251,8 +251,8 @@ void thing_inventory_dump(Gamep g, Levelsp v, Levelp l, Thingp owner)
     return;
   }
 
-  auto *ext_struct = thing_ext_struct(g, v, owner);
-  if (ext_struct == nullptr) {
+  auto *ext = thing_ext_struct(g, v, owner);
+  if (ext == nullptr) {
     return;
   }
 

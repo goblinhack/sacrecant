@@ -83,8 +83,8 @@ static auto tp_cursor_at_display_get_tile_info(Gamep g, Levelsp v, Levelp l, con
   //
   // Non zero cursor path, change the cursor to a positive color
   //
-  auto *ext_struct = thing_ext_struct(g, v, player);
-  if (ext_struct == nullptr) {
+  auto *ext = thing_ext_struct(g, v, player);
+  if (ext == nullptr) {
     return tile;
   }
 

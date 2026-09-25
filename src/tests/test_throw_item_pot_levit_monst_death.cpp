@@ -33,13 +33,13 @@
   std::string const expect1
       = "xxxxxxxx"  //
         "x..WWWWx"  //
-        "x..@WWmx"  //
+        "x..@WW~x"  //
         "x..WWWWx"  //
         "xxxxxxxx"; //
   std::string const expect2
       = "xxxxxxxx"  //
         "x..WWWWx"  //
-        "x..@WWmx"  //
+        "x..@WW~x"  //
         "x..WWWWx"  //
         "xxxxxxxx"; //
 
@@ -124,7 +124,7 @@
   TEST_ASSERT(t, thing_is_levitating(g, v, l, monst), "expecting levitating monster");
 
   //
-  // Check the kobalos does move
+  // Check the eel does not move
   //
   level_dump(g, v, l, w, h);
   TEST_PROGRESS(t);
