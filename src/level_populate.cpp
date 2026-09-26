@@ -74,6 +74,7 @@ public:
   Tpp       tp_barrel             = {};
   Tpp       tp_teleport           = {};
   Tpp       tp_foliage            = {};
+  Tpp       tp_fungus             = {};
   Tpp       tp_reeds              = {};
   Tpp       tp_corridor           = {};
   Tpp       tp_grass              = {};
@@ -91,6 +92,7 @@ public:
   bool      need_water            = {};
   bool      need_dirt             = {};
   bool      need_foliage          = {};
+  bool      need_fungus           = {};
   bool      need_reeds            = {};
   bool      need_border           = {};
   bool      is_room_entrance      = {};
@@ -152,6 +154,7 @@ static auto level_populate_biome_dungeon(Gamep g, Levelsp v, Levelp l, class Lev
       lp.need_floor = true;
       tp            = lp.tp_teleport;
       break;
+    case CHARMAP_FUNGUS :  lp.need_fungus = true; break;
     case CHARMAP_FOLIAGE : lp.need_foliage = true; break;
     case CHARMAP_REEDS :   lp.need_reeds = true; break;
     case CHARMAP_DEEP_WATER :
@@ -408,6 +411,7 @@ static auto level_populate_biome_bogland(Gamep g, Levelsp v, Levelp l, class Lev
     case CHARMAP_TREASURE :    [[fallthrough]];
     case CHARMAP_TELEPORT :    [[fallthrough]];
     case CHARMAP_FOLIAGE :     [[fallthrough]];
+    case CHARMAP_FUNGUS :      [[fallthrough]];
     case CHARMAP_REEDS :       [[fallthrough]];
     case CHARMAP_BARREL :      [[fallthrough]];
     case CHARMAP_PILLAR :      [[fallthrough]];
@@ -461,6 +465,7 @@ static auto level_populate_biome_nethervoid(Gamep g, Levelsp v, Levelp l, class 
     case CHARMAP_WATER :         tp = lp.tp_chasm; break;
     case CHARMAP_DIRT :          lp.need_floor = true; break;
     case CHARMAP_FOLIAGE :       lp.need_floor = true; break;
+    case CHARMAP_FUNGUS :        lp.need_floor = true; break;
     case CHARMAP_REEDS :         lp.need_floor = true; break;
     case CHARMAP_GRASS :         lp.need_floor = true; break;
     case CHARMAP_BORDER :        tp = lp.tp_chasm; break;
@@ -563,6 +568,7 @@ static auto level_populate_biome_graveyard(Gamep g, Levelsp v, Levelp l, class L
     case CHARMAP_FOLIAGE :       lp.need_dirt = true; break;
     case CHARMAP_REEDS :         lp.need_dirt = true; break;
     case CHARMAP_GRASS :         lp.need_dirt = true; break;
+    case CHARMAP_FUNGUS :        [[fallthrough]];
     case CHARMAP_BORDER :        [[fallthrough]];
     case CHARMAP_CHASM :         [[fallthrough]];
     case CHARMAP_BRIDGE :        [[fallthrough]];
@@ -654,6 +660,7 @@ static auto level_populate_biome_underhell(Gamep g, Levelsp v, Levelp l, class L
     case CHARMAP_WATER :         tp = lp.tp_lava; break;
     case CHARMAP_DIRT :          lp.need_dirt = true; break;
     case CHARMAP_FOLIAGE :       lp.need_dirt = true; break;
+    case CHARMAP_FUNGUS :        lp.need_dirt = true; break;
     case CHARMAP_REEDS :         lp.need_dirt = true; break;
     case CHARMAP_GRASS :         lp.need_dirt = true; break;
     case CHARMAP_CHASM :         tp = lp.tp_lava; break;
@@ -748,6 +755,7 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
   lp.tp_barrel     = tp_random(g, v, l, is_barrel);
   lp.tp_teleport   = tp_random(g, v, l, is_teleport);
   lp.tp_foliage    = tp_random(g, v, l, is_foliage);
+  lp.tp_fungus     = tp_random(g, v, l, is_fungus);
   lp.tp_reeds      = tp_random(g, v, l, is_reeds);
   lp.tp_corridor   = tp_random(g, v, l, is_corridor);
   lp.tp_grass      = tp_random(g, v, l, is_grass);
@@ -802,6 +810,7 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
       lp.need_water    = false;
       lp.need_dirt     = false;
       lp.need_foliage  = false;
+      lp.need_fungus   = false;
       lp.need_reeds    = false;
       lp.need_border   = ! lp.is_test_level && ((x == 0) || (x == MAP_WIDTH - 1) || (y == 0) || (y == MAP_HEIGHT - 1));
 
@@ -899,6 +908,13 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
 
       if (lp.need_foliage) {
         auto *tp_add = lp.tp_foliage;
+        if (thing_spawn(g, v, l, tp_add, lp.at) == nullptr) {
+          return false;
+        }
+      }
+
+      if (lp.need_fungus) {
+        auto *tp_add = lp.tp_fungus;
         if (thing_spawn(g, v, l, tp_add, lp.at) == nullptr) {
           return false;
         }

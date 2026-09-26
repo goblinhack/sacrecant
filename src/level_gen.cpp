@@ -652,6 +652,7 @@ static auto room_flip_horiz(class Room *r) -> class Room *
     case CHARMAP_FLOOR :         return true;
     case CHARMAP_FLOOR_50 :      return true;
     case CHARMAP_FOLIAGE :       return true;
+    case CHARMAP_FUNGUS :        return true;
     case CHARMAP_GRASS :         return true;
     case CHARMAP_JOIN :          return true;
     case CHARMAP_KEY :           return true;
@@ -704,6 +705,7 @@ static auto room_flip_horiz(class Room *r) -> class Room *
     case CHARMAP_FLOOR :         return false;
     case CHARMAP_FLOOR_50 :      return false;
     case CHARMAP_FOLIAGE :       return false;
+    case CHARMAP_FUNGUS :        return false;
     case CHARMAP_GRASS :         return false;
     case CHARMAP_JOIN :          return false;
     case CHARMAP_KEY :           return true;
@@ -820,6 +822,7 @@ void room_add(Gamep g, int chance, int room_flags, const char *file, int line, .
         case CHARMAP_FLOOR :         break;
         case CHARMAP_FLOOR_50 :      break;
         case CHARMAP_FOLIAGE :       break;
+        case CHARMAP_FUNGUS :        break;
         case CHARMAP_REEDS :         break;
         case CHARMAP_GRASS :         break;
         case CHARMAP_JOIN :          break;
@@ -1174,7 +1177,7 @@ void rooms_dump(Gamep g)
           case CHARMAP_JOIN :
           case CHARMAP_BRIDGE :
           case CHARMAP_EMPTY :      break;
-          default :                 log("fail %d char %c", __LINE__, lg->data[ p.x + dx ][ p.y + dy ].c); return false;
+          default :                 return false;
         }
       }
     }
@@ -1451,8 +1454,10 @@ static auto fragment_alt_flip_horiz(class FragmentAlt *r) -> class FragmentAlt *
         case CHARMAP_ENTRANCE :      break;
         case CHARMAP_EXIT :          break;
         case CHARMAP_FLOOR :         break;
+        case CHARMAP_DIRT :          break;
         case CHARMAP_FLOOR_50 :      break;
         case CHARMAP_FOLIAGE :       break;
+        case CHARMAP_FUNGUS :        break;
         case CHARMAP_REEDS :         break;
         case CHARMAP_GRASS :         break;
         case CHARMAP_JOIN :          break;
@@ -1472,6 +1477,7 @@ static auto fragment_alt_flip_horiz(class FragmentAlt *r) -> class FragmentAlt *
         case CHARMAP_VAULT :         break;
         case CHARMAP_WATER :         break;
         case CHARMAP_FIRE :          break;
+        case CHARMAP_ROCK :          break;
         default :                    CROAK("fragment_alt has unknown char [%c] in fragment_alt @ %s:%d", fragment_alt_line[ i ], file, line); return false;
       }
     }
@@ -1829,6 +1835,7 @@ static auto fragment_flip_horiz(class Fragment *f) -> class Fragment *
         case CHARMAP_FLOOR :         break;
         case CHARMAP_FLOOR_50 :      break;
         case CHARMAP_FOLIAGE :       break;
+        case CHARMAP_FUNGUS :        break;
         case CHARMAP_REEDS :         break;
         case CHARMAP_GRASS :         break;
         case CHARMAP_JOIN :          break;
@@ -1848,6 +1855,7 @@ static auto fragment_flip_horiz(class Fragment *f) -> class Fragment *
         case CHARMAP_VAULT :         break;
         case CHARMAP_WATER :         break;
         case CHARMAP_WILDCARD :      break;
+        case CHARMAP_ROCK :          break;
         case CHARMAP_FIRE :          break;
         default :                    CROAK("fragment has unknown char [%c] in fragment @ %s:%d", fragment_line[ i ], file, line); return false;
       }
@@ -2482,6 +2490,7 @@ static void level_gen_dump(class LevelGen *lg, const char *msg)
           case CHARMAP_CORRIDOR :
           case CHARMAP_FLOOR :
           case CHARMAP_FOLIAGE :
+          case CHARMAP_FUNGUS :
           case CHARMAP_GRASS :
           case CHARMAP_MOB1 :
           case CHARMAP_MOB2 :
@@ -3011,6 +3020,7 @@ static void level_gen_single_large_blob_in_center(Gamep g, class LevelGen *lg, c
           case CHARMAP_EXIT :
           case CHARMAP_FLOOR :
           case CHARMAP_FOLIAGE :
+          case CHARMAP_FUNGUS :
           case CHARMAP_REEDS :
           case CHARMAP_GRASS :
           case CHARMAP_JOIN :
@@ -3068,7 +3078,9 @@ static void level_gen_blob(Gamep g, class LevelGen *lg, char c)
   cave_create(g, &lg->cave, fill_prob, r1, r2, map_generations);
 
   if (compiler_unused) {
-    cave_dump(lg);
+    if (! lg->level_num) {
+      cave_dump(lg);
+    }
     level_gen_dump(lg);
   }
 
@@ -3091,6 +3103,7 @@ static void level_gen_blob(Gamep g, class LevelGen *lg, char c)
           case CHARMAP_EXIT :
           case CHARMAP_FLOOR_50 :
           case CHARMAP_FOLIAGE :
+          case CHARMAP_FUNGUS :
           case CHARMAP_REEDS :
           case CHARMAP_GRASS :
           case CHARMAP_JOIN :
@@ -3114,11 +3127,8 @@ static void level_gen_blob(Gamep g, class LevelGen *lg, char c)
             //
             break;
           case CHARMAP_FLOOR :
-          case CHARMAP_DIRT :
           case CHARMAP_WATER :
-            //
-            // Place the item
-            //
+          case CHARMAP_DIRT :
             if (c == CHARMAP_FOLIAGE) {
               //
               // Don't place obscuring foliage in the entrance room
@@ -3859,6 +3869,7 @@ static void level_gen_add_walls_around_rooms(class LevelGen *lg)
         case CHARMAP_ENTRANCE :
         case CHARMAP_EXIT :
         case CHARMAP_FOLIAGE :
+        case CHARMAP_FUNGUS :
         case CHARMAP_REEDS :
         case CHARMAP_KEY :
         case CHARMAP_MOB1 :
@@ -4062,6 +4073,7 @@ static void level_gen_add_foliage_around_secret_doors(Gamep g, class LevelGen *l
         case CHARMAP_FLOOR :
         case CHARMAP_FLOOR_50 :
         case CHARMAP_FOLIAGE :
+        case CHARMAP_FUNGUS :
         case CHARMAP_REEDS :
         case CHARMAP_GRASS :
         case CHARMAP_JOIN :
@@ -5144,6 +5156,7 @@ static void level_gen_extend_bridges_do(Gamep g, class LevelGen *lg, int x, int 
     case CHARMAP_SPIDERWEB :
     case CHARMAP_RUBBLE :
     case CHARMAP_FOLIAGE :
+    case CHARMAP_FUNGUS :
     case CHARMAP_REEDS :
     case CHARMAP_BARREL :
     case CHARMAP_BRAZIER :

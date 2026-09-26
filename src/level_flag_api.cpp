@@ -1700,10 +1700,10 @@
   return level_flag(g, v, l, is_unused138, p, me);
 }
 
-[[nodiscard]] auto level_is_unused139(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_fungus(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused139, p, me);
+  return level_flag(g, v, l, is_fungus, p, me);
 }
 
 [[nodiscard]] auto level_is_effect_explosion1(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp

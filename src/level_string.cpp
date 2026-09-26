@@ -52,6 +52,9 @@
       if (level_alive_is_foliage(g, v, l, p) != nullptr) {
         c = CHARMAP_FOLIAGE;
       }
+      if (level_alive_is_fungus(g, v, l, p) != nullptr) {
+        c = CHARMAP_FUNGUS;
+      }
       if (level_alive_is_reeds(g, v, l, p) != nullptr) {
         c = CHARMAP_REEDS;
       }

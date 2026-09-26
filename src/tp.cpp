@@ -171,6 +171,7 @@ static std::initializer_list< std::string > tps = {
     "fire_magical",
     "fire",
     "foliage",
+    "fungus",
     "ghost_mob",
     "ghost",
     "glorp",
