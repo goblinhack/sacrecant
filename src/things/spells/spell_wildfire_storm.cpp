@@ -5,6 +5,7 @@
 #include "../../my_callstack.hpp"
 #include "../../my_level_inlines.hpp"
 #include "../../my_main.hpp"
+#include "../../my_sound.hpp"
 #include "../../my_sprintf.hpp"
 #include "../../my_thing_callbacks.hpp"
 #include "../../my_thing_inlines.hpp"
@@ -44,7 +45,7 @@ static auto tp_spell_wildfire_storm_get(Gamep g, Levelsp v, Levelp l, Thingp me)
       UI_INFO2_FMT_STR "Magical lime coloured flames will continue to burn long after conjuration and cause more damage than normal fire.\n" //
       UI_INFO1_FMT_STR "Upgrades are as follows:\n"                                                                                          //
       UI_INFO1_FMT_STR "- Radius and range:\n"                                                                                               //
-      UI_INFO2_FMT_STR "  One extra tile per upgrade.\n"                                                                                     //
+      UI_INFO2_FMT_STR "  One extra tile radius per upgrade.\n"                                                                              //
       UI_INFO1_FMT_STR "- Damage upgrade:\n"                                                                                                 //
       UI_INFO2_FMT_STR "  One extra health point of damage per tile.\n"
       + line; //
@@ -64,8 +65,8 @@ static bool tp_spell_wildfire_storm_on_cast_request(Gamep g, Levelsp v, Levelp l
     //
     if (! e.spell_info.target_set) {
       if (thing_is_player(user)) {
-        topcon("Choose a target for this spell.");
-        game_spell_cast_set(g, e);
+        topcon("Choose a target for spell '%s'.", capitalize(thing_name_short(g, v, l, spell)).c_str());
+        game_spell_tmp_while_targeting_set(g, e);
         game_state_change(g, STATE_CHOOSE_SPELL_TARGET, "choose a target");
       }
       THING_DBG(g, v, l, spell, "need target");
@@ -129,7 +130,8 @@ static bool tp_spell_wildfire_storm_on_cast_do(Gamep g, Levelsp v, Levelp l, Thi
     auto target = e.spell_info.target;
     if (distance(target, user_at) > spell_range) {
       if (thing_is_player(user)) {
-        topcon("That tile is out of range.");
+        topcon("That tile of range for spell '%s'.", capitalize(thing_name_short(g, v, l, spell)).c_str());
+        (void) sound_play(g, "error");
       }
       return false;
     }

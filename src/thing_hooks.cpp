@@ -361,6 +361,7 @@ static void thing_hook_sort(Gamep g, Levelsp v, Levelp l, Thingp me)
   TRACE();
 
   ThingEvent e = {};
+  e.reason     = "hook detach all";
   return thing_hook_process_all(g, v, l, me, nullptr, e);
 }
 
@@ -372,6 +373,7 @@ static auto thing_hook_detach_from_owner(Gamep g, Levelsp v, Levelp l, Thingp me
   TRACE();
 
   ThingEvent e = {};
+  e.reason     = "hook detach from owner";
   return thing_hook_process_all(g, v, l, me, hook, e);
 }
 

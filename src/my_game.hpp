@@ -405,8 +405,9 @@ void               game_mouse_over_player_set(Gamep g, Thingp t);
 [[nodiscard]] auto game_throw_id_get(Gamep g) -> ThingId;
 void               game_throw_id_set(Gamep g, ThingId id);
 
-[[nodiscard]] auto game_spell_cast_get(Gamep g) -> ThingEventp;
-void               game_spell_cast_set(Gamep g, ThingEvent /*e*/);
+[[nodiscard]] auto game_spell_tmp_while_targeting_get(Gamep g) -> ThingEventp;
+void               game_spell_tmp_while_targeting_set(Gamep g, ThingEvent /*e*/);
+void               game_spell_tmp_while_targeting_clear(Gamep g);
 
 [[nodiscard]] auto game_is_new_highest_hiscore(Gamep g, uint32_t score) -> bool;
 [[nodiscard]] auto game_is_new_hiscore(Gamep g, uint32_t score) -> bool;

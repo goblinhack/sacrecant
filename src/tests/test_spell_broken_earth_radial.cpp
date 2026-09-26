@@ -8,7 +8,7 @@
 #include "../my_test.hpp"
 #include "../my_thing_inlines.hpp"
 
-[[nodiscard]] static auto test_spell_broken_earth(Gamep g, Testp t) -> bool
+[[nodiscard]] static auto test_spell_broken_earth_radial(Gamep g, Testp t) -> bool
 {
   TEST_LOG(t, "begin");
   TRACE();
@@ -24,7 +24,7 @@
       = "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
         "x.........................x"
         "x.........................x"
-        "x.......@......G..........x"
+        "x.......@G................x"
         "x.........................x"
         "x.........................x"
         "xxxxxxxxxxxxxxxxxxxxxxxxxxx";
@@ -40,23 +40,23 @@
       = "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
         "x.........................x"
         "x.........................x"
-        "x.......@m.....G..........x"
-        "x.........................x"
+        "x.......@G................x"
+        "x.......m.................x"
         "x.........................x"
         "xxxxxxxxxxxxxxxxxxxxxxxxxxx";
   std::string const level1_expect2
       = "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
-        "x..........C..............x"
-        "x.........CCC.............x"
-        "x.......@CCCCC.G..........x"
-        "x.........CCC.............x"
-        "x..........C..............x"
+        "x.......C.................x"
+        "x......CCC................x"
+        "x.....CCCCC...............x"
+        "x......CCC................x"
+        "x.......C.................x"
         "xxxxxxxxxxxxxxxxxxxxxxxxxxx";
   std::string const level2_expect2
       = "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
         "x.........................x"
         "x.........................x"
-        "x.........................x"
+        "x.......@.................x"
         "x.........................x"
         "x.........................x"
         "xxxxxxxxxxxxxxxxxxxxxxxxxxx";
@@ -109,13 +109,13 @@
   TEST_ASSERT(t, spell, "failed to spawn spell");
 
   TEST_ASSERT(t, thing_spellbook_add(g, v, l1, spell, player), "failed to add spell");
-  e.reason                 = "test_spell_broken_earth.";
+  e.reason                 = "test_spell_broken_earth_radial";
   e.event_type             = THING_EVENT_SPELL_DAMAGE;
   e.source                 = player;
   e.spell_info.spell       = spell;
   e.spell_info.target_set  = true;
   e.spell_info.target      = target_at;
-  e.spell_info.option_name = "targeted";
+  e.spell_info.option_name = "radial, including your tile";
 
   TEST_ASSERT(t, thing_spell_cast_target(g, v, l1, &e), "failed to cast spell");
 
@@ -150,13 +150,13 @@ exit:
   return result;
 }
 
-[[nodiscard]] auto test_load_spell_broken_earth() -> bool // NOLINT
+[[nodiscard]] auto test_load_spell_broken_earth_radial() -> bool // NOLINT
 {
   TRACE();
 
-  Testp test = test_load("spell_broken_earth");
+  Testp test = test_load("spell_broken_earth_radial");
 
-  test_callback_set(test, test_spell_broken_earth);
+  test_callback_set(test, test_spell_broken_earth_radial);
 
   return true;
 }

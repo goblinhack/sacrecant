@@ -541,6 +541,7 @@
   TRACE_DEBUG();
 
   ThingEvent e = {};
+  e.reason     = "stat success";
 
   return thing_stat_success(g, v, l, me, stat, target_roll, e);
 }

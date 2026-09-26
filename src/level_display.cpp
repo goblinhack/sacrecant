@@ -111,7 +111,7 @@ static void level_display_spell_effect(Gamep g, Levelsp v, Levelp l, FboEnum fbo
   switch (game_state(g)) {
     case STATE_CHOOSE_SPELL_TARGET :
       {
-        auto *e = game_spell_cast_get(g);
+        auto *e = game_spell_tmp_while_targeting_get(g);
         if (e != nullptr) {
           auto *spell = e->spell_info.spell;
           if (spell != nullptr) {

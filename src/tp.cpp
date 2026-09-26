@@ -236,6 +236,7 @@ static std::initializer_list< std::string > tps = {
     "skullferno",
     "smoke",
     "spell_broken_earth",
+    "spell_dispel_obstacles",
     "spell_effect",
     "spell_hellish_onslaught",
     "spell_wildfire_storm",

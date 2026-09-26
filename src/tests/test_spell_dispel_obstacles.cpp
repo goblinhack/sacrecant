@@ -8,7 +8,7 @@
 #include "../my_test.hpp"
 #include "../my_thing_inlines.hpp"
 
-[[nodiscard]] static auto test_spell_broken_earth(Gamep g, Testp t) -> bool
+[[nodiscard]] static auto test_spell_dispel_obstacles(Gamep g, Testp t) -> bool
 {
   TEST_LOG(t, "begin");
   TRACE();
@@ -22,11 +22,11 @@
   //
   std::string const level1
       = "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
-        "x.........................x"
-        "x.........................x"
-        "x.......@......G..........x"
-        "x.........................x"
-        "x.........................x"
+        "x......bGB................x"
+        "x.....v...t...............x"
+        "x.....v.@.T...............x"
+        "x.....D...+...............x"
+        "x......XLX................x"
         "xxxxxxxxxxxxxxxxxxxxxxxxxxx";
   std::string const level2
       = "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
@@ -38,20 +38,20 @@
         "xxxxxxxxxxxxxxxxxxxxxxxxxxx";
   std::string const level1_expect1
       = "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
-        "x.........................x"
-        "x.........................x"
-        "x.......@m.....G..........x"
-        "x.........................x"
-        "x.........................x"
+        "x......bGB................x"
+        "x.....v.m.t...............x"
+        "x.....v.@.T...............x"
+        "x.....D...+...............x"
+        "x......XLX................x"
         "xxxxxxxxxxxxxxxxxxxxxxxxxxx";
   std::string const level1_expect2
-      = "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
-        "x..........C..............x"
-        "x.........CCC.............x"
-        "x.......@CCCCC.G..........x"
-        "x.........CCC.............x"
-        "x..........C..............x"
-        "xxxxxxxxxxxxxxxxxxxxxxxxxxx";
+      = "xxxxxx!!...xxxxxxxxxxxxxxxx"
+        "x.....!!!!................x"
+        "x.....!!!.t...............x"
+        "x.......@.T...............x"
+        "x.........................x"
+        "x......XLX................x"
+        "xxxxxx.....xxxxxxxxxxxxxxxx";
   std::string const level2_expect2
       = "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
         "x.........................x"
@@ -81,7 +81,7 @@
 
   (void) thing_mana_set(g, v, l1, player, 100);
 
-  target_at = thing_at(g, v, l1, player) + bpoint(3, 0);
+  target_at = thing_at(g, v, l1, player);
 
   //
   // Wait a bit
@@ -105,17 +105,20 @@
     goto exit;
   }
 
-  spell = thing_spawn(g, v, l1, tp_find_mand("spell_broken_earth"), thing_at(g, v, l1, player));
+  spell = thing_spawn(g, v, l1, tp_find_mand("spell_dispel_obstacles"), thing_at(g, v, l1, player));
+
   TEST_ASSERT(t, spell, "failed to spawn spell");
 
+  (void) thing_spell_radius_incr(g, v, l1, spell, 2);
+
   TEST_ASSERT(t, thing_spellbook_add(g, v, l1, spell, player), "failed to add spell");
-  e.reason                 = "test_spell_broken_earth.";
+  e.reason                 = "test_spell_dispel_obstacles";
   e.event_type             = THING_EVENT_SPELL_DAMAGE;
   e.source                 = player;
   e.spell_info.spell       = spell;
   e.spell_info.target_set  = true;
   e.spell_info.target      = target_at;
-  e.spell_info.option_name = "targeted";
+  e.spell_info.option_name = "radial";
 
   TEST_ASSERT(t, thing_spell_cast_target(g, v, l1, &e), "failed to cast spell");
 
@@ -150,13 +153,13 @@ exit:
   return result;
 }
 
-[[nodiscard]] auto test_load_spell_broken_earth() -> bool // NOLINT
+[[nodiscard]] auto test_load_spell_dispel_obstacles() -> bool // NOLINT
 {
   TRACE();
 
-  Testp test = test_load("spell_broken_earth");
+  Testp test = test_load("spell_dispel_obstacles");
 
-  test_callback_set(test, test_spell_broken_earth);
+  test_callback_set(test, test_spell_dispel_obstacles);
 
   return true;
 }

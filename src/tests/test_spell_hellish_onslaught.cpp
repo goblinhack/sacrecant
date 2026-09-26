@@ -91,6 +91,7 @@
   TEST_ASSERT(t, spell, "failed to spawn spell");
 
   TEST_ASSERT(t, thing_spellbook_add(g, v, l, spell, player), "failed to add spell");
+  e.reason                 = "test_spell_hellish_onslaught";
   e.event_type             = THING_EVENT_SPELL_DAMAGE;
   e.source                 = player;
   e.spell_info.spell       = spell;

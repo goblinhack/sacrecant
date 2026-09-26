@@ -47,7 +47,10 @@ auto thing_spell_cast(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, c
     }
   }
 
+  game_spell_tmp_while_targeting_clear(g);
+
   ThingEvent e             = {};
+  e.reason                 = "casting " + tp_name_short(thing_tp(spell)) + " " + option_name;
   e.event_type             = THING_EVENT_SPELL_DAMAGE;
   e.source                 = user;
   e.spell_info.spell       = spell;
@@ -86,6 +89,11 @@ auto thing_spell_cast_target(Gamep g, Levelsp v, Levelp l, ThingEventp e) -> boo
 
   if (! e->spell_info.target_set) {
     thing_err(g, v, l, user, "cannot cast spell, no target set");
+    return false;
+  }
+
+  if (e->reason.empty()) {
+    thing_err(g, v, l, user, "no reason set for spell casting");
     return false;
   }
 

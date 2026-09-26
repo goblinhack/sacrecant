@@ -204,7 +204,7 @@ void thing_player_init(Gamep g)
       {
         auto *player = thing_player(g);
         if (player != nullptr) {
-          auto *e = game_spell_cast_get(g);
+          auto *e = game_spell_tmp_while_targeting_get(g);
           if (e != nullptr) {
             e->spell_info.target     = v->cursor_at;
             e->spell_info.target_set = true;

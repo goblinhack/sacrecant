@@ -5299,7 +5299,7 @@ static void gfx_init_tiles()
       "",
       // ##############################################################################
       "icon_spell_broken_earth",
-      "",
+      "icon_spell_dispel_obstacles",
       "",
       "",
       "",

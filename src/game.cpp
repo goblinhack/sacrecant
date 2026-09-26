@@ -4432,7 +4432,7 @@ void game_throw_id_set(Gamep g, ThingId id)
   g->throw_id = id;
 }
 
-[[nodiscard]] auto game_spell_cast_get(Gamep g) -> ThingEventp
+[[nodiscard]] auto game_spell_tmp_while_targeting_get(Gamep g) -> ThingEventp
 {
   TRACE();
 
@@ -4443,7 +4443,7 @@ void game_throw_id_set(Gamep g, ThingId id)
 
   return &g->spell_cast;
 }
-void game_spell_cast_set(Gamep g, ThingEvent e)
+void game_spell_tmp_while_targeting_set(Gamep g, ThingEvent e)
 {
   TRACE();
 
@@ -4453,4 +4453,16 @@ void game_spell_cast_set(Gamep g, ThingEvent e)
   }
 
   g->spell_cast = std::move(e);
+}
+
+void game_spell_tmp_while_targeting_clear(Gamep g)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+
+  g->spell_cast = {};
 }

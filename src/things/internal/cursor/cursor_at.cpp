@@ -53,7 +53,7 @@ static auto tp_cursor_at_display_get_tile_info(Gamep g, Levelsp v, Levelp l, con
   // Spell targeting
   //
   if (game_state(g) == STATE_CHOOSE_SPELL_TARGET) {
-    auto e = game_spell_cast_get(g);
+    auto e = game_spell_tmp_while_targeting_get(g);
     if (e) {
       auto spell = e->spell_info.spell;
       if (spell) {

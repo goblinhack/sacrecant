@@ -128,6 +128,7 @@ auto tp_load_skeleton() -> bool;
 auto tp_load_skullferno() -> bool;
 auto tp_load_smoke() -> bool;
 auto tp_load_spell_broken_earth() -> bool;
+auto tp_load_spell_dispel_obstacles() -> bool;
 auto tp_load_spell_effect() -> bool;
 auto tp_load_spell_hellish_onslaught() -> bool;
 auto tp_load_spell_wildfire_storm() -> bool;

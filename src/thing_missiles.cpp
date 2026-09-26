@@ -236,6 +236,7 @@
   TRACE();
 
   ThingEvent e = {};
+  e.reason     = "missile detach all fired";
   return thing_missile_process_all(g, v, l, me, nullptr, e);
 }
 
@@ -247,6 +248,7 @@ static auto thing_missile_detach_from_firer(Gamep g, Levelsp v, Levelp l, Thingp
   TRACE();
 
   ThingEvent e = {};
+  e.reason     = "missile detach from firer";
   return thing_missile_process_all(g, v, l, me, missile, e);
 }
 

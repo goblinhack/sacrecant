@@ -21,6 +21,7 @@
   tp_flag_set(tp, is_blit_shown_in_chasms);
   tp_flag_set(tp, is_border);
   tp_flag_set(tp, is_collision_square);
+  tp_flag_set(tp, is_critical_to_dungeon_design);
   tp_flag_set(tp, is_indestructible);
   tp_flag_set(tp, is_obs_to_beam);
   tp_flag_set(tp, is_obs_to_cursor_path);

@@ -193,6 +193,7 @@
   TRACE();
 
   ThingEvent e = {};
+  e.reason     = "detach all minions";
   return thing_mob_process_minions(g, v, l, mob, nullptr, e);
 }
 
@@ -214,6 +215,7 @@
   TRACE();
 
   ThingEvent e = {};
+  e.reason     = "detach minions";
   return thing_mob_process_minions(g, v, l, mob, minion, e);
 }
 

@@ -225,7 +225,9 @@ static void wid_spell_learn_check_if_done(Gamep g)
     return;
   }
 
-  if (wid_spell_learn_learn_window == nullptr) {
+  delete wid_spell_learn_learn_window;
+
+  {
     auto         m = TERM_WIDTH / 2;
     auto         n = TERM_HEIGHT - 4;
     spoint const outer_tl(m - (UI_WID_POPUP_WIDTH_NORMAL / 2), n - 3);
@@ -239,7 +241,17 @@ static void wid_spell_learn_check_if_done(Gamep g)
     spoint const tl(0, 0);
     spoint const br(width - 2, 2);
     wid_set_pos(w, tl, br);
-    wid_set_text(w, "Learn?");
+
+    if (! game_cand_spell_get(g).empty() && ! wid_spell_upgrades.empty()) {
+      wid_set_text(w, "Upgrade/Learn?");
+    } else if (! game_cand_spell_get(g).empty()) {
+      wid_set_text(w, "Learn?");
+    } else if (! wid_spell_upgrades.empty()) {
+      wid_set_text(w, "Upgrade?");
+    } else {
+      wid_set_text(w, "Learn?");
+    }
+
     wid_set_on_mouse_down(w, wid_learn_mouse_down);
   }
 }

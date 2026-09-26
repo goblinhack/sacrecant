@@ -130,6 +130,7 @@
   if (!tp_load_skullferno()) { return false; }
   if (!tp_load_smoke()) { return false; }
   if (!tp_load_spell_broken_earth()) { return false; }
+  if (!tp_load_spell_dispel_obstacles()) { return false; }
   if (!tp_load_spell_effect()) { return false; }
   if (!tp_load_spell_hellish_onslaught()) { return false; }
   if (!tp_load_spell_wildfire_storm()) { return false; }
