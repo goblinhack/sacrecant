@@ -1010,6 +1010,8 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_edible(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_effect_attack(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_effect_blood(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_effect_explosion1(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_effect_explosion2(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_effect_ripple(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_effect(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_engulfed_try_unset(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
@@ -1200,8 +1202,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused138(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused139(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused14(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused140(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused141(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused15(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused151(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused16(Thingp t) -> bool;

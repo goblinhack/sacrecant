@@ -14,11 +14,11 @@
 
 static const std::string upgrade_1_increase_radius             = "increase radius and range";
 static const std::string upgrade_2_increase_damage             = "increase damage";
-static const std::string option_1_targeted                     = "targeted air strike";
+static const std::string option_1_targeted                     = "targeted";
 static const std::string option_2_radial_including_player_tile = "radial, including your tile";
 static const std::string option_3_radial_excluding_player_tile = "radial, excluding your tile";
 
-static auto tp_spell_air_strike_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
+static auto tp_spell_hellish_onslaught_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
 {
   TRACE();
 
@@ -39,18 +39,18 @@ static auto tp_spell_air_strike_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> 
                           space, damage_str.c_str());
   }
 
-  return                                                                                                           //
-      UI_INFO1_FMT_STR "Conjure a devastating air strike, targeted at your enemies or radially around yourself.\n" //
-      UI_INFO2_FMT_STR "For extra fun, you can even target yourself at no added cost!\n"                           //
-      UI_INFO1_FMT_STR "Upgrades are as follows:\n"                                                                //
-      UI_INFO1_FMT_STR "- Radius and range:\n"                                                                     //
-      UI_INFO2_FMT_STR "  One extra tile per upgrade.\n"                                                           //
-      UI_INFO1_FMT_STR "- Damage upgrade:\n"                                                                       //
+  return                                                                                                    //
+      UI_INFO1_FMT_STR "Rain hell fire from above, targeted at your enemies or radially around yourself.\n" //
+      UI_INFO2_FMT_STR "For extra fun, you can even target yourself at no added cost!\n"                    //
+      UI_INFO1_FMT_STR "Upgrades are as follows:\n"                                                         //
+      UI_INFO1_FMT_STR "- Radius and range:\n"                                                              //
+      UI_INFO2_FMT_STR "  One extra tile per upgrade.\n"                                                    //
+      UI_INFO1_FMT_STR "- Damage upgrade:\n"                                                                //
       UI_INFO2_FMT_STR "  One extra health point of damage for each explosion per upgrade.\n"
       + line; //
 }
 
-static bool tp_spell_air_strike_on_cast_request(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, ThingEvent &e)
+static bool tp_spell_hellish_onslaught_on_cast_request(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, ThingEvent &e)
 {
   TRACE();
 
@@ -90,7 +90,7 @@ static bool tp_spell_air_strike_on_cast_request(Gamep g, Levelsp v, Levelp l, Th
   return false;
 }
 
-static void tp_spell_air_strike_spawn_explosion(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, bpoint p, ThingEvent &e)
+static void tp_spell_hellish_onslaught_spawn_explosion(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, bpoint p, ThingEvent &e)
 {
   TRACE();
 
@@ -105,7 +105,7 @@ static void tp_spell_air_strike_spawn_explosion(Gamep g, Levelsp v, Levelp l, Th
   }
 }
 
-static bool tp_spell_air_strike_on_cast_do(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, ThingEvent &e)
+static bool tp_spell_hellish_onslaught_on_cast_do(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, ThingEvent &e)
 {
   TRACE();
 
@@ -139,7 +139,7 @@ static bool tp_spell_air_strike_on_cast_do(Gamep g, Levelsp v, Levelp l, Thingp 
         bpoint p(target.x + dx, target.y + dy);
         if (! is_oob(p)) {
           if (distance(p, target) <= spell_radius) {
-            tp_spell_air_strike_spawn_explosion(g, v, l, spell, user, p, e);
+            tp_spell_hellish_onslaught_spawn_explosion(g, v, l, spell, user, p, e);
           }
         }
       }
@@ -157,7 +157,7 @@ static bool tp_spell_air_strike_on_cast_do(Gamep g, Levelsp v, Levelp l, Thingp 
         bpoint p(target.x + dx, target.y + dy);
         if (! is_oob(p)) {
           if (distance(p, target) <= spell_radius) {
-            tp_spell_air_strike_spawn_explosion(g, v, l, spell, user, p, e);
+            tp_spell_hellish_onslaught_spawn_explosion(g, v, l, spell, user, p, e);
           }
         }
       }
@@ -175,7 +175,7 @@ static bool tp_spell_air_strike_on_cast_do(Gamep g, Levelsp v, Levelp l, Thingp 
         if (! is_oob(p)) {
           if (p != target) {
             if (distance(p, target) <= spell_radius) {
-              tp_spell_air_strike_spawn_explosion(g, v, l, spell, user, p, e);
+              tp_spell_hellish_onslaught_spawn_explosion(g, v, l, spell, user, p, e);
             }
           }
         }
@@ -190,7 +190,7 @@ static bool tp_spell_air_strike_on_cast_do(Gamep g, Levelsp v, Levelp l, Thingp 
   return false;
 }
 
-static auto tp_spell_air_strike_on_upgrade_possible(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade u) -> bool
+static auto tp_spell_hellish_onslaught_on_upgrade_possible(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade u) -> bool
 {
   TRACE();
 
@@ -208,7 +208,7 @@ static auto tp_spell_air_strike_on_upgrade_possible(Gamep g, Levelsp v, Levelp l
   return upgradeable;
 }
 
-static auto tp_spell_air_strike_on_upgrade_do(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade u) -> bool
+static auto tp_spell_hellish_onslaught_on_upgrade_do(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade u) -> bool
 {
   TRACE();
 
@@ -231,22 +231,22 @@ static auto tp_spell_air_strike_on_upgrade_do(Gamep g, Levelsp v, Levelp l, Thin
   return false;
 }
 
-[[nodiscard]] auto tp_load_spell_air_strike() -> bool
+[[nodiscard]] auto tp_load_spell_hellish_onslaught() -> bool
 {
   TRACE();
 
-  auto *tp   = tp_load("spell_air_strike"); // keep as string for scripts
+  auto *tp   = tp_load("spell_hellish_onslaught"); // keep as string for scripts
   auto  name = tp_name(tp);
 
   // begin sort marker1 {
-  thing_detail_set(tp, tp_spell_air_strike_get);
-  thing_on_cast_do_set(tp, tp_spell_air_strike_on_cast_do);
-  thing_on_cast_request_set(tp, tp_spell_air_strike_on_cast_request);
-  thing_on_upgrade_do_set(tp, tp_spell_air_strike_on_upgrade_do);
-  thing_on_upgrade_possible_set(tp, tp_spell_air_strike_on_upgrade_possible);
+  thing_detail_set(tp, tp_spell_hellish_onslaught_get);
+  thing_on_cast_do_set(tp, tp_spell_hellish_onslaught_on_cast_do);
+  thing_on_cast_request_set(tp, tp_spell_hellish_onslaught_on_cast_request);
+  thing_on_upgrade_do_set(tp, tp_spell_hellish_onslaught_on_upgrade_do);
+  thing_on_upgrade_possible_set(tp, tp_spell_hellish_onslaught_on_upgrade_possible);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_spell);
-  tp_name_long_set(tp, "air strike");
+  tp_name_long_set(tp, "hellish onslaught");
   tp_spell_cost_set(tp, 2);
   tp_spell_mana_cost_set(tp, 10);
   tp_spell_radius_max_set(tp, 6);

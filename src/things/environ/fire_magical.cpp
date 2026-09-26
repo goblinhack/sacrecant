@@ -211,12 +211,12 @@ static void tp_magical_fire_on_fall_begin(Gamep g, Levelsp v, Levelp l, Thingp m
   tp_health_set(tp, "1d5"); // to allow it to be damaged by water
   tp_is_immune_to_add(tp, THING_EVENT_FIRE_DAMAGE);
   tp_lifespan_set(tp, "1d20+20");
-  tp_light_color_set(tp, "green");
-  tp_name_a_or_an_set(tp, "magical fire");
-  tp_name_apostrophize_set(tp, "magical fires'");
-  tp_name_long_set(tp, "magical fire");
-  tp_name_pluralize_set(tp, "magical fires");
-  tp_name_short_set(tp, "magical fire");
+  tp_light_color_set(tp, "lime");
+  tp_name_a_or_an_set(tp, "wildfire");
+  tp_name_apostrophize_set(tp, "wildfires'");
+  tp_name_long_set(tp, "magical wildfire");
+  tp_name_pluralize_set(tp, "wildfire");
+  tp_name_short_set(tp, "wildfire");
   tp_priority_set(tp, THING_PRIORITY_FIRE);
   tp_temperature_burns_at_set(tp, 500); // celsius
   tp_temperature_initial_set(tp, 500);  // celsius

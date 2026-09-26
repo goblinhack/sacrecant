@@ -1743,16 +1743,16 @@
   return level_flag_cached(g, v, l, is_unused139, p);
 }
 
-[[nodiscard]] auto level_is_unused140_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_effect_explosion1_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused140, p);
+  return level_flag_cached(g, v, l, is_effect_explosion1, p);
 }
 
-[[nodiscard]] auto level_is_unused141_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_effect_explosion2_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused141, p);
+  return level_flag_cached(g, v, l, is_effect_explosion2, p);
 }
 
 [[nodiscard]] auto level_is_fire_normal_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

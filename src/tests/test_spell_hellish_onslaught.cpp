@@ -8,7 +8,7 @@
 #include "../my_test.hpp"
 #include "../my_thing_inlines.hpp"
 
-[[nodiscard]] static auto test_spell_pyro_storm(Gamep g, Testp t) -> bool
+[[nodiscard]] static auto test_spell_hellish_onslaught(Gamep g, Testp t) -> bool
 {
   TEST_LOG(t, "begin");
   TRACE();
@@ -22,32 +22,32 @@
   //
   std::string const start
       = "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
-        "x.........................x"
-        "x.........................x"
-        "x.......@......G..........x"
-        "x.........................x"
-        "x.........................x"
+        "x........xx...............x"
+        "x........xx...............x"
+        "x.......@xx....g..........x"
+        "x........xx...............x"
+        "x........xx...............x"
         "xxxxxxxxxxxxxxxxxxxxxxxxxxx";
   std::string const expect1
       = "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
-        "x.........................x"
-        "x.......m.................x"
-        "x.......@m..m..G..........x"
-        "x.......m.................x"
-        "x......m..................x"
+        "x........xx...............x"
+        "x........xxm.m............x"
+        "x.......@mx....g..........x"
+        "x........xx...............x"
+        "x........xx...............x"
         "xxxxxxxxxxxxxxxxxxxxxxxxxxx";
   std::string const expect2
       = "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
-        "x..........!..............x"
-        "x.......m.!!!.............x"
-        "x.......@!!!!!.G..........x"
-        "x......mm.!!!.............x"
-        "x..........!..............x"
+        "x........xx!..............x"
+        "x........xx!!..m..........x"
+        "x.......@mx!!!mg..........x"
+        "x........xx!!.............x"
+        "x........xx!..............x"
         "xxxxxxxxxxxxxxxxxxxxxxxxxxx";
 
   Overrides overrides;
-  overrides[ 'm' ]  = [](char c, bpoint p) -> Tpp { return tp_find_mand("kobalos"); };
-  overrides[ 'G' ]  = [](char c, bpoint p) -> Tpp { return tp_find_mand("kobalos_mob"); };
+  overrides[ 'm' ]  = [](char c, bpoint p) -> Tpp { return tp_find_mand("ghost"); };
+  overrides[ 'g' ]  = [](char c, bpoint p) -> Tpp { return tp_find_mand("ghost_mob"); };
   Levelp     l      = nullptr;
   Levelsp    v      = game_test_init(g, &l, level_num, w, h, start.c_str(), overrides);
   bool       result = true;
@@ -70,7 +70,7 @@
   //
   level_dump(g, v, l, w, h);
   TEST_PROGRESS(t);
-  for (auto tries = 0; tries < 40; tries++) {
+  for (auto tries = 0; tries < 50; tries++) {
     TEST_LOOP_PROGRESS(t, g, v, l, tries, w, h);
     (void) player_fire(g, v, l, 1, 0);
     TEST_ASSERT(t, game_event_wait(g), "failed to wait");
@@ -87,7 +87,7 @@
     goto exit;
   }
 
-  spell = thing_spawn(g, v, l, tp_find_mand("spell_pyro_storm"), thing_at(g, v, l, player));
+  spell = thing_spawn(g, v, l, tp_find_mand("spell_hellish_onslaught"), thing_at(g, v, l, player));
   TEST_ASSERT(t, spell, "failed to spawn spell");
 
   TEST_ASSERT(t, thing_spellbook_add(g, v, l, spell, player), "failed to add spell");
@@ -96,7 +96,7 @@
   e.spell_info.spell       = spell;
   e.spell_info.target_set  = true;
   e.spell_info.target      = target_at;
-  e.spell_info.option_name = "targeted pyro storm";
+  e.spell_info.option_name = "targeted";
 
   TEST_ASSERT(t, thing_spell_cast_target(g, v, l, &e), "failed to cast spell");
 
@@ -113,7 +113,7 @@
     goto exit;
   }
 
-  TEST_ASSERT(t, game_tick_get(g, v) == 41, "final tick counter value");
+  TEST_ASSERT(t, game_tick_get(g, v) == 51, "final tick counter value");
 
   level_dump(g, v, l, w, h);
   TEST_PASSED(t);
@@ -124,13 +124,13 @@ exit:
   return result;
 }
 
-[[nodiscard]] auto test_load_spell_pyro_storm() -> bool // NOLINT
+[[nodiscard]] auto test_load_spell_hellish_onslaught() -> bool // NOLINT
 {
   TRACE();
 
-  Testp test = test_load("spell_pyro_storm");
+  Testp test = test_load("spell_hellish_onslaught");
 
-  test_callback_set(test, test_spell_pyro_storm);
+  test_callback_set(test, test_spell_hellish_onslaught);
 
   return true;
 }

@@ -193,7 +193,7 @@ static void wid_player_update_spell_selections(Gamep g, Levelsp v, Levelp l, Thi
     auto        arcana_name = stat_to_name_long(arcana);
     std::string tmp;
     switch (thing_spell_arcana(g, v, l, spell)) {
-      case THING_STAT_ARCANA_GEO :   tmp = "%%fg=lime$" + arcana_name + "%%fg=reset$    "; break;
+      case THING_STAT_ARCANA_GEO :   tmp = "%%fg=lime$" + arcana_name + "%%fg=reset$     "; break;
       case THING_STAT_ARCANA_PYRO :  tmp = "%%fg=orange$" + arcana_name + "%%fg=reset$    "; break;
       case THING_STAT_ARCANA_NECRO : tmp = "%%fg=gray50$" + arcana_name + "%%fg=reset$   "; break;
       case THING_STAT_ARCANA_BIO :   tmp = "%%fg=green$" + arcana_name + "%%fg=reset$     "; break;

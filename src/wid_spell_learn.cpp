@@ -187,10 +187,10 @@ static void wid_spell_checkout(Gamep g)
                 // Successfully upgraded
                 //
                 (void) thing_sac_points_decr(g, v, l, player, cost);
-
               } else {
-                topcon(UI_INFO_FMT_STR "You spent %d SPs on upgrade '%s' for spell %s." UI_RESET_FMT, cost, capitalize(u_name).c_str(),
+                topcon(UI_WARN_FMT_STR "You failed to upgrade '%s' for spell %s." UI_RESET_FMT, capitalize(u_name).c_str(),
                        capitalize(name).c_str());
+                topcon("You have not been charged for this transaction!");
               }
             }
           }
@@ -203,6 +203,7 @@ static void wid_spell_checkout(Gamep g)
   (void) sound_play(g, "select");
 
   game_spell_clear(g);
+  wid_spell_learn(g, v, l, player, wid_spell_filter);
 }
 
 [[nodiscard]] static auto wid_learn_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
@@ -374,7 +375,7 @@ static void wid_player_update_spell_selections(Gamep g, Levelsp v, Levelp l, Thi
     auto        arcana_name = stat_to_name_long(arcana);
     std::string tmp;
     switch (thing_spell_arcana(g, v, l, spell)) {
-      case THING_STAT_ARCANA_GEO :   tmp = "%%fg=lime$" + arcana_name + "%%fg=reset$    "; break;
+      case THING_STAT_ARCANA_GEO :   tmp = "%%fg=lime$" + arcana_name + "%%fg=reset$     "; break;
       case THING_STAT_ARCANA_PYRO :  tmp = "%%fg=orange$" + arcana_name + "%%fg=reset$    "; break;
       case THING_STAT_ARCANA_NECRO : tmp = "%%fg=gray50$" + arcana_name + "%%fg=reset$   "; break;
       case THING_STAT_ARCANA_BIO :   tmp = "%%fg=green$" + arcana_name + "%%fg=reset$     "; break;

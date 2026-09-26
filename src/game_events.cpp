@@ -424,6 +424,9 @@
     return false;
   }
 
+  game_spell_mouse_over_currently_set(g, spell);
+  game_request_to_remake_ui_set(g);
+
   if (! thing_spell_cast(g, v, l, spell, player, option_name)) {
     topcon("Spell casting failed!");
     (void) sound_play(g, "error");

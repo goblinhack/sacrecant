@@ -53,6 +53,8 @@
   if (!tp_load_door_unlocked()) { return false; }
   if (!tp_load_effect_attack()) { return false; }
   if (!tp_load_effect_blood()) { return false; }
+  if (!tp_load_effect_explosion1()) { return false; }
+  if (!tp_load_effect_explosion2()) { return false; }
   if (!tp_load_effect_ripple()) { return false; }
   if (!tp_load_entrance()) { return false; }
   if (!tp_load_exit()) { return false; }
@@ -127,9 +129,10 @@
   if (!tp_load_skeleton()) { return false; }
   if (!tp_load_skullferno()) { return false; }
   if (!tp_load_smoke()) { return false; }
-  if (!tp_load_spell_air_strike()) { return false; }
+  if (!tp_load_spell_broken_earth()) { return false; }
   if (!tp_load_spell_effect()) { return false; }
-  if (!tp_load_spell_pyro_storm()) { return false; }
+  if (!tp_load_spell_hellish_onslaught()) { return false; }
+  if (!tp_load_spell_wildfire_storm()) { return false; }
   if (!tp_load_spider_baby()) { return false; }
   if (!tp_load_spider()) { return false; }
   if (!tp_load_spiderweb()) { return false; }

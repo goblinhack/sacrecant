@@ -67,6 +67,37 @@ void level_cursor_describe_update(Gamep g, Levelsp v)
     return false;
   }
 
+  //
+  // Some states, like casting a spell, we want to keep the spell description visible.
+  //
+  switch (game_state(g)) {
+    case STATE_CHOOSE_SPELL_TARGET : return false;
+    case STATE_CHOOSE_THROW_TARGET : [[fallthrough]];
+    case STATE_PLAYING :             break;
+    case STATE_MAIN_MENU :           [[fallthrough]];
+    case STATE_LEVEL_SELECT_MENU :   [[fallthrough]];
+    case STATE_PLAYER_SELECT_MENU :  [[fallthrough]];
+    case STATE_SPELL_LEARN_MENU :    [[fallthrough]];
+    case STATE_SPELLBOOK_MENU :      [[fallthrough]];
+    case STATE_COLLECT_MENU :        [[fallthrough]];
+    case STATE_DEAD_MENU :           [[fallthrough]];
+    case STATE_GENERATED :           [[fallthrough]];
+    case STATE_GENERATING :          [[fallthrough]];
+    case STATE_INIT :                [[fallthrough]];
+    case STATE_INVENTORY_MENU :      [[fallthrough]];
+    case STATE_ITEM_MENU :           [[fallthrough]];
+    case STATE_KEYBOARD_MENU :       [[fallthrough]];
+    case STATE_LOAD_MENU :           [[fallthrough]];
+    case STATE_LOADED :              [[fallthrough]];
+    case STATE_MOVE_WARNING_MENU :   [[fallthrough]];
+    case STATE_QUIT_MENU :           [[fallthrough]];
+    case STATE_QUITTING :            [[fallthrough]];
+    case STATE_SAVE_MENU :           [[fallthrough]];
+    case STATE_GAME_OVER_MENU :      [[fallthrough]];
+    case STATE_THROW_MENU :          [[fallthrough]];
+    case GAME_STATE_ENUM_MAX :       return false;
+  }
+
   for (uint32_t const i : v->describe) {
     auto *cand = thing_find_optional(g, v, i);
     if (cand == t) {

@@ -1707,16 +1707,16 @@
   return level_count(g, v, l, is_unused139, p);
 }
 
-[[nodiscard]] auto level_count_is_unused140(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_effect_explosion1(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused140, p);
+  return level_count(g, v, l, is_effect_explosion1, p);
 }
 
-[[nodiscard]] auto level_count_is_unused141(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_effect_explosion2(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused141, p);
+  return level_count(g, v, l, is_effect_explosion2, p);
 }
 
 [[nodiscard]] auto level_count_is_fire_normal(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t

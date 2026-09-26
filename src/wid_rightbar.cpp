@@ -103,38 +103,66 @@ static auto wid_rightbar_thing_info_add(Gamep g, Levelsp v, Levelp l) -> void
 {
   bool got_one = {};
 
-  for (auto n = 0; std::cmp_less(n, v->describe_count); n++) {
-    auto *t = thing_find_optional(g, v, v->describe[ n ]);
-    if (t == nullptr) {
-      continue;
-    }
+  switch (game_state(g)) {
+    case STATE_CHOOSE_THROW_TARGET : [[fallthrough]];
+    case STATE_PLAYING :
+      for (auto n = 0; std::cmp_less(n, v->describe_count); n++) {
+        auto *t = thing_find_optional(g, v, v->describe[ n ]);
+        if (t == nullptr) {
+          continue;
+        }
 
-    if (thing_is_player(t)) {
-      continue;
-    }
+        if (thing_is_player(t)) {
+          continue;
+        }
 
-    if (thing_is_dead(t)) {
-      continue;
-    }
+        if (thing_is_dead(t)) {
+          continue;
+        }
 
-    wid_thing_info(g, v, l, t, wid_rightbar, UI_RIGHTBAR_WIDTH);
-    got_one = true;
-  }
+        wid_thing_info(g, v, l, t, wid_rightbar, UI_RIGHTBAR_WIDTH);
+        got_one = true;
+      }
 
-  for (auto n = 0; std::cmp_less(n, v->describe_count); n++) {
-    auto *t = thing_find_optional(g, v, v->describe[ n ]);
-    if (t == nullptr) {
-      continue;
-    }
+      for (auto n = 0; std::cmp_less(n, v->describe_count); n++) {
+        auto *t = thing_find_optional(g, v, v->describe[ n ]);
+        if (t == nullptr) {
+          continue;
+        }
 
-    if (thing_is_player(t)) {
-      continue;
-    }
+        if (thing_is_player(t)) {
+          continue;
+        }
 
-    if (thing_is_dead(t)) {
-      wid_thing_info(g, v, l, t, wid_rightbar, UI_RIGHTBAR_WIDTH);
-      got_one = true;
-    }
+        if (thing_is_dead(t)) {
+          wid_thing_info(g, v, l, t, wid_rightbar, UI_RIGHTBAR_WIDTH);
+          got_one = true;
+        }
+      }
+      break;
+    case STATE_MAIN_MENU :           [[fallthrough]];
+    case STATE_LEVEL_SELECT_MENU :   [[fallthrough]];
+    case STATE_PLAYER_SELECT_MENU :  [[fallthrough]];
+    case STATE_SPELL_LEARN_MENU :    [[fallthrough]];
+    case STATE_SPELLBOOK_MENU :      [[fallthrough]];
+    case STATE_CHOOSE_SPELL_TARGET : [[fallthrough]];
+    case STATE_COLLECT_MENU :        [[fallthrough]];
+    case STATE_DEAD_MENU :           [[fallthrough]];
+    case STATE_GENERATED :           [[fallthrough]];
+    case STATE_GENERATING :          [[fallthrough]];
+    case STATE_INIT :                [[fallthrough]];
+    case STATE_INVENTORY_MENU :      [[fallthrough]];
+    case STATE_ITEM_MENU :           [[fallthrough]];
+    case STATE_KEYBOARD_MENU :       [[fallthrough]];
+    case STATE_LOAD_MENU :           [[fallthrough]];
+    case STATE_LOADED :              [[fallthrough]];
+    case STATE_MOVE_WARNING_MENU :   [[fallthrough]];
+    case STATE_QUIT_MENU :           [[fallthrough]];
+    case STATE_QUITTING :            [[fallthrough]];
+    case STATE_SAVE_MENU :           [[fallthrough]];
+    case STATE_GAME_OVER_MENU :      [[fallthrough]];
+    case STATE_THROW_MENU :          [[fallthrough]];
+    case GAME_STATE_ENUM_MAX :       break;
   }
 
   if (! got_one) {
@@ -192,6 +220,37 @@ static auto wid_rightbar_thing_info_add(Gamep g, Levelsp v, Levelp l) -> void
   spoint const br(TERM_WIDTH - 1, TERM_HEIGHT - 1);
   wid_rightbar = new WidPopup(g, "right bar", tl, br, nullptr, "", false, false);
 
+  switch (game_state(g)) {
+    case STATE_CHOOSE_THROW_TARGET : [[fallthrough]];
+    case STATE_LEVEL_SELECT_MENU :   [[fallthrough]];
+    case STATE_PLAYING :             break;
+    case STATE_COLLECT_MENU :        [[fallthrough]];
+    case STATE_DEAD_MENU :           [[fallthrough]];
+    case STATE_GENERATED :           [[fallthrough]];
+    case STATE_GENERATING :          [[fallthrough]];
+    case STATE_INIT :                [[fallthrough]];
+    case STATE_INVENTORY_MENU :      [[fallthrough]];
+    case STATE_ITEM_MENU :           [[fallthrough]];
+    case STATE_KEYBOARD_MENU :       [[fallthrough]];
+    case STATE_PLAYER_SELECT_MENU :  [[fallthrough]];
+    case STATE_SPELL_LEARN_MENU :    [[fallthrough]];
+    case STATE_SPELLBOOK_MENU :      [[fallthrough]];
+    case STATE_LOAD_MENU :           [[fallthrough]];
+    case STATE_LOADED :              [[fallthrough]];
+    case STATE_MAIN_MENU :           [[fallthrough]];
+    case STATE_MOVE_WARNING_MENU :   [[fallthrough]];
+    case STATE_QUIT_MENU :           [[fallthrough]];
+    case STATE_QUITTING :            [[fallthrough]];
+    case STATE_SAVE_MENU :           [[fallthrough]];
+    case STATE_GAME_OVER_MENU :      [[fallthrough]];
+    case STATE_THROW_MENU :          [[fallthrough]];
+    case STATE_CHOOSE_SPELL_TARGET :
+      wid_rightbar_thing_info_add(g, v, l);
+      wid_update(g, wid_rightbar->wid_popup_container);
+      return true;
+    case GAME_STATE_ENUM_MAX : break;
+  }
+
   if (level_is_level_select(g, v, l)) {
     //
     // If in level select mode, a different wid is used
@@ -201,21 +260,6 @@ static auto wid_rightbar_thing_info_add(Gamep g, Levelsp v, Levelp l) -> void
     // Minimaps
     //
     wid_rightbar_create_minimap_level(g);
-  } else if (game_state(g) == STATE_SPELL_LEARN_MENU) {
-    //
-    // Tp info only
-    //
-    wid_rightbar_thing_info_add(g, v, l);
-  } else if (game_state(g) == STATE_SPELLBOOK_MENU) {
-    //
-    // Tp info only
-    //
-    wid_rightbar_thing_info_add(g, v, l);
-  } else if (game_state(g) == STATE_PLAYER_SELECT_MENU) {
-    //
-    // Tp info only
-    //
-    wid_rightbar_thing_info_add(g, v, l);
   } else if (wid_rightbar_thing_info_count(g, v) != 0) {
     //
     // Thing infos
