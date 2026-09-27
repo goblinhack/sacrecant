@@ -78,9 +78,9 @@ static void tp_gas_death_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
     auto n = thing_spawn(g, v, l, tp_first(is_gas_death), p);
     if (n) {
       float old_lifespan  = thing_lifespan(g, v, l, me);
-      float new_lifespan  = old_lifespan * 0.8;
+      float new_lifespan  = old_lifespan * 0.9f;
       int   new_lifespani = (int) ceilf(new_lifespan);
-      if (new_lifespani == 9) {
+      if (new_lifespani == 0) {
         new_lifespani = 1;
       }
       (void) thing_lifespan_set(g, v, l, n, new_lifespani);
@@ -98,12 +98,13 @@ static void tp_gas_death_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   // begin sort marker1 {
   thing_description_set(tp, tp_gas_death_description_get);
   thing_on_tick_begin_set(tp, tp_gas_death_tick_begin);
-  tp_distance_light_penetration_pixels_set(tp, TILE_WIDTH / 4);
+  tp_damage_set(tp, THING_EVENT_GAS_DAMAGE, "1d6");
+  tp_distance_light_penetration_pixels_set(tp, TILE_WIDTH);
   tp_flag_set(tp, is_able_to_be_teleported);
   tp_flag_set(tp, is_animated);
   tp_flag_set(tp, is_blit_centered);
-  tp_damage_set(tp, THING_EVENT_GAS_DAMAGE, "1d6");
   tp_flag_set(tp, is_blit_shown_in_chasms);
+  tp_flag_set(tp, is_blit_shown_in_overlay);
   tp_flag_set(tp, is_described_cursor);
   tp_flag_set(tp, is_gas_death);
   tp_flag_set(tp, is_gas);
@@ -125,7 +126,7 @@ static void tp_gas_death_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   if (g_opt_tests) {
     tp_lifespan_set(tp, "1");
   } else {
-    tp_lifespan_set(tp, "1d6+20");
+    tp_lifespan_set(tp, "1d8+22");
   }
 
   auto delay = 200;

@@ -1611,12 +1611,12 @@ auto thing_dmap(Gamep g, Levelsp v, Levelp l, Thingp me, bool reverse = false) -
 auto thing_dump_missiles(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
 auto thing_enhance(Gamep g, Levelsp v, Levelp l, Thingp t, Tpp tp) -> void;
 auto thing_explosion_handle(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
-auto thing_gas_handle(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
 auto thing_fall_end_check(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
 auto thing_fall_time_step(Gamep g, Levelsp v, Levelp l, Thingp me, int time_step) -> void;
 auto thing_fall(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
 auto thing_fini(Gamep g, Levelsp v, Levelp l, Thingp t) -> void;
 auto thing_free(Gamep g, Levelsp v, Levelp l, Thingp t) -> void;
+auto thing_gas_handle(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
 auto thing_group_join(Gamep g, Levelsp v, Levelp l, Thingp t, Thingp group) -> void;
 auto thing_group_leave(Gamep g, Levelsp v, Levelp l, Thingp t) -> void;
 auto thing_group_member_leave(Gamep g, Levelsp v, Levelp l, Thingp t) -> void;
