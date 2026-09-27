@@ -10,22 +10,22 @@
 #include "../../my_tps.hpp"
 #include "../../my_types.hpp"
 
-static auto tp_fungus_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
+static auto tp_fungus_life_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
 {
   TRACE();
 
-  return "sickly looking fungus, like a collection of dead fingers.";
+  return "sickly looking fungus, looks like a collection of dead fingers.";
 }
 
-[[nodiscard]] auto tp_load_fungus() -> bool
+[[nodiscard]] auto tp_load_life_fungus() -> bool
 {
   TRACE();
 
-  auto *tp   = tp_load("fungus"); // keep as string for scripts
+  auto *tp   = tp_load("fungus_life"); // keep as string for scripts
   auto  name = tp_name(tp);
 
   // begin sort marker1 {
-  thing_description_set(tp, tp_fungus_description_get);
+  thing_description_set(tp, tp_fungus_life_description_get);
   tp_chance_set(tp, THING_CHANCE_CONTINUE_TO_BURN, "1d2"); // fumble => intensify / keep burning / crit => stop burning
   tp_chance_set(tp, THING_CHANCE_START_BURNING, "1d2");    // fumble => flames spread to you
   tp_distance_light_penetration_pixels_set(tp, TILE_WIDTH / 2);

@@ -37,6 +37,12 @@ void fragments_init(Gamep g)
       CROAK("failed to add fragment alt");
     }
     if (! fragment_alt_add(g, CHANCE_NORMAL, ROOM_FLAG_ALL, __FUNCTION__, __LINE__,
+                           /* alt  */ (const char *) ",ff",
+                           /* alt  */ (const char *) "ff,",
+                           /* alt  */ (const char *) "f,,", nullptr)) {
+      CROAK("failed to add fragment alt");
+    }
+    if (! fragment_alt_add(g, CHANCE_NORMAL, ROOM_FLAG_ALL, __FUNCTION__, __LINE__,
                            /* alt  */ (const char *) ",,r",
                            /* alt  */ (const char *) ",r,",
                            /* alt  */ (const char *) ",,r", nullptr)) {

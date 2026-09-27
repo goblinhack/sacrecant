@@ -47,6 +47,7 @@
   if (!tp_load_corridor()) { return false; }
   if (!tp_load_cursor_at()) { return false; }
   if (!tp_load_cursor_path()) { return false; }
+  if (!tp_load_death_fungus()) { return false; }
   if (!tp_load_dirt()) { return false; }
   if (!tp_load_door_locked()) { return false; }
   if (!tp_load_door_secret()) { return false; }
@@ -63,7 +64,6 @@
   if (!tp_load_fire()) { return false; }
   if (!tp_load_floor()) { return false; }
   if (!tp_load_foliage()) { return false; }
-  if (!tp_load_fungus()) { return false; }
   if (!tp_load_ghost_mob()) { return false; }
   if (!tp_load_ghost()) { return false; }
   if (!tp_load_glorp()) { return false; }
@@ -81,6 +81,7 @@
   if (!tp_load_level_next()) { return false; }
   if (!tp_load_level_open()) { return false; }
   if (!tp_load_level_select_bg()) { return false; }
+  if (!tp_load_life_fungus()) { return false; }
   if (!tp_load_mantisman()) { return false; }
   if (!tp_load_mummy()) { return false; }
   if (!tp_load_ogrik()) { return false; }
@@ -102,6 +103,7 @@
   if (!tp_load_pot_tireless()) { return false; }
   if (!tp_load_proj_energy()) { return false; }
   if (!tp_load_proj_fire()) { return false; }
+  if (!tp_load_pyro_fungus()) { return false; }
   if (!tp_load_reeds()) { return false; }
   if (!tp_load_ring_life()) { return false; }
   if (!tp_load_ring_war()) { return false; }

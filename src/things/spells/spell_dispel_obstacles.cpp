@@ -12,10 +12,9 @@
 #include "../../my_tp.hpp"
 #include "../../my_tps.hpp"
 #include "../../my_ui.hpp"
+#include "my_spell_common.hpp"
 
 static const std::string upgrade_1_increase_radius = "increase radius and range";
-static const std::string option_1_targeted         = "targeted";
-static const std::string option_2_radial           = "radial";
 
 static auto tp_spell_dispel_obstacles_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
 {
@@ -32,38 +31,10 @@ static bool tp_spell_dispel_obstacles_on_cast_request(Gamep g, Levelsp v, Levelp
 {
   TRACE();
 
-  THING_DBG(g, v, l, user, "cast request");
-  TRACE_INDENT();
-  THING_DBG(g, v, l, spell, "this");
-
-  if (e.spell_info.option_name.empty() || (e.spell_info.option_name == option_1_targeted)) {
-    //
-    // If target is not set, get one
-    //
-    if (! e.spell_info.target_set) {
-      if (thing_is_player(user)) {
-        topcon("Choose a target for spell '%s'.", capitalize(thing_name_short(g, v, l, spell)).c_str());
-        game_spell_tmp_while_targeting_set(g, e);
-        game_state_change(g, STATE_CHOOSE_SPELL_TARGET, "choose a target");
-      }
-      THING_DBG(g, v, l, spell, "need target");
-      return true;
-    }
-
-    THING_DBG(g, v, l, spell, "have target");
-    return true;
-  }
-
-  if (e.spell_info.option_name == option_2_radial) {
-    THING_DBG(g, v, l, spell, "ok");
-    return true;
-  }
-
-  thing_err(g, v, l, spell, "unknown spell option: %s", e.spell_info.option_name.c_str());
-  return false;
+  return tp_spell_common_on_cast_request(g, v, l, spell, user, e);
 }
 
-static void tp_spell_dispel_obstacles_spawn_chasm(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, bpoint p, ThingEvent &e)
+static bool tp_spell_dispel_obstacles_spawn_chasm(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, const bpoint &p, ThingEvent &e)
 {
   TRACE();
 
@@ -89,73 +60,15 @@ static void tp_spell_dispel_obstacles_spawn_chasm(Gamep g, Levelsp v, Levelp l, 
 
     thing_dead(g, v, l, it, e);
   }
+
+  return true;
 }
 
 static bool tp_spell_dispel_obstacles_on_cast_do(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, ThingEvent &e)
 {
   TRACE();
 
-  THING_DBG(g, v, l, user, "cast do");
-  TRACE_INDENT();
-  THING_DBG(g, v, l, spell, "this");
-
-  auto user_at      = thing_at(g, v, l, user);
-  auto spell_radius = thing_spell_radius(g, v, l, spell);
-  auto spell_range  = thing_spell_range(g, v, l, spell);
-
-  if (e.spell_info.option_name.empty() || (e.spell_info.option_name == option_1_targeted)) {
-    if (! e.spell_info.target_set) {
-      thing_err(g, v, l, spell, "no target set");
-      return false;
-    }
-
-    //
-    // Check the range
-    //
-    auto target = e.spell_info.target;
-    if (distance(target, user_at) > spell_range) {
-      if (thing_is_player(user)) {
-        topcon("That tile of range for spell '%s'.", capitalize(thing_name_short(g, v, l, spell)).c_str());
-        (void) sound_play(g, "error");
-      }
-      return false;
-    }
-
-    for (auto dx = -spell_radius; dx <= spell_radius; dx++) {
-      for (auto dy = -spell_radius; dy <= spell_radius; dy++) {
-        bpoint p(target.x + dx, target.y + dy);
-        if (! is_oob(p)) {
-          if (distance(p, target) <= spell_radius) {
-            tp_spell_dispel_obstacles_spawn_chasm(g, v, l, spell, user, p, e);
-          }
-        }
-      }
-    }
-
-    thing_sound_play(g, v, l, user, "spell");
-    THING_DBG(g, v, l, spell, "done");
-    return true;
-  }
-
-  if (e.spell_info.option_name == option_2_radial) {
-    auto target = thing_at(g, v, l, user);
-    for (auto dx = -spell_radius; dx <= spell_radius; dx++) {
-      for (auto dy = -spell_radius; dy <= spell_radius; dy++) {
-        bpoint p(target.x + dx, target.y + dy);
-        if (! is_oob(p)) {
-          if (distance(p, target) <= spell_radius) {
-            tp_spell_dispel_obstacles_spawn_chasm(g, v, l, spell, user, p, e);
-          }
-        }
-      }
-    }
-    thing_sound_play(g, v, l, user, "spell");
-    THING_DBG(g, v, l, spell, "done");
-    return true;
-  }
-
-  thing_err(g, v, l, spell, "unknown spell casting option: %s", e.spell_info.option_name.c_str());
-  return false;
+  return tp_spell_common_on_cast_do(g, v, l, spell, user, e, tp_spell_dispel_obstacles_spawn_chasm);
 }
 
 static auto tp_spell_dispel_obstacles_on_upgrade_possible(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade u) -> bool
@@ -220,12 +133,12 @@ static auto tp_spell_dispel_obstacles_on_upgrade_do(Gamep g, Levelsp v, Levelp l
   tp_spell_option_add(tp,
                       TpSpellOption {
                           .type = "1", //
-                          .name = option_1_targeted,
+                          .name = spell_option_targeted,
                       });
   tp_spell_option_add(tp,
                       TpSpellOption {
                           .type = "2", //
-                          .name = option_2_radial,
+                          .name = spell_option_radial,
                       });
 
   auto *tile = tile_find_mand("icon_" + name);

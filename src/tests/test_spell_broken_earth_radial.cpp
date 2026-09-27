@@ -115,7 +115,7 @@
   e.spell_info.spell       = spell;
   e.spell_info.target_set  = true;
   e.spell_info.target      = target_at;
-  e.spell_info.option_name = "radial, including your tile";
+  e.spell_info.option_name = "radial";
 
   TEST_ASSERT(t, thing_spell_cast_target(g, v, l1, &e), "failed to cast spell");
 
