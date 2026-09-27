@@ -46,7 +46,7 @@ static auto tp_steam_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) ->
   tp_name_long_set(tp, "steam");
   tp_name_pluralize_set(tp, "steam");
   tp_name_short_set(tp, "steam");
-  tp_priority_set(tp, THING_PRIORITY_STEAM);
+  tp_priority_set(tp, THING_PRIORITY_GAS);
   tp_temperature_initial_set(tp, 100); // celsius
   tp_weight_set(tp, WEIGHT_NONE);      // grams
   tp_z_depth_set(tp, MAP_Z_DEPTH_GAS);

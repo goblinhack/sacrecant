@@ -50,6 +50,7 @@ static bool tp_sac_power_crazed_on_damage(Gamep g, Levelsp v, Levelp l, Thingp m
     case THING_EVENT_WATER_DAMAGE :     [[fallthrough]];
     case THING_EVENT_ENERGY_DAMAGE :    [[fallthrough]];
     case THING_EVENT_FIRE_DAMAGE :      [[fallthrough]];
+    case THING_EVENT_GAS_DAMAGE :       [[fallthrough]];
     case THING_EVENT_EATEN :            [[fallthrough]];
     case THING_EVENT_CARRIED :          [[fallthrough]];
     case THING_EVENT_CARRIED_MERGED :   [[fallthrough]];

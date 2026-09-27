@@ -153,6 +153,9 @@
     case THING_EVENT_WATER_DAMAGE : //
       s += "drowned";
       break;
+    case THING_EVENT_GAS_DAMAGE : //
+      s += "gassed";
+      break;
     case THING_EVENT_EXPLOSION_DAMAGE : //
       s += "blown up";
       break;

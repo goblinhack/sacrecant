@@ -1707,34 +1707,34 @@
   return level_flag_cached(g, v, l, is_unused133, p);
 }
 
-[[nodiscard]] auto level_is_unused134_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_able_to_breathe_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused134, p);
+  return level_flag_cached(g, v, l, is_able_to_breathe, p);
 }
 
-[[nodiscard]] auto level_is_unused135_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_obs_to_gas_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused135, p);
+  return level_flag_cached(g, v, l, is_obs_to_gas, p);
 }
 
-[[nodiscard]] auto level_is_unused136_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_gas_life_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused136, p);
+  return level_flag_cached(g, v, l, is_gas_life, p);
 }
 
-[[nodiscard]] auto level_is_unused137_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_gas_death_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused137, p);
+  return level_flag_cached(g, v, l, is_gas_death, p);
 }
 
-[[nodiscard]] auto level_is_unused138_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_gas_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused138, p);
+  return level_flag_cached(g, v, l, is_gas, p);
 }
 
 [[nodiscard]] auto level_is_fungus_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

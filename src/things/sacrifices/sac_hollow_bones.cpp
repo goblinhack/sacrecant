@@ -54,6 +54,7 @@ static bool tp_sac_hollow_bones_on_damage(Gamep g, Levelsp v, Levelp l, Thingp m
     case THING_EVENT_ENERGY_DAMAGE :    [[fallthrough]];
     case THING_EVENT_FIRE_DAMAGE :      [[fallthrough]];
     case THING_EVENT_EATEN :            [[fallthrough]];
+    case THING_EVENT_GAS_DAMAGE :       [[fallthrough]];
     case THING_EVENT_CARRIED :          [[fallthrough]];
     case THING_EVENT_CARRIED_MERGED :   [[fallthrough]];
     case THING_EVENT_OPEN :             [[fallthrough]];

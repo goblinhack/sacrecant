@@ -1707,34 +1707,34 @@
   return level_flag(g, v, l, is_unused133, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused134_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_able_to_breathe_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused134, p, me) != nullptr;
+  return level_flag(g, v, l, is_able_to_breathe, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused135_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_obs_to_gas_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused135, p, me) != nullptr;
+  return level_flag(g, v, l, is_obs_to_gas, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused136_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_gas_life_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused136, p, me) != nullptr;
+  return level_flag(g, v, l, is_gas_life, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused137_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_gas_death_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused137, p, me) != nullptr;
+  return level_flag(g, v, l, is_gas_death, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused138_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_gas_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused138, p, me) != nullptr;
+  return level_flag(g, v, l, is_gas, p, me) != nullptr;
 }
 
 [[nodiscard]] auto level_is_fungus_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool

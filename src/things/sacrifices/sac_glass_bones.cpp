@@ -45,6 +45,7 @@ static bool tp_sac_glass_bones_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me
       e.damage *= 2;
       break;
     case THING_EVENT_WATER_DAMAGE :     [[fallthrough]];
+    case THING_EVENT_GAS_DAMAGE :       [[fallthrough]];
     case THING_EVENT_ENERGY_DAMAGE :    [[fallthrough]];
     case THING_EVENT_FIRE_DAMAGE :      [[fallthrough]];
     case THING_EVENT_EATEN :            [[fallthrough]];

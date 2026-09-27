@@ -197,6 +197,7 @@ static void tp_cleaner_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEv
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_monst);
   tp_flag_set(tp, is_obs_to_beam);
+  tp_flag_set(tp, is_obs_to_gas);
   tp_flag_set(tp, is_obs_to_movement);
   tp_flag_set(tp, is_obs_to_teleporting_onto);
   tp_flag_set(tp, is_obs_to_wall_walker);

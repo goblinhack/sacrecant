@@ -133,7 +133,7 @@ bool tp_spell_common_on_cast_do(Gamep g, Levelsp v, Levelp l, Thingp spell, Thin
   }
 
   //
-  // Radial, exluding player tile
+  // Radial, excluding player tile
   //
   if (e.spell_info.option_name == spell_option_radial_excluding_player_tile) {
     auto target = thing_at(g, v, l, user);

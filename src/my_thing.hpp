@@ -888,6 +888,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_able_to_be_engulfed(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_able_to_be_ensnared_blocked(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_be_ensnared(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
+[[nodiscard]] auto thing_is_able_to_breathe(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_cast_spells(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_choose_targets(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_collect_items(Thingp t) -> bool;
@@ -1032,6 +1033,9 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_flesh(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_fungus(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_game_over(Thingp player) -> bool;
+[[nodiscard]] auto thing_is_gas_death(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_gas_life(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_gas(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_gaseous(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_gelatinous(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_ghost(Thingp t) -> bool;
@@ -1085,6 +1089,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_obs_to_explosion(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_obs_to_falling_onto(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_obs_to_fire(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_obs_to_gas(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_obs_to_hearing(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_obs_to_jumping_onto(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_obs_to_jumping_out_of(Thingp t) -> bool;
@@ -1196,11 +1201,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused131(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused132(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused133(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused134(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused135(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused136(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused137(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused138(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused14(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused15(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused151(Thingp t) -> bool;
@@ -1611,6 +1611,7 @@ auto thing_dmap(Gamep g, Levelsp v, Levelp l, Thingp me, bool reverse = false) -
 auto thing_dump_missiles(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
 auto thing_enhance(Gamep g, Levelsp v, Levelp l, Thingp t, Tpp tp) -> void;
 auto thing_explosion_handle(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
+auto thing_gas_handle(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
 auto thing_fall_end_check(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
 auto thing_fall_time_step(Gamep g, Levelsp v, Levelp l, Thingp me, int time_step) -> void;
 auto thing_fall(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;

@@ -2016,7 +2016,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   return tp_flag(thing_tp(t), is_unused133) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused134(Thingp t) -> bool
+[[nodiscard]] auto thing_is_able_to_breathe(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -2024,10 +2024,10 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused134) != 0;
+  return tp_flag(thing_tp(t), is_able_to_breathe) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused135(Thingp t) -> bool
+[[nodiscard]] auto thing_is_obs_to_gas(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -2035,10 +2035,10 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused135) != 0;
+  return tp_flag(thing_tp(t), is_obs_to_gas) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused136(Thingp t) -> bool
+[[nodiscard]] auto thing_is_gas_life(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -2046,10 +2046,10 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused136) != 0;
+  return tp_flag(thing_tp(t), is_gas_life) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused137(Thingp t) -> bool
+[[nodiscard]] auto thing_is_gas_death(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -2057,10 +2057,10 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused137) != 0;
+  return tp_flag(thing_tp(t), is_gas_death) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused138(Thingp t) -> bool
+[[nodiscard]] auto thing_is_gas(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -2068,7 +2068,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused138) != 0;
+  return tp_flag(thing_tp(t), is_gas) != 0;
 }
 
 [[nodiscard]] auto thing_is_fungus(Thingp t) -> bool

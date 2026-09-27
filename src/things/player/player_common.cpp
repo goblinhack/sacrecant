@@ -459,6 +459,7 @@ void tp_load_player_common(Tpp tp)
   tp_flag_set(tp, is_able_to_be_invisible);
   tp_flag_set(tp, is_able_to_be_levitated);
   tp_flag_set(tp, is_able_to_be_teleported);
+  tp_flag_set(tp, is_able_to_breathe);
   tp_flag_set(tp, is_able_to_cast_spells);
   tp_flag_set(tp, is_able_to_collect_items);
   tp_flag_set(tp, is_able_to_collect_keys);

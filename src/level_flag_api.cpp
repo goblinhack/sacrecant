@@ -1670,34 +1670,34 @@
   return level_flag(g, v, l, is_unused133, p, me);
 }
 
-[[nodiscard]] auto level_is_unused134(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_able_to_breathe(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused134, p, me);
+  return level_flag(g, v, l, is_able_to_breathe, p, me);
 }
 
-[[nodiscard]] auto level_is_unused135(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_obs_to_gas(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused135, p, me);
+  return level_flag(g, v, l, is_obs_to_gas, p, me);
 }
 
-[[nodiscard]] auto level_is_unused136(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_gas_life(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused136, p, me);
+  return level_flag(g, v, l, is_gas_life, p, me);
 }
 
-[[nodiscard]] auto level_is_unused137(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_gas_death(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused137, p, me);
+  return level_flag(g, v, l, is_gas_death, p, me);
 }
 
-[[nodiscard]] auto level_is_unused138(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_gas(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused138, p, me);
+  return level_flag(g, v, l, is_gas, p, me);
 }
 
 [[nodiscard]] auto level_is_fungus(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp

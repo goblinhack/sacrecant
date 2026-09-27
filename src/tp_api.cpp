@@ -1669,34 +1669,34 @@
   return tp_flag(tp, is_unused133) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused134(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_able_to_breathe(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused134) != 0;
+  return tp_flag(tp, is_able_to_breathe) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused135(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_obs_to_gas(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused135) != 0;
+  return tp_flag(tp, is_obs_to_gas) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused136(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_gas_life(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused136) != 0;
+  return tp_flag(tp, is_gas_life) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused137(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_gas_death(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused137) != 0;
+  return tp_flag(tp, is_gas_death) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused138(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_gas(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused138) != 0;
+  return tp_flag(tp, is_gas) != 0;
 }
 
 [[nodiscard]] auto tp_is_fungus(Tpp tp) -> bool

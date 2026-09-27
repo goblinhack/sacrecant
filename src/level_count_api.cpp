@@ -1671,34 +1671,34 @@
   return level_count(g, v, l, is_unused133, p);
 }
 
-[[nodiscard]] auto level_count_is_unused134(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_able_to_breathe(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused134, p);
+  return level_count(g, v, l, is_able_to_breathe, p);
 }
 
-[[nodiscard]] auto level_count_is_unused135(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_obs_to_gas(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused135, p);
+  return level_count(g, v, l, is_obs_to_gas, p);
 }
 
-[[nodiscard]] auto level_count_is_unused136(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_gas_life(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused136, p);
+  return level_count(g, v, l, is_gas_life, p);
 }
 
-[[nodiscard]] auto level_count_is_unused137(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_gas_death(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused137, p);
+  return level_count(g, v, l, is_gas_death, p);
 }
 
-[[nodiscard]] auto level_count_is_unused138(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_gas(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused138, p);
+  return level_count(g, v, l, is_gas, p);
 }
 
 [[nodiscard]] auto level_count_is_fungus(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t

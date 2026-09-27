@@ -304,11 +304,11 @@
       list_macro(is_unused131, "is_unused131"),                                             /* newline */                                       \
       list_macro(is_unused132, "is_unused132"),                                             /* newline */                                       \
       list_macro(is_unused133, "is_unused133"),                                             /* newline */                                       \
-      list_macro(is_unused134, "is_unused134"),                                             /* newline */                                       \
-      list_macro(is_unused135, "is_unused135"),                                             /* newline */                                       \
-      list_macro(is_unused136, "is_unused136"),                                             /* newline */                                       \
-      list_macro(is_unused137, "is_unused137"),                                             /* newline */                                       \
-      list_macro(is_unused138, "is_unused138"),                                             /* newline */                                       \
+      list_macro(is_able_to_breathe, "is_able_to_breathe"),                                 /* newline */                                       \
+      list_macro(is_obs_to_gas, "is_obs_to_gas"),                                           /* newline */                                       \
+      list_macro(is_gas_life, "is_gas_life"),                                               /* newline */                                       \
+      list_macro(is_gas_death, "is_gas_death"),                                             /* newline */                                       \
+      list_macro(is_gas, "is_gas"),                                                         /* newline */                                       \
       list_macro(is_fungus, "is_fungus"),                                                   /* newline */                                       \
       list_macro(is_unused14, "is_unused14"),                                               /* newline */                                       \
       list_macro(is_effect_explosion1, "is_effect_explosion1"),                             /* newline */                                       \
@@ -602,6 +602,7 @@ ENUM_DEF_H(THING_ANIM_ENUM, ThingAnimType)
       list_macro(THING_EVENT_FALL, "fall-damage"),                   /* newline */                                                              \
       list_macro(THING_EVENT_SPELL_DAMAGE, "spell-damage"),          /* newline */                                                              \
       list_macro(THING_EVENT_EXPLOSION_DAMAGE, "explosion-damage"),  /* newline */                                                              \
+      list_macro(THING_EVENT_GAS_DAMAGE, "gas-damage"),              /* newline */                                                              \
       list_macro(THING_EVENT_USER_INITIATED, "user-initiated"),      /* newline */                                                              \
       list_macro(THING_EVENT_LIFESPAN_EXPIRED, "lifespan-expired"),  /* newline */                                                              \
       list_macro(THING_EVENT_MELT, "melt"),                          /* newline */                                                              \
@@ -685,10 +686,10 @@ ENUM_DEF_H(THING_ENVIRON_ENUM, ThingEnvironType)
   CLANG_FORMAT_INDENT()                                  /* dummy line for clang indentation fixup */                                           \
   list_macro(THING_PRIORITY_NONE, "none"),               /* newline */                                                                          \
       list_macro(THING_PRIORITY_EXPLOSION, "explosion"), /* newline */                                                                          \
+      list_macro(THING_PRIORITY_GAS, "gas"),             /* newline */                                                                          \
       list_macro(THING_PRIORITY_WEAPON, "projectile"),   /* newline */                                                                          \
       list_macro(THING_PRIORITY_LAVA, "lava"),           /* newline */                                                                          \
       list_macro(THING_PRIORITY_FIRE, "fire"),           /* newline */                                                                          \
-      list_macro(THING_PRIORITY_STEAM, "steam"),         /* newline */                                                                          \
       list_macro(THING_PRIORITY_PLAYER, "player"),       /* newline */                                                                          \
       list_macro(THING_PRIORITY_MONST, "monst"),         /* newline */                                                                          \
       list_macro(THING_PRIORITY_MOB, "mob"),             /* newline */                                                                          \
@@ -866,6 +867,7 @@ class Tp;
 [[nodiscard]] auto tp_is_able_to_be_invisible(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_able_to_be_levitated(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_able_to_be_teleported(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_able_to_breathe(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_able_to_cast_spells(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_able_to_choose_targets(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_able_to_collect_items(Tpp tp) -> bool;
@@ -994,6 +996,9 @@ class Tp;
 [[nodiscard]] auto tp_is_floor(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_foliage(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_fungus(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_gas_death(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_gas_life(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_gas(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_gaseous(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_gelatinous(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_ghost(Tpp tp) -> bool;
@@ -1046,6 +1051,7 @@ class Tp;
 [[nodiscard]] auto tp_is_obs_to_explosion(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_obs_to_falling_onto(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_obs_to_fire(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_obs_to_gas(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_obs_to_hearing(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_obs_to_jumping_onto(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_obs_to_jumping_out_of(Tpp tp) -> bool;
@@ -1152,11 +1158,6 @@ class Tp;
 [[nodiscard]] auto tp_is_unused131(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused132(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused133(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused134(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused135(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused136(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused137(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused138(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused14(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused15(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused151(Tpp tp) -> bool;

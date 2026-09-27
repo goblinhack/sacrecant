@@ -366,6 +366,9 @@ static void thing_damage_to_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
       case THING_EVENT_EXPLOSION_DAMAGE : //
         topcon(UI_WARN_FMT_STR "You suffer concussive damage from %s." UI_RESET_FMT, by_the_thing.c_str());
         break;
+      case THING_EVENT_GAS_DAMAGE : //
+        topcon(UI_WARN_FMT_STR "You choke in %s." UI_RESET_FMT, by_the_thing.c_str());
+        break;
       case THING_EVENT_ENERGY_DAMAGE : //
         topcon(UI_WARN_FMT_STR "You suffer blast damage from %s." UI_RESET_FMT, by_the_thing.c_str());
         break;
@@ -455,6 +458,9 @@ static void thing_damage_to_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
       case THING_EVENT_WATER_DAMAGE : //
         topcon(UI_WARN_FMT_STR "You suffer water damage." UI_RESET_FMT);
         break;
+      case THING_EVENT_GAS_DAMAGE : //
+        topcon(UI_WARN_FMT_STR "You choke in the gas." UI_RESET_FMT);
+        break;
       case THING_EVENT_EXPLOSION_DAMAGE : //
         topcon(UI_WARN_FMT_STR "You suffer explosion damage." UI_RESET_FMT);
         break;
@@ -539,6 +545,9 @@ static void thing_damage_by_player(Gamep g, Levelsp v, Levelp l, Thingp it, Thin
         break;
       case THING_EVENT_WATER_DAMAGE : //
         topcon("%s suffers water damage from %s.", The_thing_name_long.c_str(), by_player.c_str());
+        break;
+      case THING_EVENT_GAS_DAMAGE : //
+        topcon("You gas %s.", the_thing_name_long.c_str());
         break;
       case THING_EVENT_EXPLOSION_DAMAGE : //
         topcon("You blast %s.", the_thing_name_long.c_str());
@@ -657,6 +666,9 @@ static void thing_damage_by_other(Gamep g, Levelsp v, Levelp l, Thingp me, Thing
       case THING_EVENT_WATER_DAMAGE : //
         topcon("%s is hit with water damage from %s.", the_thing.c_str(), by_attacker.c_str());
         break;
+      case THING_EVENT_GAS_DAMAGE : //
+        topcon("%s is choking from %s.", the_thing.c_str(), by_attacker.c_str());
+        break;
       case THING_EVENT_EXPLOSION_DAMAGE : //
         topcon("%s is hit with blast damage from %s.", the_thing.c_str(), by_attacker.c_str());
         break;
@@ -709,6 +721,9 @@ static void thing_damage_by_other(Gamep g, Levelsp v, Levelp l, Thingp me, Thing
         break;
       case THING_EVENT_WATER_DAMAGE : //
         topcon("%s is damaged by water.", the_thing.c_str());
+        break;
+      case THING_EVENT_GAS_DAMAGE : //
+        topcon("%s is gassed.", the_thing.c_str());
         break;
       case THING_EVENT_EXPLOSION_DAMAGE : //
         topcon("%s is blasted.", the_thing.c_str());
@@ -997,6 +1012,7 @@ void thing_damage_apply(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
       case THING_EVENT_NONE :             [[fallthrough]];
       case THING_EVENT_ENERGY_DAMAGE :    [[fallthrough]];
       case THING_EVENT_EXPLOSION_DAMAGE : [[fallthrough]];
+      case THING_EVENT_GAS_DAMAGE :       [[fallthrough]];
       case THING_EVENT_USED :             [[fallthrough]];
       case THING_EVENT_EATEN :            [[fallthrough]];
       case THING_EVENT_LEVITATED :        [[fallthrough]];
@@ -1088,6 +1104,18 @@ void thing_damage_apply(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
     // Damage type specifics
     //
     switch (e.event_type) {
+      case THING_EVENT_FIRE_DAMAGE :
+        //
+        // Needed to allow things like projectiles to heat targets
+        //
+        if (e.source != nullptr) {
+          if (! l->is_handling_temperature_changes) {
+            l->is_handling_temperature_changes = true;
+            level_thing_pair_temperature_handle(g, v, l, me, e.source, e);
+            l->is_handling_temperature_changes = false;
+          }
+        }
+        break;
       case THING_EVENT_NONE :             [[fallthrough]];
       case THING_EVENT_USED :             [[fallthrough]];
       case THING_EVENT_EATEN :            [[fallthrough]];
@@ -1101,22 +1129,11 @@ void thing_damage_apply(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
       case THING_EVENT_ENGULF_DAMAGE :    [[fallthrough]];
       case THING_EVENT_POISON_DAMAGE :    [[fallthrough]];
       case THING_EVENT_SPELL_DAMAGE :     [[fallthrough]];
-      case THING_EVENT_MELEE_DAMAGE :     break;
-      case THING_EVENT_FIRE_DAMAGE :
-        //
-        // Needed to allow things like projectiles to heat targets
-        //
-        if (e.source != nullptr) {
-          if (! l->is_handling_temperature_changes) {
-            l->is_handling_temperature_changes = true;
-            level_thing_pair_temperature_handle(g, v, l, me, e.source, e);
-            l->is_handling_temperature_changes = false;
-          }
-        }
-        break;
+      case THING_EVENT_MELEE_DAMAGE :     [[fallthrough]];
       case THING_EVENT_ENERGY_DAMAGE :    [[fallthrough]];
       case THING_EVENT_WATER_DAMAGE :     [[fallthrough]];
       case THING_EVENT_EXPLOSION_DAMAGE : [[fallthrough]];
+      case THING_EVENT_GAS_DAMAGE :       [[fallthrough]];
       case THING_EVENT_OPEN :             [[fallthrough]];
       case THING_EVENT_CARRIED :          [[fallthrough]];
       case THING_EVENT_GAME_OVER :        [[fallthrough]];

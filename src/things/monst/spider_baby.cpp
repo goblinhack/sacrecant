@@ -155,6 +155,7 @@ static bool tp_spider_baby_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attac
   tp_flag_set(tp, is_able_to_be_invisible);
   tp_flag_set(tp, is_able_to_be_levitated);
   tp_flag_set(tp, is_able_to_be_teleported);
+  tp_flag_set(tp, is_able_to_breathe);
   tp_flag_set(tp, is_able_to_choose_targets);
   tp_flag_set(tp, is_able_to_fall_sound);
   tp_flag_set(tp, is_able_to_fall);
