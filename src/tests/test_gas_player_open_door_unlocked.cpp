@@ -7,7 +7,7 @@
 #include "../my_main.hpp"
 #include "../my_test.hpp"
 
-[[nodiscard]] static auto test_player_open_door_unlocked(Gamep g, Testp t) -> bool
+[[nodiscard]] static auto test_gas_player_open_door_unlocked(Gamep g, Testp t) -> bool
 {
   TEST_LOG(t, "begin");
   TRACE();
@@ -21,35 +21,35 @@
   //
   std::string const start
       = "xxxxxxx"
-        "x...x.x"
-        "x...x.x"
-        "x.@.D.x"
-        "x...x.x"
-        "x...x.x"
+        "x...x&x"
+        "x...x&x"
+        "x.@.D&x"
+        "x...x&x"
+        "x...x&x"
         "xxxxxxx";
   std::string const expect1
       = "xxxxxxx"
-        "x...x.x"
-        "x...x.x"
-        "x..@D.x"
-        "x...x.x"
-        "x...x.x"
+        "x...x&x"
+        "x...x&x"
+        "x..@D&x"
+        "x...x&x"
+        "x...x&x"
         "xxxxxxx";
   std::string const expect2
       = "xxxxxxx"
-        "x...x.x"
-        "x...x.x"
-        "x...@.x"
-        "x...x.x"
-        "x...x.x"
+        "x...x&x"
+        "x...x&x"
+        "x...&&x"
+        "x...x&x"
+        "x...x&x"
         "xxxxxxx";
   std::string const expect3
       = "xxxxxxx"
-        "x...x.x"
-        "x...x.x"
-        "x....@x"
-        "x...x.x"
-        "x...x.x"
+        "x...x&x"
+        "x...x&x"
+        "x...&&x"
+        "x...x&x"
+        "x...x&x"
         "xxxxxxx";
 
   //
@@ -155,13 +155,13 @@ exit:
   return result;
 }
 
-[[nodiscard]] auto test_load_player_open_door_unlocked() -> bool // NOLINT
+[[nodiscard]] auto test_load_gas_player_open_door_unlocked() -> bool // NOLINT
 {
   TRACE();
 
-  Testp test = test_load("player_open_door_unlocked");
+  Testp test = test_load("gas_player_open_door_unlocked");
 
-  test_callback_set(test, test_player_open_door_unlocked);
+  test_callback_set(test, test_gas_player_open_door_unlocked);
 
   return true;
 }
