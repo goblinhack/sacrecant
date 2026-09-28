@@ -21,35 +21,43 @@
   //
   std::string const start
       = "xxxxxxx"
-        "x...x&x"
-        "x...x&x"
+        "x.x..&x"
+        "x.xxx&x"
         "x.@.D&x"
         "x...x&x"
         "x...x&x"
         "xxxxxxx";
   std::string const expect1
       = "xxxxxxx"
-        "x...x&x"
-        "x...x&x"
+        "x.x&&&x"
+        "x.xxx&x"
         "x..@D&x"
         "x...x&x"
         "x...x&x"
         "xxxxxxx";
   std::string const expect2
       = "xxxxxxx"
-        "x...x&x"
-        "x...x&x"
+        "x.x&&&x"
+        "x.xxx&x"
         "x...&&x"
         "x...x&x"
         "x...x&x"
         "xxxxxxx";
   std::string const expect3
       = "xxxxxxx"
-        "x...x&x"
-        "x...x&x"
+        "x.x&&&x"
+        "x.xxx&x"
         "x...&&x"
         "x...x&x"
         "x...x&x"
+        "xxxxxxx";
+  std::string const expect4
+      = "xxxxxxx"
+        "x.x&&&x"
+        "x&xxx&x"
+        "x.&&&&x"
+        "x&&&x&x"
+        "x&&&x&x"
         "xxxxxxx";
 
   //
@@ -66,6 +74,23 @@
   bool down {};
   bool left {};
   bool right {};
+
+  //
+  // Wait
+  //
+  level_dump(g, v, l, w, h);
+  for (auto tries = 0; tries < 10; tries++) {
+    TEST_LOOP_PROGRESS(t, g, v, l, tries, w, h);
+    TEST_LOG(t, "move right into room");
+    TRACE();
+
+    TEST_ASSERT(t, game_event_wait(g), "failed to wait");
+
+    if (! game_wait_for_tick_to_finish(g, v, l)) {
+      TEST_FAILED(t, "wait loop failed");
+      goto exit;
+    }
+  }
 
   //
   // Move right, collecting key
@@ -144,7 +169,29 @@
     }
   }
 
-  TEST_ASSERT(t, game_tick_get(g, v) == 4, "final tick counter value");
+  //
+  // Wait
+  //
+  level_dump(g, v, l, w, h);
+  for (auto tries = 0; tries < 10; tries++) {
+    TEST_LOOP_PROGRESS(t, g, v, l, tries, w, h);
+    TEST_LOG(t, "move right into room");
+    TRACE();
+
+    TEST_ASSERT(t, game_event_wait(g), "failed to wait");
+
+    if (! game_wait_for_tick_to_finish(g, v, l)) {
+      TEST_FAILED(t, "wait loop failed");
+      goto exit;
+    }
+  }
+
+  if (! (result = level_match_contents(g, v, l, t, w, h, expect4.c_str()))) {
+    TEST_FAILED(t, "unexpected contents");
+    goto exit;
+  }
+
+  TEST_ASSERT(t, game_tick_get(g, v) == 24, "final tick counter value");
 
   level_dump(g, v, l, w, h);
   TEST_PASSED(t);
