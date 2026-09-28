@@ -974,10 +974,11 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
           if (! thing_player_spawn(g, v, l, tp, lp.at)) {
             return false;
           }
-          if (0)
+          if (compiler_unused) {
             if (thing_spawn(g, v, l, tp_random(g, v, l, is_gas_death), lp.at + bpoint(1, 1)) == nullptr) {
               return false;
             }
+          }
         } else {
           //
           // Spawn all other things

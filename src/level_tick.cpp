@@ -605,11 +605,11 @@ void level_tick_remove_thing_from_worklist(Thingp me)
 {
   TRACE();
 
-  if (! me) {
+  if (me == nullptr) {
     return;
   }
 
-  worklist.erase(std::find(worklist.begin(), worklist.end(), me->id));
+  worklist.erase(std::ranges::find(worklist, me->id));
 
   thing_is_scheduled_for_worklist_unset(me);
 }

@@ -419,7 +419,7 @@
     return t;
   }
 
-  if (t->id) {
+  if (t->id != 0U) {
     thing_err(g, v, thing_level(g, v, t), t, "thing_find_optional: thing mismatch found for id, %p %08" PRIX32 "", (void *) t, t->id);
   } else {
     thing_err(g, v, thing_level(g, v, t), t, "thing_find_optional: thing already freed for id, %p %08" PRIX32 "", (void *) t, t->id);
@@ -457,7 +457,7 @@
     return t;
   }
 
-  if (t->id) {
+  if (t->id != 0U) {
     thing_err(g, v, thing_level(g, v, t), t, "thing_find_optional: thing mismatch found for id, %p %08" PRIX32 "", (void *) t, t->id);
   }
 

@@ -939,7 +939,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_biome_graveyard(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_biome_nethervoid(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_biome_underhell(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_blasted_when_dead(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_blasted_when_dead(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_blit_bg(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blit_centered(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blit_flush_per_line(Thingp t) -> bool;
@@ -960,7 +960,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_border(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_brazier(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_bridge(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_broken_on_death(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_broken_on_death(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_buff(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_burnable(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_burning(Thingp t) -> bool;
@@ -991,12 +991,12 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_cursor_path(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_cursor(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_damage_capped(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_dead_on_collision(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_dead_on_collision(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_dead_on_shoving(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_dead_when_discharged(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_dead_when_discharged(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_debuff(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_described_cursor(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_described_when_killed(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_described_when_killed(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_dir_bl(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_dir_br(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_dir_down(Thingp me) -> bool;
@@ -1025,7 +1025,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_ethereal(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_exit(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_explosion(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_extinguished_on_death(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_extinguished_on_death(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_falling_continues(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_falling_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
 [[nodiscard]] auto thing_is_fire_magical(Thingp t) -> bool;
@@ -1077,7 +1077,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_meltable(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_metal(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_minion(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_mob_kill_minions_on_death(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_mob_kill_minions_on_death(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_mob(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_mob1(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_mob2(Thingp t) -> bool;
@@ -1105,7 +1105,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_obs_to_throwing_onto(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_obs_to_throwing_over(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_obs_to_wall_walker(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_obs_when_dead(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_obs_when_dead(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_on_map(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_open_try_set(Gamep g, Levelsp v, Levelp l, Thingp t, Thingp opener, bool val = true) -> bool;
 [[nodiscard]] auto thing_is_open_try_unset(Gamep g, Levelsp v, Levelp l, Thingp t, Thingp closer) -> bool;
@@ -1163,7 +1163,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_tireless(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_trap(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_treasure(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_undead(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_undead(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_unlocked(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unlucky(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused_146(Thingp t) -> bool;
@@ -1310,7 +1310,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_vision_180_degrees(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_vision_360_degrees(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_wait_on_anim(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_wait_on_dead_anim(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_wait_on_dead_anim(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_wall_walker_pass_through(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_wall_walker(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_wand(Thingp t) -> bool;
@@ -1635,8 +1635,8 @@ auto thing_is_burning_set(Gamep g, Levelsp v, Levelp l, Thingp t, bool val = tru
 auto thing_is_burning_unset(Gamep g, Levelsp v, Levelp l, Thingp t) -> void;
 auto thing_is_corpse_set(Gamep g, Levelsp v, Levelp l, Thingp t, bool val = true) -> void;
 auto thing_is_corpse_unset(Gamep g, Levelsp v, Levelp l, Thingp t) -> void;
-auto thing_is_dead_set(Gamep g, Levelsp v, Levelp l, Thingp t, bool val = true) -> void;
-auto thing_is_dead_unset(Gamep g, Levelsp v, Levelp l, Thingp t) -> void;
+auto thing_is_dead_set(Gamep g, Levelsp v, Levelp l, Thingp me, bool val = true) -> void;
+auto thing_is_dead_unset(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
 auto thing_is_falling_continues_set(Gamep g, Levelsp v, Levelp l, Thingp me, bool val = true) -> void;
 auto thing_is_falling_continues_unset(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
 auto thing_is_falling_set(Gamep g, Levelsp v, Levelp l, Thingp me, bool val) -> void;
@@ -1779,7 +1779,7 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
     if (AUTO(_ext_) = thing_ext_struct(_g_, _v_, _owner_))                                                                                      \
       for (auto _n_ = 0; _n_ < THING_HOOK_MAX; _n_++)                                                                                           \
         for (AUTO(_slot_) = &_ext_->hooks.hook[ _n_ ]; _slot_; (_slot_) = nullptr)                                                              \
-          log("owner: id %08" PRIX32 " slot: %d, hook id %08" PRIX32 "", _owner_->id, _n_, (_slot_)->hook_id);
+          log("owner: id %08" PRIX32 " slot: %d, hook id %08" PRIX32 "", (_owner_)->id, _n_, (_slot_)->hook_id);
 
 #define FOR_ALL_HOOKS_SLOTS(_g_, _v_, _l_, _owner_, _slot_, _hook_)                                                                             \
   if ((_g_) && (_v_) && (_l_))                                                                                                                  \
