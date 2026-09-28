@@ -56,65 +56,58 @@ auto thing_get_attacker(Gamep g, Levelsp v, Levelp l, ThingEvent &e) -> Thingp
 //
 // The monster missed
 //
-static void thing_attack_missed_player(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
+static void thing_attack_missed_player(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thingp me_player, ThingEvent &e)
 {
   TRACE();
 
-  auto *it = e.source;
-
-  auto at = thing_at(g, v, l, me);
-  game_popup_text_add(g, at.x, at.y, "!", WHITE);
+  auto at = thing_at(g, v, l, me_player);
+  game_popup_text_add(g, at.x, at.y, "Misses you!", WHITE);
 
   auto damage_name = e.special_attack.name;
 
-  if (it != nullptr) {
-    std::string by_the_thing;
-    auto       *fired_by = thing_missile_fired_by_get(g, v, l, it);
-    if (fired_by != nullptr) {
-      if (fired_by == me) {
-        by_the_thing = "your " + thing_name_long(g, v, l, it);
-      } else {
-        by_the_thing = thing_name_apostrophize_the(g, v, l, fired_by) + " " + thing_name_long(g, v, l, it);
-      }
+  std::string by_the_thing;
+  auto       *fired_by = thing_missile_fired_by_get(g, v, l, attacker);
+  if (fired_by != nullptr) {
+    if (fired_by == me_player) {
+      by_the_thing = "your " + thing_name_long(g, v, l, attacker);
     } else {
-      by_the_thing = thing_name_long_the(g, v, l, it);
+      by_the_thing = thing_name_apostrophize_the(g, v, l, fired_by) + " " + thing_name_long(g, v, l, attacker);
     }
-
-    topcon(UI_WARN_FMT_STR "%s misses." UI_RESET_FMT, capitalize_first(by_the_thing).c_str());
+  } else {
+    by_the_thing = thing_name_long_the(g, v, l, attacker);
   }
+
+  topcon(UI_WARN_FMT_STR "%s misses." UI_RESET_FMT, capitalize_first(by_the_thing).c_str());
 }
 
 //
 // The player missed
 //
-static void thing_attack_player_missed(Gamep g, Levelsp v, Levelp l, Thingp it, ThingEvent &e)
+static void thing_attack_player_missed(Gamep g, Levelsp v, Levelp l, Thingp attacker_player, Thingp it, ThingEvent &e)
 {
   TRACE();
-  auto *the_player = e.source;
 
   if (thing_is_monst(it)) {
-    auto at = thing_at(g, v, l, it);
-    game_popup_text_add(g, at.x, at.y, "miss", WHITE);
+    auto at = thing_at(g, v, l, attacker_player);
+    game_popup_text_add(g, at.x, at.y, "You miss", WHITE);
   }
 
-  if ((the_player != nullptr) && thing_is_loggable(it)) {
-    auto the_thing_name_long = thing_name_long_the(g, v, l, it);
-    auto The_thing_name_long = capitalize_first(the_thing_name_long);
-    auto by_player           = thing_name_long(g, v, l, the_player);
+  auto the_thing_name_long = thing_name_long_the(g, v, l, it);
+  auto The_thing_name_long = capitalize_first(the_thing_name_long);
+  auto by_player           = thing_name_long(g, v, l, attacker_player);
 
-    topcon("You miss %s.", the_thing_name_long.c_str());
-  }
+  topcon("You miss %s.", the_thing_name_long.c_str());
 }
 
 //
 // We're trying to attack at this tile. What do we hit first?
 //
-static auto thing_attack_at_do(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thingp it, ThingEvent *e_in = nullptr) -> bool
+static auto thing_attack_at_do(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thingp me, ThingEvent *e_in = nullptr) -> bool
 {
   TRACE();
 
   THING_DBG(g, v, l, attacker, "attack it");
-  THING_DBG(g, v, l, it, "me");
+  THING_DBG(g, v, l, me, "me");
 
   auto *source     = attacker;
   auto  event_type = THING_EVENT_MELEE_DAMAGE;
@@ -122,7 +115,7 @@ static auto thing_attack_at_do(Gamep g, Levelsp v, Levelp l, Thingp attacker, Th
   //
   // Digestion damage
   //
-  if (thing_is_engulfed(it)) {
+  if (thing_is_engulfed(me)) {
     if (thing_is_able_to_engulf(attacker)) {
       //
       // As we're in the melee path, this can crit too!
@@ -158,7 +151,7 @@ static auto thing_attack_at_do(Gamep g, Levelsp v, Levelp l, Thingp attacker, Th
     }
   }
 
-  auto victim_at = thing_at(g, v, l, it);
+  auto victim_at = thing_at(g, v, l, me);
 
   //
   // Keep track of where we tried to attack
@@ -205,7 +198,7 @@ static auto thing_attack_at_do(Gamep g, Levelsp v, Levelp l, Thingp attacker, Th
   // The attack modifier, say +4 has to beat the defence, say 10
   // We roll d20 and add 4 .
   //
-  auto def = thing_stat(g, v, l, it, THING_STAT_DEF);
+  auto def = thing_stat(g, v, l, me, THING_STAT_DEF);
 
   //
   // Passing the event here allows for crit attacks
@@ -213,18 +206,19 @@ static auto thing_attack_at_do(Gamep g, Levelsp v, Levelp l, Thingp attacker, Th
   auto is_hit = thing_stat_success(g, v, l, attacker, THING_STAT_ATT, def, e);
 
   if (! is_hit) {
-    if (! thing_on_missing(g, v, l, attacker, it, e)) {
+    if (! thing_on_missing(g, v, l, attacker, me, e)) {
       return false;
     }
 
     if (thing_is_monst(attacker)) {
       // Misses you
-      thing_attack_missed_player(g, v, l, it, e);
+      thing_attack_missed_player(g, v, l, attacker, me, e);
       return false;
     }
+
     if (thing_is_player(attacker)) {
       // You miss
-      thing_attack_player_missed(g, v, l, it, e);
+      thing_attack_player_missed(g, v, l, attacker, me, e);
       return false;
     }
   }
@@ -233,7 +227,7 @@ static auto thing_attack_at_do(Gamep g, Levelsp v, Levelp l, Thingp attacker, Th
   // Keep track of who attacked us
   //
   if (thing_is_monst(attacker)) {
-    if (thing_is_player(it)) {
+    if (thing_is_player(me)) {
       auto *p = thing_player_struct(g);
       if (p != nullptr) {
         p->attacked_by[ tp_id_get(thing_tp(attacker)) ]++;
@@ -241,13 +235,13 @@ static auto thing_attack_at_do(Gamep g, Levelsp v, Levelp l, Thingp attacker, Th
     }
   }
 
-  THING_DBG(g, v, l, it, "apply damage");
+  THING_DBG(g, v, l, me, "apply damage");
   TRACE_INDENT();
 
-  thing_damage_apply(g, v, l, it, e);
+  thing_damage_apply(g, v, l, me, e);
 
-  if (thing_is_dead(it)) {
-    if (! thing_on_killing(g, v, l, attacker, it, e)) {
+  if (thing_is_dead(me)) {
+    if (! thing_on_killing(g, v, l, attacker, me, e)) {
       return false;
     }
   }
