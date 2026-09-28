@@ -80,7 +80,7 @@ static void thing_attack_missed_player(Gamep g, Levelsp v, Levelp l, Thingp me, 
       by_the_thing = thing_name_long_the(g, v, l, it);
     }
 
-    topcon(UI_WARN_FMT_STR "%s misses!" UI_RESET_FMT, capitalize_first(by_the_thing).c_str());
+    topcon(UI_WARN_FMT_STR "%s misses." UI_RESET_FMT, capitalize_first(by_the_thing).c_str());
   }
 }
 
@@ -193,7 +193,7 @@ static auto thing_attack_at_do(Gamep g, Levelsp v, Levelp l, Thingp attacker, Th
   if (thing_is_engulfed(attacker)) {
     (void) thing_lunge(g, v, l, attacker, victim_at + bpoint(OS_RANDOM_RANGE_INCLUSIVE(-1, 1), OS_RANDOM_RANGE_INCLUSIVE(-1, 1)));
     if (thing_is_player(attacker)) {
-      topcon("You struggle to escape!\n");
+      topcon("You struggle to escape!");
     }
   } else {
     (void) thing_lunge(g, v, l, attacker, victim_at);
