@@ -52,6 +52,10 @@
   if (!test_load_fire_on_water()) { return false; }
   if (!test_load_fire_over_chasm()) { return false; }
   if (!test_load_foliage_on_fire()) { return false; }
+  if (!test_load_fungus_death_player_dies()) { return false; }
+  if (!test_load_fungus_death_player_lives()) { return false; }
+  if (!test_load_gas_death_monst_dies()) { return false; }
+  if (!test_load_gas_death_monst_lives()) { return false; }
   if (!test_load_items_drift_away()) { return false; }
   if (!test_load_jump_ok()) { return false; }
   if (!test_load_jump_truncated()) { return false; }

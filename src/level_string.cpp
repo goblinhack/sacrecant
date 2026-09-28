@@ -176,6 +176,9 @@
       if (level_is_beam_weapon_bool(g, v, l, p)) {
         c = CHARMAP_WEAPON;
       }
+      if (level_is_gas_bool(g, v, l, p)) {
+        c = CHARMAP_GAS;
+      }
       if (level_is_border_bool(g, v, l, p)) {
         c = CHARMAP_BORDER;
       }

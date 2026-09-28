@@ -61,6 +61,7 @@ public:
   Tpp       tp_wall               = {};
   Tpp       tp_vault              = {};
   Tpp       tp_border             = {};
+  Tpp       tp_gas                = {};
   Tpp       tp_rock               = {};
   Tpp       tp_water              = {};
   Tpp       tp_lava               = {};
@@ -304,6 +305,10 @@ static auto level_populate_biome_dungeon(Gamep g, Levelsp v, Levelp l, class Lev
       lp.need_floor = true;
       tp            = tp_random(g, v, l, is_key);
       break;
+    case CHARMAP_GAS :
+      lp.need_dirt = true;
+      tp           = lp.tp_gas;
+      break;
     case CHARMAP_BORDER :
       lp.need_dirt = true;
       tp           = lp.tp_border;
@@ -431,6 +436,7 @@ static auto level_populate_biome_bogland(Gamep g, Levelsp v, Levelp l, class Lev
     case CHARMAP_ENTRANCE :    [[fallthrough]];
     case CHARMAP_EXIT :        [[fallthrough]];
     case CHARMAP_KEY :         [[fallthrough]];
+    case CHARMAP_GAS :         [[fallthrough]];
     case CHARMAP_BORDER :      return level_populate_biome_dungeon(g, v, l, lp);
     default :
       if (! g_opt_do_level_gen) {
@@ -469,6 +475,7 @@ static auto level_populate_biome_nethervoid(Gamep g, Levelsp v, Levelp l, class 
     case CHARMAP_REEDS :         lp.need_floor = true; break;
     case CHARMAP_GRASS :         lp.need_floor = true; break;
     case CHARMAP_BORDER :        tp = lp.tp_chasm; break;
+    case CHARMAP_GAS :           [[fallthrough]];
     case CHARMAP_CHASM :         [[fallthrough]];
     case CHARMAP_BRIDGE :        [[fallthrough]];
     case CHARMAP_TREASURE :      [[fallthrough]];
@@ -569,6 +576,7 @@ static auto level_populate_biome_graveyard(Gamep g, Levelsp v, Levelp l, class L
     case CHARMAP_REEDS :         lp.need_dirt = true; break;
     case CHARMAP_GRASS :         lp.need_dirt = true; break;
     case CHARMAP_FUNGUS :        [[fallthrough]];
+    case CHARMAP_GAS :           [[fallthrough]];
     case CHARMAP_BORDER :        [[fallthrough]];
     case CHARMAP_CHASM :         [[fallthrough]];
     case CHARMAP_BRIDGE :        [[fallthrough]];
@@ -669,6 +677,7 @@ static auto level_populate_biome_underhell(Gamep g, Levelsp v, Levelp l, class L
     case CHARMAP_PILLAR :        lp.need_dirt = true; break;
     case CHARMAP_RUBBLE :        lp.need_dirt = true; break;
     case CHARMAP_BORDER :        tp = lp.tp_lava; break;
+    case CHARMAP_GAS :           [[fallthrough]];
     case CHARMAP_SPIDERWEB :     [[fallthrough]];
     case CHARMAP_TREASURE :      [[fallthrough]];
     case CHARMAP_TELEPORT :      [[fallthrough]];
@@ -741,6 +750,7 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
 
   lp.biome         = level_to_biome(g, v, l);
   lp.tp_border     = tp_first(is_border);
+  lp.tp_gas        = tp_first(is_gas);
   lp.tp_wall       = tp_random(g, v, l, is_wall);
   lp.tp_rock       = tp_random(g, v, l, is_rock);
   lp.tp_water      = tp_random(g, v, l, is_water_shallow);

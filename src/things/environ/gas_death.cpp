@@ -123,11 +123,7 @@ static void tp_gas_death_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_z_depth_set(tp, MAP_Z_DEPTH_GAS);
   // end sort marker1 }
 
-  if (g_opt_tests) {
-    tp_lifespan_set(tp, "1");
-  } else {
-    tp_lifespan_set(tp, "1d8+22");
-  }
+  tp_lifespan_set(tp, "1d8+22");
 
   auto delay = 200;
 

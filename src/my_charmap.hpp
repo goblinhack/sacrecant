@@ -27,6 +27,7 @@ enum : char {
   CHARMAP_FLOOR_50      = '5',
   CHARMAP_FOLIAGE       = '`',
   CHARMAP_FUNGUS        = 'f',
+  CHARMAP_GAS           = '&',
   CHARMAP_GRASS         = '\'',
   CHARMAP_JOIN          = '^',
   CHARMAP_KEY           = 'k',

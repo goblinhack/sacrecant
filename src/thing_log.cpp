@@ -42,12 +42,8 @@ void thing_log(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...)
   //
   // Filter to interesting things
   //
-  IF_DEBUG2 {}
-  else
-  {
-    if (! thing_is_loggable(t)) {
-      return;
-    }
+  if (! thing_is_loggable(t)) {
+    return;
   }
 
   va_list args = {};
