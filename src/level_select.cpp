@@ -74,7 +74,7 @@
   Levelp level_over   = nullptr;
 
   auto *tp_is_level_locked_icon = tp_first(is_level_locked_icon);
-  auto *tp_is_level_curr        = tp_first(is_level_curr);
+  auto *tp_is_level_curr_icon   = tp_first(is_level_curr_icon);
   auto *tp_is_level_final_icon  = tp_first(is_level_final_icon);
   auto *tp_is_level_closed_icon = tp_first(is_level_closed_icon);
   auto *tp_is_level_open_icon   = tp_first(is_level_open_icon);
@@ -85,7 +85,7 @@
     auto *tp = thing_tp(t);
 
     if ((tp == tp_is_level_locked_icon) || // newline
-        (tp == tp_is_level_curr) ||        // newline
+        (tp == tp_is_level_curr_icon) ||   // newline
         (tp == tp_is_level_final_icon) ||  // newline
         (tp == tp_is_level_closed_icon) || // newline
         (tp == tp_is_level_open_icon) ||   // newline
@@ -464,7 +464,7 @@ static auto level_select_count_levels(LevelSelect *s) -> int
   memset(level_select->debug, ' ', SIZEOF(level_select->debug));
 
   auto *tp_is_level_locked_icon = tp_first(is_level_locked_icon);
-  auto *tp_is_level_curr        = tp_first(is_level_curr);
+  auto *tp_is_level_curr_icon   = tp_first(is_level_curr_icon);
   auto *tp_is_level_final_icon  = tp_first(is_level_final_icon);
   auto *tp_is_level_closed_icon = tp_first(is_level_closed_icon);
   auto *tp_is_level_next_icon   = tp_first(is_level_next_icon);
@@ -626,7 +626,7 @@ static auto level_select_count_levels(LevelSelect *s) -> int
         // Where the player is currently
         //
         if (player->level_num == l->level_num) {
-          tp = tp_is_level_curr;
+          tp = tp_is_level_curr_icon;
         }
       }
 
@@ -645,7 +645,7 @@ static auto level_select_count_levels(LevelSelect *s) -> int
         if (tp == tp_is_level_locked_icon) {
           level_select->debug[ at.x ][ at.y ] = '?';
         }
-        if (tp == tp_is_level_curr) {
+        if (tp == tp_is_level_curr_icon) {
           level_select->debug[ at.x ][ at.y ] = '@';
         }
         if (tp == tp_is_level_final_icon) {
@@ -863,7 +863,7 @@ static auto level_select_next(Gamep g, Levelsp v, Levelp l, Levelp level_over) -
     // ok to choose
     ok_to_choose = true;
   }
-  if (level_is_level_curr(g, v, l, at) != nullptr) {
+  if (level_is_level_curr_icon(g, v, l, at) != nullptr) {
     // ok to choose
     ok_to_choose = true;
   }

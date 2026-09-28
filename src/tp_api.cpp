@@ -529,10 +529,10 @@
   return tp_flag(tp, is_usable) != 0;
 }
 
-[[nodiscard]] auto tp_is_level_curr(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_level_curr_icon(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_level_curr) != 0;
+  return tp_flag(tp, is_level_curr_icon) != 0;
 }
 
 [[nodiscard]] auto tp_is_critical_to_dungeon_design(Tpp tp) -> bool

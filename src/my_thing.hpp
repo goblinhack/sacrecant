@@ -1064,7 +1064,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_lava_bg(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_leather(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_level_closed_icon(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_level_curr(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_level_curr_icon(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_level_final_icon(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_level_locked_icon(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_level_next_icon(Thingp t) -> bool;
@@ -1714,11 +1714,11 @@ auto wid_tp_info(Gamep g, Levelsp v, Levelp l, Tpp me, WidPopup *parent, int wid
 auto wid_unset_thing_context(Gamep g, Levelsp v, Widp w, Thingp t) -> void;
 auto wid_unset_tp_context(Gamep g, Widp w, Tpp tp) -> void;
 void level_botcon(Gamep g, Levelsp v, Levelp l, const char *fmt, ...) CHECK_FORMAT_STR(printf, 4, 5);
-void level_tick_remove_thing_from_worklist(Thingp me);
 void level_con(Gamep g, Levelsp v, Levelp l, const char *fmt, ...) CHECK_FORMAT_STR(printf, 4, 5);
 void level_dbg(Gamep g, Levelsp v, Levelp l, const char *fmt, ...) CHECK_FORMAT_STR(printf, 4, 5);
 void level_err(Gamep g, Levelsp v, Levelp l, const char *fmt, ...) CHECK_FORMAT_STR(printf, 4, 5);
 void level_log(Gamep g, Levelsp v, Levelp l, const char *fmt, ...) CHECK_FORMAT_STR(printf, 4, 5);
+void level_tick_remove_thing_from_worklist(Thingp me);
 void level_topcon(Gamep g, Levelsp v, Levelp l, const char *fmt, ...) CHECK_FORMAT_STR(printf, 4, 5);
 void level_warn(Gamep g, Levelsp v, Levelp l, const char *fmt, ...) CHECK_FORMAT_STR(printf, 4, 5);
 void thing_botcon(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 5, 6);

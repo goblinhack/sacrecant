@@ -373,7 +373,7 @@ void thing_free(Gamep g, Levelsp v, Levelp l, Thingp t)
     v->player_id = 0;
   }
 
-  if (tp_is_level_curr(tp)) {
+  if (tp_is_level_curr_icon(tp)) {
     v->level_select_id = 0;
   }
 

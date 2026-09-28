@@ -530,10 +530,10 @@
   return level_flag(g, v, l, is_usable, p, me);
 }
 
-[[nodiscard]] auto level_is_level_curr(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_level_curr_icon(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_level_curr, p, me);
+  return level_flag(g, v, l, is_level_curr_icon, p, me);
 }
 
 [[nodiscard]] auto level_is_critical_to_dungeon_design(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp

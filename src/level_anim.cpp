@@ -29,7 +29,7 @@ void level_anim(Gamep g, Levelsp v, Levelp l)
     Tpp tp = thing_tp(t);
 
     if (compiler_unused) {
-      if (thing_is_level_curr(t)) {
+      if (thing_is_level_curr_icon(t)) {
         THING_DBG(g, v, l, t, "anim");
       }
     }

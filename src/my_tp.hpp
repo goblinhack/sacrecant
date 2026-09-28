@@ -170,7 +170,7 @@
       list_macro(is_lava, "is_lava"),                                                       /* newline */                                       \
       list_macro(is_leather, "is_leather"),                                                 /* newline */                                       \
       list_macro(is_level_closed_icon, "is_level_closed_icon"),                             /* newline */                                       \
-      list_macro(is_level_curr, "is_level_curr"),                                           /* newline */                                       \
+      list_macro(is_level_curr_icon, "is_level_curr_icon"),                                 /* newline */                                       \
       list_macro(is_level_final_icon, "is_level_final_icon"),                               /* newline */                                       \
       list_macro(is_level_locked_icon, "is_level_locked_icon"),                             /* newline */                                       \
       list_macro(is_level_next_icon, "is_level_next_icon"),                                 /* newline */                                       \
@@ -1022,7 +1022,7 @@ class Tp;
 [[nodiscard]] auto tp_is_lava(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_leather(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_level_closed_icon(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_level_curr(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_level_curr_icon(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_level_final_icon(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_level_locked_icon(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_level_next_icon(Tpp tp) -> bool;

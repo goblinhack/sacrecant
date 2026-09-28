@@ -531,10 +531,10 @@
   return level_count(g, v, l, is_usable, p);
 }
 
-[[nodiscard]] auto level_count_is_level_curr(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_level_curr_icon(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_level_curr, p);
+  return level_count(g, v, l, is_level_curr_icon, p);
 }
 
 [[nodiscard]] auto level_count_is_critical_to_dungeon_design(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t

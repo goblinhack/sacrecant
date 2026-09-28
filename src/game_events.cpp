@@ -61,6 +61,14 @@
   }
 
   //
+  // If in level select mode, enter the new level
+  //
+  if (level_is_level_select(g, v, l)) {
+    (void) level_select_mouse_down(g, v, l);
+    return true;
+  }
+
+  //
   // Over the map?
   //
   if (! level_cursor_is_valid(g, v)) {
@@ -70,6 +78,7 @@
 
   switch (game_state(g)) {
     case STATE_CHOOSE_THROW_TARGET : [[fallthrough]];
+    case STATE_LEVEL_SELECT_MENU :   [[fallthrough]];
     case STATE_CHOOSE_SPELL_TARGET : [[fallthrough]];
     case STATE_PLAYING :             break;
     case STATE_COLLECT_MENU :        [[fallthrough]];
@@ -80,7 +89,6 @@
     case STATE_INVENTORY_MENU :      [[fallthrough]];
     case STATE_ITEM_MENU :           [[fallthrough]];
     case STATE_KEYBOARD_MENU :       [[fallthrough]];
-    case STATE_LEVEL_SELECT_MENU :   [[fallthrough]];
     case STATE_PLAYER_SELECT_MENU :  [[fallthrough]];
     case STATE_SPELL_LEARN_MENU :    [[fallthrough]];
     case STATE_SPELLBOOK_MENU :      [[fallthrough]];
@@ -212,9 +220,9 @@
   }
 
   switch (game_state(g)) {
+    case STATE_LEVEL_SELECT_MENU :   [[fallthrough]];
     case STATE_PLAYING :             break;
     case STATE_MAIN_MENU :           [[fallthrough]];
-    case STATE_LEVEL_SELECT_MENU :   [[fallthrough]];
     case STATE_PLAYER_SELECT_MENU :  [[fallthrough]];
     case STATE_SPELL_LEARN_MENU :    [[fallthrough]];
     case STATE_SPELLBOOK_MENU :      [[fallthrough]];
@@ -269,9 +277,9 @@
   TRACE_INDENT();
 
   switch (game_state(g)) {
+    case STATE_LEVEL_SELECT_MENU :   [[fallthrough]];
     case STATE_PLAYING :             break;
     case STATE_MAIN_MENU :           [[fallthrough]];
-    case STATE_LEVEL_SELECT_MENU :   [[fallthrough]];
     case STATE_PLAYER_SELECT_MENU :  [[fallthrough]];
     case STATE_SPELL_LEARN_MENU :    [[fallthrough]];
     case STATE_SPELLBOOK_MENU :      [[fallthrough]];

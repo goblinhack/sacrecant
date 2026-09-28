@@ -129,7 +129,7 @@ static bool tp_coil_eel_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attack
   thing_sound_play(g, v, l, attacker, "hiss");
 
   if (d100() < 20) {
-    if (thing_hook_add(g, v, l, target, tp_find_mand("buff_poison"))) {
+    if (thing_hook_add(g, v, l, target, tp_find_mand("debuff_poison"))) {
       if (thing_is_player(target)) {
         topcon("The coil eel sinks its fangs into you!");
       }

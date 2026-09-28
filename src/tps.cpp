@@ -26,12 +26,10 @@
   if (!tp_load_border()) { return false; }
   if (!tp_load_brazier()) { return false; }
   if (!tp_load_bridge()) { return false; }
-  if (!tp_load_buff_bad_luck()) { return false; }
   if (!tp_load_buff_good_luck()) { return false; }
   if (!tp_load_buff_immune_fire()) { return false; }
   if (!tp_load_buff_invis()) { return false; }
   if (!tp_load_buff_levit()) { return false; }
-  if (!tp_load_buff_poison()) { return false; }
   if (!tp_load_buff_prot()) { return false; }
   if (!tp_load_buff_resistant_fire()) { return false; }
   if (!tp_load_buff_stealth()) { return false; }
@@ -48,6 +46,8 @@
   if (!tp_load_cursor_at()) { return false; }
   if (!tp_load_cursor_path()) { return false; }
   if (!tp_load_death_fungus()) { return false; }
+  if (!tp_load_debuff_bad_luck()) { return false; }
+  if (!tp_load_debuff_poison()) { return false; }
   if (!tp_load_dirt()) { return false; }
   if (!tp_load_door_locked()) { return false; }
   if (!tp_load_door_secret()) { return false; }

@@ -531,10 +531,10 @@
   return level_flag_cached(g, v, l, is_usable, p);
 }
 
-[[nodiscard]] auto level_is_level_curr_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_level_curr_icon_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_level_curr, p);
+  return level_flag_cached(g, v, l, is_level_curr_icon, p);
 }
 
 [[nodiscard]] auto level_is_critical_to_dungeon_design_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

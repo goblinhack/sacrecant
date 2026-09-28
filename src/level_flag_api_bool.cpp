@@ -531,10 +531,10 @@
   return level_flag(g, v, l, is_usable, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_level_curr_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_level_curr_icon_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_level_curr, p, me) != nullptr;
+  return level_flag(g, v, l, is_level_curr_icon, p, me) != nullptr;
 }
 
 [[nodiscard]] auto level_is_critical_to_dungeon_design_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool

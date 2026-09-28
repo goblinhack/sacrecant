@@ -9,14 +9,14 @@
 #include "../../my_tps.hpp"
 #include "../../my_ui.hpp"
 
-static auto tp_buff_poison_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
+static auto tp_debuff_poison_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
 {
   TRACE();
 
   return UI_INFO1_FMT_STR "You are poisoned! Your health is ticking away!";
 }
 
-static void tp_poison_on_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
+static void tp_debuff_poison_on_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
 
@@ -26,16 +26,16 @@ static void tp_poison_on_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   }
 }
 
-[[nodiscard]] auto tp_load_buff_poison() -> bool
+[[nodiscard]] auto tp_load_debuff_poison() -> bool
 {
   TRACE();
 
-  auto *tp   = tp_load("buff_poison"); // keep as string for scripts
+  auto *tp   = tp_load("debuff_poison"); // keep as string for scripts
   auto  name = tp_name(tp);
 
   // begin sort marker1 {
-  thing_detail_set(tp, tp_buff_poison_detail_get);
-  thing_on_tick_begin_set(tp, tp_poison_on_tick_begin);
+  thing_detail_set(tp, tp_debuff_poison_detail_get);
+  thing_on_tick_begin_set(tp, tp_debuff_poison_on_tick_begin);
   tp_flag_set(tp, is_debuff);
   tp_flag_set(tp, is_hook);
   tp_flag_set(tp, is_loggable);
