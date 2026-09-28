@@ -121,7 +121,7 @@
   }
 
   TEST_ASSERT(t, monst, "expecting monster");
-  TEST_ASSERT(t, thing_is_levitating(g, v, l, monst), "expecting levitating monster");
+  TEST_ASSERT(t, thing_is_dead(monst), "expecting dead monster due to levitation");
 
   //
   // Check the eel does not move

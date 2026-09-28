@@ -17,6 +17,19 @@ static auto tp_fungus_death_description_get(Gamep g, Levelsp v, Levelp l, Thingp
   return "vibrant and healthy looking purple fungus.";
 }
 
+static bool tp_fungus_death_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
+{
+  TRACE();
+
+  auto at = thing_at(g, v, l, me);
+
+  if (! level_is_gas(g, v, l, at)) {
+    (void) thing_spawn(g, v, l, tp_random(g, v, l, is_gas_death), at);
+  }
+
+  return true; // allow the damage to be applied
+}
+
 [[nodiscard]] auto tp_load_death_fungus() -> bool
 {
   TRACE();
@@ -26,10 +39,13 @@ static auto tp_fungus_death_description_get(Gamep g, Levelsp v, Levelp l, Thingp
 
   // begin sort marker1 {
   thing_description_set(tp, tp_fungus_death_description_get);
+  thing_on_damage_set(tp, tp_fungus_death_on_damage);
   tp_chance_set(tp, THING_CHANCE_CONTINUE_TO_BURN, "1d2"); // fumble => intensify / keep burning / crit => stop burning
   tp_chance_set(tp, THING_CHANCE_START_BURNING, "1d2");    // fumble => flames spread to you
   tp_distance_light_penetration_pixels_set(tp, TILE_WIDTH / 2);
   tp_flag_set(tp, is_able_to_fall);
+  tp_flag_set(tp, is_attackable_by_monst);  // will continue to burn once on fire
+  tp_flag_set(tp, is_attackable_by_player); // will continue to burn once on fire
   tp_flag_set(tp, is_blit_hit_outline_w_black_inside);
   tp_flag_set(tp, is_blit_if_has_seen);
   tp_flag_set(tp, is_blit_obscures);
@@ -42,6 +58,7 @@ static auto tp_fungus_death_description_get(Gamep g, Levelsp v, Levelp l, Thingp
   tp_flag_set(tp, is_flammable); // easily catches fire
   tp_flag_set(tp, is_fungus);
   tp_flag_set(tp, is_loggable);
+  tp_flag_set(tp, is_obs_to_movement); // will continue to burn once on fire
   tp_flag_set(tp, is_obs_to_vision);
   tp_flag_set(tp, is_physics_explosion);
   tp_flag_set(tp, is_physics_temperature);

@@ -2729,9 +2729,9 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     return false;
   }
 
-  if (thing_is_dead(t)) {
-    return false;
-  }
+  //
+  // DO NOT ADD A DEAD CHECK HERE - THIS IS NEEDED FOR CLEANUP WHEN THE THING IS DEAD
+  //
 
   return tp_flag(thing_tp(t), is_able_to_be_buffed) != 0;
 }

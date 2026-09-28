@@ -10,7 +10,7 @@
 #include "../my_thing_inlines.hpp"
 #include "../my_wids.hpp"
 
-[[nodiscard]] static auto test_boost_steal_heal(Gamep g, Testp t) -> bool
+[[nodiscard]] static auto test_boost_healing_drain(Gamep g, Testp t) -> bool
 {
   TEST_LOG(t, "begin");
   TRACE();
@@ -156,13 +156,13 @@ exit:
   return result;
 }
 
-[[nodiscard]] auto test_load_boost_steal_heal() -> bool // NOLINT
+[[nodiscard]] auto test_load_boost_healing_drain() -> bool // NOLINT
 {
   TRACE();
 
-  Testp test = test_load("boost_steal_heal");
+  Testp test = test_load("boost_healing_drain");
 
-  test_callback_set(test, test_boost_steal_heal);
+  test_callback_set(test, test_boost_healing_drain);
 
   return true;
 }

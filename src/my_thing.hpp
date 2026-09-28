@@ -437,6 +437,10 @@ using Thing = struct Thing {
   //
   uint8_t _is_scheduled_for_cleanup : 1;
   //
+  // Thing is on the level's work list
+  //
+  uint8_t _is_scheduled_for_worklist : 1;
+  //
   // If you've fallen through a chasm twice, more damage.
   //
   uint8_t _is_falling_continues : 1;
@@ -1122,6 +1126,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_rubble(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_sacrifice(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_scheduled_for_cleanup(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_scheduled_for_worklist(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_shovable(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
 [[nodiscard]] auto thing_is_shown_health(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_shown_noise(Thingp t) -> bool;
@@ -1649,6 +1654,8 @@ auto thing_is_on_map_set(Gamep g, Levelsp v, Levelp l, Thingp t, bool val = true
 auto thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t) -> void;
 auto thing_is_scheduled_for_cleanup_set(Gamep g, Levelsp v, Levelp l, Thingp t, bool val = true) -> void;
 auto thing_is_scheduled_for_cleanup_unset(Gamep g, Levelsp v, Levelp l, Thingp t) -> void;
+auto thing_is_scheduled_for_worklist_set(Thingp t, bool val = true) -> void;
+auto thing_is_scheduled_for_worklist_unset(Thingp t) -> void;
 auto thing_is_sleeping_set(Gamep g, Levelsp v, Levelp l, Thingp me, bool val = true) -> void;
 auto thing_is_sleeping_unset(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
 auto thing_is_spawned_unset(Gamep g, Levelsp v, Levelp l, Thingp t) -> void;
@@ -1707,6 +1714,7 @@ auto wid_tp_info(Gamep g, Levelsp v, Levelp l, Tpp me, WidPopup *parent, int wid
 auto wid_unset_thing_context(Gamep g, Levelsp v, Widp w, Thingp t) -> void;
 auto wid_unset_tp_context(Gamep g, Widp w, Tpp tp) -> void;
 void level_botcon(Gamep g, Levelsp v, Levelp l, const char *fmt, ...) CHECK_FORMAT_STR(printf, 4, 5);
+void level_tick_remove_thing_from_worklist(Thingp me);
 void level_con(Gamep g, Levelsp v, Levelp l, const char *fmt, ...) CHECK_FORMAT_STR(printf, 4, 5);
 void level_dbg(Gamep g, Levelsp v, Levelp l, const char *fmt, ...) CHECK_FORMAT_STR(printf, 4, 5);
 void level_err(Gamep g, Levelsp v, Levelp l, const char *fmt, ...) CHECK_FORMAT_STR(printf, 4, 5);
@@ -1766,6 +1774,13 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
 //
 // NOTE: break will not work
 //
+#define FOR_ALL_HOOKS_DUMP(_g_, _v_, _l_, _owner_, _slot_, _hook_)                                                                              \
+  if ((_g_) && (_v_) && (_l_))                                                                                                                  \
+    if (AUTO(_ext_) = thing_ext_struct(_g_, _v_, _owner_))                                                                                      \
+      for (auto _n_ = 0; _n_ < THING_HOOK_MAX; _n_++)                                                                                           \
+        for (AUTO(_slot_) = &_ext_->hooks.hook[ _n_ ]; _slot_; (_slot_) = nullptr)                                                              \
+          log("owner: id %08" PRIX32 " slot: %d, hook id %08" PRIX32 "", _owner_->id, _n_, (_slot_)->hook_id);
+
 #define FOR_ALL_HOOKS_SLOTS(_g_, _v_, _l_, _owner_, _slot_, _hook_)                                                                             \
   if ((_g_) && (_v_) && (_l_))                                                                                                                  \
     if (AUTO(_ext_) = thing_ext_struct(_g_, _v_, _owner_))                                                                                      \

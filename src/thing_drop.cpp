@@ -52,7 +52,7 @@ static auto thing_drop_item(Gamep g, Levelsp v, Levelp l, Thingp user, Thingp it
       // Needed for cursed items
       //
       if (thing_is_tick_on_drop(item)) {
-        (void) level_tick_begin_requested(g, v, l, "player failed dropped an item");
+        (void) level_tick_begin_requested(g, v, l, "player failed to drop an item");
       }
     }
 
@@ -139,6 +139,13 @@ static auto thing_drop_item(Gamep g, Levelsp v, Levelp l, Thingp user, Thingp it
   thing_inventory_dump(g, v, l, user);
 
   item->tick_dropped = v->tick;
+
+  //
+  // Dropping during cleanup?
+  //
+  if (e.event_type == THING_EVENT_FINI) {
+    thing_fini(g, v, l, item);
+  }
 
   return true;
 }

@@ -140,8 +140,7 @@ void level_cursor_describe_update(Gamep g, Levelsp v)
   }
 
   for (uint32_t &i : v->describe) {
-    auto *cand = thing_find_optional(g, v, t->id);
-    if (cand == t) {
+    if (t->id == i) {
       i = 0;
       level_cursor_describe_update(g, v);
       return true;

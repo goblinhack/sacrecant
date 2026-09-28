@@ -361,7 +361,7 @@ void thing_free(Gamep g, Levelsp v, Levelp l, Thingp t)
 
   auto *o = thing_find(g, v, t->id);
   if (t != o) {
-    CROAK("thing mismatch found for id, %p %08" PRIX32 "", (void *) t, t->id);
+    CROAK("thing_free: thing mismatch found for id, %p %08" PRIX32 "", (void *) t, t->id);
   }
 
   auto *tp = thing_tp(t);
@@ -384,6 +384,11 @@ void thing_free(Gamep g, Levelsp v, Levelp l, Thingp t)
   if (v->is_generating_levels) {
     CROAK("unexpected to be freeing things during creation");
   }
+
+  //
+  // Remove from descriptions
+  //
+  (void) level_cursor_describe_remove(g, v, t);
 
   (void) thing_pop(g, v, t);
 
@@ -458,4 +463,38 @@ void thing_is_scheduled_for_cleanup_unset(Gamep g, Levelsp v, Levelp l, Thingp t
   TRACE_DEBUG();
 
   thing_is_scheduled_for_cleanup_set(g, v, l, t, false);
+}
+
+[[nodiscard]] auto thing_is_scheduled_for_worklist(Thingp t) -> bool
+{
+  TRACE_DEBUG();
+
+  if (t == nullptr) {
+    ERR("no thing pointer");
+    return false;
+  }
+
+  return t->_is_scheduled_for_worklist;
+}
+
+void thing_is_scheduled_for_worklist_set(Thingp t, bool val)
+{
+  TRACE_DEBUG();
+
+  if (t == nullptr) {
+    ERR("no thing pointer");
+    return;
+  }
+
+  if (t->_is_scheduled_for_worklist == static_cast< int >(val)) {
+    return;
+  }
+  t->_is_scheduled_for_worklist = val;
+}
+
+void thing_is_scheduled_for_worklist_unset(Thingp t)
+{
+  TRACE_DEBUG();
+
+  thing_is_scheduled_for_worklist_set(t, false);
 }

@@ -538,6 +538,7 @@ static void level_tick_begin(Gamep g, Levelsp v, Levelp l)
             }
           }
 
+          thing_is_scheduled_for_worklist_set(t);
           worklist.push_back(t->id);
         }
       }
@@ -555,6 +556,13 @@ static void level_tick_worklist(Gamep g, Levelsp v)
 
   auto *player_level = thing_player_level(g);
   if (player_level == nullptr) {
+    for (auto w : worklist) {
+      auto *t = thing_find_optional(g, v, w);
+      if (t != nullptr) {
+        thing_is_scheduled_for_worklist_unset(t);
+      }
+    }
+
     worklist.clear();
     return;
   }
@@ -575,6 +583,7 @@ static void level_tick_worklist(Gamep g, Levelsp v)
 
     auto *t = thing_find_optional(g, v, id);
     if (t != nullptr) {
+      thing_is_scheduled_for_worklist_unset(t);
       if (! thing_is_dead(t)) {
         auto *monst_level = thing_level(g, v, t);
         if ((monst_level != nullptr) && (monst_level == player_level)) {
@@ -587,6 +596,22 @@ static void level_tick_worklist(Gamep g, Levelsp v)
       return;
     }
   }
+}
+
+//
+// Remove from worklist
+//
+void level_tick_remove_thing_from_worklist(Thingp me)
+{
+  TRACE();
+
+  if (! me) {
+    return;
+  }
+
+  worklist.erase(std::find(worklist.begin(), worklist.end(), me->id));
+
+  thing_is_scheduled_for_worklist_unset(me);
 }
 
 static void level_tick_in_progress(Gamep g, Levelsp v, Levelp l)

@@ -174,7 +174,7 @@
   TEST_PROGRESS(t);
   {
     TRACE();
-    if (thing_find_optional(g, v, mob_id) != nullptr) {
+    if (thing_find_optional_may_be_freed(g, v, mob_id) != nullptr) {
       TEST_FAILED(t, "found mob, but it should have been freed");
       goto exit;
     }

@@ -409,14 +409,56 @@
   if (v->thing_body_debug[ arr_index ]) {
     t = v->thing_body_debug[ arr_index ];
   }
-#endif
 
   if (t == nullptr) {
     return nullptr;
   }
+#endif
 
   if (t->id == id) {
     return t;
+  }
+
+  if (t->id) {
+    thing_err(g, v, thing_level(g, v, t), t, "thing_find_optional: thing mismatch found for id, %p %08" PRIX32 "", (void *) t, t->id);
+  } else {
+    thing_err(g, v, thing_level(g, v, t), t, "thing_find_optional: thing already freed for id, %p %08" PRIX32 "", (void *) t, t->id);
+  }
+
+  return nullptr;
+}
+
+[[nodiscard]] static inline auto thing_find_optional_may_be_freed(Gamep g, Levelsp v, ThingId id) -> Thingp
+{
+#ifdef DEBUG_BUILD
+  TRACE_DEBUG(); // expensive
+#endif
+
+  if (! static_cast< bool >(id)) {
+    return nullptr;
+  }
+
+  ThingIdPacked id_packed;
+  id_packed.a.val = id;
+  auto arr_index  = id_packed.c.arr_index;
+
+  auto *t = &v->thing_body[ arr_index ];
+#ifdef ENABLE_PER_THING_MEMORY
+  if (v->thing_body_debug[ arr_index ]) {
+    t = v->thing_body_debug[ arr_index ];
+  }
+
+  if (t == nullptr) {
+    return nullptr;
+  }
+#endif
+
+  if (t->id == id) {
+    return t;
+  }
+
+  if (t->id) {
+    thing_err(g, v, thing_level(g, v, t), t, "thing_find_optional: thing mismatch found for id, %p %08" PRIX32 "", (void *) t, t->id);
   }
 
   return nullptr;

@@ -36,12 +36,12 @@ static void thing_dump_buffs(Gamep g, Levelsp v, Levelp l, Thingp me)
   FOR_ALL_HOOKS_SLOTS(g, v, l, me, slot, a_buff)
   {
     if (a_buff == nullptr) {
-      THING_DBG(g, v, l, me, "slot %d: -", _n_);
+      thing_log(g, v, l, me, "slot %d: -", _n_);
       continue;
     }
 
     auto s = to_string(g, v, l, a_buff);
-    THING_DBG(g, v, l, me, "slot %d: %s", _n_, s.c_str());
+    thing_log(g, v, l, me, "slot %d: %s", _n_, s.c_str());
   }
 }
 
@@ -126,36 +126,18 @@ static void thing_hook_sort(Gamep g, Levelsp v, Levelp l, Thingp me)
       if (thing_is_sacrifice(hook)) {
         new_buffs.hook[ count++ ] = *slot;
         *slot                     = {};
-      }
-    }
-  }
-
-  FOR_ALL_HOOKS_SLOTS(g, v, l, me, slot, hook)
-  {
-    if (hook != nullptr) {
-      if (thing_is_boost(hook)) {
+      } else if (thing_is_boost(hook)) {
         new_buffs.hook[ count++ ] = *slot;
         *slot                     = {};
-      }
-    }
-  }
-
-  FOR_ALL_HOOKS_SLOTS(g, v, l, me, slot, hook)
-  {
-    if (hook != nullptr) {
-      if (thing_is_buff(hook)) {
+      } else if (thing_is_buff(hook)) {
         new_buffs.hook[ count++ ] = *slot;
         *slot                     = {};
-      }
-    }
-  }
-
-  FOR_ALL_HOOKS_SLOTS(g, v, l, me, slot, hook)
-  {
-    if (hook != nullptr) {
-      if (thing_is_debuff(hook)) {
+      } else if (thing_is_debuff(hook)) {
         new_buffs.hook[ count++ ] = *slot;
         *slot                     = {};
+      } else {
+        thing_dump_buffs(g, v, l, me);
+        thing_err(g, v, l, me, "unexpected hook type");
       }
     }
   }
@@ -183,6 +165,11 @@ static void thing_hook_sort(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   if (! thing_is_able_to_be_buffed(me)) {
     thing_log(g, v, l, me, "thing trying to add hooks when it cannot");
+    return nullptr;
+  }
+
+  if (thing_is_dead(me)) {
+    thing_log(g, v, l, me, "thing trying to add hooks when dead");
     return nullptr;
   }
 
@@ -249,9 +236,9 @@ static void thing_hook_sort(Gamep g, Levelsp v, Levelp l, Thingp me)
     THING_DBG(g, v, l, me, "added hook %s", to_string(g, v, l, new_hook).c_str());
     THING_DBG(g, v, l, new_hook, "new born hook");
 
-    thing_hook_sort(g, v, l, me);
-
     thing_on_hook_attached(g, v, l, new_hook);
+
+    thing_hook_sort(g, v, l, me);
 
     return new_hook;
   }
@@ -388,7 +375,7 @@ static auto thing_hook_detach_from_owner(Gamep g, Levelsp v, Levelp l, Thingp me
     return false;
   }
 
-  if (! thing_is_buff(me)) {
+  if (! thing_is_hook(me)) {
     thing_err(g, v, l, me, "non hook trying to detach itself");
     return false;
   }

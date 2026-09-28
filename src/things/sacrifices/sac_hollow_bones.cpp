@@ -66,6 +66,7 @@ static bool tp_sac_hollow_bones_on_damage(Gamep g, Levelsp v, Levelp l, Thingp m
     case THING_EVENT_MELT :             [[fallthrough]];
     case THING_EVENT_USER_INITIATED :   [[fallthrough]];
     case THING_EVENT_SPAWNED :          [[fallthrough]];
+    case THING_EVENT_FINI :             [[fallthrough]];
     case THING_EVENT_ENUM_MAX : //
       break;
   }

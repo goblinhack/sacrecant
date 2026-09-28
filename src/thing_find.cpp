@@ -22,7 +22,7 @@
 
   auto *t = &v->thing_body[ arr_index ];
   if (t == nullptr) [[unlikely]] {
-    CROAK("thing not found as id 08%" PRIX32 //
+    CROAK("thing not found as id %08" PRIX32 //
           " (level: %" PRIu32                //
           " id: %08" PRIX32                  //
           " entropy: %08" PRIX32             //
@@ -37,11 +37,11 @@
     ThingIdPacked id_found = {};
     id_found.a.val         = t->id;
 
-    CROAK("thing %p found as id 08%" PRIX32                      //
+    CROAK("thing %p found as id %08" PRIX32                      //
           " (level: %" PRIu32                                    //
           " id: %08" PRIX32                                      //
           " entropy: %08" PRIX32                                 //
-          "), but entropy mismatch with expected id, 08%" PRIX32 //
+          "), but entropy mismatch with expected id, %08" PRIX32 //
           " (level: %" PRIu32                                    //
           " id: %08" PRIX32                                      //
           " entropy: %08" PRIX32                                 //

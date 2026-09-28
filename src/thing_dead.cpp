@@ -104,6 +104,7 @@ static void thing_killed_player(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEv
       case THING_EVENT_USED :             [[fallthrough]];
       case THING_EVENT_LEVITATED :        [[fallthrough]];
       case THING_EVENT_NONE :             [[fallthrough]];
+      case THING_EVENT_FINI :             [[fallthrough]];
       case THING_EVENT_FALL :             [[fallthrough]];
       case THING_EVENT_GAME_OVER :        [[fallthrough]];
       case THING_EVENT_LIFESPAN_EXPIRED : [[fallthrough]];
@@ -171,6 +172,7 @@ static void thing_killed_player(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEv
       case THING_EVENT_MELT :           [[fallthrough]];
       case THING_EVENT_USER_INITIATED : [[fallthrough]];
       case THING_EVENT_SPAWNED :        [[fallthrough]];
+      case THING_EVENT_FINI :           [[fallthrough]];
       case THING_EVENT_ENUM_MAX : //
         ERR("unexpected event: %s", ThingEventType_to_string(e.event_type).c_str());
         break;
@@ -294,6 +296,7 @@ static void thing_killed_by_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
     case THING_EVENT_MELT :             [[fallthrough]];
     case THING_EVENT_USER_INITIATED :   [[fallthrough]];
     case THING_EVENT_SPAWNED :          [[fallthrough]];
+    case THING_EVENT_FINI :             [[fallthrough]];
     case THING_EVENT_ENUM_MAX : //
       ERR("unexpected event: %s", ThingEventType_to_string(e.event_type).c_str());
       break;
@@ -405,6 +408,7 @@ static void thing_killed_by_other(Gamep g, Levelsp v, Levelp l, Thingp me, Thing
       case THING_EVENT_MELT :             [[fallthrough]];
       case THING_EVENT_USER_INITIATED :   [[fallthrough]];
       case THING_EVENT_SPAWNED :          [[fallthrough]];
+      case THING_EVENT_FINI :             [[fallthrough]];
       case THING_EVENT_ENUM_MAX : //
         ERR("unexpected event: %s", ThingEventType_to_string(e.event_type).c_str());
         break;
@@ -461,6 +465,7 @@ static void thing_killed_by_other(Gamep g, Levelsp v, Levelp l, Thingp me, Thing
       case THING_EVENT_MELT :             [[fallthrough]];
       case THING_EVENT_USER_INITIATED :   [[fallthrough]];
       case THING_EVENT_SPAWNED :          break;
+      case THING_EVENT_FINI :             [[fallthrough]];
       case THING_EVENT_ENUM_MAX : //
         ERR("unexpected event: %s", ThingEventType_to_string(e.event_type).c_str());
         break;
@@ -480,14 +485,16 @@ void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
     thing_croak(g, v, l, me, "no death reason set");
   }
 
-  if (thing_is_corpse(me)) {
-    if (! thing_is_able_to_resurrect(me)) {
+  if (e.event_type != THING_EVENT_FINI) {
+    if (thing_is_corpse(me)) {
+      if (! thing_is_able_to_resurrect(me)) {
+        return;
+      }
+      THING_DBG(g, v, l, me, "is a corpse already");
+    } else if (thing_is_dead(me)) {
+      THING_DBG(g, v, l, me, "is already dead");
       return;
     }
-    THING_DBG(g, v, l, me, "is a corpse already");
-  } else if (thing_is_dead(me)) {
-    THING_DBG(g, v, l, me, "is already dead");
-    return;
   }
 
   auto *tp = thing_tp(me);
@@ -509,15 +516,17 @@ void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
 
   auto *killer = thing_get_attacker(g, v, l, e);
 
-  //
-  // Call this prior to setting death, else we are told that we killed an already dead thing
-  //
-  if (thing_is_player(me)) {
-    thing_killed_player(g, v, l, me, e);
-  } else if ((killer != nullptr) && thing_is_player(killer)) {
-    thing_killed_by_player(g, v, l, me, e);
-  } else if (thing_is_monst(me)) {
-    thing_killed_by_other(g, v, l, me, e);
+  if (e.event_type != THING_EVENT_FINI) {
+    //
+    // Call this prior to setting death, else we are told that we killed an already dead thing
+    //
+    if (thing_is_player(me)) {
+      thing_killed_player(g, v, l, me, e);
+    } else if ((killer != nullptr) && thing_is_player(killer)) {
+      thing_killed_by_player(g, v, l, me, e);
+    } else if (thing_is_monst(me)) {
+      thing_killed_by_other(g, v, l, me, e);
+    }
   }
 
   thing_is_dead_set(g, v, l, me);
@@ -546,71 +555,74 @@ void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   //
   thing_move_finish(g, v, l, me);
 
-  //
-  // Do adjacent tiles need updating due to the destruction of this tiled thing?
-  //
-  if (thing_is_dmap(me) || thing_is_tiled(me)) {
-    level_update_paths_set(g, v, l, thing_at(g, v, l, me));
-  }
-
   me->tick_dead = v->tick;
 
   //
-  // Leaves a corpse?
+  // Do adjacent tiles need updating due to the destruction of this tiled thing?
   //
-  if (thing_is_corpse(me)) {
-    //
-    // Already a corpse, clean it up
-    //
-    thing_is_scheduled_for_cleanup_set(g, v, l, me);
-  } else if (thing_corpse_allowed(g, v, l, me)) {
-    //
-    // Keep the thing on the map, but in dead state.
-    //
-    thing_is_corpse_set(g, v, l, me);
-  } else {
-    //
-    // Schedule for removal from the map and freeing
-    //
-    thing_is_scheduled_for_cleanup_set(g, v, l, me);
-  }
-
-  //
-  // Request end of game if this is the player
-  //
-  if (thing_is_player(me)) {
-    //
-    // No more following the cursor if dead...
-    //
-    player_state_change(g, v, l, PLAYER_STATE_DEAD);
-
-    auto death_reason = to_death_reason_string(g, v, l, me, e);
-
-    //
-    // Hiscore?
-    //
-    auto score = thing_score(g, me);
-    if (game_is_new_hiscore(g, score)) {
-      topcon(UI_GOOD_FMT_STR "New high score, %s place!" UI_RESET_FMT, game_place_str(g, score));
-      game_add_new_hiscore(g, score, l->level_num, game_player_name_get(g), death_reason.c_str());
+  if (e.event_type != THING_EVENT_FINI) {
+    if (thing_is_dmap(me) || thing_is_tiled(me)) {
+      level_update_paths_set(g, v, l, thing_at(g, v, l, me));
     }
 
     //
-    // Request the dead menu at end of tick
+    // Leaves a corpse?
     //
-    game_request_to_end_game_set(g);
-    game_request_to_end_game_reason_set(g, death_reason);
-  }
+    if (thing_is_corpse(me)) {
+      //
+      // Already a corpse, clean it up
+      //
+      thing_is_scheduled_for_cleanup_set(g, v, l, me);
+    } else if (thing_corpse_allowed(g, v, l, me)) {
+      //
+      // Keep the thing on the map, but in dead state.
+      //
+      thing_is_corpse_set(g, v, l, me);
+    } else {
+      //
+      // Schedule for removal from the map and freeing
+      //
+      thing_is_scheduled_for_cleanup_set(g, v, l, me);
+    }
 
-  //
-  // Per thing callback
-  //
-  thing_on_death(g, v, l, me, e);
+    //
+    // Request end of game if this is the player
+    //
+    if (thing_is_player(me)) {
+      //
+      // No more following the cursor if dead...
+      //
+      player_state_change(g, v, l, PLAYER_STATE_DEAD);
+
+      auto death_reason = to_death_reason_string(g, v, l, me, e);
+
+      //
+      // Hiscore?
+      //
+      auto score = thing_score(g, me);
+      if (game_is_new_hiscore(g, score)) {
+        topcon(UI_GOOD_FMT_STR "New high score, %s place!" UI_RESET_FMT, game_place_str(g, score));
+        game_add_new_hiscore(g, score, l->level_num, game_player_name_get(g), death_reason.c_str());
+      }
+
+      //
+      // Request the dead menu at end of tick
+      //
+      game_request_to_end_game_set(g);
+      game_request_to_end_game_reason_set(g, death_reason);
+    }
+
+    //
+    // Per thing callback
+    //
+    thing_on_death(g, v, l, me, e);
+  }
 
   //
   // If the mob dies, unleash or kill minions
   //
   if (thing_is_mob(me)) {
+    TRACE_INDENT();
     if (thing_is_mob_kill_minions_on_death(me)) {
       (void) thing_mob_kill_all_minions(g, v, l, me, e);
     } else {
@@ -622,6 +634,7 @@ void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   // Unleash minions from mobs
   //
   if (thing_is_minion(me)) {
+    TRACE_INDENT();
     (void) thing_minion_detach_me_from_mob(g, v, l, me);
   }
 
@@ -629,6 +642,7 @@ void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   // Not sure if we kill or just detach projectiles
   //
   if (thing_is_able_to_fire_weapons(me)) {
+    TRACE_INDENT();
     (void) thing_missile_detach_all_fired(g, v, l, me);
   }
 
@@ -636,6 +650,7 @@ void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   // Detach weapons from owners
   //
   if (thing_is_projectile(me) || thing_is_beam_weapon(me)) {
+    TRACE_INDENT();
     (void) thing_missile_detach_me_from_firer(g, v, l, me);
   }
 
@@ -643,10 +658,12 @@ void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   // Detach buffs
   //
   if (thing_is_able_to_be_buffed(me)) {
+    TRACE_INDENT();
     (void) thing_hook_detach_all(g, v, l, me);
   }
 
-  if (thing_is_buff(me)) {
+  if (thing_is_hook(me)) {
+    TRACE_INDENT();
     (void) thing_hook_detach_me_from_owner(g, v, l, me);
   }
 
@@ -654,6 +671,7 @@ void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   // Detach items from owners
   //
   if (thing_is_carried(me)) {
+    TRACE_INDENT();
     auto *owner = thing_owner(g, v, l, me);
     if (owner != nullptr) {
       if (! thing_drop(g, v, l, owner, me, e)) {
@@ -665,6 +683,7 @@ void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
     // Drop all items
     //
     if (thing_is_able_to_drop_all_items_on_death(me)) {
+      TRACE_INDENT();
       (void) thing_drop_all(g, v, l, me, e);
     }
   }
@@ -683,12 +702,23 @@ void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   thing_is_sleeping_unset(g, v, l, me);
 
   //
+  // Remove from level worklist
+  //
+  if (thing_is_scheduled_for_worklist(me)) {
+    level_tick_remove_thing_from_worklist(me);
+  }
+
+  //
   // Give score bonus to the player
   //
-  if ((killer != nullptr) && (killer != me) && thing_is_player(killer)) {
-    auto bonus = tp_score_value_get(tp);
-    (void) thing_score_incr(g, v, l, killer, bonus);
+  if (e.event_type != THING_EVENT_FINI) {
+    if ((killer != nullptr) && (killer != me) && thing_is_player(killer)) {
+      auto bonus = tp_score_value_get(tp);
+      (void) thing_score_incr(g, v, l, killer, bonus);
+    }
   }
+
+  THING_DBG(g, v, l, me, "is dead complete");
 }
 
 void thing_is_dead_set(Gamep g, Levelsp v, Levelp l, Thingp t, bool val)

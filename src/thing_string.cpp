@@ -23,6 +23,8 @@
     return "<no thing>";
   }
 
+  //  log("to_string: thing id %08" PRIX32 "", t->id);
+
   auto *tp = thing_tp(t);
   if (t == nullptr) {
     ERR("no thing template pointer");
@@ -37,7 +39,7 @@
   auto at = thing_at(g, v, l, t);
 
   std::string out
-      = /* keep ( */ (std::format("{:08x}"
+      = /* keep ( */ (std::format("{:08X}"
                                   /* level num                     */ " l{}"
                                   /* tick                          */ " t{:3}"
                                   /* thing_health                  */ " h{:<3}"
@@ -198,6 +200,7 @@
     case THING_EVENT_THROWN : //
       s += "thrown";
       break;
+    case THING_EVENT_FINI :     [[fallthrough]];
     case THING_EVENT_ENUM_MAX : break;
   }
 

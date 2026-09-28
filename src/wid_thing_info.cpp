@@ -1016,6 +1016,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
       case THING_EVENT_USED :             [[fallthrough]];
       case THING_EVENT_EATEN :            [[fallthrough]];
       case THING_EVENT_LEVITATED :        [[fallthrough]];
+      case THING_EVENT_FINI :             [[fallthrough]];
       case THING_EVENT_ENUM_MAX : //
         show_string = false;
         break;
@@ -1768,6 +1769,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
       case THING_EVENT_USED :             [[fallthrough]];
       case THING_EVENT_EATEN :            [[fallthrough]];
       case THING_EVENT_LEVITATED :        [[fallthrough]];
+      case THING_EVENT_FINI :             [[fallthrough]];
       case THING_EVENT_ENUM_MAX : //
         show_string = false;
         break;
@@ -1836,6 +1838,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
       case THING_EVENT_USED :             [[fallthrough]];
       case THING_EVENT_EATEN :            [[fallthrough]];
       case THING_EVENT_LEVITATED :        [[fallthrough]];
+      case THING_EVENT_FINI :             [[fallthrough]];
       case THING_EVENT_ENUM_MAX : //
         show_string = false;
         break;

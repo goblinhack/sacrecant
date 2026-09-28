@@ -147,8 +147,15 @@
     return false;
   }
 
+  THING_DBG(g, v, l, mob, "process minions");
+  TRACE_INDENT();
+
+  IF_DEBUG2 { thing_mob_dump_minions(g, v, l, mob); }
+
   FOR_ALL_MINION_SLOTS(g, v, l, mob, slot, minion)
   {
+    TRACE();
+
     if (minion == nullptr) {
       continue;
     }
@@ -158,6 +165,9 @@
         continue;
       }
     }
+
+    THING_DBG(g, v, l, minion, "process minion");
+    TRACE_INDENT();
 
     if (! static_cast< bool >(minion->mob_id)) {
       thing_err(g, v, l, mob, "mob found detached minion: %s", to_string(g, v, l, minion).c_str());

@@ -863,6 +863,10 @@ static auto level_select_next(Gamep g, Levelsp v, Levelp l, Levelp level_over) -
     // ok to choose
     ok_to_choose = true;
   }
+  if (level_is_level_curr(g, v, l, at) != nullptr) {
+    // ok to choose
+    ok_to_choose = true;
+  }
 
   //
   // Switch to the chosen level if possible; allow going back to the old level to clean up if needed
