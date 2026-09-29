@@ -454,7 +454,6 @@ void tp_load_player_common(Tpp tp)
   tp_distance_throw_set(tp, 6);
   tp_distance_vision_set(tp, MAP_WIDTH); // tiles
   tp_flag_set(tp, is_able_to_be_buffed);
-  tp_flag_set(tp, is_able_to_heal);
   tp_flag_set(tp, is_able_to_be_engulfed);
   tp_flag_set(tp, is_able_to_be_ensnared);
   tp_flag_set(tp, is_able_to_be_invisible);
@@ -470,6 +469,7 @@ void tp_load_player_common(Tpp tp)
   tp_flag_set(tp, is_able_to_fall_sound);
   tp_flag_set(tp, is_able_to_fall);
   tp_flag_set(tp, is_able_to_fire_weapons);
+  tp_flag_set(tp, is_able_to_heal);
   tp_flag_set(tp, is_able_to_jump);
   tp_flag_set(tp, is_able_to_lunge);
   tp_flag_set(tp, is_able_to_move_diagonally);

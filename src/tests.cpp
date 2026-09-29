@@ -54,6 +54,7 @@
   if (!test_load_foliage_on_fire()) { return false; }
   if (!test_load_fungus_death_player_dies()) { return false; }
   if (!test_load_fungus_death_player_lives()) { return false; }
+  if (!test_load_fungus_life_player_healing()) { return false; }
   if (!test_load_gas_death_monst_dies()) { return false; }
   if (!test_load_gas_death_monst_lives()) { return false; }
   if (!test_load_gas_life_heal_player()) { return false; }

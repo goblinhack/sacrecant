@@ -68,6 +68,8 @@ static bool tp_fungus_life_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, Th
   tp_chance_set(tp, THING_CHANCE_START_BURNING, "1d2");    // fumble => flames spread to you
   tp_distance_light_penetration_pixels_set(tp, TILE_WIDTH / 2);
   tp_flag_set(tp, is_able_to_fall);
+  tp_flag_set(tp, is_attackable_by_monst);  // will continue to burn once on fire
+  tp_flag_set(tp, is_attackable_by_player); // will continue to burn once on fire
   tp_flag_set(tp, is_blit_hit_outline_w_black_inside);
   tp_flag_set(tp, is_blit_if_has_seen);
   tp_flag_set(tp, is_blit_obscures);
@@ -80,6 +82,7 @@ static bool tp_fungus_life_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, Th
   tp_flag_set(tp, is_flammable); // easily catches fire
   tp_flag_set(tp, is_fungus);
   tp_flag_set(tp, is_loggable);
+  tp_flag_set(tp, is_obs_to_movement); // will continue to burn once on fire
   tp_flag_set(tp, is_obs_to_vision);
   tp_flag_set(tp, is_physics_explosion);
   tp_flag_set(tp, is_physics_temperature);

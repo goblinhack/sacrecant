@@ -52,6 +52,7 @@ auto test_load_fire_over_chasm() -> bool;
 auto test_load_foliage_on_fire() -> bool;
 auto test_load_fungus_death_player_dies() -> bool;
 auto test_load_fungus_death_player_lives() -> bool;
+auto test_load_fungus_life_player_healing() -> bool;
 auto test_load_gas_death_monst_dies() -> bool;
 auto test_load_gas_death_monst_lives() -> bool;
 auto test_load_gas_life_heal_player() -> bool;
