@@ -166,6 +166,7 @@ static void tp_gas_death_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_flag_set(tp, is_removable_on_err);
   tp_flag_set(tp, is_tickable);
   tp_flag_set(tp, is_tiled);
+  tp_lifespan_set(tp, "1d8+22");
   tp_name_a_or_an_set(tp, "deathly gas");
   tp_name_apostrophize_set(tp, "deathly gas'");
   tp_name_long_set(tp, "deathly gas");
@@ -174,7 +175,6 @@ static void tp_gas_death_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_priority_set(tp, THING_PRIORITY_GAS);
   tp_weight_set(tp, WEIGHT_NONE); // grams
   tp_z_depth_set(tp, MAP_Z_DEPTH_GAS);
-  tp_lifespan_set(tp, "1d8+22");
   // end sort marker1 }
 
   auto delay = 200;
