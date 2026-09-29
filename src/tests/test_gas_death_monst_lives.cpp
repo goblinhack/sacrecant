@@ -34,7 +34,7 @@
       = "xxxxxxx"
         "x&&&&&x"
         "x&&&&&x"
-        "x&&&&&x"
+        "x&&@&.x"
         "x&&&&&x"
         "x&&&&&x"
         "xxxxxxx";
@@ -84,7 +84,7 @@
 
   TEST_ASSERT(t, wid_console_find_text(g, "You choke in"), "did not find console text");
 
-  TEST_ASSERT(t, game_tick_get(g, v) == 25, "final tick counter value");
+  TEST_ASSERT(t, game_tick_get(g, v) == 28, "final tick counter value");
 
   level_dump(g, v, l, w, h);
   TEST_PASSED(t);

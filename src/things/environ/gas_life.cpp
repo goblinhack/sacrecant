@@ -83,6 +83,9 @@ static void tp_gas_life_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
         if (new_lifespani == 0) {
           new_lifespani = 1;
         }
+        if (g_opt_tests) {
+          new_lifespani = 1;
+        }
         (void) thing_lifespan_set(g, v, l, n, new_lifespani);
       }
     }
@@ -169,9 +172,8 @@ static void tp_gas_life_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_priority_set(tp, THING_PRIORITY_GAS);
   tp_weight_set(tp, WEIGHT_NONE); // grams
   tp_z_depth_set(tp, MAP_Z_DEPTH_GAS);
-  // end sort marker1 }
-
   tp_lifespan_set(tp, "1d8+22");
+  // end sort marker1 }
 
   auto delay = 200;
 

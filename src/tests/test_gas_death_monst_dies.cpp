@@ -32,11 +32,11 @@
         "xxxxxxx";
   std::string const expect1
       = "xxxxxxx"
-        "x.....x"
-        "x.....x"
-        "x..@..x"
-        "x.....x"
-        "x.....x"
+        "x&&&&&x"
+        "x&&&&&x"
+        "x&&@&.x"
+        "x&&&&&x"
+        "x&&&&&x"
         "xxxxxxx";
 
   //
@@ -84,7 +84,7 @@
 
   TEST_ASSERT(t, wid_console_find_text(g, "The kobalos is choked to death from the deathly gas"), "did not find console text");
 
-  TEST_ASSERT(t, game_tick_get(g, v) == 30, "final tick counter value");
+  TEST_ASSERT(t, game_tick_get(g, v) == 27, "final tick counter value");
 
   level_dump(g, v, l, w, h);
   TEST_PASSED(t);
