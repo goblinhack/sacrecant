@@ -83,7 +83,7 @@ static void thing_attack_missed_player(Gamep g, Levelsp v, Levelp l, Thingp atta
 //
 // The player missed
 //
-static void thing_attack_player_missed(Gamep g, Levelsp v, Levelp l, Thingp attacker_player, Thingp it, ThingEvent &e)
+static void thing_attack_player_missed(Gamep g, Levelsp v, Levelp l, Thingp attacker_player, Thingp it)
 {
   TRACE();
 
@@ -222,7 +222,7 @@ static auto thing_attack_at_do(Gamep g, Levelsp v, Levelp l, Thingp attacker, Th
 
     if (thing_is_player(attacker)) {
       // You miss
-      thing_attack_player_missed(g, v, l, attacker, me, e);
+      thing_attack_player_missed(g, v, l, attacker, me);
       return false;
     }
   }

@@ -3079,7 +3079,7 @@ static void level_gen_blob(Gamep g, class LevelGen *lg, char c)
   cave_create(g, &lg->cave, fill_prob, r1, r2, map_generations);
 
   if (compiler_unused) {
-    if (lg->level_num == 0u) {
+    if (lg->level_num == 0U) {
       cave_dump(lg);
     }
     level_gen_dump(lg);
