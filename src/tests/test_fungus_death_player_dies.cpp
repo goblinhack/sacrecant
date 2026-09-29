@@ -40,11 +40,11 @@
         "xxxxxxx";
   std::string const expect2
       = "xxxxxxx"
-        "x..&&&x"
-        "x.&&&&x"
-        "x.&&&&x"
-        "x.&&&&x"
-        "x..&&&x"
+        "x&&&&.x"
+        "x&&&&&x"
+        "x&&&&&x"
+        "x&&&&&x"
+        "x&&&&.x"
         "xxxxxxx";
 
   //
@@ -70,6 +70,8 @@
     TEST_FAILED(t, "no player");
     goto exit;
   }
+
+  (void) thing_health_set(g, v, l, player, 80);
 
   FOR_ALL_THINGS_AT(g, v, l, it, thing_at(g, v, l, player) + bpoint(1, 0))
   {
@@ -118,7 +120,7 @@
     goto exit;
   }
 
-  TEST_ASSERT(t, game_tick_get(g, v) == 35, "final tick counter value");
+  TEST_ASSERT(t, game_tick_get(g, v) == 25, "final tick counter value");
 
   level_dump(g, v, l, w, h);
   TEST_PASSED(t);

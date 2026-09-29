@@ -175,6 +175,7 @@ static std::initializer_list< std::string > tps = {
     "fungus_life",
     "fungus_pyro",
     "gas_death",
+    "gas_life",
     "ghost_mob",
     "ghost",
     "glorp",

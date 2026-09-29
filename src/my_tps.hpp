@@ -63,6 +63,7 @@ auto tp_load_fire() -> bool;
 auto tp_load_floor() -> bool;
 auto tp_load_foliage() -> bool;
 auto tp_load_gas_death() -> bool;
+auto tp_load_gas_life() -> bool;
 auto tp_load_ghost_mob() -> bool;
 auto tp_load_ghost() -> bool;
 auto tp_load_glorp() -> bool;

@@ -750,7 +750,7 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
 
   lp.biome         = level_to_biome(g, v, l);
   lp.tp_border     = tp_first(is_border);
-  lp.tp_gas        = tp_first(is_gas);
+  lp.tp_gas        = tp_first(is_gas_death);
   lp.tp_wall       = tp_random(g, v, l, is_wall);
   lp.tp_rock       = tp_random(g, v, l, is_rock);
   lp.tp_water      = tp_random(g, v, l, is_water_shallow);
