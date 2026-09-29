@@ -908,7 +908,7 @@ void levels_test(Gamep g)
                     /* line */ (const char *) "x..x...fx~~~~~~~~~~~~~~~~~~~~~~~WWWWWWWWWWWWWWWx",
                     /* line */ (const char *) "x..x....f~~~~~~~~~~~~~~~~~~~~~~~~WWWWWWWWWWWWWWx",
                     /* line */ (const char *) "x..x.....ff~~~~~~~~~~~~~~~~~~~~~~WWWWWWWWWWWWWWx",
-                    /* line */ (const char *) "x..x..@...f~m~~~~~~~~~~~~~~~~~~~~~WWWWWWWWWWWWWx",
+                    /* line */ (const char *) "x..x..@.k.f~m~~~~~~~~~~~~~~~~~~~~~WWWWWWWWWWWWWx",
                     /* line */ (const char *) "x..x.......~~~~~~~~~~~~~~~~~~~~~~WWWWWWWWWWWWWWx",
                     /* line */ (const char *) "x..xDxxxxx.~~~~~~~~~~~~~~~~~~~~~~~WWWWWWWWWWWWWx",
                     /* line */ (const char *) "x........x.~~~~~~~~~~~~~~~~~~~~WWWWWWWWWWWWWWWWx",
