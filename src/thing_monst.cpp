@@ -5,6 +5,7 @@
 #include "my_age_map_inlines.hpp"
 #include "my_bpoint.hpp"
 #include "my_callstack.hpp"
+#include "my_dice_rolls.hpp"
 #include "my_fov_map_inlines.hpp"
 #include "my_game_defs.hpp"
 #include "my_game_inlines.hpp"
@@ -17,6 +18,7 @@
 #include "my_thing_inlines.hpp"
 #include "my_tp.hpp"
 #include "my_types.hpp"
+
 #include <cstdint>
 #include <string>
 
@@ -525,7 +527,21 @@ static auto thing_monst_choose_something_we_can_wander_to(Gamep g, Levelsp v, Le
   //
   // This is for spiders that do not move conventionally, but jump
   //
-  if (! thing_is_able_to_move(me) || thing_is_able_to_jump_attack(me)) {
+  auto try_jump = ! thing_is_able_to_move(me);
+
+  //
+  // Pirnana does not always move, but jumps sometimes
+  //
+  if (thing_is_able_to_jump_attack(me)) {
+    if (d100() < thing_jump_attack_pct_chance(me)) {
+      try_jump = true;
+    }
+  }
+
+  //
+  // If we cannot move, can we jump
+  //
+  if (try_jump) {
     THING_DBG(g, v, l, me, "move try: cannot move, jump?");
     if (! adjacent(at, to)) {
       if (thing_jump_to(g, v, l, me, to, false)) {
@@ -643,7 +659,12 @@ static auto thing_monst_choose_something_we_can_wander_to(Gamep g, Levelsp v, Le
   } else if (adjacent(at, target)) {
     // ok
   } else if ((at == target)) {
-    // ok
+    //
+    // ok to engulf on the same tile
+    //
+    if (! thing_is_able_to_engulf(me)) {
+      return false;
+    }
   } else {
     return false;
   }

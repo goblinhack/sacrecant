@@ -228,6 +228,7 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
         topcon(UI_WARN_FMT_STR "You cannot jump over %s." UI_RESET_FMT, the_thing.c_str());
       }
     }
+    THING_DBG(g, v, l, me, "jump to (%d,%d) something in the way", to.x, to.y);
     return false;
   }
 
