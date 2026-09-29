@@ -80,6 +80,7 @@
     case STATE_CHOOSE_THROW_TARGET : [[fallthrough]];
     case STATE_LEVEL_SELECT_MENU :   [[fallthrough]];
     case STATE_CHOOSE_SPELL_TARGET : [[fallthrough]];
+    case STATE_MOVE_WARNING_MENU :   [[fallthrough]];
     case STATE_PLAYING :             break;
     case STATE_COLLECT_MENU :        [[fallthrough]];
     case STATE_DEAD_MENU :           [[fallthrough]];
@@ -95,7 +96,6 @@
     case STATE_LOAD_MENU :           [[fallthrough]];
     case STATE_LOADED :              [[fallthrough]];
     case STATE_MAIN_MENU :           [[fallthrough]];
-    case STATE_MOVE_WARNING_MENU :   [[fallthrough]];
     case STATE_QUIT_MENU :           [[fallthrough]];
     case STATE_QUITTING :            [[fallthrough]];
     case STATE_SAVE_MENU :           [[fallthrough]];

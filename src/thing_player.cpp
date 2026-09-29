@@ -1167,7 +1167,7 @@ void player_move_accum(Gamep g, Levelsp v, Levelp l, bool up, bool down, bool le
     return false;
   }
 
-  THING_DBG(g, v, l, me, "player move request");
+  THING_DBG(g, v, l, me, "player move request u=%d d=%d l=%d r=%d fire=%d", up, down, left, right, fire);
   TRACE_INDENT();
 
   if (game_state(g) != STATE_PLAYING) {
@@ -1515,6 +1515,8 @@ void player_collision_handle(Gamep g, Levelsp v, Levelp l, Thingp me)
     return false;
   }
 
+  THING_DBG(g, v, l, me, "player move to next");
+
   //
   // If not following a path, then nothing to pop
   //
@@ -1630,7 +1632,7 @@ void player_collision_handle(Gamep g, Levelsp v, Levelp l, Thingp me)
   if (thing_move_to(g, v, l, me, move_next)) {
     (void) level_tick_begin_requested(g, v, l, "player moved to next");
   } else {
-    (void) level_tick_begin_requested(g, v, l, "player faled moved to next location");
+    (void) level_tick_begin_requested(g, v, l, "player failed moved to next location");
   }
 
   return true;

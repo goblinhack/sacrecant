@@ -539,7 +539,7 @@ void sdl_key_repeat_events(Gamep g)
   }
 
   //
-  // Keypad stuff is hardcoded.
+  // Keypad stuff is hard-coded.
   //
   if ((static_cast< bool >(state[ SDL_SCANCODE_KP_5 ])) || (static_cast< bool >(state[ SDL_SCANCODE_KP_ENTER ]))) {
     // 7 8 9
@@ -640,38 +640,40 @@ void sdl_key_repeat_events(Gamep g)
     last_movement_keypress = game_time_ms();
   }
 
-  auto *player = thing_player(g);
-  if (player != nullptr) {
-    //
-    // This allows for smoother movement in that we are ready to move as soon as the
-    // player finishes the previous move.
-    //
-    auto fast_repeat_allowed = thing_is_moving(player) && (player->thing_dt > 0.9);
-    if (fire) {
+  if (up || down || left || right || fire) {
+    auto *player = thing_player(g);
+    if (player != nullptr) {
       //
-      // But firing should not be as quick as moving.
+      // This allows for smoother movement in that we are ready to move as soon as the
+      // player finishes the previous move.
       //
-      fast_repeat_allowed = false;
-    }
+      auto fast_repeat_allowed = thing_is_moving(player) && (player->thing_dt > 0.9);
+      if (fire) {
+        //
+        // But firing should not be as quick as moving.
+        //
+        fast_repeat_allowed = false;
+      }
 
-    if (fast_repeat_allowed || game_time_have_x_hundredths_passed_since(SDL_KEY_REPEAT_PLAYER, last_movement_keypress)) {
-      if (player_move_request(g, up, down, left, right, fire)) {
-        last_movement_keypress = game_time_ms();
+      if (fast_repeat_allowed || game_time_have_x_hundredths_passed_since(SDL_KEY_REPEAT_PLAYER, last_movement_keypress)) {
+        if (player_move_request(g, up, down, left, right, fire)) {
+          last_movement_keypress = game_time_ms();
 
-        if (fire_pressed > 0) {
-          fire_pressed--;
-        }
-        if (up_pressed > 0) {
-          up_pressed--;
-        }
-        if (down_pressed > 0) {
-          down_pressed--;
-        }
-        if (left_pressed > 0) {
-          left_pressed--;
-        }
-        if (right_pressed > 0) {
-          right_pressed--;
+          if (fire_pressed > 0) {
+            fire_pressed--;
+          }
+          if (up_pressed > 0) {
+            up_pressed--;
+          }
+          if (down_pressed > 0) {
+            down_pressed--;
+          }
+          if (left_pressed > 0) {
+            left_pressed--;
+          }
+          if (right_pressed > 0) {
+            right_pressed--;
+          }
         }
       }
     }
