@@ -1663,10 +1663,10 @@
   return tp_flag(tp, is_unused132) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused133(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_fire_spready(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused133) != 0;
+  return tp_flag(tp, is_fire_spready) != 0;
 }
 
 [[nodiscard]] auto tp_is_able_to_breathe(Tpp tp) -> bool
@@ -1735,10 +1735,10 @@
   return tp_flag(tp, is_able_to_cast_spells) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused_146(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_always_hit(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused_146) != 0;
+  return tp_flag(tp, is_always_hit) != 0;
 }
 
 [[nodiscard]] auto tp_is_spell(Tpp tp) -> bool

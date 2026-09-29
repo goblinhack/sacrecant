@@ -190,7 +190,7 @@ void tp_temperature_init(Tpp tp)
     tp_temperature_heat_capacity_set(tp, HEAT_CAPACITY_GAS);
     heat_exchange_set = true;
   }
-  if (tp_is_wood(tp) || tp_is_plant(tp) || tp_is_mob(tp)) {
+  if (tp_is_wood(tp) || tp_is_plant(tp) || tp_is_fungus(tp) || tp_is_mob(tp)) {
     tp_temperature_thermal_conductivity_set(tp, THERMAL_CONDUCTIVITY_HIGH);
     tp_temperature_heat_capacity_set(tp, HEAT_CAPACITY_WOOD);
     heat_exchange_set = true;

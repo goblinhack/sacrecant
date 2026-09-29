@@ -924,6 +924,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_able_to_wear_items(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_active_when_carried(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_active_when_worn(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_always_hit(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_always_hot(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_amphibious(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_animated_can_hflip(Thingp t) -> bool;
@@ -1031,6 +1032,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_falling_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
 [[nodiscard]] auto thing_is_fire_magical(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_fire_normal(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_fire_spready(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_fish(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_flammable(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_flat(Thingp t) -> bool;
@@ -1167,7 +1169,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_undead(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_unlocked(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unlucky(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused_146(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused1(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused10(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused100(Thingp t) -> bool;
@@ -1206,7 +1207,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused130(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused131(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused132(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused133(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused14(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused15(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused16(Thingp t) -> bool;

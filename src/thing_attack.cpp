@@ -205,6 +205,10 @@ static auto thing_attack_at_do(Gamep g, Levelsp v, Levelp l, Thingp attacker, Th
   //
   auto is_hit = thing_stat_success(g, v, l, attacker, THING_STAT_ATT, def, e);
 
+  if (thing_is_always_hit(me)) {
+    is_hit = true;
+  }
+
   if (! is_hit) {
     if (! thing_on_missing(g, v, l, attacker, me, e)) {
       return false;

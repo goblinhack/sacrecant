@@ -59,6 +59,7 @@ auto tp_load_entrance() -> bool;
 auto tp_load_exit() -> bool;
 auto tp_load_explosion() -> bool;
 auto tp_load_fire_magical() -> bool;
+auto tp_load_fire_spready() -> bool;
 auto tp_load_fire() -> bool;
 auto tp_load_floor() -> bool;
 auto tp_load_foliage() -> bool;

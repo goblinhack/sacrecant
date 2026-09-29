@@ -264,7 +264,7 @@
       list_macro(is_treasure, "is_treasure"),                                               /* newline */                                       \
       list_macro(is_undead, "is_undead"),                                                   /* newline */                                       \
       list_macro(is_unlucky, "is_unlucky"),                                                 /* newline */                                       \
-      list_macro(is_unused_146, "is_unused_146"),                                           /* newline */                                       \
+      list_macro(is_always_hit, "is_always_hit"),                                           /* newline */                                       \
       list_macro(is_unused1, "is_unused1"),                                                 /* newline */                                       \
       list_macro(is_unused10, "is_unused10"),                                               /* newline */                                       \
       list_macro(is_unused100, "is_unused100"),                                             /* newline */                                       \
@@ -303,7 +303,7 @@
       list_macro(is_unused130, "is_unused130"),                                             /* newline */                                       \
       list_macro(is_unused131, "is_unused131"),                                             /* newline */                                       \
       list_macro(is_unused132, "is_unused132"),                                             /* newline */                                       \
-      list_macro(is_unused133, "is_unused133"),                                             /* newline */                                       \
+      list_macro(is_fire_spready, "is_fire_spready"),                                       /* newline */                                       \
       list_macro(is_able_to_breathe, "is_able_to_breathe"),                                 /* newline */                                       \
       list_macro(is_obs_to_gas, "is_obs_to_gas"),                                           /* newline */                                       \
       list_macro(is_gas_life, "is_gas_life"),                                               /* newline */                                       \
@@ -900,6 +900,7 @@ class Tp;
 [[nodiscard]] auto tp_is_able_to_wear_items(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_active_when_carried(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_active_when_worn(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_always_hit(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_amphibious(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_animated_can_hflip(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_animated_no_dir(Tpp tp) -> bool;
@@ -989,6 +990,7 @@ class Tp;
 [[nodiscard]] auto tp_is_extinguished_on_death(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_fire_magical(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_fire_normal(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_fire_spready(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_fire(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_fish(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_flammable(Tpp tp) -> bool;
@@ -1120,7 +1122,6 @@ class Tp;
 [[nodiscard]] auto tp_is_treasure(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_undead(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unlucky(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused_146(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused1(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused10(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused100(Tpp tp) -> bool;
@@ -1159,7 +1160,6 @@ class Tp;
 [[nodiscard]] auto tp_is_unused130(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused131(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused132(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused133(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused14(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused15(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused16(Tpp tp) -> bool;

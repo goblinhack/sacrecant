@@ -1,0 +1,191 @@
+//
+// Copyright goblinhack@gmail.com
+//
+
+#include "../../my_callstack.hpp"
+#include "../../my_dice_rolls.hpp"
+#include "../../my_level.hpp"
+#include "../../my_level_inlines.hpp"
+#include "../../my_main.hpp"
+#include "../../my_thing.hpp"
+#include "../../my_thing_callbacks.hpp"
+#include "../../my_thing_inlines.hpp"
+#include "../../my_tile.hpp"
+#include "../../my_tp.hpp"
+#include "../../my_tps.hpp"
+#include "../../my_types.hpp"
+
+static auto tp_fire_spready_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
+{
+  TRACE();
+
+  return "brightly burning fire";
+}
+
+static void tp_fire_spready_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
+{
+  TRACE();
+
+  //
+  // Don't spawn fire too soon after creation or we get a firestorm
+  //
+  if (thing_age(me) <= 1) {
+    return;
+  }
+
+  const std::initializer_list< bpoint > points = {
+      bpoint(-1, -1), bpoint(0, -1), bpoint(1, -1), bpoint(-1, 0), bpoint(1, 0), bpoint(-1, 1), bpoint(0, 1), bpoint(1, 1),
+  };
+
+  //
+  // Spawn adjacent fire
+  //
+  for (auto delta : points) {
+    auto at = thing_at(g, v, l, me);
+    auto p  = at + delta;
+
+    //
+    // Rock, for example?
+    //
+    if (level_is_obs_to_fire_bool(g, v, l, p)) {
+      continue;
+    }
+
+    //
+    // Fire is here already, don't spawn more
+    //
+    if (level_is_fire_bool(g, v, l, p)) {
+      continue;
+    }
+
+    if (d100() < 10) {
+      if (compiler_unused) {
+        log("fire spread check: ok");
+      }
+    } else {
+      if (compiler_unused) {
+        log("fire spread check; too young");
+      }
+      continue;
+    }
+
+    THING_DBG(g, v, l, me, "spawn spreading fire");
+
+    (void) thing_spawn(g, v, l, tp_first(is_fire_spready), p);
+  }
+}
+
+static void tp_fire_spready_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
+{
+  TRACE();
+
+  //
+  // Allow things to continue to burn if we still have some burnable material
+  //
+  if (level_alive_is_combustible(g, v, l, thing_at(g, v, l, me)) != nullptr) {
+    if (! level_is_fire_bool(g, v, l, thing_at(g, v, l, me))) {
+      THING_DBG(g, v, l, me, "spawn fire to continue to burn");
+      (void) thing_spawn(g, v, l, tp_first(is_fire_spready), me);
+    }
+  }
+
+  if (! level_is_smoke_bool(g, v, l, thing_at(g, v, l, me))) {
+    if (level_is_combustible_bool(g, v, l, thing_at(g, v, l, me))) {
+      THING_DBG(g, v, l, me, "spawn smoke over dying fire");
+      (void) thing_spawn(g, v, l, tp_first(is_smoke), me);
+    }
+  }
+}
+
+static void tp_fire_spready_on_fall_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
+{
+  TRACE();
+
+  //
+  // I quite like the idea of fire falling to the level below
+  //
+  // Unless the player is on fire. In which case we want the flames to
+  // die, else they follow them down and they stay on fire.
+  //
+  auto *player = thing_player(g);
+  auto  at     = thing_at(g, v, l, me);
+  if ((player != nullptr) && (at == thing_at(g, v, l, player))) {
+    ThingEvent e {
+        .reason     = "by falling",     //
+        .event_type = THING_EVENT_FALL, //
+    };
+
+    THING_DBG(g, v, l, me, "dead due to falling");
+    TRACE_INDENT();
+
+    thing_dead(g, v, l, me, e);
+    return;
+  }
+
+  if (! level_is_smoke_bool(g, v, l, thing_at(g, v, l, me))) {
+    THING_DBG(g, v, l, me, "spawn smoke over falling fire");
+    (void) thing_spawn(g, v, l, tp_random(g, v, l, is_smoke), me);
+  }
+}
+
+[[nodiscard]] auto tp_load_fire_spready() -> bool
+{
+  TRACE();
+
+  auto *tp   = tp_load("fire_spready"); // keep as string for scripts
+  auto  name = tp_name(tp);
+
+  // begin sort marker1 {
+  thing_description_set(tp, tp_fire_spready_description_get);
+  thing_on_death_set(tp, tp_fire_spready_on_death);
+  thing_on_fall_begin_set(tp, tp_fire_spready_on_fall_begin);
+  thing_on_tick_begin_set(tp, tp_fire_spready_tick_begin);
+  tp_damage_set(tp, THING_EVENT_FIRE_DAMAGE, "1d12");
+  tp_flag_set(tp, is_able_to_be_teleported);
+  tp_flag_set(tp, is_able_to_fall);
+  tp_flag_set(tp, is_animated);
+  tp_flag_set(tp, is_blit_centered);
+  tp_flag_set(tp, is_blit_if_has_seen);
+  tp_flag_set(tp, is_blit_shown_in_chasms);
+  tp_flag_set(tp, is_cursor_path_hazard);
+  tp_flag_set(tp, is_cursor_path_warning);
+  tp_flag_set(tp, is_described_cursor);
+  tp_flag_set(tp, is_fire_spready);
+  tp_flag_set(tp, is_fire);
+  tp_flag_set(tp, is_gaseous);
+  tp_flag_set(tp, is_light_flicker);
+  tp_flag_set(tp, is_light_source, 5);
+  tp_flag_set(tp, is_loggable);
+  tp_flag_set(tp, is_physics_temperature);
+  tp_flag_set(tp, is_physics_water);
+  tp_flag_set(tp, is_removable_on_err);
+  tp_flag_set(tp, is_submergible);
+  tp_flag_set(tp, is_tick_end_delay);
+  tp_flag_set(tp, is_tickable);
+  tp_health_set(tp, "1d5"); // to allow it to be damaged by water
+  tp_is_immune_to_add(tp, THING_EVENT_FIRE_DAMAGE);
+  tp_lifespan_set(tp, "1d6+1");
+  tp_light_color_set(tp, "red");
+  tp_name_a_or_an_set(tp, "sticky fire");
+  tp_name_apostrophize_set(tp, "sticky fires'");
+  tp_name_long_set(tp, "sticky fire");
+  tp_name_pluralize_set(tp, "sticky fires");
+  tp_name_short_set(tp, "sticky fire");
+  tp_priority_set(tp, THING_PRIORITY_FIRE);
+  tp_temperature_burns_at_set(tp, 500); // celsius
+  tp_temperature_initial_set(tp, 500);  // celsius
+  tp_weight_set(tp, WEIGHT_NONE);       // grams
+  tp_z_depth_set(tp, MAP_Z_DEPTH_GAS);
+  // end sort marker1 }
+
+  auto delay = 200;
+
+  for (auto frame = 0; frame < 16; frame++) {
+    auto *tile = tile_find_mand(name + std::string(".idle.") + std::to_string(frame));
+    tile_size_set(tile, OUTLINE_TILE_WIDTH, OUTLINE_TILE_HEIGHT);
+    tile_delay_ms_set(tile, delay);
+    tp_tiles_push_back(tp, THING_ANIM_IDLE, tile);
+  }
+
+  return true;
+}

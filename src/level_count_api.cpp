@@ -1665,10 +1665,10 @@
   return level_count(g, v, l, is_unused132, p);
 }
 
-[[nodiscard]] auto level_count_is_unused133(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_fire_spready(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused133, p);
+  return level_count(g, v, l, is_fire_spready, p);
 }
 
 [[nodiscard]] auto level_count_is_able_to_breathe(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
@@ -1737,10 +1737,10 @@
   return level_count(g, v, l, is_able_to_cast_spells, p);
 }
 
-[[nodiscard]] auto level_count_is_unused_146(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_always_hit(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused_146, p);
+  return level_count(g, v, l, is_always_hit, p);
 }
 
 [[nodiscard]] auto level_count_is_spell(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t

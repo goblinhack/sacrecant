@@ -1701,10 +1701,10 @@
   return level_flag_cached(g, v, l, is_unused132, p);
 }
 
-[[nodiscard]] auto level_is_unused133_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_fire_spready_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused133, p);
+  return level_flag_cached(g, v, l, is_fire_spready, p);
 }
 
 [[nodiscard]] auto level_is_able_to_breathe_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
@@ -1773,10 +1773,10 @@
   return level_flag_cached(g, v, l, is_able_to_cast_spells, p);
 }
 
-[[nodiscard]] auto level_is_unused_146_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_always_hit_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused_146, p);
+  return level_flag_cached(g, v, l, is_always_hit, p);
 }
 
 [[nodiscard]] auto level_is_spell_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

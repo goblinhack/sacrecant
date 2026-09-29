@@ -1664,10 +1664,10 @@
   return level_open(g, v, l, is_unused132, p);
 }
 
-[[nodiscard]] auto level_open_is_unused133(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+[[nodiscard]] auto level_open_is_fire_spready(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_open(g, v, l, is_unused133, p);
+  return level_open(g, v, l, is_fire_spready, p);
 }
 
 [[nodiscard]] auto level_open_is_able_to_breathe(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
@@ -1736,10 +1736,10 @@
   return level_open(g, v, l, is_able_to_cast_spells, p);
 }
 
-[[nodiscard]] auto level_open_is_unused_146(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+[[nodiscard]] auto level_open_is_always_hit(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_open(g, v, l, is_unused_146, p);
+  return level_open(g, v, l, is_always_hit, p);
 }
 
 [[nodiscard]] auto level_open_is_spell(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp

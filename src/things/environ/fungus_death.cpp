@@ -9,12 +9,23 @@
 #include "../../my_tp.hpp"
 #include "../../my_tps.hpp"
 #include "../../my_types.hpp"
+#include "../../my_ui.hpp"
 
 static auto tp_fungus_death_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
 {
   TRACE();
 
   return "vibrant and healthy looking purple fungus.";
+}
+
+static auto tp_fungus_death_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
+{
+  TRACE();
+
+  return                                                                                                                                     //
+      UI_INFO1_FMT_STR "This fungus, purple, pulsating and disturbingly healthy looking, reproduces by killing anything that disturbs it.\n" //
+      UI_INFO2_FMT_STR "The slightest touch will create a storm of deathly spores that will rapidly deplete your health.\n"                  //
+      UI_INFO3_FMT_STR "It's not all gloom though. Your gasping death will be the source of life. Namely, more purple fungus.\n";            //
 }
 
 static bool tp_fungus_death_spore(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
@@ -62,12 +73,14 @@ static bool tp_fungus_death_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, T
 
   // begin sort marker1 {
   thing_description_set(tp, tp_fungus_death_description_get);
+  thing_detail_set(tp, tp_fungus_death_detail_get);
   thing_on_damage_set(tp, tp_fungus_death_on_damage);
   thing_on_death_set(tp, tp_fungus_death_on_death);
   tp_chance_set(tp, THING_CHANCE_CONTINUE_TO_BURN, "1d2"); // fumble => intensify / keep burning / crit => stop burning
   tp_chance_set(tp, THING_CHANCE_START_BURNING, "1d2");    // fumble => flames spread to you
   tp_distance_light_penetration_pixels_set(tp, TILE_WIDTH / 2);
   tp_flag_set(tp, is_able_to_fall);
+  tp_flag_set(tp, is_always_hit);
   tp_flag_set(tp, is_attackable_by_monst);  // will continue to burn once on fire
   tp_flag_set(tp, is_attackable_by_player); // will continue to burn once on fire
   tp_flag_set(tp, is_blit_hit_outline_w_black_inside);
@@ -86,18 +99,17 @@ static bool tp_fungus_death_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, T
   tp_flag_set(tp, is_obs_to_vision);
   tp_flag_set(tp, is_physics_explosion);
   tp_flag_set(tp, is_physics_temperature);
-  tp_flag_set(tp, is_plant);
   tp_flag_set(tp, is_removable_when_dead_on_err);
   tp_flag_set(tp, is_soft_landing);
   tp_flag_set(tp, is_submergible);
   tp_flag_set(tp, is_tickable);
   tp_health_set(tp, "1d5");
   tp_is_immune_to_add(tp, THING_EVENT_WATER_DAMAGE);
-  tp_name_a_or_an_set(tp, "fungus");
-  tp_name_apostrophize_set(tp, "fungi'");
-  tp_name_long_set(tp, "fungus");
-  tp_name_pluralize_set(tp, "fungus");
-  tp_name_short_set(tp, "fungus");
+  tp_name_a_or_an_set(tp, "death fungus");
+  tp_name_apostrophize_set(tp, "death fungi'");
+  tp_name_long_set(tp, "death fungus");
+  tp_name_pluralize_set(tp, "death fungus");
+  tp_name_short_set(tp, "death fungus");
   tp_priority_set(tp, THING_PRIORITY_FOLIAGE);
   tp_temperature_burns_at_set(tp, 100); // celsius
   tp_temperature_damage_at_set(tp, 50); // celsius
