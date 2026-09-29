@@ -908,6 +908,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_able_to_fall_sound(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_able_to_fall(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_able_to_fire_weapons(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_able_to_heal(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_jump_attack(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_jump_land_then_pounce(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_jump(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
@@ -1208,7 +1209,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused133(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused14(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused15(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused151(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused16(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused17(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused18(Thingp t) -> bool;
@@ -1621,7 +1621,6 @@ auto thing_fall_time_step(Gamep g, Levelsp v, Levelp l, Thingp me, int time_step
 auto thing_fall(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
 auto thing_fini(Gamep g, Levelsp v, Levelp l, Thingp t) -> void;
 auto thing_free(Gamep g, Levelsp v, Levelp l, Thingp t) -> void;
-auto thing_gas_handle(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
 auto thing_group_join(Gamep g, Levelsp v, Levelp l, Thingp t, Thingp group) -> void;
 auto thing_group_leave(Gamep g, Levelsp v, Levelp l, Thingp t) -> void;
 auto thing_group_member_leave(Gamep g, Levelsp v, Levelp l, Thingp t) -> void;

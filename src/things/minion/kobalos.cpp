@@ -132,6 +132,7 @@ static bool tp_kobalos_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker,
   tp_flag_set(tp, is_able_to_crush_grass);
   tp_flag_set(tp, is_able_to_fall_sound);
   tp_flag_set(tp, is_able_to_fall);
+  tp_flag_set(tp, is_able_to_heal);
   tp_flag_set(tp, is_able_to_lunge);
   tp_flag_set(tp, is_able_to_move_diagonally);
   tp_flag_set(tp, is_able_to_move);

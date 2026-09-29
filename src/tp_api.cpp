@@ -1765,10 +1765,10 @@
   return tp_flag(tp, is_obs_to_wall_walker) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused151(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_able_to_heal(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused151) != 0;
+  return tp_flag(tp, is_able_to_heal) != 0;
 }
 
 [[nodiscard]] auto tp_is_myopic(Tpp tp) -> bool

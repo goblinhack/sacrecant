@@ -54,6 +54,7 @@ auto test_load_fungus_death_player_dies() -> bool;
 auto test_load_fungus_death_player_lives() -> bool;
 auto test_load_gas_death_monst_dies() -> bool;
 auto test_load_gas_death_monst_lives() -> bool;
+auto test_load_gas_life_heal_player() -> bool;
 auto test_load_gas_player_open_door_unlocked() -> bool;
 auto test_load_items_drift_away() -> bool;
 auto test_load_jump_ok() -> bool;

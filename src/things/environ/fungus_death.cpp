@@ -17,7 +17,7 @@ static auto tp_fungus_death_description_get(Gamep g, Levelsp v, Levelp l, Thingp
   return "vibrant and healthy looking purple fungus.";
 }
 
-static bool tp_fungus_spore(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
+static bool tp_fungus_death_spore(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
 {
   TRACE();
 
@@ -42,7 +42,7 @@ static void tp_fungus_death_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, Th
   TRACE();
 
   THING_DBG(g, v, l, me, "dead, spore");
-  (void) tp_fungus_spore(g, v, l, me, e);
+  (void) tp_fungus_death_spore(g, v, l, me, e);
 }
 
 static bool tp_fungus_death_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
@@ -50,7 +50,7 @@ static bool tp_fungus_death_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, T
   TRACE();
 
   THING_DBG(g, v, l, me, "damaged, spore");
-  return tp_fungus_spore(g, v, l, me, e);
+  return tp_fungus_death_spore(g, v, l, me, e);
 }
 
 [[nodiscard]] auto tp_load_death_fungus() -> bool

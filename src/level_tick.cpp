@@ -272,7 +272,6 @@ static void level_tick(Gamep g, Levelsp v, Levelp l, bool tick_begin_requested)
       // Handle things interacting with explosions
       //
       level_tick_explosion(g, v, l);
-      level_tick_gas(g, v, l);
 
       //
       // Handle special cases that cannot do collision detection
@@ -299,7 +298,7 @@ static void level_tick(Gamep g, Levelsp v, Levelp l, bool tick_begin_requested)
     level_tick_end(g, v, l);
 
     //
-    // Update minimaps and lighting
+    // Update mini-maps and lighting
     //
     level_update(g, v, l);
 

@@ -1803,10 +1803,10 @@
   return level_flag_cached(g, v, l, is_obs_to_wall_walker, p);
 }
 
-[[nodiscard]] auto level_is_unused151_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_able_to_heal_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused151, p);
+  return level_flag_cached(g, v, l, is_able_to_heal, p);
 }
 
 [[nodiscard]] auto level_is_myopic_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

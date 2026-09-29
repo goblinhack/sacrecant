@@ -17,6 +17,42 @@ static auto tp_fungus_life_description_get(Gamep g, Levelsp v, Levelp l, Thingp 
   return "sickly looking fungus, looks like a collection of dead fingers.";
 }
 
+static bool tp_fungus_life_spore(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
+{
+  TRACE();
+
+  auto at = thing_at(g, v, l, me);
+
+  if (! level_is_gas(g, v, l, at)) {
+    THING_DBG(g, v, l, me, "spawn gas");
+    auto gas = thing_spawn(g, v, l, tp_random(g, v, l, is_gas_life), at);
+    if (gas) {
+      THING_DBG(g, v, l, gas, "spawn gas, lifespan %u", thing_lifespan(g, v, l, gas));
+    } else {
+      THING_DBG(g, v, l, me, "failed to spawn gas");
+      return false;
+    }
+  }
+
+  return true;
+}
+
+static void tp_fungus_life_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
+{
+  TRACE();
+
+  THING_DBG(g, v, l, me, "dead, spore");
+  (void) tp_fungus_life_spore(g, v, l, me, e);
+}
+
+static bool tp_fungus_life_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
+{
+  TRACE();
+
+  THING_DBG(g, v, l, me, "damaged, spore");
+  return tp_fungus_life_spore(g, v, l, me, e);
+}
+
 [[nodiscard]] auto tp_load_life_fungus() -> bool
 {
   TRACE();
@@ -26,6 +62,8 @@ static auto tp_fungus_life_description_get(Gamep g, Levelsp v, Levelp l, Thingp 
 
   // begin sort marker1 {
   thing_description_set(tp, tp_fungus_life_description_get);
+  thing_on_damage_set(tp, tp_fungus_life_on_damage);
+  thing_on_death_set(tp, tp_fungus_life_on_death);
   tp_chance_set(tp, THING_CHANCE_CONTINUE_TO_BURN, "1d2"); // fumble => intensify / keep burning / crit => stop burning
   tp_chance_set(tp, THING_CHANCE_START_BURNING, "1d2");    // fumble => flames spread to you
   tp_distance_light_penetration_pixels_set(tp, TILE_WIDTH / 2);

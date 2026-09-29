@@ -74,6 +74,7 @@ static std::initializer_list< std::string > tests = {
     "fungus_death_player_lives",
     "gas_death_monst_dies",
     "gas_death_monst_lives",
+    "gas_life_heal_player",
     "gas_player_open_door_unlocked",
     "items_drift_away",
     "jump_ok",

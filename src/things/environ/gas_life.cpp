@@ -5,6 +5,7 @@
 #include "../../my_callstack.hpp"
 #include "../../my_dice_rolls.hpp"
 #include "../../my_globals.hpp"
+#include "../../my_level_inlines.hpp"
 #include "../../my_thing.hpp"
 #include "../../my_thing_callbacks.hpp"
 #include "../../my_thing_inlines.hpp"
@@ -12,6 +13,7 @@
 #include "../../my_tp.hpp"
 #include "../../my_tps.hpp"
 #include "../../my_types.hpp"
+#include "../../my_ui.hpp"
 
 static auto tp_gas_life_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
 {
@@ -24,66 +26,112 @@ static void tp_gas_life_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
 
+  auto at = thing_at(g, v, l, me);
+
   //
   // Don't spawn gas too soon after creation or we get a gas storm
   //
-  if (thing_age(me) <= 1) {
-    return;
+  if (thing_age(me) > 1) {
+    const std::initializer_list< bpoint > points = {
+        bpoint(-1, -1), bpoint(0, -1), bpoint(1, -1), bpoint(-1, 0), bpoint(1, 0), bpoint(-1, 1), bpoint(0, 1), bpoint(1, 1),
+    };
+
+    //
+    // Spawn adjacent gas
+    //
+    for (auto delta : points) {
+      auto p = at + delta;
+
+      //
+      // Rock, for example?
+      //
+      if (level_is_obs_to_gas_bool(g, v, l, p)) {
+        continue;
+      }
+
+      //
+      // Some other gas is here already, don't spawn more
+      //
+      if (level_is_gas_bool(g, v, l, p)) {
+        continue;
+      }
+
+      if (d100() < 20 + (thing_age(me) * 10)) {
+        //
+        // The older the gas gets, the more chance of spreading
+        //
+        if (compiler_unused) {
+          log("gas life spread check: ok");
+        }
+      } else {
+        //
+        // Too young to spread gas_life.
+        //
+        if (compiler_unused) {
+          log("gas life spread check; too young");
+        }
+        continue;
+      }
+
+      THING_DBG(g, v, l, me, "spawn gas_life");
+
+      auto n = thing_spawn(g, v, l, tp_first(is_gas_life), p);
+      if (n) {
+        float old_lifespan  = thing_lifespan(g, v, l, me);
+        float new_lifespan  = old_lifespan * 0.9f;
+        int   new_lifespani = (int) ceilf(new_lifespan);
+        if (new_lifespani == 0) {
+          new_lifespani = 1;
+        }
+        (void) thing_lifespan_set(g, v, l, n, new_lifespani);
+      }
+    }
   }
 
-  const std::initializer_list< bpoint > points = {
-      bpoint(-1, -1), bpoint(0, -1), bpoint(1, -1), bpoint(-1, 0), bpoint(1, 0), bpoint(-1, 1), bpoint(0, 1), bpoint(1, 1),
-  };
-
   //
-  // Spawn adjacent gas
+  // Try to heal
   //
-  for (auto delta : points) {
-    auto at = thing_at(g, v, l, me);
-    auto p  = at + delta;
-
-    //
-    // Rock, for example?
-    //
-    if (level_is_obs_to_gas_bool(g, v, l, p)) {
+  FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, at)
+  {
+    if (it == me) {
       continue;
     }
 
-    //
-    // Some other gas is here already, don't spawn more
-    //
-    if (level_is_gas_bool(g, v, l, p)) {
+    if (! thing_is_able_to_heal(it)) {
       continue;
     }
 
-    if (d100() < 20 + (thing_age(me) * 10)) {
-      //
-      // The older the gas gets, the more chance of spreading
-      //
-      if (compiler_unused) {
-        log("gas life spread check: ok");
+    if (! thing_is_able_to_breathe(it)) {
+      continue;
+    }
+
+    if (thing_is_dead(it) || thing_is_corpse(it)) {
+      continue;
+    }
+
+    if (thing_is_undead(it)) {
+      continue;
+    }
+
+    if (thing_is_ethereal(g, v, l, it)) {
+      continue;
+    }
+
+    THING_DBG(g, v, l, it, "heal monst");
+    TRACE_INDENT();
+
+    auto old_health = thing_health(g, v, l, it);
+    auto new_health = thing_health_incr(g, v, l, it, thing_health_max(g, v, l, it));
+
+    if (old_health == new_health) {
+      if (thing_is_player(it)) {
+        topcon(UI_WARN_FMT_STR "You feel fully healed in the sweet smelling gas." UI_RESET_FMT);
       }
     } else {
-      //
-      // Too young to spread gas_life.
-      //
-      if (compiler_unused) {
-        log("gas life spread check; too young");
+      if (thing_is_player(it)) {
+        topcon(UI_WARN_FMT_STR "You breathe in the healing gas." UI_RESET_FMT);
+        thing_sound_play(g, v, l, it, "bonus");
       }
-      continue;
-    }
-
-    THING_DBG(g, v, l, me, "spawn gas_life");
-
-    auto n = thing_spawn(g, v, l, tp_first(is_gas_life), p);
-    if (n) {
-      float old_lifespan  = thing_lifespan(g, v, l, me);
-      float new_lifespan  = old_lifespan * 0.9f;
-      int   new_lifespani = (int) ceilf(new_lifespan);
-      if (new_lifespani == 0) {
-        new_lifespani = 1;
-      }
-      (void) thing_lifespan_set(g, v, l, n, new_lifespani);
     }
   }
 }

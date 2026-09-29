@@ -1803,10 +1803,10 @@
   return level_flag(g, v, l, is_obs_to_wall_walker, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused151_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_able_to_heal_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused151, p, me) != nullptr;
+  return level_flag(g, v, l, is_able_to_heal, p, me) != nullptr;
 }
 
 [[nodiscard]] auto level_is_myopic_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool

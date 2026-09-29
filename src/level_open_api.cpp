@@ -1766,10 +1766,10 @@
   return level_open(g, v, l, is_obs_to_wall_walker, p);
 }
 
-[[nodiscard]] auto level_open_is_unused151(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+[[nodiscard]] auto level_open_is_able_to_heal(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_open(g, v, l, is_unused151, p);
+  return level_open(g, v, l, is_able_to_heal, p);
 }
 
 [[nodiscard]] auto level_open_is_myopic(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp

@@ -48,11 +48,11 @@
         "xxxxxxx";
   std::string const expect3
       = "xxxxxxx"
-        "x&&...x"
-        "x&....x"
-        "x&.&.@x"
-        "x&..&.x"
-        "x&....x"
+        "x&&&&&x"
+        "x&&&&&x"
+        "x&&&&&x"
+        "x&&&&&x"
+        "x&&&&&x"
         "xxxxxxx";
 
   //
@@ -149,7 +149,7 @@
   //
   // Wait
   //
-  for (auto tries = 0; tries < 20; tries++) {
+  for (auto tries = 0; tries < 10; tries++) {
     TEST_LOOP_PROGRESS(t, g, v, l, tries, w, h);
 
     TEST_ASSERT(t, game_event_wait(g), "failed to wait");
@@ -165,7 +165,7 @@
     goto exit;
   }
 
-  TEST_ASSERT(t, game_tick_get(g, v) == 31, "final tick counter value");
+  TEST_ASSERT(t, game_tick_get(g, v) == 21, "final tick counter value");
 
   level_dump(g, v, l, w, h);
   TEST_PASSED(t);

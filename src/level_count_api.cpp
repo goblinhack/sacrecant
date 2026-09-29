@@ -1767,10 +1767,10 @@
   return level_count(g, v, l, is_obs_to_wall_walker, p);
 }
 
-[[nodiscard]] auto level_count_is_unused151(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_able_to_heal(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused151, p);
+  return level_count(g, v, l, is_able_to_heal, p);
 }
 
 [[nodiscard]] auto level_count_is_myopic(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t

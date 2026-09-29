@@ -315,7 +315,7 @@
       list_macro(is_effect_explosion2, "is_effect_explosion2"),                             /* newline */                                       \
       list_macro(is_fire_normal, "is_fire_normal"),                                         /* newline */                                       \
       list_macro(is_unused15, "is_unused15"),                                               /* newline */                                       \
-      list_macro(is_unused151, "is_unused151"),                                             /* newline */                                       \
+      list_macro(is_able_to_heal, "is_able_to_heal"),                                       /* newline */                                       \
       list_macro(is_unused16, "is_unused16"),                                               /* newline */                                       \
       list_macro(is_unused17, "is_unused17"),                                               /* newline */                                       \
       list_macro(is_unused18, "is_unused18"),                                               /* newline */                                       \
@@ -884,6 +884,7 @@ class Tp;
 [[nodiscard]] auto tp_is_able_to_fall_sound(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_able_to_fall(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_able_to_fire_weapons(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_able_to_heal(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_able_to_jump_attack(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_able_to_jump_land_then_pounce(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_able_to_jump(Tpp tp) -> bool;
@@ -1161,7 +1162,6 @@ class Tp;
 [[nodiscard]] auto tp_is_unused133(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused14(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused15(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused151(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused16(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused17(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused18(Tpp tp) -> bool;
