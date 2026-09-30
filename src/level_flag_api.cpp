@@ -1658,10 +1658,10 @@
   return level_flag(g, v, l, is_unused131, p, me);
 }
 
-[[nodiscard]] auto level_is_unused132(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_gas_explosive(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused132, p, me);
+  return level_flag(g, v, l, is_gas_explosive, p, me);
 }
 
 [[nodiscard]] auto level_is_fire_spready(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp

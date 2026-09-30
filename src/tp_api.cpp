@@ -1657,10 +1657,10 @@
   return tp_flag(tp, is_unused131) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused132(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_gas_explosive(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused132) != 0;
+  return tp_flag(tp, is_gas_explosive) != 0;
 }
 
 [[nodiscard]] auto tp_is_fire_spready(Tpp tp) -> bool

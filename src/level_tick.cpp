@@ -483,8 +483,6 @@ static void level_tick_body(Gamep g, Levelsp v, Levelp l, float dt, bool tick_is
       //
       thing_collision_handle(g, v, l, t);
 
-      thing_is_spawned_unset(g, v, l, t);
-
       //
       // See if this monster can move again this tick
       //
@@ -736,6 +734,8 @@ static void level_tick_end(Gamep g, Levelsp v, Levelp l)
     if (thing_is_tickable(t)) {
       thing_tick_end(g, v, l, t);
     }
+
+    thing_is_spawned_unset(g, v, l, t);
   }
 
   if (game_request_reached_exit_get(g)) {

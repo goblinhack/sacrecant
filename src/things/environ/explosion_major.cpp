@@ -3,6 +3,7 @@
 //
 
 #include "../../my_callstack.hpp"
+#include "../../my_dice_rolls.hpp"
 #include "../../my_sound.hpp"
 #include "../../my_thing_callbacks.hpp"
 #include "../../my_tile.hpp"
@@ -15,6 +16,10 @@ static void tp_explosion_spawned(Gamep g, Levelsp v, Levelp l, Thingp me, ThingE
   TRACE();
 
   thing_sound_play(g, v, l, me, "explosion");
+
+  if (d100() < 10) {
+    (void) thing_spawn(g, v, l, tp_first(is_fire_normal), thing_at(g, v, l, me));
+  }
 }
 
 [[nodiscard]] auto tp_load_explosion() -> bool

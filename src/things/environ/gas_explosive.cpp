@@ -15,14 +15,14 @@
 #include "../../my_types.hpp"
 #include "../../my_ui.hpp"
 
-static auto tp_gas_life_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
+static auto tp_gas_explosive_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
 {
   TRACE();
 
-  return "sweet smelling healing gas";
+  return "foul smelling volatile gas";
 }
 
-static void tp_gas_life_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
+static void tp_gas_explosive_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
 
@@ -61,21 +61,21 @@ static void tp_gas_life_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
         // The older the gas gets, the more chance of spreading
         //
         if (compiler_unused) {
-          log("gas life spread check: ok");
+          log("gas explosive spread check: ok");
         }
       } else {
         //
-        // Too young to spread gas_life.
+        // Too young to spread gas_explosive.
         //
         if (compiler_unused) {
-          log("gas life spread check; too young");
+          log("gas explosive spread check; too young");
         }
         continue;
       }
 
-      THING_DBG(g, v, l, me, "spawn gas_life");
+      THING_DBG(g, v, l, me, "spawn gas_explosive");
 
-      auto n = thing_spawn(g, v, l, tp_first(is_gas_life), p);
+      auto n = thing_spawn(g, v, l, tp_first(is_gas_explosive), p);
       if (n) {
         float old_lifespan  = thing_lifespan(g, v, l, me);
         float new_lifespan  = old_lifespan * 0.9f;
@@ -90,86 +90,90 @@ static void tp_gas_life_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
       }
     }
   }
-
-  //
-  // Try to heal
-  //
-  FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, at)
-  {
-    if (it == me) {
-      continue;
-    }
-
-    if (! thing_is_able_to_heal(it)) {
-      continue;
-    }
-
-    if (! thing_is_able_to_breathe(it)) {
-      continue;
-    }
-
-    if (thing_is_dead(it) || thing_is_corpse(it)) {
-      continue;
-    }
-
-    if (thing_is_undead(it)) {
-      continue;
-    }
-
-    if (thing_is_ethereal(g, v, l, it)) {
-      continue;
-    }
-
-    THING_DBG(g, v, l, it, "heal monst");
-    TRACE_INDENT();
-
-    auto old_health = thing_health(g, v, l, it);
-    auto new_health = thing_health_incr(g, v, l, it, thing_health_max(g, v, l, it));
-
-    if (old_health == new_health) {
-      if (thing_is_player(it)) {
-        topcon(UI_WARN_FMT_STR "You feel fully healed in the sweet smelling gas." UI_RESET_FMT);
-      }
-    } else {
-      if (thing_is_player(it)) {
-        topcon(UI_WARN_FMT_STR "You breathe in the healing gas." UI_RESET_FMT);
-        thing_sound_play(g, v, l, it, "bonus");
-      }
-    }
-  }
 }
 
-[[nodiscard]] auto tp_load_gas_life() -> bool
+static bool tp_gas_explosive_explode(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
 {
   TRACE();
 
-  auto *tp   = tp_load("gas_life"); // keep as string for scripts
+  auto at = thing_at(g, v, l, me);
+
+  const std::initializer_list< bpoint > points = {
+      bpoint(-1, -1), bpoint(1, -1), bpoint(0, -1), bpoint(-1, 0), bpoint(1, 0), bpoint(0, 0), bpoint(-1, 1), bpoint(1, 1), bpoint(0, 1),
+  };
+
+  for (auto delta : points) {
+    auto p = at + delta;
+
+    if (level_is_critical_to_dungeon_design_bool(g, v, l, p)) {
+      continue;
+    }
+
+    if (level_is_obs_to_explosion_bool(g, v, l, p)) {
+      continue;
+    }
+
+    if (level_is_explosion_bool(g, v, l, p)) {
+      continue;
+    }
+
+    THING_DBG(g, v, l, me, "spawn explosion at %d,%d", p.x, p.y);
+
+    (void) thing_spawn(g, v, l, tp_first(is_explosion), p);
+  }
+
+  return true;
+}
+
+static bool tp_gas_explosive_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
+{
+  TRACE();
+
+  THING_DBG(g, v, l, me, "damaged, explode");
+  return tp_gas_explosive_explode(g, v, l, me, e);
+}
+
+[[nodiscard]] auto tp_load_gas_explosive() -> bool
+{
+  TRACE();
+
+  auto *tp   = tp_load("gas_explosive"); // keep as string for scripts
   auto  name = tp_name(tp);
 
   // begin sort marker1 {
-  thing_description_set(tp, tp_gas_life_description_get);
-  thing_on_tick_begin_set(tp, tp_gas_life_tick_begin);
-  tp_distance_light_penetration_pixels_set(tp, TILE_WIDTH / 2);
+  thing_description_set(tp, tp_gas_explosive_description_get);
+  thing_on_tick_begin_set(tp, tp_gas_explosive_tick_begin);
+  thing_on_damage_set(tp, tp_gas_explosive_on_damage);
   tp_flag_set(tp, is_able_to_be_teleported);
+  tp_flag_set(tp, is_loggable);
+  tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_animated);
   tp_flag_set(tp, is_blit_centered);
   tp_flag_set(tp, is_blit_shown_in_chasms);
   tp_flag_set(tp, is_blit_shown_in_overlay);
   tp_flag_set(tp, is_described_cursor);
-  tp_flag_set(tp, is_gas_life);
+  tp_flag_set(tp, is_flammable);
+  tp_flag_set(tp, is_gas_explosive);
   tp_flag_set(tp, is_gas);
   tp_flag_set(tp, is_gaseous);
-  tp_flag_set(tp, is_indestructible);
-  tp_flag_set(tp, is_obs_to_vision);
   tp_flag_set(tp, is_removable_on_err);
   tp_flag_set(tp, is_tickable);
   tp_flag_set(tp, is_tiled);
-  tp_lifespan_set(tp, "1d8+22");
-  tp_name_a_or_an_set(tp, "healing gas");
-  tp_name_apostrophize_set(tp, "healing gas'");
-  tp_name_long_set(tp, "healing gas");
-  tp_name_pluralize_set(tp, "healing gas");
-  tp_name_short_set(tp, "healing gas");
+  tp_lifespan_set(tp, "1d8+32");
+  tp_name_a_or_an_set(tp, "explosive gas");
+  tp_name_apostrophize_set(tp, "explosive gas'");
+  tp_flag_set(tp, is_physics_explosion);
+  tp_flag_set(tp, is_physics_temperature);
+  tp_temperature_burns_at_set(tp, 21);  // celsius
+  tp_temperature_damage_at_set(tp, 21); // celsius
+  tp_flag_set(tp, is_combustible);      // will continue to burn once on fire
+  tp_flag_set(tp, is_collision_circle_large);
+  tp_chance_set(tp, THING_CHANCE_CONTINUE_TO_BURN, "1d2"); // fumble => intensify / keep burning / crit => stop burning
+  tp_chance_set(tp, THING_CHANCE_START_BURNING, "1d2");    // fumble => flames spread to you
+  tp_temperature_initial_set(tp, 20);                      // celsius
+  tp_name_long_set(tp, "explosive gas");
+  tp_name_pluralize_set(tp, "explosive gas");
+  tp_name_short_set(tp, "explosive gas");
   tp_priority_set(tp, THING_PRIORITY_GAS);
   tp_weight_set(tp, WEIGHT_NONE); // grams
   tp_z_depth_set(tp, MAP_Z_DEPTH_GAS);

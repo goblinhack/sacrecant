@@ -16,8 +16,34 @@
 #include <algorithm>
 #include <cmath>
 #include <set>
+#include <unordered_set>
 #include <utility>
 #include <vector>
+
+//
+// Check we only collide once between objects per tick
+//
+[[nodiscard]] auto thing_temperature_handle_done_already(Levelsp v, Thingp obstacle, Thingp me) -> bool
+{
+  static std::unordered_set< uint64_t > temperature;
+
+  //
+  // Reset each new tick
+  //
+  static uint32_t temperature_tick;
+  if (v->tick != temperature_tick) {
+    temperature.clear();
+    temperature_tick = v->tick;
+  }
+
+  uint64_t const p = (static_cast< uint64_t >(obstacle->id) << 32) | me->id;
+  if (temperature.contains(p)) {
+    return true;
+  }
+
+  temperature.insert(p);
+  return false;
+}
 
 //
 // Allow things to return to the initial temperature
@@ -29,17 +55,35 @@ void level_tick_begin_temperature(Gamep g, Levelsp v, Levelp l)
   int x = 0;
   int y = 0;
 
+  if (compiler_unused) {
+    level_log(g, v, l, "tick begin temperature");
+    TRACE_INDENT();
+  }
+
   FOR_ALL_MAP_POINTS(g, v, l, x, y)
   {
+    bpoint                p(x, y);
     std::vector< Thingp > things;
+
+    if (compiler_unused) {
+      LEVEL_DBG(g, v, l, "handle begin temperature at (%d,%d)", p.x, p.y);
+      TRACE_INDENT();
+    }
 
     //
     // Collect all things at this point into a vector
     //
-    bpoint p(x, y);
     FOR_ALL_THINGS_AT_UNSAFE(g, v, l, t, p)
     {
       if (! thing_is_physics_temperature(t)) {
+        continue;
+      }
+
+      //
+      // We do not want newly spawned things that occur during the tick to cause
+      // interactions else we get explosions that travel in the direction of the loop
+      //
+      if (thing_is_spawned(t)) {
         continue;
       }
 
@@ -319,6 +363,11 @@ void level_tick_end_temperature(Gamep g, Levelsp v, Levelp l)
 {
   TRACE();
 
+  if (compiler_unused) {
+    level_log(g, v, l, "tick begin temperature");
+    TRACE_INDENT();
+  }
+
   int x = 0;
   int y = 0;
 
@@ -335,8 +384,26 @@ void level_tick_end_temperature(Gamep g, Levelsp v, Levelp l)
     // Collect all things at this point into a vector
     //
     bpoint p(x, y);
+
+    if (compiler_unused) {
+      LEVEL_DBG(g, v, l, "handle end temperature at (%d,%d)", p.x, p.y);
+      TRACE_INDENT();
+    }
+
     FOR_ALL_THINGS_AT_UNSAFE(g, v, l, t, p)
     {
+      if (! thing_is_physics_temperature(t)) {
+        continue;
+      }
+
+      //
+      // We do not want newly spawned things that occur during the tick to cause
+      // interactions else we get explosions that travel in the direction of the loop
+      //
+      if (thing_is_spawned(t)) {
+        continue;
+      }
+
       //
       // Ignore burnt grass for example
       //
@@ -346,14 +413,12 @@ void level_tick_end_temperature(Gamep g, Levelsp v, Levelp l)
         }
       }
 
-      if (thing_is_physics_temperature(t)) {
-        things.push_back(t);
+      things.push_back(t);
 
-        //
-        // Check if the thing needs to pulse
-        //
-        (void) thing_is_hot_check(g, v, l, t);
-      }
+      //
+      // Check if the thing needs to pulse
+      //
+      (void) thing_is_hot_check(g, v, l, t);
     }
 
     //
@@ -372,6 +437,13 @@ void level_tick_end_temperature(Gamep g, Levelsp v, Levelp l)
 
         if ((void *) Ti > (void *) Tj) {
           std::swap(Ti, Tj);
+        }
+
+        //
+        // Ensure only one interaction per tick
+        //
+        if (thing_temperature_handle_done_already(v, Ti, Tj)) {
+          continue;
         }
 
         pairs.insert(std::make_pair(Ti, Tj));

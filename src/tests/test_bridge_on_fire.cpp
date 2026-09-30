@@ -31,7 +31,7 @@
       = "......."
         "......."
         "...CCC."
-        "..@C;C."
+        "..@CCC."
         "...CCC."
         "......."
         ".......";
@@ -47,7 +47,7 @@
       = "......."
         "......."
         "......."
-        "....!.."
+        ".....!."
         "......."
         "......."
         ".......";
@@ -94,7 +94,7 @@
   }
 
   TEST_PROGRESS(t);
-  for (auto tries = 0; tries < 3; tries++) {
+  for (auto tries = 0; tries < 10; tries++) {
     TEST_LOOP_PROGRESS(t, g, v, l1, tries, w, h);
     TEST_LOG(t, "try: %d", tries);
     TRACE();
@@ -131,7 +131,7 @@
   // Check the tick is as expected
   //
   TEST_PROGRESS(t);
-  TEST_ASSERT(t, game_tick_get(g, v) == 3, "final tick counter value");
+  TEST_ASSERT(t, game_tick_get(g, v) == 10, "final tick counter value");
 
   TEST_PASSED(t);
 exit:

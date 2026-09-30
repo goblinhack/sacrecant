@@ -284,7 +284,7 @@ static void wid_spellbook_mouse_over_end(Gamep g, Widp w)
   auto avail = wid_player_avail_points(g, v, l, player);
 
   if (cost > avail) {
-    topcon("You do not have enough Mana to cast that spell.\n");
+    topcon(UI_WARN_FMT_STR "You do not have enough Mana to cast that spell." UI_RESET_FMT);
     (void) sound_play(g, "error");
     return true;
   }

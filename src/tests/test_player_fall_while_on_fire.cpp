@@ -103,6 +103,9 @@
     TEST_ASSERT(t, game_event_wait(g), "failed to wait");
     TEST_ASSERT(t, game_wait_for_tick_to_finish(g, v, l1), "failed to wait for tick to finish");
 
+    TEST_ASSERT(t, game_event_wait(g), "failed to wait");
+    TEST_ASSERT(t, game_wait_for_tick_to_finish(g, v, l1), "failed to wait for tick to finish");
+
     TEST_ASSERT(t, thing_is_burning(player), "player is not burning");
     TEST_ASSERT(t, ! thing_is_dead(player), "player is dead");
   }
@@ -149,7 +152,7 @@
 
   TEST_ASSERT(t, ! thing_is_burning(player), "player is burning still");
   TEST_ASSERT(t, ! thing_is_dead(player), "player is dead");
-  TEST_ASSERT(t, game_tick_get(g, v) == 2, "final tick counter value");
+  TEST_ASSERT(t, game_tick_get(g, v) == 3, "final tick counter value");
 
   TEST_PASSED(t);
 exit:

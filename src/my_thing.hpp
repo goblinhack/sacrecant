@@ -1041,6 +1041,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_fungus(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_game_over(Thingp player) -> bool;
 [[nodiscard]] auto thing_is_gas_death(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_gas_explosive(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_gas_life(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_gas(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_gaseous(Thingp t) -> bool;
@@ -1206,7 +1207,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused13(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused130(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused131(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused132(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused14(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused15(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused16(Thingp t) -> bool;

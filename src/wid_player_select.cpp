@@ -516,7 +516,7 @@ static void wid_player_select_boost_via_mouse_over_end(Gamep g, Widp w)
     auto sac_points_change = tp_sac_points_get(thing_tp(t));
     if (total_sac_points + sac_points_change < 0) {
       (void) sound_play(g, "error");
-      topcon("Not enough sac points to buy this boost.\n");
+      topcon("Not enough SPs to buy this boost.\n");
       return true;
     }
 

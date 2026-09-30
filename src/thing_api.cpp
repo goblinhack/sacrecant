@@ -1994,7 +1994,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   return tp_flag(thing_tp(t), is_unused131) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused132(Thingp t) -> bool
+[[nodiscard]] auto thing_is_gas_explosive(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -2002,7 +2002,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused132) != 0;
+  return tp_flag(thing_tp(t), is_gas_explosive) != 0;
 }
 
 [[nodiscard]] auto thing_is_fire_spready(Thingp t) -> bool

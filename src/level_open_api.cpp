@@ -1658,10 +1658,10 @@
   return level_open(g, v, l, is_unused131, p);
 }
 
-[[nodiscard]] auto level_open_is_unused132(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+[[nodiscard]] auto level_open_is_gas_explosive(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_open(g, v, l, is_unused132, p);
+  return level_open(g, v, l, is_gas_explosive, p);
 }
 
 [[nodiscard]] auto level_open_is_fire_spready(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp

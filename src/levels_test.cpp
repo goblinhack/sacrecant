@@ -686,10 +686,10 @@ void levels_test(Gamep g)
                   /* line */ (const char *) " x.......x ",
                   /* line */ (const char *) " x.......x ",
                   /* line */ (const char *) " x....C..x ",
-                  /* line */ (const char *) " x@..BC..x ",
+                  /* line */ (const char *) " x@..gC..x ",
                   /* line */ (const char *) " x....C..x ",
-                  /* line */ (const char *) " x.......x ",
-                  /* line */ (const char *) " x.......x ",
+                  /* line */ (const char *) " x...gL..x ",
+                  /* line */ (const char *) " x....L..x ",
                   /* line */ (const char *) " xxxxxxxxx ",
                   /* line */ (const char *) "           ",
                   /* end */ nullptr);
@@ -700,7 +700,7 @@ void levels_test(Gamep g)
                   /* line */ (const char *) " x.......x ",
                   /* line */ (const char *) " x..E....x ",
                   /* line */ (const char *) " x.......x ",
-                  /* line */ (const char *) " x.......x ",
+                  /* line */ (const char *) " x@......x ",
                   /* line */ (const char *) " x.......x ",
                   /* line */ (const char *) " x.......x ",
                   /* line */ (const char *) " x.......x ",
@@ -908,7 +908,7 @@ void levels_test(Gamep g)
                     /* line */ (const char *) "x..x...fx~~~~~~~~~~~~~~~~~~~~~~~WWWWWWWWWWWWWWWx",
                     /* line */ (const char *) "x..x....f~~~~~~~~~~~~~~~~~~~~~~~~WWWWWWWWWWWWWWx",
                     /* line */ (const char *) "x..x.....ff~~~~~~~~~~~~~~~~~~~~~~WWWWWWWWWWWWWWx",
-                    /* line */ (const char *) "x..x..@.k.f~m~~~~~~~~~~~~~~~~~~~~~WWWWWWWWWWWWWx",
+                    /* line */ (const char *) "x..x..@...f~m~~~~~~~~~~~~~~~~~~~~~WWWWWWWWWWWWWx",
                     /* line */ (const char *) "x..x.......~~~~~~~~~~~~~~~~~~~~~~WWWWWWWWWWWWWWx",
                     /* line */ (const char *) "x..xDxxxxx.~~~~~~~~~~~~~~~~~~~~~~~WWWWWWWWWWWWWx",
                     /* line */ (const char *) "x........x.~~~~~~~~~~~~~~~~~~~~WWWWWWWWWWWWWWWWx",
@@ -918,6 +918,29 @@ void levels_test(Gamep g)
                     /* line */ (const char *) "x.......~~~~~~~~~~~~~~~~~~~WWWWWWWWWWWWWWWWWWWWx",
                     /* line */ (const char *) "x....~~~~~~~~~~~~~~~~~~~WWWWWWWWWWWWWWWWWWWWWWWx",
                     /* line */ (const char *) "x..~~~~~~~~~~~~~~~~~~~WWWWWWWWWWWWWWWWWWWWWWWWWx",
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* end */ nullptr);
+  }
+
+  {
+    Overrides overrides;
+
+    overrides[ '&' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("gas_explosive"); };
+
+    level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "gas", __FUNCTION__, __LINE__, overrides, 0,
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* line */ (const char *) "x..............................................x",
+                    /* line */ (const char *) "x..............................................x",
+                    /* line */ (const char *) "x..............................................x",
+                    /* line */ (const char *) "x&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&x",
+                    /* line */ (const char *) "x&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&x",
+                    /* line */ (const char *) "x&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&x",
+                    /* line */ (const char *) "x&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&x",
+                    /* line */ (const char *) "x&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&x",
+                    /* line */ (const char *) "x..............................................x",
+                    /* line */ (const char *) "x.............b.......@.........B..............x",
+                    /* line */ (const char *) "x.............b..............B.................x",
+                    /* line */ (const char *) "x.............bbbbb.......B....................x",
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
                     /* end */ nullptr);
   }

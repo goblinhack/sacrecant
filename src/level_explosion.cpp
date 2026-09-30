@@ -10,6 +10,32 @@
 #include "my_thing_inlines.hpp" // NOLINT
 #include "my_types.hpp"
 
+#include <unordered_set>
+
+//
+// Check we only collide once between objects per tick
+//
+[[nodiscard]] auto thing_explosion_handle_done_already(Levelsp v, Thingp me) -> bool
+{
+  static std::unordered_set< uint32_t > exploded;
+
+  //
+  // Reset each new tick
+  //
+  static uint32_t exploded_tick;
+  if (v->tick != exploded_tick) {
+    exploded.clear();
+    exploded_tick = v->tick;
+  }
+
+  if (exploded.contains(me->id)) {
+    return true;
+  }
+
+  exploded.insert(me->id);
+  return false;
+}
+
 //
 // Handle things interacting with explosion
 //
@@ -20,6 +46,11 @@ void level_tick_explosion(Gamep g, Levelsp v, Levelp l)
   int x = 0;
   int y = 0;
 
+  if (compiler_unused) {
+    level_log(g, v, l, "tick explosion");
+    TRACE_INDENT();
+  }
+
   FOR_ALL_MAP_POINTS(g, v, l, x, y)
   {
     bpoint p(x, y);
@@ -27,8 +58,10 @@ void level_tick_explosion(Gamep g, Levelsp v, Levelp l)
       continue;
     }
 
-    LEVEL_DBG(g, v, l, "handle explosion at (%d,%d)", p.x, p.y);
-    TRACE_INDENT();
+    if (compiler_unused) {
+      LEVEL_DBG(g, v, l, "handle explosion at (%d,%d)", p.x, p.y);
+      TRACE_INDENT();
+    }
 
     FOR_ALL_THINGS_AT(g, v, l, t, p)
     {
@@ -42,6 +75,11 @@ void level_tick_explosion(Gamep g, Levelsp v, Levelp l)
 
       if (! thing_is_physics_explosion(t)) {
         THING_DBG(g, v, l, t, "over explosion, skip for explosion");
+        continue;
+      }
+
+      if (thing_explosion_handle_done_already(v, t)) {
+        THING_DBG(g, v, l, t, "over explosion, already handled this tick");
         continue;
       }
 

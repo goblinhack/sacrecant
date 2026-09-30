@@ -70,6 +70,14 @@ static void tp_voider_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEve
       continue;
     }
 
+    if (level_is_obs_to_explosion_bool(g, v, l, p)) {
+      continue;
+    }
+
+    if (level_is_explosion_bool(g, v, l, p)) {
+      continue;
+    }
+
     if (level_is_dirt_bool(g, v, l, p) || level_is_floor(g, v, l, p)) {
       (void) thing_spawn(g, v, l, tp_first(is_explosion), p);
       (void) thing_spawn(g, v, l, tp_first(is_chasm), p);

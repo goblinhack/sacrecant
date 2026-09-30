@@ -89,6 +89,13 @@
       goto exit;
     }
 
+    level_dump(g, v, l, w, h);
+    TEST_ASSERT(t, game_event_wait(g), "failed to wait");
+    if (! game_wait_for_tick_to_finish(g, v, l)) {
+      TEST_FAILED(t, "wait loop failed");
+      goto exit;
+    }
+
     TEST_ASSERT(t, thing_is_burning(player), "player is not burning");
     TEST_ASSERT(t, ! thing_is_dead(player), "player is dead");
   }
@@ -129,7 +136,7 @@
 
   TEST_ASSERT(t, ! thing_is_burning(player), "player is burning still");
   TEST_ASSERT(t, ! thing_is_dead(player), "player is dead");
-  TEST_ASSERT(t, game_tick_get(g, v) == 2, "final tick counter value");
+  TEST_ASSERT(t, game_tick_get(g, v) == 3, "final tick counter value");
 
   level_dump(g, v, l, w, h);
   TEST_PASSED(t);

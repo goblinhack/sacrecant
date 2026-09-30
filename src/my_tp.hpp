@@ -302,7 +302,7 @@
       list_macro(is_unused13, "is_unused13"),                                               /* newline */                                       \
       list_macro(is_unused130, "is_unused130"),                                             /* newline */                                       \
       list_macro(is_unused131, "is_unused131"),                                             /* newline */                                       \
-      list_macro(is_unused132, "is_unused132"),                                             /* newline */                                       \
+      list_macro(is_gas_explosive, "is_gas_explosive"),                                     /* newline */                                       \
       list_macro(is_fire_spready, "is_fire_spready"),                                       /* newline */                                       \
       list_macro(is_able_to_breathe, "is_able_to_breathe"),                                 /* newline */                                       \
       list_macro(is_obs_to_gas, "is_obs_to_gas"),                                           /* newline */                                       \
@@ -1001,6 +1001,7 @@ class Tp;
 [[nodiscard]] auto tp_is_foliage(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_fungus(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_gas_death(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_gas_explosive(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_gas_life(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_gas(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_gaseous(Tpp tp) -> bool;
@@ -1159,7 +1160,6 @@ class Tp;
 [[nodiscard]] auto tp_is_unused13(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused130(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused131(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused132(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused14(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused15(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused16(Tpp tp) -> bool;

@@ -66,6 +66,7 @@
   if (!tp_load_floor()) { return false; }
   if (!tp_load_foliage()) { return false; }
   if (!tp_load_gas_death()) { return false; }
+  if (!tp_load_gas_explosive()) { return false; }
   if (!tp_load_gas_life()) { return false; }
   if (!tp_load_ghost_mob()) { return false; }
   if (!tp_load_ghost()) { return false; }

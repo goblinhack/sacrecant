@@ -109,10 +109,10 @@ static void tp_ghost_mob_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_name_short_set(tp, "bone mob");
   tp_priority_set(tp, THING_PRIORITY_MOB);
   tp_speed_set(tp, 100);
-  tp_temperature_burns_at_set(tp, 100);  // celsius
-  tp_temperature_damage_at_set(tp, 100); // celsius
-  tp_temperature_initial_set(tp, 0);     // celsius
-  tp_weight_set(tp, WEIGHT_HEAVY);       // grams
+  tp_temperature_burns_at_set(tp, 50);  // celsius
+  tp_temperature_damage_at_set(tp, 50); // celsius
+  tp_temperature_initial_set(tp, 0);    // celsius
+  tp_weight_set(tp, WEIGHT_HEAVY);      // grams
   tp_z_depth_set(tp, MAP_Z_DEPTH_OBJ);
   // end sort marker1 }
 

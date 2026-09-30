@@ -11,6 +11,7 @@
 #include "my_tp.hpp"
 #include "my_tp_inlines.hpp"
 #include "my_types.hpp"
+
 #include <algorithm>
 #include <limits>
 #include <utility>
@@ -20,8 +21,6 @@
 //
 void thing_temperature_handle(Gamep g, Levelsp v, Levelp l, Thingp source, Thingp me, int n)
 {
-  TRACE();
-
   //
   // If not burnt already, burn it if over the threshold temperature.
   //
@@ -41,6 +40,7 @@ void thing_temperature_handle(Gamep g, Levelsp v, Levelp l, Thingp source, Thing
   n = std::min(thing_temperature(source), n);
 
   THING_DBG(g, v, l, me, "temperature handle: %d degrees (Tmax %d)", n, Tmax * 2);
+  TRACE_INDENT();
 
   if ((Tb != 0) && (n >= Tb)) {
     if (thing_is_steam(source) || thing_is_water_deep(source) || thing_is_water_shallow(source)) {
