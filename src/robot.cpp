@@ -42,9 +42,9 @@ public:
   std::string what;
   Thingp      what_it = {};
 
-  Goal(int prio, int score, bpoint at, std::string what, Thingp what_it)
+  Goal(int _prio, int _score, bpoint _at, const std::string &_what, Thingp _what_it)
       : //
-        prio(prio), score(score), at(at), what(what), what_it(what_it)
+        prio(_prio), score(_score), at(_at), what(_what), what_it(_what_it)
   {
   }
 };

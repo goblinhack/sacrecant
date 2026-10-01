@@ -993,7 +993,7 @@ static auto player_move_delta(Gamep g, Levelsp v, Levelp l, int dx, int dy) -> b
     return false;
   }
 
-  THING_DBG(g, v, l, me, "fire @%d,%d", target.x, target.y);
+  THING_DBG(g, v, l, me, "player fire @%d,%d", target.x, target.y);
   TRACE_INDENT();
 
   //
@@ -1012,6 +1012,7 @@ static auto player_move_delta(Gamep g, Levelsp v, Levelp l, int dx, int dy) -> b
     // It's a more arcade like feeling to allow this tho
     //
     if (thing_is_moving(me)) {
+      THING_DBG(g, v, l, me, "player fire @%d,%d, no as is moving", target.x, target.y);
       return false;
     }
   }
@@ -1020,6 +1021,7 @@ static auto player_move_delta(Gamep g, Levelsp v, Levelp l, int dx, int dy) -> b
   // Wait until the end of the tick
   //
   if (level_tick_is_in_progress(g, v, l)) {
+    THING_DBG(g, v, l, me, "player fire @%d,%d, no as tick in progress", target.x, target.y);
     return false;
   }
 
@@ -1065,6 +1067,8 @@ static auto player_move_delta(Gamep g, Levelsp v, Levelp l, int dx, int dy) -> b
     //
     // If no weapon and the mouse is over something we can attack, hit it!
     //
+    THING_DBG(g, v, l, me, "player fire @%d,%d, no try melee", target.x, target.y);
+
     if (level_alive_is_attackable_by_player(g, v, l, target) != nullptr) {
       THING_DBG(g, v, l, me, "player melee attack attempt at %d,%d", target.x, target.y);
       TRACE_INDENT();
@@ -1115,6 +1119,8 @@ static auto player_move_delta(Gamep g, Levelsp v, Levelp l, int dx, int dy) -> b
   }
 
   if (game_state(g) != STATE_PLAYING) {
+    THING_DBG(g, v, l, me, "player fire @%d,%d, no not in playing state", target.x, target.y);
+
     player_move_requests_reset(g, v);
     return false;
   }

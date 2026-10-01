@@ -4921,7 +4921,7 @@ void wid_key_down(Gamep g, const struct SDL_Keysym *key, int x, int y)
     //
     // If no-one handles it, feed it to the default handler, the console.
     //
-    DBG("SDL: Keyboard: no one handled the event");
+    DBG("SDL: Keyboard: no wid handled the event");
     (void) wid_receive_unhandled_input(g, key);
     return;
   }
