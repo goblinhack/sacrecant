@@ -39,7 +39,8 @@ static void wid_statistics_destroy(Gamep g)
     delete wid_statistics_popup;
     wid_statistics_popup = nullptr;
 
-    game_state_change(g, STATE_MAIN_MENU, "wid statistics destroy");
+    game_cleanup(g);
+    game_state_reset(g, "close statistics menu");
   }
 }
 

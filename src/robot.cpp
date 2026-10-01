@@ -241,7 +241,7 @@ void robot_mode_handler(Gamep g)
   switch (game_state(g)) {
     case STATE_INIT : break;
     case STATE_MAIN_MENU :
-      con("Robot: Main menu: send SPACE key");
+      con("Robot: main menu: send SPACE key");
       if (g_robot) {
         delete g_robot;
       }
@@ -251,20 +251,20 @@ void robot_mode_handler(Gamep g)
       SDL_PushEvent(&e);
       break;
     case STATE_PLAYER_SELECT_MENU :
-      con("Robot: Player select menu: send SPACE key x 2");
+      con("Robot: player select menu: send SPACE key x 2");
       e.type   = SDL_KEYDOWN;
       key->sym = SDLK_SPACE;
       SDL_PushEvent(&e);
       SDL_PushEvent(&e);
       break;
     case STATE_LEVEL_SELECT_MENU :
-      con("Robot: Level select menu: send SPACE key");
+      con("Robot: level select menu: send SPACE key");
       e.type   = SDL_KEYDOWN;
       key->sym = SDLK_SPACE;
       SDL_PushEvent(&e);
       break;
     case STATE_PLAYING :
-      con("Robot: Playing");
+      con("Robot: playing");
       robot_mode_handler_playing(g, g_robot);
       break;
     case STATE_QUITTING :            break;
@@ -272,13 +272,13 @@ void robot_mode_handler(Gamep g)
     case STATE_CHOOSE_THROW_TARGET : break;
     case STATE_CHOOSE_SPELL_TARGET : break;
     case STATE_STATISTICS_MENU :
-      con("Robot: Player statistic menu: send ESCAPE key");
+      con("Robot: player statistic menu: send ESCAPE key");
       e.type   = SDL_KEYDOWN;
       key->sym = SDLK_ESCAPE;
       SDL_PushEvent(&e);
       break;
     case STATE_DEAD_MENU :
-      con("Robot: Player dead menu: send ESCAPE key");
+      con("Robot: player dead menu: send ESCAPE key");
       e.type   = SDL_KEYDOWN;
       key->sym = SDLK_ESCAPE;
       SDL_PushEvent(&e);
