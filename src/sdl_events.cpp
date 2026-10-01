@@ -267,7 +267,9 @@ void sdl_event(Gamep g, SDL_Event *event, bool &processed_mouse_motion_event)
       sdl_event_keyup(g, key, event);
       break;
     case SDL_MOUSEMOTION :
-      //
+      if (compiler_unused) {
+        DBG("SDL: Event mouse motion");
+      }
       sdl_event_mousemotion(g, event, processed_mouse_motion_event);
       break;
     case SDL_MOUSEBUTTONDOWN :

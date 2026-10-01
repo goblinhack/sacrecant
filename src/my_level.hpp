@@ -702,6 +702,7 @@ enum {
 
 // begin sort marker1 {
 [[nodiscard]] auto fragment_add(Gamep g, int chance, const char *file, int line, ...) -> bool;
+[[nodiscard]] bool level_cursor_path_identical(Gamep g, Levelsp v, Levelp l, Thingp player);
 [[nodiscard]] auto fragment_alt_add(Gamep g, int chance, uint32_t flags, const char *file, int line, ...) -> bool;
 [[nodiscard]] auto level_alive(Gamep g, Levelsp v, Levelp l, ThingFlagType f, bpoint p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_alive(Gamep g, Levelsp v, Levelp l, ThingFlagType f, Thingp me) -> Thingp;
@@ -776,8 +777,8 @@ auto level_assign_tiles(Gamep g, Levelsp v, Levelp l) -> void;
 auto level_blit(Gamep g) -> void;
 auto level_bounds_set(Gamep g, Levelsp v, Levelp l) -> void;
 auto level_count_items(Gamep g, Levelsp v, Levelp l) -> void;
-auto level_cursor_copy_mouse_path_to_player(Gamep g, Levelsp v, Levelp l) -> void;
-auto level_cursor_copy_path_to_player(Gamep g, Levelsp v, Levelp l, std::vector< bpoint > &move_path) -> void;
+auto level_cursor_copy_mouse_path_to_player(Gamep g, Levelsp v, Levelp l) -> bool;
+auto level_cursor_copy_path_to_player(Gamep g, Levelsp v, Levelp l, std::vector< bpoint > &move_path) -> bool;
 auto level_cursor_describe_clear(Gamep g, Levelsp v) -> void;
 auto level_cursor_describe_update(Gamep g, Levelsp v) -> void;
 auto level_cursor_describe(Gamep g, Levelsp v, Levelp l) -> void;

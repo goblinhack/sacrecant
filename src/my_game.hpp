@@ -36,6 +36,7 @@
       list_macro(STATE_CHOOSE_SPELL_TARGET, "STATE_CHOOSE_SPELL_TARGET"), /* newline */                                                         \
       list_macro(STATE_ITEM_MENU, "STATE_ITEM_MENU"),                     /* newline */                                                         \
       list_macro(STATE_DEAD_MENU, "STATE_DEAD_MENU"),                     /* newline */                                                         \
+      list_macro(STATE_STATISTICS_MENU, "STATE_STATISTICS_MENU"),         /* newline */                                                         \
       list_macro(STATE_GAME_OVER_MENU, "STATE_GAME_OVER_MENU"),           /* newline */                                                         \
       list_macro(STATE_SAVE_MENU, "STATE_SAVE_MENU"),                     /* newline */                                                         \
       list_macro(STATE_QUIT_MENU, "STATE_QUIT_MENU"),                     /* newline */

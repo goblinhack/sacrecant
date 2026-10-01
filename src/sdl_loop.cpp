@@ -8,6 +8,7 @@
 #include "my_globals.hpp"
 #include "my_main.hpp"
 #include "my_pcg_basic.hpp"
+#include "my_robot.hpp"
 #include "my_sdl_event.hpp"
 #include "my_sdl_proto.hpp"
 #include "my_time.hpp"
@@ -15,6 +16,7 @@
 #include "my_ui.hpp"
 #include "my_wid.hpp"
 #include "my_wids.hpp"
+
 #include <SDL_events.h>
 #include <cmath>
 #include <cstdint>
@@ -58,8 +60,14 @@ void sdl_loop(Gamep g)
 #endif
 
   for (; /*ever*/;) {
-    // DBG("SDL: tick");
+    if (compiler_unused) {
+      DBG("SDL: tick");
+    }
     frames++;
+
+    if (g_opt_robot) [[unlikely]] {
+      robot_mode_handler(g);
+    }
 
     //
     // Reset joystick handling before we poll and update.

@@ -250,6 +250,10 @@ static auto find_one(const std::string &name_alias) -> Sound *
     return false;
   }
 
+  if (game_state(g) == STATE_QUITTING) {
+    return false;
+  }
+
   auto *sound = find_one(name_alias);
   if (sound == nullptr) {
     if (! g_opt_tests && ! g_opt_do_level_gen && ! g_opt_do_level_select_gen && ! g_opt_do_room_gen) {
@@ -274,6 +278,10 @@ static auto find_one(const std::string &name_alias) -> Sound *
   TRACE();
 
   if (scale <= 0) {
+    return false;
+  }
+
+  if (game_state(g) == STATE_QUITTING) {
     return false;
   }
 

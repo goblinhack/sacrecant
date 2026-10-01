@@ -11,6 +11,7 @@
 #include "my_gl.hpp" // NOLINT
 #include "my_level.hpp"
 #include "my_main.hpp"
+#include "my_sdl_event.hpp"
 #include "my_spoint.hpp"
 #include "my_thing.hpp"
 #include "my_thing_callbacks.hpp"
@@ -295,6 +296,10 @@ static void thing_display_blit(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp t_ma
       break;
 
     case FBO_MAP_FG_OVERLAY :
+      ////////////////////////////////////////////////////////////////////////////////////////////
+      // DO NOT show the player in the overlay unconditionally as it then obscures tall pillars.
+      ////////////////////////////////////////////////////////////////////////////////////////////
+
       //
       // Hidden things need to be shown on top of walls or foliage
       //
@@ -318,6 +323,9 @@ static void thing_display_blit(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp t_ma
         // Player in bushes
         //
         if (thing_is_hidden(t_maybe_null) != 0) {
+          //
+          // Obscured
+          //
           return;
         }
 
@@ -325,6 +333,9 @@ static void thing_display_blit(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp t_ma
         // If engulfed, need to be shown inside the monster
         //
         if (thing_is_engulfed(t_maybe_null)) {
+          //
+          // MAP_Z_DEPTH_ENGULFING_MONST should handle the ordering
+          //
           return;
         }
       }
@@ -865,17 +876,25 @@ auto thing_to_pixel(Gamep g, Levelsp v, Levelp l, Thingp it) -> spoint
   int h = 0;
   fbo_get_size(g, FBO_MAP_BG_FLOOR_WATER_LAVA, w, h);
 
-  int const   zoom   = game_map_zoom_get(g);
-  auto        pix_at = thing_pix_at(it);
-  float const px     = ((pix_at.x * zoom) - v->pixel_map_at.x) / static_cast< float >(w);
-  float const py     = ((pix_at.y * zoom) - v->pixel_map_at.y) / static_cast< float >(h);
+  int const zoom = game_map_zoom_get(g);
+
+  auto        tl_pix_at = thing_pix_at(it);
+  float const tl_px     = ((tl_pix_at.x * zoom) - v->pixel_map_at.x) / static_cast< float >(w);
+  float const tl_py     = ((tl_pix_at.y * zoom) - v->pixel_map_at.y) / static_cast< float >(h);
+
+  auto        br_pix_at = thing_pix_at(it) + spoint(TILE_WIDTH, TILE_HEIGHT);
+  float const br_px     = ((br_pix_at.x * zoom) - v->pixel_map_at.x) / static_cast< float >(w);
+  float const br_py     = ((br_pix_at.y * zoom) - v->pixel_map_at.y) / static_cast< float >(h);
+
+  auto px = (tl_px + br_px) / 2;
+  auto py = (tl_py + br_py) / 2;
 
   spoint pix;
 
   pix.x = static_cast< int16_t >(visible_map_tl_x + ((visible_map_br_x - visible_map_tl_x) * px));
   pix.y = static_cast< int16_t >(visible_map_tl_y + ((visible_map_br_y - visible_map_tl_y) * py));
 
-  // topcon("%d,%d vs %d,%d\n", pix.x, pix.y, sdl.mouse_x, sdl.mouse_y);
+  //  topcon("%d,%d vs %d,%d\n", pix.x, pix.y, sdl.mouse_x, sdl.mouse_y);
 
   return pix;
 }

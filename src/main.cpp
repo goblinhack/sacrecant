@@ -76,6 +76,7 @@ static void usage()
   con(" --test <name>                     -- Run test foo only.");
   con(" --tests                           -- Run all tests.");
   con(" --repeat <n>                      -- Repeat tests n times.");
+  con(" --robot                           -- Auto play robot mode.");
   con(" ");
   con("Code generation:");
   con(" --do-level-gen                    -- Do level gen only.");
@@ -235,6 +236,11 @@ static void parse_args(int argc, char *argv[])
       }
 
       i++;
+      continue;
+    }
+
+    if ((strcasecmp(argv[ i ], "--robot") == 0) || (strcasecmp(argv[ i ], "-robot") == 0)) {
+      g_opt_robot = true;
       continue;
     }
 

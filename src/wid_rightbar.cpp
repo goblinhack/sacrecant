@@ -148,6 +148,7 @@ static auto wid_rightbar_thing_info_add(Gamep g, Levelsp v, Levelp l) -> void
     case STATE_CHOOSE_SPELL_TARGET : [[fallthrough]];
     case STATE_COLLECT_MENU :        [[fallthrough]];
     case STATE_DEAD_MENU :           [[fallthrough]];
+    case STATE_STATISTICS_MENU :     [[fallthrough]];
     case STATE_GENERATED :           [[fallthrough]];
     case STATE_GENERATING :          [[fallthrough]];
     case STATE_INIT :                [[fallthrough]];
@@ -226,6 +227,7 @@ static auto wid_rightbar_thing_info_add(Gamep g, Levelsp v, Levelp l) -> void
     case STATE_PLAYING :             break;
     case STATE_COLLECT_MENU :        [[fallthrough]];
     case STATE_DEAD_MENU :           [[fallthrough]];
+    case STATE_STATISTICS_MENU :     [[fallthrough]];
     case STATE_GENERATED :           [[fallthrough]];
     case STATE_GENERATING :          [[fallthrough]];
     case STATE_INIT :                [[fallthrough]];

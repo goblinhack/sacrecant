@@ -32,9 +32,11 @@
   DBG("game mouse down");
   TRACE_INDENT();
 
-  if (wid_some_recent_event_occurred()) {
-    topcon("game mouse down, ignore, some event occurred");
-    return false;
+  if (! g_opt_robot) {
+    if (wid_some_recent_event_occurred()) {
+      topcon("game mouse down, ignore, some event occurred");
+      return false;
+    }
   }
 
   if (g == nullptr) [[unlikely]] {
@@ -84,6 +86,7 @@
     case STATE_PLAYING :             break;
     case STATE_COLLECT_MENU :        [[fallthrough]];
     case STATE_DEAD_MENU :           [[fallthrough]];
+    case STATE_STATISTICS_MENU :     [[fallthrough]];
     case STATE_GENERATED :           [[fallthrough]];
     case STATE_GENERATING :          [[fallthrough]];
     case STATE_INIT :                [[fallthrough]];
@@ -174,6 +177,7 @@
     case STATE_SPELLBOOK_MENU :     [[fallthrough]];
     case STATE_COLLECT_MENU :       [[fallthrough]];
     case STATE_DEAD_MENU :          [[fallthrough]];
+    case STATE_STATISTICS_MENU :    [[fallthrough]];
     case STATE_GENERATED :          [[fallthrough]];
     case STATE_GENERATING :         [[fallthrough]];
     case STATE_INIT :               [[fallthrough]];
@@ -230,6 +234,7 @@
     case STATE_CHOOSE_SPELL_TARGET : [[fallthrough]];
     case STATE_COLLECT_MENU :        [[fallthrough]];
     case STATE_DEAD_MENU :           [[fallthrough]];
+    case STATE_STATISTICS_MENU :     [[fallthrough]];
     case STATE_GENERATED :           [[fallthrough]];
     case STATE_GENERATING :          [[fallthrough]];
     case STATE_INIT :                [[fallthrough]];
@@ -287,6 +292,7 @@
     case STATE_CHOOSE_SPELL_TARGET : [[fallthrough]];
     case STATE_COLLECT_MENU :        [[fallthrough]];
     case STATE_DEAD_MENU :           [[fallthrough]];
+    case STATE_STATISTICS_MENU :     [[fallthrough]];
     case STATE_GENERATED :           [[fallthrough]];
     case STATE_GENERATING :          [[fallthrough]];
     case STATE_INIT :                [[fallthrough]];
@@ -346,6 +352,7 @@
     case STATE_CHOOSE_SPELL_TARGET : [[fallthrough]];
     case STATE_COLLECT_MENU :        [[fallthrough]];
     case STATE_DEAD_MENU :           [[fallthrough]];
+    case STATE_STATISTICS_MENU :     [[fallthrough]];
     case STATE_GENERATED :           [[fallthrough]];
     case STATE_GENERATING :          [[fallthrough]];
     case STATE_INIT :                [[fallthrough]];
@@ -411,6 +418,7 @@
     case STATE_CHOOSE_SPELL_TARGET : [[fallthrough]];
     case STATE_COLLECT_MENU :        [[fallthrough]];
     case STATE_DEAD_MENU :           [[fallthrough]];
+    case STATE_STATISTICS_MENU :     [[fallthrough]];
     case STATE_GENERATED :           [[fallthrough]];
     case STATE_GENERATING :          [[fallthrough]];
     case STATE_INIT :                [[fallthrough]];
@@ -465,6 +473,7 @@
     case STATE_CHOOSE_SPELL_TARGET : [[fallthrough]];
     case STATE_COLLECT_MENU :        [[fallthrough]];
     case STATE_DEAD_MENU :           [[fallthrough]];
+    case STATE_STATISTICS_MENU :     [[fallthrough]];
     case STATE_GENERATED :           [[fallthrough]];
     case STATE_GENERATING :          [[fallthrough]];
     case STATE_INIT :                [[fallthrough]];
@@ -519,6 +528,7 @@
     case STATE_CHOOSE_SPELL_TARGET : [[fallthrough]];
     case STATE_COLLECT_MENU :        [[fallthrough]];
     case STATE_DEAD_MENU :           [[fallthrough]];
+    case STATE_STATISTICS_MENU :     [[fallthrough]];
     case STATE_GENERATED :           [[fallthrough]];
     case STATE_GENERATING :          [[fallthrough]];
     case STATE_INIT :                [[fallthrough]];
@@ -567,6 +577,7 @@
     case STATE_CHOOSE_SPELL_TARGET : [[fallthrough]];
     case STATE_COLLECT_MENU :        [[fallthrough]];
     case STATE_DEAD_MENU :           [[fallthrough]];
+    case STATE_STATISTICS_MENU :     [[fallthrough]];
     case STATE_GENERATED :           [[fallthrough]];
     case STATE_GENERATING :          [[fallthrough]];
     case STATE_INIT :                [[fallthrough]];
@@ -633,6 +644,7 @@
     case STATE_CHOOSE_SPELL_TARGET : [[fallthrough]];
     case STATE_COLLECT_MENU :        [[fallthrough]];
     case STATE_DEAD_MENU :           [[fallthrough]];
+    case STATE_STATISTICS_MENU :     [[fallthrough]];
     case STATE_GENERATED :           [[fallthrough]];
     case STATE_GENERATING :          [[fallthrough]];
     case STATE_INIT :                [[fallthrough]];
@@ -691,6 +703,7 @@
     case STATE_CHOOSE_SPELL_TARGET : [[fallthrough]];
     case STATE_COLLECT_MENU :        [[fallthrough]];
     case STATE_DEAD_MENU :           [[fallthrough]];
+    case STATE_STATISTICS_MENU :     [[fallthrough]];
     case STATE_GENERATED :           [[fallthrough]];
     case STATE_GENERATING :          [[fallthrough]];
     case STATE_INIT :                [[fallthrough]];
@@ -758,6 +771,7 @@
     case STATE_CHOOSE_SPELL_TARGET : [[fallthrough]];
     case STATE_COLLECT_MENU :        [[fallthrough]];
     case STATE_DEAD_MENU :           [[fallthrough]];
+    case STATE_STATISTICS_MENU :     [[fallthrough]];
     case STATE_GENERATED :           [[fallthrough]];
     case STATE_GENERATING :          [[fallthrough]];
     case STATE_INIT :                [[fallthrough]];
@@ -828,6 +842,7 @@ static auto game_event_jump(Gamep g) -> bool
     case STATE_CHOOSE_SPELL_TARGET : [[fallthrough]];
     case STATE_COLLECT_MENU :        [[fallthrough]];
     case STATE_DEAD_MENU :           [[fallthrough]];
+    case STATE_STATISTICS_MENU :     [[fallthrough]];
     case STATE_GENERATED :           [[fallthrough]];
     case STATE_GENERATING :          [[fallthrough]];
     case STATE_INIT :                [[fallthrough]];
@@ -957,6 +972,7 @@ static auto game_event_throw(Gamep g) -> bool
     case STATE_CHOOSE_SPELL_TARGET : [[fallthrough]];
     case STATE_COLLECT_MENU :        [[fallthrough]];
     case STATE_DEAD_MENU :           [[fallthrough]];
+    case STATE_STATISTICS_MENU :     [[fallthrough]];
     case STATE_GENERATED :           [[fallthrough]];
     case STATE_GENERATING :          [[fallthrough]];
     case STATE_INIT :                [[fallthrough]];
@@ -1074,6 +1090,7 @@ static auto game_event_abort(Gamep g) -> bool
     case STATE_PLAYING :             break;
     case STATE_COLLECT_MENU :        [[fallthrough]];
     case STATE_DEAD_MENU :           [[fallthrough]];
+    case STATE_STATISTICS_MENU :     [[fallthrough]];
     case STATE_GENERATED :           [[fallthrough]];
     case STATE_GENERATING :          [[fallthrough]];
     case STATE_INIT :                [[fallthrough]];
@@ -1117,6 +1134,7 @@ static auto game_event_abort(Gamep g) -> bool
     case STATE_CHOOSE_SPELL_TARGET : [[fallthrough]];
     case STATE_COLLECT_MENU :        [[fallthrough]];
     case STATE_DEAD_MENU :           [[fallthrough]];
+    case STATE_STATISTICS_MENU :     [[fallthrough]];
     case STATE_GENERATED :           [[fallthrough]];
     case STATE_GENERATING :          [[fallthrough]];
     case STATE_INIT :                [[fallthrough]];
@@ -1423,6 +1441,15 @@ static auto game_event_abort(Gamep g) -> bool
       }
 
       if (sdlk_eq(*key, game_key_fire_get(g))) {
+        if (g_opt_robot) {
+          if (! thing_is_dead(player)) {
+            auto l = thing_level(g, v, player);
+            if (l) {
+              (void) player_fire(g, v, l, 0, 0, nullptr, v->cursor_at);
+            }
+            return true;
+          }
+        }
         return false;
       }
       if (sdlk_eq(*key, game_key_move_up_get(g))) {
@@ -1441,6 +1468,7 @@ static auto game_event_abort(Gamep g) -> bool
       break;
     case STATE_COLLECT_MENU :       [[fallthrough]];
     case STATE_DEAD_MENU :          [[fallthrough]];
+    case STATE_STATISTICS_MENU :    [[fallthrough]];
     case STATE_GENERATED :          [[fallthrough]];
     case STATE_GENERATING :         [[fallthrough]];
     case STATE_INIT :               [[fallthrough]];
@@ -1520,6 +1548,7 @@ static auto game_event_abort(Gamep g) -> bool
   switch (game_state(g)) {
     case STATE_COLLECT_MENU :        [[fallthrough]];
     case STATE_DEAD_MENU :           [[fallthrough]];
+    case STATE_STATISTICS_MENU :     [[fallthrough]];
     case STATE_GENERATED :           [[fallthrough]];
     case STATE_GENERATING :          [[fallthrough]];
     case STATE_INIT :                [[fallthrough]];

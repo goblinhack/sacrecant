@@ -664,7 +664,7 @@ using Thing = struct Thing {
   //
   ThingId id;
   //
-  // What weapon, ring etc... we're worn
+  // What weapon, ring etc. worn
   //
   ThingId worn_id[ WORN_TYPE_ENUM_MAX ];
   //
@@ -1576,6 +1576,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto wid_tp_info_spell_cost(Gamep g, Levelsp v, Levelp l, Tpp me, WidPopup *parent, int width, bool title_allowed) -> bool;
 [[nodiscard]] auto wid_tp_info_spell_options(Gamep g, Levelsp v, Levelp l, Tpp me, WidPopup *parent, int width, bool title_allowed) -> bool;
 [[nodiscard]] auto wid_tp_info_spell_upgrades(Gamep g, Levelsp v, Levelp l, Tpp me, WidPopup *parent, int width, bool title_allowed) -> bool;
+[[nodiscard]] auto thing_move_path_identical(Gamep g, Levelsp v, Levelp l, Thingp me, const std::vector< bpoint > &move_path) -> bool;
 // end sort marker1 }
 
 // begin sort marker2 {

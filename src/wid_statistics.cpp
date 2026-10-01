@@ -304,5 +304,5 @@ void wid_statistics_show(Gamep g, Levelsp v, Levelp l, Thingp player)
 
   wid_update(g, wid_statistics_window);
 
-  game_state_change(g, STATE_INVENTORY_MENU, "defeated");
+  game_state_change(g, STATE_STATISTICS_MENU, "defeated");
 }

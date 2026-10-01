@@ -18,6 +18,7 @@ extern bool g_opt_debug2;                // All debugs
 extern bool g_opt_do_level_gen;          // Test level gen
 extern bool g_opt_do_level_select_gen;   // Test level select gen
 extern bool g_opt_do_room_gen;           // Test room gen
+extern bool g_opt_robot;                 // Auto play robot mode
 extern bool g_opt_level_select_menu;     // Start in the level select menu
 extern bool g_opt_player_select_menu;    // Start in the player select menu
 extern bool g_opt_no_slow_log_flush;     // Do not flush after each console log at start

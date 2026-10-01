@@ -11,13 +11,22 @@
 #include "my_math.hpp"
 #include "my_thing.hpp"
 #include "my_thing_callbacks.hpp"
+#include "my_thing_inlines.hpp"
 #include "my_tp.hpp"
 #include "my_types.hpp"
 
 [[nodiscard]] auto thing_proj_launch_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what, const fpoint target) -> bool
 {
-  THING_DBG(g, v, l, me, "fire projectile");
+  THING_DBG(g, v, l, me, "fire projectile @%f,%f", target.x, target.y);
   TRACE_INDENT();
+
+  //
+  // No firing when dead!
+  //
+  if (thing_is_dead(me)) {
+    THING_DBG(g, v, l, me, "fire beam weapon, no as firer dead");
+    return false;
+  }
 
   auto delta = target - make_fpoint(thing_at(g, v, l, me));
 

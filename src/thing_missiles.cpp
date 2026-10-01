@@ -123,6 +123,8 @@
 //
 [[nodiscard]] auto thing_missile_fired_by_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> Thingp
 {
+  TRACE_DEBUG();
+
   if (me == nullptr) {
     return nullptr;
   }
@@ -139,6 +141,8 @@
 //
 [[nodiscard]] auto thing_missile_fired_by_count_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> int
 {
+  TRACE_DEBUG();
+
   if (me == nullptr) {
     return 0;
   }

@@ -493,7 +493,7 @@ void level_cursor_path_reset(Gamep g)
 //
 // Copy the given path to the thing
 //
-void level_cursor_copy_path_to_player(Gamep g, Levelsp v, Levelp l, std::vector< bpoint > &move_path)
+bool level_cursor_copy_path_to_player(Gamep g, Levelsp v, Levelp l, std::vector< bpoint > &move_path)
 {
   auto *player = thing_player(g);
   if (player == nullptr) [[unlikely]] {
@@ -501,7 +501,7 @@ void level_cursor_copy_path_to_player(Gamep g, Levelsp v, Levelp l, std::vector<
     // If no player, clear the cursor
     //
     memset(v->cursor, 0, SIZEOF(v->cursor));
-    return;
+    return false;
   }
 
   auto *ext = thing_ext_struct(g, v, player);
@@ -510,7 +510,7 @@ void level_cursor_copy_path_to_player(Gamep g, Levelsp v, Levelp l, std::vector<
     // If no player, clear the cursor
     //
     memset(v->cursor, 0, SIZEOF(v->cursor));
-    return;
+    return false;
   }
 
   switch (player_state(g, v)) {
@@ -540,13 +540,18 @@ void level_cursor_copy_path_to_player(Gamep g, Levelsp v, Levelp l, std::vector<
       //
       // Wait for confirmation.
       //
-      return;
+      return false;
     case PLAYER_STATE_FOLLOWING_PATH :
       //
       // Already following a path, stick to it until completion.
       //
-      return;
-    case PLAYER_STATE_ENUM_MAX : return;
+      return false;
+    case PLAYER_STATE_ENUM_MAX : return false;
+  }
+
+  if (thing_move_path_identical(g, v, l, player, move_path)) {
+    THING_DBG(g, v, l, player, "identical move path, do not apply size: %d", static_cast< int >(move_path.size()));
+    return false;
   }
 
   //
@@ -560,6 +565,8 @@ void level_cursor_copy_path_to_player(Gamep g, Levelsp v, Levelp l, std::vector<
   if (thing_move_path_apply(g, v, l, player, move_path)) {
     move_path.clear();
   }
+
+  return true;
 }
 
 //
@@ -644,24 +651,39 @@ void level_cursor_path_recreate(Gamep g, Levelsp v, Levelp l)
 //
 // Apply the mouse path to the player
 //
-void level_cursor_copy_mouse_path_to_player(Gamep g, Levelsp v, Levelp l)
+// Returns false if the path is the same
+//
+bool level_cursor_copy_mouse_path_to_player(Gamep g, Levelsp v, Levelp l)
 {
   //
   // Only if over the map
   //
   if (! level_cursor_is_valid(g, v)) {
-    return;
+    return false;
   }
 
   //
   // Update the player with the path.
   //
-  level_cursor_copy_path_to_player(g, v, l, cursor_path);
+  if (! level_cursor_copy_path_to_player(g, v, l, cursor_path)) {
+    return false;
+  }
 
   //
   // If in level select mode, update what we're hovering over
   //
   level_select_mouse_motion(g, v, l);
+
+  return true;
+}
+
+//
+// Is the cursor path the same as current?
+//
+bool level_cursor_path_identical(Gamep g, Levelsp v, Levelp l, Thingp player)
+{
+  TRACE();
+  return thing_move_path_identical(g, v, l, player, cursor_path);
 }
 
 [[nodiscard]] auto level_cursor_path_size(Gamep g) -> int { return static_cast< int >(cursor_path.size()); }

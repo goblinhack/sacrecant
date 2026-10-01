@@ -153,6 +153,7 @@ static void level_display_spell_effect(Gamep g, Levelsp v, Levelp l, FboEnum fbo
     case STATE_SPELLBOOK_MENU :      [[fallthrough]];
     case STATE_COLLECT_MENU :        [[fallthrough]];
     case STATE_DEAD_MENU :           [[fallthrough]];
+    case STATE_STATISTICS_MENU :     [[fallthrough]];
     case STATE_GENERATED :           [[fallthrough]];
     case STATE_GENERATING :          [[fallthrough]];
     case STATE_INIT :                [[fallthrough]];
@@ -212,6 +213,7 @@ static void level_display_cursor(Gamep g, Levelsp v, Levelp l, const bpoint &p, 
           case STATE_SPELLBOOK_MENU :      [[fallthrough]];
           case STATE_COLLECT_MENU :        [[fallthrough]];
           case STATE_DEAD_MENU :           [[fallthrough]];
+          case STATE_STATISTICS_MENU :     [[fallthrough]];
           case STATE_GENERATED :           [[fallthrough]];
           case STATE_GENERATING :          [[fallthrough]];
           case STATE_INIT :                [[fallthrough]];
@@ -595,6 +597,7 @@ static void level_display_fbo(Gamep g, Levelsp v, Levelp level_above, Levelp l, 
           case STATE_SPELLBOOK_MENU :     [[fallthrough]];
           case STATE_COLLECT_MENU :       [[fallthrough]];
           case STATE_DEAD_MENU :          [[fallthrough]];
+          case STATE_STATISTICS_MENU :    [[fallthrough]];
           case STATE_GENERATED :          [[fallthrough]];
           case STATE_GENERATING :         [[fallthrough]];
           case STATE_INIT :               [[fallthrough]];

@@ -137,23 +137,42 @@ void thing_player_init(Gamep g)
 //
 // Replace the mouse path upon mouse down events
 //
-[[nodiscard]] static auto thing_player_replace_current_mouse_path(Gamep g, Levelsp v, Levelp l) -> bool
+// Returns true if the path was replaced.
+//
+[[nodiscard]] static auto thing_player_replace_current_mouse_path(Gamep g, Levelsp v, Levelp l, Thingp player) -> bool
 {
-  TRACE();
+  THING_DBG(g, v, l, player, "replace current path");
+  TRACE_INDENT();
 
   //
   // Need to recreate the path first, as the me may have moved since the last mouse move
   //
   level_cursor_path_recreate(g, v, l);
 
+  //
+  // Skip pointless recreates of the path
+  //
+  if (level_cursor_path_identical(g, v, l, player)) {
+    THING_DBG(g, v, l, player, "identical path");
+    return false;
+  }
+
   player_state_change(g, v, l, PLAYER_STATE_PATH_REQUESTED);
 
   //
   // Apply the new path
   //
-  level_cursor_copy_mouse_path_to_player(g, v, l);
+  if (! level_cursor_copy_mouse_path_to_player(g, v, l)) {
+    THING_DBG(g, v, l, player, "failed to replace current path");
+    return false;
+  }
 
-  return player_check_if_target_needs_move_confirm(g, v, l, v->cursor_at);
+  THING_DBG(g, v, l, player, "replaced current path");
+  TRACE_INDENT();
+
+  (void) player_check_if_target_needs_move_confirm(g, v, l, v->cursor_at);
+
+  return true;
 }
 
 //
@@ -181,13 +200,14 @@ void thing_player_init(Gamep g)
 //
 [[nodiscard]] auto thing_player_mouse_down(Gamep g, Levelsp v, Levelp l, int x, int y, uint32_t button) -> bool
 {
+  auto *player = thing_player(g);
+
   log("thing mouse down");
   TRACE_INDENT();
 
   switch (game_state(g)) {
     case STATE_CHOOSE_THROW_TARGET :
       {
-        auto *player = thing_player(g);
         if (player != nullptr) {
           auto *item = thing_find(g, v, game_throw_id_get(g));
           if (item != nullptr) {
@@ -202,7 +222,6 @@ void thing_player_init(Gamep g)
       break;
     case STATE_CHOOSE_SPELL_TARGET :
       {
-        auto *player = thing_player(g);
         if (player != nullptr) {
           auto *e = game_spell_tmp_while_targeting_get(g);
           if (e != nullptr) {
@@ -240,7 +259,7 @@ void thing_player_init(Gamep g)
           //
           // Replace the mouse path
           //
-          (void) thing_player_replace_current_mouse_path(g, v, l);
+          (void) thing_player_replace_current_mouse_path(g, v, l, player);
           break;
         case PLAYER_STATE_PATH_REQUESTED :
           //
@@ -254,15 +273,18 @@ void thing_player_init(Gamep g)
           break;
         case PLAYER_STATE_FOLLOWING_PATH :
           //
-          // Already following a path. Allow the me to change the path.
+          // Already following a path. Allow the player to change the path.
           //
-          (void) thing_player_replace_current_mouse_path(g, v, l);
+          if (player != nullptr) {
+            (void) thing_player_replace_current_mouse_path(g, v, l, player);
+          }
           break;
         case PLAYER_STATE_ENUM_MAX : break;
       }
       break;
     case STATE_COLLECT_MENU :       [[fallthrough]];
     case STATE_DEAD_MENU :          [[fallthrough]];
+    case STATE_STATISTICS_MENU :    [[fallthrough]];
     case STATE_GENERATED :          [[fallthrough]];
     case STATE_GENERATING :         [[fallthrough]];
     case STATE_INIT :               [[fallthrough]];
@@ -346,7 +368,7 @@ void thing_player_event_loop(Gamep g, Levelsp v, Levelp l)
           //
           // Player wants to start following or replace the current path.
           //
-          level_cursor_copy_mouse_path_to_player(g, v, l);
+          (void) level_cursor_copy_mouse_path_to_player(g, v, l);
           break;
         case PLAYER_STATE_MOVE_CONFIRM_REQUESTED :
           //
@@ -355,7 +377,7 @@ void thing_player_event_loop(Gamep g, Levelsp v, Levelp l)
           break;
         case PLAYER_STATE_FOLLOWING_PATH :
           //
-          // Already following a path. Allow the me to mouse around looking for
+          // Already following a path. Allow the player to mouse around looking for
           // a better path while moving.
           //
           thing_player_cursor_loop(g, v, l);
@@ -366,6 +388,7 @@ void thing_player_event_loop(Gamep g, Levelsp v, Levelp l)
     case STATE_GAME_OVER_MENU :     [[fallthrough]];
     case STATE_LEVEL_SELECT_MENU :  [[fallthrough]];
     case STATE_PLAYER_SELECT_MENU : [[fallthrough]];
+    case STATE_STATISTICS_MENU :    [[fallthrough]];
     case STATE_DEAD_MENU :
       //
       // If the cursor moved, update what we see
@@ -962,13 +985,22 @@ static auto player_move_delta(Gamep g, Levelsp v, Levelp l, int dx, int dy) -> b
 
 [[nodiscard]] auto player_fire(Gamep g, Levelsp v, Levelp l, int dx, int dy, Tpp fire_what, bpoint target) -> bool
 {
-  TRACE();
-
   Thingp item = nullptr;
 
   auto *me = thing_player(g);
   if (me == nullptr) {
     ERR("no thing pointer");
+    return false;
+  }
+
+  THING_DBG(g, v, l, me, "fire @%d,%d", target.x, target.y);
+  TRACE_INDENT();
+
+  //
+  // No firing when dead!
+  //
+  if (thing_is_dead(me)) {
+    THING_DBG(g, v, l, me, "fire beam weapon, no as firer dead");
     return false;
   }
 

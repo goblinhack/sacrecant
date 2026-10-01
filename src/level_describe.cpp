@@ -81,6 +81,7 @@ void level_cursor_describe_update(Gamep g, Levelsp v)
     case STATE_SPELLBOOK_MENU :      [[fallthrough]];
     case STATE_COLLECT_MENU :        [[fallthrough]];
     case STATE_DEAD_MENU :           [[fallthrough]];
+    case STATE_STATISTICS_MENU :     [[fallthrough]];
     case STATE_GENERATED :           [[fallthrough]];
     case STATE_GENERATING :          [[fallthrough]];
     case STATE_INIT :                [[fallthrough]];

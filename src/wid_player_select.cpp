@@ -568,17 +568,32 @@ static void wid_player_select_boost_via_mouse_over_end(Gamep g, Widp w)
                   game_sacrifice_clear(g);
                   game_boost_clear(g);
 
-                  w = wid_player[ OS_RANDOM_RANGE(0, wid_player_index) ];
-                  if (w != nullptr) {
-                    (void) wid_player_select_player_via_mouse_down(g, w, -1, -1, 0);
-                  }
-                  w = wid_sacrifice[ OS_RANDOM_RANGE(0, wid_sacrifice_index) ];
-                  if (w != nullptr) {
-                    (void) wid_player_select_sacrifice_via_mouse_down(g, w, -1, -1, 0);
-                  }
-                  w = wid_boost[ OS_RANDOM_RANGE(0, wid_boost_index) ];
-                  if (w != nullptr) {
-                    (void) wid_player_select_boost_via_mouse_down(g, w, -1, -1, 0);
+                  if (g_opt_robot) {
+                    w = wid_player[ PCG_RANDOM_RANGE(0, wid_player_index) ];
+                    if (w != nullptr) {
+                      (void) wid_player_select_player_via_mouse_down(g, w, -1, -1, 0);
+                    }
+                    w = wid_sacrifice[ PCG_RANDOM_RANGE(0, wid_sacrifice_index) ];
+                    if (w != nullptr) {
+                      (void) wid_player_select_sacrifice_via_mouse_down(g, w, -1, -1, 0);
+                    }
+                    w = wid_boost[ PCG_RANDOM_RANGE(0, wid_boost_index) ];
+                    if (w != nullptr) {
+                      (void) wid_player_select_boost_via_mouse_down(g, w, -1, -1, 0);
+                    }
+                  } else {
+                    w = wid_player[ OS_RANDOM_RANGE(0, wid_player_index) ];
+                    if (w != nullptr) {
+                      (void) wid_player_select_player_via_mouse_down(g, w, -1, -1, 0);
+                    }
+                    w = wid_sacrifice[ OS_RANDOM_RANGE(0, wid_sacrifice_index) ];
+                    if (w != nullptr) {
+                      (void) wid_player_select_sacrifice_via_mouse_down(g, w, -1, -1, 0);
+                    }
+                    w = wid_boost[ OS_RANDOM_RANGE(0, wid_boost_index) ];
+                    if (w != nullptr) {
+                      (void) wid_player_select_boost_via_mouse_down(g, w, -1, -1, 0);
+                    }
                   }
                 }
                 break;

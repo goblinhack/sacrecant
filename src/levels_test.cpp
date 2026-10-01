@@ -939,7 +939,7 @@ void levels_test(Gamep g)
                     /* line */ (const char *) "x&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&x",
                     /* line */ (const char *) "x..............................................x",
                     /* line */ (const char *) "x.............b.......@.........B..............x",
-                    /* line */ (const char *) "x.............b..............B.................x",
+                    /* line */ (const char *) "x.............b........|||...B.................x",
                     /* line */ (const char *) "x.............bbbbb.......B....................x",
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
                     /* end */ nullptr);

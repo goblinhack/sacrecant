@@ -80,7 +80,16 @@ void thing_get_weapon_list_set(Tpp tp, thing_get_weapon_list_t callback)
 
 [[nodiscard]] auto thing_fire_at(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp item, Tpp fire_what, const bpoint &target) -> bool
 {
-  TRACE();
+  THING_DBG(g, v, l, me, "fire @%d,%d", target.x, target.y);
+  TRACE_INDENT();
+
+  //
+  // No firing when dead!
+  //
+  if (thing_is_dead(me)) {
+    THING_DBG(g, v, l, me, "fire beam weapon, no as firer dead");
+    return false;
+  }
 
   //
   // Decrement charge count if we have a thing
@@ -111,10 +120,8 @@ void thing_get_weapon_list_set(Tpp tp, thing_get_weapon_list_t callback)
     if (! thing_beam_weapon_fire_at(g, v, l, me, fire_what, target)) {
       return false;
     }
-  } else {
-    if (! thing_proj_launch_at(g, v, l, me, fire_what, target)) {
-      return false;
-    }
+  } else if (! thing_proj_launch_at(g, v, l, me, fire_what, target)) {
+    return false;
   }
 
   return true;

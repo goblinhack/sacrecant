@@ -1211,6 +1211,7 @@ void Game::state_change(GameStateType new_state, const std::string &why)
       game_request_to_update_cursor_set(g);
       break;
     case STATE_DEAD_MENU :          [[fallthrough]];
+    case STATE_STATISTICS_MENU :    [[fallthrough]];
     case STATE_MOVE_WARNING_MENU :  [[fallthrough]];
     case STATE_PLAYER_SELECT_MENU : [[fallthrough]];
     case STATE_KEYBOARD_MENU :      [[fallthrough]];
@@ -1300,6 +1301,7 @@ void Game::state_change(GameStateType new_state, const std::string &why)
         case STATE_INIT :               [[fallthrough]];
         case STATE_QUITTING :           [[fallthrough]];
         case STATE_DEAD_MENU :          [[fallthrough]];
+        case STATE_STATISTICS_MENU :    [[fallthrough]];
         case STATE_PLAYER_SELECT_MENU : [[fallthrough]];
         case STATE_GAME_OVER_MENU :     [[fallthrough]];
         case STATE_PLAYING :            [[fallthrough]];
@@ -1310,6 +1312,7 @@ void Game::state_change(GameStateType new_state, const std::string &why)
       }
       break;
     case STATE_DEAD_MENU :        [[fallthrough]];
+    case STATE_STATISTICS_MENU :  [[fallthrough]];
     case STATE_GAME_OVER_MENU :   [[fallthrough]];
     case STATE_KEYBOARD_MENU :    [[fallthrough]];
     case STATE_LOAD_MENU :        [[fallthrough]];
@@ -1392,7 +1395,8 @@ void Game::handle_game_request_to_remake_ui()
         (void) wid_actionbar_init(g);
       }
       break;
-    case STATE_DEAD_MENU : [[fallthrough]];
+    case STATE_STATISTICS_MENU : [[fallthrough]];
+    case STATE_DEAD_MENU :       [[fallthrough]];
     case STATE_PLAYING :
       if (v != nullptr) {
         (void) wid_leftbar_init(g);
@@ -1433,6 +1437,7 @@ void Game::tick()
   auto *v = game_levels_get(g);
   if (v != nullptr) {
     switch (state) {
+      case STATE_STATISTICS_MENU : [[fallthrough]];
       case STATE_DEAD_MENU :
       case STATE_GAME_OVER_MENU :
         //
@@ -1591,6 +1596,7 @@ void Game::display()
     case STATE_CHOOSE_SPELL_TARGET : [[fallthrough]];
     case STATE_PLAYING :             [[fallthrough]];
     case STATE_DEAD_MENU :           [[fallthrough]];
+    case STATE_STATISTICS_MENU :     [[fallthrough]];
     case STATE_GAME_OVER_MENU :
       level_mouse_position_get(g, v, l);
       level_display(g, v, l);

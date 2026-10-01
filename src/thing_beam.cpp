@@ -10,6 +10,7 @@
 #include "my_main.hpp"
 #include "my_math.hpp"
 #include "my_thing.hpp"
+#include "my_thing_inlines.hpp"
 #include "my_tp.hpp"
 #include "my_types.hpp"
 
@@ -42,6 +43,14 @@ auto thing_beam_weapon_fire_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what
 {
   THING_DBG(g, v, l, me, "fire beam weapon");
   TRACE_INDENT();
+
+  //
+  // No firing when dead!
+  //
+  if (thing_is_dead(me)) {
+    THING_DBG(g, v, l, me, "fire beam weapon, no as firer dead");
+    return false;
+  }
 
   //
   // Can't shoot too far

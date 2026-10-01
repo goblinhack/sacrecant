@@ -102,6 +102,34 @@ void thing_move_path_confirm(Gamep g, Levelsp v, Levelp l, Thingp me)
 }
 
 //
+// Return true if the move path is unchanged
+//
+auto thing_move_path_identical(Gamep g, Levelsp v, Levelp l, Thingp me, const std::vector< bpoint > &move_path) -> bool
+{
+  TRACE();
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    thing_err(g, v, l, me, "no ext struct");
+    return false;
+  }
+
+  if (move_path.size() != ext->move_path.size) {
+    return false;
+  }
+
+  int index {};
+  for (auto p : move_path) {
+    if (p != ext->move_path.points[ index ]) {
+      return false;
+    }
+    index++;
+  }
+
+  return true; // same
+}
+
+//
 // Copy the given path to the thing
 //
 static auto thing_move_path_confirmed(Gamep g, Levelsp v, Levelp l, Thingp me, const std::vector< bpoint > &move_path, const bool confirmed)
