@@ -19,12 +19,13 @@
 #include <set>
 
 enum {
-  GOAL_PRIO_VERY_HIGH = 0,
-  GOAL_PRIO_HIGHER    = 1,
-  GOAL_PRIO_HIGH      = 2,
-  GOAL_PRIO_MED       = 3,
-  GOAL_PRIO_LOW       = 4,
-  GOAL_PRIO_VERY_LOW  = 5,
+  GOAL_PRIO_HIGHEST   = 0,
+  GOAL_PRIO_VERY_HIGH = 1,
+  GOAL_PRIO_HIGHER    = 2,
+  GOAL_PRIO_HIGH      = 3,
+  GOAL_PRIO_MED       = 4,
+  GOAL_PRIO_LOW       = 5,
+  GOAL_PRIO_VERY_LOW  = 6,
 };
 
 class Robot
@@ -115,27 +116,35 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
       continue;
     }
 
-    if (l->player_has_walked_tile[ x ][ y ]) {
-      continue;
-    }
-
     int score = 0;
 
     int dist = (int) (distance(p, at) * 10);
 
     score += dist;
 
+    if (level_has_seen(g, v, l, p)) {
+      score -= 10;
+    }
+
+    if (l->player_has_walked_tile[ x ][ y ]) {
+      score -= 10;
+    }
+
     FOR_ALL_THINGS_AT_UNSAFE(g, v, l, t, p)
     {
       if (thing_is_exit(t)) {
-        goals.insert(Goal(GOAL_PRIO_VERY_HIGH, score, p, "exit", t));
+        goals.insert(Goal(GOAL_PRIO_HIGHEST, score, p, "exit", t));
       }
 
       if (thing_is_monst(t)) {
         if (! thing_is_dead(t)) {
-          score = 1000 - dist;
-          goals.insert(Goal(GOAL_PRIO_HIGH, score, p, "monst", t));
+          score = -dist;
+          goals.insert(Goal(GOAL_PRIO_VERY_HIGH, score, p, "monst", t));
         }
+      }
+
+      if (thing_is_treasure(t)) {
+        goals.insert(Goal(GOAL_PRIO_HIGHER, score, p, "exit", t));
       }
 
       if (! level_is_obs_to_movement(g, v, l, p)) {
@@ -154,7 +163,7 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
     }
   }
 
-  if (compiler_unused) {
+  if (1 || compiler_unused) {
     con("Goals:");
     for (auto goal : goals) {
       thing_con(g, v, l, player, "goal: prio %d score %d -- @%d,%d, %s", goal.prio, goal.score, goal.at.x, goal.at.y, goal.what.c_str());
