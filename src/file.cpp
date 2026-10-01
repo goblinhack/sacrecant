@@ -443,7 +443,7 @@ void file_dbg(const char *fmt, ...)
 {
   va_list args = {};
 
-  IF_NODEBUG2 { return; }
+  IF_NODEBUG3 { return; }
 
   va_start(args, fmt);
   log_(fmt, args);

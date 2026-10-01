@@ -201,8 +201,12 @@ void thing_player_init(Gamep g)
 [[nodiscard]] auto thing_player_mouse_down(Gamep g, Levelsp v, Levelp l, int x, int y, uint32_t button) -> bool
 {
   auto *player = thing_player(g);
+  if (! player) {
+    return true;
+  }
 
-  log("thing mouse down");
+  THING_DBG(g, v, l, player, "thing mouse down in: %s / %s", game_state_to_string(game_state(g)).c_str(),
+            player_state_to_string(player_state(g, v)).c_str());
   TRACE_INDENT();
 
   switch (game_state(g)) {

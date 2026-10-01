@@ -38,11 +38,11 @@ auto ptrcheck_leak_print(int mtype) -> void;
 auto ptrcheck_leak_print() -> void;
 
 //
-// MUST use DEBUG2 else "set debug on" gets confused as it never learned pointers.
+// MUST use DEBUG3 else "set debug on" gets confused as it never learned pointers.
 //
 #define NEWPTR(__mtype__, __ptr__, __what__)                                                                                                    \
   {                                                                                                                                             \
-    if (DEBUG2) {                                                                                                                               \
+    if (DEBUG3) {                                                                                                                               \
       TRACE();                                                                                                                                  \
       ptrcheck_alloc(__mtype__, __ptr__, __what__, sizeof(*(__ptr__)), PTRCHECK_AT);                                                            \
     }                                                                                                                                           \
@@ -50,14 +50,14 @@ auto ptrcheck_leak_print() -> void;
 
 #define OLDPTR(__mtype__, __ptr__)                                                                                                              \
   {                                                                                                                                             \
-    if (DEBUG2) {                                                                                                                               \
+    if (DEBUG3) {                                                                                                                               \
       TRACE();                                                                                                                                  \
       ptrcheck_free(__mtype__, __ptr__, PTRCHECK_AT);                                                                                           \
     }                                                                                                                                           \
   }
 
 #define VERIFY(__mtype__, __ptr__)                                                                                                              \
-  ((DEBUG2) ? (ptrcheck_verify(__mtype__, __ptr__, SRC_FILE_NAME, SRC_FUNC_NAME, SRC_LINE_NUM) ? (__ptr__) : nullptr) : (__ptr__))
+  ((DEBUG3) ? (ptrcheck_verify(__mtype__, __ptr__, SRC_FILE_NAME, SRC_FUNC_NAME, SRC_LINE_NUM) ? (__ptr__) : nullptr) : (__ptr__))
 
 enum {
   MTYPE_SDL,

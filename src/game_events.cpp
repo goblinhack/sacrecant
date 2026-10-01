@@ -253,11 +253,14 @@
   }
 
   if (! level_is_level_select(g, v, l)) {
-    if (g_opt_debug1) {
+    IF_DEBUG
+    {
       //
       // Allow saves when debugging
       //
-    } else {
+    }
+    else
+    {
       //
       // No saves
       //
@@ -1571,7 +1574,7 @@ static auto game_event_abort(Gamep g) -> bool
     case STATE_PLAYING :             [[fallthrough]];
     case STATE_CHOOSE_THROW_TARGET : [[fallthrough]];
     case STATE_CHOOSE_SPELL_TARGET : game_state_reset(g, "pressed escape"); break;
-    case GAME_STATE_ENUM_MAX :       DBG("game mouse down, ignore, not playing"); return false;
+    case GAME_STATE_ENUM_MAX :       DBG("game input, ignore, not playing"); return false;
   }
 
   return false;

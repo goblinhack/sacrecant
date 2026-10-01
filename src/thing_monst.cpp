@@ -1146,10 +1146,7 @@ void monst_state_change(Gamep g, Levelsp v, Levelp l, Thingp me, MonstState new_
   //
   // Why oh why change state
   //
-  IF_DEBUG
-  {
-    THING_DBG(g, v, l, me, "state change: %s -> %s", monst_state_to_string(old_state).c_str(), monst_state_to_string(new_state).c_str());
-  }
+  THING_DBG(g, v, l, me, "state change: %s -> %s", monst_state_to_string(old_state).c_str(), monst_state_to_string(new_state).c_str());
 
   switch (new_state) {
     case MONST_STATE_INIT :

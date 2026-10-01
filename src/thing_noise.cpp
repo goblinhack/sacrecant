@@ -25,16 +25,16 @@
   // Allow boots to take precedence over a sacrifice
   //
   if (thing_is_stealthy(g, v, l, t)) {
-    IF_DEBUG2 { THING_DBG(g, v, l, t, "noise: %d (0 due to stealth)", noise); }
+    IF_DEBUG3 { THING_DBG(g, v, l, t, "noise: %d (0 due to stealth)", noise); }
     noise = 0;
   }
 
   if (thing_is_noisy(g, v, l, t)) {
     noise *= 2;
-    IF_DEBUG2 { THING_DBG(g, v, l, t, "noise: %d (noisy)", noise * 2); }
+    IF_DEBUG3 { THING_DBG(g, v, l, t, "noise: %d (noisy)", noise * 2); }
   }
 
-  IF_DEBUG2 { THING_DBG(g, v, l, t, "noise: %d", noise); }
+  IF_DEBUG3 { THING_DBG(g, v, l, t, "noise: %d", noise); }
 
   return noise;
 }

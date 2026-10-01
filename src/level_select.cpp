@@ -590,7 +590,7 @@ static auto level_select_count_levels(LevelSelect *s) -> int
         }
       }
 
-      IF_DEBUG2
+      IF_DEBUG3
       {
         if (g_opt_level_select_menu) {
           l->player_can_enter_this_level_next = true;
@@ -658,7 +658,7 @@ static auto level_select_count_levels(LevelSelect *s) -> int
         //
         // Show all levels as next when debugging
         //
-        IF_DEBUG2
+        IF_DEBUG3
         {
           if (g_opt_level_select_menu && (tp == tp_is_level_locked_icon)) {
             tp = tp_is_level_next_icon;

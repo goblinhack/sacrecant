@@ -433,7 +433,7 @@ static auto level_cursor_path_draw_line(Gamep g, Levelsp v, Levelp l, const bpoi
 
   std::ranges::sort(paths, [](const PathCost &a, const PathCost &b) -> bool { return (a.cost < b.cost); });
 
-  IF_DEBUG
+  IF_DEBUG2
   {
     auto idx = 0;
     for (const auto &pc : paths) {

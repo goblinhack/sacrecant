@@ -3172,7 +3172,7 @@ static auto level_gen_new_class(Gamep g, LevelNum level_num) -> class LevelGen *
   lg->level_num      = level_num;
   lg->min_room_count = MIN_LEVEL_ROOM_COUNT + (level_num / 10);
   lg->max_room_count = lg->min_room_count + 20;
-  lg->debug          = g_opt_debug2;
+  lg->debug          = DEBUG2;
 
   return lg;
 }
@@ -5354,9 +5354,7 @@ static void level_gen_extend_bridges(Gamep g, class LevelGen *lg)
   //
   // Dump the level to the per thread output log file
   //
-  if (g_opt_debug1) {
-    level_gen_dump(lg);
-  }
+  IF_DEBUG { level_gen_dump(lg); }
 
   //
   // Create joined up tiles
@@ -5711,7 +5709,8 @@ void level_gen_create_levels(Gamep g, Levelsp v)
   }
   v->is_generating_levels = false;
 
-  if (g_opt_debug2) {
+  IF_DEBUG3
+  {
     for (auto i = 0; i < max_threads; i++) {
       auto *lg = levels_generated[ i ];
       if (lg != nullptr) {

@@ -39,7 +39,7 @@ static void wid_statistics_destroy(Gamep g)
     delete wid_statistics_popup;
     wid_statistics_popup = nullptr;
 
-    game_state_change(g, STATE_PLAYING, "close defeated");
+    game_state_change(g, STATE_MAIN_MENU, "wid statistics destroy");
   }
 }
 

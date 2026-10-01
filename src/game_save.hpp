@@ -601,7 +601,7 @@ auto Game::save(const std::string &file_to_save) -> bool
   }
 
 #if 0
-  IF_DEBUG2 { //
+  IF_DEBUG3 { //
 
     std::cout << "before compression ";
     (void) hexdump((const uint8_t*)src, src_size);
@@ -662,7 +662,7 @@ auto Game::save(const std::string &file_to_save) -> bool
   // Dump the post compress buffer
   //
 #if 0
-  IF_DEBUG2 { //
+  IF_DEBUG3 { //
 
     std::cout << "after compression ";
     (void) hexdump((const uint8_t *)dst, dst_size);

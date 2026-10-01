@@ -47,7 +47,7 @@ std::array< bool, UI_MAX_SAVE_SLOTS > slot_valid;
       game_load_error = "bad '" what "' magic expected: " + std::format("0x{:x}", m) + " got " + std::format("0x{:x}", magic);                  \
       return in;                                                                                                                                \
     }                                                                                                                                           \
-    IF_DEBUG2 { con("Read magic '%s' %s", what, std::format("0x{:x}", magic).c_str()); }                                                        \
+    IF_DEBUG3 { con("Read magic '%s' %s", what, std::format("0x{:x}", magic).c_str()); }                                                        \
   }
 
 auto operator>>(std::istream &in, Bits< SDL_Keysym & > my) -> std::istream &
@@ -614,7 +614,8 @@ auto operator>>(std::istream &in, Bits< Config & > my) -> std::istream &
 
   if (! g_opt_override_debug_level) {
     if (my.t.debug_mode) {
-      g_opt_debug2 = true;
+      g_opt_debug3 = false;
+      g_opt_debug2 = false;
       g_opt_debug1 = true;
     }
   }
@@ -1294,7 +1295,7 @@ auto Game::load(const std::string &file_to_load, class Game &target) -> bool
   }
 
 #if 0
-  IF_DEBUG2 {
+  IF_DEBUG3 {
     std::cout << "decompressed as ";
     hexdump((const uint8_t *)dst, dst_size);
   }

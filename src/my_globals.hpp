@@ -14,7 +14,8 @@ extern bool g_loading;                   // Currently loading
 extern bool g_main_loop_running;         // SDL main loop is running.
 extern bool g_monochrome;                // Ugly hack to switch to monochrome gfx
 extern bool g_opt_debug1;                // Normal debugs
-extern bool g_opt_debug2;                // All debugs
+extern bool g_opt_debug2;                // More debugs
+extern bool g_opt_debug3;                // All debugs
 extern bool g_opt_do_level_gen;          // Test level gen
 extern bool g_opt_do_level_select_gen;   // Test level select gen
 extern bool g_opt_do_room_gen;           // Test room gen

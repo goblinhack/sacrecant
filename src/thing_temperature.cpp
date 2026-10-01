@@ -255,7 +255,7 @@ void tp_temperature_init(Tpp tp)
     val = limit;
   }
 
-  IF_DEBUG2
+  IF_DEBUG3
   { //
     THING_DBG(g, v, l, me, "temperature set to %u degrees", val);
   }

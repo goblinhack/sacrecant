@@ -433,18 +433,18 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
     to.y                 = PCG_RANDOM_RANGE(border, (uint8_t) MAP_HEIGHT - border);
 
     if (is_oob_or_border(to)) [[unlikely]] {
-      IF_DEBUG2 { THING_DBG(g, v, l, me, "teleport, no; oob"); }
+      IF_DEBUG3 { THING_DBG(g, v, l, me, "teleport, no; oob"); }
       continue;
     }
 
     if (distance(to, at) < MAP_WIDTH / 2) {
-      IF_DEBUG2 { THING_DBG(g, v, l, me, "teleport, no; too close"); }
+      IF_DEBUG3 { THING_DBG(g, v, l, me, "teleport, no; too close"); }
       continue;
     }
 
     if (attempt < 100) {
       if (l->info.on_path_entrance_to_exit[ to.x ][ to.y ] == 0U) {
-        IF_DEBUG2 { THING_DBG(g, v, l, me, "teleport, no; not on safe path"); }
+        IF_DEBUG3 { THING_DBG(g, v, l, me, "teleport, no; not on safe path"); }
         continue;
       }
     }
@@ -468,17 +468,17 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
         to.y = y;
 
         if (is_oob_or_border(to)) [[unlikely]] {
-          IF_DEBUG2 { THING_DBG(g, v, l, me, "teleport, no; oob"); }
+          IF_DEBUG3 { THING_DBG(g, v, l, me, "teleport, no; oob"); }
           continue;
         }
 
         if (distance(to, at) < MAP_WIDTH / 2) {
-          IF_DEBUG2 { THING_DBG(g, v, l, me, "teleport, no; too close"); }
+          IF_DEBUG3 { THING_DBG(g, v, l, me, "teleport, no; too close"); }
           continue;
         }
 
         if (l->info.on_path_entrance_to_exit[ to.x ][ to.y ] == 0U) {
-          IF_DEBUG2 { THING_DBG(g, v, l, me, "teleport, no; not on safe path"); }
+          IF_DEBUG3 { THING_DBG(g, v, l, me, "teleport, no; not on safe path"); }
           continue;
         }
 
@@ -511,12 +511,12 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
         to.y = y;
 
         if (is_oob_or_border(to)) [[unlikely]] {
-          IF_DEBUG2 { THING_DBG(g, v, l, me, "teleport, no; oob"); }
+          IF_DEBUG3 { THING_DBG(g, v, l, me, "teleport, no; oob"); }
           continue;
         }
 
         if (distance(to, at) < MAP_WIDTH / 2) {
-          IF_DEBUG2 { THING_DBG(g, v, l, me, "teleport, no; too close"); }
+          IF_DEBUG3 { THING_DBG(g, v, l, me, "teleport, no; too close"); }
           continue;
         }
 
@@ -549,12 +549,12 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
         to.y = y;
 
         if (is_oob_or_border(to)) [[unlikely]] {
-          IF_DEBUG2 { THING_DBG(g, v, l, me, "teleport, no; oob"); }
+          IF_DEBUG3 { THING_DBG(g, v, l, me, "teleport, no; oob"); }
           continue;
         }
 
         if (distance(to, at) < MAP_WIDTH / 2) {
-          IF_DEBUG2 { THING_DBG(g, v, l, me, "teleport, no; too close"); }
+          IF_DEBUG3 { THING_DBG(g, v, l, me, "teleport, no; too close"); }
           continue;
         }
 
@@ -583,7 +583,7 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
         to.y = y;
 
         if (is_oob_or_border(to)) [[unlikely]] {
-          IF_DEBUG2 { THING_DBG(g, v, l, me, "teleport, no; oob"); }
+          IF_DEBUG3 { THING_DBG(g, v, l, me, "teleport, no; oob"); }
           continue;
         }
 

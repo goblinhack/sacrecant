@@ -5881,7 +5881,7 @@ void wid_dbg(Widp w, const char *fmt, ...)
 
   VERIFY(MTYPE_WID, w);
 
-  IF_NODEBUG2 { return; }
+  IF_NODEBUG3 { return; }
 
 #ifndef ENABLE_DEBUG_UI
   return;

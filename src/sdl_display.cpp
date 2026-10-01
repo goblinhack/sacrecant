@@ -121,9 +121,7 @@ static inline void sdl_list_video_size()
   TRACE();
   int i = 0;
 
-  if (! g_opt_debug1) {
-    return;
-  }
+  IF_NODEBUG { return; }
 
   for (i = 0; i < SDL_GetNumDisplayModes(0); ++i) {
     SDL_DisplayMode mode;
@@ -297,10 +295,7 @@ static inline void sdl_list_video_size()
     SDL_GL_SwapWindow(sdl.window);
   }
 
-  IF_DEBUG
-  { //
-    DBG("SDL: OpenGL Exts     : %s", glGetString(GL_EXTENSIONS));
-  }
+  DBG("SDL: OpenGL Exts     : %s", glGetString(GL_EXTENSIONS));
 
   return true;
 }

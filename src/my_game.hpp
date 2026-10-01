@@ -439,6 +439,7 @@ void               game_spell_tmp_while_targeting_clear(Gamep g);
 [[nodiscard]] auto game_state(Gamep g) -> GameStateType;
 [[nodiscard]] auto game_map_single_pix_size_get(Gamep g) -> int;
 [[nodiscard]] auto game_map_zoom_def_get(Gamep g) -> int;
+[[nodiscard]] auto game_state_to_string(GameStateType state) -> std::string;
 [[nodiscard]] auto game_map_zoom_get(Gamep g) -> int;
 [[nodiscard]] auto game_tick_get(Gamep g, Levelsp v) -> uint32_t;
 

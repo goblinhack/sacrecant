@@ -338,7 +338,7 @@ void wid_console_flush(Gamep g)
   //
   // Easier to see progress on windows where there is no console
   //
-  if (g_opt_debug1) {
+  IF_DEBUG {
     wid_console_raise(g);
     sdl_flush_display(g, true);
   }

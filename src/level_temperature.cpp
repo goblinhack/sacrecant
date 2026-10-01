@@ -279,7 +279,7 @@ static void thing_heat_exchange(Gamep g, Levelsp v, Levelp l, Thingp a, Thingp b
   float const final_dT = (Q / (m * c));
   finalT               = static_cast< int >(ceilf((Ta) + final_dT));
 
-  IF_DEBUG2
+  IF_DEBUG3
   {
     THING_DBG(g, v, l, a, "a");
     THING_DBG(g, v, l, b, "b");
@@ -315,7 +315,7 @@ void level_thing_pair_temperature_handle(Gamep g, Levelsp v, Levelp l, Thingp a,
   int const Ta = thing_temperature(a);
   int const Tb = thing_temperature(b);
 
-  IF_DEBUG2
+  IF_DEBUG3
   {
     THING_DBG(g, v, l, a, "a Ta %d", Ta);
     THING_DBG(g, v, l, b, "b Tb %d", Tb);
@@ -456,7 +456,7 @@ void level_tick_end_temperature(Gamep g, Levelsp v, Levelp l)
       sorted_pairs.push_back(a_pair);
     }
 
-    IF_DEBUG2
+    IF_DEBUG3
     {
       for (auto a_pair : sorted_pairs) {
         auto *a = a_pair.first;
@@ -478,7 +478,7 @@ void level_tick_end_temperature(Gamep g, Levelsp v, Levelp l)
       return t1->_priority + t2->_priority < t3->_priority + t4->_priority;
     });
 
-    IF_DEBUG2
+    IF_DEBUG3
     {
       for (auto a_pair : sorted_pairs) {
         auto *a = a_pair.first;

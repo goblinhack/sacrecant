@@ -1109,7 +1109,7 @@ void Game::destroy_levels()
 }
 void game_destroy_levels(Gamep g) { g->destroy_levels(); }
 
-static auto game_state_to_string(GameStateType state) -> std::string
+auto game_state_to_string(GameStateType state) -> std::string
 {
   TRACE();
   return GameStateType_to_string(state);

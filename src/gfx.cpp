@@ -1024,7 +1024,7 @@ static void gfx_init_tiles_walls_and_floors()
       "bridge.IS_JOIN_X1_180",
       "bridge.IS_JOIN_X1",
       "bridge.IS_JOIN_X",
-      "none", // used for lighting as a fake tile to learn tl and br tile co-oords. must be 12x12
+      "none", // used for lighting as a fake tile to learn tl and br tile coordinates. must be 12x12
       "",
       "",
       "",

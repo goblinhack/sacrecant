@@ -66,7 +66,8 @@ static void usage()
   con(" ");
   con("Debugging:");
   con(" --debug                           -- Basic debug.");
-  con(" --debug2                          -- All debugs. Slow.");
+  con(" --debug2                          -- More debugs.");
+  con(" --debug3                          -- All debugs. Slow.");
   con(" ");
   con("Testing:");
   con(" --level name/<number>             -- Start in this level only.");
@@ -101,14 +102,14 @@ static void parse_args(int argc, char *argv[])
   //
   // Parse format arguments
   //
-  if (g_opt_debug1) {
+  IF_DEBUG {
     con("Parse command line arguments for '%s'", argv[ 0 ]);
   } else {
     log("parse command line arguments for '%s'", argv[ 0 ]);
   }
 
   for (i = 1; i < argc; i++) {
-    if (g_opt_debug1) {
+    IF_DEBUG {
       con("+ argument: \"%s\"", argv[ i ]);
     } else {
       log("+ argument: \"%s\"", argv[ i ]);
@@ -149,6 +150,14 @@ static void parse_args(int argc, char *argv[])
     if ((strcasecmp(argv[ i ], "--debug2") == 0) || (strcasecmp(argv[ i ], "-debug2") == 0)) {
       g_opt_debug1               = true;
       g_opt_debug2               = true;
+      g_opt_override_debug_level = true;
+      continue;
+    }
+
+    if ((strcasecmp(argv[ i ], "--debug3") == 0) || (strcasecmp(argv[ i ], "-debug3") == 0)) {
+      g_opt_debug1               = true;
+      g_opt_debug2               = true;
+      g_opt_debug3               = true;
       g_opt_override_debug_level = true;
       continue;
     }
@@ -339,7 +348,7 @@ static void parse_args(int argc, char *argv[])
   }
 
   //////////////////////////////////////////////////////////////////////////////
-  // Call parse_args before any memory allocations, in case debug2 is enabled
+  // Call parse_args before any memory allocations, in case debug3 is enabled
   //////////////////////////////////////////////////////////////////////////////
   TRACE_DEBUG();
   parse_args(argc, argv);
@@ -482,7 +491,7 @@ static void parse_args(int argc, char *argv[])
 
   {
     TRACE_DEBUG();
-    if (g_opt_debug1) {
+    IF_DEBUG {
       con("Load early gfx tiles, text, UI etc...");
     } else {
       log("load early gfx tiles, text, UI etc...");
@@ -505,7 +514,7 @@ static void parse_args(int argc, char *argv[])
 
   if (! g_skip_audio_and_gfx) {
     TRACE_DEBUG();
-    if (g_opt_debug1) {
+    IF_DEBUG {
       con("Load fonts");
     } else {
       log("load fonts");
@@ -521,7 +530,7 @@ static void parse_args(int argc, char *argv[])
 
   if (! g_skip_audio_and_gfx) {
     TRACE_DEBUG();
-    if (g_opt_debug1) {
+    IF_DEBUG {
       con("Load console");
     } else {
       log("load console");
@@ -545,7 +554,7 @@ static void parse_args(int argc, char *argv[])
   if (! g_skip_audio_and_gfx) {
     TRACE_DEBUG();
     g_program_name = std::string(argv[ 0 ]);
-    if (g_opt_debug1) {
+    IF_DEBUG {
       con("Original program name: %s", g_program_name.c_str());
     } else {
       log("original program name: %s", g_program_name.c_str());
@@ -555,7 +564,7 @@ static void parse_args(int argc, char *argv[])
 
   if (! g_skip_audio_and_gfx) {
     TRACE_DEBUG();
-    if (g_opt_debug1) {
+    IF_DEBUG {
       con("Load tiles");
     } else {
       log("load tiles");
@@ -575,7 +584,7 @@ static void parse_args(int argc, char *argv[])
 
   if (! g_skip_audio_and_gfx) {
     TRACE_DEBUG();
-    if (g_opt_debug1) {
+    IF_DEBUG {
       con("Load textures");
     } else {
       log("load textures");
@@ -588,7 +597,7 @@ static void parse_args(int argc, char *argv[])
 
   if (! g_skip_audio_and_gfx) {
     TRACE_DEBUG();
-    if (g_opt_debug1) {
+    IF_DEBUG {
       con("Init audio");
     } else {
       log("init audio");
@@ -601,7 +610,7 @@ static void parse_args(int argc, char *argv[])
 
   if (! g_skip_audio_and_gfx) {
     TRACE_DEBUG();
-    if (g_opt_debug1) {
+    IF_DEBUG {
       con("Init music");
     } else {
       log("init music");
@@ -616,7 +625,7 @@ static void parse_args(int argc, char *argv[])
 
   if (! g_skip_audio_and_gfx) {
     TRACE_DEBUG();
-    if (g_opt_debug1) {
+    IF_DEBUG {
       con("Load sounds");
     } else {
       log("load sounds");

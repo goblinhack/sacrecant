@@ -386,7 +386,7 @@ void tile_load_arr_sprites(const char *file, const char *alias, uint32_t tile_wi
         CROAK("tile name [%s] already used", name.c_str());
       }
 
-      IF_DEBUG2
+      IF_DEBUG3
       { //
         log("add tile name [%s]", name.c_str());
       }

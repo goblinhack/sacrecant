@@ -534,7 +534,7 @@ static void thing_display_it(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp t_mayb
 {
   TRACE_DEBUG();
 
-  IF_DEBUG
+  IF_DEBUG2
   {
     light_pixels = nullptr;
     fg.r         = 255;

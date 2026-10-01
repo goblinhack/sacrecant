@@ -401,20 +401,19 @@ void sdl_prepare_to_exit(Gamep g)
   if ((s == nullptr) || (*s == '\0')) {
     g_opt_debug1 = false;
     g_opt_debug2 = false;
+    g_opt_debug3 = false;
   } else {
     g_opt_debug1 = false;
     g_opt_debug2 = false;
+    g_opt_debug3 = false;
     switch ((strtol(s, nullptr, 10) != 0) ? 1 : 0) {
       case 0 :  break;
       default : g_opt_debug1 = true; break;
     }
   }
 
-  if (g_opt_debug1) {
-    con("Debug: on.");
-  } else {
-    con("Debug: off.");
-  }
+  IF_DEBUG { con("Debug: on."); }
+  else { con("Debug: off."); }
 
   return 1U;
 }

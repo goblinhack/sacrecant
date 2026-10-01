@@ -405,7 +405,7 @@
   auto stat_string = stat_to_name_short(stat);
   int  out         = me->_stat[ stat ];
 
-  IF_DEBUG2
+  IF_DEBUG3
   {
     THING_DBG(g, v, l, me, "stat get: %s", stat_string.c_str());
     TRACE_INDENT();
@@ -417,7 +417,7 @@
 
     out += mod;
 
-    IF_DEBUG2
+    IF_DEBUG3
     {
       if (mod > 0) {
         THING_DBG(g, v, l, me, "mod: %s +%d (from buff)", stat_string.c_str(), out);
@@ -433,7 +433,7 @@
 
     out += mod;
 
-    IF_DEBUG2
+    IF_DEBUG3
     {
       if (mod > 0) {
         THING_DBG(g, v, l, me, "mod: %s +%d (from spell)", stat_string.c_str(), out);
@@ -452,7 +452,7 @@
 
     auto item_count = thing_inventory_get_item_count(g, v, l, item, me);
     if (item_count > 1) {
-      IF_DEBUG2
+      IF_DEBUG3
       {
         if (mod > 0) {
           THING_DBG(g, v, l, item, "mod: +%d x %d (from item)", mod, item_count);
@@ -462,7 +462,7 @@
       }
       mod *= item_count;
     } else {
-      IF_DEBUG2
+      IF_DEBUG3
       {
         if (mod > 0) {
           THING_DBG(g, v, l, item, "mod: +%d (from item)", mod);
@@ -477,7 +477,7 @@
 
   out = std::max(THING_STAT_MIN, out);
 
-  IF_DEBUG2
+  IF_DEBUG3
   {
     auto final_mod = stat_to_mod(out);
     if (final_mod > 0) {

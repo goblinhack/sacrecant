@@ -54,7 +54,7 @@ static void level_blit_light(Gamep g, Levelsp v, Levelp l, color c)
     spoint tl2;
     spoint br2;
     //
-    // Get the on screen pixel co-oords of the top left and bottom right tiles
+    // Get the on screen pixel coordinates of the top left and bottom right tiles
     //
     //    auto single_pix_size = game_map_single_pix_size_get(g);
     thing_display_get_tile_info(g, v, l, bpoint(0, 0), NULL_TP, NULL_THING, tl1, br1, nullptr);
@@ -486,9 +486,9 @@ static void level_display_fbo_do(Gamep g, Levelsp v, Levelp level_above, Levelp 
           default : break;
         }
 
-        if (g_opt_debug1) {
-          display_tile = true;
-        } else if (is_level_select) {
+        IF_DEBUG { display_tile = true; }
+        else if (is_level_select)
+        {
           //
           // No lighting in level selection
           //
@@ -670,7 +670,7 @@ static void level_display_fbos(Gamep g, Levelsp v, Levelp level_above, Levelp l)
 
   gl_enter_2d_mode(g, game_window_pix_width_get(g), game_window_pix_height_get(g));
 
-  if (DEBUG || is_level_select) {
+  if (DEBUG2 || is_level_select) {
     //
     // No lighting for level selection
     //

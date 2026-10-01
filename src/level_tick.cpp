@@ -932,7 +932,7 @@ static void level_tick_time_step(Gamep g, Levelsp v, Levelp current_level)
   v->time_step      = (static_cast< float >(v->frame - v->frame_begin)) / static_cast< float >(duration_ms);
   v->time_step      = std::min< float >(v->time_step, 1.0F);
 
-  IF_DEBUG2
+  IF_DEBUG3
   { //
     if (level_is_player_level(g, v, current_level)) {
       LEVEL_DBG(g, v, current_level, "Tick %u: tick-count %u time_step %f last_time_step %f frame %u frame_begin %u", v->tick,
@@ -992,7 +992,7 @@ static void level_tick_monitor_progress(Gamep g, Levelsp v, Levelp current_level
   //
   // Are all levels finished ticking?
   //
-  IF_DEBUG2
+  IF_DEBUG3
   {
     LEVEL_DBG(g, v, current_level, "Tick %u: req %u in-progress-count %u tick-end-count %u", v->tick, v->level_tick_request_count,
               v->level_tick_in_progress_count, v->level_tick_done_count);

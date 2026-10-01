@@ -96,12 +96,16 @@ void               warn(const char *fmt, ...) CHECK_FORMAT_STR(printf, 1, 2);
 
 #define DEBUG       (g_opt_debug1)
 #define DEBUG2      (g_opt_debug2)
+#define DEBUG3      (g_opt_debug3)
 #define NODEBUG     (! g_opt_debug1)
 #define NODEBUG2    (! g_opt_debug2)
+#define NODEBUG3    (! g_opt_debug3)
 #define IF_DEBUG    if (DEBUG) [[unlikely]]
 #define IF_DEBUG2   if (DEBUG2) [[unlikely]]
+#define IF_DEBUG3   if (DEBUG3) [[unlikely]]
 #define IF_NODEBUG  if (NODEBUG) [[unlikely]]
 #define IF_NODEBUG2 if (NODEBUG2) [[unlikely]]
+#define IF_NODEBUG3 if (NODEBUG3) [[unlikely]]
 
 #define DBG                                                                                                                                     \
   if (DEBUG)                                                                                                                                    \
@@ -109,6 +113,10 @@ void               warn(const char *fmt, ...) CHECK_FORMAT_STR(printf, 1, 2);
 
 #define DBG2                                                                                                                                    \
   if (DEBUG2)                                                                                                                                   \
+  log
+
+#define DBG3                                                                                                                                    \
+  if (DEBUG3)                                                                                                                                   \
   log
 
 //

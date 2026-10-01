@@ -16,7 +16,8 @@ bool g_loading;                   // Currently loading
 bool g_main_loop_running;         // SDL main loop running.
 bool g_monochrome;                // Ugly hack to switch to monochrome gfx
 bool g_opt_debug1;                // Basic debug
-bool g_opt_debug2;                // All debugs. Slow.
+bool g_opt_debug2;                // More debug
+bool g_opt_debug3;                // All debugs. Slow.
 bool g_opt_do_level_gen;          // Test level gen
 bool g_opt_do_level_select_gen;   // Test level select gen
 bool g_opt_do_room_gen;           // Test room gen
@@ -77,7 +78,7 @@ void reset_globals()
   g_opt_restarted             = false;
   g_opt_restarted_in_gfx_menu = false;
   g_opt_debug1                = false;
-  g_opt_debug2                = false;
+  g_opt_debug3                = false;
   g_opt_tests                 = false;
 
   g_level_opt = {};
