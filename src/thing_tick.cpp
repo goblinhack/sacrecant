@@ -84,12 +84,7 @@ void thing_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   (void) thing_attack_count_per_tick_set(g, v, l, me, 0);
 
   //
-  // Per thing callback
-  //
-  thing_on_tick_begin(g, v, l, me);
-
-  //
-  // Resurrection?
+  // Resurrection? Must do this before the dead checks below.
   //
   if (thing_is_corpse(me)) {
     if (thing_is_able_to_resurrect(me)) {
@@ -107,9 +102,19 @@ void thing_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
     }
   }
 
+  //
+  // DO NOT CALL tick once the thing is dead, or mob corpses can spawn minions
+  //
   if (thing_is_dead(me)) {
     return;
   }
+
+  //
+  // Per thing callback
+  //
+  // DO NOT CALL tick once the thing is dead, or mob corpses can spawn minions
+  //
+  thing_on_tick_begin(g, v, l, me);
 
   //
   // Lifespan tick
