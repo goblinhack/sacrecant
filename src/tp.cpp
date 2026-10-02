@@ -127,6 +127,8 @@ static std::initializer_list< std::string > tps = {
     /* shell done */
     "argusul",
     "barrel",
+    "bat_minion",
+    "bat_mob",
     "bat",
     "beam_of_energy",
     "beam_of_fire",

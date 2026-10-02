@@ -14,7 +14,7 @@
 #include "../../my_types.hpp"
 #include "../../my_ui.hpp"
 
-static auto tp_bat_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
+static auto tp_bat_minion_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
 {
   TRACE();
 
@@ -24,15 +24,15 @@ static auto tp_bat_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> s
   return "tiny bat";
 }
 
-static auto tp_bat_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
+static auto tp_bat_minion_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
 {
   TRACE();
 
   return //
-      UI_INFO1_FMT_STR "A tiny cute bat. That bites.\n";
+      UI_INFO1_FMT_STR "A tiny cute and possessed bat.\n";
 }
 
-static auto tp_bat_assess_tp(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp me) -> ThingEnvironType
+static auto tp_bat_minion_assess_tp(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp me) -> ThingEnvironType
 {
   TRACE_DEBUG();
 
@@ -43,7 +43,7 @@ static auto tp_bat_assess_tp(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp me) ->
   return THING_ENVIRON_NEUTRAL;
 }
 
-static auto tp_bat_assess_tile(Gamep g, Levelsp v, Levelp l, const bpoint &at, Thingp me) -> ThingEnvironType
+static auto tp_bat_minion_assess_tile(Gamep g, Levelsp v, Levelp l, const bpoint &at, Thingp me) -> ThingEnvironType
 {
   TRACE_DEBUG();
 
@@ -54,7 +54,7 @@ static auto tp_bat_assess_tile(Gamep g, Levelsp v, Levelp l, const bpoint &at, T
   return THING_ENVIRON_NEUTRAL;
 }
 
-static void tp_bat_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
+static void tp_bat_minion_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
 {
   TRACE();
 
@@ -63,7 +63,7 @@ static void tp_bat_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent 
   thing_sound_play(g, v, l, me, "monst_death");
 }
 
-static bool tp_bat_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thingp target, ThingEvent &e)
+static bool tp_bat_minion_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thingp target, ThingEvent &e)
 {
   TRACE();
 
@@ -74,7 +74,7 @@ static bool tp_bat_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attacker, T
   return true;
 }
 
-static bool tp_bat_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thingp target, ThingEvent &e)
+static bool tp_bat_minion_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thingp target, ThingEvent &e)
 {
   TRACE();
 
@@ -85,23 +85,24 @@ static bool tp_bat_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thi
   return true;
 }
 
-[[nodiscard]] auto tp_load_bat() -> bool
+[[nodiscard]] auto tp_load_bat_minion() -> bool
 {
-  auto *tp   = tp_load("bat"); // keep as string for scripts
+  auto *tp   = tp_load("bat_minion"); // keep as string for scripts
   auto  name = tp_name(tp);
 
   // begin sort marker1 {
-  thing_assess_tile_set(tp, tp_bat_assess_tile);
-  thing_assess_tp_set(tp, tp_bat_assess_tp);
-  thing_description_set(tp, tp_bat_description_get);
-  thing_detail_set(tp, tp_bat_detail_get);
-  thing_on_attacking_set(tp, tp_bat_on_attacking);
-  thing_on_death_set(tp, tp_bat_on_death);
-  thing_on_missing_set(tp, tp_bat_on_missing);
+  thing_assess_tile_set(tp, tp_bat_minion_assess_tile);
+  thing_assess_tp_set(tp, tp_bat_minion_assess_tp);
+  thing_description_set(tp, tp_bat_minion_description_get);
+  thing_detail_set(tp, tp_bat_minion_detail_get);
+  thing_on_attacking_set(tp, tp_bat_minion_on_attacking);
+  thing_on_death_set(tp, tp_bat_minion_on_death);
+  thing_on_missing_set(tp, tp_bat_minion_on_missing);
   tp_attack_count_max_per_tick_set(tp, 2);
   tp_chance_set(tp, THING_CHANCE_CONTINUE_TO_BURN, "1d6"); // fumble => intensify / keep burning / crit => stop burning
   tp_chance_set(tp, THING_CHANCE_START_BURNING, "1d2");    // fumble => flames spread to you
   tp_damage_set(tp, THING_EVENT_MELEE_DAMAGE, "1d2");
+  tp_distance_minion_from_mob_max_set(tp, 10);
   tp_distance_vision_set(tp, 10);
   tp_flag_set(tp, is_able_to_be_buffed);
   tp_flag_set(tp, is_able_to_be_engulfed);
@@ -118,6 +119,7 @@ static bool tp_bat_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thi
   tp_flag_set(tp, is_animated_can_hflip);
   tp_flag_set(tp, is_animated);
   tp_flag_set(tp, is_attackable_by_player);
+  tp_flag_set(tp, is_bat_minion);
   tp_flag_set(tp, is_bat);
   tp_flag_set(tp, is_biome_bogland);
   tp_flag_set(tp, is_biome_dungeon);
@@ -131,6 +133,7 @@ static bool tp_bat_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thi
   tp_flag_set(tp, is_flesh);
   tp_flag_set(tp, is_flying);
   tp_flag_set(tp, is_loggable);
+  tp_flag_set(tp, is_minion);
   tp_flag_set(tp, is_monst);
   tp_flag_set(tp, is_obs_to_beam);
   tp_flag_set(tp, is_obs_to_jumping_onto);
@@ -165,6 +168,8 @@ static bool tp_bat_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thi
   // end sort marker1 }
 
   auto delay = 150;
+
+  name = "bat";
 
   for (auto frame = 0; frame < 10; frame++) {
     auto *tile = tile_find_mand(name + std::string(".idle.") + std::to_string(frame));

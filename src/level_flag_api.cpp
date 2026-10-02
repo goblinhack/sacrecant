@@ -1634,16 +1634,16 @@
   return level_flag(g, v, l, is_unused127, p, me);
 }
 
-[[nodiscard]] auto level_is_unused128(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_bat_minion(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused128, p, me);
+  return level_flag(g, v, l, is_bat_minion, p, me);
 }
 
-[[nodiscard]] auto level_is_unused129(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_bat(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused129, p, me);
+  return level_flag(g, v, l, is_bat, p, me);
 }
 
 [[nodiscard]] auto level_is_flying(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp

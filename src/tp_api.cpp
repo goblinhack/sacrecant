@@ -1633,16 +1633,16 @@
   return tp_flag(tp, is_unused127) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused128(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_bat_minion(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused128) != 0;
+  return tp_flag(tp, is_bat_minion) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused129(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_bat(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused129) != 0;
+  return tp_flag(tp, is_bat) != 0;
 }
 
 [[nodiscard]] auto tp_is_flying(Tpp tp) -> bool

@@ -935,6 +935,8 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_attackable_by_player(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_auto_wear(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_barrel(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_bat_minion(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_bat(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_beam_weapon(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_biome_bogland(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_biome_dungeon(Thingp t) -> bool;
@@ -1204,8 +1206,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused125(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused126(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused127(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused128(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused129(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused13(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused14(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused15(Thingp t) -> bool;

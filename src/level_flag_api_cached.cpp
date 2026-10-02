@@ -1671,16 +1671,16 @@
   return level_flag_cached(g, v, l, is_unused127, p);
 }
 
-[[nodiscard]] auto level_is_unused128_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_bat_minion_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused128, p);
+  return level_flag_cached(g, v, l, is_bat_minion, p);
 }
 
-[[nodiscard]] auto level_is_unused129_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_bat_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused129, p);
+  return level_flag_cached(g, v, l, is_bat, p);
 }
 
 [[nodiscard]] auto level_is_flying_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

@@ -297,8 +297,8 @@
       list_macro(is_unused125, "is_unused125"),                                             /* newline */                                       \
       list_macro(is_unused126, "is_unused126"),                                             /* newline */                                       \
       list_macro(is_unused127, "is_unused127"),                                             /* newline */                                       \
-      list_macro(is_unused128, "is_unused128"),                                             /* newline */                                       \
-      list_macro(is_unused129, "is_unused129"),                                             /* newline */                                       \
+      list_macro(is_bat_minion, "is_bat_minion"),                                           /* newline */                                       \
+      list_macro(is_bat, "is_bat"),                                                         /* newline */                                       \
       list_macro(is_unused13, "is_unused13"),                                               /* newline */                                       \
       list_macro(is_flying, "is_flying"),                                                   /* newline */                                       \
       list_macro(is_meat, "is_meat"),                                                       /* newline */                                       \
@@ -910,6 +910,8 @@ class Tp;
 [[nodiscard]] auto tp_is_attackable_by_player(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_auto_wear(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_barrel(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_bat_minion(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_bat(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_beam_weapon(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_biome_bogland(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_biome_dungeon(Tpp tp) -> bool;
@@ -1157,8 +1159,6 @@ class Tp;
 [[nodiscard]] auto tp_is_unused125(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused126(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused127(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused128(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused129(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused13(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused14(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused15(Tpp tp) -> bool;

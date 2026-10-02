@@ -1,0 +1,149 @@
+//
+// Copyright goblinhack@gmail.com
+//
+
+#include "../../my_callstack.hpp"
+#include "../../my_dice_rolls.hpp"
+#include "../../my_level.hpp"
+#include "../../my_sound.hpp"
+#include "../../my_thing_callbacks.hpp"
+#include "../../my_tile.hpp"
+#include "../../my_tp.hpp"
+#include "../../my_tps.hpp"
+#include "../../my_types.hpp"
+#include "../../my_ui.hpp"
+
+static auto tp_bat_mob_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
+{
+  TRACE();
+
+  return "creepy coffin";
+}
+
+static auto tp_bat_mob_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
+{
+  TRACE();
+
+  return                                                                                                          //
+      UI_INFO1_FMT_STR "This creepy coffin is far too active... Bats fly out of it!\n"                            //
+      UI_INFO2_FMT_STR "When such devices are destroyed, all that they summoned will also vanish into oblivion."; //
+}
+
+static void tp_bat_mob_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
+{
+  TRACE();
+
+  thing_sound_play(g, v, l, me, "explosion");
+}
+
+static void tp_bat_mob_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
+{
+  TRACE();
+
+  if (d100() < 90 - (game_difficulty_get(g) * 10)) {
+    return;
+  }
+
+  if (! level_is_monst_bool(g, v, l, thing_at(g, v, l, me))) {
+    (void) thing_mob_spawn_a_minion(g, v, l, me, tp_first(is_bat_minion));
+  }
+}
+
+[[nodiscard]] auto tp_load_bat_mob() -> bool
+{
+  auto *tp   = tp_load("bat_mob"); // keep as string for scripts
+  auto  name = tp_name(tp);
+
+  // begin sort marker1 {
+  thing_description_set(tp, tp_bat_mob_description_get);
+  thing_detail_set(tp, tp_bat_mob_detail_get);
+  thing_on_death_set(tp, tp_bat_mob_on_death);
+  thing_on_tick_begin_set(tp, tp_bat_mob_tick_begin);
+  tp_dormant_set(tp, "1d20");
+  tp_flag_set(tp, is_able_to_be_teleported);
+  tp_flag_set(tp, is_able_to_fall_sound);
+  tp_flag_set(tp, is_able_to_fall);
+  tp_flag_set(tp, is_animated_can_hflip);
+  tp_flag_set(tp, is_animated);
+  tp_flag_set(tp, is_attackable_by_player);
+  tp_flag_set(tp, is_biome_dungeon);
+  tp_flag_set(tp, is_biome_graveyard);
+  tp_flag_set(tp, is_biome_nethervoid);
+  tp_flag_set(tp, is_biome_underhell);
+  tp_flag_set(tp, is_blit_centered);
+  tp_flag_set(tp, is_blit_hit_outline_w_black_inside);
+  tp_flag_set(tp, is_blit_shown_in_chasms);
+  tp_flag_set(tp, is_burnable); // is capable of being burned by fire
+  tp_flag_set(tp, is_collision_square);
+  tp_flag_set(tp, is_combustible); // will continue to burn once on fire
+  tp_flag_set(tp, is_corpse_on_death);
+  tp_flag_set(tp, is_cursor_path_hazard);
+  tp_flag_set(tp, is_described_cursor);
+  tp_flag_set(tp, is_dmap);
+  tp_flag_set(tp, is_light_source, 3);
+  tp_flag_set(tp, is_loggable);
+  tp_flag_set(tp, is_mob_kill_minions_on_death);
+  tp_flag_set(tp, is_mob);
+  tp_flag_set(tp, is_obs_to_beam);
+  tp_flag_set(tp, is_obs_to_jumping_onto);
+  tp_flag_set(tp, is_obs_to_movement);
+  tp_flag_set(tp, is_obs_to_teleporting_onto);
+  tp_flag_set(tp, is_obs_to_wall_walker);
+  tp_flag_set(tp, is_physics_explosion);
+  tp_flag_set(tp, is_physics_temperature);
+  tp_flag_set(tp, is_physics_water);
+  tp_flag_set(tp, is_shovable);
+  tp_flag_set(tp, is_shown_health);
+  tp_flag_set(tp, is_stone);
+  tp_flag_set(tp, is_submergible); // is seen submerged when in water
+  tp_flag_set(tp, is_tickable);
+  tp_flag_set(tp, is_wait_on_dead_anim);
+  tp_health_set(tp, "1d3+2");
+  tp_light_color_set(tp, "purple");
+  tp_minion_max_set(tp, 8);
+  tp_monst_group_add(tp, MOB_GROUP1);
+  tp_name_a_or_an_set(tp, "a creepy coffin");
+  tp_name_apostrophize_set(tp, "creepy coffin's");
+  tp_name_long_set(tp, "creepy coffin");
+  tp_name_pluralize_set(tp, "creepy coffins");
+  tp_name_short_set(tp, "creepy coffin");
+  tp_priority_set(tp, THING_PRIORITY_MOB);
+  tp_speed_set(tp, 100);
+  tp_temperature_burns_at_set(tp, 50);  // celsius
+  tp_temperature_damage_at_set(tp, 50); // celsius
+  tp_temperature_initial_set(tp, 0);    // celsius
+  tp_weight_set(tp, WEIGHT_HEAVY);      // grams
+  tp_z_depth_set(tp, MAP_Z_DEPTH_OBJ);
+  // end sort marker1 }
+
+  auto delay = 1000;
+
+  for (auto frame = 0; frame < 1; frame++) {
+    auto *tile = tile_find_mand(name + std::string(".dormant.") + std::to_string(frame));
+    tile_delay_ms_set(tile, delay);
+    tp_tiles_push_back(tp, THING_ANIM_DORMANT, tile);
+    tile_size_set(tile, OUTLINE_TILE_WIDTH, OUTLINE_TILE_HEIGHT);
+  }
+
+  for (auto frame = 0; frame < 3; frame++) {
+    auto *tile = tile_find_mand(name + std::string(".idle.") + std::to_string(frame));
+    tile_delay_ms_set(tile, delay);
+    tp_tiles_push_back(tp, THING_ANIM_IDLE, tile);
+    tile_size_set(tile, OUTLINE_TILE_WIDTH, OUTLINE_TILE_HEIGHT);
+  }
+
+  delay = 200;
+
+  for (auto frame = 0; frame < 6; frame++) {
+    auto *tile = tile_find_mand(name + std::string(".dead.") + std::to_string(frame));
+    tile_delay_ms_set(tile, delay);
+    tp_tiles_push_back(tp, THING_ANIM_DEAD, tile);
+    tile_size_set(tile, OUTLINE_TILE_WIDTH, OUTLINE_TILE_HEIGHT);
+
+    if (frame == 5) {
+      tile_is_cleanup_on_end_of_anim_set(tile);
+    }
+  }
+
+  return true;
+}
