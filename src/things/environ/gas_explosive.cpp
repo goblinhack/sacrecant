@@ -42,6 +42,10 @@ static void tp_gas_explosive_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
     for (auto delta : points) {
       auto p = at + delta;
 
+      if (is_oob(p)) {
+        continue;
+      }
+
       //
       // Rock, for example?
       //
@@ -104,6 +108,10 @@ static bool tp_gas_explosive_explode(Gamep g, Levelsp v, Levelp l, Thingp me, Th
 
   for (auto delta : points) {
     auto p = at + delta;
+
+    if (is_oob(p)) {
+      continue;
+    }
 
     if (level_is_critical_to_dungeon_design_bool(g, v, l, p)) {
       continue;

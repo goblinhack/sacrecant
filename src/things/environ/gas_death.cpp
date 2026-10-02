@@ -41,6 +41,10 @@ static void tp_gas_death_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
     for (auto delta : points) {
       auto p = at + delta;
 
+      if (is_oob(p)) {
+        continue;
+      }
+
       //
       // Rock, for example?
       //

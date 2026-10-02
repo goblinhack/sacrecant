@@ -5,6 +5,7 @@
 #include "../../my_callstack.hpp"
 #include "../../my_dice_rolls.hpp"
 #include "../../my_globals.hpp"
+#include "../../my_level_inlines.hpp"
 #include "../../my_main.hpp"
 #include "../../my_thing.hpp"
 #include "../../my_thing_callbacks.hpp"
@@ -78,6 +79,10 @@ static auto tp_coil_eel_assess_tile(Gamep g, Levelsp v, Levelp l, const bpoint &
 
     for (auto delta : points) {
       auto p = at + delta;
+
+      if (is_oob(p)) {
+        continue;
+      }
 
       if (level_is_water_deep_cached(g, v, l, p)) {
         return THING_ENVIRON_LIKES;

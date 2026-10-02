@@ -152,9 +152,10 @@
   if (!test_load_player_open_door_locked_fail()) { return false; }
   if (!test_load_player_open_door_locked_success()) { return false; }
   if (!test_load_player_open_door_unlocked()) { return false; }
+  if (!test_load_player_trap_chasm_triggered()) { return false; }
   if (!test_load_player_trap_did_not_trigger_due_to_clover()) { return false; }
   if (!test_load_player_trap_did_not_trigger_due_to_horseshoe()) { return false; }
-  if (!test_load_player_trap_triggered()) { return false; }
+  if (!test_load_player_trap_gas_death_triggered()) { return false; }
   if (!test_load_pot_disloc_bad_luck()) { return false; }
   if (!test_load_pot_disloc_good_luck()) { return false; }
   if (!test_load_pot_healing()) { return false; }

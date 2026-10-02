@@ -26,23 +26,21 @@ static void tp_magical_fire_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
 
-  //
-  // Don't spawn fire too soon after creation or we get a firestorm
-  //
-  if (thing_age(me) <= 1) {
-    //    return;
-  }
-
   const std::initializer_list< bpoint > points = {
       bpoint(-1, -1), bpoint(0, -1), bpoint(1, -1), bpoint(-1, 0), bpoint(1, 0), bpoint(-1, 1), bpoint(0, 1), bpoint(1, 1),
   };
+
+  auto at = thing_at(g, v, l, me);
 
   //
   // Spawn adjacent fire
   //
   for (auto delta : points) {
-    auto at = thing_at(g, v, l, me);
-    auto p  = at + delta;
+    auto p = at + delta;
+
+    if (is_oob(p)) {
+      continue;
+    }
 
     //
     // Rock, for example?

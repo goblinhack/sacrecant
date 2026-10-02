@@ -37,12 +37,17 @@ static void tp_fire_spready_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
       bpoint(-1, -1), bpoint(0, -1), bpoint(1, -1), bpoint(-1, 0), bpoint(1, 0), bpoint(-1, 1), bpoint(0, 1), bpoint(1, 1),
   };
 
+  auto at = thing_at(g, v, l, me);
+
   //
   // Spawn adjacent fire
   //
   for (auto delta : points) {
-    auto at = thing_at(g, v, l, me);
-    auto p  = at + delta;
+    auto p = at + delta;
+
+    if (is_oob(p)) {
+      continue;
+    }
 
     //
     // Rock, for example?

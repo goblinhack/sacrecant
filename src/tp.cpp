@@ -257,6 +257,8 @@ static std::initializer_list< std::string > tps = {
     "steam",
     "teleport",
     "trap_chasm",
+    "trap_gas_death",
+    "trap_gas_explosive",
     "voider",
     "wand_energy",
     "wand_fire",

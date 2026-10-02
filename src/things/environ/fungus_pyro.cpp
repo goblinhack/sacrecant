@@ -4,6 +4,7 @@
 
 #include "../../my_callstack.hpp"
 #include "../../my_dice_rolls.hpp"
+#include "../../my_level_inlines.hpp"
 #include "../../my_thing_callbacks.hpp"
 #include "../../my_thing_inlines.hpp"
 #include "../../my_tile.hpp"
@@ -43,6 +44,10 @@ static bool tp_fungus_pyro_spore(Gamep g, Levelsp v, Levelp l, Thingp me, ThingE
   //
   for (auto delta : points) {
     auto p = at + delta;
+
+    if (is_oob(p)) {
+      continue;
+    }
 
     //
     // Rock, for example?

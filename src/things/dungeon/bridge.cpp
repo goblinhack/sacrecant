@@ -2,10 +2,9 @@
 // Copyright goblinhack@gmail.com
 //
 
-#include <algorithm>
-
 #include "../../my_callstack.hpp"
 #include "../../my_level.hpp"
+#include "../../my_level_inlines.hpp"
 #include "../../my_main.hpp"
 #include "../../my_thing_callbacks.hpp"
 #include "../../my_thing_inlines.hpp"
@@ -14,6 +13,8 @@
 #include "../../my_tps.hpp"
 #include "../../my_types.hpp"
 #include "../../my_ui.hpp"
+
+#include <algorithm>
 
 static auto tp_bridge_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
 {
@@ -38,12 +39,15 @@ static void thing_bridge_replace(Gamep g, Levelsp v, Levelp l, Thingp me)
     auto water_count = 0;
     auto chasm_count = 0;
 
+    auto at = thing_at(g, v, l, me);
+
     for (auto delta : points) {
-      auto at = thing_at(g, v, l, me);
-      auto p  = at + delta;
-      lava_count += (level_is_lava_bool(g, v, l, p)) ? 1 : 0;
-      water_count += (level_is_water_shallow_bool(g, v, l, p) || level_is_water_deep_bool(g, v, l, p)) ? 1 : 0;
-      chasm_count += (level_is_chasm_bool(g, v, l, p)) ? 1 : 0;
+      auto p = at + delta;
+      if (! is_oob(p)) {
+        lava_count += (level_is_lava_bool(g, v, l, p)) ? 1 : 0;
+        water_count += (level_is_water_shallow_bool(g, v, l, p) || level_is_water_deep_bool(g, v, l, p)) ? 1 : 0;
+        chasm_count += (level_is_chasm_bool(g, v, l, p)) ? 1 : 0;
+      }
     }
 
     auto max_count = std::max({lava_count, water_count, chasm_count});

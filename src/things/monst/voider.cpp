@@ -5,6 +5,7 @@
 #include "../../my_callstack.hpp"
 #include "../../my_dice_rolls.hpp"
 #include "../../my_globals.hpp"
+#include "../../my_level_inlines.hpp"
 #include "../../my_main.hpp"
 #include "../../my_thing.hpp"
 #include "../../my_thing_callbacks.hpp"
@@ -62,9 +63,14 @@ static void tp_voider_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEve
       bpoint(-1, -1), bpoint(1, -1), bpoint(0, -1), bpoint(-1, 0), bpoint(1, 0), bpoint(0, 0), bpoint(-1, 1), bpoint(1, 1), bpoint(0, 1),
   };
 
+  auto at = thing_at(g, v, l, me);
+
   for (auto delta : points) {
-    auto at = thing_at(g, v, l, me);
-    auto p  = at + delta;
+    auto p = at + delta;
+
+    if (is_oob(p)) {
+      continue;
+    }
 
     if (level_is_critical_to_dungeon_design_bool(g, v, l, p)) {
       continue;

@@ -46,21 +46,21 @@ void thing_trap_handle(Gamep g, Levelsp v, Levelp l, Thingp me)
     // Skillful
     //
     if (thing_is_player(me)) {
-      topcon(UI_IMPORTANT_FMT_STR "You skillfully skip over a trap." UI_RESET_FMT);
+      topcon(UI_IMPORTANT_FMT_STR "You skillfully skip over a trap!" UI_RESET_FMT);
     }
   } else if (thing_on_activated(g, v, l, trap, me)) {
     //
     // The trap springs
     //
     if (thing_is_player(me)) {
-      topcon(UI_IMPORTANT_FMT_STR "You hear a click..." UI_RESET_FMT);
+      topcon(UI_IMPORTANT_FMT_STR "You heard a click..." UI_RESET_FMT);
     }
   } else {
     //
     // The trap fails
     //
     if (thing_is_player(me)) {
-      topcon(UI_IMPORTANT_FMT_STR "You hear a click, but nothing happens..." UI_RESET_FMT);
+      topcon(UI_IMPORTANT_FMT_STR "You heard a click, but nothing happens..." UI_RESET_FMT);
     }
   }
 }

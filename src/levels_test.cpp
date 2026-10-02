@@ -113,6 +113,25 @@ void levels_test(Gamep g)
   {
     Overrides overrides;
 
+    overrides[ 'a' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("trap_chasm"); };
+    overrides[ 'b' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("trap_gas_death"); };
+    overrides[ 'c' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("trap_gas_explosive"); };
+
+    level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "traps", __FUNCTION__, __LINE__, overrides, 0,
+                    /* line */ (const char *) "xxxxxxxxxxx",
+                    /* line */ (const char *) "x.........x",
+                    /* line */ (const char *) "x..a......x",
+                    /* line */ (const char *) "x.........x",
+                    /* line */ (const char *) "x@..b.....x",
+                    /* line */ (const char *) "x.....c...x",
+                    /* line */ (const char *) "x.........x",
+                    /* line */ (const char *) "xxxxxxxxxxx",
+                    /* end */ nullptr);
+  }
+
+  {
+    Overrides overrides;
+
     overrides[ 'a' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("chocolate_frog"); };
     overrides[ 'b' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("clown_meat"); };
     overrides[ 'c' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("minotorte"); };

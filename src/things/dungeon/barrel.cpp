@@ -4,6 +4,7 @@
 
 #include "../../my_callstack.hpp"
 #include "../../my_level.hpp"
+#include "../../my_level_inlines.hpp"
 #include "../../my_main.hpp"
 #include "../../my_thing_callbacks.hpp"
 #include "../../my_tile.hpp"
@@ -38,9 +39,11 @@ static void tp_barrel_spawn_explosion(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   for (auto delta : points) {
     auto p = at + delta;
-    if (level_is_obs_to_explosion(g, v, l, p) == nullptr) {
-      if (! level_is_explosion_bool(g, v, l, p)) {
-        (void) thing_spawn(g, v, l, tp_first(is_explosion), p);
+    if (! is_oob(p)) {
+      if (level_is_obs_to_explosion(g, v, l, p) == nullptr) {
+        if (! level_is_explosion_bool(g, v, l, p)) {
+          (void) thing_spawn(g, v, l, tp_first(is_explosion), p);
+        }
       }
     }
   }

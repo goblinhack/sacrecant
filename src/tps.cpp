@@ -150,7 +150,9 @@
   if (!tp_load_staff_fire()) { return false; }
   if (!tp_load_steam()) { return false; }
   if (!tp_load_teleport()) { return false; }
-  if (!tp_load_trap()) { return false; }
+  if (!tp_load_trap_chasm()) { return false; }
+  if (!tp_load_trap_gas_death()) { return false; }
+  if (!tp_load_trap_gas_explosive()) { return false; }
   if (!tp_load_vault()) { return false; }
   if (!tp_load_voider()) { return false; }
   if (!tp_load_wall()) { return false; }
