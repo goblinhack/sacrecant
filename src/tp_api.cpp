@@ -1651,10 +1651,10 @@
   return tp_flag(tp, is_unused130) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused131(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_meat(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused131) != 0;
+  return tp_flag(tp, is_meat) != 0;
 }
 
 [[nodiscard]] auto tp_is_gas_explosive(Tpp tp) -> bool

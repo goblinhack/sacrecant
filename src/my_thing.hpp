@@ -1078,6 +1078,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_light_flicker(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_loggable(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_lucky(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_meat(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_meltable(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_metal(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_minion(Thingp t) -> bool;
@@ -1206,7 +1207,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused129(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused13(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused130(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused131(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused14(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused15(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused16(Thingp t) -> bool;
@@ -1386,6 +1386,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_monst_target(Thingp me) -> bpoint;
 [[nodiscard]] auto thing_move_path_apply(Gamep g, Levelsp v, Levelp l, Thingp me, const std::vector< bpoint > &move_path) -> bool;
 [[nodiscard]] auto thing_move_path_confirmed(Gamep g, Levelsp v, Levelp l, Thingp me, const std::vector< bpoint > &move_path) -> bool;
+[[nodiscard]] auto thing_move_path_identical(Gamep g, Levelsp v, Levelp l, Thingp me, const std::vector< bpoint > &move_path) -> bool;
 [[nodiscard]] auto thing_move_path_pop(Gamep g, Levelsp v, Levelp l, Thingp me, bool &move_confirmed, bpoint &out) -> bool;
 [[nodiscard]] auto thing_move_path_pop(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint &out) -> bool;
 [[nodiscard]] auto thing_move_path_size(Gamep g, Levelsp v, Levelp l, Thingp me) -> int;
@@ -1576,7 +1577,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto wid_tp_info_spell_cost(Gamep g, Levelsp v, Levelp l, Tpp me, WidPopup *parent, int width, bool title_allowed) -> bool;
 [[nodiscard]] auto wid_tp_info_spell_options(Gamep g, Levelsp v, Levelp l, Tpp me, WidPopup *parent, int width, bool title_allowed) -> bool;
 [[nodiscard]] auto wid_tp_info_spell_upgrades(Gamep g, Levelsp v, Levelp l, Tpp me, WidPopup *parent, int width, bool title_allowed) -> bool;
-[[nodiscard]] auto thing_move_path_identical(Gamep g, Levelsp v, Levelp l, Thingp me, const std::vector< bpoint > &move_path) -> bool;
 // end sort marker1 }
 
 // begin sort marker2 {

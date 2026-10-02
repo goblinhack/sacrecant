@@ -1689,10 +1689,10 @@
   return level_flag_cached(g, v, l, is_unused130, p);
 }
 
-[[nodiscard]] auto level_is_unused131_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_meat_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused131, p);
+  return level_flag_cached(g, v, l, is_meat, p);
 }
 
 [[nodiscard]] auto level_is_gas_explosive_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

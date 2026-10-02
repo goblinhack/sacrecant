@@ -60,6 +60,7 @@
   if (!tp_load_entrance()) { return false; }
   if (!tp_load_exit()) { return false; }
   if (!tp_load_explosion()) { return false; }
+  if (!tp_load_eyes_in_a_jar()) { return false; }
   if (!tp_load_fire_magical()) { return false; }
   if (!tp_load_fire_spready()) { return false; }
   if (!tp_load_fire()) { return false; }
@@ -87,6 +88,7 @@
   if (!tp_load_level_select_bg()) { return false; }
   if (!tp_load_life_fungus()) { return false; }
   if (!tp_load_mantisman()) { return false; }
+  if (!tp_load_minotorte()) { return false; }
   if (!tp_load_mummy()) { return false; }
   if (!tp_load_ogrik()) { return false; }
   if (!tp_load_pale_eel()) { return false; }

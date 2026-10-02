@@ -1689,10 +1689,10 @@
   return level_flag(g, v, l, is_unused130, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused131_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_meat_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused131, p, me) != nullptr;
+  return level_flag(g, v, l, is_meat, p, me) != nullptr;
 }
 
 [[nodiscard]] auto level_is_gas_explosive_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool

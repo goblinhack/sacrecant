@@ -1652,10 +1652,10 @@
   return level_open(g, v, l, is_unused130, p);
 }
 
-[[nodiscard]] auto level_open_is_unused131(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+[[nodiscard]] auto level_open_is_meat(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_open(g, v, l, is_unused131, p);
+  return level_open(g, v, l, is_meat, p);
 }
 
 [[nodiscard]] auto level_open_is_gas_explosive(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp

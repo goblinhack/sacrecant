@@ -1653,10 +1653,10 @@
   return level_count(g, v, l, is_unused130, p);
 }
 
-[[nodiscard]] auto level_count_is_unused131(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_meat(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused131, p);
+  return level_count(g, v, l, is_meat, p);
 }
 
 [[nodiscard]] auto level_count_is_gas_explosive(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t

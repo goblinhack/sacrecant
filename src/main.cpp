@@ -102,18 +102,12 @@ static void parse_args(int argc, char *argv[])
   //
   // Parse format arguments
   //
-  IF_DEBUG {
-    con("Parse command line arguments for '%s'", argv[ 0 ]);
-  } else {
-    log("parse command line arguments for '%s'", argv[ 0 ]);
-  }
+  IF_DEBUG { con("Parse command line arguments for '%s'", argv[ 0 ]); }
+  else { log("parse command line arguments for '%s'", argv[ 0 ]); }
 
   for (i = 1; i < argc; i++) {
-    IF_DEBUG {
-      con("+ argument: \"%s\"", argv[ i ]);
-    } else {
-      log("+ argument: \"%s\"", argv[ i ]);
-    }
+    IF_DEBUG { con("+ argument: \"%s\"", argv[ i ]); }
+    else { log("+ argument: \"%s\"", argv[ i ]); }
   }
 
   if (argc != 0) {
@@ -491,11 +485,8 @@ static void parse_args(int argc, char *argv[])
 
   {
     TRACE_DEBUG();
-    IF_DEBUG {
-      con("Load early gfx tiles, text, UI etc...");
-    } else {
-      log("load early gfx tiles, text, UI etc...");
-    }
+    IF_DEBUG { con("Load early gfx tiles, text, UI etc..."); }
+    else { log("load early gfx tiles, text, UI etc..."); }
     gfx_init();
   }
 
@@ -514,11 +505,8 @@ static void parse_args(int argc, char *argv[])
 
   if (! g_skip_audio_and_gfx) {
     TRACE_DEBUG();
-    IF_DEBUG {
-      con("Load fonts");
-    } else {
-      log("load fonts");
-    }
+    IF_DEBUG { con("Load fonts"); }
+    else { log("load fonts"); }
     if (! font_init(g)) {
       ERR("font init");
     }
@@ -530,11 +518,8 @@ static void parse_args(int argc, char *argv[])
 
   if (! g_skip_audio_and_gfx) {
     TRACE_DEBUG();
-    IF_DEBUG {
-      con("Load console");
-    } else {
-      log("load console");
-    }
+    IF_DEBUG { con("Load console"); }
+    else { log("load console"); }
     if (! wid_console_init(g)) {
       ERR("wid_console init");
     }
@@ -554,21 +539,15 @@ static void parse_args(int argc, char *argv[])
   if (! g_skip_audio_and_gfx) {
     TRACE_DEBUG();
     g_program_name = std::string(argv[ 0 ]);
-    IF_DEBUG {
-      con("Original program name: %s", g_program_name.c_str());
-    } else {
-      log("original program name: %s", g_program_name.c_str());
-    }
+    IF_DEBUG { con("Original program name: %s", g_program_name.c_str()); }
+    else { log("original program name: %s", g_program_name.c_str()); }
     wid_console_flush(g);
   }
 
   if (! g_skip_audio_and_gfx) {
     TRACE_DEBUG();
-    IF_DEBUG {
-      con("Load tiles");
-    } else {
-      log("load tiles");
-    }
+    IF_DEBUG { con("Load tiles"); }
+    else { log("load tiles"); }
     if (! wid_tiles_init()) {
       ERR("widget tiles init");
     }
@@ -584,11 +563,8 @@ static void parse_args(int argc, char *argv[])
 
   if (! g_skip_audio_and_gfx) {
     TRACE_DEBUG();
-    IF_DEBUG {
-      con("Load textures");
-    } else {
-      log("load textures");
-    }
+    IF_DEBUG { con("Load textures"); }
+    else { log("load textures"); }
     if (! tex_init()) {
       ERR("tex init");
     }
@@ -597,11 +573,8 @@ static void parse_args(int argc, char *argv[])
 
   if (! g_skip_audio_and_gfx) {
     TRACE_DEBUG();
-    IF_DEBUG {
-      con("Init audio");
-    } else {
-      log("init audio");
-    }
+    IF_DEBUG { con("Init audio"); }
+    else { log("init audio"); }
     if (! audio_init()) {
       ERR("audio init");
     }
@@ -610,11 +583,8 @@ static void parse_args(int argc, char *argv[])
 
   if (! g_skip_audio_and_gfx) {
     TRACE_DEBUG();
-    IF_DEBUG {
-      con("Init music");
-    } else {
-      log("init music");
-    }
+    IF_DEBUG { con("Init music"); }
+    else { log("init music"); }
     if (! music_init()) {
       ERR("music init");
     } else {
@@ -625,11 +595,8 @@ static void parse_args(int argc, char *argv[])
 
   if (! g_skip_audio_and_gfx) {
     TRACE_DEBUG();
-    IF_DEBUG {
-      con("Load sounds");
-    } else {
-      log("load sounds");
-    }
+    IF_DEBUG { con("Load sounds"); }
+    else { log("load sounds"); }
     if (! sound_init()) {
       ERR("sound init");
     } else {
