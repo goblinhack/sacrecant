@@ -112,6 +112,7 @@
   if (!tp_load_pot_stealth()) { return false; }
   if (!tp_load_pot_tireless()) { return false; }
   if (!tp_load_proj_energy()) { return false; }
+  if (!tp_load_proj_fire_slow()) { return false; }
   if (!tp_load_proj_fire()) { return false; }
   if (!tp_load_pyro_fungus()) { return false; }
   if (!tp_load_reeds()) { return false; }

@@ -91,6 +91,8 @@ static void thing_killed_player(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEv
           topcon(UI_IMPORTANT_FMT_STR "You are boiled to death!" UI_RESET_FMT);
         } else if (thing_is_steam(it)) {
           topcon(UI_IMPORTANT_FMT_STR "You are steamed to death!" UI_RESET_FMT);
+        } else if (thing_is_projectile(it)) {
+          topcon(UI_IMPORTANT_FMT_STR "You are killed by %s." UI_RESET_FMT, by_the_thing.c_str());
         } else {
           topcon(UI_IMPORTANT_FMT_STR "You are burnt by %s." UI_RESET_FMT, by_the_thing.c_str());
         }

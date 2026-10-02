@@ -151,7 +151,8 @@ static auto thing_attack_at_do(Gamep g, Levelsp v, Levelp l, Thingp attacker, Th
     }
   }
 
-  auto victim_at = thing_at(g, v, l, me);
+  auto victim_at   = thing_at(g, v, l, me);
+  auto attacker_at = thing_at(g, v, l, attacker);
 
   //
   // Keep track of where we tried to attack
@@ -216,7 +217,9 @@ static auto thing_attack_at_do(Gamep g, Levelsp v, Levelp l, Thingp attacker, Th
 
     if (thing_is_monst(attacker)) {
       // Misses you
-      thing_attack_missed_player(g, v, l, attacker, me, e);
+      if (adjacent(attacker_at, victim_at)) {
+        thing_attack_missed_player(g, v, l, attacker, me, e);
+      }
       return false;
     }
 

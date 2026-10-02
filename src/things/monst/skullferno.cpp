@@ -154,7 +154,6 @@ static void tp_skullferno_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_flag_set(tp, is_able_to_be_levitated);
   tp_flag_set(tp, is_able_to_be_teleported);
   tp_flag_set(tp, is_able_to_fire_weapons);
-  tp_flag_set(tp, is_able_to_lunge);
   tp_flag_set(tp, is_able_to_move_diagonally);
   tp_flag_set(tp, is_able_to_move);
   tp_flag_set(tp, is_animated_can_hflip);
@@ -221,10 +220,10 @@ static void tp_skullferno_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   tp_special_attack_add(tp,
                         TpSpecialAttack {
-                            .type         = "2",         //
-                            .name         = "mind fire", //
-                            .what         = "proj_fire", //
-                            .d100         = 20,
+                            .type         = "2",              //
+                            .name         = "mind fire",      //
+                            .what         = "proj_fire_slow", //
+                            .d100         = 30,
                             .when_distant = true,
                         });
 

@@ -110,6 +110,7 @@ auto tp_load_pot_prot() -> bool;
 auto tp_load_pot_stealth() -> bool;
 auto tp_load_pot_tireless() -> bool;
 auto tp_load_proj_energy() -> bool;
+auto tp_load_proj_fire_slow() -> bool;
 auto tp_load_proj_fire() -> bool;
 auto tp_load_pyro_fungus() -> bool;
 auto tp_load_reeds() -> bool;

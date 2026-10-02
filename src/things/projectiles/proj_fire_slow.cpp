@@ -12,21 +12,21 @@
 #include "../../my_tps.hpp"
 #include "../../my_types.hpp"
 
-static void tp_proj_fire_on_spawned(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent *e_maybe_null)
+static void tp_proj_fire_slow_on_spawned(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent *e_maybe_null)
 {
   TRACE();
 
   thing_sound_play(g, v, l, me, "projectile");
 }
 
-static void tp_proj_fire_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
+static void tp_proj_fire_slow_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
 {
   TRACE();
 
   thing_sound_play(g, v, l, me, "explosion");
 }
 
-static void tp_proj_fire_on_moved(Gamep g, Levelsp v, Levelp l, Thingp me)
+static void tp_proj_fire_slow_on_moved(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
 
@@ -42,15 +42,15 @@ static void tp_proj_fire_on_moved(Gamep g, Levelsp v, Levelp l, Thingp me)
   }
 }
 
-[[nodiscard]] auto tp_load_proj_fire() -> bool
+[[nodiscard]] auto tp_load_proj_fire_slow() -> bool
 {
-  auto *tp   = tp_load("proj_fire"); // keep as string for scripts
+  auto *tp   = tp_load("proj_fire_slow"); // keep as string for scripts
   auto  name = tp_name(tp);
 
   // begin sort marker1 {
-  thing_on_death_set(tp, tp_proj_fire_on_death);
-  thing_on_moved_set(tp, tp_proj_fire_on_moved);
-  thing_on_spawned_set(tp, tp_proj_fire_on_spawned);
+  thing_on_death_set(tp, tp_proj_fire_slow_on_death);
+  thing_on_moved_set(tp, tp_proj_fire_slow_on_moved);
+  thing_on_spawned_set(tp, tp_proj_fire_slow_on_spawned);
   tp_damage_set(tp, THING_EVENT_FIRE_DAMAGE, "1d4");
   tp_flag_set(tp, is_able_to_be_teleported);
   tp_flag_set(tp, is_animated);
@@ -75,17 +75,15 @@ static void tp_proj_fire_on_moved(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_name_pluralize_set(tp, "balls of fire");
   tp_name_short_set(tp, "ball of fire");
   tp_priority_set(tp, THING_PRIORITY_WEAPON);
-  tp_speed_set(tp, 400);
+  tp_speed_set(tp, 100);
   tp_temperature_initial_set(tp, 500); // celsius
   tp_weight_set(tp, WEIGHT_NONE);      // grams
   tp_z_depth_set(tp, MAP_Z_DEPTH_WEAPON);
   // end sort marker1 }
 
-  if (g_opt_tests) {
-    tp_speed_set(tp, 800);
-  }
-
   auto delay = 200;
+
+  name = "proj_fire";
 
   for (auto frame = 0; frame < 2; frame++) {
     auto *tile = tile_find_mand(name + "." + std::to_string(frame));

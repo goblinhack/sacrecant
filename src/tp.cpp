@@ -221,6 +221,7 @@ static std::initializer_list< std::string > tps = {
     "pot_stealth",
     "pot_tireless",
     "proj_energy",
+    "proj_fire_slow",
     "proj_fire",
     "reeds",
     "ring_life",
