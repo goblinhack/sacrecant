@@ -530,6 +530,7 @@ using Levels = struct Levels {
 };
 
 [[nodiscard]] auto level_iter_begin(Gamep, Levelsp v, int *iter, const char *func, int line) -> bool;
+[[nodiscard]] auto level_cursor_path_draw_line(Gamep g, Levelsp v, Levelp l, const bpoint &start, const bpoint &end) -> std::vector< bpoint >;
 [[nodiscard]] auto level_iter_end(Gamep, Levelsp v, int iter, const char *func, int line) -> bool;
 
 struct MyIter {

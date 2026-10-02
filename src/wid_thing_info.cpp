@@ -1401,7 +1401,8 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
 {
   TRACE();
 
-  bool any_set = false;
+  bool any_set           = false;
+  auto printed_something = false;
 
   FOR_ALL_THING_STAT(stat)
   {
@@ -1444,6 +1445,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
 
           TRACE();
           parent->log(g, UI_INFO_FMT_STR + line, TEXT_FORMAT_LHS);
+          printed_something = true;
 
           TRACE();
           if (stat_to_opposing_stat(stat) != THING_STAT_NONE) {
@@ -1574,7 +1576,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     }
   }
 
-  return true;
+  return printed_something;
 }
 
 //

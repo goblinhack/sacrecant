@@ -67,7 +67,7 @@ void level_cursor_set(Gamep g, Levelsp v, bpoint p)
 // For the 3rd pass, any tiles will do as long as not consecutive hazard tiles.
 // For the 4th pass, any tiles will do as long as not walls
 //
-static auto level_cursor_path_draw_line_attempt(Gamep g, Levelsp v, Levelp l, Thingp player, bpoint start, bpoint end, int attempt)
+static auto level_cursor_path_draw_line_attempt(Gamep g, Levelsp v, Levelp l, Thingp player, const bpoint &start, const bpoint &end, int attempt)
     -> std::vector< bpoint >
 {
   TRACE();
@@ -390,7 +390,7 @@ static auto level_cursor_path_draw_line_attempt(Gamep g, Levelsp v, Levelp l, Th
 //
 // Returns true on success
 //
-static auto level_cursor_path_draw_line(Gamep g, Levelsp v, Levelp l, const bpoint &start, bpoint end) -> std::vector< bpoint >
+auto level_cursor_path_draw_line(Gamep g, Levelsp v, Levelp l, const bpoint &start, const bpoint &end) -> std::vector< bpoint >
 {
   static std::vector< bpoint > const empty;
 
@@ -398,6 +398,8 @@ static auto level_cursor_path_draw_line(Gamep g, Levelsp v, Levelp l, const bpoi
   if (player == nullptr) [[unlikely]] {
     return empty;
   }
+
+  THING_DBG(g, v, l, player, "draw path %d,%d to %d,%d", start.x, start.y, end.x, end.y);
 
   //
   // Choose the shortest path of each attempt.
@@ -421,6 +423,13 @@ static auto level_cursor_path_draw_line(Gamep g, Levelsp v, Levelp l, const bpoi
   if (paths.empty()) {
     std::vector< bpoint > path;
     for (auto p : draw_line(start, end)) {
+      //
+      // Having the start location in the move path should not be needed and causes the robot to fail moving
+      //
+      if (p == start) {
+        continue;
+      }
+
       if (((level_is_obs_to_cursor_path(g, v, l, p, player)) != nullptr) || ((level_is_cursor_path_hazard(g, v, l, p, player)) != nullptr)) {
         break;
       }

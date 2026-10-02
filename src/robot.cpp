@@ -74,7 +74,7 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
   con("Robot: handler");
   TRACE_INDENT();
 
-  SDL_Delay(10);
+  // SDL_Delay(10);
 
   std::multiset< Goal > goals;
 
@@ -113,6 +113,13 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
     bpoint p(x, y);
 
     //
+    // Avoid lava
+    //
+    if (level_is_cursor_path_hazard(g, v, l, p)) {
+      continue;
+    }
+
+    //
     // Look for tiles at the edge of vision
     //
     if (! thing_vision_can_see_tile(g, v, l, player, p)) {
@@ -142,11 +149,12 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
       continue;
     }
 
-    int score = 0;
+    auto path = level_cursor_path_draw_line(g, v, l, at, p);
+    if (path.empty()) {
+      continue;
+    }
 
-    int dist = (int) (distance(p, at) * 10);
-
-    score += dist;
+    int score = -(int) path.size();
 
     if (level_has_seen(g, v, l, p)) {
       score -= 10;
@@ -158,23 +166,6 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
 
     FOR_ALL_THINGS_AT_UNSAFE(g, v, l, t, p)
     {
-      if (thing_is_exit(t)) {
-        goals.insert(Goal(GOAL_PRIO_HIGHEST, score, p, "exit", t));
-      }
-
-      if (0) {
-        if (thing_is_monst(t)) {
-          if (! thing_is_dead(t)) {
-            score = -dist;
-            goals.insert(Goal(GOAL_PRIO_VERY_HIGH, score, p, "monst", t));
-          }
-        }
-      }
-
-      if (thing_is_treasure(t)) {
-        goals.insert(Goal(GOAL_PRIO_HIGHER, score, p, "exit", t));
-      }
-
       if (! level_is_obs_to_movement(g, v, l, p)) {
         if (thing_is_floor(t) || thing_is_dirt(t)) {
           goals.insert(Goal(GOAL_PRIO_MED, score, p, "floor", t));
@@ -186,6 +177,60 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
 
         if (thing_is_water_deep(t)) {
           goals.insert(Goal(GOAL_PRIO_VERY_LOW, score, p, "deep water", t));
+        }
+      }
+    }
+  }
+
+  FOR_ALL_MAP_POINTS(g, v, l, x, y)
+  {
+    bpoint p(x, y);
+
+    //
+    // Avoid lava
+    //
+    if (level_is_cursor_path_hazard(g, v, l, p)) {
+      continue;
+    }
+
+    //
+    // Don't try to shoot ghosts in walls
+    //
+    if (level_is_obs_to_movement(g, v, l, p)) {
+      continue;
+    }
+
+    //
+    // Look for tiles at the edge of vision
+    //
+    if (! thing_vision_can_see_tile(g, v, l, player, p)) {
+      continue;
+    }
+
+    int score = 0;
+    int dist  = (int) (distance(p, at) * 10);
+
+    FOR_ALL_THINGS_AT_UNSAFE(g, v, l, t, p)
+    {
+      if (thing_is_exit(t)) {
+        score *= 2;
+        goals.insert(Goal(GOAL_PRIO_VERY_LOW, score, p, "exit", t));
+      }
+
+      if (thing_is_mob(t)) {
+        score *= 2;
+        goals.insert(Goal(GOAL_PRIO_VERY_HIGH, score, p, "monst", t));
+      }
+
+      if (thing_is_treasure(t)) {
+        score *= 2;
+        goals.insert(Goal(GOAL_PRIO_HIGHER, score, p, "exit", t));
+      }
+
+      if (thing_is_monst(t)) {
+        if (! thing_is_dead(t)) {
+          score = -dist;
+          goals.insert(Goal(GOAL_PRIO_HIGH, score, p, "monst", t));
         }
       }
     }
@@ -292,9 +337,20 @@ void robot_mode_handler(Gamep g)
       SDL_PushEvent(&e);
       break;
     case STATE_PLAYING :
-      con("Robot: playing");
-      robot_mode_handler_playing(g, g_robot);
-      game_request_to_save_game_set(g);
+      {
+        con("Robot: playing");
+
+        auto *v = game_levels_get(g);
+        if (v == nullptr) [[unlikely]] {
+          CROAK("no levels");
+          return;
+        }
+
+        robot_mode_handler_playing(g, g_robot);
+        if (! (v->tick % 20)) {
+          game_request_to_save_game_set(g);
+        }
+      }
       break;
     case STATE_QUITTING :            break;
     case STATE_GAME_OVER_MENU :      break;
