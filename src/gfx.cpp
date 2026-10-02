@@ -6577,7 +6577,7 @@ static void gfx_init_tiles()
       "clown_meat.0",
       "minotorte.0",
       "eyes_in_a_jar.0",
-      "",
+      "fairy_cake.0",
       "",
       "",
       "",

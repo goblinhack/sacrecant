@@ -59,6 +59,7 @@ auto tp_load_entrance() -> bool;
 auto tp_load_exit() -> bool;
 auto tp_load_explosion() -> bool;
 auto tp_load_eyes_in_a_jar() -> bool;
+auto tp_load_fairy_cake() -> bool;
 auto tp_load_fire_magical() -> bool;
 auto tp_load_fire_spready() -> bool;
 auto tp_load_fire() -> bool;

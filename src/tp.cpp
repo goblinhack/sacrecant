@@ -169,6 +169,7 @@ static std::initializer_list< std::string > tps = {
     "exit",
     "explosion",
     "eyes_in_a_jar",
+    "fairy_cake",
     "fire_magical",
     "fire_spready",
     "fire",

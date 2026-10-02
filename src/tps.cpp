@@ -61,6 +61,7 @@
   if (!tp_load_exit()) { return false; }
   if (!tp_load_explosion()) { return false; }
   if (!tp_load_eyes_in_a_jar()) { return false; }
+  if (!tp_load_fairy_cake()) { return false; }
   if (!tp_load_fire_magical()) { return false; }
   if (!tp_load_fire_spready()) { return false; }
   if (!tp_load_fire()) { return false; }
