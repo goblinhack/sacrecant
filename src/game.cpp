@@ -419,13 +419,13 @@ class Game *game;
 
 void Config::fini()
 {
-  log("game fini");
+  log("Game: fini");
   TRACE_INDENT();
 }
 
 void Config::reset()
 {
-  log("game reset");
+  log("Game: reset");
   TRACE_INDENT();
 
   config_font        = UI_FONT_8x8;
@@ -514,7 +514,7 @@ void game_config_reset(Gamep g) { g->config.reset(); }
 
 Game::Game(const std::string &vappdata) : save_slot(1)
 {
-  log("game load %s", vappdata.c_str());
+  log("Game: load %s", vappdata.c_str());
   TRACE_INDENT();
 
   auto *g = this;
@@ -535,7 +535,7 @@ Game::Game(const std::string &vappdata) : save_slot(1)
 
 void Game::init()
 {
-  log("game init");
+  log("Game: init");
   TRACE_INDENT();
 
   //
@@ -647,7 +647,7 @@ void game_test_init_level(Gamep g, Levelsp v, Levelp *l_out, LevelNum level_num,
 
 void Game::fini()
 {
-  log("game fini");
+  log("Game: fini");
   TRACE_INDENT();
 
   cleanup();
@@ -670,7 +670,7 @@ void game_fini(Gamep g)
 
 void Game::cleanup()
 {
-  log("game cleanup");
+  log("Game: cleanup");
   TRACE_INDENT();
 
   state_change(STATE_QUITTING, "quitting");
@@ -1050,7 +1050,7 @@ void game_create_levels(Gamep g) { g->create_levels(); }
 
 void Game::start_playing()
 {
-  log("game started playing");
+  log("Game: started playing");
   TRACE();
 
   auto *g = this;
@@ -1161,7 +1161,7 @@ void Game::state_change(GameStateType new_state, const std::string &why)
   //
   // Why oh why change state
   //
-  log("game state change: %s -> %s, reason: %s", game_state_to_string(old_state).c_str(), game_state_to_string(new_state).c_str(), why.c_str());
+  log("Game: state change: %s -> %s, reason: %s", game_state_to_string(old_state).c_str(), game_state_to_string(new_state).c_str(), why.c_str());
   TRACE_INDENT();
 
   //
