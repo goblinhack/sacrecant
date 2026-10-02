@@ -179,7 +179,7 @@ static int level_no_exit_room;
 //
 static std::array< class LevelGen *, LEVEL_ARR_IDX_MAX > levels_generated = {};
 
-static void level_gen_dump(class LevelGen *lg, const char *msg = nullptr);
+static void level_gen_dump(class LevelGen *lg, const char *msg);
 
 class Cell
 {
@@ -2983,7 +2983,7 @@ static void level_gen_single_large_blob_in_center(Gamep g, class LevelGen *lg, c
 
   if (compiler_unused) {
     cave_dump(lg);
-    level_gen_dump(lg);
+    level_gen_dump(lg, __FUNCTION__);
   }
 
   //
@@ -3082,7 +3082,7 @@ static void level_gen_blob(Gamep g, class LevelGen *lg, char c)
     if (lg->level_num == 0U) {
       cave_dump(lg);
     }
-    level_gen_dump(lg);
+    level_gen_dump(lg, "cave gen");
   }
 
   for (x = 0; x < MAP_WIDTH; x++) {
@@ -5354,7 +5354,9 @@ static void level_gen_extend_bridges(Gamep g, class LevelGen *lg)
   //
   // Dump the level to the per thread output log file
   //
-  IF_DEBUG { level_gen_dump(lg); }
+  if (lg->debug) {
+    level_gen_dump(lg, "level populate");
+  }
 
   //
   // Create joined up tiles
@@ -5709,12 +5711,12 @@ void level_gen_create_levels(Gamep g, Levelsp v)
   }
   v->is_generating_levels = false;
 
-  IF_DEBUG3
+  IF_DEBUG2
   {
     for (auto i = 0; i < max_threads; i++) {
       auto *lg = levels_generated[ i ];
       if (lg != nullptr) {
-        level_gen_dump(lg);
+        level_gen_dump(lg, "created levels");
       }
     }
   }

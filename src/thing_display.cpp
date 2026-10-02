@@ -815,7 +815,7 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
           // Reflections only in water. Not lava!
           //
           if (level_is_water_shallow_cached(g, v, l, p)) {
-            fg.a /= 8;
+            fg.a /= 2;
             fg.r /= 2;
             fg.g /= 2;
             fg.b /= 2;

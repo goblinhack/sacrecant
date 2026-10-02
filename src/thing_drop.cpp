@@ -262,15 +262,23 @@ void thing_on_drop_success_set(Tpp tp, thing_on_drop_success_t callback)
     return false;
   }
 
-  bool ok = true;
+  bool ok    = true;
+  auto tries = THING_INVENTORY_MAX;
 
-  while (thing_inventory_get_item_count(g, v, l, user) > 0) {
-    FOR_ALL_INVENTORY_ITEMS(g, v, l, user, an_item)
-    {
-      if (! thing_drop(g, v, l, user, an_item, e)) {
-        ok = false;
+  while (tries-- > 0) {
+    while (thing_inventory_get_item_count(g, v, l, user) > 0) {
+      FOR_ALL_INVENTORY_ITEMS(g, v, l, user, an_item)
+      {
+        if (! thing_drop(g, v, l, user, an_item, e)) {
+          ok = false;
+        }
       }
     }
+  }
+
+  if (! tries) {
+    THING_DBG(g, v, l, user, "failed to drop an item persistently");
+    ok = false;
   }
 
   return ok;
