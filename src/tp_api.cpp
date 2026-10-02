@@ -1645,10 +1645,10 @@
   return tp_flag(tp, is_unused129) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused130(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_flying(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused130) != 0;
+  return tp_flag(tp, is_flying) != 0;
 }
 
 [[nodiscard]] auto tp_is_meat(Tpp tp) -> bool

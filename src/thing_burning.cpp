@@ -71,7 +71,7 @@ void thing_continue_to_burn_check(Gamep g, Levelsp v, Levelp l, Thingp me)
     //
     // Spawn more flames?
     //
-    if (! thing_is_levitating(g, v, l, me)) {
+    if (! thing_is_flying(g, v, l, me) && ! thing_is_levitating(g, v, l, me)) {
       if (thing_is_combustible(me)) {
         if (level_count_is_fire(g, v, l, thing_at(g, v, l, me)) < 2) {
           THING_DBG(g, v, l, me, "spawn additional flames");

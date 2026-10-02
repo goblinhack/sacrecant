@@ -475,7 +475,7 @@ static void level_display_fbo_do(Gamep g, Levelsp v, Levelp level_above, Levelp 
                     break;
                   }
 
-                  if (thing_is_levitating(g, v, l, it) || thing_is_jumping(it) || thing_is_thrown(it)) {
+                  if (thing_is_flying(g, v, l, it) || thing_is_levitating(g, v, l, it) || thing_is_jumping(it) || thing_is_thrown(it)) {
                     display_tile = true;
                     break;
                   }

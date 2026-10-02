@@ -667,7 +667,7 @@ static void player_check_if_target_needs_move_confirm_callback(Gamep g, bool val
   //
   // Double check before jumping in chasms or lava
   //
-  if (! thing_is_ethereal(g, v, l, me) && ! thing_is_levitating(g, v, l, me)) {
+  if (! thing_is_ethereal(g, v, l, me) && ! thing_is_flying(g, v, l, me) && ! thing_is_levitating(g, v, l, me)) {
     if (level_is_needs_move_confirm(g, v, l, to) != nullptr) {
       if (level_is_chasm_bool(g, v, l, to)) {
         if (level_is_boss_level(g, v, l)) {

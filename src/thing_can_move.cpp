@@ -206,10 +206,10 @@
     }
 
     //
-    // A wall or pillar or somesuch?
+    // A wall or pillar or some such?
     //
     if (thing_is_obs_to_paths(it)) {
-      if (thing_is_flat(it) && thing_is_levitating(g, v, l, me)) {
+      if (thing_is_flat(it) && (thing_is_flying(g, v, l, me) || thing_is_levitating(g, v, l, me))) {
         //
         // Ok to levitate over rubble
         //
@@ -227,13 +227,13 @@
     // player.
     //
     if (thing_is_monst(me)) {
-      if (thing_is_levitating(g, v, l, me)) {
+      if (thing_is_flying(g, v, l, me) || thing_is_levitating(g, v, l, me)) {
         //
         // Avoids hazards when floating
         //
       } else {
         //
-        // Avoids hazards when floating
+        // Avoids hazards
         //
         if (thing_is_chasm(it)) {
           if (thing_is_able_to_fall(g, v, l, me)) {
@@ -337,7 +337,7 @@
     }
 
     if (thing_is_obs_to_movement(it)) {
-      if (thing_is_flat(it) && thing_is_levitating(g, v, l, me)) {
+      if (thing_is_flat(it) && (thing_is_flying(g, v, l, me) || thing_is_levitating(g, v, l, me))) {
         //
         // Ok to levitate over rubble
         //

@@ -1906,6 +1906,9 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     if (thing_is_levitating(g, v, l, me)) {
       out = string_append_with_comma(out, "Levitating");
     }
+    if (thing_is_flying(g, v, l, me)) {
+      out = string_append_with_comma(out, "Flying");
+    }
   }
 
   if (thing_is_able_to_see_invisible(me)) {

@@ -220,7 +220,7 @@ static void thing_heat_exchange(Gamep g, Levelsp v, Levelp l, Thingp a, Thingp b
     }
   }
 
-  if (thing_is_levitating(g, v, l, a)) {
+  if (thing_is_flying(g, v, l, a) || thing_is_levitating(g, v, l, a)) {
     //
     // Avoid lava and water interactions
     //
@@ -229,7 +229,7 @@ static void thing_heat_exchange(Gamep g, Levelsp v, Levelp l, Thingp a, Thingp b
     }
   }
 
-  if (thing_is_levitating(g, v, l, b)) {
+  if (thing_is_flying(g, v, l, b) || thing_is_levitating(g, v, l, b)) {
     //
     // Avoid lava and water interactions
     //

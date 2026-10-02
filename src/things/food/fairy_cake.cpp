@@ -93,13 +93,13 @@ static bool tp_fairy_cake_on_eaten(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
   tp_flag_set(tp, is_tick_on_drop);
   tp_flag_set(tp, is_tick_on_eaten);
   tp_flag_set(tp, is_treasure);
+  tp_flag_set(tp, is_unlucky);
   tp_name_a_or_an_set(tp, "a fairy cake");
   tp_name_apostrophize_set(tp, "fairy cake's'");
   tp_name_long_set(tp, "fairy cake");
   tp_name_pluralize_set(tp, "fairy cake");
   tp_name_short_set(tp, "fairy cake");
   tp_priority_set(tp, THING_PRIORITY_OBJECT);
-  tp_flag_set(tp, is_unlucky);
   tp_rarity_set(tp, THING_RARITY_COMMON);
   tp_stat_set(tp, THING_STAT_LUCK, "6");
   tp_temperature_burns_at_set(tp, 100); // celsius

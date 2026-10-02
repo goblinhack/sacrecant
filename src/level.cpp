@@ -454,7 +454,7 @@ void level_destroy(Gamep g, Levelsp v, Levelp l)
             break;
           }
         }
-        if (thing_is_levitating(g, v, l, me)) {
+        if (thing_is_flying(g, v, l, me) || thing_is_levitating(g, v, l, me)) {
           return true; // filter out i.e. ignore
         }
         break;

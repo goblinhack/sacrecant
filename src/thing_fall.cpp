@@ -480,9 +480,9 @@ void thing_fall(Gamep g, Levelsp v, Levelp l, Thingp me)
   }
 
   //
-  // Can'me fall when levitating
+  // Can't fall when levitating
   //
-  if (thing_is_levitating(g, v, l, me)) {
+  if (thing_is_flying(g, v, l, me) || thing_is_levitating(g, v, l, me)) {
     return false;
   }
 

@@ -1647,10 +1647,10 @@
   return level_count(g, v, l, is_unused129, p);
 }
 
-[[nodiscard]] auto level_count_is_unused130(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_flying(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused130, p);
+  return level_count(g, v, l, is_flying, p);
 }
 
 [[nodiscard]] auto level_count_is_meat(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t

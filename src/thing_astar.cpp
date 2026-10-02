@@ -329,7 +329,7 @@ void Astar::init()
       case THING_ENVIRON_ENUM_MAX : break;
     }
 
-    if (! thing_is_levitating(g, v, l, me)) {
+    if (! thing_is_flying(g, v, l, me) && ! thing_is_levitating(g, v, l, me)) {
       if (level_is_chasm_bool(g, v, l, to)) {
         cost += 150;
       }

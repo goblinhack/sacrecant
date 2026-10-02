@@ -15,6 +15,7 @@
 /* shell done */
 auto tp_load_argusul() -> bool;
 auto tp_load_barrel() -> bool;
+auto tp_load_bat() -> bool;
 auto tp_load_beam_of_energy() -> bool;
 auto tp_load_beam_of_fire() -> bool;
 auto tp_load_blitzhound() -> bool;

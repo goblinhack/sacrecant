@@ -187,7 +187,7 @@
     return false;
   }
 
-  if (thing_is_levitating(g, v, l, me)) {
+  if (thing_is_flying(g, v, l, me) || thing_is_levitating(g, v, l, me)) {
     return false;
   }
 

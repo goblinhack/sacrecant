@@ -53,7 +53,7 @@
   Thingp  monst       = nullptr;
 
   static std::initializer_list< std::string > items = {
-      "pot_levit", //
+      "pot_invis", //
   };
 
   auto *player = thing_player(g);
@@ -111,7 +111,7 @@
   }
 
   //
-  // Check the monster is levitating
+  // Check the monster is invisible
   //
   FOR_ALL_THINGS_AT(g, v, l, it, throw_to)
   {
@@ -121,7 +121,7 @@
   }
 
   TEST_ASSERT(t, monst, "expecting monster");
-  TEST_ASSERT(t, thing_is_levitating(g, v, l, monst), "expecting levitating monster");
+  TEST_ASSERT(t, thing_is_invisible(g, v, l, monst), "expecting invisible monster");
 
   //
   // Check the kobalos does move

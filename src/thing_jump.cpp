@@ -418,22 +418,22 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
   return me->_distance_jump -= val;
 }
 
-[[nodiscard]] auto thing_is_obs_to_jumping_out_of(Thingp t) -> bool
+[[nodiscard]] auto thing_is_obs_to_jumping_out_of(Thingp me) -> bool
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_obs_to_jumping_out_of) != 0;
+  return tp_flag(thing_tp(me), is_obs_to_jumping_out_of) != 0;
 }
 
-[[nodiscard]] auto thing_is_obs_to_jumping_over(Thingp t) -> bool
+[[nodiscard]] auto thing_is_obs_to_jumping_over(Thingp me) -> bool
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return false;
   }
@@ -441,20 +441,20 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
   //
   // Unless open
   //
-  if (thing_is_openable(t)) {
-    if (thing_is_open(t)) {
+  if (thing_is_openable(me)) {
+    if (thing_is_open(me)) {
       return false;
     }
   }
 
-  return tp_flag(thing_tp(t), is_obs_to_jumping_over) != 0;
+  return tp_flag(thing_tp(me), is_obs_to_jumping_over) != 0;
 }
 
-[[nodiscard]] auto thing_is_obs_to_jumping_onto(Thingp t) -> bool
+[[nodiscard]] auto thing_is_obs_to_jumping_onto(Thingp me) -> bool
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return false;
   }
@@ -462,68 +462,68 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
   //
   // Unless open
   //
-  if (thing_is_openable(t)) {
-    if (thing_is_open(t)) {
+  if (thing_is_openable(me)) {
+    if (thing_is_open(me)) {
       return false;
     }
   }
 
-  return tp_flag(thing_tp(t), is_obs_to_jumping_onto) != 0;
+  return tp_flag(thing_tp(me), is_obs_to_jumping_onto) != 0;
 }
 
-[[nodiscard]] auto thing_is_able_to_jump_land_then_pounce(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool
+[[nodiscard]] auto thing_is_able_to_jump_land_then_pounce(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return false;
   }
 
-  if (thing_is_dead(t)) {
+  if (thing_is_dead(me)) {
     return false;
   }
 
-  if (thing_is_levitating(g, v, l, t)) {
+  if (thing_is_flying(g, v, l, me) || thing_is_levitating(g, v, l, me)) {
     return false;
   }
 
-  return tp_flag(thing_tp(t), is_able_to_jump_land_then_pounce) != 0;
+  return tp_flag(thing_tp(me), is_able_to_jump_land_then_pounce) != 0;
 }
 
-[[nodiscard]] auto thing_is_able_to_jump(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool
+[[nodiscard]] auto thing_is_able_to_jump(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return false;
   }
 
-  if (thing_is_dead(t)) {
+  if (thing_is_dead(me)) {
     return false;
   }
 
-  if (thing_is_levitating(g, v, l, t)) {
+  if (thing_is_flying(g, v, l, me) || thing_is_levitating(g, v, l, me)) {
     return false;
   }
 
-  return tp_flag(thing_tp(t), is_able_to_jump) != 0;
+  return tp_flag(thing_tp(me), is_able_to_jump) != 0;
 }
 
-[[nodiscard]] auto thing_is_able_to_jump_attack(Thingp t) -> bool
+[[nodiscard]] auto thing_is_able_to_jump_attack(Thingp me) -> bool
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return false;
   }
 
-  bool const out = tp_flag(thing_tp(t), is_able_to_jump_attack) != 0;
+  bool const out = tp_flag(thing_tp(me), is_able_to_jump_attack) != 0;
 
   if (out) {
-    if (d100() < thing_jump_attack_pct_chance(t)) {
+    if (d100() < thing_jump_attack_pct_chance(me)) {
       return false;
     }
   }
@@ -531,49 +531,49 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
   return out;
 }
 
-[[nodiscard]] auto thing_jump_attack_pct_chance(Thingp t) -> int
+[[nodiscard]] auto thing_jump_attack_pct_chance(Thingp me) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return 0;
   }
-  return t->_jump_attack_pct_chance;
+  return me->_jump_attack_pct_chance;
 }
 
-[[nodiscard]] auto thing_jump_attack_pct_chance_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+[[nodiscard]] auto thing_jump_attack_pct_chance_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return 0;
   }
-  return t->_jump_attack_pct_chance = val;
+  return me->_jump_attack_pct_chance = val;
 }
 
-[[nodiscard]] auto thing_jump_attack_pct_chance_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+[[nodiscard]] auto thing_jump_attack_pct_chance_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return 0;
   }
-  return t->_jump_attack_pct_chance += val;
+  return me->_jump_attack_pct_chance += val;
 }
 
-[[nodiscard]] auto thing_jump_attack_pct_chance_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+[[nodiscard]] auto thing_jump_attack_pct_chance_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return 0;
   }
-  if (static_cast< int >(t->_jump_attack_pct_chance) - val <= 0) {
-    return t->_jump_attack_pct_chance = 0;
+  if (static_cast< int >(me->_jump_attack_pct_chance) - val <= 0) {
+    return me->_jump_attack_pct_chance = 0;
   }
-  return t->_jump_attack_pct_chance -= val;
+  return me->_jump_attack_pct_chance -= val;
 }

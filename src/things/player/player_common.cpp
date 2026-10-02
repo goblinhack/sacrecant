@@ -132,7 +132,7 @@ void tp_player_on_moved(Gamep g, Levelsp v, Levelp l, Thingp me)
     //
     // No footsteps if levitating
     //
-    if (! thing_is_ethereal(g, v, l, me) && ! thing_is_levitating(g, v, l, me)) {
+    if (! thing_is_ethereal(g, v, l, me) && ! thing_is_flying(g, v, l, me) && ! thing_is_levitating(g, v, l, me)) {
       thing_sound_play(g, v, l, me, "footstep");
 
       //

@@ -17,6 +17,7 @@
   /* shell done */
   if (!tp_load_argusul()) { return false; }
   if (!tp_load_barrel()) { return false; }
+  if (!tp_load_bat()) { return false; }
   if (!tp_load_beam_of_energy()) { return false; }
   if (!tp_load_beam_of_fire()) { return false; }
   if (!tp_load_blitzhound()) { return false; }
