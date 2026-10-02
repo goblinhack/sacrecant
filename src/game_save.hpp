@@ -544,7 +544,7 @@ auto Game::save(const std::string &file_to_save) -> bool
   TRACE_INDENT();
 
   //
-  // Not sur why I needed this
+  // Not sure why I needed this
   //
   bool const need_larger_src_buffer = false;
 
@@ -901,6 +901,11 @@ auto Game::save_select() -> bool
   TRACE_INDENT();
 
   if (wid_save != nullptr) {
+    return false;
+  }
+
+  if (g_opt_robot) {
+    game->save(0);
     return false;
   }
 

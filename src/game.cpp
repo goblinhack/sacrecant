@@ -1129,14 +1129,18 @@ void Game::state_reset(const std::string &why)
     auto *l = game_level_get(g, v);
     if (l != nullptr) {
       if (level_is_level_select(g, v, l)) {
+        log("state reset: %s (to level select menu)", why.c_str());
         state_change(STATE_LEVEL_SELECT_MENU, why);
       } else {
+        log("state reset: %s (to playing)", why.c_str());
         state_change(STATE_PLAYING, why);
       }
     } else {
+      log("state reset: %s (to main menu)", why.c_str());
       state_change(STATE_MAIN_MENU, why);
     }
   } else {
+    log("state reset: %s (to main menu, default)", why.c_str());
     state_change(STATE_MAIN_MENU, why);
   }
 }
@@ -1182,6 +1186,7 @@ void Game::state_change(GameStateType new_state, const std::string &why)
       wid_topcon_fini(g);
       wid_botcon_fini(g);
       wid_dead_fini(g);
+      game_popups_clear(g);
 
       game_request_to_remake_ui_unset(g);
       game_request_to_save_game_unset(g);
@@ -1189,7 +1194,10 @@ void Game::state_change(GameStateType new_state, const std::string &why)
       game_request_reached_entrance_unset(g);
       game_request_reached_exit_unset(g);
       break;
-    case STATE_LEVEL_SELECT_MENU : wid_rightbar_fini(g); [[fallthrough]];
+    case STATE_LEVEL_SELECT_MENU :
+      wid_rightbar_fini(g);
+      game_popups_clear(g);
+      [[fallthrough]];
     case STATE_PLAYING :
       wid_load_destroy(g);
       wid_main_menu_destroy(g);
@@ -1279,6 +1287,12 @@ void Game::state_change(GameStateType new_state, const std::string &why)
           (void) wid_actionbar_init(g);
           game_map_zoom_update(g);
           thing_player_init(g);
+
+          //
+          // Not sure why we need this. The map ends up at an odd zoom without it.
+          //
+          game_map_zoom_toggle(g);
+          game_map_zoom_toggle(g);
           break;
         case STATE_QUIT_MENU :           [[fallthrough]];
         case STATE_MOVE_WARNING_MENU :   [[fallthrough]];

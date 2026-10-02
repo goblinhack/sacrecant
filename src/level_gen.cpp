@@ -50,7 +50,7 @@ static const int MAX_LEVEL_GEN_TRIES_FOR_SAME_SEED = 1000000;
 //
 // How many times to try adding a room
 //
-static const int MAX_LEVEL_GEN_TRIES_CREATE_ROOM = 1000;
+static const int MAX_LEVEL_GEN_TRIES_CREATE_ROOM = 2000;
 
 //
 // How many times to try adding the first room
@@ -675,6 +675,60 @@ static auto room_flip_horiz(class Room *r) -> class Room *
     case CHARMAP_WALL :          return false;
     case CHARMAP_WATER :         return true;
     case CHARMAP_WEAPON :        return true;
+    case CHARMAP_WILDCARD :      return false;
+  }
+  return false;
+}
+
+[[nodiscard]] static auto level_char_is_replaceable_by_walls(class LevelGen *lg, int x, int y, char c) -> bool
+{
+  if (lg->data[ x ][ y ].room != nullptr) {
+    return false;
+  }
+
+  switch (c) {
+    case CHARMAP_BARREL :        return false;
+    case CHARMAP_BORDER :        return false;
+    case CHARMAP_BRAZIER :       return false;
+    case CHARMAP_BRIDGE :        return false;
+    case CHARMAP_CHASM :         return false;
+    case CHARMAP_CHASM_50 :      return false;
+    case CHARMAP_CORRIDOR :      return false;
+    case CHARMAP_DEEP_WATER :    return false;
+    case CHARMAP_DIRT :          return false;
+    case CHARMAP_DOOR_LOCKED :   return false;
+    case CHARMAP_DOOR_SECRET :   return false;
+    case CHARMAP_DOOR_UNLOCKED : return false;
+    case CHARMAP_EMPTY :         return true;
+    case CHARMAP_ENTRANCE :      return false;
+    case CHARMAP_EXIT :          return false;
+    case CHARMAP_FIRE :          return false;
+    case CHARMAP_FLOOR :         return false;
+    case CHARMAP_FLOOR_50 :      return false;
+    case CHARMAP_FOLIAGE :       return true;
+    case CHARMAP_FUNGUS :        return true;
+    case CHARMAP_GRASS :         return true;
+    case CHARMAP_JOIN :          return true;
+    case CHARMAP_KEY :           return false;
+    case CHARMAP_LAVA :          return false;
+    case CHARMAP_MOB1 :          return false;
+    case CHARMAP_MOB2 :          return false;
+    case CHARMAP_MONST1 :        return false;
+    case CHARMAP_MONST2 :        return false;
+    case CHARMAP_PILLAR :        return false;
+    case CHARMAP_RUBBLE :        return false;
+    case CHARMAP_SPIDERWEB :     return false;
+    case CHARMAP_REEDS :         return false;
+    case CHARMAP_ROCK :          return false;
+    case CHARMAP_SMOKE :         return false;
+    case CHARMAP_STEAM :         return false;
+    case CHARMAP_TELEPORT :      return false;
+    case CHARMAP_TRAP :          return false;
+    case CHARMAP_TREASURE :      return false;
+    case CHARMAP_VAULT :         return false;
+    case CHARMAP_WALL :          return false;
+    case CHARMAP_WATER :         return true;
+    case CHARMAP_WEAPON :        return false;
     case CHARMAP_WILDCARD :      return false;
   }
   return false;
@@ -2516,6 +2570,23 @@ static void level_gen_dump(class LevelGen *lg, const char *msg)
     }
 
     log("-");
+
+    for (int y = 0; y < MAP_HEIGHT; y++) {
+      std::string tmp;
+      for (int x = 0; x < MAP_WIDTH; x++) {
+        auto c = lg->data[ x ][ y ].c;
+
+        if (lg->data[ x ][ y ].room) {
+          c = 'r';
+        } else {
+          c = ' ';
+        }
+
+        tmp += c;
+      }
+      log("[%s]", tmp.c_str());
+    }
+    log("-");
   }
 
   level_gen_mutex.unlock();
@@ -3270,6 +3341,7 @@ static auto level_proc_gen_create_rooms(Gamep g, LevelNum level_num) -> class Le
     }
     if (! first_room_placed) {
       level_place_first_room_fail++;
+      log("failed to create room with seed: %s, no first room", game_seed_name_get(g));
       continue;
     }
 
@@ -3283,6 +3355,7 @@ static auto level_proc_gen_create_rooms(Gamep g, LevelNum level_num) -> class Le
     //
     if (std::cmp_less(lg->rooms_placed.size(), lg->min_room_count)) {
       level_not_enough_rooms++;
+      log("failed to create room with seed: %s, not enough rooms", game_seed_name_get(g));
       continue;
     }
 
@@ -3290,6 +3363,7 @@ static auto level_proc_gen_create_rooms(Gamep g, LevelNum level_num) -> class Le
     // Check we have an exit room
     //
     if (! lg->has_placed_ROOM_TYPE_EXIT) {
+      log("failed to create room with seed: %s, no exit", game_seed_name_get(g));
       level_no_exit_room++;
       continue;
     }
@@ -3848,70 +3922,20 @@ static void level_gen_add_walls_around_rooms(class LevelGen *lg)
 {
   TRACE();
 
+  const std::initializer_list< bpoint > points = {
+      bpoint(-1, -1), bpoint(1, -1), bpoint(0, -1), bpoint(-1, 0), bpoint(1, 0), bpoint(0, 0), bpoint(-1, 1), bpoint(1, 1), bpoint(0, 1),
+  };
+
   for (int y = 1; y < MAP_HEIGHT - 1; y++) {
     for (int x = 1; x < MAP_WIDTH - 1; x++) {
-      auto c = lg->data[ x ][ y ].c;
-      switch (c) {
-        case CHARMAP_WATER :
-        case CHARMAP_DEEP_WATER :
-        case CHARMAP_LAVA :
-        case CHARMAP_CHASM :
-        case CHARMAP_CHASM_50 :
-        case CHARMAP_EMPTY :
-        case CHARMAP_DOOR_LOCKED :
-        case CHARMAP_DOOR_SECRET :
-        case CHARMAP_DOOR_UNLOCKED :
-        case CHARMAP_GRASS :
-        case CHARMAP_WALL :
-        case CHARMAP_VAULT :
-        case CHARMAP_BARREL :
-        case CHARMAP_BRAZIER :
-        case CHARMAP_BRIDGE :
-        case CHARMAP_ENTRANCE :
-        case CHARMAP_EXIT :
-        case CHARMAP_FOLIAGE :
-        case CHARMAP_FUNGUS :
-        case CHARMAP_REEDS :
-        case CHARMAP_KEY :
-        case CHARMAP_MOB1 :
-        case CHARMAP_MOB2 :
-        case CHARMAP_MONST1 :
-        case CHARMAP_MONST2 :
-        case CHARMAP_PILLAR :
-        case CHARMAP_RUBBLE :
-        case CHARMAP_SPIDERWEB :
-        case CHARMAP_TELEPORT :
-        case CHARMAP_TRAP :
-        case CHARMAP_TREASURE :      break;
-        case CHARMAP_CORRIDOR :
-        case CHARMAP_FLOOR :
-        case CHARMAP_FLOOR_50 :
-        case CHARMAP_JOIN :
-          if (lg->data[ x - 1 ][ y - 1 ].c == CHARMAP_EMPTY) {
-            lg->data[ x - 1 ][ y - 1 ].c = CHARMAP_WALL;
+      if (lg->data[ x ][ y ].room) {
+        for (auto delta : points) {
+          auto X = x + delta.x;
+          auto Y = y + delta.y;
+          if (level_char_is_replaceable_by_walls(lg, X, Y, lg->data[ X ][ Y ].c)) {
+            lg->data[ X ][ Y ].c = CHARMAP_WALL;
           }
-          if (lg->data[ x - 1 ][ y + 1 ].c == CHARMAP_EMPTY) {
-            lg->data[ x - 1 ][ y + 1 ].c = CHARMAP_WALL;
-          }
-          if (lg->data[ x + 1 ][ y - 1 ].c == CHARMAP_EMPTY) {
-            lg->data[ x + 1 ][ y - 1 ].c = CHARMAP_WALL;
-          }
-          if (lg->data[ x + 1 ][ y + 1 ].c == CHARMAP_EMPTY) {
-            lg->data[ x + 1 ][ y + 1 ].c = CHARMAP_WALL;
-          }
-          if (lg->data[ x - 1 ][ y ].c == CHARMAP_EMPTY) {
-            lg->data[ x - 1 ][ y ].c = CHARMAP_WALL;
-          }
-          if (lg->data[ x + 1 ][ y ].c == CHARMAP_EMPTY) {
-            lg->data[ x + 1 ][ y ].c = CHARMAP_WALL;
-          }
-          if (lg->data[ x ][ y - 1 ].c == CHARMAP_EMPTY) {
-            lg->data[ x ][ y - 1 ].c = CHARMAP_WALL;
-          }
-          if (lg->data[ x ][ y + 1 ].c == CHARMAP_EMPTY) {
-            lg->data[ x ][ y + 1 ].c = CHARMAP_WALL;
-          }
-          break;
+        }
       }
     }
   }
@@ -5508,7 +5532,7 @@ static auto level_gen_create_proc_gen_level(Gamep g, LevelNum level_num) -> clas
   level_gen_create_water_deep(lg);
 
   //
-  // Mark walkable tiles prior to adding content; as we want to check teleports are on the main path
+  // Mark walk-able tiles prior to adding content; as we want to check teleports are on the main path
   //
   level_gen_mark_tiles_on_path_entrance_to_exit(g, lg);
 

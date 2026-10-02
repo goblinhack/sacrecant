@@ -11,6 +11,7 @@
 #include "my_font.hpp"
 #include "my_fpoint.hpp"
 #include "my_game.hpp"
+#include "my_game_inlines.hpp"
 #include "my_gl.hpp"
 #include "my_globals.hpp"
 #include "my_log.hpp"
@@ -21,6 +22,7 @@
 #include "my_sound.hpp"
 #include "my_sprintf.hpp"
 #include "my_string.hpp"
+#include "my_thing.hpp"
 #include "my_thing_inlines.hpp"
 #include "my_tile.hpp"
 #include "my_time.hpp"
@@ -29,6 +31,7 @@
 #include "my_wid.hpp"
 #include "my_wid_class.hpp"
 #include "my_wids.hpp"
+
 #include <SDL_keyboard.h>
 #include <SDL_keycode.h>
 #include <SDL_mouse.h>
@@ -501,6 +504,12 @@ void wid_set_thing_context(Gamep g, Levelsp v, Widp w, Thingp t)
     return;
   }
 
+  auto *l = game_level_get(g, v);
+  if (l == nullptr) {
+    ERR("no level pointer");
+    return;
+  }
+
   if (w == nullptr) {
     ERR("no widget pointer");
     return;
@@ -510,6 +519,8 @@ void wid_set_thing_context(Gamep g, Levelsp v, Widp w, Thingp t)
     ERR("no thing pointer");
     return;
   }
+
+  THING_DBG(g, v, l, t, "set wid %p context %p", (void *) w, (void *) t);
 
   for (auto i = 0; i < UI_MAX_WID_CONTEXT; i++) {
     auto *cand = thing_find_optional(g, v, w->thing_id_context[ i ]);
@@ -581,6 +592,10 @@ void wid_unset_thing_context(Gamep g, Levelsp v, Widp w, Thingp t)
 
   if (which >= UI_MAX_WID_CONTEXT) {
     ERR("index overflow for UI_MAX_WID_CONTEXT");
+    return nullptr;
+  }
+
+  if (! w->thing_id_context[ which ]) {
     return nullptr;
   }
 

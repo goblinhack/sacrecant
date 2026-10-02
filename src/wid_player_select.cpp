@@ -292,6 +292,10 @@ static void wid_player_select_player_via_mouse_over_begin(Gamep g, Widp w, int /
 {
   TRACE();
 
+  if (! wid_player_select_window) {
+    return;
+  }
+
   auto *v = levels_memory_alloc(g);
   if (v == nullptr) {
     return;
@@ -310,6 +314,10 @@ static void wid_player_select_player_via_mouse_over_end(Gamep g, Widp w)
 {
   TRACE();
 
+  if (! wid_player_select_window) {
+    return;
+  }
+
   auto *v = levels_memory_alloc(g);
   if (v == nullptr) {
     return;
@@ -327,6 +335,10 @@ static void wid_player_select_player_via_mouse_over_end(Gamep g, Widp w)
 [[nodiscard]] static auto wid_player_select_player_via_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
+
+  if (! wid_player_select_window) {
+    return false;
+  }
 
   auto *v = levels_memory_alloc(g);
   if (v == nullptr) {
@@ -361,6 +373,10 @@ static void wid_player_select_player_via_mouse_over_end(Gamep g, Widp w)
 {
   TRACE();
 
+  if (! wid_player_select_window) {
+    return false;
+  }
+
   auto *v = levels_memory_alloc(g);
   if (v == nullptr) {
     return false;
@@ -383,6 +399,10 @@ static void wid_player_select_sacrifice_via_mouse_over_begin(Gamep g, Widp w, in
 {
   TRACE();
 
+  if (! wid_player_select_window) {
+    return;
+  }
+
   auto *v = levels_memory_alloc(g);
   if (v == nullptr) {
     return;
@@ -401,6 +421,10 @@ static void wid_player_select_sacrifice_via_mouse_over_end(Gamep g, Widp w)
 {
   TRACE();
 
+  if (! wid_player_select_window) {
+    return;
+  }
+
   auto *v = levels_memory_alloc(g);
   if (v == nullptr) {
     return;
@@ -418,6 +442,10 @@ static void wid_player_select_sacrifice_via_mouse_over_end(Gamep g, Widp w)
 [[nodiscard]] static auto wid_player_select_sacrifice_via_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
+
+  if (! wid_player_select_window) {
+    return false;
+  }
 
   auto *v = levels_memory_alloc(g);
   if (v == nullptr) {
@@ -458,6 +486,10 @@ static void wid_player_select_boost_via_mouse_over_begin(Gamep g, Widp w, int /*
 {
   TRACE();
 
+  if (! wid_player_select_window) {
+    return;
+  }
+
   auto *v = levels_memory_alloc(g);
   if (v == nullptr) {
     return;
@@ -493,6 +525,10 @@ static void wid_player_select_boost_via_mouse_over_end(Gamep g, Widp w)
 [[nodiscard]] static auto wid_player_select_boost_via_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
+
+  if (! wid_player_select_window) {
+    return false;
+  }
 
   auto *v = levels_memory_alloc(g);
   if (v == nullptr) {

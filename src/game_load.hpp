@@ -1467,7 +1467,7 @@ static auto wid_load_key_up(Gamep g, Widp w, const struct SDL_Keysym *key) -> bo
                   } else {
                     game->load(slot);
                     wid_load_destroy(game);
-                    game_state_reset(game, "load cancel");
+                    game_state_reset(game, "load done, reset state");
                   }
                   return true;
                 }
@@ -1479,7 +1479,7 @@ static auto wid_load_key_up(Gamep g, Widp w, const struct SDL_Keysym *key) -> bo
                   TRACE_INDENT();
 
                   wid_load_destroy(game);
-                  game_state_reset(game, "load cancel");
+                  game_state_reset(game, "load cancelled by user");
                   return true;
                 }
             }
@@ -1516,7 +1516,7 @@ static auto wid_load_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) 
 
 static auto wid_load_saved_snapshot(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
-  log("load snapshot");
+  log("load menu: load snapshot");
   TRACE_INDENT();
 
   game->load_snapshot();
@@ -1526,7 +1526,7 @@ static auto wid_load_saved_snapshot(Gamep g, Widp w, int x, int y, uint32_t butt
 
 static auto wid_load_cancel(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
-  log("load cancel");
+  log("load menu: load cancel");
   TRACE_INDENT();
 
   wid_load_destroy(game);
@@ -1536,7 +1536,7 @@ static auto wid_load_cancel(Gamep g, Widp w, int x, int y, uint32_t button) -> b
 
 void Game::load_select()
 {
-  log("load menu");
+  log("load menu: load menu");
   TRACE_INDENT();
 
   if (wid_load != nullptr) {

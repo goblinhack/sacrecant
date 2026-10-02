@@ -13,6 +13,29 @@ void rooms_prefab_exit(Gamep g)
 {
   TRACE();
 
+  //
+  // Need some simple room types that are small and can fit in when running out of space
+  //
+  room_add(g, CHANCE_NORMAL, ROOM_FLAG_CHECK_EXITS, __FUNCTION__, __LINE__,
+           /* line */ (const char *) "   ^    ",
+           /* line */ (const char *) " xx..xx ",
+           /* line */ (const char *) "^...C..^",
+           /* line */ (const char *) " x.CECx ",
+           /* line */ (const char *) " x..C.x ",
+           /* line */ (const char *) " xxxx.x ",
+           /* line */ (const char *) "     ^  ",
+           /* end */ nullptr);
+
+  room_add(g, CHANCE_NORMAL, ROOM_FLAG_CHECK_EXITS, __FUNCTION__, __LINE__,
+           /* line */ (const char *) "   ^    ",
+           /* line */ (const char *) " xx..xx ",
+           /* line */ (const char *) "^......^",
+           /* line */ (const char *) " x..E.x ",
+           /* line */ (const char *) " x....x ",
+           /* line */ (const char *) " xxxx.x ",
+           /* line */ (const char *) "     ^  ",
+           /* end */ nullptr);
+
   room_add(g, CHANCE_NORMAL, ROOM_FLAG_CHECK_EXITS, __FUNCTION__, __LINE__,
            /* line */ (const char *) "    ^       ",
            /* line */ (const char *) " xxx.xxxxxx ",

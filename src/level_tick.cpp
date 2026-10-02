@@ -314,6 +314,16 @@ static void level_tick(Gamep g, Levelsp v, Levelp l, bool tick_begin_requested)
   // Remove old popups
   //
   game_popups_age(g);
+
+  //
+  // Only save once a tick is complete and before the next move is popped below
+  //
+  if (l->tick_ended) {
+    if (game_request_to_save_game_get(g)) {
+      game_request_to_save_game_unset(g);
+      wid_save_select(g);
+    }
+  }
 }
 
 //
@@ -717,14 +727,6 @@ static void level_tick_end(Gamep g, Levelsp v, Levelp l)
   l->tick_in_progress   = false;
 
   game_request_to_remake_ui_set(g);
-
-  //
-  // Only save once a tick is complete and before the next move is popped below
-  //
-  if (game_request_to_save_game_get(g)) {
-    game_request_to_save_game_unset(g);
-    wid_save_select(g);
-  }
 
   //
   // This can pop the next player move

@@ -112,7 +112,33 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
   {
     bpoint p(x, y);
 
+    //
+    // Look for tiles at the edge of vision
+    //
     if (! thing_vision_can_see_tile(g, v, l, player, p)) {
+      const std::initializer_list< bpoint > points = {
+          bpoint(-1, -1), bpoint(1, -1), bpoint(0, -1), bpoint(-1, 0), bpoint(1, 0), bpoint(0, 0), bpoint(-1, 1), bpoint(1, 1), bpoint(0, 1),
+      };
+
+      bool cand = {};
+      for (auto delta : points) {
+        auto n = p + delta;
+        if (level_is_obs_to_movement(g, v, l, n)) {
+          continue;
+        }
+
+        if (! is_oob(n)) {
+          if (thing_vision_can_see_tile(g, v, l, player, n)) {
+            cand = true;
+            break;
+          }
+        }
+      }
+
+      if (! cand) {
+        continue;
+      }
+    } else {
       continue;
     }
 
@@ -136,10 +162,12 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
         goals.insert(Goal(GOAL_PRIO_HIGHEST, score, p, "exit", t));
       }
 
-      if (thing_is_monst(t)) {
-        if (! thing_is_dead(t)) {
-          score = -dist;
-          goals.insert(Goal(GOAL_PRIO_VERY_HIGH, score, p, "monst", t));
+      if (0) {
+        if (thing_is_monst(t)) {
+          if (! thing_is_dead(t)) {
+            score = -dist;
+            goals.insert(Goal(GOAL_PRIO_VERY_HIGH, score, p, "monst", t));
+          }
         }
       }
 
@@ -266,6 +294,7 @@ void robot_mode_handler(Gamep g)
     case STATE_PLAYING :
       con("Robot: playing");
       robot_mode_handler_playing(g, g_robot);
+      game_request_to_save_game_set(g);
       break;
     case STATE_QUITTING :            break;
     case STATE_GAME_OVER_MENU :      break;

@@ -36,6 +36,10 @@ void wid_progress_bar(Gamep g, const std::string &title, float pct)
   log("progress bar: %s, %.2f pct", title.c_str(), pct);
   TRACE();
 
+  if (g_opt_robot) {
+    return;
+  }
+
   if (wid_progress_bar_window != nullptr) {
     wid_progress_bar_destroy(g);
   }
