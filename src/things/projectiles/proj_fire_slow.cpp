@@ -83,8 +83,6 @@ static void tp_proj_fire_slow_on_moved(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   auto delay = 200;
 
-  name = "proj_fire";
-
   for (auto frame = 0; frame < 2; frame++) {
     auto *tile = tile_find_mand(name + "." + std::to_string(frame));
     tile_size_set(tile, TILE_WIDTH, TILE_HEIGHT);

@@ -98,7 +98,7 @@ static void thing_collision_sort_cands(Gamep g, Levelsp v, Levelp l, Thingp me, 
   //
   // Need to perform calculations from the center of the circle as the
   // circle is really inside a tile with the top left coordinates being the
-  // blit point for the tile. The radius then is used from this cental
+  // blit point for the tile. The radius then is used from this central
   // point for collision.s
   //
   C_at.x += 0.5F;
@@ -432,6 +432,16 @@ static void thing_collision_handle_dead_thing(Gamep g, Levelsp v, Levelp l, Thin
     auto  event_type = tp_damage_random_type_get(source_tp);
     auto  damage     = thing_damage_calculate(g, v, l, source, event_type);
 
+    //
+    // Fireball hitting an ethereal object that is immune to fire?
+    //
+    if (thing_is_immune_to(g, v, l, obstacle, event_type)) {
+      if (thing_is_ethereal(g, v, l, obstacle)) {
+        THING_DBG(g, v, l, me, "obstacle is ethereal and immune, pass through");
+        return;
+      }
+    }
+
     ThingEvent e {
         .reason     = "by weapon damage", //
         .event_type = event_type,         //
@@ -517,6 +527,16 @@ static void thing_collision_handle_alive_thing(Gamep g, Levelsp v, Levelp l, Thi
     auto *source_tp  = thing_tp(source);
     auto  event_type = tp_damage_random_type_get(source_tp);
     auto  damage     = thing_damage_calculate(g, v, l, source, event_type);
+
+    //
+    // Fireball hitting an ethereal object that is immune to fire?
+    //
+    if (thing_is_immune_to(g, v, l, obstacle, event_type)) {
+      if (thing_is_ethereal(g, v, l, obstacle)) {
+        THING_DBG(g, v, l, me, "obstacle is ethereal and immune, pass through");
+        return;
+      }
+    }
 
     ThingEvent e {
         .reason     = "by weapon damage", //
