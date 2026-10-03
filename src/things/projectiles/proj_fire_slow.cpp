@@ -81,9 +81,9 @@ static void tp_proj_fire_slow_on_moved(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_z_depth_set(tp, MAP_Z_DEPTH_WEAPON);
   // end sort marker1 }
 
-  auto delay = 200;
+  auto delay = 150;
 
-  for (auto frame = 0; frame < 2; frame++) {
+  for (auto frame = 0; frame < 4; frame++) {
     auto *tile = tile_find_mand(name + "." + std::to_string(frame));
     tile_size_set(tile, TILE_WIDTH, TILE_HEIGHT);
     tile_delay_ms_set(tile, delay);
