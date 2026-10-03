@@ -65,6 +65,7 @@ static void wid_statistics_destroy(Gamep g)
             switch (c) {
               case 'q' :
               case 'Q' :
+                con("Stats menu: quit pressed");
                 (void) sound_play(g, "keypress");
                 if (g_opt_quick_start) {
                   DIE_CLEAN("Quick quit");
@@ -72,7 +73,9 @@ static void wid_statistics_destroy(Gamep g)
                 [[fallthrough]];
               case SDLK_ESCAPE :
                 {
+                  con("Stats menu: escape pressed");
                   TRACE();
+
                   (void) sound_play(g, "keypress");
                   wid_statistics_destroy(g);
                   return true;
@@ -90,11 +93,15 @@ static void wid_statistics_destroy(Gamep g)
 
 [[nodiscard]] static auto wid_statistics_close(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
+  con("Stats menu: close");
   TRACE();
+
   wid_statistics_destroy(g);
 
   TRACE();
   game_cleanup(g);
+
+  con("Stats menu: closed");
 
   TRACE();
   game_state_change(g, STATE_MAIN_MENU, "game over");
@@ -229,6 +236,7 @@ static void wid_statistics_show_items(Gamep g, Levelsp v, Levelp l, Thingp playe
 
 void wid_statistics_show(Gamep g, Levelsp v, Levelp l, Thingp player)
 {
+  con("Stats menu: select");
   TRACE();
 
   auto *player_struct = thing_player_struct(g);

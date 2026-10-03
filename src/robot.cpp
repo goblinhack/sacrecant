@@ -16,6 +16,7 @@
 #include "my_thing.hpp"
 #include "my_thing_inlines.hpp"
 #include "my_types.hpp"
+#include "my_wids.hpp"
 
 #include <SDL_events.h>
 #include <SDL_keyboard.h>
@@ -80,10 +81,7 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
   SDL_Event   e   = {};
   SDL_Keysym *key = &e.key.keysym;
 
-  con("Robot: handler");
-  TRACE_INDENT();
-
-  // SDL_Delay(10);
+  TRACE();
 
   std::multiset< Goal > goals;
 
@@ -110,8 +108,25 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
     return;
   }
 
+  if (level_tick_is_in_progress(g, v, l)) {
+    return;
+  }
+
   if (thing_is_moving(player)) {
     return;
+  }
+
+  if (v->tick) {
+    if ((v->tick % 20) == 0u) {
+      //          game_request_to_save_game_set(g);
+    }
+
+    if ((v->tick % 200) == 0u) {
+      ThingEvent ev = {};
+      ev.reason     = "robot is out of time ";
+      thing_dead(g, v, l, player, ev);
+      return;
+    }
   }
 
   int  x;
@@ -207,150 +222,153 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
     }
   }
 
-  FOR_ALL_MAP_POINTS_NO_BREAK(g, v, l, x, y)
-  {
-    bpoint p(x, y);
-
-    //
-    // Avoid lava
-    //
-    if (level_is_cursor_path_hazard_bool(g, v, l, p)) {
-      continue;
-    }
-
-    //
-    // Don't try to shoot ghosts in walls
-    //
-    if (level_is_obs_to_movement_bool(g, v, l, p)) {
-      continue;
-    }
-
-    //
-    // Look for tiles at the edge of vision
-    //
-    if (! thing_vision_can_see_tile(g, v, l, player, p)) {
-      continue;
-    }
-
-    int       score = 0;
-    int const dist  = static_cast< int >(distance(p, at) * 10);
-
-    FOR_ALL_THINGS_AT_UNSAFE(g, v, l, t, p)
+  if (goals.empty())
+    FOR_ALL_MAP_POINTS_NO_BREAK(g, v, l, x, y)
     {
-      if (thing_is_exit(t)) {
-        score *= 2;
-        goals.insert(Goal(GOAL_PRIO_EXIT, score, p, "exit", t));
+      bpoint p(x, y);
+
+      //
+      // Avoid lava
+      //
+      if (level_is_cursor_path_hazard_bool(g, v, l, p)) {
+        continue;
       }
 
-      if (thing_is_mob(t)) {
-        score *= 2;
-        goals.insert(Goal(GOAL_PRIO_MOB, score, p, "monst", t));
+      //
+      // Don't try to shoot ghosts in walls
+      //
+      if (level_is_obs_to_movement_bool(g, v, l, p)) {
+        continue;
       }
 
-      if (thing_is_treasure(t)) {
-        score *= 2;
-        goals.insert(Goal(GOAL_PRIO_TREASURE, score, p, "exit", t));
+      //
+      // Look for tiles at the edge of vision
+      //
+      if (! thing_vision_can_see_tile(g, v, l, player, p)) {
+        continue;
       }
 
-      if (thing_is_monst(t)) {
-        if (! thing_is_dead(t) && ! thing_is_corpse(t)) {
-          score = -dist;
-          goals.insert(Goal(GOAL_PRIO_MONST, score, p, "monst", t));
+      int       score = 0;
+      int const dist  = static_cast< int >(distance(p, at) * 10);
+
+      FOR_ALL_THINGS_AT_UNSAFE(g, v, l, t, p)
+      {
+        if (thing_is_exit(t)) {
+          score *= 2;
+          goals.insert(Goal(GOAL_PRIO_EXIT, score, p, "exit", t));
+        }
+
+        if (thing_is_mob(t)) {
+          score *= 2;
+          goals.insert(Goal(GOAL_PRIO_MOB, score, p, "monst", t));
+        }
+
+        if (thing_is_treasure(t)) {
+          score *= 2;
+          goals.insert(Goal(GOAL_PRIO_TREASURE, score, p, "exit", t));
+        }
+
+        if (thing_is_monst(t)) {
+          if (! thing_is_dead(t) && ! thing_is_corpse(t)) {
+            score = -dist;
+            goals.insert(Goal(GOAL_PRIO_MONST, score, p, "monst", t));
+          }
         }
       }
     }
-  }
 
   //
   // Lower priority. Explore known tiles.
   //
-  FOR_ALL_MAP_POINTS_NO_BREAK(g, v, l, x, y)
-  {
-    bpoint p(x, y);
-
-    //
-    // Look for tiles at the edge of vision
-    //
-    if (! thing_vision_can_see_tile(g, v, l, player, p)) {
-      continue;
-    }
-
-    auto path = level_cursor_path_draw_line(g, v, l, at, p);
-    if (path.empty()) {
-      continue;
-    }
-
-    int score = -static_cast< int >(path.size());
-
-    if (level_has_seen(g, v, l, p)) {
-      score -= 10;
-    }
-
-    if (l->player_has_walked_tile[ x ][ y ] != 0u) {
-      score -= 10;
-    }
-
-    FOR_ALL_THINGS_AT_UNSAFE(g, v, l, t, p)
+  if (goals.empty())
+    FOR_ALL_MAP_POINTS_NO_BREAK(g, v, l, x, y)
     {
+      bpoint p(x, y);
+
       //
-      // Avoid lava
+      // Look for tiles at the edge of vision
       //
-      if (level_is_cursor_path_hazard_bool(g, v, l, p)) {
+      if (! thing_vision_can_see_tile(g, v, l, player, p)) {
         continue;
       }
 
-      //
-      // Obstacles
-      //
-      if (level_is_obs_to_movement_bool(g, v, l, p)) {
+      auto path = level_cursor_path_draw_line(g, v, l, at, p);
+      if (path.empty()) {
         continue;
       }
 
-      goals.insert(Goal(GOAL_PRIO_EXPLORE_ANY_VISIBLE_TILES, score, p, "explore", t));
+      int score = -static_cast< int >(path.size());
+
+      if (level_has_seen(g, v, l, p)) {
+        score -= 10;
+      }
+
+      if (l->player_has_walked_tile[ x ][ y ] != 0u) {
+        score -= 10;
+      }
+
+      FOR_ALL_THINGS_AT_UNSAFE(g, v, l, t, p)
+      {
+        //
+        // Avoid lava
+        //
+        if (level_is_cursor_path_hazard_bool(g, v, l, p)) {
+          continue;
+        }
+
+        //
+        // Obstacles
+        //
+        if (level_is_obs_to_movement_bool(g, v, l, p)) {
+          continue;
+        }
+
+        goals.insert(Goal(GOAL_PRIO_EXPLORE_ANY_VISIBLE_TILES, score, p, "explore", t));
+      }
     }
-  }
 
   //
   // Lowest priority. Explore known tiles.
   //
-  FOR_ALL_MAP_POINTS_NO_BREAK(g, v, l, x, y)
-  {
-    bpoint p(x, y);
-
-    if (! l->player_has_walked_tile[ x ][ y ]) {
-      continue;
-    }
-
-    auto path = level_cursor_path_draw_line(g, v, l, at, p);
-    if (path.empty()) {
-      continue;
-    }
-
-    int score = -static_cast< int >(path.size());
-
-    if (level_has_seen(g, v, l, p)) {
-      score -= 10;
-    }
-
-    FOR_ALL_THINGS_AT_UNSAFE(g, v, l, t, p)
+  if (goals.empty())
+    FOR_ALL_MAP_POINTS_NO_BREAK(g, v, l, x, y)
     {
-      //
-      // Avoid lava
-      //
-      if (level_is_cursor_path_hazard_bool(g, v, l, p)) {
+      bpoint p(x, y);
+
+      if (! l->player_has_walked_tile[ x ][ y ]) {
         continue;
       }
 
-      //
-      // Obstacles
-      //
-      if (level_is_obs_to_movement_bool(g, v, l, p)) {
+      auto path = level_cursor_path_draw_line(g, v, l, at, p);
+      if (path.empty()) {
         continue;
       }
 
-      goals.insert(Goal(GOAL_PRIO_EXPLORE_PREVIOUSLY_VISITED_TILES, score, p, "explore", t));
+      int score = -static_cast< int >(path.size());
+
+      if (level_has_seen(g, v, l, p)) {
+        score -= 10;
+      }
+
+      FOR_ALL_THINGS_AT_UNSAFE(g, v, l, t, p)
+      {
+        //
+        // Avoid lava
+        //
+        if (level_is_cursor_path_hazard_bool(g, v, l, p)) {
+          continue;
+        }
+
+        //
+        // Obstacles
+        //
+        if (level_is_obs_to_movement_bool(g, v, l, p)) {
+          continue;
+        }
+
+        goals.insert(Goal(GOAL_PRIO_EXPLORE_PREVIOUSLY_VISITED_TILES, score, p, "explore", t));
+      }
     }
-  }
 
   if (compiler_unused) {
     con("Goals:");
@@ -397,7 +415,9 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
       e = {};
 
       if (v->cursor_at != goal.at) {
-        con("wait on mouse: goal %d,%d cursor %d,%d", goal.at.x, goal.at.y, v->cursor_at.x, v->cursor_at.y);
+        if (compiler_unused) {
+          con("wait on mouse: goal %d,%d cursor %d,%d", goal.at.x, goal.at.y, v->cursor_at.x, v->cursor_at.y);
+        }
         return;
       }
 
@@ -405,13 +425,13 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
         e.type = SDL_KEYDOWN;
         *key   = game_key_fire_get(g);
         SDL_PushEvent(&e);
-        con("fire!");
+        log("Robot: fire!");
         return;
       }
       e.type          = SDL_MOUSEBUTTONDOWN;
       e.button.button = 0;
       SDL_PushEvent(&e);
-      con("mouse down");
+      log("Robot: mouse down");
       return;
     }
   }
@@ -456,10 +476,15 @@ void robot_mode_handler(Gamep g)
       break;
     case STATE_LEVEL_SELECT_MENU :
       {
-        con("Robot: level select menu: send SPACE key");
-        e.type   = SDL_KEYDOWN;
-        key->sym = SDLK_SPACE;
-        SDL_PushEvent(&e);
+        auto *v = game_levels_get(g);
+        con("Robot: level select menu");
+        if (v && v->tick) {
+          wid_dead_select(g, "level select");
+        } else {
+          e.type   = SDL_KEYDOWN;
+          key->sym = SDLK_SPACE;
+          SDL_PushEvent(&e);
+        }
       }
       break;
     case STATE_PLAYING :
@@ -471,9 +496,6 @@ void robot_mode_handler(Gamep g)
         }
 
         robot_mode_handler_playing(g, g_robot);
-        if ((v->tick % 20) == 0u) {
-          game_request_to_save_game_set(g);
-        }
       }
       break;
     case STATE_QUITTING :            break;
@@ -504,20 +526,34 @@ void robot_mode_handler(Gamep g)
         game_seed_set(g, seed_name.c_str());
       }
       break;
-    case STATE_MOVE_WARNING_MENU : break;
-    case STATE_KEYBOARD_MENU :     break;
-    case STATE_LOAD_MENU :         break;
-    case STATE_LOADED :            break;
-    case STATE_SAVE_MENU :         break;
-    case STATE_THROW_MENU :        break;
-    case STATE_QUIT_MENU :         break;
-    case STATE_INVENTORY_MENU :    break;
-    case STATE_SPELL_LEARN_MENU :  break;
-    case STATE_SPELLBOOK_MENU :    break;
-    case STATE_COLLECT_MENU :      break;
-    case STATE_ITEM_MENU :         break;
-    case STATE_GENERATING :        break;
-    case STATE_GENERATED :         break;
-    case GAME_STATE_ENUM_MAX :     break;
+    case STATE_MOVE_WARNING_MENU :
+      {
+        con("Robot: warning menu, send 'y'");
+        e.type   = SDL_KEYDOWN;
+        key->sym = SDLK_y;
+        SDL_PushEvent(&e);
+      }
+      break;
+    case STATE_COLLECT_MENU :
+      {
+        con("Robot: collect menu, send 'a'");
+        e.type   = SDL_KEYDOWN;
+        key->sym = SDLK_a;
+        SDL_PushEvent(&e);
+      }
+      break;
+    case STATE_KEYBOARD_MENU :    break;
+    case STATE_LOAD_MENU :        break;
+    case STATE_LOADED :           break;
+    case STATE_SAVE_MENU :        break;
+    case STATE_THROW_MENU :       break;
+    case STATE_QUIT_MENU :        break;
+    case STATE_INVENTORY_MENU :   break;
+    case STATE_SPELL_LEARN_MENU : break;
+    case STATE_SPELLBOOK_MENU :   break;
+    case STATE_ITEM_MENU :        break;
+    case STATE_GENERATING :       break;
+    case STATE_GENERATED :        break;
+    case GAME_STATE_ENUM_MAX :    break;
   }
 }

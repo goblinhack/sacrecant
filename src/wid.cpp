@@ -5527,28 +5527,64 @@ void wid_sanity_check(Gamep g)
   //
   // Sanity check widgets lists are not getting large
   //
-  IF_DEBUG
-  {
-    if (static_cast< int >(wid_top_level.size()) > 1000) {
+  if (DEBUG || g_opt_robot) {
+    auto lim = 1000;
+
+    if (static_cast< int >(wid_top_level.size()) > lim) {
+      for (auto &iter : wid_top_level) {
+        auto *w = iter.second;
+        log("WID: %s", w->name.c_str());
+      }
       CROAK("widget size getting large for: wid_top_level %d", (int) wid_top_level.size());
     }
-    if (static_cast< int >(wid_global.size()) > 1000) {
+    if (static_cast< int >(wid_global.size()) > lim) {
+      for (auto &iter : wid_global) {
+        auto *w = iter.second;
+        log("WID: %s", w->name.c_str());
+      }
       CROAK("widget size getting large for: wid_global %d", (int) wid_global.size());
     }
-    if (static_cast< int >(wid_top_level2.size()) > 1000) {
+    if (static_cast< int >(wid_top_level2.size()) > lim) {
+      for (auto &iter : wid_top_level2) {
+        auto *w = iter.second;
+        log("WID: %s", w->name.c_str());
+      }
       CROAK("widget size getting large for: wid_top_level2 %d", (int) wid_top_level2.size());
     }
-    if (static_cast< int >(wid_top_level3.size()) > 1000) {
+    if (static_cast< int >(wid_top_level3.size()) > lim) {
+      for (auto &iter : wid_top_level3) {
+        auto *w = iter.second;
+        log("WID: %s", w->name.c_str());
+      }
       CROAK("widget size getting large for: wid_top_level3 %d", (int) wid_top_level3.size());
     }
-    if (static_cast< int >(wid_top_level4.size()) > 1000) {
+    if (static_cast< int >(wid_top_level4.size()) > lim) {
+      for (auto &iter : wid_top_level4) {
+        auto *w = iter.second;
+        log("WID: %s", w->name.c_str());
+      }
       CROAK("widget size getting large for: wid_top_level4 %d", (int) wid_top_level4.size());
     }
-    if (static_cast< int >(wid_tick_top_level.size()) > 1000) {
+    if (static_cast< int >(wid_tick_top_level.size()) > lim) {
+      for (auto &iter : wid_tick_top_level) {
+        auto *w = iter.second;
+        log("WID: %s", w->name.c_str());
+      }
       CROAK("widget size getting large for: wid_tick_top_level %d", (int) wid_tick_top_level.size());
     }
-    if (static_cast< int >(wid_pre_tick_top_level.size()) > 1000) {
+    if (static_cast< int >(wid_pre_tick_top_level.size()) > lim) {
+      for (auto &iter : wid_pre_tick_top_level) {
+        auto *w = iter.second;
+        log("WID: %s", w->name.c_str());
+      }
       CROAK("widget size getting large for: wid_pre_tick_top_level %d", (int) wid_pre_tick_top_level.size());
+    }
+    if (static_cast< int >(wid_post_tick_top_level.size()) > lim) {
+      for (auto &iter : wid_post_tick_top_level) {
+        auto *w = iter.second;
+        log("WID: %s", w->name.c_str());
+      }
+      CROAK("widget size getting large for: wid_post_tick_top_level %d", (int) wid_post_tick_top_level.size());
     }
   }
 }

@@ -41,6 +41,8 @@ static void wid_collect_destroy(Gamep g)
 {
   TRACE();
 
+  con("Collect menu: close");
+
   memset(wid_shortcut, 0, sizeof(wid_shortcut));
   memset(wid_icon, 0, sizeof(wid_icon));
   memset(wid_item, 0, sizeof(wid_item));
@@ -300,6 +302,7 @@ static void wid_collect_mouse_over_end(Gamep g, Widp w)
 
 void wid_collect_show(Gamep g, Levelsp v, Levelp l, Thingp player, std::vector< Thingp > items_in)
 {
+  con("Collect menu: select");
   TRACE();
 
   if (wid_collect_window != nullptr) {

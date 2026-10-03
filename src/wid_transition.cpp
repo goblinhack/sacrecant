@@ -31,7 +31,7 @@ static void wid_transition_destroy(Gamep g)
     return;
   }
 
-  con("transition: destroy");
+  con("Intro transition menu: destroy");
   TRACE();
 
   wid_destroy(g, &wid_transition_window);
@@ -132,7 +132,7 @@ void wid_transition_select(Gamep g)
 
   wid_transition_window_created_ms = user_visible_time_ms();
 
-  con("transition: select");
+  con("Intro transition menu: select");
   TRACE();
 
   wid_transition_window = wid_new_window(g, "transition");

@@ -145,7 +145,7 @@ static const char *dict2_names[] = {
     /* newline */ "dune",
     /* newline */ "dunes",
     /* newline */ "dusk",
-    /* newline */ "ears",
+    /* newline */ "aerie",
     /* newline */ "ed",
     /* newline */ "edge",
     /* newline */ "eel",

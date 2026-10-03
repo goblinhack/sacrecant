@@ -40,21 +40,28 @@ void wid_dead_fini(Gamep g)
 
 static void wid_dead_close(Gamep g)
 {
+  con("Dead menu: close");
+  TRACE();
+
   auto *v = game_levels_get(g);
   if (v == nullptr) [[unlikely]] {
+    err("Dead menu: no levels");
     return;
   }
 
   auto *l = game_level_get(g, v);
   if (l == nullptr) [[unlikely]] {
+    err("Dead menu: no level");
     return;
   }
 
   auto *player = thing_player(g);
   if (player == nullptr) [[unlikely]] {
+    err("Dead menu: no player");
     return;
   }
 
+  con("Dead menu: show statistics");
   wid_statistics_show(g, v, l, player);
 
   if (g_opt_quick_start) {
@@ -62,6 +69,7 @@ static void wid_dead_close(Gamep g)
   }
 
   wid_dead_fini(g);
+  con("Dead menu: closed");
 }
 
 [[nodiscard]] static auto wid_dead_key_down(Gamep g, Widp w, const struct SDL_Keysym *key) -> bool
@@ -85,6 +93,7 @@ static void wid_dead_close(Gamep g)
             switch (c) {
               case 'q' :
               case 'Q' :
+                con("Dead menu: quit pressed");
                 (void) sound_play(g, "keypress");
                 if (g_opt_quick_start) {
                   DIE_CLEAN("Quick quit");
@@ -92,7 +101,9 @@ static void wid_dead_close(Gamep g)
                 [[fallthrough]];
               case SDLK_ESCAPE :
                 {
+                  con("Dead menu: escape pressed");
                   TRACE();
+
                   ((void) sound_play(g, "keypress"));
                   wid_dead_close(g);
                   return true;
@@ -120,6 +131,7 @@ void wid_dead_select(Gamep g, const std::string &reason)
 {
   TRACE();
 
+  con("Dead menu: select");
   sound_fade_out(g);
 
   if (game_request_to_end_game_reason_get(g) == "game over") {

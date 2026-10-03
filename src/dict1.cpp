@@ -95,7 +95,7 @@ static const char *dict1_names[] = {
     /* newline */ "horror",
     /* newline */ "hound",
     /* newline */ "howl",
-    /* newline */ "huge",
+    /* newline */ "mass",
     /* newline */ "imp",
     /* newline */ "impish",
     /* newline */ "jabber",

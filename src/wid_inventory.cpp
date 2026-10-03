@@ -35,6 +35,8 @@ static void wid_inventory_destroy(Gamep g)
 {
   TRACE();
 
+  con("Inventory menu: closed");
+
   memset(wid_shortcut, 0, sizeof(wid_shortcut));
   memset(wid_icon, 0, sizeof(wid_icon));
   memset(wid_item, 0, sizeof(wid_item));
@@ -207,6 +209,7 @@ void wid_inventory_mouse_over_end(Gamep g, Widp w)
 
 void wid_inventory_show(Gamep g, Levelsp v, Levelp l, Thingp player)
 {
+  con("Inventory menu: close");
   TRACE();
 
   if (wid_inventory_window != nullptr) {
