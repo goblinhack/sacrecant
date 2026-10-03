@@ -378,6 +378,8 @@ void tp_player_tick_end(Gamep g, Levelsp v, Levelp l, Thingp me)
   //
   // If asked to follow the mouse path, start walking
   //
+  THING_DBG(g, v, l, me, "player tick end");
+  TRACE_INDENT();
   (void) player_move_to_next(g, v, l, me);
 }
 

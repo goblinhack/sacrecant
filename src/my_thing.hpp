@@ -1677,6 +1677,7 @@ auto thing_monst_tick(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
 auto thing_move_finish(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
 auto thing_move_path_confirm(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
 auto thing_move_path_reset(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
+void thing_move_path_dump(Gamep g, Levelsp v, Levelp l, Thingp me);
 auto thing_moving_from_set(Thingp t, const bpoint &val) -> void;
 auto thing_owner_set(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp owner) -> void;
 auto thing_owner_unset(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;

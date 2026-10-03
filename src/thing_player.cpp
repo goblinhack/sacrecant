@@ -630,7 +630,9 @@ static void player_check_if_target_needs_move_confirm_callback(Gamep g, bool val
 }
 
 //
-// Return true on the event being consumed
+// Return true on a popup confirming the request to move
+//
+// Boss level, no warning is given
 //
 [[nodiscard]] auto player_check_if_target_needs_move_confirm(Gamep g, Levelsp v, Levelp l, const bpoint &to) -> bool
 {
@@ -646,22 +648,11 @@ static void player_check_if_target_needs_move_confirm_callback(Gamep g, bool val
     return false;
   }
 
-  if (thing_move_path_size(g, v, l, me) == 0) {
-    THING_DBG(g, v, l, me, "player move: no move path");
-    TRACE_INDENT();
-
-    player_state_change(g, v, l, PLAYER_STATE_NORMAL);
-
-    if (level_is_cursor_path_hazard(g, v, l, to, me) != nullptr) {
-      THING_DBG(g, v, l, me, "player move: cursor path is a hazard and have no move path");
-      TRACE_INDENT();
-
-      std::vector< bpoint > move_path;
-      move_path.push_back(to);
-      level_cursor_copy_path_to_player(g, v, l, move_path);
-      player_state_change(g, v, l, PLAYER_STATE_FOLLOWING_PATH);
-      THING_DBG(g, v, l, me, "player move: move path size %d", thing_move_path_size(g, v, l, me));
-    }
+  //
+  // No hand holding on boss levels
+  //
+  if (level_is_boss_level(g, v, l)) {
+    return false;
   }
 
   //
@@ -670,9 +661,6 @@ static void player_check_if_target_needs_move_confirm_callback(Gamep g, bool val
   if (! thing_is_ethereal(g, v, l, me) && ! thing_is_flying(g, v, l, me) && ! thing_is_levitating(g, v, l, me)) {
     if (level_is_needs_move_confirm(g, v, l, to) != nullptr) {
       if (level_is_chasm_bool(g, v, l, to)) {
-        if (level_is_boss_level(g, v, l)) {
-          return true;
-        }
         std::string const msg = "Do you really want to leap into a chasm?";
         player_state_change(g, v, l, PLAYER_STATE_MOVE_CONFIRM_REQUESTED);
         game_state_change(g, STATE_MOVE_WARNING_MENU, "need warning confirmation");
@@ -681,7 +669,7 @@ static void player_check_if_target_needs_move_confirm_callback(Gamep g, bool val
         } else {
           wid_warning(g, msg, player_check_if_target_needs_move_confirm_callback);
         }
-        return false;
+        return true;
       }
 
       if (level_alive_is_brazier(g, v, l, to) != nullptr) {
@@ -693,7 +681,7 @@ static void player_check_if_target_needs_move_confirm_callback(Gamep g, bool val
         } else {
           wid_warning(g, msg, player_check_if_target_needs_move_confirm_callback);
         }
-        return false;
+        return true;
       }
 
       //
@@ -710,14 +698,14 @@ static void player_check_if_target_needs_move_confirm_callback(Gamep g, bool val
             } else {
               wid_warning(g, msg, player_check_if_target_needs_move_confirm_callback);
             }
-            return false;
+            return true;
           }
         }
       }
     }
   }
 
-  return true;
+  return false;
 }
 
 //
@@ -741,7 +729,7 @@ static void player_check_if_target_needs_move_confirm_callback(Gamep g, bool val
   TRACE_INDENT();
 
   if (! move_confirmed) {
-    if (! player_check_if_target_needs_move_confirm(g, v, l, to)) {
+    if (player_check_if_target_needs_move_confirm(g, v, l, to)) {
       //
       // A popup is present
       //
@@ -798,11 +786,7 @@ static void player_check_if_target_needs_move_confirm_callback(Gamep g, bool val
       move_path.push_back(to);
       player_state_change(g, v, l, PLAYER_STATE_PATH_REQUESTED);
       level_cursor_copy_path_to_player(g, v, l, move_path);
-      if (! player_check_if_target_needs_move_confirm(g, v, l, to)) {
-        //
-        // A popup is present
-        //
-      }
+      (void) player_check_if_target_needs_move_confirm(g, v, l, to);
     }
     return true;
   }
@@ -841,7 +825,7 @@ static void player_check_if_target_needs_move_confirm_callback(Gamep g, bool val
       //
       // If this needs confirmation, then do not continue onto shoving.
       //
-      if (! player_check_if_target_needs_move_confirm(g, v, l, to)) {
+      if (player_check_if_target_needs_move_confirm(g, v, l, to)) {
         //
         // A popup is present
         //
@@ -1558,6 +1542,7 @@ void player_collision_handle(Gamep g, Levelsp v, Levelp l, Thingp me)
   }
 
   THING_DBG(g, v, l, me, "player move to next");
+  TRACE_INDENT();
 
   //
   // If not following a path, then nothing to pop
@@ -1567,6 +1552,7 @@ void player_collision_handle(Gamep g, Levelsp v, Levelp l, Thingp me)
       //
       // Player not initialized yet
       //
+      THING_DBG(g, v, l, me, "player is not initialized");
       break;
     case PLAYER_STATE_DEAD :
       //
@@ -1592,18 +1578,18 @@ void player_collision_handle(Gamep g, Levelsp v, Levelp l, Thingp me)
       //
       // Already following a path, stick to it until completion.
       //
+      THING_DBG(g, v, l, me, "player is following a path");
       break;
     case PLAYER_STATE_ENUM_MAX : break;
   }
-
-  THING_DBG(g, v, l, me, "player move to next");
-  TRACE_INDENT();
 
   //
   // Get the next tile to move to
   //
   bpoint move_next      = {};
   bool   move_confirmed = {};
+
+  thing_move_path_dump(g, v, l, me);
 
   THING_DBG(g, v, l, me, "player pop next move");
   TRACE_INDENT();
@@ -1674,7 +1660,7 @@ void player_collision_handle(Gamep g, Levelsp v, Levelp l, Thingp me)
   if (thing_move_to(g, v, l, me, move_next)) {
     (void) level_tick_begin_requested(g, v, l, "player moved to next");
   } else {
-    (void) level_tick_begin_requested(g, v, l, "player failed moved to next location");
+    (void) level_tick_begin_requested(g, v, l, "player failed to move to next location");
   }
 
   return true;

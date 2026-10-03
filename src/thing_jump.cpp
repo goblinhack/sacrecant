@@ -308,7 +308,7 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
   thing_set_dir_from_delta(g, v, l, me, dx, dy);
 
   //
-  // Halve stamina for successfiul jumps
+  // Halve stamina for successful jumps
   //
   if (thing_is_wooden_leg(g, v, l, me)) {
     (void) thing_stamina_decr(g, v, l, me, 1);
