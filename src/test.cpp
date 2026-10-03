@@ -229,6 +229,7 @@ static std::initializer_list< std::string > tests = {
     "sac_sickly_health",
     "sac_soul_feast_living",
     "sac_soul_feast_undead",
+    "sac_wall_walker_obs_dead_monst",
     "sac_wall_walker_obs_locked_door",
     "sac_wall_walker_obs_vault",
     "sac_wall_walker_obs_wall",

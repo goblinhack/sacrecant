@@ -143,7 +143,7 @@
 
   if (! thing_can_move_to_possible(g, v, l, me, to)) {
     (void) thing_lunge(g, v, l, me, to);
-    THING_DBG(g, v, l, me, "can move to: (%d,%d) no, lunge", to.x, to.y);
+    THING_DBG(g, v, l, me, "can move to: (%d,%d) not possible, lunge", to.x, to.y);
     return false;
   }
 
@@ -296,6 +296,9 @@
     //
     if (thing_is_dead(it)) {
       if (thing_is_obs_when_dead(it)) {
+        if (thing_is_player(me)) {
+          THING_DBG(g, v, l, me, "can move to possible: no, obs when dead in the way");
+        }
         return false;
       }
       continue;
@@ -307,6 +310,9 @@
     if (thing_is_door_unlocked(it)) {
       if (! thing_is_open(it)) {
         if (! thing_is_able_to_open_things(me)) {
+          if (thing_is_player(me)) {
+            THING_DBG(g, v, l, me, "can move to possible: no, locked door");
+          }
           return false;
         }
       }
@@ -322,12 +328,15 @@
     }
 
     //
-    // A wall or pillar or somesuch?
+    // A wall or pillar or some-such?
     //
     // Allow walking through walls
     //
     if (thing_is_wall_walker(g, v, l, me)) {
       if (level_is_obs_to_wall_walker(g, v, l, to) != nullptr) {
+        if (thing_is_player(me)) {
+          THING_DBG(g, v, l, me, "can move to possible: no, wall walker and wall obs");
+        }
         return false;
       }
 
@@ -355,6 +364,9 @@
         //
         // Blocked
         //
+        if (thing_is_player(me)) {
+          THING_DBG(g, v, l, me, "can move to possible: no, obs to movement");
+        }
         return false;
       }
     }
@@ -397,7 +409,7 @@
   FOR_ALL_THINGS_AT(g, v, l, it, to)
   {
     //
-    // A wall or pillar or somesuch?
+    // A wall or pillar or some-such?
     //
     if (thing_is_obs_to_movement(it)) {
       //

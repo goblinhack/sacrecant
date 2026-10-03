@@ -73,6 +73,12 @@
     THING_DBG(g, v, l, me, "final damage: %d", final_damage);
   }
 
+  if (thing_is_player(me)) {
+    if (g_opt_robot) {
+      final_damage *= 10;
+    }
+  }
+
   return final_damage;
 }
 

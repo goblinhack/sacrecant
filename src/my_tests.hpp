@@ -209,6 +209,7 @@ auto test_load_sac_power_crazed() -> bool;
 auto test_load_sac_sickly_health() -> bool;
 auto test_load_sac_soul_feast_living() -> bool;
 auto test_load_sac_soul_feast_undead() -> bool;
+auto test_load_sac_wall_walker_obs_dead_monst() -> bool;
 auto test_load_sac_wall_walker_obs_locked_door() -> bool;
 auto test_load_sac_wall_walker_obs_vault() -> bool;
 auto test_load_sac_wall_walker_obs_wall() -> bool;

@@ -409,16 +409,16 @@ void levels_test(Gamep g)
   {
     Overrides overrides;
 
-    overrides[ 'm' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("skullferno"); };
+    overrides[ 'm' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("skeleton_mob"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "monst.1", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
                     /* line */ (const char *) "x..............x.......x.............x...x...x.x",
                     /* line */ (const char *) "x...xxxxxxxxxx.x.......x.........x...x.x.x.x.x.x",
-                    /* line */ (const char *) "x....`.LC....x.x.......x.........x...x.x.x.x.x.x",
-                    /* line */ (const char *) "x.....`LC.xxxx.x.................x...x.x.x.x.x.x",
-                    /* line */ (const char *) "x...@..LC.m`.x.xxxxxxxxxxxxxxxxxxx...x.x.x.xxx.x",
-                    /* line */ (const char *) "x......LC.xxxx.........x.........x.....x.......x",
+                    /* line */ (const char *) "x....`.LC.m..x.x.......x.........x...x.x.x.x.x.x",
+                    /* line */ (const char *) "x.....`LC.m.xx.x.................x...x.x.x.x.x.x",
+                    /* line */ (const char *) "x...@..LC.m..x.xxxxxxxxxxxxxxxxxxx...x.x.x.xxx.x",
+                    /* line */ (const char *) "x......LC.m.xx.........x.........x.....x.......x",
                     /* line */ (const char *) "xLLLLLLLC....x...~~~~~~x.........x..x..xxxxxxxxx",
                     /* line */ (const char *) "xCCCCCCCC....x.~~~~~~~~x..~~~....x..xxxx.......x",
                     /* line */ (const char *) "x............x..~~~~~~~x.~~~~....x.............x",

@@ -174,18 +174,30 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
 
     FOR_ALL_THINGS_AT_UNSAFE(g, v, l, t, p)
     {
-      if (level_is_obs_to_movement(g, v, l, p) == nullptr) {
-        if (thing_is_floor(t) || thing_is_dirt(t)) {
-          goals.insert(Goal(GOAL_PRIO_MED, score, p, "floor", t));
-        }
+      //
+      // Avoid lava
+      //
+      if (level_is_cursor_path_hazard_bool(g, v, l, p)) {
+        continue;
+      }
 
-        if (thing_is_water_shallow(t)) {
-          goals.insert(Goal(GOAL_PRIO_LOW, score, p, "shallow water", t));
-        }
+      //
+      // Obstacles
+      //
+      if (level_is_obs_to_movement_bool(g, v, l, p)) {
+        continue;
+      }
 
-        if (thing_is_water_deep(t)) {
-          goals.insert(Goal(GOAL_PRIO_VERY_LOW, score, p, "deep water", t));
-        }
+      if (thing_is_floor(t) || thing_is_dirt(t)) {
+        goals.insert(Goal(GOAL_PRIO_MED, score, p, "floor", t));
+      }
+
+      if (thing_is_water_shallow(t)) {
+        goals.insert(Goal(GOAL_PRIO_LOW, score, p, "shallow water", t));
+      }
+
+      if (thing_is_water_deep(t)) {
+        goals.insert(Goal(GOAL_PRIO_VERY_LOW, score, p, "deep water", t));
       }
     }
   }
@@ -236,7 +248,7 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
       }
 
       if (thing_is_monst(t)) {
-        if (! thing_is_dead(t)) {
+        if (! thing_is_dead(t) && ! thing_is_corpse(t)) {
           score = -dist;
           goals.insert(Goal(GOAL_PRIO_HIGH, score, p, "monst", t));
         }

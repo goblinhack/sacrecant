@@ -393,6 +393,11 @@ void level_destroy(Gamep g, Levelsp v, Levelp l)
     case is_obs_to_hearing :          [[fallthrough]];
     case is_obs_to_gas :              [[fallthrough]];
     case is_obs_to_teleporting_onto : [[fallthrough]];
+    case is_obs_to_wall_walker :
+      //
+      // Wall walker  monsters should not be stopped by e.g dead monsters
+      //
+      [[fallthrough]];
     case is_obs_to_beam :
       //
       // Should be able to move onto dead things
