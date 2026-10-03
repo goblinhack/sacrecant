@@ -1413,14 +1413,20 @@ void player_reached_exit_do(Gamep g, Levelsp v, Levelp l)
 //
 // Handle level exit interactions
 //
-void player_reached_exit(Gamep g, Levelsp v, Levelp l)
+void player_reached_exit(Gamep g, Levelsp v, Levelp l, Thingp player)
 {
   TRACE();
 
   level_log(g, v, l, "player reached exit");
   TRACE_INDENT();
 
-  game_request_reached_exit_set(g);
+  if (g_opt_robot) {
+    ThingEvent ev = {};
+    ev.reason     = "robot reached exit";
+    thing_dead(g, v, l, player, ev);
+  } else {
+    game_request_reached_exit_set(g);
+  }
 }
 
 //
@@ -1534,7 +1540,7 @@ void player_collision_handle(Gamep g, Levelsp v, Levelp l, Thingp me)
         //
         // Descend
         //
-        player_reached_exit(g, v, l);
+        player_reached_exit(g, v, l, me);
         return;
       }
 

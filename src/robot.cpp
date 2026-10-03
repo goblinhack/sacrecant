@@ -9,6 +9,8 @@
 #include "my_level.hpp"
 #include "my_level_inlines.hpp"
 #include "my_main.hpp"
+#include "my_random.hpp"
+#include "my_random_name.hpp"
 #include "my_robot.hpp"
 #include "my_sdl_event.hpp"
 #include "my_thing.hpp"
@@ -25,13 +27,13 @@
 #include <utility>
 
 enum {
-  GOAL_PRIO_HIGHEST   = 0,
-  GOAL_PRIO_VERY_HIGH = 1,
-  GOAL_PRIO_HIGHER    = 2,
-  GOAL_PRIO_HIGH      = 3,
-  GOAL_PRIO_MED       = 4,
-  GOAL_PRIO_LOW       = 5,
-  GOAL_PRIO_VERY_LOW  = 6,
+  GOAL_PRIO_MOB                              = 10,
+  GOAL_PRIO_TREASURE                         = 20,
+  GOAL_PRIO_MONST                            = 30,
+  GOAL_PRIO_EXPLORE_EDGE_OF_VISION           = 40,
+  GOAL_PRIO_EXPLORE_ANY_VISIBLE_TILES        = 50,
+  GOAL_PRIO_EXPLORE_PREVIOUSLY_VISITED_TILES = 60,
+  GOAL_PRIO_EXIT                             = 70,
 };
 
 class Robot
@@ -116,6 +118,9 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
   int  y;
   auto at = thing_at(g, v, l, player);
 
+  //
+  // Explore at the edge of vision
+  //
   FOR_ALL_MAP_POINTS_NO_BREAK(g, v, l, x, y)
   {
     bpoint p(x, y);
@@ -189,15 +194,15 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
       }
 
       if (thing_is_floor(t) || thing_is_dirt(t)) {
-        goals.insert(Goal(GOAL_PRIO_MED, score, p, "floor", t));
+        goals.insert(Goal(GOAL_PRIO_EXPLORE_EDGE_OF_VISION, score, p, "floor", t));
       }
 
       if (thing_is_water_shallow(t)) {
-        goals.insert(Goal(GOAL_PRIO_LOW, score, p, "shallow water", t));
+        goals.insert(Goal(GOAL_PRIO_EXPLORE_EDGE_OF_VISION, score, p, "shallow water", t));
       }
 
       if (thing_is_water_deep(t)) {
-        goals.insert(Goal(GOAL_PRIO_VERY_LOW, score, p, "deep water", t));
+        goals.insert(Goal(GOAL_PRIO_EXPLORE_EDGE_OF_VISION, score, p, "deep water", t));
       }
     }
   }
@@ -234,25 +239,116 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
     {
       if (thing_is_exit(t)) {
         score *= 2;
-        goals.insert(Goal(GOAL_PRIO_VERY_LOW, score, p, "exit", t));
+        goals.insert(Goal(GOAL_PRIO_EXIT, score, p, "exit", t));
       }
 
       if (thing_is_mob(t)) {
         score *= 2;
-        goals.insert(Goal(GOAL_PRIO_VERY_HIGH, score, p, "monst", t));
+        goals.insert(Goal(GOAL_PRIO_MOB, score, p, "monst", t));
       }
 
       if (thing_is_treasure(t)) {
         score *= 2;
-        goals.insert(Goal(GOAL_PRIO_HIGHER, score, p, "exit", t));
+        goals.insert(Goal(GOAL_PRIO_TREASURE, score, p, "exit", t));
       }
 
       if (thing_is_monst(t)) {
         if (! thing_is_dead(t) && ! thing_is_corpse(t)) {
           score = -dist;
-          goals.insert(Goal(GOAL_PRIO_HIGH, score, p, "monst", t));
+          goals.insert(Goal(GOAL_PRIO_MONST, score, p, "monst", t));
         }
       }
+    }
+  }
+
+  //
+  // Lower priority. Explore known tiles.
+  //
+  FOR_ALL_MAP_POINTS_NO_BREAK(g, v, l, x, y)
+  {
+    bpoint p(x, y);
+
+    //
+    // Look for tiles at the edge of vision
+    //
+    if (! thing_vision_can_see_tile(g, v, l, player, p)) {
+      continue;
+    }
+
+    auto path = level_cursor_path_draw_line(g, v, l, at, p);
+    if (path.empty()) {
+      continue;
+    }
+
+    int score = -static_cast< int >(path.size());
+
+    if (level_has_seen(g, v, l, p)) {
+      score -= 10;
+    }
+
+    if (l->player_has_walked_tile[ x ][ y ] != 0u) {
+      score -= 10;
+    }
+
+    FOR_ALL_THINGS_AT_UNSAFE(g, v, l, t, p)
+    {
+      //
+      // Avoid lava
+      //
+      if (level_is_cursor_path_hazard_bool(g, v, l, p)) {
+        continue;
+      }
+
+      //
+      // Obstacles
+      //
+      if (level_is_obs_to_movement_bool(g, v, l, p)) {
+        continue;
+      }
+
+      goals.insert(Goal(GOAL_PRIO_EXPLORE_ANY_VISIBLE_TILES, score, p, "explore", t));
+    }
+  }
+
+  //
+  // Lowest priority. Explore known tiles.
+  //
+  FOR_ALL_MAP_POINTS_NO_BREAK(g, v, l, x, y)
+  {
+    bpoint p(x, y);
+
+    if (! l->player_has_walked_tile[ x ][ y ]) {
+      continue;
+    }
+
+    auto path = level_cursor_path_draw_line(g, v, l, at, p);
+    if (path.empty()) {
+      continue;
+    }
+
+    int score = -static_cast< int >(path.size());
+
+    if (level_has_seen(g, v, l, p)) {
+      score -= 10;
+    }
+
+    FOR_ALL_THINGS_AT_UNSAFE(g, v, l, t, p)
+    {
+      //
+      // Avoid lava
+      //
+      if (level_is_cursor_path_hazard_bool(g, v, l, p)) {
+        continue;
+      }
+
+      //
+      // Obstacles
+      //
+      if (level_is_obs_to_movement_bool(g, v, l, p)) {
+        continue;
+      }
+
+      goals.insert(Goal(GOAL_PRIO_EXPLORE_PREVIOUSLY_VISITED_TILES, score, p, "explore", t));
     }
   }
 
@@ -270,7 +366,9 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
   int visible_map_br_y = 0;
   game_visible_map_pix_get(g, &visible_map_tl_x, &visible_map_tl_y, &visible_map_br_x, &visible_map_br_y);
 
-  con("bounds: %d,%d -> %d,%d", visible_map_tl_x, visible_map_tl_y, visible_map_br_x, visible_map_br_y);
+  if (compiler_unused) {
+    con("bounds: %d,%d -> %d,%d", visible_map_tl_x, visible_map_tl_y, visible_map_br_x, visible_map_br_y);
+  }
 
   for (const auto &goal : goals) {
     if (goal.what_it != nullptr) {
@@ -289,7 +387,9 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
         continue;
       }
 
-      thing_topcon(g, v, l, player, "goal: @%d,%d, pix %d,%d %s", goal.at.x, goal.at.y, pixel.x, pixel.y, goal.what.c_str());
+      if (compiler_unused) {
+        thing_topcon(g, v, l, player, "goal: @%d,%d, pix %d,%d %s", goal.at.x, goal.at.y, pixel.x, pixel.y, goal.what.c_str());
+      }
 
       SDL_WarpMouseInWindow(sdl.window, pixel.x, pixel.y);
       e.type = SDL_MOUSEMOTION;
@@ -316,7 +416,11 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
     }
   }
 
-  CROAK("Robot is out of things to do");
+  {
+    ThingEvent ev = {};
+    ev.reason     = "robot is out of things to do";
+    thing_dead(g, v, l, player, ev);
+  }
 }
 
 //
@@ -324,8 +428,7 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
 //
 void robot_mode_handler(Gamep g)
 {
-  con("Robot: handler");
-  TRACE_INDENT();
+  TRACE();
 
   SDL_Event   e   = {};
   SDL_Keysym *key = &e.key.keysym;
@@ -333,32 +436,34 @@ void robot_mode_handler(Gamep g)
   switch (game_state(g)) {
     case STATE_INIT : break;
     case STATE_MAIN_MENU :
-      con("Robot: main menu: send SPACE key");
-
-      delete g_robot;
-
-      g_robot  = new Robot();
-      e.type   = SDL_KEYDOWN;
-      key->sym = SDLK_SPACE;
-      SDL_PushEvent(&e);
+      {
+        con("Robot: main menu: send SPACE key");
+        delete g_robot;
+        g_robot  = new Robot();
+        e.type   = SDL_KEYDOWN;
+        key->sym = SDLK_SPACE;
+        SDL_PushEvent(&e);
+      }
       break;
     case STATE_PLAYER_SELECT_MENU :
-      con("Robot: player select menu: send SPACE key x 2");
-      e.type   = SDL_KEYDOWN;
-      key->sym = SDLK_SPACE;
-      SDL_PushEvent(&e);
-      SDL_PushEvent(&e);
+      {
+        con("Robot: player select menu: send SPACE key x 2");
+        e.type   = SDL_KEYDOWN;
+        key->sym = SDLK_SPACE;
+        SDL_PushEvent(&e);
+        SDL_PushEvent(&e);
+      }
       break;
     case STATE_LEVEL_SELECT_MENU :
-      con("Robot: level select menu: send SPACE key");
-      e.type   = SDL_KEYDOWN;
-      key->sym = SDLK_SPACE;
-      SDL_PushEvent(&e);
+      {
+        con("Robot: level select menu: send SPACE key");
+        e.type   = SDL_KEYDOWN;
+        key->sym = SDLK_SPACE;
+        SDL_PushEvent(&e);
+      }
       break;
     case STATE_PLAYING :
       {
-        con("Robot: playing");
-
         auto *v = game_levels_get(g);
         if (v == nullptr) [[unlikely]] {
           CROAK("no levels");
@@ -376,16 +481,28 @@ void robot_mode_handler(Gamep g)
     case STATE_CHOOSE_THROW_TARGET : break;
     case STATE_CHOOSE_SPELL_TARGET : break;
     case STATE_STATISTICS_MENU :
-      con("Robot: player statistic menu: send ESCAPE key");
-      e.type   = SDL_KEYDOWN;
-      key->sym = SDLK_ESCAPE;
-      SDL_PushEvent(&e);
+      {
+        con("Robot: player statistic menu: send ESCAPE key");
+        e.type   = SDL_KEYDOWN;
+        key->sym = SDLK_ESCAPE;
+        SDL_PushEvent(&e);
+      }
       break;
     case STATE_DEAD_MENU :
-      con("Robot: player dead menu: send ESCAPE key");
-      e.type   = SDL_KEYDOWN;
-      key->sym = SDLK_ESCAPE;
-      SDL_PushEvent(&e);
+      {
+        con("Robot: player dead menu: send ESCAPE key");
+        e.type   = SDL_KEYDOWN;
+        key->sym = SDLK_ESCAPE;
+        SDL_PushEvent(&e);
+
+        //
+        // New seed
+        //
+        game_seed_clear(g);
+        g_opt_seed_name = "";
+        auto seed_name  = os_random_name(SIZEOF("4294967295") - 1);
+        game_seed_set(g, seed_name.c_str());
+      }
       break;
     case STATE_MOVE_WARNING_MENU : break;
     case STATE_KEYBOARD_MENU :     break;

@@ -741,7 +741,7 @@
     return false;
   }
 
-  player_reached_exit(g, v, l);
+  player_reached_exit(g, v, l, player);
 
   (void) level_tick_begin_requested(g, v, l, "player descending");
 
