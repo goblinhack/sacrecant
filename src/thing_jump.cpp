@@ -287,6 +287,22 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
     return false;
   }
 
+  if (thing_is_player(me)) {
+    bpoint move_next {};
+    bool   move_confirmed {};
+    (void) thing_move_path_peek(g, v, l, me, move_confirmed, move_next);
+
+    if (move_confirmed) {
+      THING_DBG(g, v, l, me, "jump is confirmed by player");
+    } else {
+      THING_DBG(g, v, l, me, "check if jump is safe");
+      if (player_check_if_target_needs_jump_confirm(g, v, l, me, v->cursor_at)) {
+        THING_DBG(g, v, l, me, "need to wait on jump confirm");
+        return true;
+      }
+    }
+  }
+
   (void) thing_pop(g, v, me);
 
   spoint pix_at;

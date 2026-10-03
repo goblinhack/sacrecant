@@ -102,6 +102,44 @@ void thing_move_path_confirm(Gamep g, Levelsp v, Levelp l, Thingp me)
 }
 
 //
+// Return true if there is a move to pop (and peek at it)
+//
+[[nodiscard]] auto thing_move_path_peek(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint &out) -> bool
+{
+  bool move_confirmed = {};
+  return thing_move_path_peek(g, v, l, me, move_confirmed, out);
+}
+
+//
+// Return true if there is a move to pop (and peek at it)
+//
+[[nodiscard]] auto thing_move_path_peek(Gamep g, Levelsp v, Levelp l, Thingp me, bool &move_confirmed, bpoint &out) -> bool
+{
+  TRACE();
+
+  move_confirmed = false;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return false;
+  }
+
+  if (ext->move_path.size == 0) {
+    return false;
+  }
+
+  out = ext->move_path.points[ 0 ];
+
+  for (int index = 0; index < ext->move_path.size - 1; index++) {
+    ext->move_path.points[ index ] = ext->move_path.points[ index + 1 ];
+  }
+
+  move_confirmed = ext->move_path.confirmed;
+
+  return true;
+}
+
+//
 // Dump the current move path
 //
 void thing_move_path_dump(Gamep g, Levelsp v, Levelp l, Thingp me)

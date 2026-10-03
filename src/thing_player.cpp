@@ -170,7 +170,7 @@ void thing_player_init(Gamep g)
   THING_DBG(g, v, l, player, "replaced current path");
   TRACE_INDENT();
 
-  (void) player_check_if_target_needs_move_confirm(g, v, l, v->cursor_at);
+  (void) player_check_if_target_needs_move_confirm(g, v, l, player, v->cursor_at);
 
   return true;
 }
@@ -571,6 +571,8 @@ static void player_check_if_target_needs_move_confirm_callback(Gamep g, bool val
     return;
   }
 
+  auto at = thing_at(g, v, l, me);
+
   if (val) {
     THING_DBG(g, v, l, me, "callback: got 'Yes' warning confirmation");
   } else {
@@ -604,11 +606,48 @@ static void player_check_if_target_needs_move_confirm_callback(Gamep g, bool val
       // Wait for confirmation.
       //
       if (val) {
+        //
+        // Player accepted
+        //
         THING_DBG(g, v, l, me, "player confirmed move, path size %d", thing_move_path_size(g, v, l, me));
         TRACE_INDENT();
+
+        thing_move_path_dump(g, v, l, me);
         thing_move_path_confirm(g, v, l, me);
-        player_state_change(g, v, l, PLAYER_STATE_FOLLOWING_PATH);
+
+        //
+        // We can be called here for jumps and move confirm requests
+        //
+        bpoint move_next {};
+        if (thing_move_path_peek(g, v, l, me, move_next)) {
+          if (! adjacent(move_next, at)) {
+            //
+            // If not adjacent, this is hopefully a jump confirm request
+            //
+            THING_DBG(g, v, l, me, "player confirmed jump");
+            TRACE_INDENT();
+            (void) thing_jump_to(g, v, l, me, move_next);
+            (void) level_tick_begin_requested(g, v, l, "player confirmed a jump");
+          } else {
+            //
+            // Else just a confirmed move
+            //
+            THING_DBG(g, v, l, me, "player confirmed move");
+            TRACE_INDENT();
+            player_state_change(g, v, l, PLAYER_STATE_FOLLOWING_PATH);
+          }
+        } else {
+          //
+          // Not sure how this happens
+          //
+          THING_DBG(g, v, l, me, "player confirmed move, but no move path");
+          TRACE_INDENT();
+          player_state_change(g, v, l, PLAYER_STATE_FOLLOWING_PATH);
+        }
       } else {
+        //
+        // Player declined
+        //
         THING_DBG(g, v, l, me, "player declined move");
         TRACE_INDENT();
         player_state_change(g, v, l, PLAYER_STATE_NORMAL);
@@ -634,19 +673,10 @@ static void player_check_if_target_needs_move_confirm_callback(Gamep g, bool val
 //
 // Boss level, no warning is given
 //
-[[nodiscard]] auto player_check_if_target_needs_move_confirm(Gamep g, Levelsp v, Levelp l, const bpoint &to) -> bool
+[[nodiscard]] static auto player_check_if_target_needs_location_confirm(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &to) -> bool
 {
-  auto *me = thing_player(g);
-  if (me == nullptr) {
-    return false;
-  }
-
   THING_DBG(g, v, l, me, "player move: check if needs move confirm (move path size %d)", thing_move_path_size(g, v, l, me));
   TRACE_INDENT();
-
-  if (! adjacent(thing_at(g, v, l, me), to)) {
-    return false;
-  }
 
   //
   // No hand holding on boss levels
@@ -709,6 +739,36 @@ static void player_check_if_target_needs_move_confirm_callback(Gamep g, bool val
 }
 
 //
+// Return true on a popup confirming the request to move
+//
+// Boss level, no warning is given
+//
+[[nodiscard]] auto player_check_if_target_needs_move_confirm(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &to) -> bool
+{
+  THING_DBG(g, v, l, me, "player move: check if needs move confirm (move path size %d)", thing_move_path_size(g, v, l, me));
+  TRACE_INDENT();
+
+  if (! adjacent(thing_at(g, v, l, me), to)) {
+    return false;
+  }
+
+  return player_check_if_target_needs_location_confirm(g, v, l, me, to);
+}
+
+//
+// Return true on a popup confirming the request to move
+//
+// Boss level, no warning is given
+//
+[[nodiscard]] auto player_check_if_target_needs_jump_confirm(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &to) -> bool
+{
+  THING_DBG(g, v, l, me, "player jump: check if needs move confirm (move path size %d)", thing_move_path_size(g, v, l, me));
+  TRACE_INDENT();
+
+  return player_check_if_target_needs_location_confirm(g, v, l, me, to);
+}
+
+//
 // Return true on a successful move (or a popup asking more info)
 //
 [[nodiscard]] static auto player_move_try(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to, bool move_confirmed, bool need_path) -> bool
@@ -729,7 +789,7 @@ static void player_check_if_target_needs_move_confirm_callback(Gamep g, bool val
   TRACE_INDENT();
 
   if (! move_confirmed) {
-    if (player_check_if_target_needs_move_confirm(g, v, l, to)) {
+    if (player_check_if_target_needs_move_confirm(g, v, l, me, to)) {
       //
       // A popup is present
       //
@@ -786,7 +846,7 @@ static void player_check_if_target_needs_move_confirm_callback(Gamep g, bool val
       move_path.push_back(to);
       player_state_change(g, v, l, PLAYER_STATE_PATH_REQUESTED);
       level_cursor_copy_path_to_player(g, v, l, move_path);
-      (void) player_check_if_target_needs_move_confirm(g, v, l, to);
+      (void) player_check_if_target_needs_move_confirm(g, v, l, me, to);
     }
     return true;
   }
@@ -825,7 +885,7 @@ static void player_check_if_target_needs_move_confirm_callback(Gamep g, bool val
       //
       // If this needs confirmation, then do not continue onto shoving.
       //
-      if (player_check_if_target_needs_move_confirm(g, v, l, to)) {
+      if (player_check_if_target_needs_move_confirm(g, v, l, me, to)) {
         //
         // A popup is present
         //
@@ -1518,6 +1578,11 @@ void player_collision_handle(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   for (auto intermediate : std::ranges::reverse_view(jump_path)) {
     if (thing_jump_to(g, v, l, me, intermediate, warn)) {
+
+      if (player_check_if_target_needs_move_confirm(g, v, l, me, intermediate)) {
+        return true;
+      }
+
       (void) level_tick_begin_requested(g, v, l, "player jumped");
       player_state_change(g, v, l, PLAYER_STATE_FOLLOWING_PATH);
       return true;
@@ -1624,7 +1689,7 @@ void player_collision_handle(Gamep g, Levelsp v, Levelp l, Thingp me)
         //
         bool const need_path = false;
         if (level_is_cursor_path_hazard(g, v, l, move_destination, me) != nullptr) {
-          THING_DBG(g, v, l, me, "player move to next try due to hazard (%d,%d)", move_next.x, move_next.y);
+          THING_DBG(g, v, l, me, "player move to next try, due to hazard (%d,%d)", move_next.x, move_next.y);
           TRACE_INDENT();
           if (! player_move_try(g, v, l, me, move_next, move_confirmed, need_path)) {
             return false;

@@ -893,7 +893,7 @@ static auto game_event_jump(Gamep g) -> bool
 
     player_state_change(g, v, l, PLAYER_STATE_PATH_REQUESTED);
 
-    if (! player_check_if_target_needs_move_confirm(g, v, l, v->cursor_at)) {
+    if (! player_check_if_target_needs_move_confirm(g, v, l, player, v->cursor_at)) {
       //
       // We may not be adjacent to the jump target, so allow the player to walk there
       //
@@ -930,7 +930,7 @@ static auto game_event_jump(Gamep g) -> bool
 
     player_state_change(g, v, l, PLAYER_STATE_PATH_REQUESTED);
 
-    if (! player_check_if_target_needs_move_confirm(g, v, l, v->cursor_at)) {
+    if (! player_check_if_target_needs_move_confirm(g, v, l, player, v->cursor_at)) {
       //
       // We may not be adjacent to the jump target, so allow the player to walk there
       //
