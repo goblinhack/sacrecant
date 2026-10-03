@@ -6,16 +6,18 @@
 #include "my_callstack.hpp"
 #include "my_level.hpp"
 #include "my_level_inlines.hpp" // NOLINT
+#include "my_main.hpp"
 #include "my_thing.hpp"
 #include "my_thing_inlines.hpp" // NOLINT
 #include "my_types.hpp"
 
+#include <cstdint>
 #include <unordered_set>
 
 //
 // Check we only collide once between objects per tick
 //
-[[nodiscard]] auto thing_explosion_handle_done_already(Levelsp v, Thingp me) -> bool
+[[nodiscard]] static auto thing_explosion_handle_done_already(Levelsp v, Thingp me) -> bool
 {
   static std::unordered_set< uint32_t > exploded;
 
@@ -51,7 +53,7 @@ void level_tick_explosion(Gamep g, Levelsp v, Levelp l)
     TRACE_INDENT();
   }
 
-  FOR_ALL_MAP_POINTS(g, v, l, x, y)
+  FOR_ALL_MAP_POINTS_NO_BREAK(g, v, l, x, y)
   {
     bpoint p(x, y);
     if (! level_is_explosion_bool(g, v, l, p)) {

@@ -270,7 +270,7 @@ void wid_inventory_show(Gamep g, Levelsp v, Levelp l, Thingp player)
   memset(wid_icon, 0, sizeof(wid_icon));
   memset(wid_item, 0, sizeof(wid_item));
 
-  FOR_ALL_INVENTORY_SLOTS(g, v, l, player, slot, item)
+  FOR_ALL_INVENTORY_SLOTS_NO_BREAK(g, v, l, player, slot, item)
   {
     auto *tp = (item != nullptr) ? thing_tp(item) : nullptr;
 

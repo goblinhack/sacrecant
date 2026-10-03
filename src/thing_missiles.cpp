@@ -85,7 +85,7 @@
   //
   // Look for a free slot
   //
-  FOR_ALL_MISSILE_SLOTS(g, v, l, me, slot, existing_missile)
+  FOR_ALL_MISSILE_SLOTS_NO_BREAK(g, v, l, me, slot, existing_missile)
   {
     if (existing_missile != nullptr) {
       continue;
@@ -182,7 +182,7 @@
 
   bool got_one = false;
 
-  FOR_ALL_MISSILE_SLOTS(g, v, l, me, slot, missile)
+  FOR_ALL_MISSILE_SLOTS_NO_BREAK(g, v, l, me, slot, missile)
   {
     if (missile == nullptr) {
       continue;
@@ -304,7 +304,7 @@ void thing_dump_missiles(Gamep g, Levelsp v, Levelp l, Thingp me)
     return;
   }
 
-  FOR_ALL_MISSILE_SLOTS(g, v, l, me, slot, existing_missile)
+  FOR_ALL_MISSILE_SLOTS_NO_BREAK(g, v, l, me, slot, existing_missile)
   {
     if (existing_missile == nullptr) {
       THING_DBG(g, v, l, me, "slot %d: -", _n_);

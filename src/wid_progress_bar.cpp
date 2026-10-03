@@ -4,6 +4,7 @@
 
 #include "my_ascii.hpp"
 #include "my_callstack.hpp"
+#include "my_globals.hpp"
 #include "my_main.hpp" // NOLINT
 #include "my_ptrcheck.hpp"
 #include "my_sdl_proto.hpp"

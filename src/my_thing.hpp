@@ -910,9 +910,9 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_able_to_fall(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_able_to_fire_weapons(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_heal(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_able_to_jump_attack(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_able_to_jump_land_then_pounce(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
-[[nodiscard]] auto thing_is_able_to_jump(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
+[[nodiscard]] auto thing_is_able_to_jump_attack(Thingp me) -> bool;
+[[nodiscard]] auto thing_is_able_to_jump_land_then_pounce(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
+[[nodiscard]] auto thing_is_able_to_jump(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_able_to_lunge(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_move_diagonally(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_move(Thingp t) -> bool;
@@ -920,7 +920,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_able_to_resurrect(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_see_invisible(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_see_through_walls(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_able_to_shove(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
+[[nodiscard]] auto thing_is_able_to_shove(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_able_to_throw(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_wear_items(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_active_when_carried(Thingp t) -> bool;
@@ -997,7 +997,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_cursor(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_damage_capped(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_dead_on_collision(Thingp me) -> bool;
-[[nodiscard]] auto thing_is_dead_on_shoving(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_dead_on_shoving(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_dead_when_discharged(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_debuff(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_described_cursor(Thingp t) -> bool;
@@ -1104,9 +1104,9 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_obs_to_fire(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_obs_to_gas(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_obs_to_hearing(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_obs_to_jumping_onto(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_obs_to_jumping_out_of(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_obs_to_jumping_over(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_obs_to_jumping_onto(Thingp me) -> bool;
+[[nodiscard]] auto thing_is_obs_to_jumping_out_of(Thingp me) -> bool;
+[[nodiscard]] auto thing_is_obs_to_jumping_over(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_obs_to_movement(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_obs_to_paths(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_obs_to_spawning(Thingp t) -> bool;
@@ -1136,7 +1136,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_sacrifice(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_scheduled_for_cleanup(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_scheduled_for_worklist(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_shovable(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
+[[nodiscard]] auto thing_is_shovable(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_shown_health(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_shown_noise(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_shown_spell_radius(Thingp me) -> bool;
@@ -1155,8 +1155,8 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_stealthy(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_steam(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_stone(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_submerged(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
-[[nodiscard]] auto thing_is_submergible(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
+[[nodiscard]] auto thing_is_submerged(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
+[[nodiscard]] auto thing_is_submergible(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_teleport_hazard(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_teleport(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_teleporting(Thingp me) -> bool;
@@ -1329,10 +1329,10 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_items_collected_max_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_items_collected_max_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
 [[nodiscard]] auto thing_items_collected_max(Thingp t) -> int;
-[[nodiscard]] auto thing_jump_attack_pct_chance_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
-[[nodiscard]] auto thing_jump_attack_pct_chance_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
-[[nodiscard]] auto thing_jump_attack_pct_chance_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
-[[nodiscard]] auto thing_jump_attack_pct_chance(Thingp t) -> int;
+[[nodiscard]] auto thing_jump_attack_pct_chance_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
+[[nodiscard]] auto thing_jump_attack_pct_chance_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
+[[nodiscard]] auto thing_jump_attack_pct_chance_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int;
+[[nodiscard]] auto thing_jump_attack_pct_chance(Thingp me) -> int;
 [[nodiscard]] auto thing_jump_to(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to, bool warn = true) -> bool;
 [[nodiscard]] auto thing_keys_carried_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_keys_carried_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
@@ -1388,10 +1388,10 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_move_path_apply(Gamep g, Levelsp v, Levelp l, Thingp me, const std::vector< bpoint > &move_path) -> bool;
 [[nodiscard]] auto thing_move_path_confirmed(Gamep g, Levelsp v, Levelp l, Thingp me, const std::vector< bpoint > &move_path) -> bool;
 [[nodiscard]] auto thing_move_path_identical(Gamep g, Levelsp v, Levelp l, Thingp me, const std::vector< bpoint > &move_path) -> bool;
-[[nodiscard]] auto thing_move_path_pop(Gamep g, Levelsp v, Levelp l, Thingp me, bool &move_confirmed, bpoint &out) -> bool;
-[[nodiscard]] auto thing_move_path_pop(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint &out) -> bool;
 [[nodiscard]] auto thing_move_path_peek(Gamep g, Levelsp v, Levelp l, Thingp me, bool &move_confirmed, bpoint &out) -> bool;
 [[nodiscard]] auto thing_move_path_peek(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint &out) -> bool;
+[[nodiscard]] auto thing_move_path_pop(Gamep g, Levelsp v, Levelp l, Thingp me, bool &move_confirmed, bpoint &out) -> bool;
+[[nodiscard]] auto thing_move_path_pop(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint &out) -> bool;
 [[nodiscard]] auto thing_move_path_size(Gamep g, Levelsp v, Levelp l, Thingp me) -> int;
 [[nodiscard]] auto thing_move_path_target(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint &out) -> bool;
 [[nodiscard]] auto thing_move_remaining_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
@@ -1519,9 +1519,9 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_stat(Gamep g, Levelsp v, Levelp l, Thingp me, ThingStatType stat) -> int;
 [[nodiscard]] auto thing_strip_item(Gamep g, Levelsp v, Levelp l, Thingp owner, Thingp item, ThingEvent &e) -> bool;
 [[nodiscard]] auto thing_strip_slot(Gamep g, Levelsp v, Levelp l, Thingp me, WornType w, ThingEvent &e) -> bool;
-[[nodiscard]] auto thing_submerged_pct_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
-[[nodiscard]] auto thing_submerged_pct_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
-[[nodiscard]] auto thing_submerged_pct_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
+[[nodiscard]] auto thing_submerged_pct_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
+[[nodiscard]] auto thing_submerged_pct_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
+[[nodiscard]] auto thing_submerged_pct_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int;
 [[nodiscard]] auto thing_teleport_handle(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_teleport_random(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_temperature_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
@@ -1680,7 +1680,6 @@ auto thing_monst_tick(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
 auto thing_move_finish(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
 auto thing_move_path_confirm(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
 auto thing_move_path_reset(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
-void thing_move_path_dump(Gamep g, Levelsp v, Levelp l, Thingp me);
 auto thing_moving_from_set(Thingp t, const bpoint &val) -> void;
 auto thing_owner_set(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp owner) -> void;
 auto thing_owner_unset(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
@@ -1697,7 +1696,7 @@ auto thing_set_dir_from_target(Gamep g, Levelsp v, Levelp l, Thingp me, const bp
 auto thing_sound_play(Gamep g, Levelsp v, Levelp l, Thingp t, const std::string &alias) -> void;
 auto thing_spellbook_dump(Gamep g, Levelsp v, Levelp l, Thingp owner) -> void;
 auto thing_stats_dump(Gamep g, Levelsp v) -> void;
-auto thing_submerged_update(Gamep g, Levelsp v, Levelp l, Thingp t) -> void;
+auto thing_submerged_update(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
 auto thing_temperature_damage_handle(Gamep g, Levelsp v, Levelp l, Thingp source, Thingp me, int n, ThingEvent /*e*/ = {}) -> void;
 auto thing_temperature_handle(Gamep g, Levelsp v, Levelp l, Thingp source, Thingp me, int n) -> void;
 auto thing_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
@@ -1731,6 +1730,7 @@ void thing_croak(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) C
 void thing_dbg(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 5, 6);
 void thing_err(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 5, 6);
 void thing_log(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 5, 6);
+void thing_move_path_dump(Gamep g, Levelsp v, Levelp l, Thingp me);
 void thing_topcon(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 5, 6);
 void thing_warn(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 5, 6);
 // end sort marker2 }
@@ -1744,7 +1744,7 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
 //
 // NOTE: break will not work
 //
-#define FOR_ALL_MINION_SLOTS(_g_, _v_, _l_, _mob_, _slot_, _minion_)                                                                            \
+#define FOR_ALL_MINION_SLOTS_NO_BREAK(_g_, _v_, _l_, _mob_, _slot_, _minion_)                                                                   \
   if ((_g_) && (_v_) && (_l_))                                                                                                                  \
     if (AUTO(_ext_) = thing_ext_struct(_g_, _v_, _mob_))                                                                                        \
       for (auto _n_ = 0; _n_ < THING_MINION_MAX; _n_++)                                                                                         \
@@ -1761,7 +1761,7 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
 //
 // NOTE: break will not work
 //
-#define FOR_ALL_MISSILE_SLOTS(_g_, _v_, _l_, _owner_, _slot_, _missile_)                                                                        \
+#define FOR_ALL_MISSILE_SLOTS_NO_BREAK(_g_, _v_, _l_, _owner_, _slot_, _missile_)                                                               \
   if ((_g_) && (_v_) && (_l_))                                                                                                                  \
     if (AUTO(_ext_) = thing_ext_struct(_g_, _v_, _owner_))                                                                                      \
       for (auto _n_ = 0; _n_ < THING_MISSILE_MAX; _n_++)                                                                                        \
@@ -1778,14 +1778,17 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
 //
 // NOTE: break will not work
 //
-#define FOR_ALL_HOOKS_DUMP(_g_, _v_, _l_, _owner_, _slot_, _hook_)                                                                              \
+#define FOR_ALL_HOOKS_DUMP_NO_BREAK(_g_, _v_, _l_, _owner_, _slot_, _hook_)                                                                     \
   if ((_g_) && (_v_) && (_l_))                                                                                                                  \
     if (AUTO(_ext_) = thing_ext_struct(_g_, _v_, _owner_))                                                                                      \
       for (auto _n_ = 0; _n_ < THING_HOOK_MAX; _n_++)                                                                                           \
         for (AUTO(_slot_) = &_ext_->hooks.hook[ _n_ ]; _slot_; (_slot_) = nullptr)                                                              \
           log("owner: id %08" PRIX32 " slot: %d, hook id %08" PRIX32 "", (_owner_)->id, _n_, (_slot_)->hook_id);
 
-#define FOR_ALL_HOOKS_SLOTS(_g_, _v_, _l_, _owner_, _slot_, _hook_)                                                                             \
+//
+// NOTE: break will not work
+//
+#define FOR_ALL_HOOKS_SLOTS_NO_BREAK(_g_, _v_, _l_, _owner_, _slot_, _hook_)                                                                    \
   if ((_g_) && (_v_) && (_l_))                                                                                                                  \
     if (AUTO(_ext_) = thing_ext_struct(_g_, _v_, _owner_))                                                                                      \
       for (auto _n_ = 0; _n_ < THING_HOOK_MAX; _n_++)                                                                                           \
@@ -1834,7 +1837,7 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
 //
 // NOTE: break will not work
 //
-#define FOR_ALL_INVENTORY_SLOTS(_g_, _v_, _l_, _owner_, _slot_, _item_)                                                                         \
+#define FOR_ALL_INVENTORY_SLOTS_NO_BREAK(_g_, _v_, _l_, _owner_, _slot_, _item_)                                                                \
   if ((_g_) && (_v_) && (_l_))                                                                                                                  \
     for (auto _ext_ = thing_ext_struct(_g_, _v_, _owner_); _ext_; _ext_ = nullptr)                                                              \
       for (auto _n_ = 0; _n_ < THING_INVENTORY_MAX; _n_++)                                                                                      \
@@ -1864,7 +1867,10 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
           if (AUTO(_item_) = thing_find_optional(g, v, _slot_->thing_id))                                                                       \
             if ((thing_is_worn(_item_) && thing_is_active_when_worn(_item_)) || thing_is_active_when_carried(_item_) /* horseshoe */)
 
-#define FOR_ALL_SPELLBOOK_SLOTS(_g_, _v_, _l_, _owner_, _slot_, _spell_)                                                                        \
+//
+// NOTE: break will not work
+//
+#define FOR_ALL_SPELLBOOK_SLOTS_NO_BREAK(_g_, _v_, _l_, _owner_, _slot_, _spell_)                                                               \
   if ((_g_) && (_v_) && (_l_))                                                                                                                  \
     for (auto _ext_ = thing_ext_struct(_g_, _v_, _owner_); _ext_; _ext_ = nullptr)                                                              \
       for (auto _n_ = 0; _n_ < THING_SPELLBOOK_MAX; _n_++)                                                                                      \

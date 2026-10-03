@@ -52,7 +52,7 @@
   //
   // Look for a free slot
   //
-  FOR_ALL_SPELLBOOK_SLOTS(g, v, l, owner, slot, spell)
+  FOR_ALL_SPELLBOOK_SLOTS_NO_BREAK(g, v, l, owner, slot, spell)
   {
     if (spell != nullptr) {
       continue;
@@ -121,7 +121,7 @@
   //
   // Look for the thing
   //
-  FOR_ALL_SPELLBOOK_SLOTS(g, v, l, owner, slot, spell)
+  FOR_ALL_SPELLBOOK_SLOTS_NO_BREAK(g, v, l, owner, slot, spell)
   {
     if (spell == nullptr) {
       continue;
@@ -162,7 +162,7 @@
   //
   // Look for the thing
   //
-  FOR_ALL_SPELLBOOK_SLOTS(g, v, l, owner, slot, an_spell)
+  FOR_ALL_SPELLBOOK_SLOTS_NO_BREAK(g, v, l, owner, slot, an_spell)
   {
     if (spell == nullptr) {
       continue;
@@ -187,7 +187,7 @@
 
   int count = 0;
 
-  FOR_ALL_SPELLBOOK_SLOTS(g, v, l, owner, slot, spell)
+  FOR_ALL_SPELLBOOK_SLOTS_NO_BREAK(g, v, l, owner, slot, spell)
   {
     if (spell == nullptr) {
       continue;
@@ -208,7 +208,7 @@
 
   int walk_index {};
 
-  FOR_ALL_SPELLBOOK_SLOTS(g, v, l, owner, slot, spell)
+  FOR_ALL_SPELLBOOK_SLOTS_NO_BREAK(g, v, l, owner, slot, spell)
   {
     if (spell == nullptr) {
       continue;
@@ -238,7 +238,7 @@ void thing_spellbook_dump(Gamep g, Levelsp v, Levelp l, Thingp owner)
     return;
   }
 
-  FOR_ALL_SPELLBOOK_SLOTS(g, v, l, owner, slot, spell)
+  FOR_ALL_SPELLBOOK_SLOTS_NO_BREAK(g, v, l, owner, slot, spell)
   {
     if (spell == nullptr) {
       THING_DBG(g, v, l, owner, "slot %d: -", _n_);

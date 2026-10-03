@@ -9,6 +9,7 @@
 #include "my_thing_inlines.hpp"
 #include "my_types.hpp"
 
+#include <utility>
 #include <vector>
 
 //
@@ -153,7 +154,7 @@ void thing_move_path_dump(Gamep g, Levelsp v, Levelp l, Thingp me)
     return;
   }
 
-  for (auto index = 0; index < ext->move_path.size; index++) {
+  for (auto index = 0; std::cmp_less(index, ext->move_path.size); index++) {
     auto p = ext->move_path.points[ index ];
     THING_DBG(g, v, l, me, " - move path [%d] @%d,%d", index, p.x, p.y);
   }

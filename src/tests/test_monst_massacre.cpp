@@ -81,7 +81,7 @@
   }
 
   {
-    FOR_ALL_THINGS_ON_LEVEL(g, v, l, it)
+    FOR_ALL_THINGS_ON_LEVEL_NO_BREAK(g, v, l, it)
     {
       if (thing_is_dead(it) && thing_is_kobalos(it)) {
         dead_kobalos++;

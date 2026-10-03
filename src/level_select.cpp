@@ -455,7 +455,7 @@ static auto level_select_count_levels(LevelSelect *s) -> int
   //
   // Clean up all previous things
   //
-  FOR_ALL_THINGS_ON_LEVEL(g, v, level_select, t)
+  FOR_ALL_THINGS_ON_LEVEL_NO_BREAK(g, v, level_select, t)
   {
     //
     thing_fini(g, v, level_select, t);
@@ -797,7 +797,7 @@ void level_select_mouse_motion(Gamep g, Levelsp v, Levelp l)
     return;
   }
 
-  FOR_ALL_THINGS_ON_LEVEL(g, v, l, t)
+  FOR_ALL_THINGS_ON_LEVEL_NO_BREAK(g, v, l, t)
   {
     if (t->anim_type != THING_ANIM_IDLE) {
       thing_anim_init(g, v, l, t, THING_ANIM_IDLE);

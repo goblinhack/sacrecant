@@ -1448,8 +1448,8 @@ static auto game_event_abort(Gamep g) -> bool
       if (sdlk_eq(*key, game_key_fire_get(g))) {
         if (g_opt_robot) {
           if (! thing_is_dead(player)) {
-            auto l = thing_level(g, v, player);
-            if (l) {
+            auto *l = thing_level(g, v, player);
+            if (l != nullptr) {
               (void) player_fire(g, v, l, 0, 0, nullptr, v->cursor_at);
             }
             return true;

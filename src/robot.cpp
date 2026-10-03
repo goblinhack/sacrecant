@@ -2,21 +2,27 @@
 // Copyright goblinhack@gmail.com
 //
 
+#include "my_bpoint.hpp"
 #include "my_callstack.hpp"
 #include "my_game.hpp"
 #include "my_game_inlines.hpp"
-#include "my_globals.hpp"
 #include "my_level.hpp"
 #include "my_level_inlines.hpp"
 #include "my_main.hpp"
+#include "my_robot.hpp"
 #include "my_sdl_event.hpp"
-#include "my_sdl_proto.hpp"
 #include "my_thing.hpp"
 #include "my_thing_inlines.hpp"
 #include "my_types.hpp"
 
 #include <SDL_events.h>
+#include <SDL_keyboard.h>
+#include <SDL_keycode.h>
+#include <SDL_mouse.h>
+#include <initializer_list>
 #include <set>
+#include <string>
+#include <utility>
 
 enum {
   GOAL_PRIO_HIGHEST   = 0,
@@ -31,7 +37,7 @@ enum {
 class Robot
 {
 public:
-  Robot() {}
+  Robot() = default;
 };
 
 class Goal
@@ -43,19 +49,20 @@ public:
   std::string what;
   Thingp      what_it = {};
 
-  Goal(int _prio, int _score, bpoint _at, const std::string &_what, Thingp _what_it)
+  Goal(int _prio, int _score, bpoint _at, std::string _what, Thingp _what_it)
       : //
-        prio(_prio), score(_score), at(_at), what(_what), what_it(_what_it)
+        prio(_prio), score(_score), at(_at), what(std::move(_what)), what_it(_what_it)
   {
   }
 };
 
-static bool operator<(const class Goal &lhs, const class Goal &rhs)
+static auto operator<(const class Goal &lhs, const class Goal &rhs) -> bool
 {
   // Lower priorities at the head
   if (lhs.prio < rhs.prio) {
     return true;
-  } else if (lhs.prio > rhs.prio) {
+  }
+  if (lhs.prio > rhs.prio) {
     return false;
   }
   return lhs.score > rhs.score; // Higher scores at the head
@@ -105,17 +112,18 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
     return;
   }
 
-  int  x, y;
+  int  x;
+  int  y;
   auto at = thing_at(g, v, l, player);
 
-  FOR_ALL_MAP_POINTS(g, v, l, x, y)
+  FOR_ALL_MAP_POINTS_NO_BREAK(g, v, l, x, y)
   {
     bpoint p(x, y);
 
     //
     // Avoid lava
     //
-    if (level_is_cursor_path_hazard(g, v, l, p)) {
+    if (level_is_cursor_path_hazard_bool(g, v, l, p)) {
       continue;
     }
 
@@ -130,7 +138,7 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
       bool cand = {};
       for (auto delta : points) {
         auto n = p + delta;
-        if (level_is_obs_to_movement(g, v, l, n)) {
+        if (level_is_obs_to_movement(g, v, l, n) != nullptr) {
           continue;
         }
 
@@ -154,19 +162,19 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
       continue;
     }
 
-    int score = -(int) path.size();
+    int score = -static_cast< int >(path.size());
 
     if (level_has_seen(g, v, l, p)) {
       score -= 10;
     }
 
-    if (l->player_has_walked_tile[ x ][ y ]) {
+    if (l->player_has_walked_tile[ x ][ y ] != 0u) {
       score -= 10;
     }
 
     FOR_ALL_THINGS_AT_UNSAFE(g, v, l, t, p)
     {
-      if (! level_is_obs_to_movement(g, v, l, p)) {
+      if (level_is_obs_to_movement(g, v, l, p) == nullptr) {
         if (thing_is_floor(t) || thing_is_dirt(t)) {
           goals.insert(Goal(GOAL_PRIO_MED, score, p, "floor", t));
         }
@@ -182,21 +190,21 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
     }
   }
 
-  FOR_ALL_MAP_POINTS(g, v, l, x, y)
+  FOR_ALL_MAP_POINTS_NO_BREAK(g, v, l, x, y)
   {
     bpoint p(x, y);
 
     //
     // Avoid lava
     //
-    if (level_is_cursor_path_hazard(g, v, l, p)) {
+    if (level_is_cursor_path_hazard_bool(g, v, l, p)) {
       continue;
     }
 
     //
     // Don't try to shoot ghosts in walls
     //
-    if (level_is_obs_to_movement(g, v, l, p)) {
+    if (level_is_obs_to_movement_bool(g, v, l, p)) {
       continue;
     }
 
@@ -207,8 +215,8 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
       continue;
     }
 
-    int score = 0;
-    int dist  = (int) (distance(p, at) * 10);
+    int       score = 0;
+    int const dist  = static_cast< int >(distance(p, at) * 10);
 
     FOR_ALL_THINGS_AT_UNSAFE(g, v, l, t, p)
     {
@@ -236,9 +244,9 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
     }
   }
 
-  if (1 || compiler_unused) {
+  if (compiler_unused) {
     con("Goals:");
-    for (auto goal : goals) {
+    for (const auto &goal : goals) {
       thing_con(g, v, l, player, "goal: prio %d score %d -- @%d,%d, %s", goal.prio, goal.score, goal.at.x, goal.at.y, goal.what.c_str());
     }
     con("-");
@@ -252,8 +260,8 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
 
   con("bounds: %d,%d -> %d,%d", visible_map_tl_x, visible_map_tl_y, visible_map_br_x, visible_map_br_y);
 
-  for (auto goal : goals) {
-    if (goal.what_it) {
+  for (const auto &goal : goals) {
+    if (goal.what_it != nullptr) {
 
       auto pixel = thing_to_pixel(g, v, l, goal.what_it);
       if (pixel.x <= visible_map_tl_x) {
@@ -287,13 +295,12 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
         SDL_PushEvent(&e);
         con("fire!");
         return;
-      } else {
-        e.type          = SDL_MOUSEBUTTONDOWN;
-        e.button.button = 0;
-        SDL_PushEvent(&e);
-        con("mouse down");
-        return;
       }
+      e.type          = SDL_MOUSEBUTTONDOWN;
+      e.button.button = 0;
+      SDL_PushEvent(&e);
+      con("mouse down");
+      return;
     }
   }
 
@@ -315,9 +322,9 @@ void robot_mode_handler(Gamep g)
     case STATE_INIT : break;
     case STATE_MAIN_MENU :
       con("Robot: main menu: send SPACE key");
-      if (g_robot) {
-        delete g_robot;
-      }
+
+      delete g_robot;
+
       g_robot  = new Robot();
       e.type   = SDL_KEYDOWN;
       key->sym = SDLK_SPACE;
@@ -347,7 +354,7 @@ void robot_mode_handler(Gamep g)
         }
 
         robot_mode_handler_playing(g, g_robot);
-        if (! (v->tick % 20)) {
+        if ((v->tick % 20) == 0u) {
           game_request_to_save_game_set(g);
         }
       }

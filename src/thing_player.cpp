@@ -22,7 +22,6 @@
 #include "my_ui.hpp"
 #include "my_wid_warning.hpp"
 
-#include <cmath>
 #include <cstdint>
 #include <ranges>
 #include <string>
@@ -201,7 +200,7 @@ void thing_player_init(Gamep g)
 [[nodiscard]] auto thing_player_mouse_down(Gamep g, Levelsp v, Levelp l, int x, int y, uint32_t button) -> bool
 {
   auto *player = thing_player(g);
-  if (! player) {
+  if (player == nullptr) {
     return true;
   }
 
@@ -1253,7 +1252,8 @@ void player_move_accum(Gamep g, Levelsp v, Levelp l, bool up, bool down, bool le
     return false;
   }
 
-  THING_DBG(g, v, l, me, "player move request u=%d d=%d l=%d r=%d fire=%d", up, down, left, right, fire);
+  THING_DBG(g, v, l, me, "player move request u=%d d=%d l=%d r=%d fire=%d", static_cast< int >(up), static_cast< int >(down),
+            static_cast< int >(left), static_cast< int >(right), static_cast< int >(fire));
   TRACE_INDENT();
 
   if (game_state(g) != STATE_PLAYING) {

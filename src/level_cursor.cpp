@@ -502,7 +502,7 @@ void level_cursor_path_reset(Gamep g)
 //
 // Copy the given path to the thing
 //
-bool level_cursor_copy_path_to_player(Gamep g, Levelsp v, Levelp l, std::vector< bpoint > &move_path)
+auto level_cursor_copy_path_to_player(Gamep g, Levelsp v, Levelp l, std::vector< bpoint > &move_path) -> bool
 {
   auto *player = thing_player(g);
   if (player == nullptr) [[unlikely]] {
@@ -662,7 +662,7 @@ void level_cursor_path_recreate(Gamep g, Levelsp v, Levelp l)
 //
 // Returns false if the path is the same
 //
-bool level_cursor_copy_mouse_path_to_player(Gamep g, Levelsp v, Levelp l)
+auto level_cursor_copy_mouse_path_to_player(Gamep g, Levelsp v, Levelp l) -> bool
 {
   //
   // Only if over the map
@@ -689,7 +689,7 @@ bool level_cursor_copy_mouse_path_to_player(Gamep g, Levelsp v, Levelp l)
 //
 // Is the cursor path the same as current?
 //
-bool level_cursor_path_identical(Gamep g, Levelsp v, Levelp l, Thingp player)
+auto level_cursor_path_identical(Gamep g, Levelsp v, Levelp l, Thingp player) -> bool
 {
   TRACE();
   return thing_move_path_identical(g, v, l, player, cursor_path);

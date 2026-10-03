@@ -27,7 +27,7 @@ void level_count_items(Gamep g, Levelsp v, Levelp l)
   l->info.door_locked_count = 0;
   l->info.key_count         = 0;
 
-  FOR_ALL_THINGS_ON_LEVEL_UNSAFE(g, v, l, t)
+  FOR_ALL_THINGS_ON_LEVEL_NO_BREAK_UNSAFE_NO_BREAK(g, v, l, t)
   {
     if (thing_is_monst(t)) {
       l->info.monst_count++;

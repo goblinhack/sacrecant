@@ -15,6 +15,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstdint>
 #include <set>
 #include <unordered_set>
 #include <utility>
@@ -23,7 +24,7 @@
 //
 // Check we only collide once between objects per tick
 //
-[[nodiscard]] auto thing_temperature_handle_done_already(Levelsp v, Thingp obstacle, Thingp me) -> bool
+[[nodiscard]] static auto thing_temperature_handle_done_already(Levelsp v, Thingp obstacle, Thingp me) -> bool
 {
   static std::unordered_set< uint64_t > temperature;
 
@@ -60,7 +61,7 @@ void level_tick_begin_temperature(Gamep g, Levelsp v, Levelp l)
     TRACE_INDENT();
   }
 
-  FOR_ALL_MAP_POINTS(g, v, l, x, y)
+  FOR_ALL_MAP_POINTS_NO_BREAK(g, v, l, x, y)
   {
     bpoint                p(x, y);
     std::vector< Thingp > things;
@@ -376,7 +377,7 @@ void level_tick_end_temperature(Gamep g, Levelsp v, Levelp l)
   }
   l->is_handling_temperature_changes = true;
 
-  FOR_ALL_MAP_POINTS(g, v, l, x, y)
+  FOR_ALL_MAP_POINTS_NO_BREAK(g, v, l, x, y)
   {
     std::vector< Thingp > things;
 

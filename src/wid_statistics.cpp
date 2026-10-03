@@ -188,7 +188,7 @@ static void wid_statistics_show_items(Gamep g, Levelsp v, Levelp l, Thingp playe
   wid_statistics_popup->log(g, "Carrying:", TEXT_FORMAT_LHS);
   int column_count {};
 
-  FOR_ALL_INVENTORY_SLOTS(g, v, l, player, slot, item)
+  FOR_ALL_INVENTORY_SLOTS_NO_BREAK(g, v, l, player, slot, item)
   {
     auto *it = (item != nullptr) ? thing_tp(item) : nullptr;
     if (it == nullptr) {

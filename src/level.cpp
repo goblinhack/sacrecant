@@ -308,19 +308,19 @@ void level_destroy(Gamep g, Levelsp v, Levelp l)
   IF_DEBUG2
   {
     DBG("Level destroy %u dump all", l->level_num);
-    FOR_ALL_THINGS_ON_LEVEL(g, v, l, t) { THING_DBG(g, v, l, t, "dump"); }
+    FOR_ALL_THINGS_ON_LEVEL_NO_BREAK(g, v, l, t) { THING_DBG(g, v, l, t, "dump"); }
   }
 
   //
   // Remove all things
   //
   DBG("Level destroy %u", l->level_num);
-  FOR_ALL_THINGS_ON_LEVEL(g, v, l, t) { thing_fini(g, v, l, t); }
+  FOR_ALL_THINGS_ON_LEVEL_NO_BREAK(g, v, l, t) { thing_fini(g, v, l, t); }
 
   //
   // Check all things are gone
   //
-  FOR_ALL_THINGS_ON_LEVEL(g, v, l, t) { thing_err(g, v, l, t, "thing still on level after destroying it"); }
+  FOR_ALL_THINGS_ON_LEVEL_NO_BREAK(g, v, l, t) { thing_err(g, v, l, t, "thing still on level after destroying it"); }
 
   //
   // Clean up the level select snake walk
@@ -495,7 +495,7 @@ void level_destroy(Gamep g, Levelsp v, Levelp l)
 
   const auto filter_needed = level_flag_filter_needed(g, v, l, f, me);
   if (filter_needed) {
-    FOR_ALL_THINGS_ON_LEVEL_UNSAFE(g, v, l, it)
+    FOR_ALL_THINGS_ON_LEVEL_NO_BREAK_UNSAFE_NO_BREAK(g, v, l, it)
     {
       if (level_flag_filter(g, v, l, f, me, it)) {
         continue;
@@ -506,7 +506,7 @@ void level_destroy(Gamep g, Levelsp v, Levelp l)
       }
     }
   } else {
-    FOR_ALL_THINGS_ON_LEVEL_UNSAFE(g, v, l, it)
+    FOR_ALL_THINGS_ON_LEVEL_NO_BREAK_UNSAFE_NO_BREAK(g, v, l, it)
     {
       if (tp_flag(thing_tp(it), f) != 0) {
         out.push_back(it);
@@ -554,7 +554,7 @@ void level_update_flags(Gamep g, Levelsp v, Levelp l)
 
   memset(l->flag, 0, sizeof(l->flag));
 
-  FOR_ALL_THINGS_ON_LEVEL_UNSAFE(g, v, l, t)
+  FOR_ALL_THINGS_ON_LEVEL_NO_BREAK_UNSAFE_NO_BREAK(g, v, l, t)
   {
     auto *tp = thing_tp(t);
     auto  at = thing_at(g, v, l, t);

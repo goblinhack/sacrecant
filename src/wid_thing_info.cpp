@@ -2287,7 +2287,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
 
   bool first = true;
 
-  FOR_ALL_INVENTORY_SLOTS(g, v, l, me, slot, item)
+  FOR_ALL_INVENTORY_SLOTS_NO_BREAK(g, v, l, me, slot, item)
   {
     auto *item_tp = (item != nullptr) ? thing_tp(item) : nullptr;
     if (item_tp == nullptr) {
@@ -2355,7 +2355,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
 
   bool first = true;
 
-  FOR_ALL_SPELLBOOK_SLOTS(g, v, l, me, slot, spell)
+  FOR_ALL_SPELLBOOK_SLOTS_NO_BREAK(g, v, l, me, slot, spell)
   {
     auto *spell_tp = (spell != nullptr) ? thing_tp(spell) : nullptr;
     if (spell_tp == nullptr) {

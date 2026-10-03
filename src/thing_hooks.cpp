@@ -33,7 +33,7 @@ static void thing_dump_buffs(Gamep g, Levelsp v, Levelp l, Thingp me)
     return;
   }
 
-  FOR_ALL_HOOKS_SLOTS(g, v, l, me, slot, a_buff)
+  FOR_ALL_HOOKS_SLOTS_NO_BREAK(g, v, l, me, slot, a_buff)
   {
     if (a_buff == nullptr) {
       thing_log(g, v, l, me, "slot %d: -", _n_);
@@ -120,7 +120,7 @@ static void thing_hook_sort(Gamep g, Levelsp v, Levelp l, Thingp me)
   ThingHooks new_buffs = {};
   int        count {};
 
-  FOR_ALL_HOOKS_SLOTS(g, v, l, me, slot, hook)
+  FOR_ALL_HOOKS_SLOTS_NO_BREAK(g, v, l, me, slot, hook)
   {
     if (hook != nullptr) {
       if (thing_is_sacrifice(hook)) {
@@ -214,7 +214,7 @@ static void thing_hook_sort(Gamep g, Levelsp v, Levelp l, Thingp me)
   //
   // Look for a free slot
   //
-  FOR_ALL_HOOKS_SLOTS(g, v, l, me, slot, a_buff)
+  FOR_ALL_HOOKS_SLOTS_NO_BREAK(g, v, l, me, slot, a_buff)
   {
     if (a_buff != nullptr) {
       continue;
@@ -290,7 +290,7 @@ static void thing_hook_sort(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   bool got_one = false;
 
-  FOR_ALL_HOOKS_SLOTS(g, v, l, me, slot, hook)
+  FOR_ALL_HOOKS_SLOTS_NO_BREAK(g, v, l, me, slot, hook)
   {
     if (hook == nullptr) {
       continue;

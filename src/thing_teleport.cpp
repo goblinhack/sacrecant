@@ -64,7 +64,7 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   std::vector< Thingp > teleports;
 
-  FOR_ALL_THINGS_ON_LEVEL(g, v, l, me)
+  FOR_ALL_THINGS_ON_LEVEL_NO_BREAK(g, v, l, me)
   {
     if (thing_at(g, v, l, me) == in) {
       continue;

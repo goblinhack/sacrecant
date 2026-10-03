@@ -87,7 +87,7 @@
   //
   // Look for a free slot
   //
-  FOR_ALL_MINION_SLOTS(g, v, l, mob, slot, existing_minion)
+  FOR_ALL_MINION_SLOTS_NO_BREAK(g, v, l, mob, slot, existing_minion)
   {
     if (existing_minion != nullptr) {
       continue;
@@ -152,7 +152,7 @@
 
   IF_DEBUG2 { thing_mob_dump_minions(g, v, l, mob); }
 
-  FOR_ALL_MINION_SLOTS(g, v, l, mob, slot, minion)
+  FOR_ALL_MINION_SLOTS_NO_BREAK(g, v, l, mob, slot, minion)
   {
     TRACE();
 
@@ -250,7 +250,7 @@ void thing_mob_dump_minions(Gamep g, Levelsp v, Levelp l, Thingp mob)
     return;
   }
 
-  FOR_ALL_MINION_SLOTS(g, v, l, mob, slot, existing_minion)
+  FOR_ALL_MINION_SLOTS_NO_BREAK(g, v, l, mob, slot, existing_minion)
   {
     if (existing_minion == nullptr) {
       THING_DBG(g, v, l, mob, "slot %d: -", _n_);

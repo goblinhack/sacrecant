@@ -46,7 +46,7 @@ static void level_cleanup_things(Gamep g, Levelsp v, Levelp l)
   //
   // This can pop the next player move
   //
-  FOR_ALL_THINGS_ON_LEVEL(g, v, l, t)
+  FOR_ALL_THINGS_ON_LEVEL_NO_BREAK(g, v, l, t)
   {
     if (thing_is_scheduled_for_cleanup(t)) {
       thing_fini(g, v, l, t);
@@ -77,7 +77,7 @@ static void level_tick_ok_to_end_check(Gamep g, Levelsp v, Levelp l)
     l->tick_wait_on_things = true;
   }
 
-  FOR_ALL_THINGS_ON_LEVEL(g, v, l, t)
+  FOR_ALL_THINGS_ON_LEVEL_NO_BREAK(g, v, l, t)
   {
     //
     // We need to wait for things to complete moving into lava for example before we can
@@ -411,7 +411,7 @@ static void level_tick_body(Gamep g, Levelsp v, Levelp l, float dt, bool tick_is
     }
   }
 
-  FOR_ALL_THINGS_ON_LEVEL(g, v, l, t)
+  FOR_ALL_THINGS_ON_LEVEL_NO_BREAK(g, v, l, t)
   {
     //                   Tick 1              Tick 2
     //            =================== ===================
@@ -530,7 +530,7 @@ static void level_tick_begin(Gamep g, Levelsp v, Levelp l)
     player_at = thing_at(g, v, l, player);
   }
 
-  FOR_ALL_THINGS_ON_LEVEL(g, v, l, t)
+  FOR_ALL_THINGS_ON_LEVEL_NO_BREAK(g, v, l, t)
   {
     if (thing_is_tickable(t)) {
       thing_tick_begin(g, v, l, t);
@@ -650,7 +650,7 @@ static void level_tick_idle(Gamep g, Levelsp v, Levelp l)
 {
   TRACE();
 
-  FOR_ALL_THINGS_ON_LEVEL(g, v, l, t)
+  FOR_ALL_THINGS_ON_LEVEL_NO_BREAK(g, v, l, t)
   {
     if (thing_is_tickable(t)) {
       thing_tick_idle(g, v, l, t);
@@ -731,7 +731,7 @@ static void level_tick_end(Gamep g, Levelsp v, Levelp l)
   //
   // This can pop the next player move
   //
-  FOR_ALL_THINGS_ON_LEVEL(g, v, l, t)
+  FOR_ALL_THINGS_ON_LEVEL_NO_BREAK(g, v, l, t)
   {
     if (thing_is_tickable(t)) {
       thing_tick_end(g, v, l, t);

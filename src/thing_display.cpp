@@ -11,7 +11,6 @@
 #include "my_gl.hpp" // NOLINT
 #include "my_level.hpp"
 #include "my_main.hpp"
-#include "my_sdl_event.hpp"
 #include "my_spoint.hpp"
 #include "my_thing.hpp"
 #include "my_thing_callbacks.hpp"

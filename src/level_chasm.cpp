@@ -24,7 +24,7 @@ void level_tick_chasm(Gamep g, Levelsp v, Levelp l)
   int x = 0;
   int y = 0;
 
-  FOR_ALL_MAP_POINTS(g, v, l, x, y)
+  FOR_ALL_MAP_POINTS_NO_BREAK(g, v, l, x, y)
   {
     bpoint p(x, y);
 

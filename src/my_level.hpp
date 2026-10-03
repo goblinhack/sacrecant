@@ -560,7 +560,7 @@ struct MyIter {
 //
 // For all things on the map
 //
-#define FOR_ALL_MAP_POINTS(_g_, _v_, _l_, _x_, _y_)                                                                                             \
+#define FOR_ALL_MAP_POINTS_NO_BREAK(_g_, _v_, _l_, _x_, _y_)                                                                                    \
   if ((VERIFY(MTYPE_GAME, _g_)) && (VERIFY(MTYPE_LEVELS, _v_)))                                                                                 \
     if ((_l_))                                                                                                                                  \
       for ((_x_) = 0; (_x_) < MAP_WIDTH; (_x_)++)                                                                                               \
@@ -572,7 +572,7 @@ struct MyIter {
 // Unsafe here means that if things move around during processing, we could process
 // them more than once per loop
 //
-#define FOR_ALL_THINGS_ON_LEVEL_UNSAFE(_g_, _v_, _l_, _t_)                                                                                      \
+#define FOR_ALL_THINGS_ON_LEVEL_NO_BREAK_UNSAFE_NO_BREAK(_g_, _v_, _l_, _t_)                                                                    \
   if ((_g_) && (_v_) && (_l_))                                                                                                                  \
     for (auto _x_ = 0; _x_ < MAP_WIDTH; _x_++)                                                                                                  \
       for (auto _y_ = 0; _y_ < MAP_HEIGHT; _y_++)                                                                                               \
@@ -580,7 +580,7 @@ struct MyIter {
           if (ThingId _id_ = 0; (_id_ = (_l_)->thing_id[ _x_ ][ _y_ ][ _slot_ ]))                                                               \
             if (Thingp _t_ = nullptr; ((_t_) = thing_find(_g_, _v_, _id_)))
 
-#define FOR_ALL_THINGS_ON_LEVEL(_g_, _v_, _l_, _t_)                                                                                             \
+#define FOR_ALL_THINGS_ON_LEVEL_NO_BREAK(_g_, _v_, _l_, _t_)                                                                                    \
   if ((VERIFY(MTYPE_GAME, _g_)) && (VERIFY(MTYPE_LEVELS, _v_)))                                                                                 \
     if ((_l_))                                                                                                                                  \
       if (int _iter_index_ = 0; true)                                                                                                           \
@@ -593,7 +593,7 @@ struct MyIter {
                     if ((_t_)->iter[ _iter_index_ ] != (_v_)->iter[ _iter_index_ ])                                                             \
                       if ((((_t_)->iter[ _iter_index_ ] = (_v_)->iter[ _iter_index_ ])) || 1)
 
-#define FOR_ALL_THINGS_ON_LEVEL_DEBUG(_g_, _v_, _l_, _t_)                                                                                       \
+#define FOR_ALL_THINGS_ON_LEVEL_NO_BREAK_DEBUG(_g_, _v_, _l_, _t_)                                                                              \
   if ((VERIFY(MTYPE_GAME, _g_)) && (VERIFY(MTYPE_LEVELS, _v_)))                                                                                 \
     if ((_l_))                                                                                                                                  \
       if (int _iter_index_ = 0; true)                                                                                                           \
@@ -608,15 +608,15 @@ struct MyIter {
                         if ((((_t_)->iter[ _iter_index_ ] = (_v_)->iter[ _iter_index_ ])) || 1)
 
 #define FOR_ALL_GROUP_THINGS_ON_LEVEL_UNSAFE(_g_, _v_, _l_, _t_, _group_id_)                                                                    \
-  FOR_ALL_THINGS_ON_LEVEL_UNSAFE(_g_, _v_, _l_, _t_)                                                                                            \
+  FOR_ALL_THINGS_ON_LEVEL_NO_BREAK_UNSAFE_NO_BREAK(_g_, _v_, _l_, _t_)                                                                          \
   if ((_t_)->group_id == (_group_id_))
 
 #define FOR_ALL_GROUP_THINGS_ON_LEVEL(_g_, _v_, _l_, _t_, _group_id_)                                                                           \
-  FOR_ALL_THINGS_ON_LEVEL(_g_, _v_, _l_, _t_)                                                                                                   \
+  FOR_ALL_THINGS_ON_LEVEL_NO_BREAK(_g_, _v_, _l_, _t_)                                                                                          \
   if ((_t_)->group_id == (_group_id_))
 
 #define FOR_ALL_GROUP_THINGS_ON_LEVEL_DEBUG(_g_, _v_, _l_, _t_, _group_id_)                                                                     \
-  FOR_ALL_THINGS_ON_LEVEL_DEBUG(_g_, _v_, _l_, _t_)                                                                                             \
+  FOR_ALL_THINGS_ON_LEVEL_NO_BREAK_DEBUG(_g_, _v_, _l_, _t_)                                                                                    \
   if ((_t_)->group_id == (_group_id_))
 
 #define FOR_ALL_THINGS_AT_UNSAFE(_g_, _v_, _l_, _t_, _p_)                                                                                       \
@@ -712,6 +712,7 @@ enum {
 [[nodiscard]] auto level_cursor_describe_add(Gamep g, Levelsp v, Thingp t) -> bool;
 [[nodiscard]] auto level_cursor_describe_remove(Gamep g, Levelsp v, Thingp t) -> bool;
 [[nodiscard]] auto level_cursor_is_valid(Gamep g, Levelsp v) -> bool;
+[[nodiscard]] auto level_cursor_path_identical(Gamep g, Levelsp v, Levelp l, Thingp player) -> bool;
 [[nodiscard]] auto level_cursor_path_size(Gamep g) -> int;
 [[nodiscard]] auto level_find_all(Gamep g, Levelsp v, Levelp l, ThingFlagType f, bpoint p) -> std::vector< Thingp >;
 [[nodiscard]] auto level_find_all(Gamep g, Levelsp v, Levelp l, ThingFlagType f) -> std::vector< Thingp >;
@@ -765,7 +766,6 @@ enum {
 [[nodiscard]] auto thing_level_select(Gamep g) -> Thingp;
 [[nodiscard]] auto thing_to_pixel(Gamep g, Levelsp v, Levelp l, Thingp it) -> spoint;
 [[nodiscard]] auto to_string(Gamep g, Levelsp v, Levelp l) -> std::string;
-[[nodiscard]] bool level_cursor_path_identical(Gamep g, Levelsp v, Levelp l, Thingp player);
 // end sort marker1 }
 
 // begin sort marker2 {

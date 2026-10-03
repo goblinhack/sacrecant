@@ -595,7 +595,7 @@ void wid_unset_thing_context(Gamep g, Levelsp v, Widp w, Thingp t)
     return nullptr;
   }
 
-  if (! w->thing_id_context[ which ]) {
+  if (w->thing_id_context[ which ] == 0u) {
     return nullptr;
   }
 

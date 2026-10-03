@@ -24,7 +24,7 @@ void level_anim(Gamep g, Levelsp v, Levelp l)
   auto time_step = l->ts - l->last_ts;
   l->last_ts     = l->ts;
 
-  FOR_ALL_THINGS_ON_LEVEL(g, v, l, t)
+  FOR_ALL_THINGS_ON_LEVEL_NO_BREAK(g, v, l, t)
   {
     Tpp tp = thing_tp(t);
 

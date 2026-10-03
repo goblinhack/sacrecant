@@ -9,6 +9,7 @@
 #include "my_game.hpp"
 #include "my_game_defs.hpp"
 #include "my_game_inlines.hpp"
+#include "my_globals.hpp"
 #include "my_level.hpp"
 #include "my_level_inlines.hpp" // NOLINT
 #include "my_main.hpp"
@@ -292,7 +293,7 @@ static void wid_player_select_player_via_mouse_over_begin(Gamep g, Widp w, int /
 {
   TRACE();
 
-  if (! wid_player_select_window) {
+  if (wid_player_select_window == nullptr) {
     return;
   }
 
@@ -314,7 +315,7 @@ static void wid_player_select_player_via_mouse_over_end(Gamep g, Widp w)
 {
   TRACE();
 
-  if (! wid_player_select_window) {
+  if (wid_player_select_window == nullptr) {
     return;
   }
 
@@ -336,7 +337,7 @@ static void wid_player_select_player_via_mouse_over_end(Gamep g, Widp w)
 {
   TRACE();
 
-  if (! wid_player_select_window) {
+  if (wid_player_select_window == nullptr) {
     return false;
   }
 
@@ -373,7 +374,7 @@ static void wid_player_select_player_via_mouse_over_end(Gamep g, Widp w)
 {
   TRACE();
 
-  if (! wid_player_select_window) {
+  if (wid_player_select_window == nullptr) {
     return false;
   }
 
@@ -399,7 +400,7 @@ static void wid_player_select_sacrifice_via_mouse_over_begin(Gamep g, Widp w, in
 {
   TRACE();
 
-  if (! wid_player_select_window) {
+  if (wid_player_select_window == nullptr) {
     return;
   }
 
@@ -421,7 +422,7 @@ static void wid_player_select_sacrifice_via_mouse_over_end(Gamep g, Widp w)
 {
   TRACE();
 
-  if (! wid_player_select_window) {
+  if (wid_player_select_window == nullptr) {
     return;
   }
 
@@ -443,7 +444,7 @@ static void wid_player_select_sacrifice_via_mouse_over_end(Gamep g, Widp w)
 {
   TRACE();
 
-  if (! wid_player_select_window) {
+  if (wid_player_select_window == nullptr) {
     return false;
   }
 
@@ -486,7 +487,7 @@ static void wid_player_select_boost_via_mouse_over_begin(Gamep g, Widp w, int /*
 {
   TRACE();
 
-  if (! wid_player_select_window) {
+  if (wid_player_select_window == nullptr) {
     return;
   }
 
@@ -526,7 +527,7 @@ static void wid_player_select_boost_via_mouse_over_end(Gamep g, Widp w)
 {
   TRACE();
 
-  if (! wid_player_select_window) {
+  if (wid_player_select_window == nullptr) {
     return false;
   }
 

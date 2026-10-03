@@ -149,7 +149,7 @@ static void level_light_calculate_all_things(Gamep g, Levelsp v, Levelp l)
   //
   // Calculate all lit tiles for non player things
   //
-  FOR_ALL_THINGS_ON_LEVEL(g, v, l, t)
+  FOR_ALL_THINGS_ON_LEVEL_NO_BREAK(g, v, l, t)
   {
     int max_radius = thing_is_light_source(t);
     if (max_radius == 0) [[likely]] {

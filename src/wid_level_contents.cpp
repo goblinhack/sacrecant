@@ -98,7 +98,7 @@ void wid_level_show_contents(Gamep g, Levelsp v, Levelp l, WidPopup *parent)
   std::map< std::string, int > monsts;
   std::map< std::string, int > treasure;
 
-  FOR_ALL_THINGS_ON_LEVEL(g, v, l, t)
+  FOR_ALL_THINGS_ON_LEVEL_NO_BREAK(g, v, l, t)
   {
     auto name = tp_name(thing_tp(t));
 

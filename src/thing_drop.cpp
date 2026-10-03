@@ -85,7 +85,7 @@ static auto thing_drop_item(Gamep g, Levelsp v, Levelp l, Thingp user, Thingp it
   if (thing_inventory_get_item_count(g, v, l, item, user) != -1) {
     THING_DBG(g, v, l, user, "drop: %s (item count remains, need a copy)", s.c_str());
 
-    FOR_ALL_INVENTORY_SLOTS(g, v, l, user, slot, an_item)
+    FOR_ALL_INVENTORY_SLOTS_NO_BREAK(g, v, l, user, slot, an_item)
     {
       if (an_item == nullptr) {
         continue;
@@ -276,7 +276,7 @@ void thing_on_drop_success_set(Tpp tp, thing_on_drop_success_t callback)
     }
   }
 
-  if (! tries) {
+  if (tries == 0) {
     THING_DBG(g, v, l, user, "failed to drop an item persistently");
     ok = false;
   }

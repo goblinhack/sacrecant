@@ -77,7 +77,7 @@
   //
   // Look for a matching item first.
   //
-  FOR_ALL_INVENTORY_SLOTS(g, v, l, owner, slot, item)
+  FOR_ALL_INVENTORY_SLOTS_NO_BREAK(g, v, l, owner, slot, item)
   {
     if (item == nullptr) {
       continue;
@@ -106,7 +106,7 @@
   //
   // Look for a free slot
   //
-  FOR_ALL_INVENTORY_SLOTS(g, v, l, owner, slot, item)
+  FOR_ALL_INVENTORY_SLOTS_NO_BREAK(g, v, l, owner, slot, item)
   {
     if (item != nullptr) {
       continue;
@@ -149,7 +149,7 @@
   //
   // Look for the thing
   //
-  FOR_ALL_INVENTORY_SLOTS(g, v, l, owner, slot, item)
+  FOR_ALL_INVENTORY_SLOTS_NO_BREAK(g, v, l, owner, slot, item)
   {
     if (item == nullptr) {
       continue;
@@ -195,7 +195,7 @@
   //
   // Look for the thing
   //
-  FOR_ALL_INVENTORY_SLOTS(g, v, l, owner, slot, an_item)
+  FOR_ALL_INVENTORY_SLOTS_NO_BREAK(g, v, l, owner, slot, an_item)
   {
     if (item == nullptr) {
       continue;
@@ -225,7 +225,7 @@
     return 0;
   }
 
-  FOR_ALL_INVENTORY_SLOTS(g, v, l, owner, slot, item)
+  FOR_ALL_INVENTORY_SLOTS_NO_BREAK(g, v, l, owner, slot, item)
   {
     if (item == nullptr) {
       continue;
@@ -256,7 +256,7 @@ void thing_inventory_dump(Gamep g, Levelsp v, Levelp l, Thingp owner)
     return;
   }
 
-  FOR_ALL_INVENTORY_SLOTS(g, v, l, owner, slot, item)
+  FOR_ALL_INVENTORY_SLOTS_NO_BREAK(g, v, l, owner, slot, item)
   {
     if (item == nullptr) {
       THING_DBG(g, v, l, owner, "slot %d: -", _n_);

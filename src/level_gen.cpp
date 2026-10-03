@@ -2573,10 +2573,10 @@ static void level_gen_dump(class LevelGen *lg, const char *msg)
 
     for (int y = 0; y < MAP_HEIGHT; y++) {
       std::string tmp;
-      for (int x = 0; x < MAP_WIDTH; x++) {
-        auto c = lg->data[ x ][ y ].c;
+      for (auto &x : lg->data) {
+        auto c = x[ y ].c;
 
-        if (lg->data[ x ][ y ].room) {
+        if (x[ y ].room != nullptr) {
           c = 'r';
         } else {
           c = ' ';
@@ -3928,7 +3928,7 @@ static void level_gen_add_walls_around_rooms(class LevelGen *lg)
 
   for (int y = 1; y < MAP_HEIGHT - 1; y++) {
     for (int x = 1; x < MAP_WIDTH - 1; x++) {
-      if (lg->data[ x ][ y ].room) {
+      if (lg->data[ x ][ y ].room != nullptr) {
         for (auto delta : points) {
           auto X = x + delta.x;
           auto Y = y + delta.y;
