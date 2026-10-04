@@ -830,7 +830,6 @@ class Tp;
 
 // begin sort marker1 {
 [[nodiscard]] auto string2tp(const char **s, int *len = nullptr) -> Tpp;
-[[nodiscard]] int  tp_id_max(void);
 [[nodiscard]] auto tp_attack_count_max_per_tick_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_chance_fail(Tpp tp, ThingChanceType val) -> bool;
 [[nodiscard]] auto tp_chance_success(Tpp tp, ThingChanceType val) -> bool;
@@ -1328,6 +1327,7 @@ class Tp;
 [[nodiscard]] auto tp_variant(ThingFlagType f, int /*variant*/) -> Tpp;
 [[nodiscard]] auto tp_weight_get(Tpp tp) -> uint32_t;
 [[nodiscard]] auto tp_z_depth_get(Tpp tp) -> MapZDepthType;
+[[nodiscard]] int  tp_id_max(void);
 // end sort marker1 }
 
 // begin sort marker2 {
