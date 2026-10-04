@@ -112,10 +112,6 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
     return;
   }
 
-  if (thing_is_moving(player)) {
-    return;
-  }
-
   if (v->tick) {
     if ((v->tick % 20) == 0u) {
       //          game_request_to_save_game_set(g);
@@ -127,6 +123,10 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
       thing_dead(g, v, l, player, ev);
       return;
     }
+  }
+
+  if (thing_is_moving(player)) {
+    return;
   }
 
   int  x;

@@ -845,7 +845,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_dormant_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int;
 [[nodiscard]] auto thing_dormant(Gamep g, Levelsp v, Levelp l, Thingp me) -> int;
 [[nodiscard]] auto thing_drop_all(Gamep g, Levelsp v, Levelp l, Thingp user, ThingEvent &e) -> bool;
-[[nodiscard]] auto thing_drop(Gamep g, Levelsp v, Levelp l, Thingp user, Thingp item, ThingEvent &e) -> bool;
+[[nodiscard]] auto thing_drop(Gamep g, Levelsp v, Levelp l, Thingp user, Thingp item, ThingEvent &e, bool forced = false) -> bool;
 [[nodiscard]] auto thing_eat(Gamep g, Levelsp v, Levelp l, Thingp user, Thingp item, ThingEvent &e) -> bool;
 [[nodiscard]] auto thing_engulfer(Gamep g, Levelsp v, Levelp l, Thingp me) -> Thingp;
 [[nodiscard]] auto thing_ensnare(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp ensnarer) -> bool;
@@ -969,7 +969,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_buff(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_burnable(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_burning(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_carried_set(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp owner, ThingEvent & /*e*/, bool val = true) -> bool;
 [[nodiscard]] auto thing_is_carried_unset(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp owner, ThingEvent & /*e*/) -> bool;
 [[nodiscard]] auto thing_is_carried(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_chasm(Thingp t) -> bool;
@@ -1581,6 +1580,9 @@ using Thing = struct Thing {
 [[nodiscard]] auto wid_tp_info_spell_options(Gamep g, Levelsp v, Levelp l, Tpp me, WidPopup *parent, int width, bool title_allowed) -> bool;
 [[nodiscard]] auto wid_tp_info_spell_upgrades(Gamep g, Levelsp v, Levelp l, Tpp me, WidPopup *parent, int width, bool title_allowed) -> bool;
 // end sort marker1 }
+
+[[nodiscard]] auto thing_is_carried_set(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp owner, ThingEvent & /*e*/, bool val, bool force)
+    -> bool;
 
 // begin sort marker2 {
 auto level_vision_calculate_all(Gamep g, Levelsp v, Levelp l) -> void;

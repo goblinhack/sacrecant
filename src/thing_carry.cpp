@@ -22,6 +22,7 @@ static auto thing_carry_item(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp c
   TRACE();
 
   if (! thing_is_able_to_collect_items(collector)) {
+    THING_DBG(g, v, l, collector, "cannot carry items");
     return false;
   }
 
@@ -30,11 +31,13 @@ static auto thing_carry_item(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp c
   //
   if (thing_is_player(collector)) {
     if (thing_is_chest(item)) {
+      THING_DBG(g, v, l, collector, "cannot carry a chest");
       return false;
     }
   }
 
   if (! thing_is_item(item)) {
+    THING_DBG(g, v, l, collector, "cannot carry a non item");
     return false;
   }
 
@@ -58,7 +61,7 @@ static auto thing_carry_item(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp c
     }
   }
 
-  if (! thing_is_carried_set(g, v, l, item, collector, e)) {
+  if (! thing_is_carried_set(g, v, l, item, collector, e, true /* carry */, false /* force */)) {
     THING_DBG(g, v, l, collector, "carry: %s (failed)", s.c_str());
     TRACE_INDENT();
 
@@ -100,7 +103,7 @@ static auto thing_carry_item(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp c
 //
 // Returns true/false on success/fail
 //
-[[nodiscard]] auto thing_is_carried_set(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp owner, ThingEvent &e, bool val) -> bool
+[[nodiscard]] auto thing_is_carried_set(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp owner, ThingEvent &e, bool val, bool force) -> bool
 {
   TRACE_DEBUG();
 
@@ -177,7 +180,15 @@ static auto thing_carry_item(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp c
 
       auto s = to_string(g, v, l, item);
       THING_DBG(g, v, l, owner, "drop-try: %s (failed, drop request)", s.c_str());
-      return false;
+
+      //
+      // Cursed items need forceably dropped
+      //
+      if (force) {
+        THING_DBG(g, v, l, owner, "drop-try: %s (failed, force drop request)", s.c_str());
+      } else {
+        return false;
+      }
     }
 
     //
@@ -212,7 +223,7 @@ static auto thing_carry_item(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp c
 {
   TRACE_DEBUG();
 
-  return thing_is_carried_set(g, v, l, item, owner, e, false);
+  return thing_is_carried_set(g, v, l, item, owner, e, false, false);
 }
 
 void thing_on_carry_request_set(Tpp tp, thing_on_carry_request_t callback)
@@ -225,7 +236,7 @@ void thing_on_carry_request_set(Tpp tp, thing_on_carry_request_t callback)
   tp->on_carry_request = callback;
 }
 
-[[nodiscard]] auto thing_on_carry_request(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp user, ThingEvent &e) -> bool
+[[nodiscard]] auto thing_on_carry_request(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp collector, ThingEvent &e) -> bool
 {
   TRACE();
   auto *tp = thing_tp(me);
@@ -239,11 +250,11 @@ void thing_on_carry_request_set(Tpp tp, thing_on_carry_request_t callback)
     //
     return true;
   }
-  if (! thing_is_player(user) && ! thing_is_monst(user)) {
-    thing_err(g, v, l, user, "unexpected thing for %s", __FUNCTION__);
+  if (! thing_is_player(collector) && ! thing_is_monst(collector)) {
+    thing_err(g, v, l, collector, "unexpected thing for %s", __FUNCTION__);
     return false;
   }
-  return tp->on_carry_request(g, v, l, me, user, e);
+  return tp->on_carry_request(g, v, l, me, collector, e);
 }
 
 void thing_on_carry_success_set(Tpp tp, thing_on_carry_success_t callback)
@@ -256,7 +267,7 @@ void thing_on_carry_success_set(Tpp tp, thing_on_carry_success_t callback)
   tp->on_carry_success = callback;
 }
 
-[[nodiscard]] auto thing_on_carry_success(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp user, ThingEvent &e) -> bool
+[[nodiscard]] auto thing_on_carry_success(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp collector, ThingEvent &e) -> bool
 {
   TRACE();
   auto *tp = thing_tp(me);
@@ -268,31 +279,35 @@ void thing_on_carry_success_set(Tpp tp, thing_on_carry_success_t callback)
     //
     // Assume success
     //
-    if (thing_is_player(user)) {
-      thing_sound_play(g, v, l, user, "item_collect");
+    if (thing_is_player(collector)) {
+      thing_sound_play(g, v, l, collector, "item_collect");
     }
     return true;
   }
-  if (! thing_is_player(user) && ! thing_is_monst(user)) {
-    thing_err(g, v, l, user, "unexpected thing for %s", __FUNCTION__);
+  if (! thing_is_player(collector) && ! thing_is_monst(collector)) {
+    thing_err(g, v, l, collector, "unexpected thing for %s", __FUNCTION__);
     return false;
   }
-  return tp->on_carry_success(g, v, l, me, user, e);
+  return tp->on_carry_success(g, v, l, me, collector, e);
 }
 
-[[nodiscard]] auto thing_carry(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp item, ThingEvent &e) -> bool
+[[nodiscard]] auto thing_carry(Gamep g, Levelsp v, Levelp l, Thingp collector, Thingp item, ThingEvent &e) -> bool
 {
   TRACE();
 
-  if (me == nullptr) {
+  if (collector == nullptr) {
     ERR("no thing pointer");
     return false;
   }
 
   if (item == nullptr) {
-    thing_err(g, v, l, me, "no item to carry");
+    thing_err(g, v, l, collector, "no item to carry");
     return false;
   }
+
+  auto s = to_string(g, v, l, item);
+  THING_DBG(g, v, l, collector, "drop: %s", s.c_str());
+  TRACE_INDENT();
 
   //
   // Avoid rapid drop/collect loops
@@ -303,20 +318,21 @@ void thing_on_carry_success_set(Tpp tp, thing_on_carry_success_t callback)
     }
   }
 
-  if (! thing_carry_item(g, v, l, item, me, e)) {
+  if (! thing_carry_item(g, v, l, item, collector, e)) {
+    THING_DBG(g, v, l, collector, "failed to carry item: %s", s.c_str());
     return false;
   }
 
-  (void) thing_auto_wear_try(g, v, l, me, item, e);
+  (void) thing_auto_wear_try(g, v, l, collector, item, e);
 
   return true;
 }
 
-[[nodiscard]] auto thing_carry(Gamep g, Levelsp v, Levelp l, Thingp me, const std::initializer_list< std::string > &items) -> bool
+[[nodiscard]] auto thing_carry(Gamep g, Levelsp v, Levelp l, Thingp collector, const std::initializer_list< std::string > &items) -> bool
 {
   TRACE();
 
-  if (me == nullptr) {
+  if (collector == nullptr) {
     ERR("no thing pointer");
     return false;
   }
@@ -326,15 +342,15 @@ void thing_on_carry_success_set(Tpp tp, thing_on_carry_success_t callback)
   for (const auto &tp : items) {
     auto *item_tp = tp_find_mand(tp);
     if (item_tp != nullptr) {
-      auto *item = thing_spawn(g, v, l, item_tp, thing_at(g, v, l, me));
+      auto *item = thing_spawn(g, v, l, item_tp, thing_at(g, v, l, collector));
       if (item != nullptr) {
         ThingEvent e {
             .reason     = "spawned",           //
             .event_type = THING_EVENT_SPAWNED, //
-            .source     = me,                  //
+            .source     = collector,           //
         };
 
-        if (! thing_carry(g, v, l, me, item, e)) {
+        if (! thing_carry(g, v, l, collector, item, e)) {
           ok = false;
         }
       }
@@ -344,11 +360,11 @@ void thing_on_carry_success_set(Tpp tp, thing_on_carry_success_t callback)
   return ok;
 }
 
-[[nodiscard]] auto thing_carry(Gamep g, Levelsp v, Levelp l, Thingp me, const std::vector< Thingp > &items) -> bool
+[[nodiscard]] auto thing_carry(Gamep g, Levelsp v, Levelp l, Thingp collector, const std::vector< Thingp > &items) -> bool
 {
   TRACE();
 
-  if (me == nullptr) {
+  if (collector == nullptr) {
     ERR("no thing pointer");
     return false;
   }
@@ -360,10 +376,10 @@ void thing_on_carry_success_set(Tpp tp, thing_on_carry_success_t callback)
     ThingEvent e {
         .reason     = "collected",         //
         .event_type = THING_EVENT_SPAWNED, //
-        .source     = me,                  //
+        .source     = collector,           //
     };
 
-    if (! thing_carry(g, v, l, me, item, e)) {
+    if (! thing_carry(g, v, l, collector, item, e)) {
       ok = false;
     }
   }

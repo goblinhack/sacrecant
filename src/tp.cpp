@@ -298,6 +298,12 @@ Tp::~Tp()
   OLDPTR(MTYPE_TP, this);
 }
 
+int tp_id_max(void)
+{
+  TRACE();
+  return (int) tp_vec.size();
+}
+
 [[nodiscard]] auto tp_find_mand(const std::string &val) -> Tpp
 {
   TRACE_DEBUG();

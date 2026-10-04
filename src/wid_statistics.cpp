@@ -134,7 +134,7 @@ static void wid_statistics_show_defeated(Gamep g, Levelp l, Thingp player)
   // Monster defeated
   //
   int column_count {};
-  for (auto i = 1; i < TP_ID_MAX; i++) {
+  for (auto i = 1; i <= tp_id_max(); i++) {
 
     auto *it = tp_find(i);
     if (it == nullptr) {
@@ -260,7 +260,7 @@ void wid_statistics_show(Gamep g, Levelsp v, Levelp l, Thingp player)
     spoint const tl((TERM_WIDTH / 2) - left_half, (TERM_HEIGHT / 2) - top_half);
     spoint const br((TERM_WIDTH / 2) + right_half - 1, (TERM_HEIGHT / 2) + bot_half - 1);
 
-    wid_statistics_popup = new WidPopup(g, "statistics", tl, br, nullptr, "", false, true, TP_ID_MAX + 10);
+    wid_statistics_popup = new WidPopup(g, "statistics", tl, br, nullptr, "", false, true, tp_id_max() + 10);
 
     wid_statistics_window = wid_statistics_popup->wid_popup_container;
 

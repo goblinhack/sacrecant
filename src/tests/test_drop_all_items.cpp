@@ -32,7 +32,7 @@
       = "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
         "x.........................x"
         "x$........................x"
-        "x@........................x"
+        "x@$.......................x"
         "x.........................x"
         "x.........................x"
         "xxxxxxxxxxxxxxxxxxxxxxxxxxx";
@@ -42,6 +42,17 @@
   bool    result = true;
 
   static std::initializer_list< std::string > items = {
+      "clown_meat",   //
+      "clown_meat",   //
+      "clown_meat",   //
+      "clown_meat",   //
+      "clown_meat",   //
+      "clown_meat",   //
+      "clown_meat",   //
+      "clown_meat",   //
+      "clown_meat",   //
+      "clown_meat",   //
+      "ring_war",     //
       "staff_fire",   //
       "staff_fire",   //
       "staff_energy", //

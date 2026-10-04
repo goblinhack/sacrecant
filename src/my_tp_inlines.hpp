@@ -7,7 +7,8 @@
 #define MY_TP_INLINES_HPP
 
 #ifdef DEBUG_BUILD
-#include "my_callstack.hpp"
+#include "my_callstack.hpp" // NOLINT
+#include "my_main.hpp"      // NOLINT
 #endif
 
 #include "my_tp.hpp"
@@ -66,7 +67,6 @@ extern TpVec tp_vec;
     return nullptr;
   }
 #else
-
   if (id == 0U) [[unlikely]] {
     return nullptr;
   }

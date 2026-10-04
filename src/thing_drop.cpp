@@ -15,69 +15,13 @@
 //
 // Drop an item from the things inventory
 //
-static auto thing_drop_item(Gamep g, Levelsp v, Levelp l, Thingp user, Thingp item, ThingEvent &e) -> bool
+static auto thing_drop_no_fail(Gamep g, Levelsp v, Levelp l, Thingp user, Thingp item, ThingEvent &e) -> void
 {
   TRACE();
-
-  if (! thing_is_item(item)) {
-    thing_err(g, v, l, user, "unexpected non thing, %s", __FUNCTION__);
-    return false;
-  }
-
-  if (! thing_is_carried(item)) {
-    thing_err(g, v, l, user, "unexpected uncarried thing, %s", __FUNCTION__);
-    return false;
-  }
-
-  if (! thing_is_player(user) && ! thing_is_monst(user)) {
-    thing_err(g, v, l, user, "unexpected thing, %s", __FUNCTION__);
-    return false;
-  }
 
   auto s = to_string(g, v, l, item);
   THING_DBG(g, v, l, user, "drop: %s", s.c_str());
   TRACE_INDENT();
-
-  if (! thing_is_carried_unset(g, v, l, item, user, e)) {
-    THING_DBG(g, v, l, user, "drop: %s (failed)", s.c_str());
-    TRACE_INDENT();
-
-    if (thing_is_player(user)) {
-      if (e.event_type == THING_EVENT_USER_INITIATED) {
-        auto the_thing = thing_name_long_the(g, v, l, item);
-        topcon(UI_WARN_FMT_STR "You fail to drop %s." UI_RESET_FMT, the_thing.c_str());
-      }
-
-      //
-      // Needed for cursed items
-      //
-      if (thing_is_tick_on_drop(item)) {
-        (void) level_tick_begin_requested(g, v, l, "player failed to drop an item");
-      }
-    }
-
-    return false;
-  }
-
-  //
-  // Drop the thing where the player is
-  //
-  if (! thing_is_thrown(item)) {
-    THING_DBG(g, v, l, user, "drop: %s (need to place the item)", s.c_str());
-    TRACE_INDENT();
-
-    if (! thing_warp_to(g, v, l, item, thing_at(g, v, l, user))) {
-      if (thing_is_player(user)) {
-        if (e.event_type == THING_EVENT_USER_INITIATED) {
-          auto the_thing = thing_name_long_the(g, v, l, item);
-          topcon(UI_WARN_FMT_STR "You fail to place %s." UI_RESET_FMT, the_thing.c_str());
-        }
-      }
-      return false;
-    }
-
-    THING_DBG(g, v, l, user, "drop: %s (placed the item)", s.c_str());
-  }
 
   //
   // Replace the thing with a copy if count exists
@@ -140,12 +84,88 @@ static auto thing_drop_item(Gamep g, Levelsp v, Levelp l, Thingp user, Thingp it
 
   item->tick_dropped = v->tick;
 
-  //
-  // Dropping during cleanup?
-  //
   if (e.event_type == THING_EVENT_FINI) {
     thing_fini(g, v, l, item);
   }
+}
+
+//
+// Drop an item from the things inventory
+//
+static auto thing_drop_item(Gamep g, Levelsp v, Levelp l, Thingp user, Thingp item, ThingEvent &e, bool force) -> bool
+{
+  TRACE();
+
+  if (! thing_is_item(item)) {
+    thing_err(g, v, l, user, "unexpected non thing, %s", __FUNCTION__);
+    return false;
+  }
+
+  if (! thing_is_carried(item)) {
+    thing_err(g, v, l, user, "unexpected uncarried thing, %s", __FUNCTION__);
+    return false;
+  }
+
+  if (! thing_is_player(user) && ! thing_is_monst(user)) {
+    thing_err(g, v, l, user, "unexpected thing, %s", __FUNCTION__);
+    return false;
+  }
+
+  auto s = to_string(g, v, l, item);
+  THING_DBG(g, v, l, user, "drop: %s", s.c_str());
+  TRACE_INDENT();
+
+  if (! thing_is_carried_set(g, v, l, item, user, e, false /* drop */, force)) {
+    THING_DBG(g, v, l, user, "drop: %s (failed)", s.c_str());
+    TRACE_INDENT();
+
+    if (thing_is_player(user)) {
+      if (e.event_type == THING_EVENT_USER_INITIATED) {
+        auto the_thing = thing_name_long_the(g, v, l, item);
+        topcon(UI_WARN_FMT_STR "You fail to drop %s." UI_RESET_FMT, the_thing.c_str());
+      }
+
+      //
+      // Needed for cursed items
+      //
+      if (thing_is_tick_on_drop(item)) {
+        (void) level_tick_begin_requested(g, v, l, "player failed to drop an item");
+      }
+    }
+
+    if (force) {
+      THING_DBG(g, v, l, user, "drop: %s (ignore carried unset failure)", s.c_str());
+    } else {
+      return false;
+    }
+  }
+
+  //
+  // Drop the thing where the player is
+  //
+  if (! thing_is_thrown(item)) {
+    THING_DBG(g, v, l, user, "drop: %s (need to place the item)", s.c_str());
+    TRACE_INDENT();
+
+    if (! thing_warp_to(g, v, l, item, thing_at(g, v, l, user))) {
+      if (thing_is_player(user)) {
+        if (e.event_type == THING_EVENT_USER_INITIATED) {
+          auto the_thing = thing_name_long_the(g, v, l, item);
+          topcon(UI_WARN_FMT_STR "You fail to place %s." UI_RESET_FMT, the_thing.c_str());
+        }
+      }
+
+      if (force) {
+        THING_DBG(g, v, l, user, "drop: %s (ignore warp failure)", s.c_str());
+      } else {
+        return false;
+      }
+    }
+
+    THING_DBG(g, v, l, user, "drop: %s (placed the item)", s.c_str());
+  }
+
+  thing_drop_no_fail(g, v, l, user, item, e);
 
   return true;
 }
@@ -230,7 +250,7 @@ void thing_on_drop_success_set(Tpp tp, thing_on_drop_success_t callback)
   return tp->on_drop_success(g, v, l, item, user, e);
 }
 
-[[nodiscard]] auto thing_drop(Gamep g, Levelsp v, Levelp l, Thingp user, Thingp item, ThingEvent &e) -> bool
+[[nodiscard]] auto thing_drop(Gamep g, Levelsp v, Levelp l, Thingp user, Thingp item, ThingEvent &e, bool force) -> bool
 {
   TRACE();
 
@@ -250,7 +270,7 @@ void thing_on_drop_success_set(Tpp tp, thing_on_drop_success_t callback)
     }
   }
 
-  return thing_drop_item(g, v, l, user, item, e);
+  return thing_drop_item(g, v, l, user, item, e, force);
 }
 
 [[nodiscard]] auto thing_drop_all(Gamep g, Levelsp v, Levelp l, Thingp user, ThingEvent &e) -> bool
@@ -265,15 +285,29 @@ void thing_on_drop_success_set(Tpp tp, thing_on_drop_success_t callback)
   bool ok    = true;
   auto tries = THING_INVENTORY_MAX;
 
-  while (tries-- > 0) {
-    while (thing_inventory_get_item_count(g, v, l, user) > 0) {
-      FOR_ALL_INVENTORY_ITEMS(g, v, l, user, an_item)
-      {
-        if (! thing_drop(g, v, l, user, an_item, e)) {
-          ok = false;
-        }
-      }
+  //
+  // Try a number of times to drop items
+  //
+  while (thing_inventory_get_item_count(g, v, l, user) > 0) {
+    FOR_ALL_INVENTORY_ITEMS(g, v, l, user, an_item)
+    {
+      TRACE();
+      (void) thing_drop(g, v, l, user, an_item, e, true /* force */);
     }
+
+    if (tries-- <= 0) {
+      break;
+    }
+  }
+
+  //
+  // If still items persist, this is a bug
+  //
+  FOR_ALL_INVENTORY_ITEMS(g, v, l, user, an_item)
+  {
+    THING_DBG(g, v, l, an_item, "failed to drop this item persistently");
+    ok = false;
+    break;
   }
 
   if (tries == 0) {

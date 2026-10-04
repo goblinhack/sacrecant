@@ -2009,7 +2009,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
 
   std::string out;
 
-  for (auto i = 1; i < TP_ID_MAX; i++) {
+  for (auto i = 1; i <= tp_id_max(); i++) {
 
     auto *it = tp_find(i);
     if (it == nullptr) {
@@ -2046,7 +2046,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
 
   std::string out;
 
-  for (auto i = 1; i < TP_ID_MAX; i++) {
+  for (auto i = 1; i <= tp_id_max(); i++) {
 
     auto *it = tp_find(i);
     if (it == nullptr) {

@@ -674,7 +674,7 @@ void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
     TRACE_INDENT();
     auto *owner = thing_owner(g, v, l, me);
     if (owner != nullptr) {
-      if (! thing_drop(g, v, l, owner, me, e)) {
+      if (! thing_drop(g, v, l, owner, me, e, true /* force */)) {
         thing_err(g, v, l, me, "item is carried but could not drop");
       }
     }
@@ -683,6 +683,7 @@ void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
     // Drop all items
     //
     if (thing_is_able_to_drop_all_items_on_death(me)) {
+      THING_DBG(g, v, l, me, "drop all items");
       TRACE_INDENT();
       (void) thing_drop_all(g, v, l, me, e);
     }
