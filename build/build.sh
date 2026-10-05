@@ -937,8 +937,8 @@ log_info "Compiler version           :" $CC_VER
 log_info "Building..."
 cd ..
 
-echo USE_PRECOMPILED=yep make -f build/Makefile $CORES "$@" all
-USE_PRECOMPILED=yep make -f build/Makefile $CORES "$@" all
+echo USE_PRECOMPILED=yep make -f Makefile $CORES "$@" all
+USE_PRECOMPILED=yep make -f Makefile $CORES "$@" all
 
 if [ $? -ne 0 ]; then
   log_die "Build failed"
