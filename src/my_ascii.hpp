@@ -11,12 +11,11 @@
 #include "my_tile.hpp"
 #include "my_ui.hpp"
 
-enum { TERM_WIDTH_DEF = 140, TERM_HEIGHT_DEF = 80 };
-
+enum { TERM_WIDTH_MAX = 130, TERM_HEIGHT_MAX = 70 };
 enum { TERM_WIDTH_MIN = 120, TERM_HEIGHT_MIN = 60 };
 
-#define TERM_WIDTH_MAX  TERM_WIDTH_DEF
-#define TERM_HEIGHT_MAX TERM_HEIGHT_DEF
+#define TERM_WIDTH_DEF  TERM_WIDTH_MIN
+#define TERM_HEIGHT_DEF TERM_HEIGHT_MIN
 
 class AsciiCell
 {
