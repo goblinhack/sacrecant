@@ -11,7 +11,7 @@
 #include "my_tile.hpp"
 #include "my_ui.hpp"
 
-enum { TERM_WIDTH_DEF = 240, TERM_HEIGHT_DEF = 120 };
+enum { TERM_WIDTH_DEF = 140, TERM_HEIGHT_DEF = 80 };
 
 enum { TERM_WIDTH_MIN = 120, TERM_HEIGHT_MIN = 60 };
 
