@@ -32,9 +32,15 @@ if [[ ! -d data/sounds ]]; then
     DONE=1
 fi
 
-if [[ ! -d data/music ]]; then
-    echo $0: Need to extract sounds archive
-    untar data/music.tgz
+if [[ ! -d data/music1 ]]; then
+    echo $0: Need to extract music1 archive
+    untar data/music1.tgz
+    DONE=1
+fi
+
+if [[ ! -d data/music2 ]]; then
+    echo $0: Need to extract music2 archive
+    untar data/music2.tgz
     DONE=1
 fi
 
@@ -77,18 +83,33 @@ else
     fi
 fi
 
-COUNT=$(find data/music -newer data/music.tgz -type f | wc -l)
+COUNT=$(find data/music1 -newer data/music1.tgz -type f | wc -l)
 if [[ $COUNT -gt 0 ]];
 then
-    echo $0: Need to retar music tarball due to updates
-    make_tar data/music.tgz data/music
+    echo $0: Need to retar music1 tarball due to updates
+    make_tar data/music1.tgz data/music1
 else
-    COUNT=$(find data/music.tgz -newer data/music -type f | wc -l)
+    COUNT=$(find data/music1.tgz -newer data/music1 -type f | wc -l)
     if [[ $COUNT -gt 0 ]];
     then
-        echo $0: Need to extract data/music.tgz as it is newer
-        untar data/music.tgz
-        touch data/music
+        echo $0: Need to extract data/music1.tgz as it is newer
+        untar data/music1.tgz
+        touch data/music1
+    fi
+fi
+
+COUNT=$(find data/music2 -newer data/music2.tgz -type f | wc -l)
+if [[ $COUNT -gt 0 ]];
+then
+    echo $0: Need to retar music2 tarball due to updates
+    make_tar data/music2.tgz data/music2
+else
+    COUNT=$(find data/music2.tgz -newer data/music2 -type f | wc -l)
+    if [[ $COUNT -gt 0 ]];
+    then
+        echo $0: Need to extract data/music2.tgz as it is newer
+        untar data/music2.tgz
+        touch data/music2
     fi
 fi
 

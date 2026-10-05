@@ -65,7 +65,13 @@ try:
                 newer = True
                 break
 
-        for filepath in root.rglob(r"data/music.tgz"):
+        for filepath in root.rglob(r"data/music1.tgz"):
+            if target_ctime < os.path.getctime(filepath):
+                print("{} is newer".format(filepath))
+                newer = True
+                break
+
+        for filepath in root.rglob(r"data/music2.tgz"):
             if target_ctime < os.path.getctime(filepath):
                 print("{} is newer".format(filepath))
                 newer = True
@@ -101,7 +107,13 @@ try:
                 newer = True
                 break
 
-        for filepath in root.rglob(r"data/music/*.ogg"):
+        for filepath in root.rglob(r"data/music1/*.ogg"):
+            if target_ctime < os.path.getctime(filepath):
+                print("{} is newer".format(filepath))
+                newer = True
+                break
+
+        for filepath in root.rglob(r"data/music2/*.ogg"):
             if target_ctime < os.path.getctime(filepath):
                 print("{} is newer".format(filepath))
                 newer = True
@@ -136,14 +148,13 @@ for filepath in root.rglob(r"data/sounds/*/*.ogg"):
     files[filepath.parent].append(filepath.name)
     number_of_files_to_add_to_ramdisk += 1
 
-for filepath in root.rglob(r"data/music/*.ogg"):
+for filepath in root.rglob(r"data/music1/*.ogg"):
     files[filepath.parent].append(filepath.name)
     number_of_files_to_add_to_ramdisk += 1
 
-
-# for filepath in root.rglob(r"data/music/*.ogg"):
-#     files[filepath.parent].append(filepath.name)
-#     number_of_files_to_add_to_ramdisk += 1
+for filepath in root.rglob(r"data/music2/*.ogg"):
+    files[filepath.parent].append(filepath.name)
+    number_of_files_to_add_to_ramdisk += 1
 
 if is_old_clang_version():
     for ram_file in range(number_of_ramdisk_files):

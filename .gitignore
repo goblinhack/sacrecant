@@ -39,6 +39,8 @@ build/Makefile
 build/Makefile.template
 data/gfx/
 data/sounds/
+data/music1/
+data/music2/
 sacrecant
 sacrecant.dSYM/
 sacrecant.stderr.txt
