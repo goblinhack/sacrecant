@@ -321,7 +321,9 @@ static void level_tick(Gamep g, Levelsp v, Levelp l, bool tick_begin_requested)
   if (l->tick_ended) {
     if (game_request_to_save_game_get(g)) {
       game_request_to_save_game_unset(g);
+#ifndef __EMSCRIPTEN__
       wid_save_select(g);
+#endif
     }
   }
 }

@@ -199,6 +199,7 @@
   return true;
 }
 
+#ifndef __EMSCRIPTEN__
 [[nodiscard]] auto game_event_save(Gamep g) -> bool
 {
   DBG("saving");
@@ -317,6 +318,7 @@
 
   return true;
 }
+#endif
 
 [[nodiscard]] auto game_event_wait(Gamep g) -> bool
 {
@@ -1213,6 +1215,7 @@ static auto game_event_abort(Gamep g) -> bool
     return true;
   }
 
+#ifndef __EMSCRIPTEN__
   if (sdlk_eq(*key, game_key_load_get(g))) {
     DBG("pressed load key");
     TRACE_INDENT();
@@ -1229,6 +1232,7 @@ static auto game_event_abort(Gamep g) -> bool
     (void) game_event_save(g);
     return true;
   }
+#endif
 
   if (sdlk_eq(*key, game_key_abort_get(g))) {
     DBG("pressed abort key");

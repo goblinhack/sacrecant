@@ -88,8 +88,6 @@ color YELLOW3;
 color YELLOW4;
 // end sort marker1 }
 
-static bool color_init_done;
-
 void color_init()
 {
   TRACE();

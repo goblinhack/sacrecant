@@ -44,6 +44,7 @@
 
 static std::recursive_mutex backtrace_mutex;
 
+#ifndef __EMSCRIPTEN__
 //
 // Inspired from https://github.com/nico/demumble/issues
 //
@@ -153,6 +154,7 @@ static auto demangle_symbol(char *name) -> std::string
 
   return sout;
 }
+#endif
 
 #ifdef _WIN32
 static void PrintLastError(const char *msg)
@@ -300,6 +302,8 @@ std::string backtrace_string(void)
 
   return out;
 }
+#elif __EMSCRIPTEN__
+[[nodiscard]] auto backtrace_string() -> std::string { return "<na>"; }
 #else
 [[nodiscard]] auto backtrace_string() -> std::string
 {

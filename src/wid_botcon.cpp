@@ -27,7 +27,6 @@ static Widp wid_botcon_input_line {};
 static Widp wid_botcon_window {};
 
 static std::string last_msg;
-static int         last_msg_count;
 
 static std::map< uint32_t, std::string > wid_botcon_lines;
 
@@ -45,8 +44,7 @@ void wid_botcon_fini(Gamep g)
   TRACE();
   wid_botcon_wid_create(g);
 
-  last_msg       = "";
-  last_msg_count = 0;
+  last_msg = "";
 
   return true;
 }
@@ -135,15 +133,12 @@ static void wid_botcon_log_(const std::string &s)
   if (! curr_msg.empty() && length_without_format(curr_msg) + length_without_format(s) + 1 < UI_BOTCON_WIDTH) {
     curr_msg = curr_msg + " " + s;
     wid_botcon_replace(wid_botcon_input_line, curr_msg);
-    last_msg       = "";
-    last_msg_count = 0;
+    last_msg = "";
   } else if (curr_msg.empty()) {
-    last_msg       = s;
-    last_msg_count = 0;
+    last_msg = s;
     wid_botcon_replace(wid_botcon_input_line, s);
   } else {
-    last_msg       = s;
-    last_msg_count = 0;
+    last_msg = s;
     wid_botcon_scroll(wid_botcon_input_line, s);
   }
 }

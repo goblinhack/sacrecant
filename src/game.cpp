@@ -378,14 +378,18 @@ public:
   explicit Game(const std::string &appdata);
   Game() = default;
 
-  auto load_snapshot() -> bool;
-  auto load(const std::string &file_to_load, class Game &target) -> bool;
-  auto load(int slot) -> bool;
-  auto save_config() -> bool;
-  auto save_select() -> bool;
-  auto save_snapshot() -> bool;
-  auto save(const std::string &file_to_save) -> bool;
-  auto save(int slot) -> bool;
+#ifndef __EMSCRIPTEN__
+  auto               load_snapshot() -> bool;
+  auto               load(const std::string &file_to_load, class Game &target) -> bool;
+  auto               load(int slot) -> bool;
+  auto               save_config() -> bool;
+  auto               save_select() -> bool;
+  auto               save_snapshot() -> bool;
+  auto               save(const std::string &file_to_save) -> bool;
+  auto               save(int slot) -> bool;
+  void               load_select();
+  [[nodiscard]] auto load_config() const -> std::string;
+#endif
 
   void cleanup();
   void create_levels();
@@ -394,7 +398,6 @@ public:
   void fini();
   void handle_game_request_to_remake_ui();
   void init();
-  void load_select();
   void player_name_set(const char *player_name);
   void popup_text_add(spoint p, const std::string &);
   void seed_clear();
@@ -404,8 +407,6 @@ public:
   void state_change(GameStateType state, const std::string &why);
   void state_reset(const std::string &why);
   void tick();
-
-  [[nodiscard]] auto load_config() const -> std::string;
 };
 
 static void game_map_zoom_update(Gamep g);
@@ -414,8 +415,13 @@ static void game_map_zoom_update(Gamep g);
 class Game *game;
 // NOLINTEND
 
+#ifndef __EMSCRIPTEN__
 #include "game_load.hpp"
 #include "game_save.hpp"
+#else
+void wid_load_destroy(Gamep g) {}
+void wid_save_destroy(Gamep g) {}
+#endif
 
 void Config::fini()
 {
@@ -728,7 +734,9 @@ void game_save_config(Gamep g)
     return;
   }
 
+#ifndef __EMSCRIPTEN__
   g->save_config();
+#endif
 }
 
 [[nodiscard]] auto game_popups_get(Gamep g, int x, int y) -> std::list< GamePopup * > *
@@ -1657,7 +1665,12 @@ void game_display(Gamep g)
     ERR("no game pointer");
     return false;
   }
+
+#ifdef __EMSCRIPTEN__
+  return false;
+#else
   return g->load_config().empty() /* no error */;
+#endif
 }
 
 [[nodiscard]] auto game_hiscores_get(Gamep g) -> class HiScores *

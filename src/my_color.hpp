@@ -45,4 +45,6 @@ static inline auto color_neq(const color &col1, const color &col2) -> bool
 
 #define GLCOLOR(_c_) glColor4ub((_c_).r, (_c_).g, (_c_).b, (_c_).a)
 
+extern bool color_init_done;
+
 #endif // MY_COLOR_HPP

@@ -419,29 +419,33 @@ if [[ $SDL2_SCORE != "1" ]]; then
     exit 1
 fi
 
-#
-# Gives warnings at runtime on MACOS
-#
-SDL_LIBS=$($SDL2_CONFIG --libs)
-if [ $? -ne 0 ]
-then
-    sdl_help
-    exit 1
-fi
+if [[ $OPT_WEB_BUILD != "" ]]; then
+  LDLIBS=
+else
+  #
+  # Gives warnings at runtime on MACOS
+  #
+  SDL_LIBS=$($SDL2_CONFIG --libs)
+  if [ $? -ne 0 ]
+  then
+      sdl_help
+      exit 1
+  fi
+  
+  CFLAGS+=$($SDL2_CONFIG --cflags | sed 's/ \-D_REENTRANT//g')
+  if [ $? -ne 0 ]
+  then
+      sdl_help
+      exit 1
+  fi
 
-CFLAGS+=$($SDL2_CONFIG --cflags | sed 's/ \-D_REENTRANT//g')
-if [ $? -ne 0 ]
-then
-    sdl_help
-    exit 1
+  #
+  # -funwind-tables and -rdynamic for backtrace info on linux.
+  # But it seemed to help little.
+  #
+  LDLIBS="$SDL_LIBS"
+  LDLIBS+=" -lSDL2_mixer"
 fi
-
-#
-# -funwind-tables and -rdynamic for backtrace info on linux.
-# But it seemed to help little.
-#
-LDLIBS="$SDL_LIBS"
-LDLIBS+=" -lSDL2_mixer"
 
 #
 # Common config file
@@ -455,7 +459,10 @@ EXTRA_CHECKS=" -fsanitize=address -fsanitize=undefined -fno-omit-frame-pointer -
 
 echo "#define MYVER \"$MYVER\"" >> $CONFIG_H
 
-case "$MY_OS_NAME" in
+if [[ $OPT_WEB_BUILD != "" ]]; then
+  echo
+else
+  case "$MY_OS_NAME" in
     *MSYS*)
         log_err "Please compile for ming64, not msys"
         exit 1
@@ -560,7 +567,12 @@ case "$MY_OS_NAME" in
     *)
         EXE=""
         ;;
-esac
+  esac
+fi
+
+if [[ $OPT_WEB_BUILD != "" ]]; then
+  EXE=".js"
+fi
 
 #
 # Better to leave off for production
@@ -593,7 +605,6 @@ if [[ $OPT_GITHUB_BUILD != "" ]]; then
     CFLAGS+=" -DGITHUB_BUILD"
 fi
 
-OPT_LZ4=
 if [[ -f /usr/include/lz4.h ]]; then
     OPT_LZ4=1
 elif [[ -f /opt/local/include/lz4.h ]]; then
@@ -622,6 +633,7 @@ if [[ $OPT_LZ4 != "" ]]; then
     #
     CFLAGS+=" -DUSE_LZ4"
     LDLIBS+=" -llz4"
+
     log_info "Have LZ4                   : Yes"
 else
     log_info "Have LZ4                   : No"
@@ -657,6 +669,11 @@ log_info "Have llvm                  : $LLVM_PATH/bin"
 #
 #LDFLAGS+=" -flto"
 #CFLAGS+=" -flto"
+
+if [[ $OPT_WEB_BUILD != "" ]]; then
+  CFLAGS+=" -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='[\"tga\"]'"
+  LDFLAGS+=" -s LEGACY_GL_EMULATION=1 -s WASM=1 -s USE_SDL_MIXER=2 -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='[\"tga\"]'"
+fi
 
 #
 # Hard code on for me
@@ -756,6 +773,12 @@ case "$MY_OS_NAME" in
     ;;
 esac
 
+if [[ $OPT_WEB_BUILD != "" ]]; then
+  echo "CC=em++" >> $MAKEFILE
+  CC=em++
+  CHOSEN_COMPILER="em++"
+fi
+
 if [[ $CHOSEN_COMPILER = "" ]]; then
     log_err "No compiler found"
     exit 1
@@ -764,7 +787,7 @@ fi
 #
 # How many cores?
 #
-CORES=""
+PBERF=""
 
 case "$MY_OS_NAME" in
     *Darwin*)

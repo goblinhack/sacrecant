@@ -114,6 +114,7 @@ Usage: $0 [options]
 
   [--rel]    Release build (all optimizations) (DEFAULT)
   [--dev]    Enable additional debugging
+  [--web]    Enable web asm output
   [--sanity] Enable additional stack checking
   [--prof]   Enable gprof
   [--gcc]    Prefer g++ over clang
@@ -123,6 +124,7 @@ Usage: $0 [options]
 
 OPT_RELEASE_BUILD="yes"
 OPT_DEBUG_BUILD=
+OPT_WEB_BUILD=
 OPT_SANITY_BUILD=
 OPT_PROFILE_BUILD=
 OPT_GCC=
@@ -157,6 +159,10 @@ read_opts()
                 OPT_PROFILE_BUILD="yes"
                 shift
                 ;;
+            -*web)
+                OPT_WEB_BUILD="yes"
+                shift
+                ;;
             -*gcc)
                 OPT_GCC="yes"
                 shift
@@ -181,6 +187,7 @@ read_opts()
 
 export OPT_SANITY_BUILD
 export OPT_DEBUG_BUILD
+export OPT_WEB_BUILD
 export OPT_RELEASE_BUILD
 export OPT_GITHUB_BUILD
 export OPT_PROFILE_BUILD

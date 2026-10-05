@@ -441,7 +441,9 @@ static void parse_args(int argc, char *argv[])
   //
   // Create and load the last saved game
   //
+#ifndef __EMSCRIPTEN__
   (void) game_load_last_config(appdata.c_str());
+#endif
   extern Gamep game;
   g = game;
   game_init(g);

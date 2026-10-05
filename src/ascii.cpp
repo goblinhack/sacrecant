@@ -72,7 +72,9 @@ static spoint scissors_tl;
 static spoint scissors_br;
 
 static bool scissors_enabled = false;
-static bool mouse_found      = 0;
+#ifdef ENABLE_UI_ASCII_MOUSE
+static bool mouse_found = 0;
+#endif
 
 [[nodiscard]] auto ascii_ok(int x, int y) -> int
 {
@@ -974,7 +976,9 @@ static void ascii_blit(Gamep g)
 //
 void ascii_display(Gamep g)
 {
+#ifdef ENABLE_UI_ASCII_MOUSE
   mouse_found = 0;
+#endif
 
   blit_init();
   ascii_blit(g);

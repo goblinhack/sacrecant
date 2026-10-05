@@ -775,6 +775,7 @@ static void wid_cfg_key_zoom_set(Gamep g, SDL_Keysym code)
   wid_cfg_help_select(g);
 }
 
+#ifndef __EMSCRIPTEN__
 static void wid_cfg_key_save_set(Gamep g, SDL_Keysym code)
 {
   TRACE();
@@ -794,6 +795,7 @@ static void wid_cfg_key_load_set(Gamep g, SDL_Keysym code)
   game_key_load_set(g, code);
   wid_cfg_help_select(g);
 }
+#endif
 
 static void wid_cfg_key_help_set(Gamep g, SDL_Keysym code)
 {
@@ -1319,6 +1321,7 @@ static void grab_key(const std::string &which)
   return true;
 }
 
+#ifndef __EMSCRIPTEN__
 [[nodiscard]] static auto wid_cfg_key_save(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
@@ -1336,6 +1339,7 @@ static void grab_key(const std::string &which)
   local_g_config_changed = true;
   return true;
 }
+#endif
 
 [[nodiscard]] static auto wid_cfg_key_help(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
@@ -1516,6 +1520,8 @@ void wid_cfg_help_select(Gamep g)
   }
 
   y_at++;
+
+#ifndef __EMSCRIPTEN__
   ///////////////////////////////////////////////////////////////////////
   // save
   ///////////////////////////////////////////////////////////////////////
@@ -1572,6 +1578,7 @@ void wid_cfg_help_select(Gamep g)
     wid_set_text(w, ::to_string(game_key_load_get(g)));
     wid_set_on_mouse_down(w, wid_cfg_key_load);
   }
+#endif
 
   ///////////////////////////////////////////////////////////////////////
   // Move up

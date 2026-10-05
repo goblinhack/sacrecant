@@ -5,6 +5,8 @@
 #ifndef MY_MATH_HPP
 #define MY_MATH_HPP
 
+#include "my_types.hpp"
+
 #include <stdlib.h>
 
 #ifdef __APPLE__

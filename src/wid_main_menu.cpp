@@ -55,6 +55,7 @@ void wid_main_menu_hide(Gamep g)
   wid_hide(g, wid_main_menu_window->wid_popup_container);
 }
 
+#ifndef __EMSCRIPTEN__
 [[nodiscard]] static auto wid_main_menu_load(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   con("Main menu: load");
@@ -63,6 +64,7 @@ void wid_main_menu_hide(Gamep g)
   wid_load_select(g);
   return true;
 }
+#endif
 
 [[nodiscard]] static auto wid_main_menu_cfg(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
@@ -162,11 +164,13 @@ void wid_main_menu_hide(Gamep g)
     return true;
   }
 
+#ifndef __EMSCRIPTEN__
   if (s == "l" || s == "L") {
     ((void) sound_play(g, "keypress"));
     (void) wid_main_menu_load(g, nullptr, 0, 0, 0);
     return true;
   }
+#endif
 
   if (s == "o" || s == "O") {
     ((void) sound_play(g, "keypress"));
@@ -519,6 +523,7 @@ void wid_main_menu_select(Gamep g)
       y_at += button_step;
     }
   }
+#ifndef __EMSCRIPTEN__
   {
     TRACE();
     auto *p = wid_main_menu_window->wid_text_area->wid_text_area;
@@ -531,6 +536,7 @@ void wid_main_menu_select(Gamep g)
     wid_set_text(w, UI_HIGHLIGHT_FMT_STR "L" UI_FMT_STR "oad game"); // codespell:ignore
   }
   y_at += button_step;
+#endif
   {
     TRACE();
     auto *p = wid_main_menu_window->wid_text_area->wid_text_area;

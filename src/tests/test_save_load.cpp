@@ -12,9 +12,11 @@ extern Gamep game;
 
 [[nodiscard]] static auto test_save_load(Gamep g, Testp t) -> bool
 {
+#ifdef __EMSCRIPTEN__
   TEST_LOG(t, "begin");
   TRACE();
-
+  return true;
+#else
   LevelNum const level_num = 0;
   auto           w         = 7;
   auto           h         = 7;
@@ -102,6 +104,7 @@ exit:
   game_cleanup(g);
 
   return result;
+#endif
 }
 
 [[nodiscard]] auto test_load_save_load() -> bool // NOLINT
