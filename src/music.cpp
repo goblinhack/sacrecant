@@ -202,8 +202,8 @@ void music_load(Gamep g)
   TRACE();
 
   (void) music_load(g, 44100, "data/music2/DST-XToFly.ogg", /*             */ "game over");
-  (void) music_load(g, 44100, "data/music2/Spooky Bass.ogg", /*            */ "dead");
-  (void) music_load(g, 44100, "data/music2/Sacrificant - Intro.ogg", /*    */ "intro");
+  (void) music_load(g, 44100, "data/music2/Death.ogg", /*             */ "dead");
+  (void) music_load(g, 44100, "data/music2/Intro.ogg", /*             */ "intro");
 
   (void) music_load(g, 44100, "data/music2/DST-0mnis.ogg", /*              */ "dungeon.1");
   (void) music_load(g, 44100, "data/music2/DST-OldCavern.ogg", /*          */ "dungeon.1");
