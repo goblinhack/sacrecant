@@ -441,11 +441,12 @@ static void parse_args(int argc, char *argv[])
   //
   // Create and load the last saved game
   //
-#ifndef __EMSCRIPTEN__
-  (void) game_load_last_config(appdata.c_str());
-#endif
   extern Gamep game;
+  (void) game_load_last_config(appdata.c_str());
   g = game;
+  if (! g) {
+    CROAK("no game config was loaded");
+  }
   game_init(g);
 
   if (! g_opt_tests) {

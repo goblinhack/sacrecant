@@ -32,6 +32,12 @@ if [[ ! -d data/sounds ]]; then
     DONE=1
 fi
 
+if [[ ! -d data/music ]]; then
+    echo $0: Need to extract sounds archive
+    untar data/music.tgz
+    DONE=1
+fi
+
 if [[ $DONE -eq 1 ]]; then
     exit 0
 fi
@@ -68,6 +74,21 @@ else
         echo $0: Need to extract data/sounds.tgz as it is newer
         untar data/sounds.tgz
         touch data/sounds
+    fi
+fi
+
+COUNT=$(find data/music -newer data/music.tgz -type f | wc -l)
+if [[ $COUNT -gt 0 ]];
+then
+    echo $0: Need to retar music tarball due to updates
+    make_tar data/music.tgz data/music
+else
+    COUNT=$(find data/music.tgz -newer data/music -type f | wc -l)
+    if [[ $COUNT -gt 0 ]];
+    then
+        echo $0: Need to extract data/music.tgz as it is newer
+        untar data/music.tgz
+        touch data/music
     fi
 fi
 

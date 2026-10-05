@@ -421,6 +421,15 @@ class Game *game;
 #else
 void wid_load_destroy(Gamep g) {}
 void wid_save_destroy(Gamep g) {}
+auto game_load_last_config(const char *appdata) -> bool
+{
+  log("load empty config");
+  TRACE_INDENT();
+
+  game = new Game(std::string(appdata));
+  NEWPTR(MTYPE_GAME, game, "game");
+  return true;
+}
 #endif
 
 void Config::fini()

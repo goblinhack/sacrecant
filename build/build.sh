@@ -419,9 +419,7 @@ if [[ $SDL2_SCORE != "1" ]]; then
     exit 1
 fi
 
-if [[ $OPT_WEB_BUILD != "" ]]; then
-  LDLIBS=
-else
+if [[ $OPT_WEB_BUILD = "" ]]; then
   #
   # Gives warnings at runtime on MACOS
   #
@@ -459,9 +457,7 @@ EXTRA_CHECKS=" -fsanitize=address -fsanitize=undefined -fno-omit-frame-pointer -
 
 echo "#define MYVER \"$MYVER\"" >> $CONFIG_H
 
-if [[ $OPT_WEB_BUILD != "" ]]; then
-  echo
-else
+if [[ $OPT_WEB_BUILD = "" ]]; then
   case "$MY_OS_NAME" in
     *MSYS*)
         log_err "Please compile for ming64, not msys"
@@ -528,7 +524,9 @@ else
         #
         # Run in the background as it is slow and is only needed for debugging
         #
-        DSYM="dsymutil \${TARGET} &"
+        if [[ $OPT_WEB_BUILD = "" ]]; then
+          DSYM="dsymutil \${TARGET} &"
+        fi
 
         if [[ $OPT_SANITY_BUILD != "" ]]; then
             CFLAGS+="$EXTRA_CHECKS"
@@ -571,7 +569,7 @@ else
 fi
 
 if [[ $OPT_WEB_BUILD != "" ]]; then
-  EXE=".js"
+  EXE=".html"
 fi
 
 #
@@ -672,7 +670,7 @@ log_info "Have llvm                  : $LLVM_PATH/bin"
 
 if [[ $OPT_WEB_BUILD != "" ]]; then
   CFLAGS+=" -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='[\"tga\"]'"
-  LDFLAGS+=" -s LEGACY_GL_EMULATION=1 -s WASM=1 -s USE_SDL_MIXER=2 -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='[\"tga\"]'"
+  LDFLAGS+=" -s ALLOW_MEMORY_GROWTH -s GL_UNSAFE_OPTS -s GL_FFP_ONLY -s LEGACY_GL_EMULATION=1 -s WASM=1 -s USE_SDL_MIXER=2 -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='[\"tga\"]'"
 fi
 
 #
@@ -810,6 +808,10 @@ else
     log_info "Compiling"
 fi
 
+if [[ $OPT_WEB_BUILD != "" ]]; then
+  LDLIBS=
+fi
+
 #
 # Create the makefile
 #
@@ -943,7 +945,9 @@ log_info "Compiled!"
 
 case "$MY_OS_NAME" in
   *Darwin*)
-    dsymutil ${TARGET} 
+    if [[ $OPT_WEB_BUILD = "" ]]; then
+      dsymutil ${TARGET} 
+    fi
     ;;
 
   *MING*|*MSYS*)
@@ -999,15 +1003,19 @@ echo \$0: all done
 esac
 
 log_info "Run:"
-echo "  ./${TARGET} --debug          # enable a reasonable level of debugging"
-echo "  ./${TARGET} --debug2         # include level generation debugging"
-echo "  ./${TARGET} --seed weekly    # to play the weekly seed"
-echo "  ./${TARGET} --seed daily     # to play the daily seed"
-echo "  ./${TARGET} --seed someseed  # to play a specific seed"
-echo "  ./${TARGET} --level <n>      # to start at level number <n>"
-echo "  ./${TARGET} --quickstart     # to jump past the initial menus"
-echo "  ./${TARGET} --tests          # to run unit tests"
-echo "  ./${TARGET}                  # to play the game"
+if [[ $OPT_WEB_BUILD = "" ]]; then
+  echo "  ./${TARGET} --debug          # enable a reasonable level of debugging"
+  echo "  ./${TARGET} --debug2         # include level generation debugging"
+  echo "  ./${TARGET} --seed weekly    # to play the weekly seed"
+  echo "  ./${TARGET} --seed daily     # to play the daily seed"
+  echo "  ./${TARGET} --seed someseed  # to play a specific seed"
+  echo "  ./${TARGET} --level <n>      # to start at level number <n>"
+  echo "  ./${TARGET} --quickstart     # to jump past the initial menus"
+  echo "  ./${TARGET} --tests          # to run unit tests"
+  echo "  ./${TARGET}                  # to play the game"
+else
+  echo "  python -m http.server"
+fi
 
 rm -f Makefile.bak
 

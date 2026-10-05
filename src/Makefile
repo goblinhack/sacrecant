@@ -152,6 +152,9 @@ clean:
 	rm -f $(TARGET_GAME) ../stdout.txt ../stderr.txt
 	@# safer delete of build dir instead of just 'rm -rf $(BUILD_DIR)'
 	rm -f $(BUILD_DIR)/*.[od]
+	rm -f $(BUILD_DIR)/*.[od].*
+	rm -f $(BUILD_DIR)/test-tmp-file
+	# rm -f $(wildcard $(BUILD_DIR)/*)
 	@([ -d "$(BUILD_DIR)" ] && rmdir $(BUILD_DIR) 2>/dev/null) || true
 
 clobber: clean

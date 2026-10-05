@@ -65,6 +65,12 @@ try:
                 newer = True
                 break
 
+        for filepath in root.rglob(r"data/music.tgz"):
+            if target_ctime < os.path.getctime(filepath):
+                print("{} is newer".format(filepath))
+                newer = True
+                break
+
         for filepath in root.rglob(r"data/fonts/*.tga"):
             if target_ctime < os.path.getctime(filepath):
                 print("{} is newer".format(filepath))
@@ -89,7 +95,7 @@ try:
                 newer = True
                 break
 
-        for filepath in root.rglob(r"data/sounds/*/*/.wav"):
+        for filepath in root.rglob(r"data/sounds/*/*/.ogg"):
             if target_ctime < os.path.getctime(filepath):
                 print("{} is newer".format(filepath))
                 newer = True
@@ -126,9 +132,14 @@ for filepath in root.rglob(r"data/*/*/*/*.tga"):
     files[filepath.parent].append(filepath.name)
     number_of_files_to_add_to_ramdisk += 1
 
-for filepath in root.rglob(r"data/sounds/*/*.wav"):
+for filepath in root.rglob(r"data/sounds/*/*.ogg"):
     files[filepath.parent].append(filepath.name)
     number_of_files_to_add_to_ramdisk += 1
+
+for filepath in root.rglob(r"data/music/*.ogg"):
+    files[filepath.parent].append(filepath.name)
+    number_of_files_to_add_to_ramdisk += 1
+
 
 # for filepath in root.rglob(r"data/music/*.ogg"):
 #     files[filepath.parent].append(filepath.name)
