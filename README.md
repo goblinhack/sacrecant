@@ -1,7 +1,5 @@
 Currently playable and seeking feedback (goblinhack _at_ gmail _dot_ com)
 
-No bosses yet, current status is adding content.
-
 <p align="center">
 <img alt="Pixel art" src="data/pics/screenshot.1.png">
 <img alt="Pixel art" src="data/pics/screenshot.2.png">
