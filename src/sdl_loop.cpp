@@ -25,9 +25,9 @@
 #include <cmath>
 #include <cstdint>
 
-int ui_ts_fast_last;
-int ui_ts_slow_last;
-int ui_ts_very_slow_last;
+static int ui_ts_fast_last;
+static int ui_ts_slow_last;
+static int ui_ts_very_slow_last;
 
 //
 // Main loop

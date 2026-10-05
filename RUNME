@@ -114,11 +114,12 @@ Usage: $0 [options]
 
   [--rel]    Release build (all optimizations) (DEFAULT)
   [--dev]    Enable additional debugging
-  [--web]    Enable web asm output
   [--sanity] Enable additional stack checking
   [--prof]   Enable gprof
   [--gcc]    Prefer g++ over clang
   [--github] CI/CD build (turns off modification of README)
+  [--web]    Enable web asm output
+             (compiles but does not work, emscripten opengl3.0 is partial)
 %%
 }
 
