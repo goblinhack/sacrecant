@@ -25,19 +25,16 @@
 #include <cmath>
 #include <cstdint>
 
+int ui_ts_fast_last;
+int ui_ts_slow_last;
+int ui_ts_very_slow_last;
+
 //
 // Main loop
 //
 static bool sdl_loop_iter(Gamep g)
 {
   TRACE_DEBUG();
-
-  //
-  // Wait for events
-  //
-  int ui_ts_fast_last      = game_time_ms();
-  int ui_ts_slow_last      = ui_ts_fast_last;
-  int ui_ts_very_slow_last = ui_ts_fast_last;
 
   //
   // Keep this lowish to avoid too much lag when processing mouse motion events, that redraw the cursor path.
@@ -287,6 +284,13 @@ void sdl_loop(Gamep g)
 #ifdef ENABLE_UI_ASCII_MOUSE
   SDL_ShowCursor(0);
 #endif
+
+  //
+  // Wait for events
+  //
+  ui_ts_fast_last      = game_time_ms();
+  ui_ts_slow_last      = ui_ts_fast_last;
+  ui_ts_very_slow_last = ui_ts_fast_last;
 
 #ifdef WEB_BUILD
   emscripten_set_main_loop_arg(sdl_loop_iter_em, g, -1 /* rendering rate determined by browser */, true);
