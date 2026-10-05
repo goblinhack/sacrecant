@@ -211,7 +211,6 @@ else
     #
     # For quick re-makes
     #
-    ln -sf Makefile .
     log "Built successfully"
     rm $LOG
 fi
