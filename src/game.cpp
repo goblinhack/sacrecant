@@ -378,7 +378,7 @@ public:
   explicit Game(const std::string &appdata);
   Game() = default;
 
-#ifndef __EMSCRIPTEN__
+#ifndef WEB_BUILD
   auto               load_snapshot() -> bool;
   auto               load(const std::string &file_to_load, class Game &target) -> bool;
   auto               load(int slot) -> bool;
@@ -415,10 +415,7 @@ static void game_map_zoom_update(Gamep g);
 class Game *game;
 // NOLINTEND
 
-#ifndef __EMSCRIPTEN__
-#include "game_load.hpp"
-#include "game_save.hpp"
-#else
+#ifdef WEB_BUILD
 void wid_load_destroy(Gamep g) {}
 void wid_save_destroy(Gamep g) {}
 auto game_load_last_config(const char *appdata) -> bool
@@ -430,6 +427,9 @@ auto game_load_last_config(const char *appdata) -> bool
   NEWPTR(MTYPE_GAME, game, "game");
   return true;
 }
+#else
+#include "game_load.hpp"
+#include "game_save.hpp"
 #endif
 
 void Config::fini()
@@ -743,7 +743,7 @@ void game_save_config(Gamep g)
     return;
   }
 
-#ifndef __EMSCRIPTEN__
+#ifndef WEB_BUILD
   g->save_config();
 #endif
 }
@@ -1675,7 +1675,7 @@ void game_display(Gamep g)
     return false;
   }
 
-#ifdef __EMSCRIPTEN__
+#ifdef WEB_BUILD
   return false;
 #else
   return g->load_config().empty() /* no error */;

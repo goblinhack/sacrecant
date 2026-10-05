@@ -55,7 +55,7 @@ void wid_main_menu_hide(Gamep g)
   wid_hide(g, wid_main_menu_window->wid_popup_container);
 }
 
-#ifndef __EMSCRIPTEN__
+#ifndef WEB_BUILD
 [[nodiscard]] static auto wid_main_menu_load(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   con("Main menu: load");
@@ -164,7 +164,7 @@ void wid_main_menu_hide(Gamep g)
     return true;
   }
 
-#ifndef __EMSCRIPTEN__
+#ifndef WEB_BUILD
   if (s == "l" || s == "L") {
     ((void) sound_play(g, "keypress"));
     (void) wid_main_menu_load(g, nullptr, 0, 0, 0);
@@ -523,7 +523,7 @@ void wid_main_menu_select(Gamep g)
       y_at += button_step;
     }
   }
-#ifndef __EMSCRIPTEN__
+#ifndef WEB_BUILD
   {
     TRACE();
     auto *p = wid_main_menu_window->wid_text_area->wid_text_area;

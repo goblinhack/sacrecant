@@ -46,7 +46,7 @@
 //
 // Check if std::float16_t is defined
 //
-#ifndef __EMSCRIPTEN__
+#ifndef WEB_BUILD
 #ifdef __is_identifier
 #if ! __is_identifier(_Float16)
 #include <float.h>
@@ -166,7 +166,7 @@ typedef unsigned int uint32_t;
 #define _UINT64_T
 #ifndef __MINGW32__
 #ifndef __MINGW64__
-#ifndef __EMSCRIPTEN__
+#ifndef WEB_BUILD
 typedef unsigned long int uint64_t;
 #endif
 #endif

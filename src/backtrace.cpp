@@ -44,7 +44,7 @@
 
 static std::recursive_mutex backtrace_mutex;
 
-#ifndef __EMSCRIPTEN__
+#ifndef WEB_BUILD
 //
 // Inspired from https://github.com/nico/demumble/issues
 //
@@ -302,7 +302,7 @@ std::string backtrace_string(void)
 
   return out;
 }
-#elif __EMSCRIPTEN__
+#elif WEB_BUILD
 [[nodiscard]] auto backtrace_string() -> std::string { return "<na>"; }
 #else
 [[nodiscard]] auto backtrace_string() -> std::string

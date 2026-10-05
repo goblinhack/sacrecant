@@ -588,7 +588,12 @@ void tex_load_sprites(Texp *tex, Texp *tex_monochrome, Texp *tex_mask, // newlin
     //
     // Generate the tex
     //
+#ifdef WEB_BUILD
+    textureFormat = GL_DEPTH_COMPONENT;
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, surface->w, surface->h, 0, textureFormat, GL_UNSIGNED_INT, surface->pixels);
+#else
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, surface->w, surface->h, 0, textureFormat, GL_UNSIGNED_BYTE, surface->pixels);
+#endif
 
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);

@@ -176,7 +176,7 @@ extern PFNGLBINDBUFFERARBPROC           glBindBufferARB_EXT;
 extern PFNGLBUFFERDATAARBPROC           glBufferDataARB_EXT;
 extern PFNGLDELETEBUFFERSARBPROC        glDeleteBuffersARB_EXT;
 extern PFNGLDEBUGMESSAGECALLBACKPROC    glDebugMessageCallback_EXT;
-#elif __EMSCRIPTEN__
+#elif WEB_BUILD
 #define glDebugMessageCallback_EXT    glDebugMessageCallback
 #define glCreateProgram_EXT           glCreateProgram
 #define glDeleteProgram_EXT           glDeleteProgram

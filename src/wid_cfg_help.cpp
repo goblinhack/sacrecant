@@ -775,7 +775,7 @@ static void wid_cfg_key_zoom_set(Gamep g, SDL_Keysym code)
   wid_cfg_help_select(g);
 }
 
-#ifndef __EMSCRIPTEN__
+#ifndef WEB_BUILD
 static void wid_cfg_key_save_set(Gamep g, SDL_Keysym code)
 {
   TRACE();
@@ -1321,7 +1321,7 @@ static void grab_key(const std::string &which)
   return true;
 }
 
-#ifndef __EMSCRIPTEN__
+#ifndef WEB_BUILD
 [[nodiscard]] static auto wid_cfg_key_save(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
@@ -1521,7 +1521,7 @@ void wid_cfg_help_select(Gamep g)
 
   y_at++;
 
-#ifndef __EMSCRIPTEN__
+#ifndef WEB_BUILD
   ///////////////////////////////////////////////////////////////////////
   // save
   ///////////////////////////////////////////////////////////////////////

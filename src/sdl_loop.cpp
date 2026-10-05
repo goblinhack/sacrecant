@@ -17,7 +17,7 @@
 #include "my_wid.hpp"
 #include "my_wids.hpp"
 
-#ifdef __EMSCRIPTEN__
+#ifdef WEB_BUILD
 #include <emscripten.h>
 #endif
 
@@ -256,7 +256,7 @@ static bool sdl_loop_iter(Gamep g)
   return true;
 }
 
-#ifdef __EMSCRIPTEN__
+#ifdef WEB_BUILD
 static void sdl_loop_iter_em(void *arg)
 {
   TRACE_DEBUG();
@@ -288,7 +288,7 @@ void sdl_loop(Gamep g)
   SDL_ShowCursor(0);
 #endif
 
-#ifdef __EMSCRIPTEN__
+#ifdef WEB_BUILD
   emscripten_set_main_loop_arg(sdl_loop_iter_em, g, -1 /* rendering rate determined by browser */, true);
 #else
   for (; /*ever*/;) {

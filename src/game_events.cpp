@@ -199,7 +199,7 @@
   return true;
 }
 
-#ifndef __EMSCRIPTEN__
+#ifndef WEB_BUILD
 [[nodiscard]] auto game_event_save(Gamep g) -> bool
 {
   DBG("saving");
@@ -1215,7 +1215,7 @@ static auto game_event_abort(Gamep g) -> bool
     return true;
   }
 
-#ifndef __EMSCRIPTEN__
+#ifndef WEB_BUILD
   if (sdlk_eq(*key, game_key_load_get(g))) {
     DBG("pressed load key");
     TRACE_INDENT();

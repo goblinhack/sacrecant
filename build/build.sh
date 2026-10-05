@@ -599,6 +599,10 @@ else
     CFLAGS+=" -DRELEASE_BUILD"
 fi
 
+if [[ $OPT_WEB_BUILD != "" ]]; then
+    CFLAGS+=" -DWEB_BUILD"
+fi
+
 if [[ $OPT_GITHUB_BUILD != "" ]]; then
     CFLAGS+=" -DGITHUB_BUILD"
 fi
@@ -670,7 +674,7 @@ log_info "Have llvm                  : $LLVM_PATH/bin"
 
 if [[ $OPT_WEB_BUILD != "" ]]; then
   CFLAGS+=" -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='[\"tga\"]'"
-  LDFLAGS+=" -s ALLOW_MEMORY_GROWTH -s GL_UNSAFE_OPTS -s GL_FFP_ONLY -s LEGACY_GL_EMULATION=1 -s WASM=1 -s USE_SDL_MIXER=2 -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='[\"tga\"]'"
+  LDFLAGS+=" -s USE_WEBGL2=1 -s STACK_SIZE=655360 -s ALLOW_MEMORY_GROWTH -s GL_UNSAFE_OPTS -s GL_FFP_ONLY -s LEGACY_GL_EMULATION=1 -s WASM=1 -s USE_SDL_MIXER=2 -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='[\"tga\"]'"
 fi
 
 #

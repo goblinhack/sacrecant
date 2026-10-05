@@ -12,7 +12,7 @@ extern Gamep game;
 
 [[nodiscard]] static auto test_save_load(Gamep g, Testp t) -> bool
 {
-#ifdef __EMSCRIPTEN__
+#ifdef WEB_BUILD
   TEST_LOG(t, "begin");
   TRACE();
   return true;
