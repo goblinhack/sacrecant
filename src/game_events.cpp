@@ -1245,7 +1245,13 @@ static auto game_event_abort(Gamep g) -> bool
     case STATE_CHOOSE_THROW_TARGET : [[fallthrough]];
     case STATE_CHOOSE_SPELL_TARGET : [[fallthrough]];
     case STATE_PLAYING :
-      if (sdlk_eq(*key, game_key_zoom_get(g))) {
+      if (sdlk_eq(*key, game_key_zoom_in_get(g))) {
+        DBG("Zoom in");
+        game_map_zoom_incr(g);
+        (void) sound_play(g, "keypress");
+        return false; // To avoid click noise
+      }
+      if (sdlk_eq(*key, game_key_zoom_toggle_get(g))) {
         DBG("Zoom alt");
         game_map_zoom_toggle(g);
         (void) sound_play(g, "keypress");

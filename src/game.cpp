@@ -128,58 +128,65 @@ public:
   int sdl_delay        = {};
   int sound_volume     = {};
 
-  SDL_Keysym key_wait       = {};
-  SDL_Keysym key_console    = {};
-  SDL_Keysym key_help       = {};
-  SDL_Keysym key_load       = {};
-  SDL_Keysym key_move_down  = {};
-  SDL_Keysym key_move_left  = {};
-  SDL_Keysym key_move_right = {};
-  SDL_Keysym key_move_up    = {};
-  SDL_Keysym key_quit       = {};
-  SDL_Keysym key_save       = {};
-  SDL_Keysym key_screenshot = {};
-  SDL_Keysym key_unused1    = {};
-  SDL_Keysym key_unused2    = {};
-  SDL_Keysym key_unused3    = {};
-  SDL_Keysym key_unused4    = {};
-  SDL_Keysym key_unused5    = {};
-  SDL_Keysym key_unused6    = {};
-  SDL_Keysym key_unused7    = {};
-  SDL_Keysym key_unused8    = {};
-  SDL_Keysym key_unused9    = {};
-  SDL_Keysym key_unused10   = {};
-  SDL_Keysym key_unused11   = {};
-  SDL_Keysym key_cast       = {};
-  SDL_Keysym key_spell1     = {};
-  SDL_Keysym key_spell2     = {};
-  SDL_Keysym key_spell3     = {};
-  SDL_Keysym key_spell4     = {};
-  SDL_Keysym key_spell5     = {};
-  SDL_Keysym key_spell6     = {};
-  SDL_Keysym key_spell7     = {};
-  SDL_Keysym key_spell8     = {};
-  SDL_Keysym key_spell9     = {};
-  SDL_Keysym key_spell10    = {};
-  SDL_Keysym key_spell11    = {};
-  SDL_Keysym key_spell12    = {};
-  SDL_Keysym key_spell13    = {};
-  SDL_Keysym key_spell14    = {};
-  SDL_Keysym key_spell15    = {};
-  SDL_Keysym key_spell16    = {};
-  SDL_Keysym key_spell17    = {};
-  SDL_Keysym key_spell18    = {};
-  SDL_Keysym key_spell19    = {};
-  SDL_Keysym key_spell20    = {};
-  SDL_Keysym key_abort      = {};
-  SDL_Keysym key_throw      = {};
-  SDL_Keysym key_fire       = {};
-  SDL_Keysym key_inventory  = {};
-  SDL_Keysym key_learn      = {};
-  SDL_Keysym key_jump       = {};
-  SDL_Keysym key_ascend     = {};
-  SDL_Keysym key_descend    = {};
-  SDL_Keysym key_zoom       = {};
+  //
+  // Zoom gfx level.
+  //
+  int  zoom_user = {MAP_ZOOM_DEF};
+  bool zoom_set  = {};
+
+  SDL_Keysym key_wait        = {};
+  SDL_Keysym key_console     = {};
+  SDL_Keysym key_help        = {};
+  SDL_Keysym key_load        = {};
+  SDL_Keysym key_move_down   = {};
+  SDL_Keysym key_move_left   = {};
+  SDL_Keysym key_move_right  = {};
+  SDL_Keysym key_move_up     = {};
+  SDL_Keysym key_quit        = {};
+  SDL_Keysym key_save        = {};
+  SDL_Keysym key_screenshot  = {};
+  SDL_Keysym key_unused1     = {};
+  SDL_Keysym key_unused2     = {};
+  SDL_Keysym key_unused3     = {};
+  SDL_Keysym key_unused4     = {};
+  SDL_Keysym key_unused5     = {};
+  SDL_Keysym key_unused6     = {};
+  SDL_Keysym key_unused7     = {};
+  SDL_Keysym key_unused8     = {};
+  SDL_Keysym key_unused9     = {};
+  SDL_Keysym key_unused10    = {};
+  SDL_Keysym key_unused11    = {};
+  SDL_Keysym key_cast        = {};
+  SDL_Keysym key_spell1      = {};
+  SDL_Keysym key_spell2      = {};
+  SDL_Keysym key_spell3      = {};
+  SDL_Keysym key_spell4      = {};
+  SDL_Keysym key_spell5      = {};
+  SDL_Keysym key_spell6      = {};
+  SDL_Keysym key_spell7      = {};
+  SDL_Keysym key_spell8      = {};
+  SDL_Keysym key_spell9      = {};
+  SDL_Keysym key_spell10     = {};
+  SDL_Keysym key_spell11     = {};
+  SDL_Keysym key_spell12     = {};
+  SDL_Keysym key_spell13     = {};
+  SDL_Keysym key_spell14     = {};
+  SDL_Keysym key_spell15     = {};
+  SDL_Keysym key_spell16     = {};
+  SDL_Keysym key_spell17     = {};
+  SDL_Keysym key_spell18     = {};
+  SDL_Keysym key_spell19     = {};
+  SDL_Keysym key_spell20     = {};
+  SDL_Keysym key_abort       = {};
+  SDL_Keysym key_throw       = {};
+  SDL_Keysym key_fire        = {};
+  SDL_Keysym key_inventory   = {};
+  SDL_Keysym key_learn       = {};
+  SDL_Keysym key_jump        = {};
+  SDL_Keysym key_ascend      = {};
+  SDL_Keysym key_descend     = {};
+  SDL_Keysym key_zoom_in     = {};
+  SDL_Keysym key_zoom_toggle = {};
 
   //
   // Ok, not really config...
@@ -253,11 +260,6 @@ public:
   // Current frame-rate
   //
   int fps_value = {};
-
-  //
-  // Zoom gfx level. Not saved as is regenerated.
-  //
-  int zoom = {MAP_ZOOM_DEF};
 
   //
   // If the fbo is smaller than the screen, a single map pixel takes up N on screen pixels
@@ -468,57 +470,59 @@ void Config::reset()
   tiles_visible_across   = MAP_TILES_ACROSS_DEF;
   tiles_visible_down     = MAP_TILES_DOWN_DEF;
 
-  key_ascend.sym     = SDLK_LESS;
-  key_console.sym    = SDLK_BACKQUOTE;
-  key_descend.sym    = SDLK_GREATER;
-  key_help.sym       = SDLK_h;
-  key_inventory.sym  = SDLK_i;
-  key_learn.sym      = SDLK_l;
-  key_cast.sym       = SDLK_c;
-  key_fire.sym       = SDLK_SPACE;
-  key_jump.sym       = SDLK_j;
-  key_throw.sym      = SDLK_t;
-  key_abort.sym      = SDLK_ESCAPE;
-  key_load.sym       = SDLK_F1;
-  key_move_down.sym  = SDLK_s;
-  key_move_left.sym  = SDLK_a;
-  key_move_right.sym = SDLK_d;
-  key_move_up.sym    = SDLK_w;
-  key_quit.sym       = SDLK_q;
-  key_save.sym       = SDLK_F12;
-  key_screenshot.sym = SDLK_F10;
-  key_wait.sym       = SDLK_PERIOD;
-  key_zoom.sym       = SDLK_z;
-  key_spell1.sym     = SDLK_1;
-  key_spell2.sym     = SDLK_2;
-  key_spell3.sym     = SDLK_3;
-  key_spell4.sym     = SDLK_4;
-  key_spell5.sym     = SDLK_5;
-  key_spell6.sym     = SDLK_6;
-  key_spell7.sym     = SDLK_7;
-  key_spell8.sym     = SDLK_8;
-  key_spell9.sym     = SDLK_9;
-  key_spell10.sym    = SDLK_0;
-  key_spell11.sym    = SDLK_1;
-  key_spell11.mod    = KMOD_SHIFT;
-  key_spell12.sym    = SDLK_2;
-  key_spell12.mod    = KMOD_SHIFT;
-  key_spell13.sym    = SDLK_3;
-  key_spell13.mod    = KMOD_SHIFT;
-  key_spell14.sym    = SDLK_4;
-  key_spell14.mod    = KMOD_SHIFT;
-  key_spell15.sym    = SDLK_5;
-  key_spell15.mod    = KMOD_SHIFT;
-  key_spell16.sym    = SDLK_6;
-  key_spell16.mod    = KMOD_SHIFT;
-  key_spell17.sym    = SDLK_7;
-  key_spell17.mod    = KMOD_SHIFT;
-  key_spell18.sym    = SDLK_8;
-  key_spell18.mod    = KMOD_SHIFT;
-  key_spell19.sym    = SDLK_9;
-  key_spell19.mod    = KMOD_SHIFT;
-  key_spell20.sym    = SDLK_0;
-  key_spell20.mod    = KMOD_SHIFT;
+  key_ascend.sym      = SDLK_LESS;
+  key_console.sym     = SDLK_BACKQUOTE;
+  key_descend.sym     = SDLK_GREATER;
+  key_help.sym        = SDLK_h;
+  key_inventory.sym   = SDLK_i;
+  key_learn.sym       = SDLK_l;
+  key_cast.sym        = SDLK_c;
+  key_fire.sym        = SDLK_SPACE;
+  key_jump.sym        = SDLK_j;
+  key_throw.sym       = SDLK_t;
+  key_abort.sym       = SDLK_ESCAPE;
+  key_load.sym        = SDLK_F1;
+  key_move_down.sym   = SDLK_s;
+  key_move_left.sym   = SDLK_a;
+  key_move_right.sym  = SDLK_d;
+  key_move_up.sym     = SDLK_w;
+  key_quit.sym        = SDLK_q;
+  key_save.sym        = SDLK_F12;
+  key_screenshot.sym  = SDLK_F10;
+  key_wait.sym        = SDLK_PERIOD;
+  key_zoom_in.sym     = SDLK_z;
+  key_zoom_toggle.sym = SDLK_z;
+  key_zoom_toggle.mod = KMOD_SHIFT;
+  key_spell1.sym      = SDLK_1;
+  key_spell2.sym      = SDLK_2;
+  key_spell3.sym      = SDLK_3;
+  key_spell4.sym      = SDLK_4;
+  key_spell5.sym      = SDLK_5;
+  key_spell6.sym      = SDLK_6;
+  key_spell7.sym      = SDLK_7;
+  key_spell8.sym      = SDLK_8;
+  key_spell9.sym      = SDLK_9;
+  key_spell10.sym     = SDLK_0;
+  key_spell11.sym     = SDLK_1;
+  key_spell11.mod     = KMOD_SHIFT;
+  key_spell12.sym     = SDLK_2;
+  key_spell12.mod     = KMOD_SHIFT;
+  key_spell13.sym     = SDLK_3;
+  key_spell13.mod     = KMOD_SHIFT;
+  key_spell14.sym     = SDLK_4;
+  key_spell14.mod     = KMOD_SHIFT;
+  key_spell15.sym     = SDLK_5;
+  key_spell15.mod     = KMOD_SHIFT;
+  key_spell16.sym     = SDLK_6;
+  key_spell16.mod     = KMOD_SHIFT;
+  key_spell17.sym     = SDLK_7;
+  key_spell17.mod     = KMOD_SHIFT;
+  key_spell18.sym     = SDLK_8;
+  key_spell18.mod     = KMOD_SHIFT;
+  key_spell19.sym     = SDLK_9;
+  key_spell19.mod     = KMOD_SHIFT;
+  key_spell20.sym     = SDLK_0;
+  key_spell20.mod     = KMOD_SHIFT;
 
   music_volume = {MIX_MAX_VOLUME / 4};
   sdl_delay    = 1;
@@ -3533,16 +3537,16 @@ void game_key_descend_set(Gamep g, SDL_Keysym key)
   g->config.key_descend = key;
 }
 
-[[nodiscard]] auto game_key_zoom_get(Gamep g) -> SDL_Keysym
+[[nodiscard]] auto game_key_zoom_in_get(Gamep g) -> SDL_Keysym
 {
   TRACE();
 
   if (g == nullptr) [[unlikely]] {
     return no_key;
   }
-  return g->config.key_zoom;
+  return g->config.key_zoom_in;
 }
-void game_key_zoom_set(Gamep g, SDL_Keysym key)
+void game_key_zoom_in_set(Gamep g, SDL_Keysym key)
 {
   TRACE();
 
@@ -3550,7 +3554,27 @@ void game_key_zoom_set(Gamep g, SDL_Keysym key)
     ERR("no game pointer");
     return;
   }
-  g->config.key_zoom = key;
+  g->config.key_zoom_in = key;
+}
+
+[[nodiscard]] auto game_key_zoom_toggle_get(Gamep g) -> SDL_Keysym
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    return no_key;
+  }
+  return g->config.key_zoom_toggle;
+}
+void game_key_zoom_toggle_set(Gamep g, SDL_Keysym key)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+  g->config.key_zoom_toggle = key;
 }
 
 [[nodiscard]] auto game_map_zoom_get(Gamep g) -> int
@@ -3561,10 +3585,10 @@ void game_key_zoom_set(Gamep g, SDL_Keysym key)
     ERR("no game pointer");
     return MAP_ZOOM_DEF;
   }
-  if (g->zoom == 0) {
+  if (g->config.zoom_user == 0) {
     return MAP_ZOOM_DEF;
   }
-  return g->zoom;
+  return g->config.zoom_user;
 }
 void game_map_zoom_set(Gamep g, int val)
 {
@@ -3579,7 +3603,7 @@ void game_map_zoom_set(Gamep g, int val)
     val = MAP_ZOOM_MAX - 1;
   }
 
-  g->zoom = val;
+  g->config.zoom_user = val;
 }
 [[nodiscard]] auto game_map_zoom_is_full_map_visible(Gamep g) -> bool
 {
@@ -3589,7 +3613,7 @@ void game_map_zoom_set(Gamep g, int val)
     ERR("no game pointer");
     return false;
   }
-  return g->zoom == MAP_ZOOM_FULL_MAP;
+  return g->config.zoom_user == MAP_ZOOM_FULL_MAP;
 }
 
 [[nodiscard]] auto game_map_zoom_def_get(Gamep g) -> int
@@ -3663,10 +3687,58 @@ void game_map_zoom_toggle(Gamep g)
   DBG("zoom alt");
   TRACE_INDENT();
 
+  auto *v = game_levels_get(g);
+
   if (game_map_zoom_is_full_map_visible(g)) {
-    game_map_zoom_set(g, game_map_zoom_def_get(g));
+    if (v) {
+      auto *l = game_level_get(g, v);
+      if (l != nullptr) {
+        if (level_is_level_select(g, v, l)) {
+          game_map_zoom_set(g, game_map_zoom_def_get(g));
+        } else {
+          game_map_zoom_set(g, game_map_zoom_get(g));
+        }
+      } else {
+        game_map_zoom_set(g, game_map_zoom_get(g));
+      }
+    } else {
+      game_map_zoom_set(g, game_map_zoom_get(g));
+    }
   } else {
     game_map_zoom_set(g, MAP_ZOOM_FULL_MAP);
+  }
+
+  game_map_zoom_update(g);
+
+  //
+  // Restore the map pixel offset if we had previously been at this zoom level
+  //
+  if (v != nullptr) {
+    auto zoom       = game_map_zoom_get(g);
+    v->pixel_map_at = v->pixel_map_at_for_zoom[ zoom ];
+
+    auto *l = game_level_get(g, v);
+    if (l != nullptr) {
+      level_bounds_set(g, v, l);
+    }
+    level_scroll_warp_to_focus(g, v, l);
+  }
+}
+
+//
+// Zoom in/out
+//
+void game_map_zoom_incr(Gamep g)
+{
+  DBG("zoom alt");
+  TRACE_INDENT();
+
+  g->config.zoom_set = true;
+
+  if (game_map_zoom_get(g) >= MAP_ZOOM_MAX - 1) {
+    game_map_zoom_set(g, MAP_ZOOM_FULL_MAP);
+  } else {
+    game_map_zoom_set(g, game_map_zoom_get(g) + 1);
   }
 
   game_map_zoom_update(g);
@@ -3683,6 +3755,8 @@ void game_map_zoom_toggle(Gamep g)
     if (l != nullptr) {
       level_bounds_set(g, v, l);
     }
+    level_scroll_warp_to_focus(g, v, l);
+    game_save_config(g);
   }
 }
 
@@ -3694,7 +3768,7 @@ void game_map_zoom_in(Gamep g)
   DBG("zoom in");
   TRACE_INDENT();
 
-  game_map_zoom_set(g, game_map_zoom_def_get(g));
+  game_map_zoom_set(g, game_map_zoom_get(g));
   game_map_zoom_update(g);
 }
 

@@ -219,7 +219,13 @@ auto operator<<(std::ostream &out, Bits< const Config & > const my) -> std::ostr
     out << bits(tmp);
     tmp = offsetof(Config, key_descend);
     out << bits(tmp);
-    tmp = offsetof(Config, key_zoom);
+    tmp = offsetof(Config, key_zoom_in);
+    out << bits(tmp);
+    tmp = offsetof(Config, key_zoom_toggle);
+    out << bits(tmp);
+    tmp = offsetof(Config, zoom_user);
+    out << bits(tmp);
+    tmp = offsetof(Config, zoom_set);
     out << bits(tmp);
     tmp = offsetof(Config, hiscores);
     out << bits(tmp);
@@ -311,10 +317,13 @@ auto operator<<(std::ostream &out, Bits< const Config & > const my) -> std::ostr
   out << bits(my.t.key_jump);
   out << bits(my.t.key_ascend);
   out << bits(my.t.key_descend);
-  out << bits(my.t.key_zoom);
+  out << bits(my.t.key_zoom_in);
+  out << bits(my.t.key_zoom_toggle);
 
   WRITE_MAGIC(CONFIG_MAGIC_6);
 
+  out << bits(my.t.zoom_user);
+  out << bits(my.t.zoom_set);
   out << bits(my.t.mouse_wheel_lr_negated);
   out << bits(my.t.mouse_wheel_ud_negated);
   out << bits(my.t.music_volume);
@@ -783,6 +792,7 @@ auto Game::save_config() -> bool
     log("opened '%s' for writing", filename.c_str());
     const Config &c = game->config;
     out << bits(c);
+    topcon("Saved config to '%s'", filename.c_str());
     return true;
   }
 
@@ -797,6 +807,8 @@ auto Game::save_config() -> bool
   log("opened fallback of '%s' for writing", filename_fallback);
   const Config &c = game->config;
   out << bits(c);
+
+  topcon("Saved to fallback '%s'", filename.c_str());
   return true;
 }
 

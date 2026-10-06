@@ -492,8 +492,23 @@ auto operator>>(std::istream &in, Bits< Config & > my) -> std::istream &
       return in;
     }
     in >> bits(tmp);
-    if (tmp != offsetof(Config, key_zoom)) {
-      game_load_error = "Config structure changed: offsetof(Config, key_zoom))";
+    if (tmp != offsetof(Config, key_zoom_in)) {
+      game_load_error = "Config structure changed: offsetof(Config, key_zoom_in))";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(Config, key_zoom_toggle)) {
+      game_load_error = "Config structure changed: offsetof(Config, key_zoom_toggle))";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(Config, zoom_user)) {
+      game_load_error = "Config structure changed: offsetof(Config, zoom_user))";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(Config, zoom_set)) {
+      game_load_error = "Config structure changed: offsetof(Config, zoom_set))";
       return in;
     }
     in >> bits(tmp);
@@ -585,10 +600,13 @@ auto operator>>(std::istream &in, Bits< Config & > my) -> std::istream &
   in >> bits(my.t.key_jump);
   in >> bits(my.t.key_ascend);
   in >> bits(my.t.key_descend);
-  in >> bits(my.t.key_zoom);
+  in >> bits(my.t.key_zoom_in);
+  in >> bits(my.t.key_zoom_toggle);
 
   READ_MAGIC("config part 6", (uint32_t) CONFIG_MAGIC_6);
 
+  in >> bits(my.t.zoom_user);
+  in >> bits(my.t.zoom_set);
   in >> bits(my.t.mouse_wheel_lr_negated);
   in >> bits(my.t.mouse_wheel_ud_negated);
   in >> bits(my.t.music_volume);

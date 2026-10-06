@@ -170,7 +170,9 @@ void wid_botcon_log(const std::string &s)
   int const chars_per_line = UI_BOTCON_WIDTH;
 
   if (TERM_WIDTH == 0) {
-    CROAK("no TERM_WIDTH set");
+    TERM_WIDTH  = TERM_WIDTH_DEF;
+    TERM_HEIGHT = TERM_HEIGHT_DEF;
+    log("wid_botcon_log: no TERM_WIDTH set");
   }
 
   if (s.empty()) {

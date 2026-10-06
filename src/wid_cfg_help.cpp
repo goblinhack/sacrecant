@@ -62,9 +62,13 @@ static void wid_cfg_check_for_conflicts(Gamep g, SDL_Keysym code)
     con("%%fg=orange$Conflicting keyboard mapping, disabling key for ascend" UI_RESET_FMT);
     game_key_ascend_set(g, none);
   }
-  if (sdlk_eq(game_key_zoom_get(g), code)) {
+  if (sdlk_eq(game_key_zoom_in_get(g), code)) {
     con("%%fg=orange$Conflicting keyboard mapping, disabling key for zoom" UI_RESET_FMT);
-    game_key_zoom_set(g, none);
+    game_key_zoom_in_set(g, none);
+  }
+  if (sdlk_eq(game_key_zoom_toggle_get(g), code)) {
+    con("%%fg=orange$Conflicting keyboard mapping, disabling key for zoom" UI_RESET_FMT);
+    game_key_zoom_toggle_set(g, none);
   }
   if (sdlk_eq(game_key_quit_get(g), code)) {
     con("%%fg=orange$Conflicting keyboard mapping, disabling key for quit." UI_RESET_FMT);
@@ -765,13 +769,23 @@ static void wid_cfg_key_descend_set(Gamep g, SDL_Keysym code)
   wid_cfg_help_select(g);
 }
 
-static void wid_cfg_key_zoom_set(Gamep g, SDL_Keysym code)
+static void wid_cfg_key_zoom_in_set(Gamep g, SDL_Keysym code)
 {
   TRACE();
   local_g_config_changed = true;
-  game_key_zoom_set(g, none);
+  game_key_zoom_in_set(g, none);
   wid_cfg_check_for_conflicts(g, code);
-  game_key_zoom_set(g, code);
+  game_key_zoom_in_set(g, code);
+  wid_cfg_help_select(g);
+}
+
+static void wid_cfg_key_zoom_toggle_set(Gamep g, SDL_Keysym code)
+{
+  TRACE();
+  local_g_config_changed = true;
+  game_key_zoom_toggle_set(g, none);
+  wid_cfg_check_for_conflicts(g, code);
+  game_key_zoom_toggle_set(g, code);
   wid_cfg_help_select(g);
 }
 
@@ -1312,11 +1326,20 @@ static void grab_key(const std::string &which)
   return true;
 }
 
-[[nodiscard]] static auto wid_cfg_key_zoom(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+[[nodiscard]] static auto wid_cfg_key_zoom_in(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
   grab_key("zoom toggle");
-  sdl.on_sdl_key_grab    = wid_cfg_key_zoom_set;
+  sdl.on_sdl_key_grab    = wid_cfg_key_zoom_in_set;
+  local_g_config_changed = true;
+  return true;
+}
+
+[[nodiscard]] static auto wid_cfg_key_zoom_toggle(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+{
+  TRACE();
+  grab_key("zoom toggle");
+  sdl.on_sdl_key_grab    = wid_cfg_key_zoom_toggle_set;
   local_g_config_changed = true;
   return true;
 }
@@ -2575,13 +2598,13 @@ void wid_cfg_help_select(Gamep g)
   y_at++;
 
   ///////////////////////////////////////////////////////////////////////
-  // Zoom
+  // Zoom in
   ///////////////////////////////////////////////////////////////////////
   y_at++;
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "Change zoom");
+    auto *w = wid_new_square_button(g, p, "Zoom in");
 
     spoint const tl(0, y_at);
     spoint const br(menu_width / 2, y_at);
@@ -2593,14 +2616,43 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_bar_button(g, p, "Change zoom");
+    auto *w = wid_new_bar_button(g, p, "Zoom in");
 
     spoint const tl(rhs_button_left, y_at);
     spoint const br(rhs_button_right, y_at);
     wid_set_text_rhs(w);
     wid_set_pos(w, tl, br);
-    wid_set_text(w, ::to_string(game_key_zoom_get(g)));
-    wid_set_on_mouse_down(w, wid_cfg_key_zoom);
+    wid_set_text(w, ::to_string(game_key_zoom_in_get(g)));
+    wid_set_on_mouse_down(w, wid_cfg_key_zoom_in);
+  }
+
+  ///////////////////////////////////////////////////////////////////////
+  // Zoom toggle
+  ///////////////////////////////////////////////////////////////////////
+  y_at++;
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_square_button(g, p, "Toggle zoom");
+
+    spoint const tl(0, y_at);
+    spoint const br(menu_width / 2, y_at);
+    wid_set_shape_none(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text_lhs(w);
+    wid_set_text(w, "Change zoom");
+  }
+  {
+    TRACE();
+    auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_bar_button(g, p, "Toggle zoom");
+
+    spoint const tl(rhs_button_left, y_at);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_text_rhs(w);
+    wid_set_pos(w, tl, br);
+    wid_set_text(w, ::to_string(game_key_zoom_toggle_get(g)));
+    wid_set_on_mouse_down(w, wid_cfg_key_zoom_toggle);
   }
 
   ///////////////////////////////////////////////////////////////////////

@@ -329,8 +329,11 @@ auto               game_key_ascend_set(Gamep g, SDL_Keysym key) -> void;
 [[nodiscard]] auto game_key_descend_get(Gamep g) -> SDL_Keysym;
 auto               game_key_descend_set(Gamep g, SDL_Keysym key) -> void;
 
-[[nodiscard]] auto game_key_zoom_get(Gamep g) -> SDL_Keysym;
-auto               game_key_zoom_set(Gamep g, SDL_Keysym key) -> void;
+[[nodiscard]] auto game_key_zoom_in_get(Gamep g) -> SDL_Keysym;
+auto               game_key_zoom_in_set(Gamep g, SDL_Keysym key) -> void;
+
+[[nodiscard]] auto game_key_zoom_toggle_get(Gamep g) -> SDL_Keysym;
+auto               game_key_zoom_toggle_set(Gamep g, SDL_Keysym key) -> void;
 
 [[nodiscard]] auto game_request_to_remake_ui_get(Gamep g) -> bool;
 auto               game_request_to_remake_ui_set(Gamep g) -> void;
@@ -455,6 +458,7 @@ auto game_map_zoom_in(Gamep g) -> void;
 auto game_map_zoom_out(Gamep g) -> void;
 auto game_map_zoom_set(Gamep g, int val) -> void;
 auto game_map_zoom_toggle(Gamep g) -> void;
+auto game_map_zoom_incr(Gamep g) -> void;
 auto game_save_config(Gamep g) -> void;
 auto game_set_currently_saving_snapshot(Gamep) -> void;
 auto game_start_playing(Gamep g) -> void;

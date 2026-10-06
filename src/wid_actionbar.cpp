@@ -1028,13 +1028,13 @@ static auto wid_actionbar_create_window(Gamep g) -> bool
   if (opt_zoom) {
     auto *w      = wid_new_square_button(g, wid_actionbar_container, "widget actionbar zoom");
     auto  tl     = spoint(x_at, 0);
-    option_width = (::to_string(game_key_zoom_get(g)) + "Zoom").size();
+    option_width = (::to_string(game_key_zoom_in_get(g)) + "Zoom").size();
     auto br      = spoint(x_at + option_width - 1, 0);
     wid_set_pos(w, tl, br);
     wid_set_on_mouse_down(w, wid_actionbar_zoom);
     wid_set_on_mouse_over_begin(w, wid_actionbar_zoom_over_begin);
     wid_set_on_mouse_over_end(w, wid_actionbar_zoom_over_end);
-    wid_set_text(w, UI_SHORTCUT_FMT_STR "" + ::to_string(game_key_zoom_get(g)) + UI_HIGHLIGHT_FMT_STR "" + "Zoom");
+    wid_set_text(w, UI_SHORTCUT_FMT_STR "" + ::to_string(game_key_zoom_in_get(g)) + UI_HIGHLIGHT_FMT_STR "" + "Zoom");
     wid_set_mode(w, WID_MODE_OVER);
     wid_set_style(w, box_highlight_style);
     wid_set_mode(w, WID_MODE_NORMAL);

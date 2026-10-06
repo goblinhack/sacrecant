@@ -179,7 +179,9 @@ void wid_topcon_log(const std::string &s)
   int const chars_per_line = UI_TOPCON_WIDTH;
 
   if (TERM_WIDTH == 0) {
-    CROAK("no TERM_WIDTH set");
+    TERM_WIDTH  = TERM_WIDTH_DEF;
+    TERM_HEIGHT = TERM_HEIGHT_DEF;
+    log("wid_topcon_log: no TERM_WIDTH set");
   }
 
   if (s.empty()) {
