@@ -2,8 +2,10 @@
 // Copyright goblinhack@gmail.com
 //
 
+#include "my_font.hpp"
 #include "my_main.hpp"
 #include "my_sdl_proto.hpp"
+
 #include <SDL_keyboard.h>
 #include <SDL_keycode.h>
 #include <SDL_scancode.h>
@@ -914,7 +916,7 @@
   std::string out;
 
   if (k.mod == KMOD_SHIFT) {
-    out += "<Shift> ";
+    out += static_cast< unsigned char >(FONT_CHAR_SHIFT);
   } else {
     if ((k.mod & KMOD_LSHIFT) != 0) {
       out += "<L-shift> ";

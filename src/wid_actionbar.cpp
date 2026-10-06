@@ -1045,13 +1045,13 @@ static auto wid_actionbar_create_window(Gamep g) -> bool
   if (opt_help) {
     auto *w      = wid_new_square_button(g, wid_actionbar_container, "widget actionbar help");
     auto  tl     = spoint(x_at, 0);
-    option_width = (::to_string(game_key_help_get(g)) + "Help").size();
+    option_width = (::to_string(game_key_help_get(g)) + "Key").size();
     auto br      = spoint(x_at + option_width - 1, 0);
     wid_set_pos(w, tl, br);
     wid_set_on_mouse_down(w, wid_actionbar_help);
     wid_set_on_mouse_over_begin(w, wid_actionbar_help_over_begin);
     wid_set_on_mouse_over_end(w, wid_actionbar_help_over_end);
-    wid_set_text(w, UI_SHORTCUT_FMT_STR "" + ::to_string(game_key_help_get(g)) + UI_HIGHLIGHT_FMT_STR "" + "Help");
+    wid_set_text(w, UI_SHORTCUT_FMT_STR "" + ::to_string(game_key_help_get(g)) + UI_HIGHLIGHT_FMT_STR "" + "Key");
     wid_set_mode(w, WID_MODE_OVER);
     wid_set_style(w, box_highlight_style);
     wid_set_mode(w, WID_MODE_NORMAL);
@@ -1062,13 +1062,13 @@ static auto wid_actionbar_create_window(Gamep g) -> bool
   if (opt_quit) {
     auto *w      = wid_new_square_button(g, wid_actionbar_container, "widget actionbar quit");
     auto  tl     = spoint(x_at, 0);
-    option_width = (::to_string(game_key_quit_get(g)) + "Quit").size();
+    option_width = (::to_string(game_key_quit_get(g)) + "Ext").size();
     auto br      = spoint(x_at + option_width - 1, 0);
     wid_set_pos(w, tl, br);
     wid_set_on_mouse_down(w, wid_actionbar_quit);
     wid_set_on_mouse_over_begin(w, wid_actionbar_quit_over_begin);
     wid_set_on_mouse_over_end(w, wid_actionbar_quit_over_end);
-    wid_set_text(w, UI_SHORTCUT_FMT_STR "" + ::to_string(game_key_quit_get(g)) + UI_HIGHLIGHT_FMT_STR "" + "Quit");
+    wid_set_text(w, UI_SHORTCUT_FMT_STR "" + ::to_string(game_key_quit_get(g)) + UI_HIGHLIGHT_FMT_STR "" + "Ext");
     wid_set_mode(w, WID_MODE_OVER);
     wid_set_style(w, box_highlight_style);
     wid_set_mode(w, WID_MODE_NORMAL);

@@ -91,6 +91,10 @@ static auto font_load(const std::string &name) -> Fontp
     CROAK("no font");
   }
 
+  if (u < 0) {
+    u = -u;
+  }
+
   if ((u < 0) || (u >= FONT_CHAR_MAX)) {
     if (u == '?') {
       CROAK("char 0x%X/%d -> bad index", u, u);

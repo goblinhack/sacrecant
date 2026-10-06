@@ -13,6 +13,7 @@ extern Fontp font_ui;
 #define FONT_CHAR_MAX    ((int) ((int) '~' + 8))
 #define FONT_CHAR_MIN    ((int) ' ')
 #define FONT_CHAR_CURSOR ((int) ((int) '~' + 1))
+#define FONT_CHAR_SHIFT  ((int) ((int) '~' + 2))
 
 #define FONT_TILENAME_UNKNOWN_STR "1.99"
 #define FONT_TILENAME_BLOCK_STR   "1.97"
