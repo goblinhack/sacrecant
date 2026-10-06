@@ -1090,6 +1090,9 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType 
     }
 
     auto *w = wid_spell_learn_list->log(g, "-", TEXT_FORMAT_LHS);
+    if (! w) {
+      continue;
+    }
 
     wid_set_thing_context(g, v, w, spell);
     wid_set_int_context(w, wid_spell_index);
@@ -1109,16 +1112,17 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType 
           auto u = i.second;
           if (thing_is_upgradable(g, v, l, learned_spell, u)) {
             auto *w_upgrade = wid_spell_learn_list->log(g, "-", TEXT_FORMAT_LHS);
-
-            wid_set_thing_context(g, v, w_upgrade, learned_spell);
-            wid_set_int_context(w_upgrade, wid_spell_index);
-            wid_set_string_context(w_upgrade, u.name);
-            wid_set_on_mouse_down(w_upgrade, wid_spell_upgrade_spell_via_mouse_down);
-            wid_set_on_mouse_over_begin(w_upgrade, wid_spell_learn_spell_via_mouse_over_begin);
-            wid_set_on_mouse_over_end(w_upgrade, wid_spell_learn_spell_via_mouse_over_end);
-            wid_apply_bar_button(g, w_upgrade);
-            y_at += button_step;
-            wid_upgrade[ wid_upgrade_index++ ] = w_upgrade;
+            if (w_upgrade) {
+              wid_set_thing_context(g, v, w_upgrade, learned_spell);
+              wid_set_int_context(w_upgrade, wid_spell_index);
+              wid_set_string_context(w_upgrade, u.name);
+              wid_set_on_mouse_down(w_upgrade, wid_spell_upgrade_spell_via_mouse_down);
+              wid_set_on_mouse_over_begin(w_upgrade, wid_spell_learn_spell_via_mouse_over_begin);
+              wid_set_on_mouse_over_end(w_upgrade, wid_spell_learn_spell_via_mouse_over_end);
+              wid_apply_bar_button(g, w_upgrade);
+              y_at += button_step;
+              wid_upgrade[ wid_upgrade_index++ ] = w_upgrade;
+            }
           }
         }
         break;

@@ -9,6 +9,7 @@
 #include "my_tex.hpp"
 #include "my_tile.hpp"
 #include "my_types.hpp"
+#include "my_ui.hpp"
 
 static void gfx_init_font_ui1()
 {
@@ -159,7 +160,7 @@ static void gfx_init_font_ui1()
       "nothing",
   };
 
-  tile_load_arr("data/fonts/PressStart.tga", "font1", 8, 8, ARRAY_SIZE(tiles), tiles);
+  tile_load_arr("data/fonts/PressStartLarge.tga", "font1", UI_FONT_1_WIDTH, UI_FONT_1_HEIGHT, ARRAY_SIZE(tiles), tiles);
 }
 
 static void gfx_init_font_ui2()
@@ -311,7 +312,7 @@ static void gfx_init_font_ui2()
       "",
   };
 
-  tile_load_arr("data/fonts/6x8.tga", "font2", 6, 8, ARRAY_SIZE(tiles), tiles);
+  tile_load_arr("data/fonts/PixelLarge.tga", "font2", UI_FONT_2_WIDTH, UI_FONT_2_HEIGHT, ARRAY_SIZE(tiles), tiles);
 }
 
 static void gfx_ui_init_0()

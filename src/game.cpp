@@ -443,7 +443,7 @@ void Config::reset()
   log("Game: reset");
   TRACE_INDENT();
 
-  config_font        = UI_FONT_8x8;
+  config_font        = UI_FONT_1;
   config_font_height = 8;
   config_font_width  = 8;
 
@@ -3606,7 +3606,7 @@ void game_map_zoom_set(Gamep g, int val)
 
   float zoom = map_pix_width / static_cast< float >(TILE_WIDTH) / static_cast< float >(MAP_TILES_ACROSS_DEF);
 
-  zoom = std::max< float >(zoom, 2);
+  zoom = std::max< float >(zoom, MAP_ZOOM_DEF);
 
   if (zoom >= static_cast< float >(MAP_ZOOM_MAX)) {
     zoom = MAP_ZOOM_MAX - 1;

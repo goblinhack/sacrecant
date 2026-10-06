@@ -716,6 +716,9 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
                                   maxscore);
 
   auto *w = parent->log(g, score_str);
+  if (! w) {
+    return false;
+  }
 
   wid_set_on_mouse_over_begin(w, wid_thing_info_stats_score_mouse_over_begin);
   wid_set_on_mouse_over_end(w, wid_thing_info_stats_mouse_over_end);
@@ -764,23 +767,25 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   // "xxxxxxxxxxxxxxxxxx"
   //
   auto *w = parent->log(g, std::string(line_bar));
-  if (w != nullptr) {
-    int health_how_much = static_cast< int >((static_cast< float >(thing_health(g, v, l, me)) / static_cast< float >(health_max))
-                                             * (static_cast< float > UI_STAT_BAR_STEPS - 1));
-    health_how_much     = std::min(health_how_much, UI_STAT_BAR_STEPS - 1);
-    health_how_much     = std::max(health_how_much, 0);
-    auto icon           = "stat_bar." + std::to_string(health_how_much + 1);
+  if (! w) {
+    return false;
+  }
 
-    wid_set_shape_square(w);
-    wid_set_style(w, UI_WID_STYLE_SPARSE_NONE);
-    wid_set_color(w, WID_COLOR_TEXT_FG, UI_HIGHLIGHT_COLOR);
-    wid_set_tilename(TILE_LAYER_BOX_BG, w, icon);
-    wid_set_text_lhs(w, 1u);
+  int health_how_much = static_cast< int >((static_cast< float >(thing_health(g, v, l, me)) / static_cast< float >(health_max))
+                                           * (static_cast< float > UI_STAT_BAR_STEPS - 1));
+  health_how_much     = std::min(health_how_much, UI_STAT_BAR_STEPS - 1);
+  health_how_much     = std::max(health_how_much, 0);
+  auto icon           = "stat_bar." + std::to_string(health_how_much + 1);
 
-    if (thing_is_player(me)) {
-      wid_set_on_mouse_over_begin(w, wid_thing_info_stats_health_mouse_over_begin);
-      wid_set_on_mouse_over_end(w, wid_thing_info_stats_mouse_over_end);
-    }
+  wid_set_shape_square(w);
+  wid_set_style(w, UI_WID_STYLE_SPARSE_NONE);
+  wid_set_color(w, WID_COLOR_TEXT_FG, UI_HIGHLIGHT_COLOR);
+  wid_set_tilename(TILE_LAYER_BOX_BG, w, icon);
+  wid_set_text_lhs(w, 1u);
+
+  if (thing_is_player(me)) {
+    wid_set_on_mouse_over_begin(w, wid_thing_info_stats_health_mouse_over_begin);
+    wid_set_on_mouse_over_end(w, wid_thing_info_stats_mouse_over_end);
   }
 
   return true;
@@ -819,23 +824,25 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   // "xxxxxxxxxxxxxxxxxx"
   //
   auto *w = parent->log(g, std::string(line_bar));
-  if (w != nullptr) {
-    int mana_how_much = static_cast< int >((static_cast< float >(thing_mana(g, v, l, me)) / static_cast< float >(mana_max))
-                                           * (static_cast< float > UI_STAT_BAR_STEPS - 1));
-    mana_how_much     = std::min(mana_how_much, UI_STAT_BAR_STEPS - 1);
-    mana_how_much     = std::max(mana_how_much, 0);
-    auto icon         = "stat_bar." + std::to_string(mana_how_much + 1);
+  if (! w) {
+    return false;
+  }
 
-    wid_set_shape_square(w);
-    wid_set_style(w, UI_WID_STYLE_SPARSE_NONE);
-    wid_set_color(w, WID_COLOR_TEXT_FG, UI_HIGHLIGHT_COLOR);
-    wid_set_tilename(TILE_LAYER_BOX_BG, w, icon);
-    wid_set_text_lhs(w, 1u);
+  int mana_how_much = static_cast< int >((static_cast< float >(thing_mana(g, v, l, me)) / static_cast< float >(mana_max))
+                                         * (static_cast< float > UI_STAT_BAR_STEPS - 1));
+  mana_how_much     = std::min(mana_how_much, UI_STAT_BAR_STEPS - 1);
+  mana_how_much     = std::max(mana_how_much, 0);
+  auto icon         = "stat_bar." + std::to_string(mana_how_much + 1);
 
-    if (thing_is_player(me)) {
-      wid_set_on_mouse_over_begin(w, wid_thing_info_stats_mana_mouse_over_begin);
-      wid_set_on_mouse_over_end(w, wid_thing_info_stats_mouse_over_end);
-    }
+  wid_set_shape_square(w);
+  wid_set_style(w, UI_WID_STYLE_SPARSE_NONE);
+  wid_set_color(w, WID_COLOR_TEXT_FG, UI_HIGHLIGHT_COLOR);
+  wid_set_tilename(TILE_LAYER_BOX_BG, w, icon);
+  wid_set_text_lhs(w, 1u);
+
+  if (thing_is_player(me)) {
+    wid_set_on_mouse_over_begin(w, wid_thing_info_stats_mana_mouse_over_begin);
+    wid_set_on_mouse_over_end(w, wid_thing_info_stats_mouse_over_end);
   }
 
   return true;
@@ -886,23 +893,25 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   // "xxxxxxxxxxxxxxxxxx"
   //
   auto *w = parent->log(g, std::string(line_bar));
-  if (w != nullptr) {
-    int stamina_how_much
-        = static_cast< int >((static_cast< float >(stamina) / static_cast< float >(stamina_max)) * (static_cast< float > UI_STAT_BAR_STEPS - 1));
-    stamina_how_much = std::min(stamina_how_much, UI_STAT_BAR_STEPS - 1);
-    stamina_how_much = std::max(stamina_how_much, 0);
-    auto icon        = "stat_bar." + std::to_string(stamina_how_much + 1);
+  if (! w) {
+    return false;
+  }
 
-    wid_set_shape_square(w);
-    wid_set_style(w, UI_WID_STYLE_SPARSE_NONE);
-    wid_set_color(w, WID_COLOR_TEXT_FG, UI_HIGHLIGHT_COLOR);
-    wid_set_tilename(TILE_LAYER_BOX_BG, w, icon);
-    wid_set_text_lhs(w, 1u);
+  int stamina_how_much
+      = static_cast< int >((static_cast< float >(stamina) / static_cast< float >(stamina_max)) * (static_cast< float > UI_STAT_BAR_STEPS - 1));
+  stamina_how_much = std::min(stamina_how_much, UI_STAT_BAR_STEPS - 1);
+  stamina_how_much = std::max(stamina_how_much, 0);
+  auto icon        = "stat_bar." + std::to_string(stamina_how_much + 1);
 
-    if (thing_is_player(me)) {
-      wid_set_on_mouse_over_begin(w, wid_thing_info_stats_stamina_mouse_over_begin);
-      wid_set_on_mouse_over_end(w, wid_thing_info_stats_mouse_over_end);
-    }
+  wid_set_shape_square(w);
+  wid_set_style(w, UI_WID_STYLE_SPARSE_NONE);
+  wid_set_color(w, WID_COLOR_TEXT_FG, UI_HIGHLIGHT_COLOR);
+  wid_set_tilename(TILE_LAYER_BOX_BG, w, icon);
+  wid_set_text_lhs(w, 1u);
+
+  if (thing_is_player(me)) {
+    wid_set_on_mouse_over_begin(w, wid_thing_info_stats_stamina_mouse_over_begin);
+    wid_set_on_mouse_over_end(w, wid_thing_info_stats_mouse_over_end);
   }
 
   return true;
@@ -948,23 +957,25 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   // "xxxxxxxxxxxxxxxxxx"
   //
   auto *w = parent->log(g, std::string(line_bar));
-  if (w != nullptr) {
-    int stealth_how_much
-        = static_cast< int >((static_cast< float >(stealth) / static_cast< float >(stealth_max)) * (static_cast< float > UI_STAT_BAR_STEPS - 1));
-    stealth_how_much = std::min(stealth_how_much, UI_STAT_BAR_STEPS - 1);
-    stealth_how_much = std::max(stealth_how_much, 0);
-    auto icon        = "stat_bar." + std::to_string(stealth_how_much + 1);
+  if (! w) {
+    return false;
+  }
 
-    wid_set_shape_square(w);
-    wid_set_style(w, UI_WID_STYLE_SPARSE_NONE);
-    wid_set_color(w, WID_COLOR_TEXT_FG, UI_HIGHLIGHT_COLOR);
-    wid_set_tilename(TILE_LAYER_BOX_BG, w, icon);
-    wid_set_text_lhs(w, 1u);
+  int stealth_how_much
+      = static_cast< int >((static_cast< float >(stealth) / static_cast< float >(stealth_max)) * (static_cast< float > UI_STAT_BAR_STEPS - 1));
+  stealth_how_much = std::min(stealth_how_much, UI_STAT_BAR_STEPS - 1);
+  stealth_how_much = std::max(stealth_how_much, 0);
+  auto icon        = "stat_bar." + std::to_string(stealth_how_much + 1);
 
-    if (thing_is_player(me)) {
-      wid_set_on_mouse_over_begin(w, wid_thing_info_stats_stealth_mouse_over_begin);
-      wid_set_on_mouse_over_end(w, wid_thing_info_stats_mouse_over_end);
-    }
+  wid_set_shape_square(w);
+  wid_set_style(w, UI_WID_STYLE_SPARSE_NONE);
+  wid_set_color(w, WID_COLOR_TEXT_FG, UI_HIGHLIGHT_COLOR);
+  wid_set_tilename(TILE_LAYER_BOX_BG, w, icon);
+  wid_set_text_lhs(w, 1u);
+
+  if (thing_is_player(me)) {
+    wid_set_on_mouse_over_begin(w, wid_thing_info_stats_stealth_mouse_over_begin);
+    wid_set_on_mouse_over_end(w, wid_thing_info_stats_mouse_over_end);
   }
 
   return true;
@@ -2117,14 +2128,15 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     }
 
     Widp wid = parent->log(g, UI_INFO_FMT_STR + line, TEXT_FORMAT_LHS);
+    if (wid) {
+      wid_set_thing_context(g, v, wid, item);
+      wid_set_on_mouse_down(wid, wid_thing_info_thing_mouse_down);
+      wid_set_on_mouse_over_begin(wid, wid_thing_info_thing_mouse_over_begin);
+      wid_set_on_mouse_over_end(wid, wid_thing_info_thing_mouse_over_end);
 
-    wid_set_thing_context(g, v, wid, item);
-    wid_set_on_mouse_down(wid, wid_thing_info_thing_mouse_down);
-    wid_set_on_mouse_over_begin(wid, wid_thing_info_thing_mouse_over_begin);
-    wid_set_on_mouse_over_end(wid, wid_thing_info_thing_mouse_over_end);
-
-    (void) wid_tp_info_damage(g, v, l, thing_tp(item), parent, width, false /* title allowed */);
-    (void) wid_tp_info_special_attacks(g, v, l, thing_tp(item), parent, width, false /* title allowed */);
+      (void) wid_tp_info_damage(g, v, l, thing_tp(item), parent, width, false /* title allowed */);
+      (void) wid_tp_info_special_attacks(g, v, l, thing_tp(item), parent, width, false /* title allowed */);
+    }
   }
 
   return worn;
@@ -2333,11 +2345,12 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     }
 
     Widp wid = parent->log(g, line, TEXT_FORMAT_LHS);
-
-    wid_set_thing_context(g, v, wid, item);
-    wid_set_on_mouse_down(wid, wid_thing_info_thing_mouse_down);
-    wid_set_on_mouse_over_begin(wid, wid_thing_info_thing_mouse_over_begin);
-    wid_set_on_mouse_over_end(wid, wid_thing_info_thing_mouse_over_end);
+    if (wid) {
+      wid_set_thing_context(g, v, wid, item);
+      wid_set_on_mouse_down(wid, wid_thing_info_thing_mouse_down);
+      wid_set_on_mouse_over_begin(wid, wid_thing_info_thing_mouse_over_begin);
+      wid_set_on_mouse_over_end(wid, wid_thing_info_thing_mouse_over_end);
+    }
   }
 
   return printed_something;
@@ -2376,10 +2389,11 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     line += " ";
 
     Widp wid = parent->log(g, line, TEXT_FORMAT_LHS);
-
-    wid_set_thing_context(g, v, wid, spell);
-    wid_set_on_mouse_over_begin(wid, wid_thing_info_thing_mouse_over_begin);
-    wid_set_on_mouse_over_end(wid, wid_thing_info_thing_mouse_over_end);
+    if (wid) {
+      wid_set_thing_context(g, v, wid, spell);
+      wid_set_on_mouse_over_begin(wid, wid_thing_info_thing_mouse_over_begin);
+      wid_set_on_mouse_over_end(wid, wid_thing_info_thing_mouse_over_end);
+    }
   }
 
   return printed_something;
@@ -2406,10 +2420,11 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     line += capitalize_first(thing_name_long(g, v, l, sacrifice));
 
     Widp wid = parent->log(g, line, TEXT_FORMAT_LHS);
-
-    wid_set_thing_context(g, v, wid, sacrifice);
-    wid_set_on_mouse_over_begin(wid, wid_thing_info_thing_mouse_over_begin);
-    wid_set_on_mouse_over_end(wid, wid_thing_info_thing_mouse_over_end);
+    if (wid) {
+      wid_set_thing_context(g, v, wid, sacrifice);
+      wid_set_on_mouse_over_begin(wid, wid_thing_info_thing_mouse_over_begin);
+      wid_set_on_mouse_over_end(wid, wid_thing_info_thing_mouse_over_end);
+    }
   }
 
   return printed_something;
@@ -2436,10 +2451,11 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     line += capitalize_first(thing_name_long(g, v, l, boost));
 
     Widp wid = parent->log(g, line, TEXT_FORMAT_LHS);
-
-    wid_set_thing_context(g, v, wid, boost);
-    wid_set_on_mouse_over_begin(wid, wid_thing_info_thing_mouse_over_begin);
-    wid_set_on_mouse_over_end(wid, wid_thing_info_thing_mouse_over_end);
+    if (wid) {
+      wid_set_thing_context(g, v, wid, boost);
+      wid_set_on_mouse_over_begin(wid, wid_thing_info_thing_mouse_over_begin);
+      wid_set_on_mouse_over_end(wid, wid_thing_info_thing_mouse_over_end);
+    }
   }
 
   return printed_something;

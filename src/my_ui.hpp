@@ -7,7 +7,10 @@
 
 #include "my_ascii.hpp"
 
-enum { UI_FONT_8x8 = 1, UI_FONT_6x8 = 2 };
+enum { UI_FONT_1 = 1, UI_FONT_2 = 2 };
+
+enum { UI_FONT_1_WIDTH = 64, UI_FONT_1_HEIGHT = 80 };
+enum { UI_FONT_2_WIDTH = 60, UI_FONT_2_HEIGHT = 80 };
 
 //
 // Console size

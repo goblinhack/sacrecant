@@ -18,8 +18,8 @@
 #include <unordered_map>
 #include <utility>
 
-int UI_FONT_HEIGHT = 8;
-int UI_FONT_WIDTH  = 8;
+int UI_FONT_WIDTH  = UI_FONT_1_WIDTH;
+int UI_FONT_HEIGHT = UI_FONT_1_HEIGHT;
 
 Fontp font_ui;
 
@@ -148,14 +148,14 @@ static auto font_load(const std::string &name) -> Fontp
   auto *font_ui2       = font_load("font2");
   font_ui2->tile_index = 2;
 
-  if (game_config_font_get(g) == UI_FONT_8x8) {
+  if (game_config_font_get(g) == UI_FONT_1) {
     font_ui        = font_ui1;
-    UI_FONT_HEIGHT = 8;
-    UI_FONT_WIDTH  = 8;
+    UI_FONT_WIDTH  = UI_FONT_1_WIDTH;
+    UI_FONT_HEIGHT = UI_FONT_1_HEIGHT;
   } else {
     font_ui        = font_ui2;
-    UI_FONT_HEIGHT = 8;
-    UI_FONT_WIDTH  = 6;
+    UI_FONT_WIDTH  = UI_FONT_2_WIDTH;
+    UI_FONT_HEIGHT = UI_FONT_2_HEIGHT;
   }
   sdl_config_update_all(g);
 

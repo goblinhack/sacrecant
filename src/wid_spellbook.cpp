@@ -794,6 +794,9 @@ void wid_spellbook(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType fi
     }
 
     auto *w = wid_spellbook_list->log(g, "-", TEXT_FORMAT_LHS);
+    if (! w) {
+      continue;
+    }
 
     wid_set_thing_context(g, v, w, spell);
     wid_set_int_context(w, wid_spell_index);

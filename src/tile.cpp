@@ -326,9 +326,9 @@ void tile_load_arr(const char *file, const char *alias, uint32_t width, uint32_t
 
     if (y * height > tex_get_height(tex)) {
       if (! name.empty()) {
-        CROAK("overflow reading tile arr[%s]", name.c_str());
+        CROAK("overflow reading tile arr[%s] for %s", name.c_str(), file);
       } else {
-        ERR("overflow reading tile arr at x %d y %d", x, y);
+        ERR("overflow reading tile arr at x %d y %d for %s", x, y, file);
       }
     }
   }

@@ -116,10 +116,10 @@ static void wid_cfg_display_destroy()
   con("Gfx menu: vsync toggle");
   TRACE_INDENT();
 
-  if (game_config_font_get(g) == UI_FONT_8x8) {
-    game_config_font_set(g, UI_FONT_6x8);
+  if (game_config_font_get(g) == UI_FONT_1) {
+    game_config_font_set(g, UI_FONT_2);
   } else {
-    game_config_font_set(g, UI_FONT_8x8);
+    game_config_font_set(g, UI_FONT_1);
   }
   config_gfx_vsync_update(g);
 
@@ -808,10 +808,10 @@ void wid_cfg_display_select(Gamep g, bool menu_was_created_due_to_game_restartin
     wid_set_pos(w, tl, br);
     wid_set_on_mouse_down(w, wid_cfg_display_font_toggle);
 
-    if (game_config_font_get(g) == UI_FONT_8x8) {
-      wid_set_text(w, "8x8");
+    if (game_config_font_get(g) == UI_FONT_1) {
+      wid_set_text(w, "PressStart");
     } else {
-      wid_set_text(w, "6x8");
+      wid_set_text(w, "Pixel");
     }
   }
 
