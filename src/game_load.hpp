@@ -502,8 +502,13 @@ auto operator>>(std::istream &in, Bits< Config & > my) -> std::istream &
       return in;
     }
     in >> bits(tmp);
-    if (tmp != offsetof(Config, zoom_user)) {
-      game_load_error = "Config structure changed: offsetof(Config, zoom_user))";
+    if (tmp != offsetof(Config, zoom)) {
+      game_load_error = "Config structure changed: offsetof(Config, zoom))";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(Config, zoom_old)) {
+      game_load_error = "Config structure changed: offsetof(Config, zoom_old))";
       return in;
     }
     in >> bits(tmp);
@@ -605,7 +610,8 @@ auto operator>>(std::istream &in, Bits< Config & > my) -> std::istream &
 
   READ_MAGIC("config part 6", (uint32_t) CONFIG_MAGIC_6);
 
-  in >> bits(my.t.zoom_user);
+  in >> bits(my.t.zoom);
+  in >> bits(my.t.zoom_old);
   in >> bits(my.t.zoom_set);
   in >> bits(my.t.mouse_wheel_lr_negated);
   in >> bits(my.t.mouse_wheel_ud_negated);

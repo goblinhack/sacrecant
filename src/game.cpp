@@ -131,8 +131,9 @@ public:
   //
   // Zoom gfx level.
   //
-  int  zoom_user = {MAP_ZOOM_DEF};
-  bool zoom_set  = {};
+  int  zoom     = {MAP_ZOOM_DEF};
+  int  zoom_old = {MAP_ZOOM_DEF};
+  bool zoom_set = {};
 
   SDL_Keysym key_wait        = {};
   SDL_Keysym key_console     = {};
@@ -3585,10 +3586,23 @@ void game_key_zoom_toggle_set(Gamep g, SDL_Keysym key)
     ERR("no game pointer");
     return MAP_ZOOM_DEF;
   }
-  if (g->config.zoom_user == 0) {
+  if (g->config.zoom == 0) {
     return MAP_ZOOM_DEF;
   }
-  return g->config.zoom_user;
+  return g->config.zoom;
+}
+[[nodiscard]] auto game_map_zoom_get(Gamep g, Levelsp v, Levelp l) -> int
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return MAP_ZOOM_DEF;
+  }
+  if (level_is_level_select(g, v, l)) {
+    return MAP_ZOOM_DEF;
+  }
+  return game_map_zoom_get(g);
 }
 void game_map_zoom_set(Gamep g, int val)
 {
@@ -3603,7 +3617,48 @@ void game_map_zoom_set(Gamep g, int val)
     val = MAP_ZOOM_MAX - 1;
   }
 
-  g->config.zoom_user = val;
+  g->config.zoom = val;
+}
+[[nodiscard]] auto game_map_zoom_old_get(Gamep g) -> int
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return MAP_ZOOM_DEF;
+  }
+  if (g->config.zoom_old == 0) {
+    return MAP_ZOOM_DEF;
+  }
+  return g->config.zoom_old;
+}
+[[nodiscard]] auto game_map_zoom_old_get(Gamep g, Levelsp v, Levelp l) -> int
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return MAP_ZOOM_DEF;
+  }
+  if (level_is_level_select(g, v, l)) {
+    return MAP_ZOOM_DEF;
+  }
+  return game_map_zoom_old_get(g);
+}
+void game_map_zoom_old_set(Gamep g, int val)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    ERR("no game pointer");
+    return;
+  }
+
+  if (val >= MAP_ZOOM_MAX) {
+    val = MAP_ZOOM_MAX - 1;
+  }
+
+  g->config.zoom_old = val;
 }
 [[nodiscard]] auto game_map_zoom_is_full_map_visible(Gamep g) -> bool
 {
@@ -3613,7 +3668,7 @@ void game_map_zoom_set(Gamep g, int val)
     ERR("no game pointer");
     return false;
   }
-  return g->config.zoom_user == MAP_ZOOM_FULL_MAP;
+  return g->config.zoom == MAP_ZOOM_FULL_MAP;
 }
 
 [[nodiscard]] auto game_map_zoom_def_get(Gamep g) -> int
@@ -3690,20 +3745,7 @@ void game_map_zoom_toggle(Gamep g)
   auto *v = game_levels_get(g);
 
   if (game_map_zoom_is_full_map_visible(g)) {
-    if (v) {
-      auto *l = game_level_get(g, v);
-      if (l != nullptr) {
-        if (level_is_level_select(g, v, l)) {
-          game_map_zoom_set(g, game_map_zoom_def_get(g));
-        } else {
-          game_map_zoom_set(g, game_map_zoom_get(g));
-        }
-      } else {
-        game_map_zoom_set(g, game_map_zoom_get(g));
-      }
-    } else {
-      game_map_zoom_set(g, game_map_zoom_get(g));
-    }
+    game_map_zoom_set(g, game_map_zoom_old_get(g));
   } else {
     game_map_zoom_set(g, MAP_ZOOM_FULL_MAP);
   }
@@ -3741,6 +3783,7 @@ void game_map_zoom_incr(Gamep g)
     game_map_zoom_set(g, game_map_zoom_get(g) + 1);
   }
 
+  game_map_zoom_old_set(g, game_map_zoom_get(g));
   game_map_zoom_update(g);
 
   //

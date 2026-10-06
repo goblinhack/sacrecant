@@ -223,7 +223,9 @@ auto operator<<(std::ostream &out, Bits< const Config & > const my) -> std::ostr
     out << bits(tmp);
     tmp = offsetof(Config, key_zoom_toggle);
     out << bits(tmp);
-    tmp = offsetof(Config, zoom_user);
+    tmp = offsetof(Config, zoom);
+    out << bits(tmp);
+    tmp = offsetof(Config, zoom_old);
     out << bits(tmp);
     tmp = offsetof(Config, zoom_set);
     out << bits(tmp);
@@ -322,7 +324,8 @@ auto operator<<(std::ostream &out, Bits< const Config & > const my) -> std::ostr
 
   WRITE_MAGIC(CONFIG_MAGIC_6);
 
-  out << bits(my.t.zoom_user);
+  out << bits(my.t.zoom);
+  out << bits(my.t.zoom_old);
   out << bits(my.t.zoom_set);
   out << bits(my.t.mouse_wheel_lr_negated);
   out << bits(my.t.mouse_wheel_ud_negated);

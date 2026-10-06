@@ -907,7 +907,7 @@ void level_display(Gamep g, Levelsp v, Levelp l)
   //
   // Save the old pixel offset for restoring it after zoom toggling
   //
-  v->pixel_map_at_for_zoom[ game_map_zoom_get(g) ] = v->pixel_map_at;
+  v->pixel_map_at_for_zoom[ game_map_zoom_get(g, v, l) ] = v->pixel_map_at;
 
   //
   // Light flicker

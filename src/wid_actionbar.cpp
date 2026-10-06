@@ -36,7 +36,7 @@ static WidPopup *wid_over_ascend {};
 static WidPopup *wid_over_fire {};
 static WidPopup *wid_over_descend {};
 static WidPopup *wid_over_quit {};
-static WidPopup *wid_over_zoom {};
+static WidPopup *wid_over_zoom_toggle {};
 static WidPopup *wid_over_help {};
 
 static ts_t wid_last_key_press;
@@ -601,9 +601,9 @@ static void wid_actionbar_quit_over_end(Gamep g, Widp w)
   wid_over_quit = nullptr;
 }
 
-[[nodiscard]] static auto wid_actionbar_zoom(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+[[nodiscard]] static auto wid_actionbar_zoom_toggle(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
-  log("actionbar zoom");
+  log("actionbar zoom_toggle");
   TRACE();
 
   (void) sound_play(g, "click");
@@ -612,7 +612,7 @@ static void wid_actionbar_quit_over_end(Gamep g, Widp w)
   return true;
 }
 
-static void wid_actionbar_zoom_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
+static void wid_actionbar_zoom_toggle_over_begin(Gamep g, Widp w, int /*relx*/, int /*rely*/, int /*wheelx*/, int /*wheely*/)
 {
   TRACE();
 
@@ -634,21 +634,21 @@ static void wid_actionbar_zoom_over_begin(Gamep g, Widp w, int /*relx*/, int /*r
   spoint const tl(tlx, tly);
   spoint const br(brx, bry);
 
-  wid_over_zoom = new WidPopup(g, "Zoom", tl, br, nullptr, "", false, false);
-  wid_over_zoom->log(g, UI_HIGHLIGHT_FMT_STR "Zoom");
-  wid_over_zoom->log_empty_line(g);
-  wid_over_zoom->log(g, "Select this to toggle map zoom.");
-  wid_over_zoom->compress(g);
+  wid_over_zoom_toggle = new WidPopup(g, "Zoom", tl, br, nullptr, "", false, false);
+  wid_over_zoom_toggle->log(g, UI_HIGHLIGHT_FMT_STR "Zoom");
+  wid_over_zoom_toggle->log_empty_line(g);
+  wid_over_zoom_toggle->log(g, "Select this to toggle map zoom_toggle.");
+  wid_over_zoom_toggle->compress(g);
 
   level_cursor_path_reset(g);
 }
 
-static void wid_actionbar_zoom_over_end(Gamep g, Widp w)
+static void wid_actionbar_zoom_toggle_over_end(Gamep g, Widp w)
 {
   TRACE();
 
-  delete wid_over_zoom;
-  wid_over_zoom = nullptr;
+  delete wid_over_zoom_toggle;
+  wid_over_zoom_toggle = nullptr;
 }
 
 [[nodiscard]] static auto wid_actionbar_help(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
@@ -725,19 +725,19 @@ static auto wid_actionbar_create_window(Gamep g) -> bool
   auto box_style           = UI_WID_STYLE_HORIZ_DARK;
   auto box_highlight_style = UI_WID_STYLE_HORIZ_LIGHT;
 
-  int  option_width  = 13;
-  bool opt_wait      = true;
-  bool opt_inventory = true;
-  bool opt_learn     = true;
-  bool opt_cast      = true;
-  bool opt_quit      = true;
-  bool opt_zoom      = true;
-  bool opt_help      = true;
-  bool opt_load      = false;
-  bool opt_save      = false;
-  bool opt_descend   = level_is_exit(g, v, l, thing_at(g, v, l, player)) != nullptr;
-  bool opt_ascend    = level_is_entrance(g, v, l, thing_at(g, v, l, player)) != nullptr;
-  bool opt_fire      = true;
+  int  option_width    = 13;
+  bool opt_wait        = true;
+  bool opt_inventory   = true;
+  bool opt_learn       = true;
+  bool opt_cast        = true;
+  bool opt_quit        = true;
+  bool opt_zoom_toggle = true;
+  bool opt_help        = true;
+  bool opt_load        = false;
+  bool opt_save        = false;
+  bool opt_descend     = level_is_exit(g, v, l, thing_at(g, v, l, player)) != nullptr;
+  bool opt_ascend      = level_is_entrance(g, v, l, thing_at(g, v, l, player)) != nullptr;
+  bool opt_fire        = true;
 
 #ifndef WEB_BUILD
   if (DEBUG || level_is_level_select(g, v, l)) {
@@ -749,16 +749,16 @@ static auto wid_actionbar_create_window(Gamep g) -> bool
 #endif
 
   if (level_is_level_select(g, v, l)) {
-    opt_ascend    = false;
-    opt_descend   = false;
-    opt_fire      = false;
-    opt_help      = false;
-    opt_inventory = false;
-    opt_learn     = false;
-    opt_cast      = false;
-    opt_quit      = false;
-    opt_wait      = false;
-    opt_zoom      = false;
+    opt_ascend      = false;
+    opt_descend     = false;
+    opt_fire        = false;
+    opt_help        = false;
+    opt_inventory   = false;
+    opt_learn       = false;
+    opt_cast        = false;
+    opt_quit        = false;
+    opt_wait        = false;
+    opt_zoom_toggle = false;
   }
 
   //
@@ -780,8 +780,8 @@ static auto wid_actionbar_create_window(Gamep g) -> bool
   if (opt_quit) {
     menu_string += "opt_quit";
   }
-  if (opt_zoom) {
-    menu_string += "opt_zoom";
+  if (opt_zoom_toggle) {
+    menu_string += "opt_zoom_toggle";
   }
   if (opt_help) {
     menu_string += "opt_help";
@@ -834,8 +834,8 @@ static auto wid_actionbar_create_window(Gamep g) -> bool
     if (wid_over_quit != nullptr) {
       wid_raise(g, wid_over_quit->wid_popup_container);
     }
-    if (wid_over_zoom != nullptr) {
-      wid_raise(g, wid_over_zoom->wid_popup_container);
+    if (wid_over_zoom_toggle != nullptr) {
+      wid_raise(g, wid_over_zoom_toggle->wid_popup_container);
     }
     if (wid_over_help != nullptr) {
       wid_raise(g, wid_over_help->wid_popup_container);
@@ -1025,16 +1025,16 @@ static auto wid_actionbar_create_window(Gamep g) -> bool
     x_at += option_width + 1;
   }
 
-  if (opt_zoom) {
-    auto *w      = wid_new_square_button(g, wid_actionbar_container, "widget actionbar zoom");
+  if (opt_zoom_toggle) {
+    auto *w      = wid_new_square_button(g, wid_actionbar_container, "widget actionbar zoom_toggle");
     auto  tl     = spoint(x_at, 0);
-    option_width = (::to_string(game_key_zoom_in_get(g)) + "Zoom").size();
+    option_width = (::to_string(game_key_zoom_toggle_get(g)) + "Zoom").size();
     auto br      = spoint(x_at + option_width - 1, 0);
     wid_set_pos(w, tl, br);
-    wid_set_on_mouse_down(w, wid_actionbar_zoom);
-    wid_set_on_mouse_over_begin(w, wid_actionbar_zoom_over_begin);
-    wid_set_on_mouse_over_end(w, wid_actionbar_zoom_over_end);
-    wid_set_text(w, UI_SHORTCUT_FMT_STR "" + ::to_string(game_key_zoom_in_get(g)) + UI_HIGHLIGHT_FMT_STR "" + "Zoom");
+    wid_set_on_mouse_down(w, wid_actionbar_zoom_toggle);
+    wid_set_on_mouse_over_begin(w, wid_actionbar_zoom_toggle_over_begin);
+    wid_set_on_mouse_over_end(w, wid_actionbar_zoom_toggle_over_end);
+    wid_set_text(w, UI_SHORTCUT_FMT_STR "" + ::to_string(game_key_zoom_toggle_get(g)) + UI_HIGHLIGHT_FMT_STR "" + "Zoom");
     wid_set_mode(w, WID_MODE_OVER);
     wid_set_style(w, box_highlight_style);
     wid_set_mode(w, WID_MODE_NORMAL);
@@ -1109,8 +1109,8 @@ void wid_actionbar_fini(Gamep g)
   wid_over_descend = nullptr;
   delete wid_over_quit;
   wid_over_quit = nullptr;
-  delete wid_over_zoom;
-  wid_over_zoom = nullptr;
+  delete wid_over_zoom_toggle;
+  wid_over_zoom_toggle = nullptr;
   delete wid_over_help;
   wid_over_help    = nullptr;
   last_menu_string = "";

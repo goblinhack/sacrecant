@@ -36,7 +36,7 @@ void level_mouse_position_get(Gamep g, Levelsp v, Levelp l)
   int map_mouse_x = sdl.mouse_x - visible_map_tl_x;
   int map_mouse_y = sdl.mouse_y - visible_map_tl_y;
 
-  int const zoom = game_map_zoom_get(g);
+  int const zoom = game_map_zoom_get(g, v, l);
 
   //
   // Do not allow the mouse events to have an impact when not over the map fbo

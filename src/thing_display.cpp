@@ -48,7 +48,7 @@ void thing_display_get_tile_info(Gamep g, Levelsp v, Levelp l, const bpoint &p, 
 {
   TRACE_DEBUG();
 
-  int const zoom = game_map_zoom_get(g);
+  int const zoom = game_map_zoom_get(g, v, l);
   int const dw   = TILE_WIDTH * zoom;
   int const dh   = TILE_HEIGHT * zoom;
   Tilep     tile = nullptr;
@@ -877,7 +877,7 @@ auto thing_to_pixel(Gamep g, Levelsp v, Levelp l, Thingp it) -> spoint
   int h = 0;
   fbo_get_size(g, FBO_MAP_BG_FLOOR_WATER_LAVA, w, h);
 
-  int const zoom = game_map_zoom_get(g);
+  int const zoom = game_map_zoom_get(g, v, l);
 
   auto        tl_pix_at = thing_pix_at(it);
   float const tl_px     = ((tl_pix_at.x * zoom) - v->pixel_map_at.x) / static_cast< float >(w);

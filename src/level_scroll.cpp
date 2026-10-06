@@ -68,7 +68,7 @@ void level_scroll_to_focus(Gamep g, Levelsp v, Levelp l)
   //
   // Where are we as a percentage on that map.
   //
-  int const    zoom = game_map_zoom_get(g);
+  int const    zoom = game_map_zoom_get(g, v, l);
   spoint const pix_at(thing_pix_at(target));
   float const  x = ((pix_at.x * zoom) - v->pixel_map_at.x) / static_cast< float >(w);
   float const  y = ((pix_at.y * zoom) - v->pixel_map_at.y) / static_cast< float >(h);
@@ -299,7 +299,7 @@ void level_scroll_warp_to_focus(Gamep g, Levelsp v, Levelp l)
     return;
   }
 
-  int const zoom = game_map_zoom_get(g);
+  int const zoom = game_map_zoom_get(g, v, l);
 
   v->pixel_map_at = thing_pix_at(target);
   v->pixel_map_at.x *= zoom;

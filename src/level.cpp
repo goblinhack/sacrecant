@@ -813,7 +813,7 @@ void level_bounds_set(Gamep g, Levelsp v, Levelp l)
 
   VERIFY(MTYPE_LEVELS, v);
 
-  int const zoom = game_map_zoom_get(g);
+  int const zoom = game_map_zoom_get(g, v, l);
   auto      dw   = TILE_WIDTH * zoom;
   auto      dh   = TILE_HEIGHT * zoom;
 

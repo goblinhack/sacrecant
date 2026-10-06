@@ -167,12 +167,16 @@ void wid_botcon_log(const std::string &s)
     return;
   }
 
-  int const chars_per_line = UI_BOTCON_WIDTH;
-
   if (TERM_WIDTH == 0) {
     TERM_WIDTH  = TERM_WIDTH_DEF;
     TERM_HEIGHT = TERM_HEIGHT_DEF;
     log("wid_botcon_log: no TERM_WIDTH set");
+  }
+
+  int const chars_per_line = UI_BOTCON_WIDTH;
+  if (chars_per_line <= 0) {
+    err("wid_botcon_log: no UI_BOTCON_WIDTH");
+    return;
   }
 
   if (s.empty()) {
