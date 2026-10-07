@@ -1623,16 +1623,16 @@
   return level_count(g, v, l, is_unused125, p);
 }
 
-[[nodiscard]] auto level_count_is_unused126(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_boss1(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused126, p);
+  return level_count(g, v, l, is_boss1, p);
 }
 
-[[nodiscard]] auto level_count_is_unused127(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_boss(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused127, p);
+  return level_count(g, v, l, is_boss, p);
 }
 
 [[nodiscard]] auto level_count_is_bat_minion(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t

@@ -10,6 +10,7 @@ FORMAT_DIRS=$(DIRS) \
 	    src/things \
 	    src/things/boosts \
 	    src/things/boots \
+	    src/things/boss \
 	    src/things/buffs \
 	    src/things/debuffs \
 	    src/things/dungeon \

@@ -27,6 +27,7 @@
   if (!tp_load_boots_fire()) { return false; }
   if (!tp_load_boots_spider()) { return false; }
   if (!tp_load_border()) { return false; }
+  if (!tp_load_boss1()) { return false; }
   if (!tp_load_brazier()) { return false; }
   if (!tp_load_bridge()) { return false; }
   if (!tp_load_buff_good_luck()) { return false; }

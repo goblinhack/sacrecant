@@ -716,7 +716,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
                                   maxscore);
 
   auto *w = parent->log(g, score_str);
-  if (! w) {
+  if (w == nullptr) {
     return false;
   }
 
@@ -767,7 +767,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   // "xxxxxxxxxxxxxxxxxx"
   //
   auto *w = parent->log(g, std::string(line_bar));
-  if (! w) {
+  if (w == nullptr) {
     return false;
   }
 
@@ -824,7 +824,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   // "xxxxxxxxxxxxxxxxxx"
   //
   auto *w = parent->log(g, std::string(line_bar));
-  if (! w) {
+  if (w == nullptr) {
     return false;
   }
 
@@ -893,7 +893,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   // "xxxxxxxxxxxxxxxxxx"
   //
   auto *w = parent->log(g, std::string(line_bar));
-  if (! w) {
+  if (w == nullptr) {
     return false;
   }
 
@@ -957,7 +957,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   // "xxxxxxxxxxxxxxxxxx"
   //
   auto *w = parent->log(g, std::string(line_bar));
-  if (! w) {
+  if (w == nullptr) {
     return false;
   }
 
@@ -2128,7 +2128,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     }
 
     Widp wid = parent->log(g, UI_INFO_FMT_STR + line, TEXT_FORMAT_LHS);
-    if (wid) {
+    if (wid != nullptr) {
       wid_set_thing_context(g, v, wid, item);
       wid_set_on_mouse_down(wid, wid_thing_info_thing_mouse_down);
       wid_set_on_mouse_over_begin(wid, wid_thing_info_thing_mouse_over_begin);
@@ -2345,7 +2345,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     }
 
     Widp wid = parent->log(g, line, TEXT_FORMAT_LHS);
-    if (wid) {
+    if (wid != nullptr) {
       wid_set_thing_context(g, v, wid, item);
       wid_set_on_mouse_down(wid, wid_thing_info_thing_mouse_down);
       wid_set_on_mouse_over_begin(wid, wid_thing_info_thing_mouse_over_begin);
@@ -2389,7 +2389,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     line += " ";
 
     Widp wid = parent->log(g, line, TEXT_FORMAT_LHS);
-    if (wid) {
+    if (wid != nullptr) {
       wid_set_thing_context(g, v, wid, spell);
       wid_set_on_mouse_over_begin(wid, wid_thing_info_thing_mouse_over_begin);
       wid_set_on_mouse_over_end(wid, wid_thing_info_thing_mouse_over_end);
@@ -2420,7 +2420,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     line += capitalize_first(thing_name_long(g, v, l, sacrifice));
 
     Widp wid = parent->log(g, line, TEXT_FORMAT_LHS);
-    if (wid) {
+    if (wid != nullptr) {
       wid_set_thing_context(g, v, wid, sacrifice);
       wid_set_on_mouse_over_begin(wid, wid_thing_info_thing_mouse_over_begin);
       wid_set_on_mouse_over_end(wid, wid_thing_info_thing_mouse_over_end);
@@ -2451,7 +2451,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     line += capitalize_first(thing_name_long(g, v, l, boost));
 
     Widp wid = parent->log(g, line, TEXT_FORMAT_LHS);
-    if (wid) {
+    if (wid != nullptr) {
       wid_set_thing_context(g, v, wid, boost);
       wid_set_on_mouse_over_begin(wid, wid_thing_info_thing_mouse_over_begin);
       wid_set_on_mouse_over_end(wid, wid_thing_info_thing_mouse_over_end);

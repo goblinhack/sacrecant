@@ -820,7 +820,7 @@ void level_bounds_set(Gamep g, Levelsp v, Levelp l)
   //
   // The number of tiles additionally to draw to avoid clipping
   //
-  auto clipping_border = 2;
+  auto clipping_border = 5; // Need more for large bosses
 
   //
   // Set the scroll bounds

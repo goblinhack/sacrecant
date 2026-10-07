@@ -193,6 +193,9 @@ static void thing_dir_set_br(Thingp me)
 //
 void thing_set_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp me, int dx, int dy)
 {
+  if (compiler_unused) {
+    THING_DBG(g, v, l, me, "set dir from delta %d,%d", dx, dy);
+  }
   TRACE();
 
   if (dx < 0) {

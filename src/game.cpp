@@ -3619,7 +3619,7 @@ void game_map_zoom_set(Gamep g, int val)
 
   g->config.zoom = val;
 }
-[[nodiscard]] auto game_map_zoom_old_get(Gamep g) -> int
+[[nodiscard]] static auto game_map_zoom_old_get(Gamep g) -> int
 {
   TRACE();
 
@@ -3632,20 +3632,7 @@ void game_map_zoom_set(Gamep g, int val)
   }
   return g->config.zoom_old;
 }
-[[nodiscard]] auto game_map_zoom_old_get(Gamep g, Levelsp v, Levelp l) -> int
-{
-  TRACE();
-
-  if (g == nullptr) [[unlikely]] {
-    ERR("no game pointer");
-    return MAP_ZOOM_DEF;
-  }
-  if (level_is_level_select(g, v, l)) {
-    return MAP_ZOOM_DEF;
-  }
-  return game_map_zoom_old_get(g);
-}
-void game_map_zoom_old_set(Gamep g, int val)
+static void game_map_zoom_old_set(Gamep g, int val)
 {
   TRACE();
 

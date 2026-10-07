@@ -60,7 +60,7 @@ using ThingIdPacked = union {
 //
 // Enough for one beam_weapon weapon or many projectiles.
 //
-#define THING_MISSILE_MAX (THING_BEAM_WEAPON_TILES_MAX * 2)
+#define THING_MISSILE_MAX (THING_BEAM_WEAPON_TILES_MAX * 3)
 
 enum {
   TEXT_INCLUDE_OWNER = 1,
@@ -777,8 +777,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_attack_count_per_tick(Thingp t) -> int;
 [[nodiscard]] auto thing_attack_poison(Gamep g, Levelsp v, Levelp l, Thingp it) -> bool;
 [[nodiscard]] auto thing_auto_wear_try(Gamep g, Levelsp v, Levelp l, Thingp owner, Thingp item, ThingEvent &e) -> bool;
-[[nodiscard]] auto thing_beam_weapon_fire_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what, bpoint target) -> bool;
-[[nodiscard]] auto thing_beam_weapon_fire_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what, fpoint target) -> bool;
 [[nodiscard]] auto thing_can_move_to_ai(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool;
 [[nodiscard]] auto thing_can_move_to_attempt_by_engulfing(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool;
 [[nodiscard]] auto thing_can_move_to_attempt_by_opening(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool;
@@ -786,9 +784,9 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_can_move_to_attempt(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool;
 [[nodiscard]] auto thing_can_move_to_diagonal_is_blocked(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool;
 [[nodiscard]] auto thing_can_move_to_possible(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to, bool from_astar = false) -> bool;
-[[nodiscard]] auto thing_carry(Gamep g, Levelsp v, Levelp l, Thingp me, const std::initializer_list< std::string > &items) -> bool;
-[[nodiscard]] auto thing_carry(Gamep g, Levelsp v, Levelp l, Thingp me, const std::vector< Thingp > &items) -> bool;
-[[nodiscard]] auto thing_carry(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp item, ThingEvent &e) -> bool;
+[[nodiscard]] auto thing_carry(Gamep g, Levelsp v, Levelp l, Thingp collector, const std::initializer_list< std::string > &items) -> bool;
+[[nodiscard]] auto thing_carry(Gamep g, Levelsp v, Levelp l, Thingp collector, const std::vector< Thingp > &items) -> bool;
+[[nodiscard]] auto thing_carry(Gamep g, Levelsp v, Levelp l, Thingp collector, Thingp item, ThingEvent &e) -> bool;
 [[nodiscard]] auto thing_charge_count_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_charge_count_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_charge_count_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
@@ -963,6 +961,8 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_boost(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_boots(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_border(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_boss(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_boss1(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_brazier(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_bridge(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_broken_on_death(Thingp me) -> bool;
@@ -1204,8 +1204,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused123(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused124(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused125(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused126(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused127(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused13(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused14(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused15(Thingp t) -> bool;
@@ -1583,6 +1581,8 @@ using Thing = struct Thing {
 
 [[nodiscard]] auto thing_is_carried_set(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp owner, ThingEvent & /*e*/, bool val, bool force)
     -> bool;
+[[nodiscard]] auto thing_beam_weapon_fire_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what, bpoint target, fpoint offset = {}) -> bool;
+[[nodiscard]] auto thing_beam_weapon_fire_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what, fpoint target, fpoint offset = {}) -> bool;
 
 // begin sort marker2 {
 auto level_vision_calculate_all(Gamep g, Levelsp v, Levelp l) -> void;

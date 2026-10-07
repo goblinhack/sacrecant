@@ -182,7 +182,7 @@ static auto thing_carry_item(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp c
       THING_DBG(g, v, l, owner, "drop-try: %s (failed, drop request)", s.c_str());
 
       //
-      // Cursed items need forceably dropped
+      // Cursed items need forcibly dropped
       //
       if (force) {
         THING_DBG(g, v, l, owner, "drop-try: %s (failed, force drop request)", s.c_str());

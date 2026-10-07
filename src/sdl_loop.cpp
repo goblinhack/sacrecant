@@ -32,7 +32,7 @@ static int ui_ts_very_slow_last;
 //
 // Main loop
 //
-static bool sdl_loop_iter(Gamep g)
+static auto sdl_loop_iter(Gamep g) -> bool
 {
   TRACE_DEBUG();
 

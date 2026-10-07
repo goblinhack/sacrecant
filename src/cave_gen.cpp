@@ -52,7 +52,7 @@ void cave_dump(Gamep g, Cave *c)
 //
 // Iterate a single generations for cellular automata
 //
-static void cave_generation(Cave *c, uint32_t fill_prob, uint8_t r1, uint8_t r2, int map_generations)
+static void cave_generation(Cave *c, int fill_prob, uint8_t r1, uint8_t r2, int map_generations)
 {
   uint8_t x = 0;
   uint8_t y = 0;

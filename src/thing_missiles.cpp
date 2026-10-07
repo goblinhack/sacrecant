@@ -87,6 +87,10 @@
   //
   FOR_ALL_MISSILE_SLOTS_NO_BREAK(g, v, l, me, slot, existing_missile)
   {
+    if (ext->missiles.count == THING_MISSILE_MAX) {
+      return nullptr;
+    }
+
     if (existing_missile != nullptr) {
       continue;
     }

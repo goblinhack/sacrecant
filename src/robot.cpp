@@ -6,10 +6,10 @@
 #include "my_callstack.hpp"
 #include "my_game.hpp"
 #include "my_game_inlines.hpp"
+#include "my_globals.hpp"
 #include "my_level.hpp"
 #include "my_level_inlines.hpp"
 #include "my_main.hpp"
-#include "my_random.hpp"
 #include "my_random_name.hpp"
 #include "my_robot.hpp"
 #include "my_sdl_event.hpp"
@@ -22,6 +22,7 @@
 #include <SDL_keyboard.h>
 #include <SDL_keycode.h>
 #include <SDL_mouse.h>
+#include <cmath>
 #include <initializer_list>
 #include <set>
 #include <string>
@@ -112,12 +113,12 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
     return;
   }
 
-  if (v->tick) {
-    if ((v->tick % 20) == 0u) {
+  if (v->tick != 0u) {
+    if ((v->tick % 20) == 0U) {
       //          game_request_to_save_game_set(g);
     }
 
-    if ((v->tick % 200) == 0u) {
+    if ((v->tick % 200) == 0U) {
       ThingEvent ev = {};
       ev.reason     = "robot is out of time ";
       thing_dead(g, v, l, player, ev);
@@ -129,8 +130,8 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
     return;
   }
 
-  int  x;
-  int  y;
+  int  x  = 0;
+  int  y  = 0;
   auto at = thing_at(g, v, l, player);
 
   //
@@ -188,7 +189,7 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
       score -= 10;
     }
 
-    if (l->player_has_walked_tile[ x ][ y ] != 0u) {
+    if (l->player_has_walked_tile[ x ][ y ] != 0U) {
       score -= 10;
     }
 
@@ -222,7 +223,7 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
     }
   }
 
-  if (goals.empty())
+  if (goals.empty()) {
     FOR_ALL_MAP_POINTS_NO_BREAK(g, v, l, x, y)
     {
       bpoint p(x, y);
@@ -276,11 +277,12 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
         }
       }
     }
+  }
 
   //
   // Lower priority. Explore known tiles.
   //
-  if (goals.empty())
+  if (goals.empty()) {
     FOR_ALL_MAP_POINTS_NO_BREAK(g, v, l, x, y)
     {
       bpoint p(x, y);
@@ -303,7 +305,7 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
         score -= 10;
       }
 
-      if (l->player_has_walked_tile[ x ][ y ] != 0u) {
+      if (l->player_has_walked_tile[ x ][ y ] != 0U) {
         score -= 10;
       }
 
@@ -326,16 +328,17 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
         goals.insert(Goal(GOAL_PRIO_EXPLORE_ANY_VISIBLE_TILES, score, p, "explore", t));
       }
     }
+  }
 
   //
   // Lowest priority. Explore known tiles.
   //
-  if (goals.empty())
+  if (goals.empty()) {
     FOR_ALL_MAP_POINTS_NO_BREAK(g, v, l, x, y)
     {
       bpoint p(x, y);
 
-      if (! l->player_has_walked_tile[ x ][ y ]) {
+      if (l->player_has_walked_tile[ x ][ y ] == 0u) {
         continue;
       }
 
@@ -369,6 +372,7 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
         goals.insert(Goal(GOAL_PRIO_EXPLORE_PREVIOUSLY_VISITED_TILES, score, p, "explore", t));
       }
     }
+  }
 
   if (compiler_unused) {
     con("Goals:");
@@ -478,7 +482,7 @@ void robot_mode_handler(Gamep g)
       {
         auto *v = game_levels_get(g);
         con("Robot: level select menu");
-        if (v && v->tick) {
+        if ((v != nullptr) && (v->tick != 0u)) {
           wid_dead_select(g, "level select");
         } else {
           e.type   = SDL_KEYDOWN;

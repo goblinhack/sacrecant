@@ -9,6 +9,7 @@
 #include "my_command.hpp"
 #include "my_font.hpp"
 #include "my_game.hpp"
+#include "my_game_defs.hpp"
 #include "my_gfx.hpp"
 #include "my_gl.hpp"
 #include "my_globals.hpp"
@@ -77,6 +78,11 @@ static void usage()
   con(" --test <name>                     -- Run test foo only.");
   con(" --tests                           -- Run all tests.");
   con(" --repeat <n>                      -- Repeat tests n times.");
+  con(" --boss1                           -- Start in boss1 level");
+  con(" --boss2                           -- Start in boss2 level");
+  con(" --boss3                           -- Start in boss3 level");
+  con(" --boss4                           -- Start in boss4 level");
+  con(" --boss5                           -- Start in boss5 level");
   con(" --robot                           -- Auto play robot mode.");
   con(" ");
   con("Code generation:");
@@ -198,6 +204,41 @@ static void parse_args(int argc, char *argv[])
 
       g_opt_quick_start = true;
       i++;
+      continue;
+    }
+
+    if ((strcasecmp(argv[ i ], "--boss1") == 0) || (strcasecmp(argv[ i ], "-boss1") == 0)) {
+      g_level_opt.level_num = LEVEL_ARR_IDX_BOSS_1 - 1;
+      g_level_opt.is_set    = true;
+      g_opt_quick_start     = true;
+      continue;
+    }
+
+    if ((strcasecmp(argv[ i ], "--boss2") == 0) || (strcasecmp(argv[ i ], "-boss2") == 0)) {
+      g_level_opt.level_num = LEVEL_ARR_IDX_BOSS_2 - 1;
+      g_level_opt.is_set    = true;
+      g_opt_quick_start     = true;
+      continue;
+    }
+
+    if ((strcasecmp(argv[ i ], "--boss3") == 0) || (strcasecmp(argv[ i ], "-boss3") == 0)) {
+      g_level_opt.level_num = LEVEL_ARR_IDX_BOSS_3 - 1;
+      g_level_opt.is_set    = true;
+      g_opt_quick_start     = true;
+      continue;
+    }
+
+    if ((strcasecmp(argv[ i ], "--boss4") == 0) || (strcasecmp(argv[ i ], "-boss4") == 0)) {
+      g_level_opt.level_num = LEVEL_ARR_IDX_BOSS_4 - 1;
+      g_level_opt.is_set    = true;
+      g_opt_quick_start     = true;
+      continue;
+    }
+
+    if ((strcasecmp(argv[ i ], "--boss5") == 0) || (strcasecmp(argv[ i ], "-boss5") == 0)) {
+      g_level_opt.level_num = LEVEL_ARR_IDX_BOSS_5 - 1;
+      g_level_opt.is_set    = true;
+      g_opt_quick_start     = true;
       continue;
     }
 
@@ -444,7 +485,7 @@ static void parse_args(int argc, char *argv[])
   extern Gamep game;
   (void) game_load_last_config(appdata.c_str());
   g = game;
-  if (! g) {
+  if (g == nullptr) {
     CROAK("no game config was loaded");
   }
   game_init(g);

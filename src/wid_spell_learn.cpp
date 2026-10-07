@@ -1090,7 +1090,7 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType 
     }
 
     auto *w = wid_spell_learn_list->log(g, "-", TEXT_FORMAT_LHS);
-    if (! w) {
+    if (w == nullptr) {
       continue;
     }
 
@@ -1112,7 +1112,7 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType 
           auto u = i.second;
           if (thing_is_upgradable(g, v, l, learned_spell, u)) {
             auto *w_upgrade = wid_spell_learn_list->log(g, "-", TEXT_FORMAT_LHS);
-            if (w_upgrade) {
+            if (w_upgrade != nullptr) {
               wid_set_thing_context(g, v, w_upgrade, learned_spell);
               wid_set_int_context(w_upgrade, wid_spell_index);
               wid_set_string_context(w_upgrade, u.name);

@@ -95,8 +95,10 @@ void pcg32_srandom(uint64_t seed, uint64_t seq)
 // pcg32_boundedrand(bound):
 // pcg32_boundedrand_r(rng, bound):
 //     Generate a uniformly distributed number, r, where 0 <= r < bound
-
-[[nodiscard]] auto pcg32_boundedrand_r(pcg32_random_t *rng, uint32_t bound) -> uint32_t
+//
+// integer return type to allow easily changing into a negative range
+//
+[[nodiscard]] auto pcg32_boundedrand_r(pcg32_random_t *rng, uint32_t bound) -> int
 {
   if (bound == 0U) {
     return 0;
@@ -128,12 +130,12 @@ void pcg32_srandom(uint64_t seed, uint64_t seq)
   for (; /*ever*/;) {
     uint32_t const r = pcg32_random_r(rng);
     if (r >= threshold) {
-      return r % bound;
+      return static_cast< int >(r % bound);
     }
   }
 }
 
-[[nodiscard]] auto pcg32_boundedrand(const char *func, int line, uint32_t bound) -> uint32_t
+[[nodiscard]] auto pcg32_boundedrand(const char *func, int line, uint32_t bound) -> int
 {
   if ((pcg_lock_count) != 0) [[unlikely]] {
     CROAK("trying to generate a PCG random number when blocked");

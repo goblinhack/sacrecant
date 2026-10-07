@@ -59,7 +59,7 @@ void thing_is_spawned_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   }
 
   if (! thing_push(g, v, l, t)) {
-    thing_err(g, v, l, t, "failed to push");
+    THING_DBG(g, v, l, t, "failed to push");
     return nullptr;
   }
 

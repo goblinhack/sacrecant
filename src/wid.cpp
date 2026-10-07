@@ -44,6 +44,7 @@
 #include <cstring>
 #include <string>
 #include <strings.h>
+#include <utility>
 #include <vector>
 
 #ifdef ENABLE_DEBUG_GFX_GL_BLEND
@@ -595,7 +596,7 @@ void wid_unset_thing_context(Gamep g, Levelsp v, Widp w, Thingp t)
     return nullptr;
   }
 
-  if (w->thing_id_context[ which ] == 0u) {
+  if (w->thing_id_context[ which ] == 0U) {
     return nullptr;
   }
 
@@ -5530,56 +5531,56 @@ void wid_sanity_check(Gamep g)
   if (DEBUG || g_opt_robot) {
     auto lim = 1000;
 
-    if (static_cast< int >(wid_top_level.size()) > lim) {
+    if (std::cmp_greater(wid_top_level.size(), lim)) {
       for (auto &iter : wid_top_level) {
         auto *w = iter.second;
         log("WID: %s", w->name.c_str());
       }
       CROAK("widget size getting large for: wid_top_level %d", (int) wid_top_level.size());
     }
-    if (static_cast< int >(wid_global.size()) > lim) {
+    if (std::cmp_greater(wid_global.size(), lim)) {
       for (auto &iter : wid_global) {
         auto *w = iter.second;
         log("WID: %s", w->name.c_str());
       }
       CROAK("widget size getting large for: wid_global %d", (int) wid_global.size());
     }
-    if (static_cast< int >(wid_top_level2.size()) > lim) {
+    if (std::cmp_greater(wid_top_level2.size(), lim)) {
       for (auto &iter : wid_top_level2) {
         auto *w = iter.second;
         log("WID: %s", w->name.c_str());
       }
       CROAK("widget size getting large for: wid_top_level2 %d", (int) wid_top_level2.size());
     }
-    if (static_cast< int >(wid_top_level3.size()) > lim) {
+    if (std::cmp_greater(wid_top_level3.size(), lim)) {
       for (auto &iter : wid_top_level3) {
         auto *w = iter.second;
         log("WID: %s", w->name.c_str());
       }
       CROAK("widget size getting large for: wid_top_level3 %d", (int) wid_top_level3.size());
     }
-    if (static_cast< int >(wid_top_level4.size()) > lim) {
+    if (std::cmp_greater(wid_top_level4.size(), lim)) {
       for (auto &iter : wid_top_level4) {
         auto *w = iter.second;
         log("WID: %s", w->name.c_str());
       }
       CROAK("widget size getting large for: wid_top_level4 %d", (int) wid_top_level4.size());
     }
-    if (static_cast< int >(wid_tick_top_level.size()) > lim) {
+    if (std::cmp_greater(wid_tick_top_level.size(), lim)) {
       for (auto &iter : wid_tick_top_level) {
         auto *w = iter.second;
         log("WID: %s", w->name.c_str());
       }
       CROAK("widget size getting large for: wid_tick_top_level %d", (int) wid_tick_top_level.size());
     }
-    if (static_cast< int >(wid_pre_tick_top_level.size()) > lim) {
+    if (std::cmp_greater(wid_pre_tick_top_level.size(), lim)) {
       for (auto &iter : wid_pre_tick_top_level) {
         auto *w = iter.second;
         log("WID: %s", w->name.c_str());
       }
       CROAK("widget size getting large for: wid_pre_tick_top_level %d", (int) wid_pre_tick_top_level.size());
     }
-    if (static_cast< int >(wid_post_tick_top_level.size()) > lim) {
+    if (std::cmp_greater(wid_post_tick_top_level.size(), lim)) {
       for (auto &iter : wid_post_tick_top_level) {
         auto *w = iter.second;
         log("WID: %s", w->name.c_str());

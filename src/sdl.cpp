@@ -557,18 +557,18 @@ void config_game_gfx_update(Gamep g)
 
   int  font_width        = UI_FONT_WIDTH;
   int  font_height       = UI_FONT_HEIGHT;
-  auto font_aspect_ratio = (float) font_height / (float) font_width;
+  auto font_aspect_ratio = static_cast< float >(font_height) / static_cast< float >(font_width);
 
   log("SDL: Window:");
   log("SDL: - window pixel size       : %dx%d", game_window_pix_width_get(g), game_window_pix_height_get(g));
   log("SDL: - aspect ratio            : %f", game_aspect_ratio_get(g));
 
-  TERM_WIDTH          = TERM_WIDTH_DEF;
-  int new_font_width  = game_window_pix_width_get(g) / TERM_WIDTH;
-  int new_font_height = (int) ((float) new_font_width * font_aspect_ratio);
-  TERM_HEIGHT         = game_window_pix_height_get(g) / new_font_height;
+  TERM_WIDTH                = TERM_WIDTH_DEF;
+  int const new_font_width  = game_window_pix_width_get(g) / TERM_WIDTH;
+  int       new_font_height = static_cast< int >(static_cast< float >(new_font_width) * font_aspect_ratio);
+  TERM_HEIGHT               = game_window_pix_height_get(g) / new_font_height;
 
-  if (new_font_height & 1) {
+  if ((new_font_height & 1) != 0) {
     new_font_height++;
   }
 

@@ -1928,7 +1928,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   return tp_flag(thing_tp(t), is_unused125) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused126(Thingp t) -> bool
+[[nodiscard]] auto thing_is_boss1(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1936,10 +1936,10 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused126) != 0;
+  return tp_flag(thing_tp(t), is_boss1) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused127(Thingp t) -> bool
+[[nodiscard]] auto thing_is_boss(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1947,7 +1947,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused127) != 0;
+  return tp_flag(thing_tp(t), is_boss) != 0;
 }
 
 [[nodiscard]] auto thing_is_bat_minion(Thingp t) -> bool

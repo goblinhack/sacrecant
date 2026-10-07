@@ -7216,6 +7216,20 @@ static void gfx_init_tiles_tall()
   tile_load_arr_sprites("data/gfx/tiles_tall.tga", "tiles_tall", OUTLINE_TILE_WIDTH, OUTLINE_TILE_HEIGHT * 2, ARRAY_SIZE(tiles), tiles);
 }
 
+static void gfx_init_tiles_vlarge()
+{
+  TRACE();
+  const char *tiles[] = {
+      // ##############################################################################
+      "boss1.idle.0",
+      "boss1.idle.1",
+      "boss1.idle.2",
+      "boss1.idle.3",
+      // ##############################################################################
+  };
+  tile_load_arr_sprites("data/gfx/tiles_vlarge.tga", "tiles_vlarge", BOSS_TILE_WIDTH, BOSS_TILE_HEIGHT, ARRAY_SIZE(tiles), tiles);
+}
+
 static void gfx_init_tiles_beam_of_fire()
 {
   TRACE();
@@ -7375,6 +7389,7 @@ void gfx_init()
   gfx_init_tiles_beam_of_energy();
   gfx_init_tiles();
   gfx_init_tiles_tall();
+  gfx_init_tiles_vlarge();
   gfx_init_tiles_walls_and_floors();
   gfx_init_tiles_water_lava_misc();
   // ##############################################################################

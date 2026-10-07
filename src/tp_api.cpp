@@ -1621,16 +1621,16 @@
   return tp_flag(tp, is_unused125) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused126(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_boss1(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused126) != 0;
+  return tp_flag(tp, is_boss1) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused127(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_boss(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused127) != 0;
+  return tp_flag(tp, is_boss) != 0;
 }
 
 [[nodiscard]] auto tp_is_bat_minion(Tpp tp) -> bool

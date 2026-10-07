@@ -137,6 +137,7 @@ static std::initializer_list< std::string > tps = {
     "boost_healing_drain",
     "boots_fire",
     "boots_spider",
+    "boss1",
     "brazier",
     "bridge",
     "buff_good_luck",
@@ -299,10 +300,10 @@ Tp::~Tp()
   OLDPTR(MTYPE_TP, this);
 }
 
-int tp_id_max(void)
+auto tp_id_max() -> int
 {
   TRACE();
-  return (int) tp_vec.size();
+  return static_cast< int >(tp_vec.size());
 }
 
 [[nodiscard]] auto tp_find_mand(const std::string &val) -> Tpp

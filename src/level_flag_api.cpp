@@ -1622,16 +1622,16 @@
   return level_flag(g, v, l, is_unused125, p, me);
 }
 
-[[nodiscard]] auto level_is_unused126(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_boss1(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused126, p, me);
+  return level_flag(g, v, l, is_boss1, p, me);
 }
 
-[[nodiscard]] auto level_is_unused127(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_boss(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused127, p, me);
+  return level_flag(g, v, l, is_boss, p, me);
 }
 
 [[nodiscard]] auto level_is_bat_minion(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp

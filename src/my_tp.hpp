@@ -295,8 +295,8 @@
       list_macro(is_unused123, "is_unused123"),                                             /* newline */                                       \
       list_macro(is_unused124, "is_unused124"),                                             /* newline */                                       \
       list_macro(is_unused125, "is_unused125"),                                             /* newline */                                       \
-      list_macro(is_unused126, "is_unused126"),                                             /* newline */                                       \
-      list_macro(is_unused127, "is_unused127"),                                             /* newline */                                       \
+      list_macro(is_boss1, "is_boss1"),                                                     /* newline */                                       \
+      list_macro(is_boss, "is_boss"),                                                       /* newline */                                       \
       list_macro(is_bat_minion, "is_bat_minion"),                                           /* newline */                                       \
       list_macro(is_bat, "is_bat"),                                                         /* newline */                                       \
       list_macro(is_unused13, "is_unused13"),                                               /* newline */                                       \
@@ -829,6 +829,7 @@ using TpSpellUpgrade = struct TpSpellUpgrade {
 class Tp;
 
 // begin sort marker1 {
+[[nodiscard]] auto tp_id_max() -> int;
 [[nodiscard]] auto string2tp(const char **s, int *len = nullptr) -> Tpp;
 [[nodiscard]] auto tp_attack_count_max_per_tick_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_chance_fail(Tpp tp, ThingChanceType val) -> bool;
@@ -937,6 +938,8 @@ class Tp;
 [[nodiscard]] auto tp_is_boost(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_boots(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_border(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_boss(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_boss1(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_brazier(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_bridge(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_broken_on_death(Tpp tp) -> bool;
@@ -1157,8 +1160,6 @@ class Tp;
 [[nodiscard]] auto tp_is_unused123(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused124(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused125(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused126(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused127(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused13(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused14(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused15(Tpp tp) -> bool;
@@ -1327,7 +1328,6 @@ class Tp;
 [[nodiscard]] auto tp_variant(ThingFlagType f, int /*variant*/) -> Tpp;
 [[nodiscard]] auto tp_weight_get(Tpp tp) -> uint32_t;
 [[nodiscard]] auto tp_z_depth_get(Tpp tp) -> MapZDepthType;
-[[nodiscard]] int  tp_id_max(void);
 // end sort marker1 }
 
 // begin sort marker2 {

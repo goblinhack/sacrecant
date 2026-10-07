@@ -1,8 +1,9 @@
 bugs
 ----
-level select zoom broke
-save config err
+need multi tiles for collision
+argusul lunges at range
 ? on player char
+simpler ghosts that do not go through walls and have simple AI
 
 todo
 ----

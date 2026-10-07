@@ -480,19 +480,19 @@ void thing_fall(Gamep g, Levelsp v, Levelp l, Thingp me)
   }
 
   //
-  // Can't fall when levitating
-  //
-  if (thing_is_flying(g, v, l, me) || thing_is_levitating(g, v, l, me)) {
-    return false;
-  }
-
-  //
   // Allow dead floating monsters to fall
   //
   if (thing_is_monst(me)) {
     if (thing_is_dead(me)) {
       return true;
     }
+  }
+
+  //
+  // Can't fall when levitating
+  //
+  if (thing_is_flying(g, v, l, me) || thing_is_levitating(g, v, l, me)) {
+    return false;
   }
 
   return tp_flag(thing_tp(me), is_able_to_fall) != 0;

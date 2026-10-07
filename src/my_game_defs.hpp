@@ -144,7 +144,7 @@ enum {
   THING_DESCRIBE_MAX = 10,
 
   //
-  // The beam weapon weapon is fixed length due to the animation.
+  // The beam weapon is fixed length due to the animation.
   //
   THING_BEAM_WEAPON_TILES_MAX = 16,
 

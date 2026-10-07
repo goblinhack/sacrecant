@@ -14,6 +14,7 @@
 #include "my_wid.hpp"
 #include "my_wids.hpp"
 
+#include <cmath>
 #include <cstdint>
 #include <map>
 #include <string>
