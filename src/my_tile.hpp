@@ -102,6 +102,7 @@ void tile_blit_section(const Tilep &tile, const fpoint &tile_tl, const fpoint &t
                        const color &color_tr, const color &color_bl, const color &color_br);
 void tile_blit_outlined(const Tilep &tile, float x1, float x2, float y1, float y2, spoint tl, spoint br, const color &c, const color &outline,
                         int single_pix_size, bool square);
+void tile_blit_white_mask(const Tilep &tile, float x1, float x2, float y1, float y2, const spoint tl, const spoint br);
 auto tile_blit_outline_w_black_inside(const Tilep &tile, float x1, float x2, float y1, float y2, spoint tl, spoint br, const color &c) -> void;
 auto tile_blit_outline_w_invis_inside(const Tilep &tile, float x1, float x2, float y1, float y2, spoint tl, spoint br, const color &c) -> void;
 

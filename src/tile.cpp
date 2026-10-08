@@ -1002,6 +1002,18 @@ void tile_blit_outlined(const Tilep &tile, float x1, float x2, float y1, float y
 }
 
 //
+// Blit as a solid white mask
+//
+void tile_blit_white_mask(const Tilep &tile, float x1, float x2, float y1, float y2, const spoint tl, const spoint br)
+{
+  TRACE_DEBUG();
+
+  auto binding = tile->gl_binding_mask();
+
+  blit(binding, x1, y2, x2, y1, tl.x, br.y, br.x, tl.y, WHITE);
+}
+
+//
 // Shift the coordinates of a tile by a given percentage, so the bottom is
 // trimmed and looks submerged.
 //

@@ -208,10 +208,10 @@ static bool tp_boss1_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, T
   thing_description_set(tp, tp_boss1_description_get);
   thing_detail_set(tp, tp_boss1_detail_get);
   thing_on_attacking_set(tp, tp_boss1_on_attacking);
-  thing_on_pushed_set(tp, tp_boss1_on_pushed);
-  thing_on_popped_set(tp, tp_boss1_on_popped);
   thing_on_death_set(tp, tp_boss1_on_death);
   thing_on_missing_set(tp, tp_boss1_on_missing);
+  thing_on_popped_set(tp, tp_boss1_on_popped);
+  thing_on_pushed_set(tp, tp_boss1_on_pushed);
   thing_on_tick_begin_set(tp, tp_boss1_tick_begin);
   tp_attack_count_max_per_tick_set(tp, 1);
   tp_chance_set(tp, THING_CHANCE_CONTINUE_TO_BURN, "1d6"); // fumble => intensify / keep burning / crit => stop burning
@@ -220,7 +220,6 @@ static bool tp_boss1_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, T
   tp_distance_avoid_target_set(tp, 8);
   tp_distance_vision_set(tp, MAP_WIDTH / 2);
   tp_flag_set(tp, is_able_to_be_buffed);
-  tp_flag_set(tp, is_multi_tile);
   tp_flag_set(tp, is_able_to_be_invisible);
   tp_flag_set(tp, is_able_to_fire_weapons);
   tp_flag_set(tp, is_able_to_move_diagonally);
@@ -230,7 +229,7 @@ static bool tp_boss1_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, T
   tp_flag_set(tp, is_attackable_by_player);
   tp_flag_set(tp, is_blasted_when_dead);
   tp_flag_set(tp, is_blit_centered);
-  tp_flag_set(tp, is_blit_hit_outline_w_invis_inside);
+  tp_flag_set(tp, is_blit_hit_solid_white);
   tp_flag_set(tp, is_blit_shown_in_chasms);
   tp_flag_set(tp, is_blit_shown_in_overlay);
   tp_flag_set(tp, is_boss);
@@ -243,6 +242,7 @@ static bool tp_boss1_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, T
   tp_flag_set(tp, is_levitating);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_monst);
+  tp_flag_set(tp, is_multi_tile);
   tp_flag_set(tp, is_obs_to_beam);
   tp_flag_set(tp, is_obs_to_jumping_onto);
   tp_flag_set(tp, is_obs_to_movement);

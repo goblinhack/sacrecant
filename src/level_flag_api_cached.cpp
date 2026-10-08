@@ -1641,10 +1641,10 @@
   return level_flag_cached(g, v, l, is_unused122, p);
 }
 
-[[nodiscard]] auto level_is_unused123_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_blit_hit_solid_white_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused123, p);
+  return level_flag_cached(g, v, l, is_blit_hit_solid_white, p);
 }
 
 [[nodiscard]] auto level_is_unused124_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

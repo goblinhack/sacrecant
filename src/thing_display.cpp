@@ -605,6 +605,11 @@ static void thing_display_it(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp t_mayb
     a *= 255.0F;
     a = std::min(static_cast< int >(a), 255);
 
+    if (thing_is_blit_hit_solid_white(t_maybe_null)) {
+      tile_blit_white_mask(tile, x1, x2, y1, y2, tl, br);
+      return;
+    }
+
     if (thing_is_blit_hit_outline_w_invis_inside(t_maybe_null)) {
       color outline = RED;
       outline.a     = static_cast< uint8_t >(a);

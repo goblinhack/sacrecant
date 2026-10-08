@@ -1641,10 +1641,10 @@
   return level_flag(g, v, l, is_unused122, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused123_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_blit_hit_solid_white_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused123, p, me) != nullptr;
+  return level_flag(g, v, l, is_blit_hit_solid_white, p, me) != nullptr;
 }
 
 [[nodiscard]] auto level_is_unused124_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool

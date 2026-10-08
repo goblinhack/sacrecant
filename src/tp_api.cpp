@@ -1603,10 +1603,10 @@
   return tp_flag(tp, is_unused122) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused123(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_blit_hit_solid_white(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused123) != 0;
+  return tp_flag(tp, is_blit_hit_solid_white) != 0;
 }
 
 [[nodiscard]] auto tp_is_unused124(Tpp tp) -> bool

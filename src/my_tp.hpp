@@ -292,9 +292,9 @@
       list_macro(is_unused120, "is_unused120"),                                             /* newline */                                       \
       list_macro(is_unused121, "is_unused121"),                                             /* newline */                                       \
       list_macro(is_unused122, "is_unused122"),                                             /* newline */                                       \
-      list_macro(is_unused123, "is_unused123"),                                             /* newline */                                       \
+      list_macro(is_blit_hit_solid_white, "is_blit_hit_solid_white"),                       /* newline */                                       \
       list_macro(is_unused124, "is_unused124"),                                             /* newline */                                       \
-      list_macro(is_multi_tile, "is_multi_tile"),                                             /* newline */                                       \
+      list_macro(is_multi_tile, "is_multi_tile"),                                           /* newline */                                       \
       list_macro(is_boss1, "is_boss1"),                                                     /* newline */                                       \
       list_macro(is_boss, "is_boss"),                                                       /* newline */                                       \
       list_macro(is_bat_minion, "is_bat_minion"),                                           /* newline */                                       \
@@ -829,7 +829,6 @@ using TpSpellUpgrade = struct TpSpellUpgrade {
 class Tp;
 
 // begin sort marker1 {
-[[nodiscard]] auto tp_id_max() -> int;
 [[nodiscard]] auto string2tp(const char **s, int *len = nullptr) -> Tpp;
 [[nodiscard]] auto tp_attack_count_max_per_tick_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_chance_fail(Tpp tp, ThingChanceType val) -> bool;
@@ -860,6 +859,7 @@ class Tp;
 [[nodiscard]] auto tp_health_max_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_hearing_threshold_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_id_get(Tpp tp) -> TpId;
+[[nodiscard]] auto tp_id_max() -> int;
 [[nodiscard]] auto tp_init() -> bool;
 [[nodiscard]] auto tp_is_able_to_be_buffed(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_able_to_be_engulfed_blocked(Tpp tp) -> bool;
@@ -925,6 +925,7 @@ class Tp;
 [[nodiscard]] auto tp_is_blit_flush_per_line(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_blit_hit_outline_w_black_inside(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_blit_hit_outline_w_invis_inside(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_blit_hit_solid_white(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_blit_if_has_seen(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_blit_obscures(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_blit_on_ground(Tpp tp) -> bool;
@@ -1054,6 +1055,7 @@ class Tp;
 [[nodiscard]] auto tp_is_monst(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_monst1(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_monst2(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_multi_tile(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_myopic(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_needs_move_confirm(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_noisy(Tpp tp) -> bool;
@@ -1157,9 +1159,7 @@ class Tp;
 [[nodiscard]] auto tp_is_unused120(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused121(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused122(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused123(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused124(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_multi_tile(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused13(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused14(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused15(Tpp tp) -> bool;
