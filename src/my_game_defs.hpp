@@ -84,7 +84,8 @@ enum {
   //
   // If things are hit, this is the animation pulse time
   //
-  THING_HIT_FLASH_ANIM_MS = 250,
+  THING_HIT_FLASH_ANIM_MS       = 250,
+  THING_HIT_FLASH_WHITE_ANIM_MS = 120,
 
   //
   // Lunge duration

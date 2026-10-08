@@ -27,6 +27,12 @@ void thing_is_hit_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val)
     return;
   }
 
+  if (val == THING_HIT_FLASH_ANIM_MS) {
+    if (thing_is_blit_hit_solid_white(t)) {
+      val = THING_HIT_FLASH_WHITE_ANIM_MS;
+    }
+  }
+
   //
   // Once hit, it is treated as a counter
   //

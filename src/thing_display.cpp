@@ -601,27 +601,41 @@ static void thing_display_it(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp t_mayb
   // Flash red outline if hit
   //
   if (thing_is_hit(t_maybe_null) != 0) {
-    float a = (static_cast< float >(thing_is_hit(t_maybe_null)) / static_cast< float >(THING_HIT_FLASH_ANIM_MS));
-    a *= 255.0F;
-    a = std::min(static_cast< int >(a), 255);
-
+    //
+    // Solid white
+    //
     if (thing_is_blit_hit_solid_white(t_maybe_null)) {
       tile_blit_white_mask(tile, x1, x2, y1, y2, tl, br);
       return;
     }
 
+    float a = (static_cast< float >(thing_is_hit(t_maybe_null)) / static_cast< float >(THING_HIT_FLASH_ANIM_MS));
+    a *= 255.0F;
+    a = std::min(static_cast< int >(a), 255);
+
+    //
+    // Fading red outline, invisible inside
+    //
     if (thing_is_blit_hit_outline_w_invis_inside(t_maybe_null)) {
       color outline = RED;
       outline.a     = static_cast< uint8_t >(a);
       tile_blit_outline_w_invis_inside(tile, x1, x2, y1, y2, tl, br, outline);
       return;
     }
+
+    //
+    // Fading red outline, black inside
+    //
     if (thing_is_blit_hit_outline_w_black_inside(t_maybe_null)) {
       color outline = RED;
       outline.a     = static_cast< uint8_t >(a);
       tile_blit_outline_w_black_inside(tile, x1, x2, y1, y2, tl, br, outline);
       return;
     }
+
+    //
+    // Just red
+    //
     color const is_hit = RED;
     fg.r               = is_hit.r;
     fg.g               = is_hit.g;
