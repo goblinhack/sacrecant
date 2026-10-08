@@ -175,6 +175,14 @@ void thing_lunge_time_step(Gamep g, Levelsp v, Levelp l, Thingp me, int time_ste
   auto dest  = at + delta;
 
   thing_set_dir_from_delta(g, v, l, me, delta);
+
+  //
+  // Looks odd when a distant argusul lunges
+  //
+  if (! adjacent(to, at)) {
+    return false;
+  }
+
   thing_is_lunging_set(g, v, l, me, true);
 
   me->lunging_to = dest;

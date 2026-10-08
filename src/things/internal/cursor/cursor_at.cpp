@@ -103,6 +103,13 @@ static auto tp_cursor_at_display_get_tile_info(Gamep g, Levelsp v, Levelp l, con
     return tp_tiles_get(tp, THING_ANIM_CURSOR_NORMAL, 0);
   }
 
+  //
+  // No path yet, hovering on player
+  //
+  if (p == thing_at(g, v, l, player)) {
+    return tp_tiles_get(tp, THING_ANIM_CURSOR_NORMAL, 0);
+  }
+
   return tile;
 }
 
