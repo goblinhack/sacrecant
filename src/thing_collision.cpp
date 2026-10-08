@@ -21,22 +21,30 @@
 #include <utility>
 #include <vector>
 
-using ThingCand  = std::pair< float, Thingp >;
+class ThingCandAt
+{
+public:
+  Thingp it {};
+  bpoint at {};
+};
+
+using ThingCand  = std::pair< float, ThingCandAt >;
 using ThingCands = std::vector< ThingCand >;
 
 //
-// Sort the candidates by distance / potentially add more cands if we can hit all
+// Sort the candidates by distance / potentially add more candidates if we can hit all
 // things on the same tile
 //
-static void thing_collision_sort_cands(Gamep g, Levelsp v, Levelp l, Thingp me, ThingCands &cands)
+static void thing_collision_sort_cands(Gamep g, Levelsp v, Levelp l, Thingp me, ThingCands &candidates)
 {
   TRACE();
 
   if (compiler_unused) {
-    THING_DBG(g, v, l, me, "final cands: (pre sort)");
-    for (auto a_cand : cands) {
-      auto  o_dist   = a_cand.first;
-      auto *obstacle = a_cand.second;
+    THING_DBG(g, v, l, me, "final candidates: (pre sort)");
+    for (auto a_cand : candidates) {
+      auto        o_dist   = a_cand.first;
+      ThingCandAt cand     = a_cand.second;
+      Thingp      obstacle = cand.it;
 
       THING_DBG(g, v, l, obstacle, "- sort_distance %f prio %u", o_dist, thing_priority(obstacle));
     }
@@ -45,11 +53,11 @@ static void thing_collision_sort_cands(Gamep g, Levelsp v, Levelp l, Thingp me, 
   //
   // Sort by distance and priority
   //
-  std::ranges::sort(cands, [](const ThingCand &a, const ThingCand &b) -> bool {
+  std::ranges::sort(candidates, [](const ThingCand &a, const ThingCand &b) -> bool {
     auto  d1 = a.first;
     auto  d2 = b.first;
-    auto *t1 = a.second;
-    auto *t2 = b.second;
+    auto *t1 = a.second.it;
+    auto *t2 = b.second.it;
 
     if (d1 == d2) {
       return thing_priority(t1) < thing_priority(t2);
@@ -58,13 +66,13 @@ static void thing_collision_sort_cands(Gamep g, Levelsp v, Levelp l, Thingp me, 
   });
 
   //
-  // Dump the final cands
+  // Dump the final candidates
   //
   if (compiler_unused) {
-    THING_DBG(g, v, l, me, "final cands:");
-    for (auto a_cand : cands) {
+    THING_DBG(g, v, l, me, "final candidates:");
+    for (auto a_cand : candidates) {
       auto  o_dist   = a_cand.first;
-      auto *obstacle = a_cand.second;
+      auto *obstacle = a_cand.second.it;
 
       THING_DBG(g, v, l, obstacle, "- sort_distance %f prio %u", o_dist, thing_priority(obstacle));
     }
@@ -274,11 +282,17 @@ static void thing_collision_sort_cands(Gamep g, Levelsp v, Levelp l, Thingp me, 
 //
 // Do accurate hit box collision detection for this interpolated position
 //
-static auto thing_collision_check(Gamep g, Levelsp v, Levelp l, Thingp me, const fpoint &interp_at_f, Thingp obstacle) -> bool
+static auto thing_collision_check(Gamep g, Levelsp v, Levelp l, Thingp me, const fpoint &interp_at_f, Thingp obstacle, const bpoint collision_at)
+    -> bool
 {
   TRACE();
 
-  auto o_at      = thing_real_at(g, v, l, obstacle);
+  auto o_at = thing_real_at(g, v, l, obstacle);
+
+  if (thing_is_multi_tile(obstacle)) {
+    o_at = make_fpoint(collision_at);
+  }
+
   auto collision = false;
 
   if (thing_is_collision_circle_small(me)) {
@@ -709,7 +723,7 @@ void thing_collision_handle(Gamep g, Levelsp v, Levelp l, Thingp me)
     player_collision_handle(g, v, l, me);
   }
 
-  ThingCands cands;
+  ThingCands candidates;
   FOR_ALL_THINGS_AT(g, v, l, obstacle, at)
   {
     //
@@ -719,15 +733,22 @@ void thing_collision_handle(Gamep g, Levelsp v, Levelp l, Thingp me)
       continue;
     }
 
-    ThingCand const p = std::make_pair(0 /* dist */, obstacle);
-    cands.push_back(p);
+    ThingCandAt cand;
+    cand.it = obstacle;
+    cand.at = thing_at(g, v, l, obstacle);
+    if (thing_is_multi_tile(obstacle)) {
+      cand.at = at;
+    }
+
+    ThingCand const p = std::make_pair(0 /* dist */, cand);
+    candidates.push_back(p);
   }
 
-  thing_collision_sort_cands(g, v, l, me, cands);
+  thing_collision_sort_cands(g, v, l, me, candidates);
   TRACE_INDENT();
 
-  for (auto cand : cands) {
-    auto *obstacle = cand.second;
+  for (auto cand : candidates) {
+    auto *obstacle = cand.second.it;
     bool  stop     = {};
 
     if (compiler_unused) {
@@ -742,17 +763,17 @@ void thing_collision_handle(Gamep g, Levelsp v, Levelp l, Thingp me)
 }
 
 //
-// Sort the candidates by distance / potentially add more cands if we can hit all
+// Sort the candidates by distance / potentially add more candidates if we can hit all
 // things on the same tile
 //
 static void thing_collision_interpolated_expand_candidates(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &collision_at,
-                                                           ThingCands &cands)
+                                                           ThingCands &candidates)
 {
   //
-  // If this is a proj_fire hitting a wall, then we want to hit the ghost that is
+  // If this is a projectile hitting a wall, then we want to hit the ghost that is
   // also hiding inside the wall
   //
-  if (cands.empty()) {
+  if (candidates.empty()) {
     return;
   }
 
@@ -773,6 +794,10 @@ static void thing_collision_interpolated_expand_candidates(Gamep g, Levelsp v, L
   //
   FOR_ALL_THINGS_AT(g, v, l, obstacle, collision_at)
   {
+    if (compiler_unused) {
+      THING_DBG(g, v, l, obstacle, "obs");
+    }
+
     //
     // Filter to only things that can be hit
     //
@@ -806,22 +831,32 @@ static void thing_collision_interpolated_expand_candidates(Gamep g, Levelsp v, L
     // Check this thing is not on the cand list already
     //
     bool already_cand = false;
-    for (auto a_cand : cands) {
-      if (a_cand.second == obstacle) {
+    for (auto a_cand : candidates) {
+      if (a_cand.second.it == obstacle) {
         already_cand = true;
       }
       break;
     }
 
     if (! already_cand) {
+      auto obstacle_at = thing_at(g, v, l, obstacle);
+      if (thing_is_multi_tile(obstacle)) {
+        obstacle_at = collision_at;
+      }
+
       //
       // Sort by center of the tile distance. This allows walls and ghost in walls to have
       // the same distance
       //
-      auto            o_tiled_at = make_fpoint(thing_at(g, v, l, obstacle)) + fpoint(0.5, 0.5);
-      float const     o_dist     = distance(at, o_tiled_at);
-      ThingCand const p          = std::make_pair(o_dist, obstacle);
-      cands.push_back(p);
+      auto        o_tiled_at = make_fpoint(obstacle_at) + fpoint(0.5, 0.5);
+      float const o_dist     = distance(at, o_tiled_at);
+
+      ThingCandAt cand;
+      cand.it = obstacle;
+      cand.at = obstacle_at;
+
+      ThingCand const p = std::make_pair(o_dist, cand);
+      candidates.push_back(p);
 
       THING_DBG(g, v, l, obstacle, "add candidate as on same tile");
     }
@@ -832,14 +867,15 @@ static void thing_collision_interpolated_expand_candidates(Gamep g, Levelsp v, L
 // Process the collision candidate list
 //
 static auto thing_collision_interplolated_process_candidates(Gamep g, Levelsp v, Levelp l, Thingp me, const fpoint &interp_at_f,
-                                                             const ThingCands &cands) -> bool
+                                                             const ThingCands &candidates) -> bool
 {
   TRACE();
 
   bool hit_something = {};
 
-  for (auto cand : cands) {
-    auto *obstacle = cand.second;
+  for (auto iter : candidates) {
+    ThingCandAt cand     = iter.second;
+    auto        obstacle = cand.it;
 
     //
     // Skip things that are dead; unless we can hit their corpse
@@ -850,7 +886,7 @@ static auto thing_collision_interplolated_process_candidates(Gamep g, Levelsp v,
       }
     }
 
-    auto collision = thing_collision_check(g, v, l, me, interp_at_f, obstacle);
+    auto collision = thing_collision_check(g, v, l, me, interp_at_f, obstacle, cand.at);
     if (! collision) {
       continue;
     }
@@ -882,7 +918,7 @@ static auto thing_collision_interplolated_process_candidates(Gamep g, Levelsp v,
 // Do accurate hit box collision detection for this interpolated position
 //
 static void thing_collision_handle_interpolated_delta(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &collision_at,
-                                                      const fpoint &interp_at_f, ThingCands &cands)
+                                                      const fpoint &interp_at_f, ThingCands &candidates)
 {
   TRACE();
 
@@ -892,21 +928,28 @@ static void thing_collision_handle_interpolated_delta(Gamep g, Levelsp v, Levelp
       continue;
     }
 
-    auto collision = thing_collision_check(g, v, l, me, interp_at_f, obstacle);
+    auto obstacle_at = collision_at;
+    auto collision   = thing_collision_check(g, v, l, me, interp_at_f, obstacle, obstacle_at);
     if (! collision) {
       continue;
     }
 
     if (collision) {
       auto at = thing_real_at(g, v, l, me);
+
       //
       // Sort by center of the tile distance. This allows walls and ghost in walls to have
       // the same distance
       //
-      auto            o_tiled_at = make_fpoint(thing_at(g, v, l, obstacle)) + fpoint(0.5, 0.5);
-      float const     o_dist     = distance(at, o_tiled_at);
-      ThingCand const p          = std::make_pair(o_dist, obstacle);
-      cands.push_back(p);
+      auto        o_tiled_at = make_fpoint(obstacle_at) + fpoint(0.5, 0.5);
+      float const o_dist     = distance(at, o_tiled_at);
+
+      ThingCandAt cand;
+      cand.it = obstacle;
+      cand.at = obstacle_at;
+
+      ThingCand const p = std::make_pair(o_dist, cand);
+      candidates.push_back(p);
     }
   }
 }
@@ -947,7 +990,7 @@ void thing_collision_handle_interpolated(Gamep g, Levelsp v, Levelp l, Thingp me
       }
     }
 
-    ThingCands cands;
+    ThingCands candidates;
 
     for (auto dx = -1; dx <= 1; dx++) {
       for (auto dy = -1; dy <= 1; dy++) {
@@ -956,26 +999,26 @@ void thing_collision_handle_interpolated(Gamep g, Levelsp v, Levelp l, Thingp me
         //
         // Do accurate hit box collision detection for this interpolated position
         //
-        thing_collision_handle_interpolated_delta(g, v, l, me, collision_at, interp_at_f, cands);
+        thing_collision_handle_interpolated_delta(g, v, l, me, collision_at, interp_at_f, candidates);
 
         //
-        // Sort the candidates by distance / potentially add more cands if we can hit all
+        // Sort the candidates by distance / potentially add more candidates if we can hit all
         // things on the same tile
         //
-        thing_collision_interpolated_expand_candidates(g, v, l, me, collision_at, cands);
+        thing_collision_interpolated_expand_candidates(g, v, l, me, collision_at, candidates);
       }
     }
 
     //
-    // Sort the candidates by distance / potentially add more cands if we can hit all
+    // Sort the candidates by distance / potentially add more candidates if we can hit all
     // things on the same tile
     //
-    thing_collision_sort_cands(g, v, l, me, cands);
+    thing_collision_sort_cands(g, v, l, me, candidates);
 
     //
     // Process the collision candidate list
     //
-    if (thing_collision_interplolated_process_candidates(g, v, l, me, interp_at_f, cands)) {
+    if (thing_collision_interplolated_process_candidates(g, v, l, me, interp_at_f, candidates)) {
       return;
     }
   }

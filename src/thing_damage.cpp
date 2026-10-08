@@ -564,7 +564,11 @@ static void thing_damage_by_player(Gamep g, Levelsp v, Levelp l, Thingp it, Thin
         topcon("You blast %s.", the_thing_name_long.c_str());
         break;
       case THING_EVENT_ENERGY_DAMAGE : //
-        topcon("You dazzle %s.", the_thing_name_long.c_str());
+        if (thing_is_monst(it)) {
+          topcon("You dazzle %s.", the_thing_name_long.c_str());
+        } else {
+          topcon("You blast %s.", the_thing_name_long.c_str());
+        }
         break;
       case THING_EVENT_FIRE_DAMAGE : //
         if (thing_is_burning(the_player)) {
