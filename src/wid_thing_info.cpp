@@ -2206,7 +2206,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
       parent->log(g, "- You could beat it in " + std::to_string(player_defeat_count) + " hits.", TEXT_FORMAT_LHS);
       parent->log(g, "- More likely, " + std::to_string(player_defeat_count * 2) + " hits.", TEXT_FORMAT_LHS);
     } else {
-      parent->log(g, "- Will take many hits to beat.");
+      parent->log(g, "- Will take many hits to beat.", TEXT_FORMAT_LHS);
     }
   }
 
