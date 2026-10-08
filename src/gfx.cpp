@@ -7221,10 +7221,7 @@ static void gfx_init_tiles_vlarge()
   TRACE();
   const char *tiles[] = {
       // ##############################################################################
-      "boss1.idle.0",
-      "boss1.idle.1",
-      "boss1.idle.2",
-      "boss1.idle.3",
+      "boss1.idle.0", "boss1.idle.1", "boss1.idle.2", "boss1.idle.3", "boss1.dead.0", "boss1.dead.1", "boss1.dead.2", "boss1.dead.3",
       // ##############################################################################
   };
   tile_load_arr_sprites("data/gfx/tiles_vlarge.tga", "tiles_vlarge", BOSS_TILE_WIDTH, BOSS_TILE_HEIGHT, ARRAY_SIZE(tiles), tiles);

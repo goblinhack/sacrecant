@@ -221,6 +221,7 @@ static bool tp_boss1_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, T
   tp_distance_vision_set(tp, MAP_WIDTH / 2);
   tp_flag_set(tp, is_able_to_be_buffed);
   tp_flag_set(tp, is_able_to_be_invisible);
+  tp_flag_set(tp, is_able_to_be_levitated);
   tp_flag_set(tp, is_able_to_fire_weapons);
   tp_flag_set(tp, is_able_to_move_diagonally);
   tp_flag_set(tp, is_able_to_move);
@@ -255,6 +256,7 @@ static bool tp_boss1_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, T
   tp_flag_set(tp, is_tickable);
   tp_flag_set(tp, is_vision_360_degrees);
   tp_health_set(tp, "100+12d8");
+  tp_health_set(tp, "1");
   tp_hearing_threshold_set(tp, 2); // smaller values => better hearing
   tp_is_immune_to_add(tp, THING_EVENT_FIRE_DAMAGE);
   tp_is_immune_to_add(tp, THING_EVENT_WATER_DAMAGE);
@@ -316,6 +318,17 @@ static bool tp_boss1_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, T
     tile_size_set(tile, BOSS_TILE_WIDTH, BOSS_TILE_HEIGHT);
     tile_delay_ms_set(tile, delay);
     tp_tiles_push_back(tp, THING_ANIM_IDLE, tile);
+  }
+
+  for (auto frame = 0; frame < 4; frame++) {
+    auto *tile = tile_find_mand(name + std::string(".dead.") + std::to_string(frame));
+    tile_size_set(tile, BOSS_TILE_WIDTH, BOSS_TILE_HEIGHT);
+    tile_delay_ms_set(tile, delay);
+    tp_tiles_push_back(tp, THING_ANIM_DEAD, tile);
+
+    if (frame == 3) {
+      tile_is_end_of_anim_set(tile);
+    }
   }
 
   return true;
