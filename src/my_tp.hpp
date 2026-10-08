@@ -294,7 +294,7 @@
       list_macro(is_unused122, "is_unused122"),                                             /* newline */                                       \
       list_macro(is_unused123, "is_unused123"),                                             /* newline */                                       \
       list_macro(is_unused124, "is_unused124"),                                             /* newline */                                       \
-      list_macro(is_unused125, "is_unused125"),                                             /* newline */                                       \
+      list_macro(is_multi_tile, "is_multi_tile"),                                             /* newline */                                       \
       list_macro(is_boss1, "is_boss1"),                                                     /* newline */                                       \
       list_macro(is_boss, "is_boss"),                                                       /* newline */                                       \
       list_macro(is_bat_minion, "is_bat_minion"),                                           /* newline */                                       \
@@ -1159,7 +1159,7 @@ class Tp;
 [[nodiscard]] auto tp_is_unused122(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused123(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused124(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused125(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_multi_tile(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused13(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused14(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused15(Tpp tp) -> bool;

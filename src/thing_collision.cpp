@@ -427,6 +427,13 @@ static void thing_collision_handle_dead_thing(Gamep g, Levelsp v, Levelp l, Thin
   }
 
   if (thing_is_projectile(me) || thing_is_beam_weapon(me)) {
+    //
+    // No weapon on weapon collisions
+    //
+    if (thing_is_projectile(obstacle) || thing_is_beam_weapon(obstacle)) {
+      return;
+    }
+
     auto *source     = me;
     auto *source_tp  = thing_tp(source);
     auto  event_type = tp_damage_random_type_get(source_tp);
@@ -523,6 +530,13 @@ static void thing_collision_handle_alive_thing(Gamep g, Levelsp v, Levelp l, Thi
   }
 
   if (thing_is_projectile(me) || thing_is_beam_weapon(me)) {
+    //
+    // No weapon on weapon collisions
+    //
+    if (thing_is_projectile(obstacle) || thing_is_beam_weapon(obstacle)) {
+      return;
+    }
+
     auto *source     = me;
     auto *source_tp  = thing_tp(source);
     auto  event_type = tp_damage_random_type_get(source_tp);

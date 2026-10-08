@@ -89,6 +89,9 @@ static auto thing_use_item(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp use
   // This should either remove the thing or decrease the slot count
   //
   {
+    THING_DBG(g, v, l, user, "use and drop");
+    TRACE_INDENT();
+
     auto new_event       = e;
     new_event.event_type = THING_EVENT_USED;
 

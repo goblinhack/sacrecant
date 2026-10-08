@@ -15,6 +15,46 @@
 #include <vector>
 
 //
+// Push an additional tile for the thing
+//
+[[nodiscard]] auto thing_push_additional(Gamep g, Levelsp v, Levelp l, Thingp t, const bpoint at) -> bool
+{
+  TRACE();
+
+  if (is_oob(at)) [[unlikely]] {
+    return false;
+  }
+
+  //
+  // Already at this location?
+  //
+  for (auto slot = 0; slot < MAP_SLOTS; slot++) {
+    auto o_id = l->thing_id[ at.x ][ at.y ][ slot ];
+    if (o_id == t->id) {
+      return true;
+    }
+  }
+
+  //
+  // Need to push to the new location.
+  //
+  for (auto slot = 0; slot < MAP_SLOTS; slot++) {
+    auto o_id = l->thing_id[ at.x ][ at.y ][ slot ];
+    if (o_id == 0U) {
+      l->thing_id[ at.x ][ at.y ][ slot ] = t->id;
+
+      if (compiler_unused) {
+        THING_DBG(g, v, l, t, "pushed to %u,%u slot %u", at.x, at.y, slot);
+      }
+
+      return true;
+    }
+  }
+
+  return false;
+}
+
+//
 // Push the thing onto the level
 //
 [[nodiscard]] static auto thing_push_internal(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool
@@ -87,7 +127,7 @@
     }
 
     //
-    // We failed to pop this thing. Try to remove something and try again.
+    // We failed to push this thing. Try to remove something and try again.
     // Try the lowest priority stuff first.
     //
     bool removed_one = false;
@@ -151,6 +191,7 @@
   }
 
   if (thing_push_internal(g, v, l, t)) {
+    thing_on_pushed(g, v, l, t);
     return true;
   }
 
@@ -214,6 +255,7 @@
     thing_moving_from_set(t, new_at);
 
     if (thing_push_internal(g, v, l, t)) {
+      thing_on_pushed(g, v, l, t);
       return true;
     }
   }
@@ -242,6 +284,7 @@
     thing_moving_from_set(t, new_at);
 
     if (thing_push_internal(g, v, l, t)) {
+      thing_on_pushed(g, v, l, t);
       return true;
     }
   }
@@ -256,6 +299,31 @@
     if (dump_id != 0U) {
       auto *it = thing_find(g, v, dump_id);
       thing_con(g, v, l, it, "DUMP: is using slot %u", slot);
+    }
+  }
+
+  return false;
+}
+
+//
+// Pop an additional tile for the thing
+//
+[[nodiscard]] auto thing_pop_additional(Gamep g, Levelsp v, Levelp l, Thingp t, const bpoint at) -> bool
+{
+  TRACE();
+
+  if (is_oob(at)) [[unlikely]] {
+    return false;
+  }
+
+  for (auto slot = 0; slot < MAP_SLOTS; slot++) {
+    auto o_id = l->thing_id[ at.x ][ at.y ][ slot ];
+    if (o_id == t->id) {
+      l->thing_id[ at.x ][ at.y ][ slot ] = 0;
+      if (compiler_unused) {
+        THING_DBG(g, v, l, t, "popped from slot %u", slot);
+      }
+      return true;
     }
   }
 
@@ -299,6 +367,7 @@
         THING_DBG(g, v, l, t, "popped from slot %u", slot);
       }
       thing_is_on_map_unset(g, v, l, t);
+      thing_on_popped(g, v, l, t);
       return true;
     }
   }
@@ -312,13 +381,6 @@
       auto *it = thing_find(g, v, dump_id);
       thing_con(g, v, l, it, "DUMP: is using slot %u", slot);
     }
-  }
-
-  //
-  // Happens during player selection when carrying an item
-  //
-  if (level_is_level_select(g, v, l)) {
-    return false;
   }
 
   thing_err(g, v, l, t, "could not pop thing that is on the map");

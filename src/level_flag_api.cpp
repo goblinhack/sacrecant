@@ -1616,10 +1616,10 @@
   return level_flag(g, v, l, is_unused124, p, me);
 }
 
-[[nodiscard]] auto level_is_unused125(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_multi_tile(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused125, p, me);
+  return level_flag(g, v, l, is_multi_tile, p, me);
 }
 
 [[nodiscard]] auto level_is_boss1(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp

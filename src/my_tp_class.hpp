@@ -332,9 +332,11 @@ public:
   thing_on_worn_request_t       on_worn_request       = {};
   thing_on_strip_request_t      on_strip_request      = {};
   thing_on_close_request_t      on_close_request      = {};
-  thing_on_tick_idle_t          tick_idle             = {};
-  thing_on_tick_begin_t         tick_begin            = {};
-  thing_on_tick_end_t           tick_end              = {};
+  thing_on_pushed_t             on_pushed             = {};
+  thing_on_popped_t             on_popped             = {};
+  thing_on_tick_idle_t          on_tick_idle          = {};
+  thing_on_tick_begin_t         on_tick_begin         = {};
+  thing_on_tick_end_t           on_tick_end           = {};
   thing_on_death_t              on_death              = {};
   thing_on_damage_t             on_damage             = {};
   thing_on_attacking_t          on_attacking          = {};

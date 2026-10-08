@@ -7,6 +7,7 @@
 #include "my_fpoint.hpp"
 #include "my_game_defs.hpp"
 #include "my_level.hpp"
+#include "my_level_inlines.hpp"
 #include "my_main.hpp"
 #include "my_math.hpp"
 #include "my_thing.hpp"
@@ -86,6 +87,8 @@ auto thing_beam_weapon_fire_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what
   int         index {};
 
   for (auto step = 0; step < beam_target_distance; step++) {
+    THING_DBG(g, v, l, me, "beam component, step %d", step);
+
     if (compiler_unused) {
       thing_topcon(g, v, l, me, "%f,%f step %d", fbeam_at.x, fbeam_at.y, step);
     }
@@ -96,13 +99,14 @@ auto thing_beam_weapon_fire_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what
 
     auto *beam_weapon = thing_spawn_missile(g, v, l, me, what, fbeam_at, &e);
     if (beam_weapon == nullptr) {
+      THING_DBG(g, v, l, me, "failed to create beam component, step %d", step);
       break;
     }
 
     beam_weapon->angle = static_cast< f16 >(angle);
 
     //
-    // Special handling for teleporting of a beam_weapon weapon
+    // Special handling for teleporting of a beam weapon
     //
     if (level_is_teleport_bool(g, v, l, thing_at(g, v, l, beam_weapon))) {
       if (thing_teleport_handle(g, v, l, beam_weapon)) {
@@ -110,9 +114,28 @@ auto thing_beam_weapon_fire_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what
       }
     }
 
-    bool last = (step == beam_target_distance - 1);
-    if (level_is_obs_to_beam(g, v, l, thing_at(g, v, l, beam_weapon)) != nullptr) {
-      last = true;
+    //
+    // Anything in the way of the beam?
+    //
+    bool last           = (step == beam_target_distance - 1);
+    auto beam_weapon_at = thing_at(g, v, l, beam_weapon);
+    FOR_ALL_THINGS_AT(g, v, l, it, beam_weapon_at)
+    {
+      if (it == me) {
+        continue;
+      }
+
+      auto attacker = thing_get_attacker(g, v, l, it);
+      if (attacker == me) {
+        continue;
+      }
+
+      if (thing_is_obs_to_beam(it)) {
+        THING_DBG(g, v, l, me, "beam component hit obstacle, step %d", step);
+        THING_DBG(g, v, l, it, "this");
+        last = true;
+        break;
+      }
     }
 
     if (last) {

@@ -14,6 +14,16 @@
 #include "../../my_types.hpp"
 #include "../../my_ui.hpp"
 
+static const std::initializer_list< bpoint > body_tiles = {
+    bpoint(-3, -3), bpoint(-2, -3), bpoint(-1, -3), bpoint(0, -3), bpoint(1, -3), bpoint(2, -3), bpoint(3, -3), //
+    bpoint(-3, -2), bpoint(-2, -2), bpoint(-1, -2), bpoint(0, -2), bpoint(1, -2), bpoint(2, -2), bpoint(3, -2), //
+    bpoint(-3, -1), bpoint(-2, -1), bpoint(-1, -1), bpoint(0, -1), bpoint(1, -1), bpoint(2, -1), bpoint(3, -1), //
+    bpoint(-3, 0),  bpoint(-2, 0),  bpoint(-1, 0),  bpoint(1, 0),  bpoint(2, 0),  bpoint(3, 0),                 //
+    bpoint(3, 1),   bpoint(2, 1),   bpoint(1, 1),   bpoint(0, 1),  bpoint(1, 1),  bpoint(2, 1),  bpoint(3, 1),  //
+    bpoint(3, 2),   bpoint(2, 2),   bpoint(1, 2),   bpoint(0, 2),  bpoint(1, 2),  bpoint(2, 2),  bpoint(3, 2),  //
+    bpoint(3, 3),   bpoint(2, 3),   bpoint(1, 3),   bpoint(0, 3),  bpoint(1, 3),  bpoint(2, 3),  bpoint(3, 3)   //
+};
+
 static auto tp_boss1_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
 {
   TRACE();
@@ -94,7 +104,7 @@ static bool tp_boss1_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attacker,
       //
       std::map< int, bool > eyestalk_fired_already = {};
 
-      for (auto beam = 0; beam < 3; beam++) {
+      for (auto beam = 0; beam < 2; beam++) {
         //
         // Get an eyestalk
         //
@@ -153,6 +163,28 @@ static bool tp_boss1_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attacker,
   return true;
 }
 
+static void tp_boss1_on_pushed(Gamep g, Levelsp v, Levelp l, Thingp me)
+{
+  TRACE();
+
+  auto at = thing_at(g, v, l, me);
+
+  for (auto p : body_tiles) {
+    (void) thing_push_additional(g, v, l, me, at + p);
+  }
+}
+
+static void tp_boss1_on_popped(Gamep g, Levelsp v, Levelp l, Thingp me)
+{
+  TRACE();
+
+  auto at = thing_at(g, v, l, me);
+
+  for (auto p : body_tiles) {
+    (void) thing_pop_additional(g, v, l, me, at + p);
+  }
+}
+
 static bool tp_boss1_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thingp target, ThingEvent &e)
 {
   TRACE_INDENT();
@@ -176,16 +208,19 @@ static bool tp_boss1_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, T
   thing_description_set(tp, tp_boss1_description_get);
   thing_detail_set(tp, tp_boss1_detail_get);
   thing_on_attacking_set(tp, tp_boss1_on_attacking);
+  thing_on_pushed_set(tp, tp_boss1_on_pushed);
+  thing_on_popped_set(tp, tp_boss1_on_popped);
   thing_on_death_set(tp, tp_boss1_on_death);
   thing_on_missing_set(tp, tp_boss1_on_missing);
   thing_on_tick_begin_set(tp, tp_boss1_tick_begin);
-  tp_attack_count_max_per_tick_set(tp, 2);
+  tp_attack_count_max_per_tick_set(tp, 1);
   tp_chance_set(tp, THING_CHANCE_CONTINUE_TO_BURN, "1d6"); // fumble => intensify / keep burning / crit => stop burning
   tp_chance_set(tp, THING_CHANCE_START_BURNING, "1d2");    // fumble => flames spread to you
   tp_damage_set(tp, THING_EVENT_MELEE_DAMAGE, "1d4");
   tp_distance_avoid_target_set(tp, 8);
   tp_distance_vision_set(tp, MAP_WIDTH / 2);
   tp_flag_set(tp, is_able_to_be_buffed);
+  tp_flag_set(tp, is_multi_tile);
   tp_flag_set(tp, is_able_to_be_invisible);
   tp_flag_set(tp, is_able_to_fire_weapons);
   tp_flag_set(tp, is_able_to_move_diagonally);

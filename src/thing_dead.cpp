@@ -671,6 +671,7 @@ void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   // Detach items from owners
   //
   if (thing_is_carried(me)) {
+    THING_DBG(g, v, l, me, "as I am carried, I need dropped");
     TRACE_INDENT();
     auto *owner = thing_owner(g, v, l, me);
     if (owner != nullptr) {

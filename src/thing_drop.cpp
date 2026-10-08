@@ -20,14 +20,14 @@ static auto thing_drop_no_fail(Gamep g, Levelsp v, Levelp l, Thingp user, Thingp
   TRACE();
 
   auto s = to_string(g, v, l, item);
-  THING_DBG(g, v, l, user, "drop: %s", s.c_str());
+  THING_DBG(g, v, l, user, "drop-no-fail: %s", s.c_str());
   TRACE_INDENT();
 
   //
   // Replace the thing with a copy if count exists
   //
   if (thing_inventory_get_item_count(g, v, l, item, user) != -1) {
-    THING_DBG(g, v, l, user, "drop: %s (item count remains, need a copy)", s.c_str());
+    THING_DBG(g, v, l, user, "drop-no-fail: %s (item count remains, need a copy)", s.c_str());
 
     FOR_ALL_INVENTORY_SLOTS_NO_BREAK(g, v, l, user, slot, an_item)
     {
@@ -42,7 +42,7 @@ static auto thing_drop_no_fail(Gamep g, Levelsp v, Levelp l, Thingp user, Thingp
         auto *thing_copy = thing_spawn(g, v, l, thing_tp(item), user);
 
         if (thing_copy != nullptr) {
-          THING_DBG(g, v, l, thing_copy, "drop: %s (thing copy)", s.c_str());
+          THING_DBG(g, v, l, thing_copy, "drop-no-fail: %s (thing copy)", s.c_str());
           TRACE_INDENT();
 
           slot->thing_id          = thing_copy->id;
@@ -112,11 +112,11 @@ static auto thing_drop_item(Gamep g, Levelsp v, Levelp l, Thingp user, Thingp it
   }
 
   auto s = to_string(g, v, l, item);
-  THING_DBG(g, v, l, user, "drop: %s", s.c_str());
+  THING_DBG(g, v, l, user, "drop-item: %s", s.c_str());
   TRACE_INDENT();
 
   if (! thing_is_carried_set(g, v, l, item, user, e, false /* drop */, force)) {
-    THING_DBG(g, v, l, user, "drop: %s (failed)", s.c_str());
+    THING_DBG(g, v, l, user, "drop-item: %s (failed)", s.c_str());
     TRACE_INDENT();
 
     if (thing_is_player(user)) {
@@ -134,7 +134,7 @@ static auto thing_drop_item(Gamep g, Levelsp v, Levelp l, Thingp user, Thingp it
     }
 
     if (force) {
-      THING_DBG(g, v, l, user, "drop: %s (ignore carried unset failure)", s.c_str());
+      THING_DBG(g, v, l, user, "drop-item: %s (ignore carried unset failure)", s.c_str());
     } else {
       return false;
     }
@@ -144,7 +144,7 @@ static auto thing_drop_item(Gamep g, Levelsp v, Levelp l, Thingp user, Thingp it
   // Drop the thing where the player is
   //
   if (! thing_is_thrown(item)) {
-    THING_DBG(g, v, l, user, "drop: %s (need to place the item)", s.c_str());
+    THING_DBG(g, v, l, user, "drop-item: %s (need to place the item)", s.c_str());
     TRACE_INDENT();
 
     if (! thing_warp_to(g, v, l, item, thing_at(g, v, l, user))) {
@@ -156,13 +156,13 @@ static auto thing_drop_item(Gamep g, Levelsp v, Levelp l, Thingp user, Thingp it
       }
 
       if (force) {
-        THING_DBG(g, v, l, user, "drop: %s (ignore warp failure)", s.c_str());
+        THING_DBG(g, v, l, user, "drop-item: %s (ignore warp failure)", s.c_str());
       } else {
         return false;
       }
     }
 
-    THING_DBG(g, v, l, user, "drop: %s (placed the item)", s.c_str());
+    THING_DBG(g, v, l, user, "drop-item: %s (placed the item)", s.c_str());
   }
 
   thing_drop_no_fail(g, v, l, user, item, e);
@@ -281,6 +281,13 @@ void thing_on_drop_success_set(Tpp tp, thing_on_drop_success_t callback)
     ERR("no thing pointer");
     return false;
   }
+
+  if (! thing_is_able_to_collect_items(user)) {
+    return false;
+  }
+
+  THING_DBG(g, v, l, user, "drop all items");
+  TRACE_INDENT();
 
   bool ok    = true;
   auto tries = THING_INVENTORY_MAX;

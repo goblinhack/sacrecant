@@ -305,8 +305,19 @@ void thing_on_carry_success_set(Tpp tp, thing_on_carry_success_t callback)
     return false;
   }
 
+  //
+  // The dead cannot carry. But they can drop items.
+  //
+  if (thing_is_dead(collector)) {
+    return false;
+  }
+
+  if (! thing_is_able_to_collect_items(collector)) {
+    return false;
+  }
+
   auto s = to_string(g, v, l, item);
-  THING_DBG(g, v, l, collector, "drop: %s", s.c_str());
+  THING_DBG(g, v, l, collector, "carry: %s", s.c_str());
   TRACE_INDENT();
 
   //

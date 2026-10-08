@@ -1615,10 +1615,10 @@
   return tp_flag(tp, is_unused124) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused125(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_multi_tile(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused125) != 0;
+  return tp_flag(tp, is_multi_tile) != 0;
 }
 
 [[nodiscard]] auto tp_is_boss1(Tpp tp) -> bool

@@ -1653,10 +1653,10 @@
   return level_flag_cached(g, v, l, is_unused124, p);
 }
 
-[[nodiscard]] auto level_is_unused125_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_multi_tile_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused125, p);
+  return level_flag_cached(g, v, l, is_multi_tile, p);
 }
 
 [[nodiscard]] auto level_is_boss1_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

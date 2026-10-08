@@ -1203,7 +1203,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused122(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused123(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused124(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused125(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_multi_tile(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused13(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused14(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused15(Thingp t) -> bool;
@@ -1431,6 +1431,8 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_proj_launch_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what, bpoint target) -> bool;
 [[nodiscard]] auto thing_proj_launch_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what, fpoint target) -> bool;
 [[nodiscard]] auto thing_push(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
+[[nodiscard]] auto thing_push_additional(Gamep g, Levelsp v, Levelp l, Thingp t, const bpoint at) -> bool;
+[[nodiscard]] auto thing_pop_additional(Gamep g, Levelsp v, Levelp l, Thingp t, const bpoint at) -> bool;
 [[nodiscard]] auto thing_real_at(Gamep g, Levelsp v, Levelp l, Thingp me) -> fpoint;
 [[nodiscard]] auto thing_resurrect(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_sac_points_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;

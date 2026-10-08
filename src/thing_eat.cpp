@@ -64,6 +64,9 @@ static auto thing_eat_item(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp eat
   }
 
   if (thing_is_ethereal(g, v, l, eater) || thing_is_wall_walker(g, v, l, eater)) {
+    THING_DBG(g, v, l, eater, "failed to eat");
+    TRACE_INDENT();
+
     if (thing_is_player(eater)) {
       topcon(UI_WARN_FMT_STR "You try to eat, but it passes right through you." UI_RESET_FMT);
     }
@@ -110,6 +113,9 @@ static auto thing_eat_item(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp eat
   // This should either remove the thing or decrease the slot count
   //
   {
+    THING_DBG(g, v, l, eater, "eat and drop");
+    TRACE_INDENT();
+
     auto new_event       = e;
     new_event.event_type = THING_EVENT_EATEN;
 

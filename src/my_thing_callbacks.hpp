@@ -132,6 +132,14 @@ using thing_on_close_request_t = bool (*)(Gamep, Levelsp, Levelp, Thingp me, Thi
 auto               thing_on_close_request_set(Tpp tp, thing_on_close_request_t callback) -> void;
 [[nodiscard]] auto thing_on_close_request(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp closer) -> bool;
 
+using thing_on_pushed_t = void (*)(Gamep, Levelsp, Levelp, Thingp me);
+auto thing_on_pushed_set(Tpp tp, thing_on_pushed_t callback) -> void;
+auto thing_on_pushed(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
+
+using thing_on_popped_t = void (*)(Gamep, Levelsp, Levelp, Thingp me);
+auto thing_on_popped_set(Tpp tp, thing_on_popped_t callback) -> void;
+auto thing_on_popped(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
+
 using thing_on_tick_idle_t = void (*)(Gamep, Levelsp, Levelp, Thingp me);
 auto thing_on_tick_idle_set(Tpp tp, thing_on_tick_idle_t callback) -> void;
 auto thing_on_tick_idle(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;

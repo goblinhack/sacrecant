@@ -95,6 +95,54 @@ void thing_mouse_down_set(Tpp tp, thing_mouse_down_t callback)
   return tp->mouse_down(g, v, l, me, x, y, button);
 }
 
+void thing_on_pushed_set(Tpp tp, thing_on_pushed_t callback)
+{
+  TRACE();
+  if (tp == nullptr) [[unlikely]] {
+    ERR("no thing template pointer");
+    return;
+  }
+  tp->on_pushed = callback;
+}
+
+void thing_on_pushed(Gamep g, Levelsp v, Levelp l, Thingp me)
+{
+  TRACE();
+  auto *tp = thing_tp(me);
+  if (tp == nullptr) [[unlikely]] {
+    ERR("no thing template pointer");
+    return;
+  }
+  if (tp->on_pushed == nullptr) {
+    return;
+  }
+  tp->on_pushed(g, v, l, me);
+}
+
+void thing_on_popped_set(Tpp tp, thing_on_popped_t callback)
+{
+  TRACE();
+  if (tp == nullptr) [[unlikely]] {
+    ERR("no thing template pointer");
+    return;
+  }
+  tp->on_popped = callback;
+}
+
+void thing_on_popped(Gamep g, Levelsp v, Levelp l, Thingp me)
+{
+  TRACE();
+  auto *tp = thing_tp(me);
+  if (tp == nullptr) [[unlikely]] {
+    ERR("no thing template pointer");
+    return;
+  }
+  if (tp->on_popped == nullptr) {
+    return;
+  }
+  tp->on_popped(g, v, l, me);
+}
+
 void thing_on_tick_idle_set(Tpp tp, thing_on_tick_idle_t callback)
 {
   TRACE();
@@ -102,7 +150,7 @@ void thing_on_tick_idle_set(Tpp tp, thing_on_tick_idle_t callback)
     ERR("no thing template pointer");
     return;
   }
-  tp->tick_idle = callback;
+  tp->on_tick_idle = callback;
 }
 
 void thing_on_tick_idle(Gamep g, Levelsp v, Levelp l, Thingp me)
@@ -113,10 +161,10 @@ void thing_on_tick_idle(Gamep g, Levelsp v, Levelp l, Thingp me)
     ERR("no thing template pointer");
     return;
   }
-  if (tp->tick_idle == nullptr) {
+  if (tp->on_tick_idle == nullptr) {
     return;
   }
-  tp->tick_idle(g, v, l, me);
+  tp->on_tick_idle(g, v, l, me);
 }
 
 void thing_on_tick_begin_set(Tpp tp, thing_on_tick_begin_t callback)
@@ -126,7 +174,7 @@ void thing_on_tick_begin_set(Tpp tp, thing_on_tick_begin_t callback)
     ERR("no thing template pointer");
     return;
   }
-  tp->tick_begin = callback;
+  tp->on_tick_begin = callback;
 }
 
 void thing_on_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
@@ -137,10 +185,10 @@ void thing_on_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
     ERR("no thing template pointer");
     return;
   }
-  if (tp->tick_begin == nullptr) {
+  if (tp->on_tick_begin == nullptr) {
     return;
   }
-  tp->tick_begin(g, v, l, me);
+  tp->on_tick_begin(g, v, l, me);
 }
 
 void thing_on_tick_end_set(Tpp tp, thing_on_tick_end_t callback)
@@ -150,7 +198,7 @@ void thing_on_tick_end_set(Tpp tp, thing_on_tick_end_t callback)
     ERR("no thing template pointer");
     return;
   }
-  tp->tick_end = callback;
+  tp->on_tick_end = callback;
 }
 
 void thing_on_tick_end(Gamep g, Levelsp v, Levelp l, Thingp me)
@@ -161,10 +209,10 @@ void thing_on_tick_end(Gamep g, Levelsp v, Levelp l, Thingp me)
     ERR("no thing template pointer");
     return;
   }
-  if (tp->tick_end == nullptr) {
+  if (tp->on_tick_end == nullptr) {
     return;
   }
-  tp->tick_end(g, v, l, me);
+  tp->on_tick_end(g, v, l, me);
 }
 
 void thing_on_level_populated_set(Tpp tp, thing_on_level_populated_t callback)

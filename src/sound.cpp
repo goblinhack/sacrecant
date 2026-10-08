@@ -220,10 +220,10 @@ static auto find_one(const std::string &name_alias) -> Sound *
   auto chan = Mix_PlayChannel(-1, m->chunk, loops);
   if (chan == -1) {
     if (me != nullptr) {
-      THING_DBG(g, v, l, me, "Failed to play sound %s volume %d channel %d: %s", name_alias.c_str(), static_cast< int >(volume), chan,
+      THING_DBG(g, v, l, me, "could not play sound %s volume %d channel %d: %s", name_alias.c_str(), static_cast< int >(volume), chan,
                 Mix_GetError());
     } else {
-      DBG("Failed to play sound %s volume %d channel %d: %s", name_alias.c_str(), static_cast< int >(volume), chan, Mix_GetError());
+      DBG("could not play sound %s volume %d channel %d: %s", name_alias.c_str(), static_cast< int >(volume), chan, Mix_GetError());
     }
     return false;
   }

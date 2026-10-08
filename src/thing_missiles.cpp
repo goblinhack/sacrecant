@@ -78,7 +78,7 @@
   //
   if (thing_missile_fired_by_count_get(g, v, l, me) >= thing_missile_count_max(g, v, l, me)) {
     THING_DBG(g, v, l, me, "trying to fire too many missiles");
-    thing_dump_missiles(g, v, l, me);
+    IF_DEBUG { thing_dump_missiles(g, v, l, me); }
     return nullptr;
   }
 
@@ -88,6 +88,7 @@
   FOR_ALL_MISSILE_SLOTS_NO_BREAK(g, v, l, me, slot, existing_missile)
   {
     if (ext->missiles.count == THING_MISSILE_MAX) {
+      THING_DBG(g, v, l, me, "failed trying to fire missile; no slots");
       return nullptr;
     }
 
@@ -100,6 +101,7 @@
     //
     auto *new_missile = thing_spawn(g, v, l, what, target, e);
     if (new_missile == nullptr) {
+      THING_DBG(g, v, l, me, "failed trying to fire missile; spawn failed");
       return nullptr;
     }
 
@@ -311,12 +313,12 @@ void thing_dump_missiles(Gamep g, Levelsp v, Levelp l, Thingp me)
   FOR_ALL_MISSILE_SLOTS_NO_BREAK(g, v, l, me, slot, existing_missile)
   {
     if (existing_missile == nullptr) {
-      THING_DBG(g, v, l, me, "slot %d: -", _n_);
+      THING_DBG(g, v, l, me, "missile slot %d: -", _n_);
       continue;
     }
 
     auto s = to_string(g, v, l, existing_missile);
-    THING_DBG(g, v, l, me, "slot %d: %s", _n_, s.c_str());
+    THING_DBG(g, v, l, me, "missile slot %d: %s", _n_, s.c_str());
   }
 }
 
