@@ -30,24 +30,24 @@
         "xxxxxxxxxxxxxxxxxxxxxxxxxxx";
   std::string const expect1
       = "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
-        "x........xx...............x"
-        "x........xxm.m............x"
-        "x.......@mx....g..........x"
-        "x........xx...............x"
+        "x........xx......m........x"
+        "x........xx..m....mm......x"
+        "x.......@xx....g..........x"
+        "x........xx.....m.........x"
         "x........xx...............x"
         "xxxxxxxxxxxxxxxxxxxxxxxxxxx";
   std::string const expect2
       = "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
-        "x........xx!..............x"
-        "x........xx!!.............x"
-        "x.......@mx!!!.g..........x"
-        "x........xx!!.............x"
+        "x........xx!.m....m.......x"
+        "x........xx!!...m.........x"
+        "x.......@xx!!!.g...m......x"
+        "x........xx!!....m........x"
         "x........xx!..............x"
         "xxxxxxxxxxxxxxxxxxxxxxxxxxx";
 
   Overrides overrides;
-  overrides[ 'm' ]  = [](char c, bpoint p) -> Tpp { return tp_find_mand("ghost"); };
-  overrides[ 'g' ]  = [](char c, bpoint p) -> Tpp { return tp_find_mand("ghost_mob"); };
+  overrides[ 'm' ]  = [](char c, bpoint p) -> Tpp { return tp_find_mand("ghost2"); };
+  overrides[ 'g' ]  = [](char c, bpoint p) -> Tpp { return tp_find_mand("ghost2_mob"); };
   Levelp     l      = nullptr;
   Levelsp    v      = game_test_init(g, &l, level_num, w, h, start.c_str(), overrides);
   bool       result = true;

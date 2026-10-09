@@ -1016,6 +1016,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_door_secret(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_door_unlocked(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_droppable(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_dumb_ai(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_dungeon_entrance(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_edible(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_effect_attack(Thingp t) -> bool;
@@ -1051,7 +1052,8 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_gas(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_gaseous(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_gelatinous(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_ghost(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_ghost1(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_ghost2(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_glass(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_gold(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_grass(Thingp t) -> bool;
@@ -1201,8 +1203,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused118(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused119(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused12(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused120(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused121(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused124(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused13(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused14(Thingp t) -> bool;

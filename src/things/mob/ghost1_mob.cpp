@@ -13,14 +13,14 @@
 #include "../../my_types.hpp"
 #include "../../my_ui.hpp"
 
-static auto tp_ghost_mob_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
+static auto tp_ghost1_mob_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
 {
   TRACE();
 
   return "pile of bones";
 }
 
-static auto tp_ghost_mob_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
+static auto tp_ghost1_mob_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
 {
   TRACE();
 
@@ -29,14 +29,14 @@ static auto tp_ghost_mob_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> 
       UI_INFO2_FMT_STR "When such devices are destroyed, all that they summoned will also vanish into oblivion."; //
 }
 
-static void tp_ghost_mob_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
+static void tp_ghost1_mob_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
 {
   TRACE();
 
   thing_sound_play(g, v, l, me, "explosion");
 }
 
-static void tp_ghost_mob_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
+static void tp_ghost1_mob_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
 
@@ -45,20 +45,20 @@ static void tp_ghost_mob_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   }
 
   if (! level_is_monst_bool(g, v, l, thing_at(g, v, l, me))) {
-    (void) thing_mob_spawn_a_minion(g, v, l, me, tp_first(is_ghost));
+    (void) thing_mob_spawn_a_minion(g, v, l, me, tp_first(is_ghost2));
   }
 }
 
-[[nodiscard]] auto tp_load_ghost_mob() -> bool
+[[nodiscard]] auto tp_load_ghost1_mob() -> bool
 {
-  auto *tp   = tp_load("ghost_mob"); // keep as string for scripts
+  auto *tp   = tp_load("ghost1_mob"); // keep as string for scripts
   auto  name = tp_name(tp);
 
   // begin sort marker1 {
-  thing_description_set(tp, tp_ghost_mob_description_get);
-  thing_detail_set(tp, tp_ghost_mob_detail_get);
-  thing_on_death_set(tp, tp_ghost_mob_on_death);
-  thing_on_tick_begin_set(tp, tp_ghost_mob_tick_begin);
+  thing_description_set(tp, tp_ghost1_mob_description_get);
+  thing_detail_set(tp, tp_ghost1_mob_detail_get);
+  thing_on_death_set(tp, tp_ghost1_mob_on_death);
+  thing_on_tick_begin_set(tp, tp_ghost1_mob_tick_begin);
   tp_dormant_set(tp, "1d20");
   tp_flag_set(tp, is_able_to_be_teleported);
   tp_flag_set(tp, is_able_to_fall_sound);

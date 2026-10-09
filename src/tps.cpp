@@ -75,8 +75,10 @@
   if (!tp_load_gas_death()) { return false; }
   if (!tp_load_gas_explosive()) { return false; }
   if (!tp_load_gas_life()) { return false; }
-  if (!tp_load_ghost_mob()) { return false; }
-  if (!tp_load_ghost()) { return false; }
+  if (!tp_load_ghost1_mob()) { return false; }
+  if (!tp_load_ghost1()) { return false; }
+  if (!tp_load_ghost2_mob()) { return false; }
+  if (!tp_load_ghost2()) { return false; }
   if (!tp_load_glorp()) { return false; }
   if (!tp_load_grass()) { return false; }
   if (!tp_load_horseshoe()) { return false; }

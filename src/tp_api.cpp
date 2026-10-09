@@ -433,10 +433,10 @@
   return tp_flag(tp, is_gaseous) != 0;
 }
 
-[[nodiscard]] auto tp_is_ghost(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_ghost2(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_ghost) != 0;
+  return tp_flag(tp, is_ghost2) != 0;
 }
 
 [[nodiscard]] auto tp_is_glass(Tpp tp) -> bool
@@ -1585,16 +1585,16 @@
   return tp_flag(tp, is_unused119) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused120(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_ghost1(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused120) != 0;
+  return tp_flag(tp, is_ghost1) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused121(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_dumb_ai(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused121) != 0;
+  return tp_flag(tp, is_dumb_ai) != 0;
 }
 
 [[nodiscard]] auto tp_is_exit_closed(Tpp tp) -> bool

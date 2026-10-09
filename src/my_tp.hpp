@@ -151,7 +151,7 @@
       list_macro(is_foliage, "is_foliage"),                                                 /* newline */                                       \
       list_macro(is_gaseous, "is_gaseous"),                                                 /* newline */                                       \
       list_macro(is_gelatinous, "is_gelatinous"),                                           /* newline */                                       \
-      list_macro(is_ghost, "is_ghost"),                                                     /* newline */                                       \
+      list_macro(is_ghost2, "is_ghost2"),                                                   /* newline */                                       \
       list_macro(is_glass, "is_glass"),                                                     /* newline */                                       \
       list_macro(is_gold, "is_gold"),                                                       /* newline */                                       \
       list_macro(is_grass, "is_grass"),                                                     /* newline */                                       \
@@ -289,8 +289,8 @@
       list_macro(is_unused118, "is_unused118"),                                             /* newline */                                       \
       list_macro(is_unused119, "is_unused119"),                                             /* newline */                                       \
       list_macro(is_unused12, "is_unused12"),                                               /* newline */                                       \
-      list_macro(is_unused120, "is_unused120"),                                             /* newline */                                       \
-      list_macro(is_unused121, "is_unused121"),                                             /* newline */                                       \
+      list_macro(is_ghost1, "is_ghost1"),                                                   /* newline */                                       \
+      list_macro(is_dumb_ai, "is_dumb_ai"),                                                 /* newline */                                       \
       list_macro(is_exit_closed, "is_exit_closed"),                                         /* newline */                                       \
       list_macro(is_blit_hit_solid_white, "is_blit_hit_solid_white"),                       /* newline */                                       \
       list_macro(is_unused124, "is_unused124"),                                             /* newline */                                       \
@@ -981,6 +981,7 @@ class Tp;
 [[nodiscard]] auto tp_is_door_secret(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_door_unlocked(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_droppable(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_dumb_ai(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_dungeon_entrance(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_edible(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_effect_attack(Tpp tp) -> bool;
@@ -1014,7 +1015,8 @@ class Tp;
 [[nodiscard]] auto tp_is_gas(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_gaseous(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_gelatinous(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_ghost(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_ghost1(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_ghost2(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_glass(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_gold(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_grass(Tpp tp) -> bool;
@@ -1157,8 +1159,6 @@ class Tp;
 [[nodiscard]] auto tp_is_unused118(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused119(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused12(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused120(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused121(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused124(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused13(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused14(Tpp tp) -> bool;

@@ -434,10 +434,10 @@
   return level_flag(g, v, l, is_gaseous, p, me);
 }
 
-[[nodiscard]] auto level_is_ghost(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_ghost2(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_ghost, p, me);
+  return level_flag(g, v, l, is_ghost2, p, me);
 }
 
 [[nodiscard]] auto level_is_glass(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
@@ -1586,16 +1586,16 @@
   return level_flag(g, v, l, is_unused119, p, me);
 }
 
-[[nodiscard]] auto level_is_unused120(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_ghost1(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused120, p, me);
+  return level_flag(g, v, l, is_ghost1, p, me);
 }
 
-[[nodiscard]] auto level_is_unused121(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_dumb_ai(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused121, p, me);
+  return level_flag(g, v, l, is_dumb_ai, p, me);
 }
 
 [[nodiscard]] auto level_is_exit_closed(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
