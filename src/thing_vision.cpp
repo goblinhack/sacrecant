@@ -232,7 +232,7 @@ void thing_vision_calculate(Gamep g, Levelsp v, Levelp l, Thingp me)
   //
   // Per thread stdout name
   //
-  IF_DEBUG
+  IF_DEBUG2
   {
     g_thread_id = VISION_THREAD;
     (void) redirect_stdout();

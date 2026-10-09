@@ -26,7 +26,7 @@ static auto level_populated(Gamep g, Levelsp v, Levelp l)
 {
   TRACE();
 
-  FOR_ALL_THINGS_ON_LEVEL_NO_BREAK_UNSAFE_NO_BREAK(g, v, l, t)
+  FOR_ALL_THINGS_ON_LEVEL_NO_BREAK_UNSAFE(g, v, l, t)
   {
     thing_on_level_populated(g, v, l, t);
 

@@ -22,6 +22,90 @@
 #include <cstdint>
 #include <string>
 
+static auto thing_monst_ai_dumb_solve(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &at, const bpoint &target) -> std::vector< bpoint >
+{
+  TRACE();
+
+  std::vector< bpoint > out;
+
+  if (target.x > at.x) {
+    if (target.y > at.y) {
+      auto nexthop = at + bpoint(1, 1);
+      if (thing_can_move_to_possible(g, v, l, me, nexthop)) {
+        out.push_back(nexthop);
+        return out;
+      }
+    }
+
+    if (target.y < at.y) {
+      auto nexthop = at + bpoint(1, -1);
+      if (thing_can_move_to_possible(g, v, l, me, nexthop)) {
+        out.push_back(nexthop);
+        return out;
+      }
+    }
+
+    auto nexthop = at + bpoint(1, 0);
+    if (thing_can_move_to_possible(g, v, l, me, nexthop)) {
+      out.push_back(nexthop);
+      return out;
+    }
+  }
+
+  if (target.x < at.x) {
+    if (target.y > at.y) {
+      auto nexthop = at + bpoint(-1, 1);
+      if (thing_can_move_to_possible(g, v, l, me, nexthop)) {
+        out.push_back(nexthop);
+        return out;
+      }
+    }
+
+    if (target.y < at.y) {
+      auto nexthop = at + bpoint(-1, -1);
+      if (thing_can_move_to_possible(g, v, l, me, nexthop)) {
+        out.push_back(nexthop);
+        return out;
+      }
+    }
+
+    auto nexthop = at + bpoint(-1, 0);
+    if (thing_can_move_to_possible(g, v, l, me, nexthop)) {
+      out.push_back(nexthop);
+      return out;
+    }
+  }
+
+  if (target.y > at.y) {
+    auto nexthop = at + bpoint(0, 1);
+    if (thing_can_move_to_possible(g, v, l, me, nexthop)) {
+      out.push_back(nexthop);
+      return out;
+    }
+  }
+
+  if (target.y < at.y) {
+    auto nexthop = at + bpoint(0, -1);
+    if (thing_can_move_to_possible(g, v, l, me, nexthop)) {
+      out.push_back(nexthop);
+      return out;
+    }
+  }
+
+  return out;
+}
+
+static auto thing_monst_ai_solve(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &at, const bpoint &target) -> std::vector< bpoint >
+{
+  TRACE();
+
+  if (thing_is_dumb_ai(me)) {
+    return thing_monst_ai_dumb_solve(g, v, l, me, at, target);
+  }
+
+  return astar_solve(g, v, l, me, at, target);
+}
+
 //
 // Already over the player? Used for engulfers.
 //
@@ -103,7 +187,7 @@ static auto thing_monst_apply_target_path_if_possible(Gamep g, Levelsp v, Levelp
   }
 
   THING_DBG(g, v, l, me, "astar thing_monst_choose_target_player");
-  auto p = astar_solve(g, v, l, me, monst_at, target);
+  auto p = thing_monst_ai_solve(g, v, l, me, monst_at, target);
   if (p.empty()) {
     THING_DBG(g, v, l, me, "choose target: no path to target at (%d,%d)", target.x, target.y);
     return false;
@@ -317,7 +401,7 @@ static auto thing_monst_choose_best_target(Gamep g, Levelsp v, Levelp l, Thingp 
         continue;
       }
 
-      auto p = astar_solve(g, v, l, me, at, target);
+      auto p = thing_monst_ai_solve(g, v, l, me, at, target);
       if (p.empty()) {
         continue;
       }
@@ -460,7 +544,7 @@ static auto thing_monst_choose_something_we_can_wander_to(Gamep g, Levelsp v, Le
       continue;
     }
 
-    auto p = astar_solve(g, v, l, me, at, target);
+    auto p = thing_monst_ai_solve(g, v, l, me, at, target);
     if (p.empty()) {
       continue;
     }
@@ -659,10 +743,15 @@ static auto thing_monst_choose_something_we_can_wander_to(Gamep g, Levelsp v, Le
   } else if (adjacent(at, target)) {
     // ok
   } else if ((at == target)) {
-    //
-    // ok to engulf on the same tile
-    //
-    if (! thing_is_able_to_engulf(me)) {
+    if (thing_is_able_to_engulf(me)) {
+      //
+      // ok to engulf on the same tile
+      //
+    } else if (level_is_attackable_by_monst_bool(g, v, l, target)) {
+      //
+      // ok to engulf on same tile
+      //
+    } else {
       return false;
     }
   } else {

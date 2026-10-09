@@ -41,7 +41,7 @@ void level_vision_calculate_all(Gamep g, Levelsp v, Levelp l)
   //
   // Calculate all lit tiles for non player things
   //
-  FOR_ALL_THINGS_ON_LEVEL_NO_BREAK_UNSAFE_NO_BREAK(g, v, l, t)
+  FOR_ALL_THINGS_ON_LEVEL_NO_BREAK_UNSAFE(g, v, l, t)
   {
     auto max_radius = thing_distance_vision(g, v, l, t);
     if (max_radius == 0) {

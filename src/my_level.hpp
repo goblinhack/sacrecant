@@ -572,7 +572,7 @@ struct MyIter {
 // Unsafe here means that if things move around during processing, we could process
 // them more than once per loop
 //
-#define FOR_ALL_THINGS_ON_LEVEL_NO_BREAK_UNSAFE_NO_BREAK(_g_, _v_, _l_, _t_)                                                                    \
+#define FOR_ALL_THINGS_ON_LEVEL_NO_BREAK_UNSAFE(_g_, _v_, _l_, _t_)                                                                    \
   if ((_g_) && (_v_) && (_l_))                                                                                                                  \
     for (auto _x_ = 0; _x_ < MAP_WIDTH; _x_++)                                                                                                  \
       for (auto _y_ = 0; _y_ < MAP_HEIGHT; _y_++)                                                                                               \
@@ -608,7 +608,7 @@ struct MyIter {
                         if ((((_t_)->iter[ _iter_index_ ] = (_v_)->iter[ _iter_index_ ])) || 1)
 
 #define FOR_ALL_GROUP_THINGS_ON_LEVEL_UNSAFE(_g_, _v_, _l_, _t_, _group_id_)                                                                    \
-  FOR_ALL_THINGS_ON_LEVEL_NO_BREAK_UNSAFE_NO_BREAK(_g_, _v_, _l_, _t_)                                                                          \
+  FOR_ALL_THINGS_ON_LEVEL_NO_BREAK_UNSAFE(_g_, _v_, _l_, _t_)                                                                          \
   if ((_t_)->group_id == (_group_id_))
 
 #define FOR_ALL_GROUP_THINGS_ON_LEVEL(_g_, _v_, _l_, _t_, _group_id_)                                                                           \
