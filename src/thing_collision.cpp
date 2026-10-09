@@ -409,7 +409,7 @@ static void thing_collision_handle_common(Gamep g, Levelsp v, Levelp l, Thingp o
   //
   if (thing_is_chasm(obstacle)) {
     if (thing_is_able_to_fall(g, v, l, me)) {
-      THING_DBG(g, v, l, me, "over chasm");
+      THING_DBG(g, v, l, me, "over chasm collision");
       TRACE_INDENT();
       thing_chasm_handle(g, v, l, me);
       stop = true;

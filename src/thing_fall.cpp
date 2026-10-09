@@ -462,7 +462,7 @@ void thing_fall(Gamep g, Levelsp v, Levelp l, Thingp me)
     FOR_ALL_THINGS_AT(g, v, l, it, thing_at(g, v, l, me))
     {
       if (thing_is_engulfed(it)) {
-        THING_DBG(g, v, l, it, "is engulfed and needs to follow the engulferd down");
+        THING_DBG(g, v, l, it, "is engulfed and needs to follow the engulfer down");
         (void) thing_is_engulfed_try_unset(g, v, l, it);
         thing_fall(g, v, l, it);
       }
@@ -483,8 +483,10 @@ void thing_fall(Gamep g, Levelsp v, Levelp l, Thingp me)
   // Allow dead floating monsters to fall
   //
   if (thing_is_monst(me)) {
-    if (thing_is_dead(me)) {
-      return true;
+    if (! thing_is_boss(me)) {
+      if (thing_is_dead(me)) {
+        return true;
+      }
     }
   }
 

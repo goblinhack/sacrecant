@@ -326,8 +326,11 @@ static bool tp_boss1_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, T
     tile_delay_ms_set(tile, delay);
     tp_tiles_push_back(tp, THING_ANIM_DEAD, tile);
 
+    //
+    // We want the boss to vanish and not all into a chasm
+    //
     if (frame == 3) {
-      tile_is_end_of_anim_set(tile);
+      tile_is_cleanup_on_end_of_anim_set(tile);
     }
   }
 
