@@ -1597,10 +1597,10 @@
   return tp_flag(tp, is_unused121) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused122(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_exit_closed(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused122) != 0;
+  return tp_flag(tp, is_exit_closed) != 0;
 }
 
 [[nodiscard]] auto tp_is_blit_hit_solid_white(Tpp tp) -> bool

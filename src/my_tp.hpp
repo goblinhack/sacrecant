@@ -291,7 +291,7 @@
       list_macro(is_unused12, "is_unused12"),                                               /* newline */                                       \
       list_macro(is_unused120, "is_unused120"),                                             /* newline */                                       \
       list_macro(is_unused121, "is_unused121"),                                             /* newline */                                       \
-      list_macro(is_unused122, "is_unused122"),                                             /* newline */                                       \
+      list_macro(is_exit_closed, "is_exit_closed"),                                         /* newline */                                       \
       list_macro(is_blit_hit_solid_white, "is_blit_hit_solid_white"),                       /* newline */                                       \
       list_macro(is_unused124, "is_unused124"),                                             /* newline */                                       \
       list_macro(is_multi_tile, "is_multi_tile"),                                           /* newline */                                       \
@@ -991,6 +991,7 @@ class Tp;
 [[nodiscard]] auto tp_is_effect(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_entrance(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_ethereal(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_exit_closed(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_exit(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_explosion(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_extinguished_on_death(Tpp tp) -> bool;
@@ -1158,7 +1159,6 @@ class Tp;
 [[nodiscard]] auto tp_is_unused12(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused120(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused121(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused122(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused124(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused13(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused14(Tpp tp) -> bool;

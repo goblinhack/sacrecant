@@ -1044,7 +1044,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     return false;
   }
 
-  parent->log(g, UI_INFO_FMT_STR "Immunity:", TEXT_FORMAT_LHS);
+  parent->log(g, UI_INFO_FMT_STR "Immunity: (no damage)", TEXT_FORMAT_LHS);
   parent->log(g, "- " + out, TEXT_FORMAT_LHS);
 
   return true;
@@ -1748,6 +1748,13 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   FOR_ALL_THING_EVENT(e)
   {
     if (! thing_is_resistant_to(g, v, l, me, e)) {
+      continue;
+    }
+
+    //
+    // Already shown earlier
+    //
+    if (thing_is_immune_to(g, v, l, me, e)) {
       continue;
     }
 

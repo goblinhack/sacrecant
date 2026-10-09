@@ -13,6 +13,7 @@
 #include "../../my_tps.hpp"
 #include "../../my_types.hpp"
 #include "../../my_ui.hpp"
+#include "my_boss_common.hpp"
 
 static const std::initializer_list< bpoint > body_tiles = {
     bpoint(-3, -3), bpoint(-2, -3), bpoint(-1, -3), bpoint(0, -3), bpoint(1, -3), bpoint(2, -3), bpoint(3, -3), //
@@ -38,8 +39,9 @@ static auto tp_boss1_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std:
 {
   TRACE();
 
-  return //
-      UI_INFO1_FMT_STR "The Argusul God. Quiver all ye before its might stare.\n";
+  return                                                                                                  //
+      UI_INFO1_FMT_STR "The Argusul God. Quiver all ye before its mighty stare of a thousand eyes (*).\n" //
+      UI_INFO2_FMT_STR "(*) due to cost cutting measures, the number of eyes has been reduced to 7.\n";   //
 }
 
 static auto tp_boss1_assess_tp(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp me) -> ThingEnvironType
@@ -62,7 +64,9 @@ static void tp_boss1_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEven
 
   (void) thing_spawn(g, v, l, tp_first(is_effect_blood), me);
 
-  thing_sound_play(g, v, l, me, "monst_death");
+  thing_sound_play(g, v, l, me, "monster_roar_epic");
+
+  tp_boss_on_death(g, v, l, me, e);
 }
 
 static void tp_boss1_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
@@ -129,8 +133,9 @@ static bool tp_boss1_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attacker,
           // Try another
           //
           which_eyestalk = PCG_RANDOM_RANGE(0, eyestalks.size());
-          if (tries++ > 10) {
-            CROAK("x");
+
+          if (tries++ > 10000) {
+            CROAK("failed eyestalk fire");
           }
         }
 
@@ -147,6 +152,8 @@ static bool tp_boss1_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attacker,
         (void) thing_beam_weapon_fire_at(g, v, l, attacker, fire_what, target_at, eyestalk_offset);
       }
 
+      thing_sound_play(g, v, l, attacker, "monster_roar");
+
       THING_DBG(g, v, l, attacker, "prevent melee attack as fired weapon");
       return false; // prevent melee attack
     }
@@ -154,6 +161,7 @@ static bool tp_boss1_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attacker,
 
   if (! adjacent(thing_at(g, v, l, attacker), thing_at(g, v, l, target))) {
     THING_DBG(g, v, l, attacker, "prevent melee attack as not adjacent");
+    thing_sound_play(g, v, l, attacker, "monster_roar");
     return false; // prevent melee attack
   }
 
@@ -242,7 +250,6 @@ static bool tp_boss1_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, T
   tp_flag_set(tp, is_flesh);
   tp_flag_set(tp, is_levitating);
   tp_flag_set(tp, is_loggable);
-  tp_flag_set(tp, is_monst);
   tp_flag_set(tp, is_multi_tile);
   tp_flag_set(tp, is_obs_to_beam);
   tp_flag_set(tp, is_obs_to_jumping_onto);
@@ -253,16 +260,15 @@ static bool tp_boss1_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, T
   tp_flag_set(tp, is_physics_temperature);
   tp_flag_set(tp, is_removable_when_dead_on_err);
   tp_flag_set(tp, is_shown_health);
+  tp_flag_set(tp, is_monst);
   tp_flag_set(tp, is_tickable);
   tp_flag_set(tp, is_vision_360_degrees);
   tp_health_set(tp, "100+12d8");
-  tp_health_set(tp, "1");
   tp_hearing_threshold_set(tp, 2); // smaller values => better hearing
   tp_is_immune_to_add(tp, THING_EVENT_FIRE_DAMAGE);
   tp_is_immune_to_add(tp, THING_EVENT_WATER_DAMAGE);
   tp_is_resistant_to_add(tp, THING_EVENT_FIRE_DAMAGE);
   tp_missile_count_max_set(tp, THING_MISSILE_MAX);
-  tp_monst_group_add(tp, MONST_GROUP2);
   tp_name_a_or_an_set(tp, "argusul god");
   tp_name_apostrophize_set(tp, "argusul god's");
   tp_name_long_set(tp, "argusul god");

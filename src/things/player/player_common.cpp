@@ -261,6 +261,13 @@ void tp_player_level_enter(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   THING_DBG(g, v, l, me, "level enter");
 
+  //
+  // Ominous
+  //
+  if (level_is_boss_level(g, v, l)) {
+    (void) sound_play(g, v, l, "monster_roar_epic");
+  }
+
   thing_vision_reset(g, v, l, me);
 
   //

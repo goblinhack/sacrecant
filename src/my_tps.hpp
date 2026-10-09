@@ -60,6 +60,7 @@ auto tp_load_effect_explosion1() -> bool;
 auto tp_load_effect_explosion2() -> bool;
 auto tp_load_effect_ripple() -> bool;
 auto tp_load_entrance() -> bool;
+auto tp_load_exit_closed() -> bool;
 auto tp_load_exit() -> bool;
 auto tp_load_explosion() -> bool;
 auto tp_load_eyes_in_a_jar() -> bool;

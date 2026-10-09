@@ -6564,7 +6564,7 @@ static void gfx_init_tiles()
       "skull",
       "rubble.0",
       "spiderweb.0",
-      "",
+      "exit_closed.0",
       "",
       "",
       "",

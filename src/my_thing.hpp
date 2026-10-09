@@ -1028,6 +1028,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_ensnared_try_unset(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_entrance(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_ethereal(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
+[[nodiscard]] auto thing_is_exit_closed(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_exit(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_explosion(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_extinguished_on_death(Thingp me) -> bool;
@@ -1202,7 +1203,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused12(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused120(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused121(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused122(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused124(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused13(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused14(Thingp t) -> bool;
@@ -1623,7 +1623,7 @@ auto thing_dir_up_set(Thingp, uint8_t) -> void;
 auto thing_dmap(Gamep g, Levelsp v, Levelp l, Thingp me, bool reverse = false) -> void;
 auto thing_dump_missiles(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
 auto thing_enhance(Gamep g, Levelsp v, Levelp l, Thingp t, Tpp tp) -> void;
-auto thing_explosion_handle(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
+auto thing_explosion_handle(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &at) -> void;
 auto thing_fall_end_check(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
 auto thing_fall_time_step(Gamep g, Levelsp v, Levelp l, Thingp me, int time_step) -> void;
 auto thing_fall(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;

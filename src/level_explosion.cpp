@@ -88,7 +88,7 @@ void level_tick_explosion(Gamep g, Levelsp v, Levelp l)
       THING_DBG(g, v, l, t, "over explosion");
       TRACE_INDENT();
 
-      thing_explosion_handle(g, v, l, t);
+      thing_explosion_handle(g, v, l, t, p);
     }
   }
 }

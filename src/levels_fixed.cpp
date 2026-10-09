@@ -21,6 +21,7 @@ void levels_fixed(Gamep g)
 
     overrides[ 'a' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("argusul"); };
     overrides[ 'B' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("boss1"); };
+    overrides[ 'E' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("exit_closed"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_BOSS1, "boss1.1", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
@@ -44,7 +45,7 @@ void levels_fixed(Gamep g)
                     /* line */ (const char *) "CCCCC...CCCCCCCCCCCCCCCCC.CCCCCCCCCCCCCCCCCC.CCC",
                     /* line */ (const char *) "CCCC.....CCCCCCCCCCCCCCCC.CCCCCCCCCCCCCCCCCC.CCC",
                     /* line */ (const char *) "CCC.......CCCCCCCCCCCCCCC.CCCCCCCCCCCCCCCCCC.CCC",
-                    /* line */ (const char *) "CCC..@........B..............................ECC",
+                    /* line */ (const char *) "CCC..@......................................BCEC",
                     /* line */ (const char *) "CCC.......CCCCCCCCCCCCCCC.CCCCCCCCCCCCCCCCCC.CCC",
                     /* line */ (const char *) "CCCC.....CCCCCCCCCCCCCCCC.CCCCCCCCCCCCCCCCCC.CCC",
                     /* line */ (const char *) "CCCCC...CCCCCCCCCCCCCCCCC.CCCCCCCCCCCCCCCCCC.CCC",
