@@ -11,23 +11,24 @@
 #include "../../my_types.hpp"
 #include "../../my_ui.hpp"
 
-static auto tp_ghost2_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
+static auto tp_phantom_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
 {
   TRACE();
 
   return "vengeful spirit";
 }
 
-static auto tp_ghost2_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
+static auto tp_phantom_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
 {
   TRACE();
 
-  return                                                                                         //
-      UI_INFO1_FMT_STR "The spirit of one less fortunate than you.\n"                            //
-      UI_INFO2_FMT_STR "Beware, such spirits can traverse chasms and float through solid rock."; //
+  return                                                                                                                              //
+      UI_INFO1_FMT_STR "Phantoms are vengeful spirits, one level up from Haunts and have a degree of intelligence about them.\n"      //
+      UI_INFO2_FMT_STR "A phantom will be able to find paths to get to you and have additional abilities, such as their icy touch.\n" //
+      UI_INFO3_FMT_STR "Beware, phantoms can traverse chasms and can see and float through solid rock.";                              //
 }
 
-static auto tp_ghost2_assess_tp(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp me) -> ThingEnvironType
+static auto tp_phantom_assess_tp(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp me) -> ThingEnvironType
 {
   TRACE_DEBUG();
 
@@ -42,7 +43,7 @@ static auto tp_ghost2_assess_tp(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp me)
   return THING_ENVIRON_NEUTRAL;
 }
 
-static auto tp_ghost2_assess_tile(Gamep g, Levelsp v, Levelp l, const bpoint &at, Thingp me) -> ThingEnvironType
+static auto tp_phantom_assess_tile(Gamep g, Levelsp v, Levelp l, const bpoint &at, Thingp me) -> ThingEnvironType
 {
   TRACE_DEBUG();
 
@@ -57,7 +58,7 @@ static auto tp_ghost2_assess_tile(Gamep g, Levelsp v, Levelp l, const bpoint &at
   return THING_ENVIRON_NEUTRAL;
 }
 
-static bool tp_ghost2_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thingp target, ThingEvent &e)
+static bool tp_phantom_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thingp target, ThingEvent &e)
 {
   TRACE();
 
@@ -75,7 +76,7 @@ static bool tp_ghost2_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attacker
   return true;
 }
 
-static bool tp_ghost2_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thingp target, ThingEvent &e)
+static bool tp_phantom_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thingp target, ThingEvent &e)
 {
   TRACE();
 
@@ -86,33 +87,32 @@ static bool tp_ghost2_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, 
   return true;
 }
 
-static void tp_ghost2_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
+static void tp_phantom_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
 {
   TRACE();
 
   thing_sound_play(g, v, l, me, "monst_death");
 }
 
-[[nodiscard]] auto tp_load_ghost2() -> bool
+[[nodiscard]] auto tp_load_phantom() -> bool
 {
-  auto *tp   = tp_load("ghost2"); // keep as string for scripts
+  auto *tp   = tp_load("phantom"); // keep as string for scripts
   auto  name = tp_name(tp);
 
   // begin sort marker1 {
-  thing_assess_tile_set(tp, tp_ghost2_assess_tile);
-  thing_assess_tp_set(tp, tp_ghost2_assess_tp);
-  thing_description_set(tp, tp_ghost2_description_get);
-  thing_detail_set(tp, tp_ghost2_detail_get);
-  thing_on_attacking_set(tp, tp_ghost2_on_attacking);
-  thing_on_death_set(tp, tp_ghost2_on_death);
-  thing_on_missing_set(tp, tp_ghost2_on_missing);
+  thing_assess_tile_set(tp, tp_phantom_assess_tile);
+  thing_assess_tp_set(tp, tp_phantom_assess_tp);
+  thing_description_set(tp, tp_phantom_description_get);
+  thing_detail_set(tp, tp_phantom_detail_get);
+  thing_on_attacking_set(tp, tp_phantom_on_attacking);
+  thing_on_death_set(tp, tp_phantom_on_death);
+  thing_on_missing_set(tp, tp_phantom_on_missing);
   tp_attack_count_max_per_tick_set(tp, 1);
-  tp_damage_set(tp, THING_EVENT_MELEE_DAMAGE, "1d1");
+  tp_damage_set(tp, THING_EVENT_MELEE_DAMAGE, "1");
   tp_distance_minion_from_mob_max_set(tp, 6);
   tp_distance_vision_set(tp, 12);
   tp_flag_set(tp, is_able_to_be_buffed);
   tp_flag_set(tp, is_able_to_be_invisible);
-  tp_flag_set(tp, is_able_to_be_levitated);
   tp_flag_set(tp, is_able_to_be_teleported);
   tp_flag_set(tp, is_able_to_lunge);
   tp_flag_set(tp, is_able_to_move_diagonally);
@@ -133,13 +133,13 @@ static void tp_ghost2_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEve
   tp_flag_set(tp, is_corpse_on_death);
   tp_flag_set(tp, is_described_cursor);
   tp_flag_set(tp, is_ethereal);
-  tp_flag_set(tp, is_ghost2);
   tp_flag_set(tp, is_levitating);
   tp_flag_set(tp, is_light_source, 2);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_minion);
   tp_flag_set(tp, is_monst);
   tp_flag_set(tp, is_obs_to_wall_walker);
+  tp_flag_set(tp, is_phantom);
   tp_flag_set(tp, is_physics_explosion);
   tp_flag_set(tp, is_physics_water);
   tp_flag_set(tp, is_removable_when_dead_on_err);
@@ -152,11 +152,11 @@ static void tp_ghost2_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEve
   tp_hearing_threshold_set(tp, 6); // smaller values => better hearing
   tp_is_immune_to_add(tp, THING_EVENT_WATER_DAMAGE);
   tp_light_color_set(tp, "cyan");
-  tp_name_a_or_an_set(tp, "a ghost");
-  tp_name_apostrophize_set(tp, "ghosts'");
-  tp_name_long_set(tp, "ghost");
-  tp_name_pluralize_set(tp, "ghosts");
-  tp_name_short_set(tp, "ghost");
+  tp_name_a_or_an_set(tp, "a phantom");
+  tp_name_apostrophize_set(tp, "phantoms'");
+  tp_name_long_set(tp, "phantom");
+  tp_name_pluralize_set(tp, "phantoms");
+  tp_name_short_set(tp, "phantom");
   tp_priority_set(tp, THING_PRIORITY_MONST);
   tp_score_value_set(tp, 10);
   tp_speed_set(tp, 100);

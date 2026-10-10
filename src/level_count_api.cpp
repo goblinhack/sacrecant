@@ -435,10 +435,10 @@
   return level_count(g, v, l, is_gaseous, p);
 }
 
-[[nodiscard]] auto level_count_is_ghost2(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_phantom(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_ghost2, p);
+  return level_count(g, v, l, is_phantom, p);
 }
 
 [[nodiscard]] auto level_count_is_glass(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
@@ -1587,10 +1587,10 @@
   return level_count(g, v, l, is_unused119, p);
 }
 
-[[nodiscard]] auto level_count_is_ghost1(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_haunt(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_ghost1, p);
+  return level_count(g, v, l, is_haunt, p);
 }
 
 [[nodiscard]] auto level_count_is_dumb_ai(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t

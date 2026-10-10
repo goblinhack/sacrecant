@@ -435,10 +435,10 @@
   return level_flag_cached(g, v, l, is_gaseous, p);
 }
 
-[[nodiscard]] auto level_is_ghost2_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_phantom_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_ghost2, p);
+  return level_flag_cached(g, v, l, is_phantom, p);
 }
 
 [[nodiscard]] auto level_is_glass_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
@@ -1623,10 +1623,10 @@
   return level_flag_cached(g, v, l, is_unused119, p);
 }
 
-[[nodiscard]] auto level_is_ghost1_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_haunt_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_ghost1, p);
+  return level_flag_cached(g, v, l, is_haunt, p);
 }
 
 [[nodiscard]] auto level_is_dumb_ai_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

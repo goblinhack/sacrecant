@@ -435,10 +435,10 @@
   return level_flag(g, v, l, is_gaseous, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_ghost2_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_phantom_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_ghost2, p, me) != nullptr;
+  return level_flag(g, v, l, is_phantom, p, me) != nullptr;
 }
 
 [[nodiscard]] auto level_is_glass_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
@@ -1623,10 +1623,10 @@
   return level_flag(g, v, l, is_unused119, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_ghost1_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_haunt_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_ghost1, p, me) != nullptr;
+  return level_flag(g, v, l, is_haunt, p, me) != nullptr;
 }
 
 [[nodiscard]] auto level_is_dumb_ai_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool

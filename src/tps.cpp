@@ -75,12 +75,10 @@
   if (!tp_load_gas_death()) { return false; }
   if (!tp_load_gas_explosive()) { return false; }
   if (!tp_load_gas_life()) { return false; }
-  if (!tp_load_ghost1_mob()) { return false; }
-  if (!tp_load_ghost1()) { return false; }
-  if (!tp_load_ghost2_mob()) { return false; }
-  if (!tp_load_ghost2()) { return false; }
   if (!tp_load_glorp()) { return false; }
   if (!tp_load_grass()) { return false; }
+  if (!tp_load_haunt_mob()) { return false; }
+  if (!tp_load_haunt()) { return false; }
   if (!tp_load_horseshoe()) { return false; }
   if (!tp_load_key()) { return false; }
   if (!tp_load_kobalos_mob()) { return false; }
@@ -100,6 +98,8 @@
   if (!tp_load_mummy()) { return false; }
   if (!tp_load_ogrik()) { return false; }
   if (!tp_load_pale_eel()) { return false; }
+  if (!tp_load_phantom_mob()) { return false; }
+  if (!tp_load_phantom()) { return false; }
   if (!tp_load_pillar()) { return false; }
   if (!tp_load_pirnana()) { return false; }
   if (!tp_load_player1()) { return false; }

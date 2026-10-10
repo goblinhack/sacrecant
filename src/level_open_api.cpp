@@ -434,10 +434,10 @@
   return level_open(g, v, l, is_gaseous, p);
 }
 
-[[nodiscard]] auto level_open_is_ghost2(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+[[nodiscard]] auto level_open_is_phantom(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_open(g, v, l, is_ghost2, p);
+  return level_open(g, v, l, is_phantom, p);
 }
 
 [[nodiscard]] auto level_open_is_glass(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
@@ -1586,10 +1586,10 @@
   return level_open(g, v, l, is_unused119, p);
 }
 
-[[nodiscard]] auto level_open_is_ghost1(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+[[nodiscard]] auto level_open_is_haunt(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_open(g, v, l, is_ghost1, p);
+  return level_open(g, v, l, is_haunt, p);
 }
 
 [[nodiscard]] auto level_open_is_dumb_ai(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp

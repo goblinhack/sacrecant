@@ -572,7 +572,7 @@ struct MyIter {
 // Unsafe here means that if things move around during processing, we could process
 // them more than once per loop
 //
-#define FOR_ALL_THINGS_ON_LEVEL_NO_BREAK_UNSAFE(_g_, _v_, _l_, _t_)                                                                    \
+#define FOR_ALL_THINGS_ON_LEVEL_NO_BREAK_UNSAFE(_g_, _v_, _l_, _t_)                                                                             \
   if ((_g_) && (_v_) && (_l_))                                                                                                                  \
     for (auto _x_ = 0; _x_ < MAP_WIDTH; _x_++)                                                                                                  \
       for (auto _y_ = 0; _y_ < MAP_HEIGHT; _y_++)                                                                                               \
@@ -608,7 +608,7 @@ struct MyIter {
                         if ((((_t_)->iter[ _iter_index_ ] = (_v_)->iter[ _iter_index_ ])) || 1)
 
 #define FOR_ALL_GROUP_THINGS_ON_LEVEL_UNSAFE(_g_, _v_, _l_, _t_, _group_id_)                                                                    \
-  FOR_ALL_THINGS_ON_LEVEL_NO_BREAK_UNSAFE(_g_, _v_, _l_, _t_)                                                                          \
+  FOR_ALL_THINGS_ON_LEVEL_NO_BREAK_UNSAFE(_g_, _v_, _l_, _t_)                                                                                   \
   if ((_t_)->group_id == (_group_id_))
 
 #define FOR_ALL_GROUP_THINGS_ON_LEVEL(_g_, _v_, _l_, _t_, _group_id_)                                                                           \
@@ -1059,12 +1059,11 @@ auto level_fov(const FovContext & /*ctx*/) -> void;
 [[nodiscard]] auto level_is_gas(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_gaseous(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_gelatinous(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
-[[nodiscard]] auto level_is_ghost1(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
-[[nodiscard]] auto level_is_ghost2(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_glass(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_gold(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_grass(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_grouped_thing(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
+[[nodiscard]] auto level_is_haunt(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_hook(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_indestructible(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_insectoid(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
@@ -1126,6 +1125,7 @@ auto level_fov(const FovContext & /*ctx*/) -> void;
 [[nodiscard]] auto level_is_obs_to_wall_walker(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_obs_when_dead(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_openable(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
+[[nodiscard]] auto level_is_phantom(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_physics_explosion(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_physics_temperature(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_physics_trap(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
@@ -1477,12 +1477,11 @@ auto level_fov(const FovContext & /*ctx*/) -> void;
 [[nodiscard]] auto level_is_gas_life_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_gaseous_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_gelatinous_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
-[[nodiscard]] auto level_is_ghost1_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
-[[nodiscard]] auto level_is_ghost2_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_glass_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_gold_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_grass_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_grouped_thing_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
+[[nodiscard]] auto level_is_haunt_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_hook_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_indestructible_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_insectoid_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
@@ -1544,6 +1543,7 @@ auto level_fov(const FovContext & /*ctx*/) -> void;
 [[nodiscard]] auto level_is_obs_to_wall_walker_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_obs_when_dead_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_openable_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
+[[nodiscard]] auto level_is_phantom_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_physics_explosion_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_physics_temperature_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_physics_trap_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
@@ -1891,12 +1891,11 @@ auto level_fov(const FovContext & /*ctx*/) -> void;
 [[nodiscard]] auto level_alive_is_gas(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_gaseous(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_gelatinous(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
-[[nodiscard]] auto level_alive_is_ghost1(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
-[[nodiscard]] auto level_alive_is_ghost2(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_glass(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_gold(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_grass(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_grouped_thing(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
+[[nodiscard]] auto level_alive_is_haunt(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_hook(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_indestructible(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_insectoid(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
@@ -1958,6 +1957,7 @@ auto level_fov(const FovContext & /*ctx*/) -> void;
 [[nodiscard]] auto level_alive_is_obs_to_wall_walker(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_obs_when_dead(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_openable(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
+[[nodiscard]] auto level_alive_is_phantom(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_physics_explosion(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_physics_temperature(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_physics_trap(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
@@ -2305,12 +2305,11 @@ auto level_fov(const FovContext & /*ctx*/) -> void;
 [[nodiscard]] auto level_count_is_gas(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_gaseous(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_gelatinous(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
-[[nodiscard]] auto level_count_is_ghost1(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
-[[nodiscard]] auto level_count_is_ghost2(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_glass(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_gold(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_grass(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_grouped_thing(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
+[[nodiscard]] auto level_count_is_haunt(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_hook(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_indestructible(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_insectoid(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
@@ -2372,6 +2371,7 @@ auto level_fov(const FovContext & /*ctx*/) -> void;
 [[nodiscard]] auto level_count_is_obs_to_wall_walker(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_obs_when_dead(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_openable(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
+[[nodiscard]] auto level_count_is_phantom(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_physics_explosion(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_physics_temperature(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_physics_trap(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
@@ -2726,12 +2726,11 @@ auto level_fov(const FovContext & /*ctx*/) -> void;
 [[nodiscard]] auto level_open_is_gas(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_gaseous(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_gelatinous(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
-[[nodiscard]] auto level_open_is_ghost1(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
-[[nodiscard]] auto level_open_is_ghost2(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_glass(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_gold(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_grass(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_grouped_thing(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
+[[nodiscard]] auto level_open_is_haunt(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_hook(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_indestructible(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_insectoid(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
@@ -2793,6 +2792,7 @@ auto level_fov(const FovContext & /*ctx*/) -> void;
 [[nodiscard]] auto level_open_is_obs_to_wall_walker(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_obs_when_dead(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_openable(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
+[[nodiscard]] auto level_open_is_phantom(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_physics_explosion(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_physics_temperature(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_physics_trap(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
@@ -3140,12 +3140,11 @@ auto level_fov(const FovContext & /*ctx*/) -> void;
 [[nodiscard]] auto level_is_gas_life_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> bool;
 [[nodiscard]] auto level_is_gaseous_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> bool;
 [[nodiscard]] auto level_is_gelatinous_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> bool;
-[[nodiscard]] auto level_is_ghost1_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> bool;
-[[nodiscard]] auto level_is_ghost2_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> bool;
 [[nodiscard]] auto level_is_glass_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> bool;
 [[nodiscard]] auto level_is_gold_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> bool;
 [[nodiscard]] auto level_is_grass_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> bool;
 [[nodiscard]] auto level_is_grouped_thing_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> bool;
+[[nodiscard]] auto level_is_haunt_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> bool;
 [[nodiscard]] auto level_is_hook_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> bool;
 [[nodiscard]] auto level_is_indestructible_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> bool;
 [[nodiscard]] auto level_is_insectoid_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> bool;
@@ -3207,6 +3206,7 @@ auto level_fov(const FovContext & /*ctx*/) -> void;
 [[nodiscard]] auto level_is_obs_to_wall_walker_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> bool;
 [[nodiscard]] auto level_is_obs_when_dead_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> bool;
 [[nodiscard]] auto level_is_openable_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> bool;
+[[nodiscard]] auto level_is_phantom_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> bool;
 [[nodiscard]] auto level_is_physics_explosion_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> bool;
 [[nodiscard]] auto level_is_physics_temperature_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> bool;
 [[nodiscard]] auto level_is_physics_trap_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> bool;

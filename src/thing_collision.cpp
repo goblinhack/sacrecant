@@ -42,9 +42,9 @@ static void thing_collision_sort_cands(Gamep g, Levelsp v, Levelp l, Thingp me, 
   if (compiler_unused) {
     THING_DBG(g, v, l, me, "final candidates: (pre sort)");
     for (auto a_cand : candidates) {
-      auto        o_dist   = a_cand.first;
-      ThingCandAt cand     = a_cand.second;
-      Thingp      obstacle = cand.it;
+      auto              o_dist   = a_cand.first;
+      ThingCandAt const cand     = a_cand.second;
+      Thingp            obstacle = cand.it;
 
       THING_DBG(g, v, l, obstacle, "- sort_distance %f prio %u", o_dist, thing_priority(obstacle));
     }
@@ -874,8 +874,8 @@ static auto thing_collision_interplolated_process_candidates(Gamep g, Levelsp v,
   bool hit_something = {};
 
   for (auto iter : candidates) {
-    ThingCandAt cand     = iter.second;
-    auto        obstacle = cand.it;
+    ThingCandAt const cand     = iter.second;
+    auto             *obstacle = cand.it;
 
     //
     // Skip things that are dead; unless we can hit their corpse

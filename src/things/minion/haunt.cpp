@@ -11,23 +11,25 @@
 #include "../../my_types.hpp"
 #include "../../my_ui.hpp"
 
-static auto tp_ghost1_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
+static auto tp_haunt_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
 {
   TRACE();
 
-  return "vengeful spirit";
+  return "haunt, lesser vengeful spirit";
 }
 
-static auto tp_ghost1_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
+static auto tp_haunt_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
 {
   TRACE();
 
-  return                                                                                         //
-      UI_INFO1_FMT_STR "The spirit of one less fortunate than you.\n"                            //
-      UI_INFO2_FMT_STR "Beware, such spirits can traverse chasms and float through solid rock."; //
+  return                                                                                                     //
+      UI_INFO1_FMT_STR "Haunts are the weakest of all spirit types and almost mindless in their pursuit.\n"  //
+      UI_INFO2_FMT_STR "With no ability to pass through walls, or even be able to path around a corner, "    //
+                       "haunts can often be seen queuing up to attack or hitting themselves off of walls.\n" //
+      UI_INFO3_FMT_STR "The ultimate humiliation is to be killed by a haunt and thus become one.\n";         //
 }
 
-static auto tp_ghost1_assess_tp(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp me) -> ThingEnvironType
+static auto tp_haunt_assess_tp(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp me) -> ThingEnvironType
 {
   TRACE_DEBUG();
 
@@ -42,7 +44,7 @@ static auto tp_ghost1_assess_tp(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp me)
   return THING_ENVIRON_NEUTRAL;
 }
 
-static auto tp_ghost1_assess_tile(Gamep g, Levelsp v, Levelp l, const bpoint &at, Thingp me) -> ThingEnvironType
+static auto tp_haunt_assess_tile(Gamep g, Levelsp v, Levelp l, const bpoint &at, Thingp me) -> ThingEnvironType
 {
   TRACE_DEBUG();
 
@@ -57,17 +59,9 @@ static auto tp_ghost1_assess_tile(Gamep g, Levelsp v, Levelp l, const bpoint &at
   return THING_ENVIRON_NEUTRAL;
 }
 
-static bool tp_ghost1_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thingp target, ThingEvent &e)
+static bool tp_haunt_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thingp target, ThingEvent &e)
 {
   TRACE();
-
-  TpSpecialAttack d;
-
-  if (thing_special_attack_get_random(g, v, l, attacker, target, d)) {
-    e.special_attack = d;
-    e.damage         = d.dice.roll();
-    e.event_type     = d.event_type;
-  }
 
   (void) thing_spawn(g, v, l, tp_first(is_effect_attack), target);
   thing_sound_play(g, v, l, attacker, "hiss");
@@ -75,7 +69,7 @@ static bool tp_ghost1_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attacker
   return true;
 }
 
-static bool tp_ghost1_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thingp target, ThingEvent &e)
+static bool tp_haunt_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thingp target, ThingEvent &e)
 {
   TRACE();
 
@@ -86,33 +80,32 @@ static bool tp_ghost1_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, 
   return true;
 }
 
-static void tp_ghost1_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
+static void tp_haunt_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
 {
   TRACE();
 
   thing_sound_play(g, v, l, me, "monst_death");
 }
 
-[[nodiscard]] auto tp_load_ghost1() -> bool
+[[nodiscard]] auto tp_load_haunt() -> bool
 {
-  auto *tp   = tp_load("ghost1"); // keep as string for scripts
+  auto *tp   = tp_load("haunt"); // keep as string for scripts
   auto  name = tp_name(tp);
 
   // begin sort marker1 {
-  thing_assess_tile_set(tp, tp_ghost1_assess_tile);
-  thing_assess_tp_set(tp, tp_ghost1_assess_tp);
-  thing_description_set(tp, tp_ghost1_description_get);
-  thing_detail_set(tp, tp_ghost1_detail_get);
-  thing_on_attacking_set(tp, tp_ghost1_on_attacking);
-  thing_on_death_set(tp, tp_ghost1_on_death);
-  thing_on_missing_set(tp, tp_ghost1_on_missing);
+  thing_assess_tile_set(tp, tp_haunt_assess_tile);
+  thing_assess_tp_set(tp, tp_haunt_assess_tp);
+  thing_description_set(tp, tp_haunt_description_get);
+  thing_detail_set(tp, tp_haunt_detail_get);
+  thing_on_attacking_set(tp, tp_haunt_on_attacking);
+  thing_on_death_set(tp, tp_haunt_on_death);
+  thing_on_missing_set(tp, tp_haunt_on_missing);
   tp_attack_count_max_per_tick_set(tp, 1);
-  tp_damage_set(tp, THING_EVENT_MELEE_DAMAGE, "1d1");
+  tp_damage_set(tp, THING_EVENT_MELEE_DAMAGE, "1");
   tp_distance_minion_from_mob_max_set(tp, 6);
   tp_distance_vision_set(tp, 12);
   tp_flag_set(tp, is_able_to_be_buffed);
   tp_flag_set(tp, is_able_to_be_invisible);
-  tp_flag_set(tp, is_able_to_be_levitated);
   tp_flag_set(tp, is_able_to_be_teleported);
   tp_flag_set(tp, is_able_to_lunge);
   tp_flag_set(tp, is_able_to_move_diagonally);
@@ -134,7 +127,7 @@ static void tp_ghost1_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEve
   tp_flag_set(tp, is_described_cursor);
   tp_flag_set(tp, is_dumb_ai);
   tp_flag_set(tp, is_ethereal);
-  tp_flag_set(tp, is_ghost2);
+  tp_flag_set(tp, is_haunt);
   tp_flag_set(tp, is_levitating);
   tp_flag_set(tp, is_light_source, 2);
   tp_flag_set(tp, is_loggable);
@@ -150,31 +143,21 @@ static void tp_ghost1_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEve
   tp_health_set(tp, "1");
   tp_hearing_threshold_set(tp, 6); // smaller values => better hearing
   tp_is_immune_to_add(tp, THING_EVENT_WATER_DAMAGE);
-  tp_light_color_set(tp, "cyan");
-  tp_name_a_or_an_set(tp, "a ghost");
-  tp_name_apostrophize_set(tp, "ghosts'");
-  tp_name_long_set(tp, "ghost");
-  tp_name_pluralize_set(tp, "ghosts");
-  tp_name_short_set(tp, "ghost");
+  tp_light_color_set(tp, "lime");
+  tp_name_a_or_an_set(tp, "a haunt");
+  tp_name_apostrophize_set(tp, "haunts'");
+  tp_name_long_set(tp, "haunt");
+  tp_name_pluralize_set(tp, "haunts");
+  tp_name_short_set(tp, "haunt");
   tp_priority_set(tp, THING_PRIORITY_MONST);
-  tp_score_value_set(tp, 10);
+  tp_score_value_set(tp, 5);
   tp_speed_set(tp, 100);
-  tp_stat_set(tp, THING_STAT_ATT, "10");
+  tp_stat_set(tp, THING_STAT_ATT, "6");
   tp_stat_set(tp, THING_STAT_DEF, "1");
   tp_temperature_initial_set(tp, -10); // celsius
   tp_weight_set(tp, WEIGHT_FEATHER);   // grams
   tp_z_depth_set(tp, MAP_Z_DEPTH_FLOATING_MONST);
   // end sort marker1 }
-
-  tp_special_attack_add(tp,
-                        TpSpecialAttack {
-                            .type          = "2",                      //
-                            .event_type    = THING_EVENT_MELEE_DAMAGE, //
-                            .name          = "icy touch",              //
-                            .roll          = "1d4",                    //
-                            .d100          = 10,
-                            .when_adjacent = true,
-                        });
 
   auto delay = 1000;
 

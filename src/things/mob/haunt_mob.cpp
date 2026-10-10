@@ -13,30 +13,30 @@
 #include "../../my_types.hpp"
 #include "../../my_ui.hpp"
 
-static auto tp_ghost1_mob_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
+static auto tp_haunt_mob_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
 {
   TRACE();
 
-  return "pile of bones";
+  return "haunt mob spawner";
 }
 
-static auto tp_ghost1_mob_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
+static auto tp_haunt_mob_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
 {
   TRACE();
 
   return                                                                                                          //
-      UI_INFO1_FMT_STR "This large pile of bones, whispers and moans as spectral creations dance around it.\n"    //
+      UI_INFO1_FMT_STR "This mob, whispers and moans as spectral creations dance around it.\n"                    //
       UI_INFO2_FMT_STR "When such devices are destroyed, all that they summoned will also vanish into oblivion."; //
 }
 
-static void tp_ghost1_mob_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
+static void tp_haunt_mob_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
 {
   TRACE();
 
   thing_sound_play(g, v, l, me, "explosion");
 }
 
-static void tp_ghost1_mob_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
+static void tp_haunt_mob_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
 
@@ -45,20 +45,20 @@ static void tp_ghost1_mob_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   }
 
   if (! level_is_monst_bool(g, v, l, thing_at(g, v, l, me))) {
-    (void) thing_mob_spawn_a_minion(g, v, l, me, tp_first(is_ghost2));
+    (void) thing_mob_spawn_a_minion(g, v, l, me, tp_first(is_haunt));
   }
 }
 
-[[nodiscard]] auto tp_load_ghost1_mob() -> bool
+[[nodiscard]] auto tp_load_haunt_mob() -> bool
 {
-  auto *tp   = tp_load("ghost1_mob"); // keep as string for scripts
+  auto *tp   = tp_load("haunt_mob"); // keep as string for scripts
   auto  name = tp_name(tp);
 
   // begin sort marker1 {
-  thing_description_set(tp, tp_ghost1_mob_description_get);
-  thing_detail_set(tp, tp_ghost1_mob_detail_get);
-  thing_on_death_set(tp, tp_ghost1_mob_on_death);
-  thing_on_tick_begin_set(tp, tp_ghost1_mob_tick_begin);
+  thing_description_set(tp, tp_haunt_mob_description_get);
+  thing_detail_set(tp, tp_haunt_mob_detail_get);
+  thing_on_death_set(tp, tp_haunt_mob_on_death);
+  thing_on_tick_begin_set(tp, tp_haunt_mob_tick_begin);
   tp_dormant_set(tp, "1d20");
   tp_flag_set(tp, is_able_to_be_teleported);
   tp_flag_set(tp, is_able_to_fall_sound);
@@ -98,9 +98,9 @@ static void tp_ghost1_mob_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_flag_set(tp, is_submergible); // is seen submerged when in water
   tp_flag_set(tp, is_tickable);
   tp_flag_set(tp, is_wait_on_dead_anim);
-  tp_health_set(tp, "1d3+2");
+  tp_health_set(tp, "1d1+2");
   tp_light_color_set(tp, "cyan");
-  tp_minion_max_set(tp, 5);
+  tp_minion_max_set(tp, 10);
   tp_monst_group_add(tp, MOB_GROUP1);
   tp_name_a_or_an_set(tp, "a pile of bones");
   tp_name_apostrophize_set(tp, "pile of bones'");

@@ -7,7 +7,7 @@
 #include "my_fpoint.hpp"
 #include "my_game_defs.hpp"
 #include "my_level.hpp"
-#include "my_level_inlines.hpp"
+#include "my_level_inlines.hpp" // NOLINT
 #include "my_main.hpp"
 #include "my_math.hpp"
 #include "my_thing.hpp"
@@ -125,7 +125,7 @@ auto thing_beam_weapon_fire_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what
         continue;
       }
 
-      auto attacker = thing_get_attacker(g, v, l, it);
+      auto *attacker = thing_get_attacker(g, v, l, it);
       if (attacker == me) {
         continue;
       }

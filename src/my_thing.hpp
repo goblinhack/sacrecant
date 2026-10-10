@@ -1052,12 +1052,11 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_gas(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_gaseous(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_gelatinous(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_ghost1(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_ghost2(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_glass(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_gold(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_grass(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_grouped_thing(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_haunt(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_hit_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_is_hit_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_is_hook(Thingp t) -> bool;
@@ -1123,6 +1122,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_open_try_set(Gamep g, Levelsp v, Levelp l, Thingp t, Thingp opener, bool val = true) -> bool;
 [[nodiscard]] auto thing_is_open_try_unset(Gamep g, Levelsp v, Levelp l, Thingp t, Thingp closer) -> bool;
 [[nodiscard]] auto thing_is_openable(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_phantom(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_physics_explosion(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_physics_trap(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_physics_water(Thingp t) -> bool;
@@ -1424,14 +1424,14 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_player_spawn(Gamep g, Levelsp v, Levelp l, Tpp tp, bpoint at) -> bool;
 [[nodiscard]] auto thing_player_struct(Gamep g) -> ThingPlayerp;
 [[nodiscard]] auto thing_player(Gamep g) -> Thingp;
-[[nodiscard]] auto thing_pop_additional(Gamep g, Levelsp v, Levelp l, Thingp t, const bpoint at) -> bool;
+[[nodiscard]] auto thing_pop_additional(Gamep g, Levelsp v, Levelp l, Thingp t, bpoint at) -> bool;
 [[nodiscard]] auto thing_pop(Gamep g, Levelsp v, Thingp t) -> bool;
 [[nodiscard]] auto thing_prev_pix_at(Thingp me) -> spoint;
 [[nodiscard]] auto thing_priority_set(Gamep g, Levelsp v, Levelp l, Thingp t, ThingPriorityType val) -> ThingPriorityType;
 [[nodiscard]] auto thing_priority(Thingp t) -> ThingPriorityType;
 [[nodiscard]] auto thing_proj_launch_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what, bpoint target) -> bool;
 [[nodiscard]] auto thing_proj_launch_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what, fpoint target) -> bool;
-[[nodiscard]] auto thing_push_additional(Gamep g, Levelsp v, Levelp l, Thingp t, const bpoint at) -> bool;
+[[nodiscard]] auto thing_push_additional(Gamep g, Levelsp v, Levelp l, Thingp t, bpoint at) -> bool;
 [[nodiscard]] auto thing_push(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
 [[nodiscard]] auto thing_real_at(Gamep g, Levelsp v, Levelp l, Thingp me) -> fpoint;
 [[nodiscard]] auto thing_resurrect(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;

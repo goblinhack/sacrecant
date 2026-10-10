@@ -113,7 +113,7 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
     return;
   }
 
-  if (v->tick != 0u) {
+  if (v->tick != 0U) {
     if ((v->tick % 20) == 0U) {
       //          game_request_to_save_game_set(g);
     }
@@ -338,7 +338,7 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
     {
       bpoint p(x, y);
 
-      if (l->player_has_walked_tile[ x ][ y ] == 0u) {
+      if (l->player_has_walked_tile[ x ][ y ] == 0U) {
         continue;
       }
 
@@ -482,7 +482,7 @@ void robot_mode_handler(Gamep g)
       {
         auto *v = game_levels_get(g);
         con("Robot: level select menu");
-        if ((v != nullptr) && (v->tick != 0u)) {
+        if ((v != nullptr) && (v->tick != 0U)) {
           wid_dead_select(g, "level select");
         } else {
           e.type   = SDL_KEYDOWN;

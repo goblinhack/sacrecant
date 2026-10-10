@@ -52,9 +52,16 @@ void level_vision_calculate_all(Gamep g, Levelsp v, Levelp l)
       continue;
     }
 
-    threads.emplace_back(thing_vision_calculate, g, v, l, t);
+    if (g_opt_debug2) {
+      thing_vision_calculate(g, v, l, t);
+    } else {
+      threads.emplace_back(thing_vision_calculate, g, v, l, t);
+    }
   }
 
+  //
+  // Wait on threads
+  //
   for (auto &i : threads) {
     i.join();
   }

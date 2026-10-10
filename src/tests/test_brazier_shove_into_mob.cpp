@@ -50,7 +50,7 @@
   // Create the level and start playing
   //
   Overrides overrides;
-  overrides[ 'g' ] = [](char c, bpoint p) -> Tpp { return tp_find_mand("ghost2_mob"); };
+  overrides[ 'g' ] = [](char c, bpoint p) -> Tpp { return tp_find_mand("phantom_mob"); };
   Levelp  l        = nullptr;
   Levelsp v        = game_test_init(g, &l, level_num, w, h, start.c_str(), overrides);
 

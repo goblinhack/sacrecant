@@ -30,24 +30,24 @@
         "xxxxxxxxxxxxxxxxxxxxxxxxxxx";
   std::string const expect1
       = "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
-        "x........xx.........m.....x"
-        "x........xx....m..........x"
-        "x.......@xx....g.mm.......x"
-        "x........xx.......m.......x"
         "x........xx...............x"
+        "x........xxm..............x"
+        "x.......@mx....g..........x"
+        "x........xx...m...........x"
+        "x........xx.......mm......x"
         "xxxxxxxxxxxxxxxxxxxxxxxxxxx";
   std::string const expect2
       = "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
-        "x........xx!........m.....x"
-        "x........xx!!....m........x"
-        "x.......@xx!!!mg..m.......x"
-        "x........xx!!......m......x"
         "x........xx!..............x"
+        "x........xx!!.............x"
+        "x.......@mx!!!.g..........x"
+        "x........xx!!.m....m......x"
+        "x........xx!......m.......x"
         "xxxxxxxxxxxxxxxxxxxxxxxxxxx";
 
   Overrides overrides;
-  overrides[ 'm' ]  = [](char c, bpoint p) -> Tpp { return tp_find_mand("ghost2"); };
-  overrides[ 'g' ]  = [](char c, bpoint p) -> Tpp { return tp_find_mand("ghost2_mob"); };
+  overrides[ 'm' ]  = [](char c, bpoint p) -> Tpp { return tp_find_mand("phantom"); };
+  overrides[ 'g' ]  = [](char c, bpoint p) -> Tpp { return tp_find_mand("phantom_mob"); };
   Levelp     l      = nullptr;
   Levelsp    v      = game_test_init(g, &l, level_num, w, h, start.c_str(), overrides);
   bool       result = true;
@@ -78,6 +78,7 @@
       TEST_FAILED(t, "wait loop failed");
       goto exit;
     }
+    level_dump(g, v, l, w, h);
   }
 
   level_dump(g, v, l, w, h);

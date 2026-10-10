@@ -229,16 +229,6 @@ void thing_vision_calculate(Gamep g, Levelsp v, Levelp l, Thingp me)
     return;
   }
 
-  //
-  // Per thread stdout name
-  //
-  IF_DEBUG2
-  {
-    g_thread_id = VISION_THREAD;
-    (void) redirect_stdout();
-    (void) redirect_stderr();
-  }
-
   FovContext ctx;
 
   ctx.g                  = g;
@@ -254,18 +244,12 @@ void thing_vision_calculate(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   level_fov(ctx);
 
-  IF_DEBUG
+  IF_DEBUG2
   {
     if (compiler_unused) {
       THING_DBG(g, v, l, me, "dir %s", ThingDirType_to_string(me->dir).c_str());
       thing_can_see_dump(g, v, l, me);
     }
-  }
-
-  IF_DEBUG
-  {
-    close_stdout();
-    close_stderr();
   }
 }
 

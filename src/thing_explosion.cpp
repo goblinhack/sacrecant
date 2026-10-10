@@ -2,6 +2,7 @@
 // Copyright goblinhack@gmail.com
 //
 
+#include "my_bpoint.hpp"
 #include "my_callstack.hpp"
 #include "my_level.hpp"
 #include "my_thing.hpp"
@@ -20,7 +21,7 @@ void thing_explosion_handle(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoin
 
   auto *source = level_is_explosion(g, v, l, at);
 
-  if (! source) {
+  if (source == nullptr) {
     THING_DBG(g, v, l, me, "no explosion source to apply");
     return;
   }

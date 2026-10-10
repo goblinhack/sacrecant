@@ -21,8 +21,25 @@
 
 #include <cstdint>
 #include <string>
+#include <vector>
 
-static auto thing_monst_ai_dumb_solve(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &at, const bpoint &target) -> std::vector< bpoint >
+//
+// Is the monst surrounded? If so, skip doing expensive AI calculations
+//
+[[nodiscard]] static auto thing_monst_is_surrounded(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool
+{
+  TRACE();
+
+  auto at = thing_at(g, v, l, me);
+
+  return ! thing_can_move_to_possible(g, v, l, me, at - bpoint(1, 0)) &&  //
+         ! thing_can_move_to_possible(g, v, l, me, at - bpoint(-1, 0)) && //
+         ! thing_can_move_to_possible(g, v, l, me, at - bpoint(0, 1)) &&  //
+         ! thing_can_move_to_possible(g, v, l, me, at - bpoint(0, -1));
+}
+
+[[nodiscard]] static auto thing_monst_ai_dumb_solve(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &at, const bpoint &target)
+    -> std::vector< bpoint >
 {
   TRACE();
 
@@ -92,12 +109,73 @@ static auto thing_monst_ai_dumb_solve(Gamep g, Levelsp v, Levelp l, Thingp me, c
     }
   }
 
+  //
+  // Try again, but be dumb and don't care if there is an obstacle in the way
+  //
+  if (target.x > at.x) {
+    if (target.y > at.y) {
+      auto nexthop = at + bpoint(1, 1);
+      out.push_back(nexthop);
+      return out;
+    }
+
+    if (target.y < at.y) {
+      auto nexthop = at + bpoint(1, -1);
+      out.push_back(nexthop);
+      return out;
+    }
+
+    auto nexthop = at + bpoint(1, 0);
+    out.push_back(nexthop);
+    return out;
+  }
+
+  if (target.x < at.x) {
+    if (target.y > at.y) {
+      auto nexthop = at + bpoint(-1, 1);
+      out.push_back(nexthop);
+      return out;
+    }
+
+    if (target.y < at.y) {
+      auto nexthop = at + bpoint(-1, -1);
+      out.push_back(nexthop);
+      return out;
+    }
+
+    auto nexthop = at + bpoint(-1, 0);
+    out.push_back(nexthop);
+    return out;
+  }
+
+  if (target.y > at.y) {
+    auto nexthop = at + bpoint(0, 1);
+    out.push_back(nexthop);
+    return out;
+  }
+
+  if (target.y < at.y) {
+    auto nexthop = at + bpoint(0, -1);
+    out.push_back(nexthop);
+    return out;
+  }
+
   return out;
 }
 
-static auto thing_monst_ai_solve(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &at, const bpoint &target) -> std::vector< bpoint >
+[[nodiscard]] static auto thing_monst_ai_solve(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &at, const bpoint &target)
+    -> std::vector< bpoint >
 {
   TRACE();
+
+  //
+  // Is the monst surrounded? If so, skip doing expensive AI calculations
+  //
+  if (thing_monst_is_surrounded(g, v, l, me)) {
+    THING_DBG(g, v, l, me, "choose target: monst is surrounded, wait");
+    TRACE_INDENT();
+    return thing_monst_ai_dumb_solve(g, v, l, me, at, target);
+  }
 
   if (thing_is_dumb_ai(me)) {
     return thing_monst_ai_dumb_solve(g, v, l, me, at, target);
@@ -474,6 +552,10 @@ static auto thing_monst_choose_something_we_can_wander_to(Gamep g, Levelsp v, Le
   auto tries     = 0;
   auto max_tries = 100;
 
+  if (! g_opt_tests) {
+    max_tries = 10;
+  }
+
   int  best_lowest_score = 999999;
   bool found_path        = false;
 
@@ -577,7 +659,7 @@ static auto thing_monst_choose_something_we_can_wander_to(Gamep g, Levelsp v, Le
   auto at = thing_at(g, v, l, me);
 
   //
-  // Check if enguilfed
+  // Check if engulfed
   //
   if (thing_is_engulfed(me)) {
     //
@@ -957,23 +1039,26 @@ static auto thing_monst_choose_something_we_can_wander_to(Gamep g, Levelsp v, Le
 
   if (thing_is_jumping(me)) {
     THING_DBG(g, v, l, me, "choose target: wait for jump to complete");
-    return true;
+    return false;
   }
 
   if (thing_monst_over_target_player(g, v, l, me)) {
     THING_DBG(g, v, l, me, "choose target: over player");
+    TRACE_INDENT();
     monst_state_change(g, v, l, me, MONST_STATE_CHASING);
     return true;
   }
 
   if (thing_monst_choose_target_player(g, v, l, me)) {
     THING_DBG(g, v, l, me, "choose target: found player");
+    TRACE_INDENT();
     monst_state_change(g, v, l, me, MONST_STATE_CHASING);
     return true;
   }
 
   if (thing_monst_choose_best_target(g, v, l, me)) {
     THING_DBG(g, v, l, me, "choose target: found best target");
+    TRACE_INDENT();
     monst_state_change(g, v, l, me, MONST_STATE_CHASING);
     return true;
   }
@@ -981,6 +1066,7 @@ static auto thing_monst_choose_something_we_can_wander_to(Gamep g, Levelsp v, Le
   if (thing_is_minion(me)) {
     THING_DBG(g, v, l, me, "choose target: one near mob?");
     TRACE_INDENT();
+
     if (thing_minion_choose_target_near_mob(g, v, l, me)) {
       THING_DBG(g, v, l, me, "choose target: minion found target near mob");
       monst_state_change(g, v, l, me, MONST_STATE_WANDER);
@@ -990,8 +1076,8 @@ static auto thing_monst_choose_something_we_can_wander_to(Gamep g, Levelsp v, Le
 
   THING_DBG(g, v, l, me, "choose target: one we can see?");
   if (thing_monst_choose_something_we_can_wander_to(g, v, l, me)) {
-    TRACE_INDENT();
     THING_DBG(g, v, l, me, "choose target: monst found a target it can see");
+    TRACE_INDENT();
     monst_state_change(g, v, l, me, MONST_STATE_WANDER);
     return true;
   }

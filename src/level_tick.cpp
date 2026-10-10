@@ -672,7 +672,7 @@ static void level_tick_idle(Gamep g, Levelsp v, Levelp l)
   FOR_ALL_TICKING_LEVELS(g, v, iter)
   {
     if (iter->tick_begin_requested) {
-      level_log(g, v, iter, "Tick already requested for this level");
+      LEVEL_DBG(g, v, iter, "Tick already requested for this level");
       ret = false;
     }
   }
