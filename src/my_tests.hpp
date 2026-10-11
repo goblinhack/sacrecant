@@ -90,6 +90,7 @@ auto test_load_monst_jumper() -> bool;
 auto test_load_monst_levit() -> bool;
 auto test_load_monst_massacre() -> bool;
 auto test_load_monst_maze() -> bool;
+auto test_load_monst_mob_dumb_leash() -> bool;
 auto test_load_monst_mob_leash() -> bool;
 auto test_load_monst_mobbing() -> bool;
 auto test_load_monst_move_diagonal_barrel() -> bool;

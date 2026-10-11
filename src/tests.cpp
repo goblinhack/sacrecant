@@ -92,6 +92,7 @@
   if (!test_load_monst_levit()) { return false; }
   if (!test_load_monst_massacre()) { return false; }
   if (!test_load_monst_maze()) { return false; }
+  if (!test_load_monst_mob_dumb_leash()) { return false; }
   if (!test_load_monst_mob_leash()) { return false; }
   if (!test_load_monst_mobbing()) { return false; }
   if (!test_load_monst_move_diagonal_barrel()) { return false; }

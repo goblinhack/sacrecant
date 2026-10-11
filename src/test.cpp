@@ -110,6 +110,7 @@ static std::initializer_list< std::string > tests = {
     "monst_levit",
     "monst_massacre",
     "monst_maze",
+    "monst_mob_dumb_leash",
     "monst_mob_leash",
     "monst_mobbing",
     "monst_move_diagonal_barrel",
