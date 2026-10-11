@@ -37,6 +37,11 @@ auto thing_strip_item(Gamep g, Levelsp v, Levelp l, Thingp owner, Thingp item, T
     return false;
   }
 
+  auto *ext = thing_ext_struct(g, v, owner);
+  if (ext == nullptr) {
+    return false;
+  }
+
   auto s = to_string(g, v, l, item);
   THING_DBG(g, v, l, owner, "strip: %s", s.c_str());
   TRACE_INDENT();
@@ -70,9 +75,9 @@ auto thing_strip_item(Gamep g, Levelsp v, Levelp l, Thingp owner, Thingp item, T
 
   FOR_ALL_WORN_TYPES(w)
   {
-    if (owner->worn_id[ w ] == item->id) {
-      owner->worn_id[ w ] = 0;
-      removed             = true;
+    if (ext->worn_id[ w ] == item->id) {
+      ext->worn_id[ w ] = 0;
+      removed           = true;
       break;
     }
   }
@@ -178,11 +183,16 @@ auto thing_strip_item(Gamep g, Levelsp v, Levelp l, Thingp owner, Thingp item, T
     return nullptr;
   }
 
-  if (! static_cast< bool >(owner->worn_id[ w ])) {
+  auto *ext = thing_ext_struct(g, v, owner);
+  if (ext == nullptr) {
     return nullptr;
   }
 
-  return thing_find_optional(g, v, owner->worn_id[ w ]);
+  if (! static_cast< bool >(ext->worn_id[ w ])) {
+    return nullptr;
+  }
+
+  return thing_find_optional(g, v, ext->worn_id[ w ]);
 }
 
 //
@@ -262,11 +272,16 @@ static auto thing_wear_item_do(Gamep g, Levelsp v, Levelp l, Thingp owner, Thing
     return false;
   }
 
+  auto *ext = thing_ext_struct(g, v, owner);
+  if (ext == nullptr) {
+    return false;
+  }
+
   auto s = to_string(g, v, l, item);
   THING_DBG(g, v, l, owner, "wield: %s (%s)", s.c_str(), WornType_to_string(w).c_str());
   TRACE_INDENT();
 
-  if (owner->worn_id[ w ] != 0U) {
+  if (ext->worn_id[ w ] != 0U) {
     auto *existing_item = thing_worn_get(g, v, l, owner, w);
     if (existing_item == nullptr) {
       thing_err(g, v, l, owner, "worn_id is set, but no item");
@@ -303,7 +318,7 @@ static auto thing_wear_item_do(Gamep g, Levelsp v, Levelp l, Thingp owner, Thing
 
   THING_DBG(g, v, l, owner, "wield success: %s (%s)", s.c_str(), WornType_to_string(w).c_str());
 
-  owner->worn_id[ w ] = item->id;
+  ext->worn_id[ w ] = item->id;
 
   return true;
 }

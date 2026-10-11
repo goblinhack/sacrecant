@@ -125,7 +125,7 @@ static void tp_skullferno_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
 
-  auto target = thing_monst_target(me);
+  auto target = thing_monst_target(g, v, l, me);
   if (level_is_player(g, v, l, target)) {
     (void) thing_attack_at(g, v, l, me, target);
   }

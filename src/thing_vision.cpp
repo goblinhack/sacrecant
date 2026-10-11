@@ -139,7 +139,7 @@ void thing_can_see_dump(Gamep g, Levelsp v, Levelp l, Thingp t)
     for (auto x = 0; x < MAP_WIDTH; x++) {
       bpoint const p(x, y);
 
-      if (p == thing_monst_target(t)) {
+      if (p == thing_monst_target(g, v, l, t)) {
         debug += "G";
         continue;
       }

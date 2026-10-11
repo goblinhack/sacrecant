@@ -157,7 +157,7 @@ static auto thing_attack_at_do(Gamep g, Levelsp v, Levelp l, Thingp attacker, Th
   //
   // Keep track of where we tried to attack
   //
-  attacker->attacked_at = victim_at;
+  thing_attacked_at_set(g, v, l, attacker, victim_at);
 
   //
   // Even if the attack fails, make the monster point at the target

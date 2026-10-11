@@ -250,6 +250,14 @@ using ThingSpellBook = struct ThingSpellBook {
 using ThingExt = struct ThingExt {
   uint8_t in_use : 1;
   //
+  // Last tile we attacked
+  //
+  bpoint _attacked_at;
+  //
+  // What we're chasing currently. Might be the player or some random tile.
+  //
+  bpoint _monst_target;
+  //
   // All minions for this mob
   //
   ThingMinions minions;
@@ -282,6 +290,10 @@ using ThingExt = struct ThingExt {
   // Spells we can cast
   //
   ThingSpellBook spellbook;
+  //
+  // What weapon, ring etc. worn
+  //
+  ThingId worn_id[ WORN_TYPE_ENUM_MAX ];
   //
   // Holds the path as we or the monster walk it
   //
@@ -664,10 +676,6 @@ using Thing = struct Thing {
   //
   ThingId id;
   //
-  // What weapon, ring etc. worn
-  //
-  ThingId worn_id[ WORN_TYPE_ENUM_MAX ];
-  //
   // If owned, by whom
   //
   ThingId owner_id;
@@ -711,10 +719,6 @@ using Thing = struct Thing {
   //
   bpoint last_pushed_at;
   //
-  // Last tile we attacked
-  //
-  bpoint attacked_at;
-  //
   // Where we're lunging
   //
   bpoint lunging_to;
@@ -736,10 +740,6 @@ using Thing = struct Thing {
   // However some things like missiles can be at fractional positions.
   //
   fpoint _at;
-  //
-  // What we're chasing currently. Might be the player or some random tile.
-  //
-  bpoint _monst_target;
 };
 
 // begin sort marker1 {
@@ -1381,7 +1381,8 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_mob_minion_count_get(Gamep g, Levelsp v, Levelp l, Thingp mob) -> int;
 [[nodiscard]] auto thing_mob_spawn_a_minion(Gamep g, Levelsp v, Levelp l, Thingp mob, Tpp tp_minion) -> Thingp;
 [[nodiscard]] auto thing_monst_move_try(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool;
-[[nodiscard]] auto thing_monst_target(Thingp me) -> bpoint;
+[[nodiscard]] auto thing_monst_target(Gamep g, Levelsp v, Levelp l, Thingp me) -> bpoint;
+[[nodiscard]] auto thing_attacked_at(Gamep g, Levelsp v, Levelp l, Thingp me) -> bpoint;
 [[nodiscard]] auto thing_move_path_apply(Gamep g, Levelsp v, Levelp l, Thingp me, const std::vector< bpoint > &move_path) -> bool;
 [[nodiscard]] auto thing_move_path_confirmed(Gamep g, Levelsp v, Levelp l, Thingp me, const std::vector< bpoint > &move_path) -> bool;
 [[nodiscard]] auto thing_move_path_identical(Gamep g, Levelsp v, Levelp l, Thingp me, const std::vector< bpoint > &move_path) -> bool;
@@ -1680,6 +1681,7 @@ auto thing_melt(Gamep g, Levelsp v, Levelp l, Thingp t) -> void;
 auto thing_mob_dump_minions(Gamep g, Levelsp v, Levelp l, Thingp mob) -> void;
 auto thing_monst_event_loop(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
 auto thing_monst_target_set(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &val) -> void;
+auto thing_attacked_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &val) -> void;
 auto thing_monst_tick(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
 auto thing_move_finish(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
 auto thing_move_path_confirm(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;

@@ -352,6 +352,11 @@ static auto thing_monst_choose_target_player(Gamep g, Levelsp v, Levelp l, Thing
     return false;
   }
 
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return false;
+  }
+
   if (compiler_unused) {
     thing_can_see_dump(g, v, l, me);
   }
@@ -414,8 +419,9 @@ static auto thing_monst_choose_target_player(Gamep g, Levelsp v, Levelp l, Thing
       } else {
         THING_DBG(g, v, l, me, "choose target: cannot see invisible and cannot hear player");
 
-        if (adjacent(me->attacked_at, at)) {
-          if (level_is_player_bool(g, v, l, me->attacked_at)) {
+        auto attacked_at = thing_attacked_at(g, v, l, me);
+        if (adjacent(attacked_at, at)) {
+          if (level_is_player_bool(g, v, l, attacked_at)) {
             THING_DBG(g, v, l, me, "choose target: cannot see invisible but player is still here");
           } else {
             THING_DBG(g, v, l, me, "choose target: cannot see invisible and player is gone");
@@ -875,7 +881,7 @@ static auto thing_monst_choose_something_we_can_wander_to(Gamep g, Levelsp v, Le
   THING_DBG(g, v, l, me, "monst attack");
   TRACE_INDENT();
 
-  auto target = thing_monst_target(me);
+  auto target = thing_monst_target(g, v, l, me);
   return thing_monst_attack_at(g, v, l, me, target);
 }
 
@@ -886,7 +892,7 @@ static auto thing_monst_choose_something_we_can_wander_to(Gamep g, Levelsp v, Le
 {
   TRACE();
 
-  auto target = thing_monst_target(me);
+  auto target = thing_monst_target(g, v, l, me);
   THING_DBG(g, v, l, me, "move to next, target (%d,%d)", target.x, target.y);
   TRACE_INDENT();
 
@@ -1185,7 +1191,7 @@ void thing_monst_event_loop(Gamep g, Levelsp v, Levelp l, Thingp me)
   //
   // Post thinking state check
   //
-  auto old_target = thing_monst_target(me);
+  auto old_target = thing_monst_target(g, v, l, me);
   switch (monst_state(g, v, l, me)) {
     case MONST_STATE_INIT : //
       break;
@@ -1244,7 +1250,7 @@ void thing_monst_event_loop(Gamep g, Levelsp v, Levelp l, Thingp me)
           break;
         }
 
-        auto new_target = thing_monst_target(me);
+        auto new_target = thing_monst_target(g, v, l, me);
         if (old_target == new_target) {
           //
           // If it is the same target, do not try to fail to move to the same tile again.
@@ -1409,7 +1415,7 @@ void thing_monst_tick(Gamep g, Levelsp v, Levelp l, Thingp me)
   return tp_flag(thing_tp(me), is_monst2) != 0;
 }
 
-[[nodiscard]] auto thing_monst_target(Thingp me) -> bpoint
+[[nodiscard]] auto thing_monst_target(Gamep g, Levelsp v, Levelp l, Thingp me) -> bpoint
 {
   TRACE_DEBUG();
 
@@ -1417,7 +1423,12 @@ void thing_monst_tick(Gamep g, Levelsp v, Levelp l, Thingp me)
     CROAK("no thing pointer");
   }
 
-  return me->_monst_target;
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    CROAK("no ext pointer");
+  }
+
+  return ext->_monst_target;
 }
 
 void thing_monst_target_set(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &val)
@@ -1428,7 +1439,48 @@ void thing_monst_target_set(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoin
     CROAK("no thing pointer");
   }
 
-  me->_monst_target = val;
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    CROAK("no ext pointer");
+  }
+
+  ext->_monst_target = val;
 
   THING_DBG(g, v, l, me, "target set: %d,%d", val.x, val.y);
+}
+
+[[nodiscard]] auto thing_attacked_at(Gamep g, Levelsp v, Levelp l, Thingp me) -> bpoint
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    CROAK("no thing pointer");
+  }
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    CROAK("no ext pointer");
+  }
+
+  return ext->_attacked_at;
+}
+
+void thing_attacked_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &val)
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    CROAK("no thing pointer");
+  }
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    CROAK("no ext pointer");
+  }
+
+  ext->_attacked_at = val;
+
+  if (compiler_unused) {
+    THING_DBG(g, v, l, me, "attacked at set: %d,%d", val.x, val.y);
+  }
 }
