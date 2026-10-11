@@ -294,7 +294,8 @@ static auto level_cursor_path_draw_line_attempt(Gamep g, Levelsp v, Levelp l, Th
             //
             // Avoid hazards
             //
-            if (level_is_obs_to_cursor_path_bool(g, v, l, p, player) || level_is_cursor_path_jump_over_hazard_or_obstacle_bool(g, v, l, p, player)) {
+            if (level_is_obs_to_cursor_path_bool(g, v, l, p, player)
+                || level_is_cursor_path_jump_over_hazard_or_obstacle_bool(g, v, l, p, player)) {
               dmap.val[ x ][ y ] = DMAP_IS_WALL;
             } else {
               dmap.val[ x ][ y ] = DMAP_IS_PASSABLE;
@@ -375,9 +376,7 @@ static auto level_cursor_path_draw_line_attempt(Gamep g, Levelsp v, Levelp l, Th
     return empty;
   }
 
-  if (compiler_unused) {
-    topcon("attempt %d len %d", attempt, static_cast< int >(p.size()));
-  }
+  IF_DEBUG3 { log("attempt %d len %d", attempt, static_cast< int >(p.size())); }
 
   return p;
 }
@@ -409,12 +408,14 @@ auto level_cursor_path_draw_line(Gamep g, Levelsp v, Levelp l, const bpoint &sta
 
   for (auto attempt = 1; attempt < max_attempts; attempt++) {
     PathCost pc;
-    log("attempt %d", attempt);
+    IF_DEBUG3 { log("attempt %d", attempt); }
+
     pc.path = level_cursor_path_draw_line_attempt(g, v, l, player, start, end, attempt);
     if (pc.path.empty()) {
       continue;
     }
-    log("attempt %d worked", attempt);
+
+    IF_DEBUG3 { log("attempt %d worked", attempt); }
     pc.cost = thing_path_cost(g, v, l, player, pc.path);
     paths.push_back(pc);
   }
@@ -441,7 +442,7 @@ auto level_cursor_path_draw_line(Gamep g, Levelsp v, Levelp l, const bpoint &sta
 
   std::ranges::sort(paths, [](const PathCost &a, const PathCost &b) -> bool { return (a.cost < b.cost); });
 
-  IF_DEBUG2
+  IF_DEBUG3
   {
     auto idx = 0;
     for (const auto &pc : paths) {

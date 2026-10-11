@@ -202,7 +202,7 @@ static auto wid_rightbar_thing_info_add(Gamep g, Levelsp v, Levelp l) -> void
 [[nodiscard]] static auto wid_rightbar_create_window(Gamep g) -> bool
 {
   TRACE();
-  DBG2("Remake rightbar");
+  DBG2("remake rightbar");
 
   wid_rightbar_fini(g);
 

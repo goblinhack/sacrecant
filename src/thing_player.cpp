@@ -1612,9 +1612,6 @@ void player_collision_handle(Gamep g, Levelsp v, Levelp l, Thingp me)
     return false;
   }
 
-  THING_DBG(g, v, l, me, "player move to next in %s", player_state_to_string(player_state(g, v)).c_str());
-  TRACE_INDENT();
-
   //
   // If not following a path, then nothing to pop
   //
@@ -1653,6 +1650,9 @@ void player_collision_handle(Gamep g, Levelsp v, Levelp l, Thingp me)
       break;
     case PLAYER_STATE_ENUM_MAX : break;
   }
+
+  THING_DBG(g, v, l, me, "player move to next in %s", player_state_to_string(player_state(g, v)).c_str());
+  TRACE_INDENT();
 
   //
   // Get the next tile to move to

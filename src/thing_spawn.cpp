@@ -63,10 +63,6 @@ void thing_is_spawned_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     return nullptr;
   }
 
-  {
-    THING_DBG(g, v, l, t, "spawned");
-  }
-
   //
   // This is reset each tick
   //
@@ -74,7 +70,14 @@ void thing_is_spawned_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     l->is_tick_end_delay = true;
   }
 
-  thing_is_spawned_set(g, v, l, t, e, true);
+  //
+  // Need to differentiate things spawned normally at game creation and those after
+  //
+  if (v->tick) {
+    THING_DBG(g, v, l, t, "spawned");
+
+    thing_is_spawned_set(g, v, l, t, e, true);
+  }
 
   return t;
 }

@@ -19,7 +19,7 @@ static WidPopup *wid_leftbar;
 [[nodiscard]] static auto wid_leftbar_create_window(Gamep g) -> bool
 {
   TRACE();
-  DBG2("Remake leftbar");
+  DBG2("remake leftbar");
 
   wid_leftbar_fini(g);
 

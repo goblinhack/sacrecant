@@ -268,7 +268,7 @@ public:
   int single_pix_size = {};
 
   //
-  // Remake the right bar next tick
+  // remake the right bar next tick
   //
   bool request_to_remake_ui {};
 
