@@ -1573,10 +1573,10 @@
   return tp_flag(tp, is_unused117) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused118(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_memory_ext(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused118) != 0;
+  return tp_flag(tp, is_memory_ext) != 0;
 }
 
 [[nodiscard]] auto tp_is_cursor_path_jump_over(Tpp tp) -> bool

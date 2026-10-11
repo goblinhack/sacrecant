@@ -185,12 +185,17 @@
     return THING_STAT_DEFAULT;
   }
 
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return THING_STAT_DEFAULT;
+  }
+
   if (stat >= THING_STAT_ENUM_MAX) {
     thing_err(g, v, l, me, "bad value in stat for %s, %d", __FUNCTION__, stat);
     return THING_STAT_DEFAULT;
   }
 
-  auto out = me->_stat[ stat ] = val;
+  auto out = ext->_stat[ stat ] = val;
 
   if (compiler_unused) {
     THING_DBG(g, v, l, me, "set: %d => %s", out, thing_stat_dbg_string(g, v, l, me, stat).c_str());
@@ -397,13 +402,18 @@
     return THING_STAT_DEFAULT;
   }
 
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return THING_STAT_DEFAULT;
+  }
+
   if (stat >= THING_STAT_ENUM_MAX) {
     thing_err(g, v, l, me, "bad value in stat for %s, %d", __FUNCTION__, stat);
     return THING_STAT_DEFAULT;
   }
 
   auto stat_string = stat_to_name_short(stat);
-  int  out         = me->_stat[ stat ];
+  int  out         = ext->_stat[ stat ];
 
   IF_DEBUG3
   {

@@ -84,6 +84,7 @@ static bool tp_sac_glass_bones_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me
   tp_name_long_set(tp, "glass bones");
   tp_sac_points_set(tp, 5);
   tp_stat_set(tp, THING_STAT_DEF, "8");
+  tp_flag_set(tp, is_memory_ext);
   // end sort marker1 }
 
   return true;

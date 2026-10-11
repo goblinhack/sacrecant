@@ -267,10 +267,7 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
   //
   // Check we cannot overflow on monsters
   //
-  // Light source need to avoid foving the same cell more than once, hence their presence.
-  //
-  auto needs_ext_memory
-      = tp_is_able_to_be_buffed(tp) || tp_is_mob(tp) || tp_is_monst(tp) || tp_is_player(tp) || (tp_distance_vision_get(tp) != 0);
+  auto needs_ext_memory = tp_is_memory_ext(tp);
   if (needs_ext_memory) {
     if (v->thing_ext_count >= THING_EXT_MAX - 1) {
       tp_log(tp, "out of ext thing memory");

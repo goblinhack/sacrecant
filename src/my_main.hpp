@@ -41,6 +41,7 @@ void               warn(const char *fmt, ...) CHECK_FORMAT_STR(printf, 1, 2);
 #define CROAK(...)                                                                                                                              \
   /* Log this now, just in case we crash later */                                                                                               \
   fprintf(stderr, "CROAK: " __VA_ARGS__);                                                                                                       \
+  fprintf(stderr, " at %s:%s():%u\n", SRC_FILE_NAME, SRC_FUNC_NAME, SRC_LINE_NUM);                                                              \
   fprintf(stderr, "\n");                                                                                                                        \
   if (stderr != MY_STDERR) {                                                                                                                    \
     fprintf(MY_STDERR, "CROAK: " __VA_ARGS__);                                                                                                  \
@@ -74,6 +75,7 @@ void               warn(const char *fmt, ...) CHECK_FORMAT_STR(printf, 1, 2);
 #define ERR(...)                                                                                                                                \
   /* Log this now, just in case we crash later */                                                                                               \
   fprintf(stderr, "ERR: " __VA_ARGS__);                                                                                                         \
+  fprintf(stderr, " at %s:%s():%u\n", SRC_FILE_NAME, SRC_FUNC_NAME, SRC_LINE_NUM);                                                              \
   fprintf(stderr, "\n");                                                                                                                        \
   if (stderr != MY_STDERR) {                                                                                                                    \
     fprintf(MY_STDERR, "ERR: " __VA_ARGS__);                                                                                                    \

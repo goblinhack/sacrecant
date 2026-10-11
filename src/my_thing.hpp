@@ -295,6 +295,10 @@ using ThingExt = struct ThingExt {
   //
   ThingId worn_id[ WORN_TYPE_ENUM_MAX ];
   //
+  // Statistics
+  //
+  uint8_t _stat[ THING_STAT_ENUM_MAX ];
+  //
   // Holds the path as we or the monster walk it
   //
   struct {
@@ -420,10 +424,6 @@ using Thing = struct Thing {
   //                               b  b  b
   //
   int8_t _hearing_threshold;
-  //
-  // Statistics
-  //
-  uint8_t _stat[ THING_STAT_ENUM_MAX ];
   //
   // Used so often, we cache it
   //
@@ -776,6 +776,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_attack_count_per_tick_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
 [[nodiscard]] auto thing_attack_count_per_tick(Thingp t) -> int;
 [[nodiscard]] auto thing_attack_poison(Gamep g, Levelsp v, Levelp l, Thingp it) -> bool;
+[[nodiscard]] auto thing_attacked_at(Gamep g, Levelsp v, Levelp l, Thingp me) -> bpoint;
 [[nodiscard]] auto thing_auto_wear_try(Gamep g, Levelsp v, Levelp l, Thingp owner, Thingp item, ThingEvent &e) -> bool;
 [[nodiscard]] auto thing_can_move_to_ai(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool;
 [[nodiscard]] auto thing_can_move_to_attempt_by_engulfing(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool;
@@ -1087,6 +1088,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_lucky(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_meat(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_meltable(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_memory_ext(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_metal(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_minion(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_mob_kill_minions_on_death(Thingp me) -> bool;
@@ -1201,7 +1203,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused115(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused116(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused117(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused118(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused12(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused124(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused13(Thingp t) -> bool;
@@ -1382,7 +1383,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_mob_spawn_a_minion(Gamep g, Levelsp v, Levelp l, Thingp mob, Tpp tp_minion) -> Thingp;
 [[nodiscard]] auto thing_monst_move_try(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool;
 [[nodiscard]] auto thing_monst_target(Gamep g, Levelsp v, Levelp l, Thingp me) -> bpoint;
-[[nodiscard]] auto thing_attacked_at(Gamep g, Levelsp v, Levelp l, Thingp me) -> bpoint;
 [[nodiscard]] auto thing_move_path_apply(Gamep g, Levelsp v, Levelp l, Thingp me, const std::vector< bpoint > &move_path) -> bool;
 [[nodiscard]] auto thing_move_path_confirmed(Gamep g, Levelsp v, Levelp l, Thingp me, const std::vector< bpoint > &move_path) -> bool;
 [[nodiscard]] auto thing_move_path_identical(Gamep g, Levelsp v, Levelp l, Thingp me, const std::vector< bpoint > &move_path) -> bool;
@@ -1604,6 +1604,7 @@ auto thing_anim_init(Gamep g, Levelsp v, Levelp l, Thingp t, ThingAnimType anim_
 auto thing_anim_time_step(Gamep g, Levelsp v, Levelp l, Thingp t, Tpp tp, int time_step) -> void;
 auto thing_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &val) -> void;
 auto thing_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, const fpoint &val) -> void;
+auto thing_attacked_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &val) -> void;
 auto thing_blit_text(Gamep g, Levelsp v, Levelp l, spoint tl, spoint br, std::string const &text, color fg, bool outline) -> void;
 auto thing_can_see_dump(Gamep g, Levelsp v, Levelp l, Thingp t) -> void;
 auto thing_chasm_handle(Gamep g, Levelsp v, Levelp l, Thingp t) -> void;
@@ -1681,7 +1682,6 @@ auto thing_melt(Gamep g, Levelsp v, Levelp l, Thingp t) -> void;
 auto thing_mob_dump_minions(Gamep g, Levelsp v, Levelp l, Thingp mob) -> void;
 auto thing_monst_event_loop(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
 auto thing_monst_target_set(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &val) -> void;
-auto thing_attacked_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &val) -> void;
 auto thing_monst_tick(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
 auto thing_move_finish(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
 auto thing_move_path_confirm(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;

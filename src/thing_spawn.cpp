@@ -28,13 +28,6 @@ static void thing_is_spawned_set(Gamep g, Levelsp v, Levelp l, Thingp t, ThingEv
     return;
   }
   t->_is_spawned = val;
-
-  if (val) {
-    //
-    // Callback upon spawning
-    //
-    thing_on_spawned(g, v, l, t, e);
-  }
 }
 
 void thing_is_spawned_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
@@ -78,6 +71,11 @@ void thing_is_spawned_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
 
     thing_is_spawned_set(g, v, l, t, e, true);
   }
+
+  //
+  // Needed for all things, to get items populated
+  //
+  thing_on_spawned(g, v, l, t, e);
 
   return t;
 }

@@ -286,7 +286,7 @@
       list_macro(is_unused115, "is_unused115"),                                             /* newline */                                       \
       list_macro(is_unused116, "is_unused116"),                                             /* newline */                                       \
       list_macro(is_unused117, "is_unused117"),                                             /* newline */                                       \
-      list_macro(is_unused118, "is_unused118"),                                             /* newline */                                       \
+      list_macro(is_memory_ext, "is_memory_ext"),                                           /* newline */                                       \
       list_macro(is_cursor_path_jump_over, "is_cursor_path_jump_over"),                     /* newline */                                       \
       list_macro(is_unused12, "is_unused12"),                                               /* newline */                                       \
       list_macro(is_haunt, "is_haunt"),                                                     /* newline */                                       \
@@ -1049,6 +1049,7 @@ class Tp;
 [[nodiscard]] auto tp_is_lucky(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_meat(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_meltable(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_memory_ext(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_metal(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_minion(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_mob_kill_minions_on_death(Tpp tp) -> bool;
@@ -1157,7 +1158,6 @@ class Tp;
 [[nodiscard]] auto tp_is_unused115(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused116(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused117(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused118(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused12(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused124(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused13(Tpp tp) -> bool;

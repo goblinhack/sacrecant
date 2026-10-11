@@ -228,6 +228,7 @@ static bool tp_spider_giant_on_missing(Gamep g, Levelsp v, Levelp l, Thingp atta
   tp_temperature_initial_set(tp, 20);   // celsius
   tp_weight_set(tp, WEIGHT_HEAVY);      // grams
   tp_z_depth_set(tp, MAP_Z_DEPTH_MONST);
+  tp_flag_set(tp, is_memory_ext);
   // end sort marker1 }
 
   auto delay = 800;

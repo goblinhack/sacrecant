@@ -1611,10 +1611,10 @@
   return level_flag(g, v, l, is_unused117, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused118_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_memory_ext_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused118, p, me) != nullptr;
+  return level_flag(g, v, l, is_memory_ext, p, me) != nullptr;
 }
 
 [[nodiscard]] auto level_is_cursor_path_jump_over_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool

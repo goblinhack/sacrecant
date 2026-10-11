@@ -1611,10 +1611,10 @@
   return level_flag_cached(g, v, l, is_unused117, p);
 }
 
-[[nodiscard]] auto level_is_unused118_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_memory_ext_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused118, p);
+  return level_flag_cached(g, v, l, is_memory_ext, p);
 }
 
 [[nodiscard]] auto level_is_cursor_path_jump_over_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

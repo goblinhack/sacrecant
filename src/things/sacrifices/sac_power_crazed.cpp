@@ -105,6 +105,7 @@ static bool tp_sac_power_crazed_on_attacking(Gamep g, Levelsp v, Levelp l, Thing
   tp_sac_points_set(tp, 6);
   tp_stat_set(tp, THING_STAT_ATT, "18");
   tp_stat_set(tp, THING_STAT_DEF, "2");
+  tp_flag_set(tp, is_memory_ext);
   // end sort marker1 }
 
   return true;

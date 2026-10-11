@@ -37,6 +37,7 @@ static auto tp_sac_clumsy_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) ->
   tp_sac_points_set(tp, 4);
   tp_stat_set(tp, THING_STAT_DEF, "8");
   tp_stat_set(tp, THING_STAT_DEX, "8");
+  tp_flag_set(tp, is_memory_ext);
   // end sort marker1 }
 
   return true;
