@@ -44,7 +44,7 @@ using ThingIdPacked = union {
 //
 // Essentially equates to the max number of monsters+light sources per level
 //
-#define THING_EXT_MAX       (LEVEL_ARR_IDX_MAX * 500) // The size of thing_ext
+#define THING_EXT_MAX       (LEVEL_ARR_IDX_MAX * 400) // The size of thing_ext
 #define THING_LIGHT_MAX     (LEVEL_ARR_IDX_MAX * 200) // The size of thing_light
 #define THING_MOVE_PATH_MAX (MAP_WIDTH + MAP_HEIGHT)  // Player/monster move paths (max size uint8_t)
 #define THING_INVENTORY_MAX 26
@@ -638,7 +638,7 @@ using Thing = struct Thing {
   //
   // Used to only tick things once per loop, even if they move slot
   //
-  uint32_t iter[ MY_ITERS_MAX ];
+  uint8_t iter[ MY_ITERS_MAX ];
   //
   // When this poor thing died.
   //

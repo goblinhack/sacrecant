@@ -15,11 +15,6 @@ enum {
   MAP_SLOTS  = 14,
 
   //
-  // The world map is smaller than the level map by a factor.
-  //
-  LEVEL_SCALE = 9,
-
-  //
   // Entropy is always > 0 for Thing IDs to distinguish them
   // A thing ID is composed as: [ Entropy bits ] [ ID bits ]
   //

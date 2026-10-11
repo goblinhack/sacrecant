@@ -361,7 +361,7 @@ using Levels = struct Levels {
   //
   // Used to only tick things once per loop, even if they move slot
   //
-  uint32_t iter[ MY_ITERS_MAX ];
+  uint8_t iter[ MY_ITERS_MAX ];
   //
   // To catch iter nesting
   //

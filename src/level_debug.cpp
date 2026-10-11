@@ -24,8 +24,9 @@ void game_debug_info(Gamep g)
 
   log("level info:");
   log("- Levels memory:                   %" PRI_SIZE_T " Mb", sizeof(Levels) / (1024 * 1024));
+  log("- Thing body memory:               %" PRI_SIZE_T " Mb", sizeof(v->thing_body) / (1024 * 1024));
   log("- Thing ext memory:                %" PRI_SIZE_T " Mb", sizeof(v->thing_ext) / (1024 * 1024));
-  log("- Thing fov memory:                %" PRI_SIZE_T " Mb", sizeof(v->thing_light) / (1024 * 1024));
+  log("- Thing light memory:              %" PRI_SIZE_T " Mb", sizeof(v->thing_light) / (1024 * 1024));
   log("- sizeof(Thing):                   %" PRI_SIZE_T " b", sizeof(Thing));
   log("- sizeof(ThingInventory):          %" PRI_SIZE_T " b", sizeof(ThingInventory));
   log("- sizeof(ThingExt)                 %" PRI_SIZE_T " b", sizeof(ThingExt));
@@ -34,7 +35,6 @@ void game_debug_info(Gamep g)
   log("- MAP_HEIGHT                       %u", MAP_HEIGHT);
   log("- MAP_WIDTH                        %u", MAP_WIDTH);
   log("- MAP_SLOTS                        %u", MAP_SLOTS);
-  log("- LEVEL_SCALE                      %u", LEVEL_SCALE);
   log("- LEVEL_GRID_ACROSS                %u", LEVEL_GRID_ACROSS);
   log("- LEVEL_GRID_DOWN                  %u", LEVEL_GRID_DOWN);
   log("- LEVEL_ARR_IDX_LEVEL_SELECT       %u", LEVEL_ARR_IDX_LEVEL_SELECT);
