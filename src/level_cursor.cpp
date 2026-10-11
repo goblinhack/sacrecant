@@ -33,7 +33,7 @@ using PathCost = struct PathCost {
 //
 // Lava, or something more innocent like rubble, that we want to jump over?
 //
-bool level_is_cursor_path_jump_over_hazard_or_obstacle_bool(Gamep g, Levelsp v, Levelp l, const bpoint p, Thingp me)
+auto level_is_cursor_path_jump_over_hazard_or_obstacle_bool(Gamep g, Levelsp v, Levelp l, const bpoint p, Thingp me) -> bool
 {
   TRACE();
 
@@ -365,7 +365,7 @@ static auto level_cursor_path_draw_line_attempt(Gamep g, Levelsp v, Levelp l, Th
     return empty;
   }
 
-  IF_DEBUG3 { log("path size %d", (int) path_size); }
+  IF_DEBUG3 { log("path size %d", static_cast< int >(path_size)); }
 
   //
   // If we could not reach the target, then the path will just plot the distance from the start, which is not what

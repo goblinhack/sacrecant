@@ -84,6 +84,9 @@ void level_tick_begin_temperature(Gamep g, Levelsp v, Levelp l)
       // We do not want newly spawned things that occur during the tick to cause
       // interactions else we get explosions that travel in the direction of the loop
       //
+      // However, care is needed, so that the player (newly spawned at game creation)
+      // if they step into lava on the first move, must be hit.
+      //
       if (thing_is_spawned(t)) {
         continue;
       }
@@ -364,7 +367,7 @@ void level_tick_end_temperature(Gamep g, Levelsp v, Levelp l)
 {
   TRACE();
 
-  if (1 || compiler_unused) {
+  if (compiler_unused) {
     level_log(g, v, l, "tick end temperature");
     TRACE_INDENT();
   }

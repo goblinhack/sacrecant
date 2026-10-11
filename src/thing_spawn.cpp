@@ -73,7 +73,7 @@ void thing_is_spawned_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   //
   // Need to differentiate things spawned normally at game creation and those after
   //
-  if (v->tick) {
+  if (v->tick != 0u) {
     THING_DBG(g, v, l, t, "spawned");
 
     thing_is_spawned_set(g, v, l, t, e, true);
