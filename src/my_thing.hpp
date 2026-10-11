@@ -991,6 +991,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_crushable(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_cursed(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_cursor_path_hazard(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_cursor_path_jump_over(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_cursor_path_none(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_cursor_path_warning(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_cursor_path(Thingp t) -> bool;
@@ -1201,7 +1202,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused116(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused117(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused118(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused119(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused12(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused124(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused13(Thingp t) -> bool;

@@ -292,7 +292,7 @@ static auto thing_throw_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thing
   //
   // No throwing into solid obstacles
   //
-  if (level_is_obs_to_throwing_onto(g, v, l, to, thrower) != nullptr) {
+  if (level_is_obs_to_throwing_onto_bool(g, v, l, to, thrower)) {
     blocked = true;
     if (thing_is_player(thrower)) {
       topcon("There is something in the way of throwing there.");

@@ -2,8 +2,6 @@ bugs
 ----
 argusul god should fade out
 after boss health and mana recovert
-why not jump over rubble
-astar test for lots of monsts
 transparent wall
 need boss multi tile shoot test
 need dumb AI test
@@ -71,6 +69,7 @@ items
   - thrown potion, caustic gas
 monsters
   - highenas and wolves
+  - barguest
   - rainbow scorpion
   - gloater
   - crayfish men

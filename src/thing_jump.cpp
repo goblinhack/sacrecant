@@ -92,7 +92,7 @@ static void thing_jump_truncate(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint 
   //
   // Cannot jump in lava for example
   //
-  if (level_is_obs_to_jumping_out_of(g, v, l, curr_at, me) != nullptr) {
+  if (level_is_obs_to_jumping_out_of_bool(g, v, l, curr_at, me)) {
     how_far_i_can_jump = 1;
   }
 
@@ -249,7 +249,7 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
   //
   if (to != at) {
     if (thing_is_wooden_leg(g, v, l, me)) {
-      if (level_is_obs_to_movement(g, v, l, to, me) != nullptr) {
+      if (level_is_obs_to_movement_bool(g, v, l, to, me)) {
         blocked = true;
         if (thing_is_player(me)) {
           if (warn) {
@@ -260,7 +260,7 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
         THING_DBG(g, v, l, me, "something in the way of jumping onto");
       }
     } else {
-      if (level_is_obs_to_jumping_onto(g, v, l, to, me) != nullptr) {
+      if (level_is_obs_to_jumping_onto_bool(g, v, l, to, me)) {
         blocked = true;
         if (thing_is_player(me)) {
           if (warn) {

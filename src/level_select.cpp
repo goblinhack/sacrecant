@@ -840,30 +840,30 @@ static auto level_select_next(Gamep g, Levelsp v, Levelp l, Levelp level_over) -
 
   auto at = v->cursor_at;
 
-  if (level_is_level_locked_icon(g, v, l, at) != nullptr) {
+  if (level_is_level_locked_icon_bool(g, v, l, at)) {
     topcon("You cannot enter this level yet. Choose an open door.");
     (void) sound_play(g, "error");
     return false;
   }
 
   bool ok_to_choose = {};
-  if (level_is_level_final_icon(g, v, l, at) != nullptr) {
+  if (level_is_level_final_icon_bool(g, v, l, at)) {
     // ok to choose
     ok_to_choose = true;
   }
-  if (level_is_level_open_icon(g, v, l, at) != nullptr) {
+  if (level_is_level_open_icon_bool(g, v, l, at)) {
     // ok to choose
     ok_to_choose = true;
   }
-  if (level_is_level_closed_icon(g, v, l, at) != nullptr) {
+  if (level_is_level_closed_icon_bool(g, v, l, at)) {
     // ok to choose
     ok_to_choose = true;
   }
-  if (level_is_level_next_icon(g, v, l, at) != nullptr) {
+  if (level_is_level_next_icon_bool(g, v, l, at)) {
     // ok to choose
     ok_to_choose = true;
   }
-  if (level_is_level_curr_icon(g, v, l, at) != nullptr) {
+  if (level_is_level_curr_icon_bool(g, v, l, at)) {
     // ok to choose
     ok_to_choose = true;
   }

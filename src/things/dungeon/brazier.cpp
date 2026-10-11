@@ -51,7 +51,7 @@ static void tp_brazier_on_shoved(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp
     auto direction = at - thing_at(g, v, l, shover);
     auto fire_at   = at + direction;
 
-    if (level_is_obs_to_fire(g, v, l, fire_at) != nullptr) {
+    if (level_is_obs_to_fire_bool(g, v, l, fire_at)) {
       //
       // If we can't, then spawn over the brazier
       //

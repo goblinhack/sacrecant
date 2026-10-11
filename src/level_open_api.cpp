@@ -1580,10 +1580,10 @@
   return level_open(g, v, l, is_unused118, p);
 }
 
-[[nodiscard]] auto level_open_is_unused119(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+[[nodiscard]] auto level_open_is_cursor_path_jump_over(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_open(g, v, l, is_unused119, p);
+  return level_open(g, v, l, is_cursor_path_jump_over, p);
 }
 
 [[nodiscard]] auto level_open_is_haunt(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp

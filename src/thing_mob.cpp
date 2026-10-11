@@ -59,7 +59,7 @@
   //
   // Can't spawn over certain things
   //
-  if (level_is_obs_to_spawning(g, v, l, thing_at(g, v, l, mob)) != nullptr) {
+  if (level_is_obs_to_spawning_bool(g, v, l, thing_at(g, v, l, mob))) {
     return nullptr;
   }
 

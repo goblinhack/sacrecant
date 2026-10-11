@@ -31,6 +31,7 @@ static auto tp_rubble_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -
   tp_flag_set(tp, is_blit_on_ground);
   tp_flag_set(tp, is_blit_shown_in_chasms);
   tp_flag_set(tp, is_collision_square);
+  tp_flag_set(tp, is_cursor_path_jump_over);
   tp_flag_set(tp, is_described_cursor);
   tp_flag_set(tp, is_flat);
   tp_flag_set(tp, is_obs_to_cursor_path);

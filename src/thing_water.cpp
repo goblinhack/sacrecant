@@ -21,7 +21,7 @@ void thing_water_handle(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   auto   at     = thing_at(g, v, l, me);
   Thingp source = nullptr;
-  if (level_is_water_deep(g, v, l, at) != nullptr) {
+  if (level_is_water_deep_bool(g, v, l, at)) {
     source = level_is_water_deep(g, v, l, at);
   } else {
     source = level_is_water_shallow(g, v, l, at);

@@ -196,11 +196,11 @@
     // Allow AI to make a path through walls
     //
     if (thing_is_wall_walker(g, v, l, me)) {
-      if (level_is_obs_to_wall_walker(g, v, l, to) != nullptr) {
+      if (level_is_obs_to_wall_walker_bool(g, v, l, to)) {
         return false;
       }
 
-      if (level_is_wall_walker_pass_through(g, v, l, to) != nullptr) {
+      if (level_is_wall_walker_pass_through_bool(g, v, l, to)) {
         continue;
       }
     }
@@ -333,14 +333,14 @@
     // Allow walking through walls
     //
     if (thing_is_wall_walker(g, v, l, me)) {
-      if (level_is_obs_to_wall_walker(g, v, l, to) != nullptr) {
+      if (level_is_obs_to_wall_walker_bool(g, v, l, to)) {
         if (thing_is_player(me)) {
           THING_DBG(g, v, l, me, "can move to possible: no, wall walker and wall obs");
         }
         return false;
       }
 
-      if (level_is_wall_walker_pass_through(g, v, l, to) != nullptr) {
+      if (level_is_wall_walker_pass_through_bool(g, v, l, to)) {
         continue;
       }
     }

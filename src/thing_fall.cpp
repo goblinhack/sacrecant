@@ -65,7 +65,7 @@ static auto thing_choose_landing_spot(Gamep g, Levelsp v, Levelp l, Thingp me, b
           //
           // If lucky, no landing on lava
           //
-          if (thing_is_player(me) && (level_is_lava(g, v, l, where) != nullptr)) {
+          if (thing_is_player(me) && (level_is_lava_bool(g, v, l, where))) {
             if (thing_stat_success(g, v, l, me, THING_STAT_LUCK, TARGET_ROLL_FALL)) {
               //
               // Continue to look for a landing spot
@@ -99,7 +99,7 @@ static auto thing_choose_landing_spot(Gamep g, Levelsp v, Levelp l, Thingp me) -
 
   if (thing_is_player(me)) {
     if (saved) {
-      if (level_is_lava(g, v, l, where) != nullptr) {
+      if (level_is_lava_bool(g, v, l, where)) {
         topcon(UI_IMPORTANT_FMT_STR "You manage to avoid the lava as you fall. And then somehow, still slip into it!" UI_RESET_FMT);
       } else {
         topcon(UI_IMPORTANT_FMT_STR "You manage to avoid the lava as you fall!" UI_RESET_FMT);
@@ -152,7 +152,7 @@ static auto thing_fall_damage(Gamep g, Levelsp v, Levelp l, Thingp me) -> int
   //
   // Deep water dampens it further
   //
-  if (level_is_water_deep(g, v, l, thing_at(g, v, l, me)) != nullptr) {
+  if (level_is_water_deep_bool(g, v, l, thing_at(g, v, l, me))) {
     if (thing_is_immune_to(g, v, l, me, THING_EVENT_WATER_DAMAGE)) {
       fall_damage /= 2;
     }
@@ -321,7 +321,7 @@ static void thing_fall_end(Gamep g, Levelsp v, Levelp l, Thingp me)
   //
   // Splash!
   //
-  if (level_is_water_deep(g, v, l, thing_at(g, v, l, me)) != nullptr) {
+  if (level_is_water_deep_bool(g, v, l, thing_at(g, v, l, me))) {
     thing_sound_play(g, v, l, me, "splash");
     if (thing_is_player(me)) {
       topcon(UI_GOOD_FMT_STR "The deep water dampened your fall!" UI_RESET_FMT);

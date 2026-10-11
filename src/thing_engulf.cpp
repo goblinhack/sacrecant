@@ -226,7 +226,7 @@
   //
   // If there is an engulfer there already, don't pile on
   //
-  if (level_is_able_to_engulf(g, v, l, to) != nullptr) {
+  if (level_is_able_to_engulf_bool(g, v, l, to)) {
     THING_DBG(g, v, l, me, "try to engulf: engulfer exists there already");
     return false;
   }

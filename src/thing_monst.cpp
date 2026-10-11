@@ -247,7 +247,7 @@ static auto thing_monst_apply_target_path_if_possible(Gamep g, Levelsp v, Levelp
     // Can we attack here?
     //
     if (dist <= 1) {
-      if (level_is_attackable_by_monst(g, v, l, target) != nullptr) {
+      if (level_is_attackable_by_monst_bool(g, v, l, target)) {
         THING_DBG(g, v, l, me, "choose target: close enough to attack");
         TRACE_INDENT();
 

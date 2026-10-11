@@ -1580,10 +1580,10 @@
   return level_flag(g, v, l, is_unused118, p, me);
 }
 
-[[nodiscard]] auto level_is_unused119(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_cursor_path_jump_over(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused119, p, me);
+  return level_flag(g, v, l, is_cursor_path_jump_over, p, me);
 }
 
 [[nodiscard]] auto level_is_haunt(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp

@@ -30,6 +30,24 @@ using PathCost = struct PathCost {
   int                   cost = {};
 };
 
+//
+// Lava, or something more innocent like rubble, that we want to jump over?
+//
+bool level_is_cursor_path_jump_over_hazard_or_obstacle_bool(Gamep g, Levelsp v, Levelp l, const bpoint p, Thingp me)
+{
+  TRACE();
+
+  if (level_is_cursor_path_hazard_bool(g, v, l, p, me)) {
+    return true;
+  }
+
+  if (level_is_cursor_path_jump_over_bool(g, v, l, p, me)) {
+    return true;
+  }
+
+  return false;
+}
+
 void level_cursor_set(Gamep g, Levelsp v, bpoint p)
 {
   TRACE();
@@ -63,9 +81,8 @@ void level_cursor_set(Gamep g, Levelsp v, bpoint p)
 // Create the cursor path, avoiding things like lava
 //
 // For the 1st pass, restrict to tiles we have walked on
-// For the 2nd pass, any tiles will do, but no hazards
-// For the 3rd pass, any tiles will do as long as not consecutive hazard tiles.
-// For the 4th pass, any tiles will do as long as not walls
+// For the 2nd pass, any tiles will do, but no hazards. Allow hazards if on a hazard tile, or the cursor is on a hazard.
+// For the 3rd pass, any tiles will do as long as not walls
 //
 static auto level_cursor_path_draw_line_attempt(Gamep g, Levelsp v, Levelp l, Thingp player, const bpoint &start, const bpoint &end, int attempt)
     -> std::vector< bpoint >
@@ -74,7 +91,6 @@ static auto level_cursor_path_draw_line_attempt(Gamep g, Levelsp v, Levelp l, Th
 
   static std::vector< bpoint > const empty;
 
-  bool   prev_tile_was_hazard = {};
   Dmap   dmap {};
   bpoint dmap_start = start;
   bpoint dmap_end   = end;
@@ -123,9 +139,9 @@ static auto level_cursor_path_draw_line_attempt(Gamep g, Levelsp v, Levelp l, Th
   maxy = MAP_HEIGHT - 1;
 
   switch (attempt) {
-    case 4 :
+    case 3 :
       //
-      // For the 4th pass, any tiles will do as long as not walls
+      // For the 3rd pass, any tiles will do as long as not walls
       //
       if (level_has_seen(g, v, l, end)) {
         for (auto y = miny; y < maxy; y++) {
@@ -133,11 +149,22 @@ static auto level_cursor_path_draw_line_attempt(Gamep g, Levelsp v, Levelp l, Th
             bpoint const p(x, y);
 
             //
+            // Allow jumping over rubble
+            //
+            if (level_is_cursor_path_jump_over_bool(g, v, l, p, player)) {
+              dmap.val[ x ][ y ] = DMAP_IS_PASSABLE;
+              continue;
+            }
+
+            //
             // NOTE: cannot use cached flags as we need to check for open doors
             //
             if (level_is_obs_to_cursor_path_bool(g, v, l, p, player)) {
               dmap.val[ x ][ y ] = DMAP_IS_WALL;
             } else {
+              //
+              // Lava is passable here
+              //
               dmap.val[ x ][ y ] = DMAP_IS_PASSABLE;
             }
           }
@@ -154,49 +181,12 @@ static auto level_cursor_path_draw_line_attempt(Gamep g, Levelsp v, Levelp l, Th
             //
             // NOTE: cannot use cached flags as we need to check for open doors
             //
-            if (((level_is_obs_to_cursor_path_bool(g, v, l, p, player))) || ((level_is_cursor_path_hazard_bool(g, v, l, p, player)))) {
+            if (((level_is_obs_to_cursor_path_bool(g, v, l, p, player)))
+                || ((level_is_cursor_path_jump_over_hazard_or_obstacle_bool(g, v, l, p, player)))) {
               dmap.val[ x ][ y ] = DMAP_IS_WALL;
             } else {
               dmap.val[ x ][ y ] = DMAP_IS_PASSABLE;
             }
-          }
-        }
-      }
-      break;
-    case 3 :
-      //
-      // For the 3rd pass, any tiles will do as long as not consecutive hazard tiles.
-      //
-      for (auto y = miny; y < maxy; y++) {
-        for (auto x = minx; x < maxx; x++) {
-          bpoint const p(x, y);
-
-          //
-          // Any tile will do as long as not consecutive hazard tiles.
-          //
-          if (prev_tile_was_hazard) {
-            //
-            // NOTE: cannot use cached flags as we need to check for open doors
-            //
-            if (((level_is_obs_to_cursor_path_bool(g, v, l, p, player))) || ((level_is_cursor_path_hazard_bool(g, v, l, p, player)))) {
-              dmap.val[ x ][ y ] = DMAP_IS_WALL;
-            } else {
-              dmap.val[ x ][ y ] = DMAP_IS_PASSABLE;
-            }
-          } else {
-            //
-            // NOTE: cannot use cached flags as we need to check for open doors
-            //
-            if (level_is_obs_to_cursor_path_bool(g, v, l, p, player)) {
-              dmap.val[ x ][ y ] = DMAP_IS_WALL;
-            } else {
-              dmap.val[ x ][ y ] = DMAP_IS_PASSABLE;
-            }
-
-            //
-            // If a hazard, then don't let the next tile be one too
-            //
-            prev_tile_was_hazard = (level_is_cursor_path_hazard_bool(g, v, l, p, player));
           }
         }
       }
@@ -206,7 +196,7 @@ static auto level_cursor_path_draw_line_attempt(Gamep g, Levelsp v, Levelp l, Th
       //
       // Common code for pass 1 and 2
       //
-      if (level_is_cursor_path_hazard(g, v, l, thing_at(g, v, l, player), player) != nullptr) {
+      if (level_is_cursor_path_jump_over_hazard_or_obstacle_bool(g, v, l, thing_at(g, v, l, player), player)) {
         //
         // If standing on a hazard, then plot a course that allows travel over hazards.
         // Any path except through walls.
@@ -222,12 +212,12 @@ static auto level_cursor_path_draw_line_attempt(Gamep g, Levelsp v, Levelp l, Th
             }
           }
         }
-      } else if (level_is_cursor_path_hazard(g, v, l, v->cursor_at, player) != nullptr) {
+      } else if (level_is_cursor_path_jump_over_hazard_or_obstacle_bool(g, v, l, v->cursor_at, player)) {
         //
         // Here the cursor is over a hazard. Plot a course that allows travel via other hazards.
         //
         bool                                         got_one = false;
-        std::initializer_list< ThingFlagType > const init    = {is_lava, is_chasm, is_water_shallow, is_water_deep};
+        std::initializer_list< ThingFlagType > const init    = {is_rubble, is_lava, is_chasm, is_water_shallow, is_water_deep};
 
         for (auto i : init) {
           if (level_flag(g, v, l, i, bpoint(v->cursor_at.x, v->cursor_at.y), player) != nullptr) {
@@ -247,15 +237,17 @@ static auto level_cursor_path_draw_line_attempt(Gamep g, Levelsp v, Levelp l, Th
                 //
                 // But we still can't walk through walls to get to the hazard
                 //
-                if (level_is_obs_to_cursor_path_bool(g, v, l, p, player)) {
-                  dmap.val[ x ][ y ] = DMAP_IS_WALL;
-                  continue;
+                if (! level_is_cursor_path_jump_over_bool(g, v, l, p, player)) {
+                  if (level_is_obs_to_cursor_path_bool(g, v, l, p, player)) {
+                    dmap.val[ x ][ y ] = DMAP_IS_WALL;
+                    continue;
+                  }
                 }
 
                 //
                 // NOTE: cannot use cached flags as we need to check for open doors
                 //
-                if (level_is_cursor_path_hazard_bool(g, v, l, p, player)) {
+                if (level_is_cursor_path_jump_over_hazard_or_obstacle_bool(g, v, l, p, player)) {
                   if (level_flag(g, v, l, i, p, player) == nullptr) {
                     dmap.val[ x ][ y ] = DMAP_IS_WALL;
                     continue;
@@ -282,8 +274,8 @@ static auto level_cursor_path_draw_line_attempt(Gamep g, Levelsp v, Levelp l, Th
               //
               // NOTE: cannot use cached flags as we need to check for open doors
               //
-              if (((level_is_obs_to_cursor_path(g, v, l, p, player)) != nullptr)
-                  || ((level_is_cursor_path_hazard(g, v, l, p, player)) != nullptr)) {
+              if (level_is_obs_to_cursor_path_bool(g, v, l, p, player)
+                  || level_is_cursor_path_jump_over_hazard_or_obstacle_bool(g, v, l, p, player)) {
                 dmap.val[ x ][ y ] = DMAP_IS_WALL;
               } else {
                 dmap.val[ x ][ y ] = DMAP_IS_PASSABLE;
@@ -302,8 +294,7 @@ static auto level_cursor_path_draw_line_attempt(Gamep g, Levelsp v, Levelp l, Th
             //
             // Avoid hazards
             //
-            if (((level_is_obs_to_cursor_path(g, v, l, p, player)) != nullptr)
-                || ((level_is_cursor_path_hazard(g, v, l, p, player)) != nullptr)) {
+            if (level_is_obs_to_cursor_path_bool(g, v, l, p, player) || level_is_cursor_path_jump_over_hazard_or_obstacle_bool(g, v, l, p, player)) {
               dmap.val[ x ][ y ] = DMAP_IS_WALL;
             } else {
               dmap.val[ x ][ y ] = DMAP_IS_PASSABLE;
@@ -350,31 +341,37 @@ static auto level_cursor_path_draw_line_attempt(Gamep g, Levelsp v, Levelp l, Th
   dmap_start = bpoint(minx, miny);
   dmap_end   = bpoint(maxx, maxy);
 
+  IF_DEBUG3
+  {
+    log("dmap:");
+    log("- start @%d,%d", start.x, start.y);
+    log("- goal @%d,%d", end.x, end.y);
+  }
+
   dmap.val[ end.x ][ end.y ]     = DMAP_IS_GOAL;
   dmap.val[ start.x ][ start.y ] = DMAP_IS_PASSABLE;
 
-  if (compiler_unused) {
-    dmap_print(&dmap, end, dmap_start, dmap_end);
-  }
+  IF_DEBUG3 { dmap_print(&dmap, end, dmap_start, dmap_end); }
+
   dmap_process(&dmap, dmap_start, dmap_end);
-  if (compiler_unused) {
-    dmap_print(&dmap, end, dmap_start, dmap_end);
-  }
+
+  IF_DEBUG3 { dmap_print(&dmap, end, dmap_start, dmap_end); }
 
   auto p         = dmap_solve(g, v, l, player, &dmap, start);
   auto path_size = p.size();
   if (path_size == 0U) {
+    IF_DEBUG3 { log("no path"); }
     return empty;
   }
+
+  IF_DEBUG3 { log("path size %d", (int) path_size); }
 
   //
   // If we could not reach the target, then the path will just plot the distance from the start, which is not what
   // we want.
   //
   if (p[ path_size - 1 ] != end) {
-    if (compiler_unused) {
-      log("did not reach %d,%d", end.x, end.y);
-    }
+    IF_DEBUG3 { log("did not reach %d,%d", end.x, end.y); }
     return empty;
   }
 
@@ -406,16 +403,18 @@ auto level_cursor_path_draw_line(Gamep g, Levelsp v, Levelp l, const bpoint &sta
   //
   // The first path prefers visited tiles.
   //
-  const int max_attempts = 5;
+  const int max_attempts = 4;
 
   std::vector< PathCost > paths;
 
   for (auto attempt = 1; attempt < max_attempts; attempt++) {
     PathCost pc;
+    log("attempt %d", attempt);
     pc.path = level_cursor_path_draw_line_attempt(g, v, l, player, start, end, attempt);
     if (pc.path.empty()) {
       continue;
     }
+    log("attempt %d worked", attempt);
     pc.cost = thing_path_cost(g, v, l, player, pc.path);
     paths.push_back(pc);
   }
@@ -430,7 +429,7 @@ auto level_cursor_path_draw_line(Gamep g, Levelsp v, Levelp l, const bpoint &sta
         continue;
       }
 
-      if (((level_is_obs_to_cursor_path(g, v, l, p, player)) != nullptr) || ((level_is_cursor_path_hazard(g, v, l, p, player)) != nullptr)) {
+      if (level_is_obs_to_cursor_path_bool(g, v, l, p, player) || level_is_cursor_path_jump_over_hazard_or_obstacle_bool(g, v, l, p, player)) {
         break;
       }
       path.push_back(p);

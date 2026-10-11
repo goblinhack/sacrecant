@@ -287,7 +287,7 @@
       list_macro(is_unused116, "is_unused116"),                                             /* newline */                                       \
       list_macro(is_unused117, "is_unused117"),                                             /* newline */                                       \
       list_macro(is_unused118, "is_unused118"),                                             /* newline */                                       \
-      list_macro(is_unused119, "is_unused119"),                                             /* newline */                                       \
+      list_macro(is_cursor_path_jump_over, "is_cursor_path_jump_over"),                     /* newline */                                       \
       list_macro(is_unused12, "is_unused12"),                                               /* newline */                                       \
       list_macro(is_haunt, "is_haunt"),                                                     /* newline */                                       \
       list_macro(is_dumb_ai, "is_dumb_ai"),                                                 /* newline */                                       \
@@ -964,6 +964,7 @@ class Tp;
 [[nodiscard]] auto tp_is_crushable(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_cursed(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_cursor_path_hazard(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_cursor_path_jump_over(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_cursor_path_none(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_cursor_path_warning(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_cursor_path(Tpp tp) -> bool;
@@ -1157,7 +1158,6 @@ class Tp;
 [[nodiscard]] auto tp_is_unused116(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused117(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused118(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused119(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused12(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused124(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused13(Tpp tp) -> bool;

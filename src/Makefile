@@ -125,25 +125,26 @@ tidy:
 			$x -- $(CFLAGS); \
 	)
 	git checkout 3rdparty
-	$(SCRIPT_DIR)/splat "if (g == nullptr) [[unlikely]] {" "if (g == nullptr) [[unlikely]] {" "*" do
-	$(SCRIPT_DIR)/splat "if (v == nullptr) [[unlikely]] {" "if (v == nullptr) [[unlikely]] {" "*" do
-	$(SCRIPT_DIR)/splat "if (l == nullptr) [[unlikely]] {" "if (l == nullptr) [[unlikely]] {" "*" do
-	$(SCRIPT_DIR)/splat "if (ext == nullptr) [[unlikely]] {" "if (ext == nullptr) [[unlikely]] {" "*" do
-	$(SCRIPT_DIR)/splat "if (player == nullptr) [[unlikely]] {" "if (player == nullptr) [[unlikely]] {" "*" do
-	$(SCRIPT_DIR)/splat "if (tp == nullptr) [[unlikely]] {" "if (tp == nullptr) [[unlikely]] {" "*" do
+	$(SCRIPT_DIR)/splat "if (g == nullptr) [[unlikely]] {" "if (g == nullptr) [[unlikely]] {" "*pp" do
+	$(SCRIPT_DIR)/splat "if (v == nullptr) [[unlikely]] {" "if (v == nullptr) [[unlikely]] {" "*pp" do
+	$(SCRIPT_DIR)/splat "if (l == nullptr) [[unlikely]] {" "if (l == nullptr) [[unlikely]] {" "*pp" do
+	$(SCRIPT_DIR)/splat "if (ext == nullptr) [[unlikely]] {" "if (ext == nullptr) [[unlikely]] {" "*pp" do
+	$(SCRIPT_DIR)/splat "if (player == nullptr) [[unlikely]] {" "if (player == nullptr) [[unlikely]] {" "*pp" do
+	$(SCRIPT_DIR)/splat "if (tp == nullptr) [[unlikely]] {" "if (tp == nullptr) [[unlikely]] {" "*pp" do
 	$(SCRIPT_DIR)/splat "if (0)" "if (compiler_unused)" "*cpp" do
-	$(SCRIPT_DIR)/splat "1 \|\| compiler_unused" "compiler_unused" "*" do
+	$(SCRIPT_DIR)/splat "1 \|\| compiler_unused" "compiler_unused" "*pp" do
 	$(SCRIPT_DIR)/splat-del "include.*OpenGL" "*cpp" do
 	$(SCRIPT_DIR)/splat "<_" "<" "*cpp" do
-	$(SCRIPT_DIR)/splat "Gamep *\/\*g\*\/" "Gamep g" "*" do
-	$(SCRIPT_DIR)/splat "Levelsp *\/\*v\*\/" "Levelsp v" "*" do
-	$(SCRIPT_DIR)/splat "Levelp *\/\*l\*\/" "Levelp l" "*" do
-	$(SCRIPT_DIR)/splat "Widp *\/\*w\*\/" "Widp w" "*" do
-	$(SCRIPT_DIR)/splat "int *\/\*x\*\/" "int x" "*" do
-	$(SCRIPT_DIR)/splat "int *\/\*y\*\/" "int y" "*" do
-	$(SCRIPT_DIR)/splat "uint32_t *\/\*button\*\/" "uint32_t button" "*" do
-	$(SCRIPT_DIR)/splat "level_is_\([a-z0-9_]*\)(g, v, l, p) != nullptr" "level_is_\1_bool(g, v, l, p)" "*" do
-	$(SCRIPT_DIR)/splat "empty()" "empty()" "*" do
+	$(SCRIPT_DIR)/splat "Gamep *\/\*g\*\/" "Gamep g" "*pp" do
+	$(SCRIPT_DIR)/splat "Levelsp *\/\*v\*\/" "Levelsp v" "*pp" do
+	$(SCRIPT_DIR)/splat "Levelp *\/\*l\*\/" "Levelp l" "*pp" do
+	$(SCRIPT_DIR)/splat "Widp *\/\*w\*\/" "Widp w" "*pp" do
+	$(SCRIPT_DIR)/splat "int *\/\*x\*\/" "int x" "*pp" do
+	$(SCRIPT_DIR)/splat "int *\/\*y\*\/" "int y" "*pp" do
+	$(SCRIPT_DIR)/splat "uint32_t *\/\*button\*\/" "uint32_t button" "*pp" do
+	$(SCRIPT_DIR)/splat "level_is_\([a-z0-9_]*\)(g, v, l, p) != nullptr" "level_is_\1_bool(g, v, l, p)" "*pp" do
+	$(SCRIPT_DIR)/splat "empty() != 0u" "empty()" "*pp" do
+	$(SCRIPT_DIR)/splat "level_is_\([a-z0-9_]*\)(g, v, l, \(.*\)) != nullptr" "level_is_\1_bool(g, v, l, \2)" "*pp" do
 	@echo "Done"
 
 .PHONY: format tidy

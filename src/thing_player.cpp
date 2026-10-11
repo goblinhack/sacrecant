@@ -688,7 +688,7 @@ static void player_check_if_target_needs_move_confirm_callback(Gamep g, bool val
   // Double check before jumping in chasms or lava
   //
   if (! thing_is_ethereal(g, v, l, me) && ! thing_is_flying(g, v, l, me) && ! thing_is_levitating(g, v, l, me)) {
-    if (level_is_needs_move_confirm(g, v, l, to) != nullptr) {
+    if (level_is_needs_move_confirm_bool(g, v, l, to)) {
       if (level_is_chasm_bool(g, v, l, to)) {
         std::string const msg = "Do you really want to leap into a chasm?";
         player_state_change(g, v, l, PLAYER_STATE_MOVE_CONFIRM_REQUESTED);
@@ -1177,7 +1177,7 @@ static auto player_move_delta(Gamep g, Levelsp v, Levelp l, int dx, int dy) -> b
   //
   // No firing in deep water
   //
-  if (level_is_water_deep(g, v, l, thing_at(g, v, l, me)) != nullptr) {
+  if (level_is_water_deep_bool(g, v, l, thing_at(g, v, l, me))) {
     topcon("The deep water is preventing you from firing a volley!");
     return false;
   }
@@ -1612,7 +1612,7 @@ void player_collision_handle(Gamep g, Levelsp v, Levelp l, Thingp me)
     return false;
   }
 
-  THING_DBG(g, v, l, me, "player move to next");
+  THING_DBG(g, v, l, me, "player move to next in %s", player_state_to_string(player_state(g, v)).c_str());
   TRACE_INDENT();
 
   //
@@ -1681,7 +1681,7 @@ void player_collision_handle(Gamep g, Levelsp v, Levelp l, Thingp me)
     THING_DBG(g, v, l, me, "player has a path to target");
     TRACE_INDENT();
 
-    if (level_is_cursor_path_hazard(g, v, l, move_next, me) != nullptr) {
+    if (level_is_cursor_path_jump_over_hazard_or_obstacle_bool(g, v, l, move_next, me)) {
       THING_DBG(g, v, l, me, "player has a path to target, but it is a hazard");
       TRACE_INDENT();
 
@@ -1694,7 +1694,7 @@ void player_collision_handle(Gamep g, Levelsp v, Levelp l, Thingp me)
         // the player to have a chance to say no
         //
         bool const need_path = false;
-        if (level_is_cursor_path_hazard(g, v, l, move_destination, me) != nullptr) {
+        if (level_is_cursor_path_jump_over_hazard_or_obstacle_bool(g, v, l, move_destination, me)) {
           THING_DBG(g, v, l, me, "player move to next try, due to hazard (%d,%d)", move_next.x, move_next.y);
           TRACE_INDENT();
           if (! player_move_try(g, v, l, me, move_next, move_confirmed, need_path)) {

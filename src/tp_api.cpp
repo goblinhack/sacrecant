@@ -1579,10 +1579,10 @@
   return tp_flag(tp, is_unused118) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused119(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_cursor_path_jump_over(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused119) != 0;
+  return tp_flag(tp, is_cursor_path_jump_over) != 0;
 }
 
 [[nodiscard]] auto tp_is_haunt(Tpp tp) -> bool

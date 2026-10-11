@@ -159,7 +159,7 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
       bool cand = {};
       for (auto delta : points) {
         auto n = p + delta;
-        if (level_is_obs_to_movement(g, v, l, n) != nullptr) {
+        if (level_is_obs_to_movement_bool(g, v, l, n)) {
           continue;
         }
 

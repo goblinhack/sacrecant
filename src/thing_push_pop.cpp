@@ -248,7 +248,7 @@
       continue;
     }
 
-    if (level_is_obs_to_movement(g, v, l, new_at) != nullptr) {
+    if (level_is_obs_to_movement_bool(g, v, l, new_at)) {
       continue;
     }
 
@@ -277,7 +277,7 @@
       continue;
     }
 
-    if (level_is_obs_to_movement(g, v, l, new_at) != nullptr) {
+    if (level_is_obs_to_movement_bool(g, v, l, new_at)) {
       continue;
     }
 

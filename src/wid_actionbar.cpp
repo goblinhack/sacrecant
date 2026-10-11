@@ -735,8 +735,8 @@ static auto wid_actionbar_create_window(Gamep g) -> bool
   bool opt_help        = true;
   bool opt_load        = false;
   bool opt_save        = false;
-  bool opt_descend     = level_is_exit(g, v, l, thing_at(g, v, l, player)) != nullptr;
-  bool opt_ascend      = level_is_entrance(g, v, l, thing_at(g, v, l, player)) != nullptr;
+  bool opt_descend     = level_is_exit_bool(g, v, l, thing_at(g, v, l, player));
+  bool opt_ascend      = level_is_entrance_bool(g, v, l, thing_at(g, v, l, player));
   bool opt_fire        = true;
 
 #ifndef WEB_BUILD
