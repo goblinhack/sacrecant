@@ -204,6 +204,37 @@ static void parse_args(int argc, char *argv[])
 
       g_opt_quick_start = true;
       i++;
+
+      if (g_level_opt.level_name == "boss1") {
+        g_level_opt.level_name = "";
+        g_level_opt.level_num  = LEVEL_ARR_IDX_BOSS_1 - 1;
+        g_level_opt.is_set     = true;
+      }
+
+      if (g_level_opt.level_name == "boss2") {
+        g_level_opt.level_name = "";
+        g_level_opt.level_num  = LEVEL_ARR_IDX_BOSS_2 - 1;
+        g_level_opt.is_set     = true;
+      }
+
+      if (g_level_opt.level_name == "boss3") {
+        g_level_opt.level_name = "";
+        g_level_opt.level_num  = LEVEL_ARR_IDX_BOSS_3 - 1;
+        g_level_opt.is_set     = true;
+      }
+
+      if (g_level_opt.level_name == "boss4") {
+        g_level_opt.level_name = "";
+        g_level_opt.level_num  = LEVEL_ARR_IDX_BOSS_4 - 1;
+        g_level_opt.is_set     = true;
+      }
+
+      if (g_level_opt.level_name == "boss5") {
+        g_level_opt.level_name = "";
+        g_level_opt.level_num  = LEVEL_ARR_IDX_BOSS_5 - 1;
+        g_level_opt.is_set     = true;
+      }
+
       continue;
     }
 

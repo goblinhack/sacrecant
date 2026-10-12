@@ -3,12 +3,11 @@ bugs
 dmap memory
 after lava, stepping in water - steam
 after boss health and mana recovert
-transparent wall
 need boss multi tile shoot test
-need dumb AI test
 
 todo
 ----
+transparent wall and non transparent disappearing walls { }
 walls to fungus
 summon bushes
 spells
