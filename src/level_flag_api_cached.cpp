@@ -1575,16 +1575,16 @@
   return level_flag_cached(g, v, l, is_unused111, p);
 }
 
-[[nodiscard]] auto level_is_unused112_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_dead_on_falling_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused112, p);
+  return level_flag_cached(g, v, l, is_dead_on_falling, p);
 }
 
-[[nodiscard]] auto level_is_unused113_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_tentacle_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused113, p);
+  return level_flag_cached(g, v, l, is_tentacle, p);
 }
 
 [[nodiscard]] auto level_is_boss5_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

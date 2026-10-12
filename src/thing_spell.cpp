@@ -51,7 +51,7 @@ auto thing_spell_cast(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, c
   game_spell_tmp_while_targeting_clear(g);
 
   ThingEvent e             = {};
-  e.reason                 = "casting " + tp_name_short(thing_tp(spell)) + " " + option_name;
+  e.reason                 = "casting " + tp_name_long(thing_tp(spell)) + " " + option_name;
   e.event_type             = THING_EVENT_SPELL_DAMAGE;
   e.source                 = user;
   e.spell_info.spell       = spell;

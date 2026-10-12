@@ -1537,16 +1537,16 @@
   return tp_flag(tp, is_unused111) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused112(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_dead_on_falling(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused112) != 0;
+  return tp_flag(tp, is_dead_on_falling) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused113(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_tentacle(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused113) != 0;
+  return tp_flag(tp, is_tentacle) != 0;
 }
 
 [[nodiscard]] auto tp_is_boss5(Tpp tp) -> bool

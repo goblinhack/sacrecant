@@ -1539,16 +1539,16 @@
   return level_count(g, v, l, is_unused111, p);
 }
 
-[[nodiscard]] auto level_count_is_unused112(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_dead_on_falling(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused112, p);
+  return level_count(g, v, l, is_dead_on_falling, p);
 }
 
-[[nodiscard]] auto level_count_is_unused113(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_tentacle(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused113, p);
+  return level_count(g, v, l, is_tentacle, p);
 }
 
 [[nodiscard]] auto level_count_is_boss5(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t

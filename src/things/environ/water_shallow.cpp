@@ -37,6 +37,7 @@ static auto tp_water_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) ->
   tp_damage_set(tp, THING_EVENT_WATER_DAMAGE, "1d6");
   tp_flag_set(tp, is_animated);
   tp_flag_set(tp, is_blit_centered);
+  tp_flag_set(tp, is_able_to_fall);
   tp_flag_set(tp, is_blit_flush_per_line);
   tp_flag_set(tp, is_blit_if_has_seen);
   tp_flag_set(tp, is_blit_per_pixel_lighting);

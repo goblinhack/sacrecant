@@ -7169,6 +7169,23 @@ static void gfx_init_tiles()
       "",
       "",
       // ##############################################################################
+      "boss2_tentacles.idle.0",
+      "boss2_tentacles.idle.1",
+      "boss2_tentacles.idle.2",
+      "boss2_tentacles.idle.3",
+      "boss2_tentacles.idle.4",
+      "boss2_tentacles.idle.5",
+      "boss2_tentacles.idle.6",
+      "boss2_tentacles.idle.7",
+      "boss2_tentacles.idle.8",
+      "boss2_tentacles.idle.9",
+      "boss2_tentacles.idle.10",
+      "boss2_tentacles.idle.11",
+      "boss2_tentacles.dead.0",
+      "",
+      "",
+      "",
+      // ##############################################################################
   };
   tile_load_arr_sprites("data/gfx/tiles.tga", "tiles", OUTLINE_TILE_WIDTH, OUTLINE_TILE_HEIGHT, ARRAY_SIZE(tiles), tiles);
 }
@@ -7250,10 +7267,10 @@ static void gfx_init_tiles_64x64()
   TRACE();
   const char *tiles[] = {
       // ##############################################################################
-      "boss2.idle.0", "boss2.idle.1", "boss2.idle.2",  "boss2.idle.3",  //
-      "boss2.idle.4", "boss2.idle.5", "boss2.idle.6",  "boss2.idle.7",  //
-      "boss2.idle.8", "boss2.idle.9", "boss2.idle.10", "boss2.idle.11", //
-      "boss2.dead.0", "boss2.dead.1", "boss2.dead.2",  "boss2.dead.3",  //
+      "boss2.idle.0",    "boss2.idle.1",    "boss2.idle.2",    "boss2.idle.3",    //
+      "boss2.idle.4",    "boss2.idle.5",    "boss2.idle.6",    "boss2.idle.7",    //
+      "boss2.dormant.0", "boss2.dormant.1", "boss2.dormant.2", "boss2.dormant.3", //
+      "boss2.dead.0",    "boss2.dead.1",    "boss2.dead.2",    "boss2.dead.3",    //
       // ##############################################################################
   };
   tile_load_arr_sprites("data/gfx/tiles_64x64.tga", "tiles_64x64", BOSS2_TILE_WIDTH, BOSS2_TILE_HEIGHT, ARRAY_SIZE(tiles), tiles);

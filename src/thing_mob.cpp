@@ -38,7 +38,7 @@
 //
 // Add a minion to the mob if possible
 //
-[[nodiscard]] auto thing_mob_spawn_a_minion(Gamep g, Levelsp v, Levelp l, Thingp mob, Tpp tp_minion) -> Thingp
+[[nodiscard]] auto thing_mob_spawn_a_minion_at(Gamep g, Levelsp v, Levelp l, Thingp mob, Tpp tp_minion, const bpoint &at) -> Thingp
 {
   TRACE();
 
@@ -59,7 +59,7 @@
   //
   // Can't spawn over certain things
   //
-  if (level_is_obs_to_spawning_bool(g, v, l, thing_at(g, v, l, mob))) {
+  if (level_is_obs_to_spawning_bool(g, v, l, at)) {
     return nullptr;
   }
 
@@ -96,7 +96,7 @@
     //
     // Create the minion. Should be no chance to fail now.
     //
-    auto *new_minion = thing_spawn(g, v, l, tp_minion, thing_at(g, v, l, mob));
+    auto *new_minion = thing_spawn(g, v, l, tp_minion, at);
     if (new_minion == nullptr) {
       return nullptr;
     }
@@ -124,6 +124,16 @@
   thing_err(g, v, l, mob, "unexpectedly out of minion slots");
 
   return nullptr;
+}
+
+//
+// Add a minion to the mob if possible
+//
+[[nodiscard]] auto thing_mob_spawn_a_minion(Gamep g, Levelsp v, Levelp l, Thingp mob, Tpp tp_minion) -> Thingp
+{
+  TRACE();
+
+  return thing_mob_spawn_a_minion_at(g, v, l, mob, tp_minion, thing_at(g, v, l, mob));
 }
 
 //

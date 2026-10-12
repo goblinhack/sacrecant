@@ -4,6 +4,7 @@
 
 #include "../../my_callstack.hpp"
 #include "../../my_cpp_template.hpp"
+#include "../../my_dice_rolls.hpp"
 #include "../../my_random.hpp"
 #include "../../my_thing.hpp"
 #include "../../my_thing_callbacks.hpp"
@@ -16,10 +17,14 @@
 #include "my_boss_common.hpp"
 
 static const std::initializer_list< bpoint > body_tiles = {
-    bpoint(-2, -2), bpoint(-1, -2), bpoint(0, -2),                //
-    bpoint(-2, -1), bpoint(-1, -1), bpoint(0, -1), bpoint(1, -1), //
-    bpoint(-2, 0),  bpoint(-1, 0),  bpoint(0, 0),  bpoint(1, 0),  //
-    bpoint(-2, 1),  bpoint(-1, 1),  bpoint(0, 1),  bpoint(1, 1),  //
+    bpoint(-2, 0),
+    bpoint(-1, 0),
+    bpoint(0, 0),
+    bpoint(1, 0), //
+};
+
+static const std::initializer_list< bpoint > tentacle_list = {
+    bpoint(0, -3), bpoint(-3, -3), bpoint(3, -3), bpoint(-3, 0), bpoint(3, 0), bpoint(-3, 3), bpoint(3, 3), bpoint(0, 3),
 };
 
 static auto tp_boss2_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
@@ -111,6 +116,12 @@ static bool tp_boss2_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attacker,
 
   thing_sound_play(g, v, l, attacker, "monster_roar");
 
+  if (d100() < 10) {
+    if (! thing_dormant(g, v, l, attacker)) {
+      (void) thing_dormant_set(g, v, l, attacker, 20);
+    }
+  }
+
   return true;
 }
 
@@ -148,6 +159,38 @@ static bool tp_boss2_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, T
   return true;
 }
 
+void tp_boss2_on_spawned(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent *e_maybe_null)
+{
+  TRACE();
+  THING_DBG(g, v, l, me, "boss2 spawned");
+
+  auto at = thing_at(g, v, l, me);
+
+  for (auto p : tentacle_list) {
+    (void) thing_mob_spawn_a_minion_at(g, v, l, me, tp_first(is_tentacle), at + p);
+  }
+}
+
+bool tp_boss2_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
+{
+  TRACE();
+
+  auto attacker = thing_get_attacker(g, v, l, e.source);
+
+  if (thing_dormant(g, v, l, me) != 0) {
+    if (attacker && thing_is_player(attacker)) {
+      topcon(UI_IMPORTANT_FMT_STR "The Kraken takes no damage while it is deep in the water." UI_RESET_FMT);
+    }
+    return false;
+  }
+
+  if (d100() < 20) {
+    (void) thing_dormant_set(g, v, l, me, 20);
+  }
+
+  return true;
+}
+
 [[nodiscard]] auto tp_load_boss2() -> bool
 {
   auto *tp   = tp_load("boss2"); // keep as string for scripts
@@ -157,12 +200,16 @@ static bool tp_boss2_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, T
   thing_assess_tile_set(tp, tp_boss2_assess_tile);
   thing_assess_tp_set(tp, tp_boss2_assess_tp);
   thing_description_set(tp, tp_boss2_description_get);
+  tp_dormant_set(tp, "1d4");
   thing_detail_set(tp, tp_boss2_detail_get);
   thing_on_attacking_set(tp, tp_boss2_on_attacking);
   thing_on_death_set(tp, tp_boss2_on_death);
+  thing_on_damage_set(tp, tp_boss2_on_damage);
   thing_on_missing_set(tp, tp_boss2_on_missing);
   thing_on_popped_set(tp, tp_boss2_on_popped);
+  tp_minion_max_set(tp, (int) tentacle_list.size());
   thing_on_pushed_set(tp, tp_boss2_on_pushed);
+  thing_on_spawned_set(tp, tp_boss2_on_spawned);
   thing_on_tick_begin_set(tp, tp_boss2_tick_begin);
   tp_attack_count_max_per_tick_set(tp, 1);
   tp_chance_set(tp, THING_CHANCE_CONTINUE_TO_BURN, "1d6"); // fumble => intensify / keep burning / crit => stop burning
@@ -180,26 +227,29 @@ static bool tp_boss2_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, T
   tp_flag_set(tp, is_blit_centered);
   tp_flag_set(tp, is_blit_hit_solid_white);
   tp_flag_set(tp, is_blit_shown_in_chasms);
-  tp_flag_set(tp, is_blit_shown_in_overlay);
   tp_flag_set(tp, is_boss);
-  tp_flag_set(tp, is_boss2);
+  tp_flag_set(tp, is_able_to_breathe);
   tp_flag_set(tp, is_collision_circle_large);
   tp_flag_set(tp, is_corpse_on_death);
   tp_flag_set(tp, is_described_cursor);
   tp_flag_set(tp, is_described_when_killed);
   tp_flag_set(tp, is_flesh);
   tp_flag_set(tp, is_loggable);
+  tp_flag_set(tp, is_memory_ext);
+  tp_flag_set(tp, is_mob);
   tp_flag_set(tp, is_monst);
   tp_flag_set(tp, is_multi_tile);
   tp_flag_set(tp, is_obs_to_beam);
   tp_flag_set(tp, is_obs_to_jumping_onto);
   tp_flag_set(tp, is_obs_to_movement);
+  tp_flag_set(tp, is_able_to_fall);
   tp_flag_set(tp, is_obs_to_teleporting_onto);
   tp_flag_set(tp, is_obs_to_wall_walker);
   tp_flag_set(tp, is_physics_explosion);
   tp_flag_set(tp, is_physics_temperature);
   tp_flag_set(tp, is_removable_when_dead_on_err);
   tp_flag_set(tp, is_shown_health);
+  tp_flag_set(tp, is_mob_kill_minions_on_death);
   tp_flag_set(tp, is_tickable);
   tp_flag_set(tp, is_vision_360_degrees);
   tp_health_set(tp, "100+12d8");
@@ -222,7 +272,6 @@ static bool tp_boss2_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, T
   tp_temperature_melts_at_set(tp, 250);  // celsius
   tp_weight_set(tp, WEIGHT_VVHEAVY);     // grams
   tp_z_depth_set(tp, MAP_Z_DEPTH_FLOATING_MONST);
-  tp_flag_set(tp, is_memory_ext);
   // end sort marker1 }
 
   tp_special_attack_add(tp,
@@ -247,11 +296,18 @@ static bool tp_boss2_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, T
 
   auto delay = 1000;
 
-  for (auto frame = 0; frame < 12; frame++) {
+  for (auto frame = 0; frame < 8; frame++) {
     auto *tile = tile_find_mand(name + std::string(".idle.") + std::to_string(frame));
     tile_size_set(tile, BOSS2_TILE_WIDTH, BOSS2_TILE_HEIGHT);
     tile_delay_ms_set(tile, delay);
     tp_tiles_push_back(tp, THING_ANIM_IDLE, tile);
+  }
+
+  for (auto frame = 0; frame < 4; frame++) {
+    auto *tile = tile_find_mand(name + std::string(".dormant.") + std::to_string(frame));
+    tile_size_set(tile, BOSS2_TILE_WIDTH, BOSS2_TILE_HEIGHT);
+    tile_delay_ms_set(tile, delay);
+    tp_tiles_push_back(tp, THING_ANIM_DORMANT, tile);
   }
 
   for (auto frame = 0; frame < 4; frame++) {

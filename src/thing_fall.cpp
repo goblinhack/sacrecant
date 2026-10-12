@@ -190,17 +190,17 @@ static void thing_fall_end(Gamep g, Levelsp v, Levelp l, Thingp me)
   }
 
   //
-  // We can fall into the same level if falling on a boss level
+  // Floor tiles die on falling
   //
-  if (compiler_unused) {
+  if (thing_is_dead_on_falling(me)) {
     if (next_level == l) {
       ThingEvent e {
-          .reason     = "by falling into nothing",      //
+          .reason     = "by falling",                   //
           .event_type = THING_EVENT_FALL,               //
           .damage     = thing_fall_damage(g, v, l, me), //
       };
 
-      THING_DBG(g, v, l, me, "dead due to falling into nothing");
+      THING_DBG(g, v, l, me, "dead due to falling");
       TRACE_INDENT();
 
       thing_dead(g, v, l, me, e);
@@ -242,7 +242,17 @@ static void thing_fall_end(Gamep g, Levelsp v, Levelp l, Thingp me)
   // Ensure we always land at the entrance for boss levels
   //
   if (level_is_boss_level(g, v, next_level)) {
-    thing_level_warp_to_entrance(g, v, next_level, me);
+    if (thing_is_player(me)) {
+      //
+      // Back to the entrance
+      //
+      thing_level_warp_to_entrance(g, v, next_level, me);
+    } else {
+      //
+      // Choose a new landing spot for the thing
+      //
+      (void) thing_warp_to(g, v, next_level, me, thing_choose_landing_spot(g, v, next_level, me));
+    }
   }
 
   if (thing_is_player(me)) {

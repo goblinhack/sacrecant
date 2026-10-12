@@ -1171,6 +1171,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_teleport_hazard(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_teleport(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_teleporting(Thingp me) -> bool;
+[[nodiscard]] auto thing_is_tentacle(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_throwable(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_tick_end_delay(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_tick_on_drop(Thingp t) -> bool;
@@ -1201,8 +1202,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused11(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused110(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused111(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused112(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused113(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_dead_on_falling(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused12(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused124(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused13(Thingp t) -> bool;
@@ -1380,6 +1380,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_mob_detach_minion(Gamep g, Levelsp v, Levelp l, Thingp mob, Thingp minion) -> bool;
 [[nodiscard]] auto thing_mob_kill_all_minions(Gamep g, Levelsp v, Levelp l, Thingp mob, ThingEvent &e) -> bool;
 [[nodiscard]] auto thing_mob_minion_count_get(Gamep g, Levelsp v, Levelp l, Thingp mob) -> int;
+[[nodiscard]] auto thing_mob_spawn_a_minion_at(Gamep g, Levelsp v, Levelp l, Thingp mob, Tpp tp_minion, const bpoint &at) -> Thingp;
 [[nodiscard]] auto thing_mob_spawn_a_minion(Gamep g, Levelsp v, Levelp l, Thingp mob, Tpp tp_minion) -> Thingp;
 [[nodiscard]] auto thing_monst_move_try(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool;
 [[nodiscard]] auto thing_monst_target(Gamep g, Levelsp v, Levelp l, Thingp me) -> bpoint;

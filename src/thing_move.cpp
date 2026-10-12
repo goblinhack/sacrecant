@@ -59,7 +59,7 @@
   thing_on_moved(g, v, l, me);
 
   //
-  // Inerpolate the move
+  // Interpolate the move
   //
   thing_is_moving_set(g, v, l, me);
 
@@ -76,6 +76,29 @@
           THING_DBG(g, v, l, it, "is engulfed but could not be moved");
           (void) thing_is_engulfed_try_unset(g, v, l, it);
         }
+      }
+    }
+  }
+
+  //
+  // Move all minions
+  //
+  if (thing_is_mob(me)) {
+    auto offset = thing_moving_from(me) - thing_at(g, v, l, me);
+
+    FOR_ALL_MINIONS(g, v, l, me, minion)
+    {
+      TRACE();
+      auto warp_to = thing_at(g, v, l, minion) - offset;
+      if (is_oob(warp_to) || ! thing_warp_to(g, v, l, minion, warp_to)) {
+        ThingEvent e {
+            .reason     = "by warping",     //
+            .event_type = THING_EVENT_FALL, //
+        };
+
+        THING_DBG(g, v, l, minion, "dead due to warping");
+        TRACE_INDENT();
+        thing_dead(g, v, l, minion, e);
       }
     }
   }
@@ -217,6 +240,28 @@
   new_level->is_tick_requested = true;
 
   THING_DBG(g, v, new_level, me, "moved to new location");
+
+  //
+  // Move all minions
+  //
+  if (thing_is_mob(me)) {
+    FOR_ALL_MINIONS(g, v, old_level, me, minion)
+    {
+      TRACE();
+      auto offset  = thing_at(g, v, old_level, minion) - at;
+      auto warp_to = to + offset;
+      if (is_oob(warp_to) || ! thing_warp_to(g, v, new_level, minion, to)) {
+        ThingEvent e {
+            .reason     = "by warping",     //
+            .event_type = THING_EVENT_FALL, //
+        };
+
+        THING_DBG(g, v, new_level, minion, "dead due to warping");
+        TRACE_INDENT();
+        thing_dead(g, v, new_level, minion, e);
+      }
+    }
+  }
 
   return true;
 }

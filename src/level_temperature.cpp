@@ -399,18 +399,15 @@ void level_tick_end_temperature(Gamep g, Levelsp v, Levelp l)
       if (! thing_is_physics_temperature(t)) {
         continue;
       }
-      THING_DBG(g, v, l, t, "cand %d", __LINE__);
 
       //
       // We do not want newly spawned things that occur during the tick to cause
       // interactions else we get explosions that travel in the direction of the loop
       //
       if (thing_is_spawned(t)) {
-        THING_DBG(g, v, l, t, "cand %d skip", __LINE__);
         continue;
       }
 
-      THING_DBG(g, v, l, t, "cand %d", __LINE__);
       //
       // Ignore burnt grass for example
       //
@@ -419,7 +416,6 @@ void level_tick_end_temperature(Gamep g, Levelsp v, Levelp l)
           continue;
         }
       }
-      THING_DBG(g, v, l, t, "cand %d", __LINE__);
 
       things.push_back(t);
 

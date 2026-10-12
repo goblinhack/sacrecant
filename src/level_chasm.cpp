@@ -38,6 +38,10 @@ void level_tick_chasm(Gamep g, Levelsp v, Levelp l)
         continue;
       }
 
+      if (thing_is_falling(t)) {
+        continue;
+      }
+
       THING_DBG(g, v, l, t, "over chasm");
 
       thing_chasm_handle(g, v, l, t);

@@ -48,7 +48,7 @@ void level_update_paths(Gamep g, Levelsp v, Levelp l)
 }
 
 //
-// Update lighting and minimaps when things change substantially, like a teleport, or level change
+// Update lighting and mini-maps when things change substantially, like a teleport, or level change
 //
 void level_update_visibility(Gamep g, Levelsp v, Levelp l)
 {
@@ -133,7 +133,7 @@ void level_update_visibility(Gamep g, Levelsp v, Levelp l)
     level_vision_calculate_all(g, v, l);
 
     //
-    // Update minimaps
+    // Update mini-maps
     //
     level_minimaps_update(g, v, l);
   }

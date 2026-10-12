@@ -33,7 +33,7 @@ bool tp_spell_common_on_cast_request(Gamep g, Levelsp v, Levelp l, Thingp spell,
     //
     if (! e.spell_info.target_set) {
       if (thing_is_player(user)) {
-        topcon("Choose a target for spell '%s'.", capitalize(thing_name_short(g, v, l, spell)).c_str());
+        topcon("Choose a target for spell '%s'.", capitalize(thing_name_long(g, v, l, spell)).c_str());
         game_spell_tmp_while_targeting_set(g, e);
         game_state_change(g, STATE_CHOOSE_SPELL_TARGET, "choose a target");
       }
@@ -83,7 +83,7 @@ bool tp_spell_common_on_cast_do(Gamep g, Levelsp v, Levelp l, Thingp spell, Thin
     auto target = e.spell_info.target;
     if (distance(target, user_at) > spell_range) {
       if (thing_is_player(user)) {
-        topcon("That tile is out of range for spell '%s'.", capitalize(thing_name_short(g, v, l, spell)).c_str());
+        topcon("That tile is out of range for spell '%s'.", capitalize(thing_name_long(g, v, l, spell)).c_str());
         (void) sound_play(g, "error");
       }
       return false;

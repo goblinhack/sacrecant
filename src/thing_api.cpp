@@ -1774,7 +1774,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   return tp_flag(thing_tp(t), is_unused111) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused112(Thingp t) -> bool
+[[nodiscard]] auto thing_is_dead_on_falling(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1782,10 +1782,10 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused112) != 0;
+  return tp_flag(thing_tp(t), is_dead_on_falling) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused113(Thingp t) -> bool
+[[nodiscard]] auto thing_is_tentacle(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1793,7 +1793,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused113) != 0;
+  return tp_flag(thing_tp(t), is_tentacle) != 0;
 }
 
 [[nodiscard]] auto thing_is_boss5(Thingp t) -> bool

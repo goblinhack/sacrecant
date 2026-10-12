@@ -115,6 +115,7 @@ static auto tp_spell_dispel_obstacles_on_upgrade_do(Gamep g, Levelsp v, Levelp l
   thing_on_upgrade_possible_set(tp, tp_spell_dispel_obstacles_on_upgrade_possible);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_spell);
+tp_flag_set(tp, is_memory_ext);
   tp_name_long_set(tp, "dispel obstacles");
   tp_spell_cost_set(tp, 1);
   tp_spell_mana_cost_set(tp, 10);

@@ -280,8 +280,8 @@
       list_macro(is_unused11, "is_unused11"),                                               /* newline */                                       \
       list_macro(is_unused110, "is_unused110"),                                             /* newline */                                       \
       list_macro(is_unused111, "is_unused111"),                                             /* newline */                                       \
-      list_macro(is_unused112, "is_unused112"),                                             /* newline */                                       \
-      list_macro(is_unused113, "is_unused113"),                                             /* newline */                                       \
+      list_macro(is_dead_on_falling, "is_dead_on_falling"),                                             /* newline */                                       \
+      list_macro(is_tentacle, "is_tentacle"),                                               /* newline */                                       \
       list_macro(is_boss5, "is_boss5"),                                                     /* newline */                                       \
       list_macro(is_boss4, "is_boss4"),                                                     /* newline */                                       \
       list_macro(is_boss3, "is_boss3"),                                                     /* newline */                                       \
@@ -1127,6 +1127,7 @@ class Tp;
 [[nodiscard]] auto tp_is_submergible(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_teleport_hazard(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_teleport(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_tentacle(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_throwable(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_tick_end_delay(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_tick_on_drop(Tpp tp) -> bool;
@@ -1156,8 +1157,7 @@ class Tp;
 [[nodiscard]] auto tp_is_unused11(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused110(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused111(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused112(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused113(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_dead_on_falling(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused12(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused124(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused13(Tpp tp) -> bool;

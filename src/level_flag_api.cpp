@@ -1538,16 +1538,16 @@
   return level_flag(g, v, l, is_unused111, p, me);
 }
 
-[[nodiscard]] auto level_is_unused112(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_dead_on_falling(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused112, p, me);
+  return level_flag(g, v, l, is_dead_on_falling, p, me);
 }
 
-[[nodiscard]] auto level_is_unused113(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_tentacle(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused113, p, me);
+  return level_flag(g, v, l, is_tentacle, p, me);
 }
 
 [[nodiscard]] auto level_is_boss5(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp

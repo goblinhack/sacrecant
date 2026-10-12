@@ -26,6 +26,7 @@ auto tp_load_boots_fire() -> bool;
 auto tp_load_boots_spider() -> bool;
 auto tp_load_border() -> bool;
 auto tp_load_boss1() -> bool;
+auto tp_load_boss2_tentacles() -> bool;
 auto tp_load_boss2() -> bool;
 auto tp_load_brazier() -> bool;
 auto tp_load_bridge() -> bool;

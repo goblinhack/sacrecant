@@ -28,6 +28,7 @@
   if (!tp_load_boots_spider()) { return false; }
   if (!tp_load_border()) { return false; }
   if (!tp_load_boss1()) { return false; }
+  if (!tp_load_boss2_tentacles()) { return false; }
   if (!tp_load_boss2()) { return false; }
   if (!tp_load_brazier()) { return false; }
   if (!tp_load_bridge()) { return false; }
