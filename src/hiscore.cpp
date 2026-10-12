@@ -191,5 +191,6 @@ auto operator<<(std::ostream &out, Bits< const HiScores & > const my) -> std::os
 {
   TRACE();
   out << bits(my.t.hiscores);
+  out << std::flush;
   return out;
 }

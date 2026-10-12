@@ -700,12 +700,6 @@ auto Game::save(const std::string &file_to_save) -> bool
 
   fwrite(reinterpret_cast< char * >(&src_size), sizeof(src_size), 1, ofile);
   fwrite(dst, dst_size, 1, ofile);
-
-  //
-  // Windows doesn't seem to flush sometimes
-  //
-  fsync(fileno(ofile));
-
   fclose(ofile);
 
   log("wrote: %s", file_to_save.c_str());
