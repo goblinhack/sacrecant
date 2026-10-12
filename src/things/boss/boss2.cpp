@@ -264,6 +264,7 @@ bool tp_boss2_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   tp_rarity_set(tp, THING_RARITY_COMMON);
   tp_score_value_set(tp, 2000);
   tp_speed_set(tp, 50);
+  tp_mtiles_set(tp, body_tiles);
   tp_stat_set(tp, THING_STAT_ATT, "1d4+14");
   tp_stat_set(tp, THING_STAT_DEF, "1d4+14");
   tp_stat_set(tp, THING_STAT_DMG, "1d4+14");

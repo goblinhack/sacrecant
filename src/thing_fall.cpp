@@ -204,6 +204,7 @@ static void thing_fall_end(Gamep g, Levelsp v, Levelp l, Thingp me)
       TRACE_INDENT();
 
       thing_dead(g, v, l, me, e);
+      thing_is_scheduled_for_cleanup_set(g, v, l, me);
       return;
     }
   }
@@ -292,6 +293,8 @@ static void thing_fall_end(Gamep g, Levelsp v, Levelp l, Thingp me)
         TRACE_INDENT();
 
         thing_dead(g, v, l, me, e);
+        thing_is_scheduled_for_cleanup_set(g, v, l, me);
+        return;
       }
     }
 

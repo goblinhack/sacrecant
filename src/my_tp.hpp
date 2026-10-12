@@ -5,6 +5,7 @@
 #ifndef MY_THING_TEMPLATE_HPP
 #define MY_THING_TEMPLATE_HPP
 
+#include "my_bpoint.hpp"
 #include "my_color.hpp"
 #include "my_dice_class.hpp"
 #include "my_enum.hpp"
@@ -13,6 +14,7 @@
 #include <map>
 #include <stdarg.h>
 #include <string>
+#include <vector>
 
 //
 // Thing flags enum
@@ -280,7 +282,7 @@
       list_macro(is_unused11, "is_unused11"),                                               /* newline */                                       \
       list_macro(is_unused110, "is_unused110"),                                             /* newline */                                       \
       list_macro(is_unused111, "is_unused111"),                                             /* newline */                                       \
-      list_macro(is_dead_on_falling, "is_dead_on_falling"),                                             /* newline */                                       \
+      list_macro(is_dead_on_falling, "is_dead_on_falling"),                                 /* newline */                                       \
       list_macro(is_tentacle, "is_tentacle"),                                               /* newline */                                       \
       list_macro(is_boss5, "is_boss5"),                                                     /* newline */                                       \
       list_macro(is_boss4, "is_boss4"),                                                     /* newline */                                       \
@@ -1328,9 +1330,11 @@ class Tp;
 [[nodiscard]] auto tp_variant(ThingFlagType f, int /*variant*/) -> Tpp;
 [[nodiscard]] auto tp_weight_get(Tpp tp) -> uint32_t;
 [[nodiscard]] auto tp_z_depth_get(Tpp tp) -> MapZDepthType;
+[[nodiscard]] auto tp_mtiles_get(Tpp tp, int index) -> std::vector< bpoint >;
 // end sort marker1 }
 
 // begin sort marker2 {
+void tp_mtiles_set(Tpp tp, std::vector< bpoint > val);
 auto tp_special_attack_get_random(Tpp tp, TpSpecialAttack &out) -> bool;
 auto tp_spell_options_exist(Tpp tp) -> bool;
 auto tp_spell_options_get(Tpp tp) -> std::map< std::string, TpSpellOption >;

@@ -944,6 +944,31 @@ void tp_tiles_push_back(Tpp tp, ThingAnimType val, Tilep tile)
   return static_cast< int >(tp->tiles[ val ].size());
 }
 
+[[nodiscard]] auto tp_mtiles_get(Tpp tp, int index) -> std::vector< bpoint >
+{
+  TRACE_DEBUG();
+
+  std::vector< bpoint > out;
+
+  if (tp == nullptr) [[unlikely]] {
+    ERR("no thing template pointer");
+    return out;
+  }
+
+  return tp->mtiles;
+}
+
+void tp_mtiles_set(Tpp tp, std::vector< bpoint > val)
+{
+  TRACE_DEBUG();
+  if (tp == nullptr) [[unlikely]] {
+    ERR("no thing template pointer");
+    return;
+  }
+
+  tp->mtiles = val;
+}
+
 [[nodiscard]] auto tp_name(Tpp tp) -> std::string
 {
   TRACE_DEBUG();

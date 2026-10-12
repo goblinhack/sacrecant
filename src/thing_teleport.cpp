@@ -128,7 +128,7 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
     if ((delta == fpoint(0, 0)) || level_is_obs_to_teleporting_onto_bool(g, v, l, to)) {
       delta = thing_get_direction(g, v, l, me);
       tof   = outf + delta;
-      if (! is_oob(tof)) {
+      if (! is_oob_or_border(tof)) {
         to = make_bpoint(tof);
         if ((delta != fpoint(0, 0)) && ! level_is_obs_to_teleporting_onto_bool(g, v, l, to)) {
           if (! level_is_obs_to_teleporting_onto_bool(g, v, l, to)) {
@@ -159,7 +159,7 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
     for (auto d : deltas) {
       delta = d;
       tof   = outf + delta;
-      if (! is_oob(tof)) {
+      if (! is_oob_or_border(tof)) {
         to = make_bpoint(tof);
         if (! level_is_obs_to_teleporting_onto_bool(g, v, l, to)) {
           cands.push_back(to);
@@ -194,7 +194,7 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
     for (auto d : deltas) {
       delta = d;
       tof   = outf + delta;
-      if (! is_oob(tof)) {
+      if (! is_oob_or_border(tof)) {
         to = make_bpoint(tof);
         if (! level_is_obs_to_teleporting_onto_bool(g, v, l, to)) {
           cands.push_back(to);
@@ -317,6 +317,11 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   THING_DBG(g, v, l, me, "pre teleport, warp to (%d,%d)", to.x, to.y);
   TRACE_INDENT();
+
+  if (is_oob(to)) {
+    THING_DBG(g, v, l, me, "pre teleport, warp to (%d,%d) failed, oob", to.x, to.y);
+    return false;
+  }
 
   if (! thing_warp_to(g, v, l, me, to)) {
     THING_DBG(g, v, l, me, "pre teleport, warp to (%d,%d) failed", to.x, to.y);

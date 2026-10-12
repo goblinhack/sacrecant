@@ -41,6 +41,11 @@ public:
   std::vector< class Tile * > tiles[ THING_ANIM_ENUM_MAX ];
 
   //
+  // Multi tile things. These are tile offsets from the push location.
+  //
+  std::vector< bpoint > mtiles;
+
+  //
   // Which classes does this monst belong too
   //
   bool is_monst_group[ MONST_GROUP_ENUM_MAX ] {};
