@@ -677,7 +677,6 @@ auto Game::save(const std::string &file_to_save) -> bool
   //
 #if 0
   IF_DEBUG3 { //
-
     std::cout << "after compression ";
     (void) hexdump((const uint8_t *)dst, dst_size);
   }
@@ -803,6 +802,7 @@ auto Game::save_config() -> bool
     log("opened '%s' for writing", filename.c_str());
     const Config &c = game->config;
     out << bits(c);
+    out << std::flush;
     topcon("Saved config to '%s'", filename.c_str());
     return true;
   }
@@ -818,6 +818,7 @@ auto Game::save_config() -> bool
   log("opened fallback of '%s' for writing", filename_fallback);
   const Config &c = game->config;
   out << bits(c);
+  out << std::flush;
 
   topcon("Saved to fallback '%s'", filename.c_str());
   return true;
