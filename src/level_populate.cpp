@@ -949,18 +949,20 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
       //
       if (! g_opt_tests) {
         if (tp == lp.tp_water_deep) {
-          Tpp  tp_add       = {};
-          auto monst_chance = d100();
+          if (! level_is_boss_level(g, v, l)) {
+            Tpp  tp_add       = {};
+            auto monst_chance = d100();
 
-          if (monst_chance < 3) {
-            tp_add = tp_random(g, v, l, is_fish);
-          } else if (monst_chance < 5) {
-            tp_add = tp_random(g, v, l, is_amphibious);
-          }
+            if (monst_chance < 3) {
+              tp_add = tp_random(g, v, l, is_fish);
+            } else if (monst_chance < 5) {
+              tp_add = tp_random(g, v, l, is_amphibious);
+            }
 
-          if (tp_add != nullptr) {
-            if (thing_spawn(g, v, l, tp_add, lp.at) == nullptr) {
-              return false;
+            if (tp_add != nullptr) {
+              if (thing_spawn(g, v, l, tp_add, lp.at) == nullptr) {
+                return false;
+              }
             }
           }
         }

@@ -282,10 +282,10 @@
       list_macro(is_unused111, "is_unused111"),                                             /* newline */                                       \
       list_macro(is_unused112, "is_unused112"),                                             /* newline */                                       \
       list_macro(is_unused113, "is_unused113"),                                             /* newline */                                       \
-      list_macro(is_unused114, "is_unused114"),                                             /* newline */                                       \
-      list_macro(is_unused115, "is_unused115"),                                             /* newline */                                       \
-      list_macro(is_unused116, "is_unused116"),                                             /* newline */                                       \
-      list_macro(is_unused117, "is_unused117"),                                             /* newline */                                       \
+      list_macro(is_boss5, "is_boss5"),                                                     /* newline */                                       \
+      list_macro(is_boss4, "is_boss4"),                                                     /* newline */                                       \
+      list_macro(is_boss3, "is_boss3"),                                                     /* newline */                                       \
+      list_macro(is_boss2, "is_boss2"),                                                     /* newline */                                       \
       list_macro(is_memory_ext, "is_memory_ext"),                                           /* newline */                                       \
       list_macro(is_cursor_path_jump_over, "is_cursor_path_jump_over"),                     /* newline */                                       \
       list_macro(is_unused12, "is_unused12"),                                               /* newline */                                       \
@@ -941,6 +941,10 @@ class Tp;
 [[nodiscard]] auto tp_is_border(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_boss(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_boss1(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_boss2(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_boss3(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_boss4(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_boss5(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_brazier(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_bridge(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_broken_on_death(Tpp tp) -> bool;
@@ -1154,10 +1158,6 @@ class Tp;
 [[nodiscard]] auto tp_is_unused111(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused112(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused113(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused114(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused115(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused116(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused117(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused12(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused124(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused13(Tpp tp) -> bool;

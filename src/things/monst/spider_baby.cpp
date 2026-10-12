@@ -178,6 +178,7 @@ static bool tp_spider_baby_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attac
   tp_flag_set(tp, is_flesh_eater);
   tp_flag_set(tp, is_insectoid);
   tp_flag_set(tp, is_loggable);
+  tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_monst);
   tp_flag_set(tp, is_obs_to_beam);
   tp_flag_set(tp, is_obs_to_jumping_onto);
@@ -210,7 +211,6 @@ static bool tp_spider_baby_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attac
   tp_temperature_initial_set(tp, 20);   // celsius
   tp_weight_set(tp, WEIGHT_LIGHT);      // grams
   tp_z_depth_set(tp, MAP_Z_DEPTH_MONST);
-  tp_flag_set(tp, is_memory_ext);
   // end sort marker1 }
 
   auto delay = 800;

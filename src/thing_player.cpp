@@ -1681,7 +1681,11 @@ void player_collision_handle(Gamep g, Levelsp v, Levelp l, Thingp me)
     THING_DBG(g, v, l, me, "player has a path to target");
     TRACE_INDENT();
 
-    if (level_is_cursor_path_jump_over_hazard_or_obstacle_bool(g, v, l, move_next, me)) {
+    if (level_is_water_deep_bool(g, v, l, move_next, me)) {
+      //
+      // No need to jump in deep water
+      //
+    } else if (level_is_cursor_path_jump_over_hazard_or_obstacle_bool(g, v, l, move_next, me)) {
       THING_DBG(g, v, l, me, "player has a path to target, but it is a hazard");
       TRACE_INDENT();
 

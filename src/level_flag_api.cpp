@@ -1550,28 +1550,28 @@
   return level_flag(g, v, l, is_unused113, p, me);
 }
 
-[[nodiscard]] auto level_is_unused114(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_boss5(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused114, p, me);
+  return level_flag(g, v, l, is_boss5, p, me);
 }
 
-[[nodiscard]] auto level_is_unused115(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_boss4(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused115, p, me);
+  return level_flag(g, v, l, is_boss4, p, me);
 }
 
-[[nodiscard]] auto level_is_unused116(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_boss3(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused116, p, me);
+  return level_flag(g, v, l, is_boss3, p, me);
 }
 
-[[nodiscard]] auto level_is_unused117(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_boss2(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused117, p, me);
+  return level_flag(g, v, l, is_boss2, p, me);
 }
 
 [[nodiscard]] auto level_is_memory_ext(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp

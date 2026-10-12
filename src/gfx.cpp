@@ -7233,15 +7233,30 @@ static void gfx_init_tiles_tall()
   tile_load_arr_sprites("data/gfx/tiles_tall.tga", "tiles_tall", OUTLINE_TILE_WIDTH, OUTLINE_TILE_HEIGHT * 2, ARRAY_SIZE(tiles), tiles);
 }
 
-static void gfx_init_tiles_vlarge()
+static void gfx_init_tiles_96x96()
 {
   TRACE();
   const char *tiles[] = {
       // ##############################################################################
-      "boss1.idle.0", "boss1.idle.1", "boss1.idle.2", "boss1.idle.3", "boss1.dead.0", "boss1.dead.1", "boss1.dead.2", "boss1.dead.3",
+      "boss1.idle.0", "boss1.idle.1", "boss1.idle.2", "boss1.idle.3", //
+      "boss1.dead.0", "boss1.dead.1", "boss1.dead.2", "boss1.dead.3",
       // ##############################################################################
   };
-  tile_load_arr_sprites("data/gfx/tiles_vlarge.tga", "tiles_vlarge", BOSS_TILE_WIDTH, BOSS_TILE_HEIGHT, ARRAY_SIZE(tiles), tiles);
+  tile_load_arr_sprites("data/gfx/tiles_96x96.tga", "tiles_96x96", BOSS1_TILE_WIDTH, BOSS1_TILE_HEIGHT, ARRAY_SIZE(tiles), tiles);
+}
+
+static void gfx_init_tiles_64x64()
+{
+  TRACE();
+  const char *tiles[] = {
+      // ##############################################################################
+      "boss2.idle.0", "boss2.idle.1", "boss2.idle.2",  "boss2.idle.3",  //
+      "boss2.idle.4", "boss2.idle.5", "boss2.idle.6",  "boss2.idle.7",  //
+      "boss2.idle.8", "boss2.idle.9", "boss2.idle.10", "boss2.idle.11", //
+      "boss2.dead.0", "boss2.dead.1", "boss2.dead.2",  "boss2.dead.3",  //
+      // ##############################################################################
+  };
+  tile_load_arr_sprites("data/gfx/tiles_64x64.tga", "tiles_64x64", BOSS2_TILE_WIDTH, BOSS2_TILE_HEIGHT, ARRAY_SIZE(tiles), tiles);
 }
 
 static void gfx_init_tiles_beam_of_fire()
@@ -7403,7 +7418,8 @@ void gfx_init()
   gfx_init_tiles_beam_of_energy();
   gfx_init_tiles();
   gfx_init_tiles_tall();
-  gfx_init_tiles_vlarge();
+  gfx_init_tiles_96x96();
+  gfx_init_tiles_64x64();
   gfx_init_tiles_walls_and_floors();
   gfx_init_tiles_water_lava_misc();
   // ##############################################################################

@@ -965,6 +965,10 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_border(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_boss(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_boss1(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_boss2(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_boss3(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_boss4(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_boss5(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_brazier(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_bridge(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_broken_on_death(Thingp me) -> bool;
@@ -1199,10 +1203,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused111(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused112(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused113(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused114(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused115(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused116(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused117(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused12(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused124(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused13(Thingp t) -> bool;

@@ -505,6 +505,7 @@ void tp_load_player_common(Tpp tp)
   tp_flag_set(tp, is_light_flicker);
   tp_flag_set(tp, is_light_source, MAP_WIDTH / 2);
   tp_flag_set(tp, is_loggable);
+  tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_obs_to_beam);
   tp_flag_set(tp, is_obs_to_jumping_onto);
   tp_flag_set(tp, is_obs_to_movement);
@@ -531,7 +532,6 @@ void tp_load_player_common(Tpp tp)
   tp_temperature_initial_set(tp, 20);   // celsius
   tp_weight_set(tp, WEIGHT_HUMAN);      // grams
   tp_z_depth_set(tp, MAP_Z_DEPTH_PLAYER);
-  tp_flag_set(tp, is_memory_ext);
   // end sort marker1 }
 
   auto delay = 1000;

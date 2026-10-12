@@ -192,6 +192,7 @@ static bool tp_chest_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEve
   tp_flag_set(tp, is_flammable); // will continue to burn once on fire
   tp_flag_set(tp, is_item);      // for engulfers
   tp_flag_set(tp, is_loggable);
+  tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_openable);
   tp_flag_set(tp, is_physics_explosion);
   tp_flag_set(tp, is_physics_temperature);
@@ -215,7 +216,6 @@ static bool tp_chest_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEve
   tp_temperature_initial_set(tp, 20);    // celsius
   tp_weight_set(tp, WEIGHT_VHEAVY);      // grams
   tp_z_depth_set(tp, MAP_Z_DEPTH_OBJ);
-  tp_flag_set(tp, is_memory_ext);
   // end sort marker1 }
 
   auto delay = 1000;

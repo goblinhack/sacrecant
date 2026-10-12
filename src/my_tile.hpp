@@ -25,8 +25,11 @@ enum { TILE_HEIGHT = 12, TILE_WIDTH = 12 };
 #define OUTLINE_TILE_HEIGHT (TILE_WIDTH + 2)
 #define OUTLINE_TILE_WIDTH  (TILE_HEIGHT + 2)
 
-#define BOSS_TILE_HEIGHT (TILE_WIDTH * 8)
-#define BOSS_TILE_WIDTH  (TILE_HEIGHT * 8)
+#define BOSS1_TILE_HEIGHT (TILE_WIDTH * 8)
+#define BOSS1_TILE_WIDTH  (TILE_HEIGHT * 8)
+
+#define BOSS2_TILE_HEIGHT 64
+#define BOSS2_TILE_WIDTH  64
 
 //
 // The tiles are 14x14 to allow for outlines, however the screen lighting is done in

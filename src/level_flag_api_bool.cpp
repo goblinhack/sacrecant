@@ -1587,28 +1587,28 @@
   return level_flag(g, v, l, is_unused113, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused114_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_boss5_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused114, p, me) != nullptr;
+  return level_flag(g, v, l, is_boss5, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused115_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_boss4_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused115, p, me) != nullptr;
+  return level_flag(g, v, l, is_boss4, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused116_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_boss3_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused116, p, me) != nullptr;
+  return level_flag(g, v, l, is_boss3, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused117_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_boss2_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused117, p, me) != nullptr;
+  return level_flag(g, v, l, is_boss2, p, me) != nullptr;
 }
 
 [[nodiscard]] auto level_is_memory_ext_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool

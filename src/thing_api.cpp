@@ -1796,7 +1796,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   return tp_flag(thing_tp(t), is_unused113) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused114(Thingp t) -> bool
+[[nodiscard]] auto thing_is_boss5(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1804,10 +1804,10 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused114) != 0;
+  return tp_flag(thing_tp(t), is_boss5) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused115(Thingp t) -> bool
+[[nodiscard]] auto thing_is_boss4(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1815,10 +1815,10 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused115) != 0;
+  return tp_flag(thing_tp(t), is_boss4) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused116(Thingp t) -> bool
+[[nodiscard]] auto thing_is_boss3(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1826,10 +1826,10 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused116) != 0;
+  return tp_flag(thing_tp(t), is_boss3) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused117(Thingp t) -> bool
+[[nodiscard]] auto thing_is_boss2(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1837,7 +1837,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused117) != 0;
+  return tp_flag(thing_tp(t), is_boss2) != 0;
 }
 
 [[nodiscard]] auto thing_is_memory_ext(Thingp t) -> bool

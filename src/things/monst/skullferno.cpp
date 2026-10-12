@@ -174,6 +174,7 @@ static void tp_skullferno_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_flag_set(tp, is_ethereal);
   tp_flag_set(tp, is_levitating);
   tp_flag_set(tp, is_loggable);
+  tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_monst);
   tp_flag_set(tp, is_obs_to_beam);
   tp_flag_set(tp, is_obs_to_jumping_onto);
@@ -206,7 +207,6 @@ static void tp_skullferno_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_temperature_initial_set(tp, 200); // celsius
   tp_weight_set(tp, WEIGHT_HUMAN);     // grams
   tp_z_depth_set(tp, MAP_Z_DEPTH_FLOATING_MONST);
-  tp_flag_set(tp, is_memory_ext);
   // end sort marker1 }
 
   tp_special_attack_add(tp,

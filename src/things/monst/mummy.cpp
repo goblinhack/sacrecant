@@ -142,6 +142,7 @@ static bool tp_mummy_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, T
   tp_flag_set(tp, is_described_when_killed);
   tp_flag_set(tp, is_flesh);
   tp_flag_set(tp, is_loggable);
+  tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_monst);
   tp_flag_set(tp, is_obs_to_beam);
   tp_flag_set(tp, is_obs_to_jumping_onto);
@@ -177,7 +178,6 @@ static bool tp_mummy_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, T
   tp_ticks_to_stay_dead_set(tp, "60");
   tp_weight_set(tp, WEIGHT_HUMAN); // grams
   tp_z_depth_set(tp, MAP_Z_DEPTH_MONST);
-  tp_flag_set(tp, is_memory_ext);
   // end sort marker1 }
 
   auto delay = 1000;

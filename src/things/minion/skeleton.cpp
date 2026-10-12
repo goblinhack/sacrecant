@@ -157,6 +157,7 @@ static bool tp_skeleton_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker
   tp_flag_set(tp, is_described_cursor);
   tp_flag_set(tp, is_flesh);
   tp_flag_set(tp, is_loggable);
+  tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_minion);
   tp_flag_set(tp, is_monst);
   tp_flag_set(tp, is_obs_to_beam);
@@ -193,7 +194,6 @@ static bool tp_skeleton_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker
   tp_ticks_to_stay_dead_set(tp, "10");
   tp_weight_set(tp, WEIGHT_HUMAN); // grams
   tp_z_depth_set(tp, MAP_Z_DEPTH_MONST);
-  tp_flag_set(tp, is_memory_ext);
   // end sort marker1 }
 
   auto delay = 1000;

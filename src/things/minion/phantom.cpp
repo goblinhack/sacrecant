@@ -136,6 +136,7 @@ static void tp_phantom_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEv
   tp_flag_set(tp, is_levitating);
   tp_flag_set(tp, is_light_source, 2);
   tp_flag_set(tp, is_loggable);
+  tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_minion);
   tp_flag_set(tp, is_monst);
   tp_flag_set(tp, is_obs_to_wall_walker);
@@ -165,7 +166,6 @@ static void tp_phantom_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEv
   tp_temperature_initial_set(tp, -10); // celsius
   tp_weight_set(tp, WEIGHT_FEATHER);   // grams
   tp_z_depth_set(tp, MAP_Z_DEPTH_FLOATING_MONST);
-  tp_flag_set(tp, is_memory_ext);
   // end sort marker1 }
 
   tp_special_attack_add(tp,

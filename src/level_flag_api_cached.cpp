@@ -1587,28 +1587,28 @@
   return level_flag_cached(g, v, l, is_unused113, p);
 }
 
-[[nodiscard]] auto level_is_unused114_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_boss5_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused114, p);
+  return level_flag_cached(g, v, l, is_boss5, p);
 }
 
-[[nodiscard]] auto level_is_unused115_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_boss4_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused115, p);
+  return level_flag_cached(g, v, l, is_boss4, p);
 }
 
-[[nodiscard]] auto level_is_unused116_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_boss3_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused116, p);
+  return level_flag_cached(g, v, l, is_boss3, p);
 }
 
-[[nodiscard]] auto level_is_unused117_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_boss2_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused117, p);
+  return level_flag_cached(g, v, l, is_boss2, p);
 }
 
 [[nodiscard]] auto level_is_memory_ext_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

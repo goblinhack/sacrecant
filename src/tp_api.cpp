@@ -1549,28 +1549,28 @@
   return tp_flag(tp, is_unused113) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused114(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_boss5(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused114) != 0;
+  return tp_flag(tp, is_boss5) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused115(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_boss4(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused115) != 0;
+  return tp_flag(tp, is_boss4) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused116(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_boss3(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused116) != 0;
+  return tp_flag(tp, is_boss3) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused117(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_boss2(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused117) != 0;
+  return tp_flag(tp, is_boss2) != 0;
 }
 
 [[nodiscard]] auto tp_is_memory_ext(Tpp tp) -> bool

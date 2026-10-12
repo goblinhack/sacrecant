@@ -31,12 +31,12 @@ static auto tp_sac_wall_walker_detail_get(Gamep g, Levelsp v, Levelp l, Thingp m
   thing_detail_set(tp, tp_sac_wall_walker_detail_get);
   tp_flag_set(tp, is_hook);
   tp_flag_set(tp, is_loggable);
+  tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_sacrifice);
   tp_flag_set(tp, is_wall_walker);
   tp_name_long_set(tp, "wraith like");
   tp_sac_points_set(tp, 1);
   tp_stat_set(tp, THING_STAT_DEF, "14");
-  tp_flag_set(tp, is_memory_ext);
   // end sort marker1 }
 
   return true;

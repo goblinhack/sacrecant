@@ -250,6 +250,7 @@ static bool tp_boss1_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, T
   tp_flag_set(tp, is_flesh);
   tp_flag_set(tp, is_levitating);
   tp_flag_set(tp, is_loggable);
+  tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_monst);
   tp_flag_set(tp, is_multi_tile);
   tp_flag_set(tp, is_obs_to_beam);
@@ -286,7 +287,6 @@ static bool tp_boss1_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, T
   tp_temperature_melts_at_set(tp, 250);  // celsius
   tp_weight_set(tp, WEIGHT_VVHEAVY);     // grams
   tp_z_depth_set(tp, MAP_Z_DEPTH_FLOATING_MONST);
-  tp_flag_set(tp, is_memory_ext);
   // end sort marker1 }
 
   tp_special_attack_add(tp,
@@ -322,14 +322,14 @@ static bool tp_boss1_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, T
 
   for (auto frame = 0; frame < 4; frame++) {
     auto *tile = tile_find_mand(name + std::string(".idle.") + std::to_string(frame));
-    tile_size_set(tile, BOSS_TILE_WIDTH, BOSS_TILE_HEIGHT);
+    tile_size_set(tile, BOSS1_TILE_WIDTH, BOSS1_TILE_HEIGHT);
     tile_delay_ms_set(tile, delay);
     tp_tiles_push_back(tp, THING_ANIM_IDLE, tile);
   }
 
   for (auto frame = 0; frame < 4; frame++) {
     auto *tile = tile_find_mand(name + std::string(".dead.") + std::to_string(frame));
-    tile_size_set(tile, BOSS_TILE_WIDTH, BOSS_TILE_HEIGHT);
+    tile_size_set(tile, BOSS1_TILE_WIDTH, BOSS1_TILE_HEIGHT);
     tile_delay_ms_set(tile, delay);
     tp_tiles_push_back(tp, THING_ANIM_DEAD, tile);
 

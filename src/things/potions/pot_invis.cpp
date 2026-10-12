@@ -168,6 +168,7 @@ static void tp_pot_invis_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, Thing
   tp_flag_set(tp, is_item);
   tp_flag_set(tp, is_light_source, 2);
   tp_flag_set(tp, is_loggable);
+  tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_physics_explosion);
   tp_flag_set(tp, is_physics_temperature);
   tp_flag_set(tp, is_physics_trap);
@@ -195,7 +196,6 @@ static void tp_pot_invis_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, Thing
   tp_temperature_initial_set(tp, 20);   // celsius
   tp_weight_set(tp, WEIGHT_LIGHT);      // grams
   tp_z_depth_set(tp, MAP_Z_DEPTH_OBJ);
-  tp_flag_set(tp, is_memory_ext);
   // end sort marker1 }
 
   auto delay = 1000;

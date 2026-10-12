@@ -59,6 +59,7 @@ static auto tp_horseshoe_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> 
   tp_flag_set(tp, is_item);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_lucky);
+  tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_metal);
   tp_flag_set(tp, is_physics_trap);
   tp_flag_set(tp, is_submergible); // is seen submerged when in water
@@ -76,7 +77,6 @@ static auto tp_horseshoe_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> 
   tp_stat_set(tp, THING_STAT_LUCK, "12");
   tp_weight_set(tp, WEIGHT_MEDIUM); // grams
   tp_z_depth_set(tp, MAP_Z_DEPTH_OBJ);
-  tp_flag_set(tp, is_memory_ext);
   // end sort marker1 }
 
   auto delay = 1000;

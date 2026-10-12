@@ -70,6 +70,7 @@ static bool tp_boots_fire_on_use(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp
   tp_flag_set(tp, is_item);
   tp_flag_set(tp, is_leather);
   tp_flag_set(tp, is_loggable);
+  tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_physics_temperature);
   tp_flag_set(tp, is_submergible); // is seen submerged when in water
   tp_flag_set(tp, is_throwable);
@@ -91,7 +92,6 @@ static bool tp_boots_fire_on_use(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp
   tp_temperature_initial_set(tp, 20);     // celsius
   tp_weight_set(tp, WEIGHT_LIGHT);        // grams
   tp_z_depth_set(tp, MAP_Z_DEPTH_OBJ);
-  tp_flag_set(tp, is_memory_ext);
   // end sort marker1 }
 
   auto delay = 1000;

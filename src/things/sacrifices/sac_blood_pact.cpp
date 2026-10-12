@@ -64,10 +64,10 @@ static bool tp_sac_blood_pact_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp 
   thing_on_attacking_set(tp, tp_sac_blood_pact_on_attacking);
   tp_flag_set(tp, is_hook);
   tp_flag_set(tp, is_loggable);
+  tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_sacrifice);
   tp_name_long_set(tp, "blood pact");
   tp_sac_points_set(tp, 3);
-  tp_flag_set(tp, is_memory_ext);
   // end sort marker1 }
 
   return true;
