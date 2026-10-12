@@ -18,6 +18,8 @@
 #include "my_serialize.hpp"
 #include "my_wid_popup.hpp"
 
+#include <unistd.h>
+
 static WidPopup *wid_save;
 
 extern bool game_headers_only;
@@ -699,6 +701,12 @@ auto Game::save(const std::string &file_to_save) -> bool
 
   fwrite(reinterpret_cast< char * >(&src_size), sizeof(src_size), 1, ofile);
   fwrite(dst, dst_size, 1, ofile);
+
+  //
+  // Windows doesn't seem to flush sometimes
+  //
+  fsync(fileno(ofile));
+
   fclose(ofile);
 
   log("wrote: %s", file_to_save.c_str());
