@@ -16,7 +16,7 @@
 #include "../../my_ui.hpp"
 #include "my_boss_common.hpp"
 
-static const std::initializer_list< bpoint > body_tiles = {
+static const std::initializer_list< bpoint > additional_body_tiles = {
     bpoint(-2, 0),
     bpoint(-1, 0),
     bpoint(0, 0),
@@ -131,7 +131,7 @@ static void tp_boss2_on_pushed(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   auto at = thing_at(g, v, l, me);
 
-  for (auto p : body_tiles) {
+  for (auto p : additional_body_tiles) {
     (void) thing_push_additional(g, v, l, me, at + p);
   }
 }
@@ -142,7 +142,7 @@ static void tp_boss2_on_popped(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   auto at = thing_at(g, v, l, me);
 
-  for (auto p : body_tiles) {
+  for (auto p : additional_body_tiles) {
     (void) thing_pop_additional(g, v, l, me, at + p);
   }
 }
@@ -264,7 +264,7 @@ bool tp_boss2_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   tp_rarity_set(tp, THING_RARITY_COMMON);
   tp_score_value_set(tp, 2000);
   tp_speed_set(tp, 50);
-  tp_mtiles_set(tp, body_tiles);
+  tp_additional_body_tiles_set(tp, additional_body_tiles);
   tp_stat_set(tp, THING_STAT_ATT, "1d4+14");
   tp_stat_set(tp, THING_STAT_DEF, "1d4+14");
   tp_stat_set(tp, THING_STAT_DMG, "1d4+14");

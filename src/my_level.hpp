@@ -703,6 +703,7 @@ enum {
 
 // begin sort marker1 {
 [[nodiscard]] auto fragment_add(Gamep g, int chance, const char *file, int line, ...) -> bool;
+[[nodiscard]] auto level_is_empty_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto fragment_alt_add(Gamep g, int chance, uint32_t flags, const char *file, int line, ...) -> bool;
 [[nodiscard]] auto level_alive(Gamep g, Levelsp v, Levelp l, ThingFlagType f, bpoint p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_alive(Gamep g, Levelsp v, Levelp l, ThingFlagType f, Thingp me) -> Thingp;

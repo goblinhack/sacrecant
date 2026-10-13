@@ -875,3 +875,11 @@ void level_bounds_set(Gamep g, Levelsp v, Levelp l)
     v->maxy = MAP_HEIGHT;
   }
 }
+
+[[nodiscard]] auto level_is_empty_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+{
+  TRACE_DEBUG();
+  FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, p) { return false; }
+  return true;
+}
+

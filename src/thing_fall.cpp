@@ -42,9 +42,10 @@
 // Try to find a spot close to where we landed that is ok to exist in.
 // Try to avoid landing in lava if luck allows.
 //
-static auto thing_choose_landing_spot(Gamep g, Levelsp v, Levelp l, Thingp me, bool &saved) -> bpoint
+static auto thing_choose_nearby_landing_spot(Gamep g, Levelsp v, Levelp l, Thingp me, bool &saved, bpoint &out) -> bool
 {
-  TRACE();
+  THING_DBG(g, v, l, me, "choose nearby landing spot");
+  TRACE_INDENT();
 
   auto at = thing_at(g, v, l, me);
 
@@ -73,41 +74,141 @@ static auto thing_choose_landing_spot(Gamep g, Levelsp v, Levelp l, Thingp me, b
               saved = true;
               continue;
             }
-            return where;
           }
-          return where;
+
+          out = where;
+          THING_DBG(g, v, l, me, "chose ok landing spot, %d,%d", out.x, out.y);
+          return true;
         }
       }
     }
   }
 
-  saved = false;
+  THING_DBG(g, v, l, me, "no landing spot");
+  return false;
+}
 
-  return at;
+static auto thing_assess_landing_spot(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool
+{
+  TRACE();
+
+  if (is_oob_or_border(to)) [[unlikely]] {
+    return false;
+  }
+
+  //
+  // For tests
+  //
+  if (level_is_empty_bool(g, v, l, to)) {
+    return false;
+  }
+
+  auto tp = thing_tp(me);
+
+  if (thing_is_multi_tile(me)) {
+    for (auto offset : tp_additional_body_tiles_get(tp)) {
+      auto p = to + offset;
+      switch (thing_assess_tile(g, v, l, p, me)) {
+        case THING_ENVIRON_HATES :    return false;
+        case THING_ENVIRON_DISLIKES : break;
+        case THING_ENVIRON_NEUTRAL :  break;
+        case THING_ENVIRON_LIKES :    break;
+        case THING_ENVIRON_ENUM_MAX : break;
+      }
+    }
+  }
+
+  switch (thing_assess_tile(g, v, l, to, me)) {
+    case THING_ENVIRON_HATES :    return false;
+    case THING_ENVIRON_DISLIKES : break;
+    case THING_ENVIRON_NEUTRAL :  break;
+    case THING_ENVIRON_LIKES :    break;
+    case THING_ENVIRON_ENUM_MAX : break;
+  }
+
+  return true;
+}
+
+static auto thing_choose_random_landing_spot(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint &out) -> bool
+{
+  THING_DBG(g, v, l, me, "choose random landing spot");
+  TRACE_INDENT();
+
+  bpoint to;
+
+  //
+  // Find somewhere random to land
+  //
+  for (auto attempt = 0; attempt < 1000; attempt++) {
+    uint8_t const border = MAP_BORDER;
+    to.x                 = PCG_RANDOM_RANGE(border, (uint8_t) MAP_WIDTH - border);
+    to.y                 = PCG_RANDOM_RANGE(border, (uint8_t) MAP_HEIGHT - border);
+
+    if (is_oob_or_border(to)) [[unlikely]] {
+      IF_DEBUG3 { THING_DBG(g, v, l, me, "choose landing spot, no; oob"); }
+      continue;
+    }
+
+    if (attempt < 100) {
+      if (l->info.on_path_entrance_to_exit[ to.x ][ to.y ] == 0U) {
+        IF_DEBUG3 { THING_DBG(g, v, l, me, "choose landing spot, no; not on safe path"); }
+        continue;
+      }
+    }
+
+    if (! thing_assess_landing_spot(g, v, l, me, to)) {
+      IF_DEBUG3 { THING_DBG(g, v, l, me, "choose landing spot, no; failed assess"); }
+      continue;
+    }
+
+    out = to;
+    THING_DBG(g, v, l, me, "chose random landing spot, %d,%d", out.x, out.y);
+    return true;
+  }
+
+  return false;
 }
 
 //
 // Try to find a spot close to where we landed that is ok to exist in.
 // i.e. no landing inside walls.
 //
-static auto thing_choose_landing_spot(Gamep g, Levelsp v, Levelp l, Thingp me) -> bpoint
+static auto thing_choose_landing_spot(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint &out) -> bool
 {
-  TRACE();
+  THING_DBG(g, v, l, me, "choose landing spot");
+  TRACE_INDENT();
 
   bool saved {};
-  auto where = thing_choose_landing_spot(g, v, l, me, saved);
 
-  if (thing_is_player(me)) {
+  //
+  // Player always falls somewhere close by
+  //
+  if (thing_is_player(me) && thing_choose_nearby_landing_spot(g, v, l, me, saved, out)) {
     if (saved) {
-      if (level_is_lava_bool(g, v, l, where)) {
+      if (level_is_lava_bool(g, v, l, out)) {
         topcon(UI_IMPORTANT_FMT_STR "You manage to avoid the lava as you fall. And then somehow, still slip into it!" UI_RESET_FMT);
       } else {
         topcon(UI_IMPORTANT_FMT_STR "You manage to avoid the lava as you fall!" UI_RESET_FMT);
       }
     }
+    return true;
   }
 
-  return where;
+  //
+  // Monsters and other things falling on normal levels
+  //
+  if (! level_is_boss_level(g, v, l) && thing_choose_nearby_landing_spot(g, v, l, me, saved, out)) {
+    return true;
+  }
+
+  //
+  // Fallback and boss level. Land anywhere viable.
+  //
+  if (thing_choose_random_landing_spot(g, v, l, me, out)) {
+    return true;
+  }
+
+  return false;
 }
 
 //
@@ -179,7 +280,8 @@ static void thing_fall_end(Gamep g, Levelsp v, Levelp l, Thingp me)
   THING_DBG(g, v, l, me, "fall end");
   TRACE_INDENT();
 
-  auto *next_level = level_select_get_next_level_down(g, v, l);
+  bpoint to;
+  auto  *next_level = level_select_get_next_level_down(g, v, l);
   if (next_level == nullptr) {
     if (g_opt_tests) {
       THING_DBG(g, v, l, me, "no level to fall onto");
@@ -210,39 +312,11 @@ static void thing_fall_end(Gamep g, Levelsp v, Levelp l, Thingp me)
   }
 
   //
-  // You cannot fall out of boss levels
+  // Boss levels, you fall and land on the same level
   //
-  switch (level_type(l->level_num + 1)) {
-    case LEVEL_TYPE_NONE :   [[fallthrough]];
-    case LEVEL_TYPE_NORMAL : [[fallthrough]];
-    case LEVEL_TYPE_TEST :   [[fallthrough]];
-    case LEVEL_TYPE_ENUM_MAX :
-      //
-      // Choose a new landing spot for the thing
-      //
-      if (! thing_warp_to(g, v, next_level, me, thing_choose_landing_spot(g, v, next_level, me))) {
-        if (thing_is_player(me)) {
-          topcon(UI_IMPORTANT_FMT_STR "You fail to find the ground!" UI_RESET_FMT);
-        }
-      }
-      break;
+  if (level_is_boss_level(g, v, l)) {
+    next_level = l;
 
-    case LEVEL_TYPE_BOSS1 : [[fallthrough]];
-    case LEVEL_TYPE_BOSS2 : [[fallthrough]];
-    case LEVEL_TYPE_BOSS3 : [[fallthrough]];
-    case LEVEL_TYPE_BOSS4 : [[fallthrough]];
-    case LEVEL_TYPE_BOSS5 :
-      //
-      // Back to the entrance
-      //
-      next_level = l;
-      break;
-  }
-
-  //
-  // Ensure we always land at the entrance for boss levels
-  //
-  if (level_is_boss_level(g, v, next_level)) {
     if (thing_is_player(me)) {
       //
       // Back to the entrance
@@ -250,9 +324,22 @@ static void thing_fall_end(Gamep g, Levelsp v, Levelp l, Thingp me)
       thing_level_warp_to_entrance(g, v, next_level, me);
     } else {
       //
-      // Choose a new landing spot for the thing
+      // Choose a new landing spot for the thing on the same level
       //
-      (void) thing_warp_to(g, v, next_level, me, thing_choose_landing_spot(g, v, next_level, me));
+      if (thing_choose_landing_spot(g, v, next_level, me, to)) {
+        (void) thing_warp_to(g, v, next_level, me, to);
+      }
+    }
+  } else {
+    //
+    // Choose a new landing spot for the thing
+    //
+    if (thing_choose_landing_spot(g, v, next_level, me, to)) {
+      if (! thing_warp_to(g, v, next_level, me, to)) {
+        if (thing_is_player(me)) {
+          topcon(UI_IMPORTANT_FMT_STR "You fail to find the ground!" UI_RESET_FMT);
+        }
+      }
     }
   }
 

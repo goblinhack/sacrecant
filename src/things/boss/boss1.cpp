@@ -15,7 +15,7 @@
 #include "../../my_ui.hpp"
 #include "my_boss_common.hpp"
 
-static const std::initializer_list< bpoint > body_tiles = {
+static const std::initializer_list< bpoint > additional_body_tiles = {
     bpoint(-3, -3), bpoint(-2, -3), bpoint(-1, -3), bpoint(0, -3), bpoint(1, -3), bpoint(2, -3), bpoint(3, -3), //
     bpoint(-3, -2), bpoint(-2, -2), bpoint(-1, -2), bpoint(0, -2), bpoint(1, -2), bpoint(2, -2), bpoint(3, -2), //
     bpoint(-3, -1), bpoint(-2, -1), bpoint(-1, -1), bpoint(0, -1), bpoint(1, -1), bpoint(2, -1), bpoint(3, -1), //
@@ -177,7 +177,7 @@ static void tp_boss1_on_pushed(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   auto at = thing_at(g, v, l, me);
 
-  for (auto p : body_tiles) {
+  for (auto p : additional_body_tiles) {
     (void) thing_push_additional(g, v, l, me, at + p);
   }
 }
@@ -188,7 +188,7 @@ static void tp_boss1_on_popped(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   auto at = thing_at(g, v, l, me);
 
-  for (auto p : body_tiles) {
+  for (auto p : additional_body_tiles) {
     (void) thing_pop_additional(g, v, l, me, at + p);
   }
 }

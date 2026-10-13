@@ -1330,11 +1330,11 @@ class Tp;
 [[nodiscard]] auto tp_variant(ThingFlagType f, int /*variant*/) -> Tpp;
 [[nodiscard]] auto tp_weight_get(Tpp tp) -> uint32_t;
 [[nodiscard]] auto tp_z_depth_get(Tpp tp) -> MapZDepthType;
-[[nodiscard]] auto tp_mtiles_get(Tpp tp, int index) -> std::vector< bpoint >;
+[[nodiscard]] auto tp_additional_body_tiles_get(Tpp tp) -> std::vector< bpoint >;
 // end sort marker1 }
 
 // begin sort marker2 {
-void tp_mtiles_set(Tpp tp, std::vector< bpoint > val);
+void tp_additional_body_tiles_set(Tpp tp, std::vector< bpoint > val);
 auto tp_special_attack_get_random(Tpp tp, TpSpecialAttack &out) -> bool;
 auto tp_spell_options_exist(Tpp tp) -> bool;
 auto tp_spell_options_get(Tpp tp) -> std::map< std::string, TpSpellOption >;
