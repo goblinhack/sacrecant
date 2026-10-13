@@ -145,7 +145,7 @@ static bool tp_boss2_tentacles_on_missing(Gamep g, Levelsp v, Levelp l, Thingp a
   tp_chance_set(tp, THING_CHANCE_CONTINUE_TO_BURN, "1d6"); // fumble => intensify / keep burning / crit => stop burning
   tp_chance_set(tp, THING_CHANCE_START_BURNING, "1d2");    // fumble => flames spread to you
   tp_damage_set(tp, THING_EVENT_MELEE_DAMAGE, "1d2");
-  tp_distance_minion_from_mob_max_set(tp, 2);
+  tp_distance_minion_from_mob_max_set(tp, 4);
   tp_distance_vision_set(tp, 10);
   tp_flag_set(tp, is_able_to_be_buffed);
   tp_flag_set(tp, is_able_to_be_engulfed);

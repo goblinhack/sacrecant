@@ -175,6 +175,37 @@
       continue;
     }
 
+    if (thing_is_multi_tile(me)) {
+      //
+      // Minion ignore mob e.g. tentacles ignoring kraken
+      //
+      auto *mob = thing_minion_mob_get(g, v, l, it);
+      if (mob != nullptr) {
+        if (it == me) {
+          continue;
+        }
+      }
+
+      //
+      // Mob ignore minion e.g. kraken ignoring tentacles
+      //
+      if (thing_is_mob(me)) {
+        bool ignore {};
+
+        FOR_ALL_MINIONS(g, v, l, me, minion)
+        {
+          if (minion == it) {
+            ignore = true;
+            continue;
+          }
+        }
+
+        if (ignore) {
+          continue;
+        }
+      }
+    }
+
     //
     // Allow AI to make a path through unlocked doors
     //
@@ -317,6 +348,37 @@
         return false;
       }
       continue;
+    }
+
+    if (thing_is_multi_tile(me)) {
+      //
+      // Minion ignore mob e.g. tentacles ignoring kraken
+      //
+      auto *mob = thing_minion_mob_get(g, v, l, it);
+      if (mob != nullptr) {
+        if (it == me) {
+          continue;
+        }
+      }
+
+      //
+      // Mob ignore minion e.g. kraken ignoring tentacles
+      //
+      if (thing_is_mob(me)) {
+        bool ignore {};
+
+        FOR_ALL_MINIONS(g, v, l, me, minion)
+        {
+          if (minion == it) {
+            ignore = true;
+            continue;
+          }
+        }
+
+        if (ignore) {
+          continue;
+        }
+      }
     }
 
     //

@@ -263,12 +263,12 @@ void thing_mob_dump_minions(Gamep g, Levelsp v, Levelp l, Thingp mob)
   FOR_ALL_MINION_SLOTS_NO_BREAK(g, v, l, mob, slot, existing_minion)
   {
     if (existing_minion == nullptr) {
-      THING_DBG(g, v, l, mob, "slot %d: -", _n_);
+      THING_DBG(g, v, l, mob, "slot %d: -", _minion_n_);
       continue;
     }
 
     auto s = to_string(g, v, l, existing_minion);
-    THING_DBG(g, v, l, mob, "slot %d: %s", _n_, s.c_str());
+    THING_DBG(g, v, l, mob, "slot %d: %s", _minion_n_, s.c_str());
   }
 }
 
@@ -306,6 +306,34 @@ void thing_mob_dump_minions(Gamep g, Levelsp v, Levelp l, Thingp mob)
 }
 
 //
+// If any minions have strayed too far, kill them
+//
+static void thing_mob_minions_kill_if_too_far(Gamep g, Levelsp v, Levelp l, Thingp me)
+{
+  TRACE();
+
+  auto mob_at = thing_at(g, v, l, me);
+
+  FOR_ALL_MINIONS(g, v, l, me, minion)
+  {
+    TRACE();
+
+    auto minion_at = thing_at(g, v, l, minion);
+
+    if (distance(mob_at, minion_at) > thing_distance_minion_from_mob_max(g, v, l, minion)) {
+      ThingEvent e {
+          .reason     = "by moving",                  //
+          .event_type = THING_EVENT_LIFESPAN_EXPIRED, //
+      };
+
+      THING_DBG(g, v, l, minion, "dead due to off the leash");
+      TRACE_INDENT();
+      thing_dead(g, v, l, minion, e);
+    }
+  }
+}
+
+//
 // Move all minions
 //
 // This is used for teleporting, falling etc...
@@ -330,8 +358,8 @@ void thing_mob_warp_minions_to(Gamep g, Levelsp v, Levelp old_level, Levelp new_
 
     if (is_oob(warp_to) || ! thing_warp_to(g, v, new_level, minion, to)) {
       ThingEvent e {
-          .reason     = "by warping",     //
-          .event_type = THING_EVENT_FALL, //
+          .reason     = "by warping",                 //
+          .event_type = THING_EVENT_LIFESPAN_EXPIRED, //
       };
 
       THING_DBG(g, v, new_level, minion, "dead due to warping");
@@ -339,6 +367,8 @@ void thing_mob_warp_minions_to(Gamep g, Levelsp v, Levelp old_level, Levelp new_
       thing_dead(g, v, new_level, minion, e);
     }
   }
+
+  thing_mob_minions_kill_if_too_far(g, v, new_level, me);
 }
 
 //
@@ -354,10 +384,14 @@ void thing_mob_move_minions_offset(Gamep g, Levelsp v, Levelp l, Thingp me, cons
 
     auto move_to = thing_at(g, v, l, minion) + offset;
 
-    if (is_oob(move_to) || ! thing_warp_to(g, v, l, minion, move_to)) {
+    if (! thing_can_move_to_possible(g, v, l, me, move_to)) {
+      continue;
+    }
+
+    if (! thing_move_to(g, v, l, minion, move_to)) {
       ThingEvent e {
-          .reason     = "by moving",      //
-          .event_type = THING_EVENT_FALL, //
+          .reason     = "by moving",                  //
+          .event_type = THING_EVENT_LIFESPAN_EXPIRED, //
       };
 
       THING_DBG(g, v, l, minion, "dead due to move fail");
@@ -365,5 +399,6 @@ void thing_mob_move_minions_offset(Gamep g, Levelsp v, Levelp l, Thingp me, cons
       thing_dead(g, v, l, minion, e);
     }
   }
-}
 
+  thing_mob_minions_kill_if_too_far(g, v, l, me);
+}

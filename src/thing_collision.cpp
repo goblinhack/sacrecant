@@ -665,6 +665,24 @@ static void thing_collision_handle_do(Gamep g, Levelsp v, Levelp l, Thingp obsta
     }
   }
 
+  auto *mob = thing_minion_mob_get(g, v, l, me);
+  if (mob != nullptr) {
+    if (obstacle == mob) {
+      THING_DBG(g, v, l, obstacle, "ignore for mob");
+      return;
+    }
+  }
+
+  if (thing_is_mob(me)) {
+    FOR_ALL_MINIONS(g, v, l, me, minion)
+    {
+      if (obstacle == minion) {
+        THING_DBG(g, v, l, obstacle, "ignore for minion");
+        return;
+      }
+    }
+  }
+
   //
   // Don't get hit by your own weapon
   //
@@ -787,6 +805,7 @@ static void thing_collision_interpolated_expand_candidates(Gamep g, Levelsp v, L
   auto at = thing_real_at(g, v, l, me);
 
   auto *owner    = thing_owner(g, v, l, me);
+  auto *mob      = thing_minion_mob_get(g, v, l, me);
   auto *fired_by = thing_missile_fired_by_get(g, v, l, me);
 
   //
@@ -811,6 +830,32 @@ static void thing_collision_interpolated_expand_candidates(Gamep g, Levelsp v, L
 
     if (obstacle == owner) {
       continue;
+    }
+
+    if (obstacle == mob) {
+      continue;
+    }
+
+    //
+    // Ignore tentacles
+    //
+    {
+      bool ignore {};
+
+      if (thing_is_mob(me)) {
+        FOR_ALL_MINIONS(g, v, l, me, minion)
+        {
+          if (obstacle == minion) {
+            THING_DBG(g, v, l, obstacle, "ignore for minion");
+            ignore = true;
+            break;
+          }
+        }
+      }
+
+      if (ignore) {
+        continue;
+      }
     }
 
     //

@@ -976,7 +976,7 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
           if (! thing_player_spawn(g, v, l, tp, lp.at)) {
             return false;
           }
-          if (1 || compiler_unused) {
+          if (compiler_unused) {
             if (thing_spawn(g, v, l, tp_random(g, v, l, is_boss2), lp.at + bpoint(3, 0)) == nullptr) {
               return false;
             }

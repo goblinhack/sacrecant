@@ -1753,19 +1753,20 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
 //
 // NOTE: break will not work
 //
-#define FOR_ALL_MINION_SLOTS_NO_BREAK(_g_, _v_, _l_, _mob_, _slot_, _minion_)                                                                   \
+#define FOR_ALL_MINION_SLOTS_NO_BREAK(_g_, _v_, _l_, _mob_, _minion_slot_, _minion_)                                                            \
   if ((_g_) && (_v_) && (_l_))                                                                                                                  \
-    if (AUTO(_ext_) = thing_ext_struct(_g_, _v_, _mob_))                                                                                        \
-      for (auto _n_ = 0; _n_ < THING_MINION_MAX; _n_++)                                                                                         \
-        for (AUTO(_slot_) = &_ext_->minions.minion[ _n_ ]; _slot_; (_slot_) = nullptr)                                                          \
-          for (AUTO(_minion_) = thing_find_optional(g, v, (_slot_)->minion_id), loop2 = (Thingp) 1; loop2 == (Thingp) 1; loop2 = (Thingp) 0)
+    if (AUTO(_minion_ext_) = thing_ext_struct(_g_, _v_, _mob_))                                                                                 \
+      for (auto _minion_n_ = 0; _minion_n_ < THING_MINION_MAX; _minion_n_++)                                                                    \
+        for (AUTO(_minion_slot_) = &_minion_ext_->minions.minion[ _minion_n_ ]; _minion_slot_; (_minion_slot_) = nullptr)                       \
+          for (AUTO(_minion_) = thing_find_optional(g, v, (_minion_slot_)->minion_id), loop2 = (Thingp) 1; loop2 == (Thingp) 1;                 \
+               loop2 = (Thingp) 0)
 
 #define FOR_ALL_MINIONS(_g_, _v_, _l_, _mob_, _minion_)                                                                                         \
   if ((_g_) && (_v_) && (_l_))                                                                                                                  \
-    if (AUTO(_ext_) = thing_ext_struct(_g_, _v_, _mob_))                                                                                        \
-      for (auto _n_ = 0; _n_ < THING_MINION_MAX; _n_++)                                                                                         \
-        if (AUTO(_slot_) = &_ext_->minions.minion[ _n_ ])                                                                                       \
-          if (AUTO(_minion_) = thing_find_optional(g, v, _slot_->minion_id))
+    if (AUTO(_minion_ext_) = thing_ext_struct(_g_, _v_, _mob_))                                                                                 \
+      for (auto _minion_n_ = 0; _minion_n_ < THING_MINION_MAX; _minion_n_++)                                                                    \
+        if (AUTO(_minion_slot_) = &_minion_ext_->minions.minion[ _minion_n_ ])                                                                  \
+          if (AUTO(_minion_) = thing_find_optional(g, v, _minion_slot_->minion_id))
 
 //
 // NOTE: break will not work
