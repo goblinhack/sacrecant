@@ -308,7 +308,7 @@ void thing_mob_dump_minions(Gamep g, Levelsp v, Levelp l, Thingp mob)
 //
 // If any minions have strayed too far, kill them
 //
-static void thing_mob_minions_kill_if_too_far(Gamep g, Levelsp v, Levelp l, Thingp me)
+void thing_mob_minions_kill_if_too_far(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
 

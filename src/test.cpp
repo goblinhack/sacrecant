@@ -83,6 +83,7 @@ static std::initializer_list< std::string > tests = {
     "jump_truncated",
     "kraken_can_pass_through_small_gap",
     "kraken_cannot_pass_through_small_gap",
+    "kraken_teleport",
     "large_fire_water",
     "mob_shove_into_lava",
     "mob_shove_ok",

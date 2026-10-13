@@ -125,7 +125,8 @@
 //
 [[nodiscard]] auto thing_warp_to(Gamep g, Levelsp v, Levelp new_level, Thingp me, bpoint to) -> bool
 {
-  TRACE();
+  THING_DBG(g, v, new_level, me, "warp to @%d,%d", to.x, to.y);
+  TRACE_INDENT();
 
   if (is_oob_or_border(to)) [[unlikely]] {
     thing_err(g, v, new_level, me, "warp to oob %d,%d", to.x, to.y);
@@ -284,6 +285,16 @@ void thing_move_finish(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   thing_dmap(g, v, l, me);
   thing_update_pos(g, v, l, me);
+
+  //
+  // Check minions have not strayed too far
+  //
+  if (thing_is_minion(me)) {
+    auto *mob = thing_minion_mob_get(g, v, l, me);
+    if (mob) {
+      thing_mob_minions_kill_if_too_far(g, v, l, me);
+    }
+  }
 }
 
 //

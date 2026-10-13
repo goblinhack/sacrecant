@@ -878,19 +878,35 @@ void levels_test(Gamep g)
                   /* line */ (const char *) "       ",
                   /* end */ nullptr);
 
-  level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "teleport", __FUNCTION__, __LINE__, no_overrides, 0,
-                  /* line */ (const char *) "                   ",
-                  /* line */ (const char *) "xxxxxx             ",
-                  /* line */ (const char *) "x....x             ",
-                  /* line */ (const char *) "x....xxxxxxxxxxxxxx",
-                  /* line */ (const char *) "x.................x",
-                  /* line */ (const char *) "x...bT..@.........x",
-                  /* line */ (const char *) "x.................x",
-                  /* line */ (const char *) "x....T............x",
-                  /* line */ (const char *) "x.................x",
-                  /* line */ (const char *) "xxxxxxxxxxxxxxxxxxx",
-                  /* line */ (const char *) "                   ",
-                  /* end */ nullptr);
+  {
+    Overrides overrides;
+
+    level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "teleport", __FUNCTION__, __LINE__, overrides, 0,
+                    /* line */ (const char *) "                   ",
+                    /* line */ (const char *) "xxxxxx             ",
+                    /* line */ (const char *) "x....x             ",
+                    /* line */ (const char *) "x....xxxxxxxxxxxxxx",
+                    /* line */ (const char *) "xWWWWWWWWWWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWWWWWWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWWWWWWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWWWWWWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWWWWWWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWWWWWWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWWWWWWWWWWWWWx",
+                    /* line */ (const char *) "xTTTTTTTTTTTTTTTTTx",
+                    /* line */ (const char *) "xWWWWWWWWWWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWWWWWWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWWWWWWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWWWWWWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWWWWWWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWWW@WWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWWWWWWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWWWWWWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWWWWWWWWWWWWWx",
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxx",
+                    /* line */ (const char *) "                   ",
+                    /* end */ nullptr);
+  }
 
   level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "teleport-large", __FUNCTION__, __LINE__, no_overrides, 0,
                   /* line */ (const char *) "xxxxxxCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCxxxxxxxx",

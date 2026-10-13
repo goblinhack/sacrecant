@@ -382,7 +382,7 @@ static void thing_collision_handle_common(Gamep g, Levelsp v, Levelp l, Thingp o
   //
   if (thing_is_teleport(obstacle)) {
     if (thing_is_able_to_be_teleported(me)) {
-      THING_DBG(g, v, l, me, "over teleport");
+      THING_DBG(g, v, l, me, "collision over teleport");
       TRACE_INDENT();
       if (thing_warp_to(g, v, l, me, thing_at(g, v, l, obstacle))) {
         (void) thing_teleport_handle(g, v, l, me);

@@ -1724,6 +1724,7 @@ auto wid_tp_info(Gamep g, Levelsp v, Levelp l, Tpp me, WidPopup *parent, int wid
 auto wid_unset_thing_context(Gamep g, Levelsp v, Widp w, Thingp t) -> void;
 auto wid_unset_tp_context(Gamep g, Widp w, Tpp tp) -> void;
 void level_botcon(Gamep g, Levelsp v, Levelp l, const char *fmt, ...) CHECK_FORMAT_STR(printf, 4, 5);
+void thing_mob_minions_kill_if_too_far(Gamep g, Levelsp v, Levelp l, Thingp me);
 void level_con(Gamep g, Levelsp v, Levelp l, const char *fmt, ...) CHECK_FORMAT_STR(printf, 4, 5);
 void level_dbg(Gamep g, Levelsp v, Levelp l, const char *fmt, ...) CHECK_FORMAT_STR(printf, 4, 5);
 void level_err(Gamep g, Levelsp v, Levelp l, const char *fmt, ...) CHECK_FORMAT_STR(printf, 4, 5);
