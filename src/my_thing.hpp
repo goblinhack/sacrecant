@@ -1724,6 +1724,8 @@ auto wid_tp_info(Gamep g, Levelsp v, Levelp l, Tpp me, WidPopup *parent, int wid
 auto wid_unset_thing_context(Gamep g, Levelsp v, Widp w, Thingp t) -> void;
 auto wid_unset_tp_context(Gamep g, Widp w, Tpp tp) -> void;
 void level_botcon(Gamep g, Levelsp v, Levelp l, const char *fmt, ...) CHECK_FORMAT_STR(printf, 4, 5);
+void thing_mob_warp_minions_to(Gamep g, Levelsp v, Levelp old_level, Levelp new_level, Thingp me, const bpoint from, const bpoint to);
+void thing_mob_move_minions_offset(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint offset);
 void level_con(Gamep g, Levelsp v, Levelp l, const char *fmt, ...) CHECK_FORMAT_STR(printf, 4, 5);
 void level_dbg(Gamep g, Levelsp v, Levelp l, const char *fmt, ...) CHECK_FORMAT_STR(printf, 4, 5);
 void level_err(Gamep g, Levelsp v, Levelp l, const char *fmt, ...) CHECK_FORMAT_STR(printf, 4, 5);

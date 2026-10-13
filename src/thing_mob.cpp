@@ -304,3 +304,66 @@ void thing_mob_dump_minions(Gamep g, Levelsp v, Levelp l, Thingp mob)
   }
   return tp_flag(thing_tp(t), is_mob2) != 0;
 }
+
+//
+// Move all minions
+//
+// This is used for teleporting, falling etc...
+//
+void thing_mob_warp_minions_to(Gamep g, Levelsp v, Levelp old_level, Levelp new_level, Thingp me, const bpoint from, const bpoint to)
+{
+  TRACE();
+
+  //
+  // Move all minions
+  //
+  if (! thing_is_mob(me)) {
+    return;
+  }
+
+  FOR_ALL_MINIONS(g, v, old_level, me, minion)
+  {
+    TRACE();
+
+    auto offset  = thing_at(g, v, old_level, minion) - from;
+    auto warp_to = to + offset;
+
+    if (is_oob(warp_to) || ! thing_warp_to(g, v, new_level, minion, to)) {
+      ThingEvent e {
+          .reason     = "by warping",     //
+          .event_type = THING_EVENT_FALL, //
+      };
+
+      THING_DBG(g, v, new_level, minion, "dead due to warping");
+      TRACE_INDENT();
+      thing_dead(g, v, new_level, minion, e);
+    }
+  }
+}
+
+//
+// Move all minions
+//
+void thing_mob_move_minions_offset(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint offset)
+{
+  TRACE();
+
+  FOR_ALL_MINIONS(g, v, l, me, minion)
+  {
+    TRACE();
+
+    auto move_to = thing_at(g, v, l, minion) + offset;
+
+    if (is_oob(move_to) || ! thing_warp_to(g, v, l, minion, move_to)) {
+      ThingEvent e {
+          .reason     = "by moving",      //
+          .event_type = THING_EVENT_FALL, //
+      };
+
+      THING_DBG(g, v, l, minion, "dead due to move fail");
+      TRACE_INDENT();
+      thing_dead(g, v, l, minion, e);
+    }
+  }
+}
+

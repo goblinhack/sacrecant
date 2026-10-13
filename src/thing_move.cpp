@@ -27,10 +27,12 @@
     return false;
   }
 
-  auto at = thing_at(g, v, l, me);
+  const auto at = thing_at(g, v, l, me);
   if (to == at) {
     return false;
   }
+
+  const auto delta = to - at;
 
   if (thing_is_wooden_leg(g, v, l, me)) {
     if (! thing_is_jumping(me)) {
@@ -84,23 +86,7 @@
   // Move all minions
   //
   if (thing_is_mob(me)) {
-    auto offset = thing_moving_from(me) - thing_at(g, v, l, me);
-
-    FOR_ALL_MINIONS(g, v, l, me, minion)
-    {
-      TRACE();
-      auto warp_to = thing_at(g, v, l, minion) - offset;
-      if (is_oob(warp_to) || ! thing_warp_to(g, v, l, minion, warp_to)) {
-        ThingEvent e {
-            .reason     = "by warping",     //
-            .event_type = THING_EVENT_FALL, //
-        };
-
-        THING_DBG(g, v, l, minion, "dead due to warping");
-        TRACE_INDENT();
-        thing_dead(g, v, l, minion, e);
-      }
-    }
+    thing_mob_move_minions_offset(g, v, l, me, delta);
   }
 
   return true;
@@ -163,7 +149,7 @@
   //
   // Check if already present at the destination.
   //
-  auto at = thing_at(g, v, thing_level(g, v, me), me);
+  const auto at = thing_at(g, v, thing_level(g, v, me), me);
   if ((new_level == old_level) && (to == at)) {
     //
     // No need to pop. If might be an inventory item though, so make sure and push
@@ -245,22 +231,7 @@
   // Move all minions
   //
   if (thing_is_mob(me)) {
-    FOR_ALL_MINIONS(g, v, old_level, me, minion)
-    {
-      TRACE();
-      auto offset  = thing_at(g, v, old_level, minion) - at;
-      auto warp_to = to + offset;
-      if (is_oob(warp_to) || ! thing_warp_to(g, v, new_level, minion, to)) {
-        ThingEvent e {
-            .reason     = "by warping",     //
-            .event_type = THING_EVENT_FALL, //
-        };
-
-        THING_DBG(g, v, new_level, minion, "dead due to warping");
-        TRACE_INDENT();
-        thing_dead(g, v, new_level, minion, e);
-      }
-    }
+    thing_mob_warp_minions_to(g, v, old_level, new_level, me, at, to);
   }
 
   return true;
