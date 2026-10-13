@@ -1044,7 +1044,7 @@ static auto thing_monst_choose_something_we_can_wander_to(Gamep g, Levelsp v, Le
   THING_DBG(g, v, l, me, "choose target");
   TRACE_INDENT();
 
-  if (thing_dormant(g, v, l, me)) {
+  if (thing_dormant(g, v, l, me) != 0) {
     THING_DBG(g, v, l, me, "choose target: wait, dormant");
     return false;
   }

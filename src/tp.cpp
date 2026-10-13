@@ -2,6 +2,7 @@
 // Copyright goblinhack@gmail.com
 //
 
+#include "my_bpoint.hpp"
 #include "my_callstack.hpp"
 #include "my_color.hpp"
 #include "my_cpp_template.hpp"
@@ -966,7 +967,7 @@ void tp_additional_body_tiles_set(Tpp tp, std::vector< bpoint > val)
     return;
   }
 
-  tp->additional_body_tiles = val;
+  tp->additional_body_tiles = std::move(val);
 }
 
 [[nodiscard]] auto tp_name(Tpp tp) -> std::string

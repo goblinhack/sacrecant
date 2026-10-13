@@ -291,7 +291,7 @@ void thing_move_finish(Gamep g, Levelsp v, Levelp l, Thingp me)
   //
   if (thing_is_minion(me)) {
     auto *mob = thing_minion_mob_get(g, v, l, me);
-    if (mob) {
+    if (mob != nullptr) {
       thing_mob_minions_kill_if_too_far(g, v, l, me);
     }
   }

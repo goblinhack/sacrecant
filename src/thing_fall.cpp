@@ -103,7 +103,7 @@ static auto thing_assess_landing_spot(Gamep g, Levelsp v, Levelp l, Thingp me, b
     return false;
   }
 
-  auto tp = thing_tp(me);
+  auto *tp = thing_tp(me);
 
   if (thing_is_multi_tile(me)) {
     for (auto offset : tp_additional_body_tiles_get(tp)) {

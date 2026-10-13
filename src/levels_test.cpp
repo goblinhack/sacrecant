@@ -879,7 +879,7 @@ void levels_test(Gamep g)
                   /* end */ nullptr);
 
   {
-    Overrides overrides;
+    Overrides const overrides;
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "teleport", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "                   ",

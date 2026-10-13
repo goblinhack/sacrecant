@@ -38,7 +38,7 @@ void level_tick_chasm(Gamep g, Levelsp v, Levelp l)
         continue;
       }
 
-      if (thing_is_falling(t)) {
+      if (thing_is_falling(t) != 0) {
         continue;
       }
 

@@ -226,6 +226,7 @@ bool tp_boss2_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   tp_dormant_set(tp, "1d4");
   tp_flag_set(tp, is_able_to_be_buffed);
   tp_flag_set(tp, is_able_to_be_invisible);
+  tp_flag_set(tp, is_able_to_be_teleported);
   tp_flag_set(tp, is_able_to_breathe);
   tp_flag_set(tp, is_able_to_fall);
   tp_flag_set(tp, is_able_to_move_diagonally);
@@ -254,7 +255,6 @@ bool tp_boss2_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   tp_flag_set(tp, is_obs_to_jumping_onto);
   tp_flag_set(tp, is_obs_to_movement);
   tp_flag_set(tp, is_obs_to_teleporting_onto);
-  tp_flag_set(tp, is_able_to_be_teleported);
   tp_flag_set(tp, is_obs_to_wall_walker);
   tp_flag_set(tp, is_physics_explosion);
   tp_flag_set(tp, is_physics_temperature);

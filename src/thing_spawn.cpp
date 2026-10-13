@@ -15,7 +15,7 @@
 #include "my_tp_class.hpp"
 #include "my_types.hpp"
 
-static void thing_is_spawned_set(Gamep g, Levelsp v, Levelp l, Thingp t, ThingEvent *e, bool val)
+static void thing_is_spawned_set(Thingp t, bool val)
 {
   TRACE_DEBUG();
 
@@ -34,7 +34,7 @@ void thing_is_spawned_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
 {
   TRACE_DEBUG();
 
-  thing_is_spawned_set(g, v, l, t, nullptr, false);
+  thing_is_spawned_set(t, false);
 }
 
 [[nodiscard]] auto thing_spawn(Gamep g, Levelsp v, Levelp l, Tpp tp, const fpoint &at, ThingEvent *e) -> Thingp
@@ -66,10 +66,10 @@ void thing_is_spawned_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   //
   // Need to differentiate things spawned normally at game creation and those after
   //
-  if (v->tick != 0u) {
+  if (v->tick != 0U) {
     THING_DBG(g, v, l, t, "spawned");
 
-    thing_is_spawned_set(g, v, l, t, e, true);
+    thing_is_spawned_set(t, true);
   }
 
   //
