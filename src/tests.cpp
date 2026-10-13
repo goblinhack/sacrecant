@@ -63,6 +63,8 @@
   if (!test_load_items_drift_away()) { return false; }
   if (!test_load_jump_ok()) { return false; }
   if (!test_load_jump_truncated()) { return false; }
+  if (!test_load_kraken_can_pass_through_small_gap()) { return false; }
+  if (!test_load_kraken_cannot_pass_through_small_gap()) { return false; }
   if (!test_load_large_fire_water()) { return false; }
   if (!test_load_mob_shove_into_lava()) { return false; }
   if (!test_load_mob_shove_ok()) { return false; }

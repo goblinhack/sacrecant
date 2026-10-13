@@ -61,6 +61,8 @@ auto test_load_gas_player_open_door_unlocked() -> bool;
 auto test_load_items_drift_away() -> bool;
 auto test_load_jump_ok() -> bool;
 auto test_load_jump_truncated() -> bool;
+auto test_load_kraken_can_pass_through_small_gap() -> bool;
+auto test_load_kraken_cannot_pass_through_small_gap() -> bool;
 auto test_load_large_fire_water() -> bool;
 auto test_load_mob_shove_into_lava() -> bool;
 auto test_load_mob_shove_ok() -> bool;

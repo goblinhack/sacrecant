@@ -135,6 +135,7 @@ static auto tp_spell_hellish_onslaught_on_upgrade_do(Gamep g, Levelsp v, Levelp 
   thing_on_upgrade_do_set(tp, tp_spell_hellish_onslaught_on_upgrade_do);
   thing_on_upgrade_possible_set(tp, tp_spell_hellish_onslaught_on_upgrade_possible);
   tp_flag_set(tp, is_loggable);
+  tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_spell);
   tp_name_long_set(tp, "hellish onslaught");
   tp_spell_cost_set(tp, 2);
@@ -144,7 +145,6 @@ static auto tp_spell_hellish_onslaught_on_upgrade_do(Gamep g, Levelsp v, Levelp 
   tp_spell_range_max_set(tp, 12);
   tp_spell_range_set(tp, 8);
   tp_stat_set(tp, THING_STAT_ARCANA_PYRO, "11");
-  tp_flag_set(tp, is_memory_ext);
   // end sort marker1 }
 
   tp_spell_upgrade_add(tp,
