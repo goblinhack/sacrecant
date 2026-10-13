@@ -35,6 +35,30 @@ void levels_test(Gamep g)
   {
     Overrides overrides;
 
+    overrides[ 'g' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("boss2"); };
+
+    level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "boss", __FUNCTION__, __LINE__, overrides, 0,
+                    /* line */ (const char *) "xxxxxxxxxxxxxx",
+                    /* line */ (const char *) "xWWWWWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWWWWWWWWx",
+                    /* line */ (const char *) "x@WWWWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWWWWWWWWx",
+                    /* line */ (const char *) "xWWxxxWWWWxxxx",
+                    /* line */ (const char *) "xWWWWWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWWWWWWWWx",
+                    /* line */ (const char *) "xxxxxxxxxxxxxx",
+                    /* end */ nullptr);
+  }
+
+  {
+    Overrides overrides;
+
     overrides[ 'g' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("phantom_mob"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "mob", __FUNCTION__, __LINE__, overrides, 0,

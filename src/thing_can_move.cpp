@@ -159,7 +159,7 @@
 // True - can move here
 // False - cannot move here, or don't want to move here
 //
-[[nodiscard]] auto thing_can_move_to_ai(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool
+[[nodiscard]] static auto thing_can_move_to_ai_do(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool
 {
   TRACE_DEBUG();
 
@@ -266,24 +266,39 @@
 }
 
 //
+// Returns true if for the purposes of AI, a monst would be able to move
+// to this location. For a chasm, it is unlikely a monst would want to if
+// it means falling to its demise.
+//
+// True - can move here
+// False - cannot move here, or don't want to move here
+//
+[[nodiscard]] auto thing_can_move_to_ai(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool
+{
+  TRACE_DEBUG();
+
+  if (thing_is_multi_tile(me)) {
+    for (auto offset : tp_additional_body_tiles_get(thing_tp(me))) {
+      auto p = to + offset;
+      if (! thing_can_move_to_ai_do(g, v, l, me, p)) {
+        return false;
+      }
+    }
+  }
+
+  return thing_can_move_to_ai_do(g, v, l, me, to);
+}
+
+//
 // Returns true if it is POSSIBLE for this thing to move to this location.
 // e.g. it is possible for a chasm or monst to move into a chasm. Does not
 // mean the monst wants to do that.
 //
 // We do not change direction upon this attempt; purely a check only
 //
-[[nodiscard]] auto thing_can_move_to_possible(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to, bool from_astar) -> bool
+[[nodiscard]] static auto thing_can_move_to_possible_do(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to, bool from_astar) -> bool
 {
   TRACE_DEBUG();
-
-  //
-  // If a minion, check we're not moving too far from the mob
-  //
-  if (thing_is_minion(me)) {
-    if (! thing_minion_can_move_to_possible(g, v, l, me, to)) {
-      return false;
-    }
-  }
 
   FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, to)
   {
@@ -373,6 +388,38 @@
   }
 
   return true;
+}
+
+//
+// Returns true if it is POSSIBLE for this thing to move to this location.
+// e.g. it is possible for a chasm or monst to move into a chasm. Does not
+// mean the monst wants to do that.
+//
+// We do not change direction upon this attempt; purely a check only
+//
+[[nodiscard]] auto thing_can_move_to_possible(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to, bool from_astar) -> bool
+{
+  TRACE_DEBUG();
+
+  //
+  // If a minion, check we're not moving too far from the mob
+  //
+  if (thing_is_minion(me)) {
+    if (! thing_minion_can_move_to_possible(g, v, l, me, to)) {
+      return false;
+    }
+  }
+
+  if (thing_is_multi_tile(me)) {
+    for (auto offset : tp_additional_body_tiles_get(thing_tp(me))) {
+      auto p = to + offset;
+      if (! thing_can_move_to_possible_do(g, v, l, me, p, from_astar)) {
+        return false;
+      }
+    }
+  }
+
+  return thing_can_move_to_possible_do(g, v, l, me, to, from_astar);
 }
 
 //

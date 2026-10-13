@@ -122,6 +122,14 @@ static bool tp_boss2_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attacker,
     }
   }
 
+  TpSpecialAttack d;
+
+  if (thing_special_attack_get_random(g, v, l, attacker, target, d)) {
+    e.special_attack = d;
+    e.event_type     = d.event_type;
+    e.damage         = d.dice.roll();
+  }
+
   return true;
 }
 
@@ -230,6 +238,7 @@ bool tp_boss2_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   tp_flag_set(tp, is_blit_hit_solid_white);
   tp_flag_set(tp, is_blit_shown_in_chasms);
   tp_flag_set(tp, is_boss);
+  tp_flag_set(tp, is_boss2);
   tp_flag_set(tp, is_collision_circle_large);
   tp_flag_set(tp, is_corpse_on_death);
   tp_flag_set(tp, is_described_cursor);
@@ -281,16 +290,6 @@ bool tp_boss2_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
                             .event_type    = THING_EVENT_CRUSH_DAMAGE, //
                             .name          = "crush attack",           //
                             .roll          = "8d8",                    //
-                            .d100          = 100,
-                            .when_adjacent = true,
-                        });
-
-  tp_special_attack_add(tp,
-                        TpSpecialAttack {
-                            .type          = "2",                      //
-                            .event_type    = THING_EVENT_MELEE_DAMAGE, //
-                            .name          = "gore attack",            //
-                            .roll          = "8d6",                    //
                             .d100          = 100,
                             .when_adjacent = true,
                         });
