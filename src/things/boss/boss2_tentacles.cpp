@@ -102,8 +102,6 @@ static void tp_boss2_tentacles_on_death(Gamep g, Levelsp v, Levelp l, Thingp me,
   TRACE();
 
   (void) thing_spawn(g, v, l, tp_first(is_effect_blood), me);
-
-  thing_sound_play(g, v, l, me, "monst_death");
 }
 
 static bool tp_boss2_tentacles_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thingp target, ThingEvent &e)

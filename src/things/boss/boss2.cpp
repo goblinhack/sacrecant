@@ -5,6 +5,7 @@
 #include "../../my_callstack.hpp"
 #include "../../my_cpp_template.hpp"
 #include "../../my_dice_rolls.hpp"
+#include "../../my_level_inlines.hpp"
 #include "../../my_random.hpp"
 #include "../../my_thing.hpp"
 #include "../../my_thing_callbacks.hpp"
@@ -56,8 +57,12 @@ static auto tp_boss2_assess_tp(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp me) 
     return THING_ENVIRON_LIKES;
   }
 
+  if (tp_is_water_shallow(tp)) {
+    return THING_ENVIRON_LIKES;
+  }
+
   if (tp_is_dirt(tp)) {
-    return THING_ENVIRON_HATES;
+    return THING_ENVIRON_NEUTRAL;
   }
 
   if (tp_is_floor(tp)) {
@@ -75,8 +80,30 @@ static auto tp_boss2_assess_tile(Gamep g, Levelsp v, Levelp l, const bpoint &at,
     return THING_ENVIRON_LIKES;
   }
 
+  if (level_is_water_shallow_cached(g, v, l, at)) {
+    return THING_ENVIRON_LIKES;
+  }
+
   if (level_is_dirt_cached(g, v, l, at)) {
-    return THING_ENVIRON_HATES;
+    const std::initializer_list< bpoint > points = {
+        bpoint(-1, -1), bpoint(0, -1), bpoint(1, -1), bpoint(-1, 0), bpoint(1, 0), bpoint(-1, 1), bpoint(0, 1), bpoint(1, 1),
+    };
+
+    for (auto delta : points) {
+      auto p = at + delta;
+
+      if (is_oob(p)) {
+        continue;
+      }
+
+      if (level_is_water_deep_cached(g, v, l, p)) {
+        return THING_ENVIRON_LIKES;
+      }
+
+      if (level_is_water_shallow_cached(g, v, l, p)) {
+        return THING_ENVIRON_LIKES;
+      }
+    }
   }
 
   if (level_is_floor_cached(g, v, l, at)) {

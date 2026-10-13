@@ -1531,10 +1531,10 @@
   return tp_flag(tp, is_unused110) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused111(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_monst_overlap_allowed(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused111) != 0;
+  return tp_flag(tp, is_monst_overlap_allowed) != 0;
 }
 
 [[nodiscard]] auto tp_is_dead_on_falling(Tpp tp) -> bool

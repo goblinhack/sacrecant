@@ -322,14 +322,19 @@ void thing_mob_minions_kill_if_too_far(Gamep g, Levelsp v, Levelp l, Thingp me)
     auto minion_at = thing_at(g, v, l, minion);
 
     if (distance(mob_at, minion_at) > thing_distance_minion_from_mob_max(g, v, l, minion)) {
-      ThingEvent e {
-          .reason     = "by moving",                  //
-          .event_type = THING_EVENT_LIFESPAN_EXPIRED, //
-      };
+      //
+      // Try to hold onto the tentacle, but if not, then it's done
+      //
+      if (! thing_warp_to(g, v, l, minion, mob_at)) {
+        ThingEvent e {
+            .reason     = "by moving",                  //
+            .event_type = THING_EVENT_LIFESPAN_EXPIRED, //
+        };
 
-      THING_DBG(g, v, l, minion, "dead due to off the leash");
-      TRACE_INDENT();
-      thing_dead(g, v, l, minion, e);
+        THING_DBG(g, v, l, minion, "dead due to off the leash");
+        TRACE_INDENT();
+        thing_dead(g, v, l, minion, e);
+      }
     }
   }
 }

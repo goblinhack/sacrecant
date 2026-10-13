@@ -1569,10 +1569,10 @@
   return level_flag(g, v, l, is_unused110, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused111_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_monst_overlap_allowed_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused111, p, me) != nullptr;
+  return level_flag(g, v, l, is_monst_overlap_allowed, p, me) != nullptr;
 }
 
 [[nodiscard]] auto level_is_dead_on_falling_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool

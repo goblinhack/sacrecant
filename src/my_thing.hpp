@@ -1100,6 +1100,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_mob(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_mob1(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_mob2(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_monst_overlap_allowed(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_monst(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_monst1(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_monst2(Thingp me) -> bool;
@@ -1202,7 +1203,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused109(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused11(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused110(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused111(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused12(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused124(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused13(Thingp t) -> bool;

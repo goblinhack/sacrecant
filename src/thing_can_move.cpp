@@ -400,7 +400,11 @@
     //
     if (thing_is_monst(me)) {
       if (thing_is_monst(it)) {
-        return false;
+        if (! thing_is_monst_overlap_allowed(me)) {
+          if (! thing_is_monst_overlap_allowed(it)) {
+            return false;
+          }
+        }
       }
     }
 
