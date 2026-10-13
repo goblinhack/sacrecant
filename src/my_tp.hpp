@@ -832,6 +832,7 @@ class Tp;
 
 // begin sort marker1 {
 [[nodiscard]] auto string2tp(const char **s, int *len = nullptr) -> Tpp;
+[[nodiscard]] auto tp_additional_body_tiles_get(Tpp tp) -> std::vector< bpoint >;
 [[nodiscard]] auto tp_attack_count_max_per_tick_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_chance_fail(Tpp tp, ThingChanceType val) -> bool;
 [[nodiscard]] auto tp_chance_success(Tpp tp, ThingChanceType val) -> bool;
@@ -977,6 +978,7 @@ class Tp;
 [[nodiscard]] auto tp_is_cursor(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_damage_capped(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_dead_on_collision(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_dead_on_falling(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_dead_on_shoving(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_dead_when_discharged(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_debuff(Tpp tp) -> bool;
@@ -1159,7 +1161,6 @@ class Tp;
 [[nodiscard]] auto tp_is_unused11(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused110(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused111(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_dead_on_falling(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused12(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused124(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused13(Tpp tp) -> bool;
@@ -1330,16 +1331,15 @@ class Tp;
 [[nodiscard]] auto tp_variant(ThingFlagType f, int /*variant*/) -> Tpp;
 [[nodiscard]] auto tp_weight_get(Tpp tp) -> uint32_t;
 [[nodiscard]] auto tp_z_depth_get(Tpp tp) -> MapZDepthType;
-[[nodiscard]] auto tp_additional_body_tiles_get(Tpp tp) -> std::vector< bpoint >;
 // end sort marker1 }
 
 // begin sort marker2 {
-void tp_additional_body_tiles_set(Tpp tp, std::vector< bpoint > val);
 auto tp_special_attack_get_random(Tpp tp, TpSpecialAttack &out) -> bool;
 auto tp_spell_options_exist(Tpp tp) -> bool;
 auto tp_spell_options_get(Tpp tp) -> std::map< std::string, TpSpellOption >;
 auto tp_spell_upgrades_exist(Tpp tp) -> bool;
 auto tp_spell_upgrades_get(Tpp tp) -> std::map< std::string, TpSpellUpgrade >;
+void tp_additional_body_tiles_set(Tpp tp, std::vector< bpoint > val);
 void tp_attack_count_max_per_tick_set(Tpp tp, int val);
 void tp_chance_set(Tpp tp, ThingChanceType e, const std::string &val);
 void tp_charge_count_set(Tpp tp, int val);

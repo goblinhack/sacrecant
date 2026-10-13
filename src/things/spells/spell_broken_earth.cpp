@@ -100,7 +100,6 @@ static auto tp_spell_broken_earth_on_upgrade_do(Gamep g, Levelsp v, Levelp l, Th
   thing_on_upgrade_possible_set(tp, tp_spell_broken_earth_on_upgrade_possible);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_spell);
-tp_flag_set(tp, is_memory_ext);
   tp_name_long_set(tp, "broken earth");
   tp_spell_cost_set(tp, 2);
   tp_spell_mana_cost_set(tp, 10);
@@ -109,6 +108,7 @@ tp_flag_set(tp, is_memory_ext);
   tp_spell_range_max_set(tp, 12);
   tp_spell_range_set(tp, 8);
   tp_stat_set(tp, THING_STAT_ARCANA_GEO, "11");
+  tp_flag_set(tp, is_memory_ext);
   // end sort marker1 }
 
   tp_spell_upgrade_add(tp,

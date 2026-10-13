@@ -200,24 +200,26 @@ bool tp_boss2_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   thing_assess_tile_set(tp, tp_boss2_assess_tile);
   thing_assess_tp_set(tp, tp_boss2_assess_tp);
   thing_description_set(tp, tp_boss2_description_get);
-  tp_dormant_set(tp, "1d4");
   thing_detail_set(tp, tp_boss2_detail_get);
   thing_on_attacking_set(tp, tp_boss2_on_attacking);
-  thing_on_death_set(tp, tp_boss2_on_death);
   thing_on_damage_set(tp, tp_boss2_on_damage);
+  thing_on_death_set(tp, tp_boss2_on_death);
   thing_on_missing_set(tp, tp_boss2_on_missing);
   thing_on_popped_set(tp, tp_boss2_on_popped);
-  tp_minion_max_set(tp, (int) tentacle_list.size());
   thing_on_pushed_set(tp, tp_boss2_on_pushed);
   thing_on_spawned_set(tp, tp_boss2_on_spawned);
   thing_on_tick_begin_set(tp, tp_boss2_tick_begin);
+  tp_additional_body_tiles_set(tp, additional_body_tiles);
   tp_attack_count_max_per_tick_set(tp, 1);
   tp_chance_set(tp, THING_CHANCE_CONTINUE_TO_BURN, "1d6"); // fumble => intensify / keep burning / crit => stop burning
   tp_chance_set(tp, THING_CHANCE_START_BURNING, "1d2");    // fumble => flames spread to you
   tp_damage_set(tp, THING_EVENT_MELEE_DAMAGE, "1d4");
   tp_distance_vision_set(tp, MAP_WIDTH / 2);
+  tp_dormant_set(tp, "1d4");
   tp_flag_set(tp, is_able_to_be_buffed);
   tp_flag_set(tp, is_able_to_be_invisible);
+  tp_flag_set(tp, is_able_to_breathe);
+  tp_flag_set(tp, is_able_to_fall);
   tp_flag_set(tp, is_able_to_move_diagonally);
   tp_flag_set(tp, is_able_to_move);
   tp_flag_set(tp, is_animated_can_hflip);
@@ -228,7 +230,6 @@ bool tp_boss2_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   tp_flag_set(tp, is_blit_hit_solid_white);
   tp_flag_set(tp, is_blit_shown_in_chasms);
   tp_flag_set(tp, is_boss);
-  tp_flag_set(tp, is_able_to_breathe);
   tp_flag_set(tp, is_collision_circle_large);
   tp_flag_set(tp, is_corpse_on_death);
   tp_flag_set(tp, is_described_cursor);
@@ -236,25 +237,25 @@ bool tp_boss2_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   tp_flag_set(tp, is_flesh);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_memory_ext);
+  tp_flag_set(tp, is_mob_kill_minions_on_death);
   tp_flag_set(tp, is_mob);
   tp_flag_set(tp, is_monst);
   tp_flag_set(tp, is_multi_tile);
   tp_flag_set(tp, is_obs_to_beam);
   tp_flag_set(tp, is_obs_to_jumping_onto);
   tp_flag_set(tp, is_obs_to_movement);
-  tp_flag_set(tp, is_able_to_fall);
   tp_flag_set(tp, is_obs_to_teleporting_onto);
   tp_flag_set(tp, is_obs_to_wall_walker);
   tp_flag_set(tp, is_physics_explosion);
   tp_flag_set(tp, is_physics_temperature);
   tp_flag_set(tp, is_removable_when_dead_on_err);
   tp_flag_set(tp, is_shown_health);
-  tp_flag_set(tp, is_mob_kill_minions_on_death);
   tp_flag_set(tp, is_tickable);
   tp_flag_set(tp, is_vision_360_degrees);
   tp_health_set(tp, "100+12d8");
   tp_hearing_threshold_set(tp, 2); // smaller values => better hearing
   tp_is_immune_to_add(tp, THING_EVENT_WATER_DAMAGE);
+  tp_minion_max_set(tp, (int) tentacle_list.size());
   tp_name_a_or_an_set(tp, "kraken");
   tp_name_apostrophize_set(tp, "kraken's");
   tp_name_long_set(tp, "kraken");
@@ -264,7 +265,6 @@ bool tp_boss2_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   tp_rarity_set(tp, THING_RARITY_COMMON);
   tp_score_value_set(tp, 2000);
   tp_speed_set(tp, 50);
-  tp_additional_body_tiles_set(tp, additional_body_tiles);
   tp_stat_set(tp, THING_STAT_ATT, "1d4+14");
   tp_stat_set(tp, THING_STAT_DEF, "1d4+14");
   tp_stat_set(tp, THING_STAT_DMG, "1d4+14");

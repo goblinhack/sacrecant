@@ -16,12 +16,12 @@
     std::string const name = "floor" + std::to_string(variant);
     auto             *tp   = tp_load(name);
     // begin sort marker1 {
+    tp_flag_set(tp, is_able_to_fall);
     tp_flag_set(tp, is_blit_centered);
-    tp_flag_set(tp, is_dead_on_falling);
     tp_flag_set(tp, is_blit_if_has_seen);
     tp_flag_set(tp, is_blit_per_pixel_lighting);
-    tp_flag_set(tp, is_able_to_fall);
     tp_flag_set(tp, is_blit_shown_in_chasms);
+    tp_flag_set(tp, is_dead_on_falling);
     tp_flag_set(tp, is_floor);
     tp_variant_set(tp, variant);
     tp_weight_set(tp, WEIGHT_VVHEAVY); // grams

@@ -166,6 +166,7 @@ static bool tp_boss2_tentacles_on_missing(Gamep g, Levelsp v, Levelp l, Thingp a
   tp_flag_set(tp, is_biome_graveyard);
   tp_flag_set(tp, is_blit_centered);
   tp_flag_set(tp, is_blit_hit_outline_w_invis_inside);
+  tp_flag_set(tp, is_blit_hit_solid_white);
   tp_flag_set(tp, is_blit_shown_in_chasms);
   tp_flag_set(tp, is_burnable); // is capable of being burned by fire
   tp_flag_set(tp, is_collision_circle_small);
@@ -188,10 +189,8 @@ static bool tp_boss2_tentacles_on_missing(Gamep g, Levelsp v, Levelp l, Thingp a
   tp_flag_set(tp, is_submergible); // is capable of being burned by fire
   tp_flag_set(tp, is_tentacle);
   tp_flag_set(tp, is_tickable);
-  tp_flag_set(tp, is_blit_hit_solid_white);
   tp_flag_set(tp, is_vision_360_degrees);
   tp_health_set(tp, "1d20");
-  tp_health_set(tp, "1");
   tp_hearing_threshold_set(tp, 3); // smaller values => better hearing
   tp_is_immune_to_add(tp, THING_EVENT_WATER_DAMAGE);
   tp_name_a_or_an_set(tp, "a slimy tentacle");

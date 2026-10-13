@@ -184,6 +184,7 @@ static void tp_bridge_on_fall_end(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_flag_set(tp, is_bridge);
   tp_flag_set(tp, is_burnable);    // is capable of being burned by fire
   tp_flag_set(tp, is_combustible); // will continue to burn once on fire
+  tp_flag_set(tp, is_dead_on_falling);
   tp_flag_set(tp, is_described_cursor);
   tp_flag_set(tp, is_grouped_thing);
   tp_flag_set(tp, is_loggable);

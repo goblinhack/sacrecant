@@ -32,6 +32,7 @@ static auto tp_pillar_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -
   tp_flag_set(tp, is_blit_on_ground);
   tp_flag_set(tp, is_blit_shown_in_chasms);
   tp_flag_set(tp, is_collision_square);
+  tp_flag_set(tp, is_dead_on_falling);
   tp_flag_set(tp, is_described_cursor);
   tp_flag_set(tp, is_obs_to_beam);
   tp_flag_set(tp, is_obs_to_cursor_path);

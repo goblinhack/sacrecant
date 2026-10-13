@@ -882,4 +882,3 @@ void level_bounds_set(Gamep g, Levelsp v, Levelp l)
   FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, p) { return false; }
   return true;
 }
-

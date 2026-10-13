@@ -131,6 +131,7 @@ static void tp_ogrik_on_moved(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_flag_set(tp, is_blit_shown_in_chasms);
   tp_flag_set(tp, is_collision_circle_large);
   tp_flag_set(tp, is_corpse_on_death);
+  tp_flag_set(tp, is_dead_on_falling);
   tp_flag_set(tp, is_described_cursor);
   tp_flag_set(tp, is_described_when_killed);
   tp_flag_set(tp, is_loggable);
