@@ -15,9 +15,9 @@
 #include "my_tp.hpp"
 #include "my_types.hpp"
 
-[[nodiscard]] auto thing_proj_launch_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what, const fpoint target) -> bool
+[[nodiscard]] auto thing_proj_launch_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what, const fpoint target, const fpoint fire_offset) -> bool
 {
-  THING_DBG(g, v, l, me, "fire projectile @%f,%f", target.x, target.y);
+  THING_DBG(g, v, l, me, "fire proj at @%f,%f offset %f,%f", target.x, target.y, fire_offset.x, fire_offset.y);
   TRACE_INDENT();
 
   //
@@ -28,7 +28,8 @@
     return false;
   }
 
-  auto delta = target - make_fpoint(thing_at(g, v, l, me));
+  auto proj_at = make_fpoint(thing_at(g, v, l, me)) + fire_offset;
+  auto delta   = target - proj_at;
 
   if ((delta.x == 0) && (delta.y == 0)) {
     delta.x = 1;
@@ -38,8 +39,6 @@
   float s     = 0;
   float c     = 0;
   SINCOSF(angle, &s, &c);
-
-  fpoint proj_at = thing_real_at(g, v, l, me);
 
   //
   // Need a small fraction to account for comparisons of very similar floats where
@@ -74,9 +73,9 @@
   return true;
 }
 
-[[nodiscard]] auto thing_proj_launch_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what, const bpoint target) -> bool
+[[nodiscard]] auto thing_proj_launch_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what, const bpoint target, const fpoint offset) -> bool
 {
-  return thing_proj_launch_at(g, v, l, me, what, make_fpoint(target));
+  return thing_proj_launch_at(g, v, l, me, what, make_fpoint(target), offset);
 }
 
 void thing_proj_move(Gamep g, Levelsp v, Levelp l, Thingp me, float dt)

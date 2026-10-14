@@ -25,6 +25,13 @@ static const std::initializer_list< bpoint > additional_body_tiles = {
     bpoint(3, 3),   bpoint(2, 3),   bpoint(1, 3),   bpoint(0, 3),  bpoint(1, 3),  bpoint(2, 3),  bpoint(3, 3)   //
 };
 
+//
+// Approximate where the eye-stalks are
+//
+const std::initializer_list< fpoint > eyestalks_list = {
+    fpoint(-2, -2), fpoint(2, -3), fpoint(3, -1), fpoint(2, 2), fpoint(0, 3), fpoint(-2, 2),
+};
+
 static auto tp_boss1_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
 {
   TRACE();
@@ -86,12 +93,6 @@ static bool tp_boss1_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attacker,
 
   TpSpecialAttack d;
 
-  //
-  // Approximate where the eye-stalks are
-  //
-  const std::initializer_list< fpoint > eyestalks_list = {
-      fpoint(-2, -2), fpoint(2, -3), fpoint(3, -1), fpoint(2, 2), fpoint(0, 3), fpoint(-2, 2),
-  };
   std::vector< fpoint > eyestalks(eyestalks_list);
 
   if (thing_special_attack_get_random(g, v, l, attacker, target, d)) {

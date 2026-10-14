@@ -30,6 +30,9 @@ enum { TILE_HEIGHT = 12, TILE_WIDTH = 12 };
 
 enum { BOSS2_TILE_HEIGHT = 64, BOSS2_TILE_WIDTH = 64 };
 
+#define BOSS3_TILE_HEIGHT (TILE_WIDTH * 10)
+#define BOSS3_TILE_WIDTH  (TILE_HEIGHT * 10)
+
 //
 // The tiles are 14x14 to allow for outlines, however the screen lighting is done in
 // 12x12, ignoring the extra pixel. So all walls and floors etc... are 12x12.
