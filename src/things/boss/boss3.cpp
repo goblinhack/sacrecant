@@ -257,13 +257,14 @@ bool tp_boss3_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   tp_chance_set(tp, THING_CHANCE_START_BURNING, "1d2");    // fumble => flames spread to you
   tp_damage_set(tp, THING_EVENT_MELEE_DAMAGE, "1d4");
   tp_distance_vision_set(tp, MAP_WIDTH / 2);
+  tp_distance_jump_set(tp, 5);
   tp_flag_set(tp, is_able_to_be_buffed);
   tp_flag_set(tp, is_able_to_be_invisible);
   tp_flag_set(tp, is_able_to_be_teleported);
   tp_flag_set(tp, is_able_to_breathe);
+  tp_flag_set(tp, is_able_to_jump);
+  tp_flag_set(tp, is_able_to_choose_targets);
   tp_flag_set(tp, is_able_to_fall);
-  tp_flag_set(tp, is_able_to_move_diagonally);
-  tp_flag_set(tp, is_able_to_move);
   tp_flag_set(tp, is_animated_can_hflip);
   tp_flag_set(tp, is_able_to_fire_weapons);
   tp_flag_set(tp, is_animated);
@@ -305,7 +306,7 @@ bool tp_boss3_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   tp_priority_set(tp, THING_PRIORITY_MONST);
   tp_rarity_set(tp, THING_RARITY_COMMON);
   tp_score_value_set(tp, 3000);
-  tp_speed_set(tp, 50);
+  tp_speed_set(tp, 25);
   tp_stat_set(tp, THING_STAT_ATT, "1d4+14");
   tp_stat_set(tp, THING_STAT_DEF, "1d4+14");
   tp_stat_set(tp, THING_STAT_DMG, "1d4+14");

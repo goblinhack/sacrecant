@@ -160,7 +160,6 @@ static bool tp_spider_giant_on_missing(Gamep g, Levelsp v, Levelp l, Thingp atta
   thing_on_death_set(tp, tp_spider_giant_on_death);
   thing_on_killing_set(tp, tp_spider_giant_on_killing);
   thing_on_missing_set(tp, tp_spider_giant_on_missing);
-  tp_attack_count_max_per_tick_set(tp, 1);
   tp_attack_count_max_per_tick_set(tp, 2);
   tp_chance_set(tp, THING_CHANCE_CONTINUE_TO_BURN, "1d6"); // fumble => intensify / keep burning / crit => stop burning
   tp_chance_set(tp, THING_CHANCE_START_BURNING, "1d2");    // fumble => flames spread to you
@@ -178,7 +177,6 @@ static bool tp_spider_giant_on_missing(Gamep g, Levelsp v, Levelp l, Thingp atta
   tp_flag_set(tp, is_able_to_heal);
   tp_flag_set(tp, is_able_to_jump);
   tp_flag_set(tp, is_able_to_lunge);
-  tp_flag_set(tp, is_able_to_move_diagonally);
   tp_flag_set(tp, is_animated_can_hflip);
   tp_flag_set(tp, is_animated);
   tp_flag_set(tp, is_attackable_by_player);
