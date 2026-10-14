@@ -18,24 +18,20 @@
 #include "my_boss_common.hpp"
 
 static const std::initializer_list< bpoint > additional_body_tiles = {
-    bpoint(0, -3), bpoint(1, -3), bpoint(2, -3), bpoint(3, -3),                                                         //
-    bpoint(0, -2), bpoint(1, -2), bpoint(2, -2), bpoint(3, -2),                                                         //
-    bpoint(0, -1), bpoint(1, -1), bpoint(2, -1), bpoint(3, -1),                                                         //
-    bpoint(-2, 0), bpoint(-1, 0), bpoint(1, 0),  bpoint(2, 0),  bpoint(3, 0), bpoint(4, 0),                             //
-    bpoint(-3, 1), bpoint(-2, 1), bpoint(-1, 1), bpoint(1, 1),  bpoint(2, 1), bpoint(3, 1), bpoint(4, 1),               //
-    bpoint(-3, 2), bpoint(-2, 2), bpoint(-1, 2), bpoint(1, 2),  bpoint(2, 2), bpoint(3, 2), bpoint(4, 2),               //
-    bpoint(-4, 3), bpoint(-3, 3), bpoint(-2, 3), bpoint(-1, 3), bpoint(1, 3), bpoint(2, 3), bpoint(3, 3), bpoint(4, 3), //
-    bpoint(-4, 4), bpoint(-3, 4), bpoint(-2, 4), bpoint(-1, 4), bpoint(1, 4), bpoint(2, 4), bpoint(3, 4), bpoint(4, 4), //
+    bpoint(0, -2), bpoint(1, -2),                                           //
+    bpoint(0, -1), bpoint(1, -1),                                           //
+    bpoint(0, 0),  bpoint(1, 0),                                            //
+    bpoint(-2, 1), bpoint(-1, 1), bpoint(0, 1), bpoint(1, 1),               //
+    bpoint(-2, 1), bpoint(-1, 1), bpoint(0, 1), bpoint(1, 1), bpoint(2, 1), //
+    bpoint(-2, 2), bpoint(-1, 2), bpoint(0, 2), bpoint(1, 2), bpoint(2, 2), //
 };
 
 //
 // Approximate where the stinger is
 //
 const std::initializer_list< fpoint > stinger_list = {
-    fpoint(-1, -2),
-    fpoint(-1, -3),
-    fpoint(-2, -2),
-    fpoint(-2, -3),
+    fpoint(-1, -1),
+    fpoint(-2, -1),
 };
 
 static auto tp_boss3_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
@@ -127,7 +123,7 @@ static bool tp_boss3_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attacker,
       //
       std::map< int, bool > stinger_fired_already = {};
 
-      for (auto beam = 0; beam < 4; beam++) {
+      for (auto beam = 0; beam < 2; beam++) {
         //
         // Get a stinger
         //
