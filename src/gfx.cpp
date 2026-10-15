@@ -7293,6 +7293,15 @@ static void gfx_init_tiles_60x60()
       "boss3.dead.2",
       "boss3.dead.3",
       // ##############################################################################
+      "boss4.idle.0",
+      "boss4.idle.1",
+      "boss4.idle.2",
+      "boss4.idle.3", //
+      "boss4.dead.0",
+      "boss4.dead.1",
+      "boss4.dead.2",
+      "boss4.dead.3",
+      // ##############################################################################
   };
   tile_load_arr_sprites("data/gfx/tiles_60x60.tga", "tiles_60x60", BOSS3_TILE_WIDTH, BOSS3_TILE_HEIGHT, ARRAY_SIZE(tiles), tiles);
 }

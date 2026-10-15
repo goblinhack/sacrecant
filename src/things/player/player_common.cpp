@@ -265,7 +265,35 @@ void tp_player_level_enter(Gamep g, Levelsp v, Levelp l, Thingp me)
   // Ominous
   //
   if (level_is_boss_level(g, v, l)) {
-    (void) sound_play(g, v, l, "monster_roar_epic");
+    bool done = {};
+
+    FOR_ALL_THINGS_ON_LEVEL_NO_BREAK_UNSAFE(g, v, l, it)
+    {
+      if (done) {
+        break;
+      }
+
+      if (thing_is_boss1(it)) {
+        (void) sound_play(g, v, l, "monster_roar_epic");
+        done = true;
+      }
+      if (thing_is_boss2(it)) {
+        (void) sound_play(g, v, l, "monster_roar_epic");
+        done = true;
+      }
+      if (thing_is_boss3(it)) {
+        (void) sound_play(g, v, l, "monster_roar_epic");
+        done = true;
+      }
+      if (thing_is_boss4(it)) {
+        (void) sound_play(g, v, l, "humming_creepy");
+        done = true;
+      }
+      if (thing_is_boss5(it)) {
+        (void) sound_play(g, v, l, "monster_roar_epic");
+        done = true;
+      }
+    }
   }
 
   thing_vision_reset(g, v, l, me);

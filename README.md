@@ -16,6 +16,7 @@ Music
 
 Sound effects
 -------------
+- Woman humming sound [found here](https://freesound.org/people/Pennywind/)
 - 8 bit sounds [found here](https://soundsbydane.itch.io/8-bit-sound-pack)
 - Bogland ambience [found here](https://freesound.org/people/Patrick_Corra/)
 - Dungeon ambience [found here](https://freesound.org/people/Sclolex/)

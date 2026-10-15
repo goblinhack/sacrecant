@@ -1584,10 +1584,10 @@ using Thing = struct Thing {
 
 [[nodiscard]] auto thing_is_carried_set(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp owner, ThingEvent & /*e*/, bool val, bool force)
     -> bool;
-[[nodiscard]] auto thing_beam_weapon_fire_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what, bpoint target, const fpoint offset = {}) -> bool;
-[[nodiscard]] auto thing_beam_weapon_fire_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what, fpoint target, const fpoint offset = {}) -> bool;
-[[nodiscard]] auto thing_proj_launch_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what, bpoint target, const fpoint offset = {}) -> bool;
-[[nodiscard]] auto thing_proj_launch_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what, fpoint target, const fpoint offset = {}) -> bool;
+[[nodiscard]] auto thing_beam_weapon_fire_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what, bpoint target, fpoint offset = {}) -> bool;
+[[nodiscard]] auto thing_beam_weapon_fire_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what, fpoint target, fpoint offset = {}) -> bool;
+[[nodiscard]] auto thing_proj_launch_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what, bpoint target, fpoint offset = {}) -> bool;
+[[nodiscard]] auto thing_proj_launch_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what, fpoint target, fpoint offset = {}) -> bool;
 
 // begin sort marker2 {
 auto level_vision_calculate_all(Gamep g, Levelsp v, Levelp l) -> void;
