@@ -112,8 +112,6 @@ static bool tp_mantisman_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacke
 {
   TRACE();
 
-  (void) thing_spawn(g, v, l, tp_first(is_effect_attack), target);
-
   thing_sound_play(g, v, l, attacker, "hiss");
 
   return true;

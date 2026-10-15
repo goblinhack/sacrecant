@@ -10,7 +10,7 @@
 #include "../my_thing_inlines.hpp"
 #include "../my_wids.hpp"
 
-[[nodiscard]] static auto test_sac_power_crazed_melee(Gamep g, Testp t) -> bool
+[[nodiscard]] static auto test_sac_power_crazed_melee_melee(Gamep g, Testp t) -> bool
 {
   TEST_LOG(t, "begin");
   TRACE();
@@ -130,7 +130,7 @@
 
   TEST_ASSERT(t, wid_console_find_text(g, "You hit the ogrik"), "did not find console text");
 
-  TEST_ASSERT(t, game_tick_get(g, v) == 5, "final tick counter value");
+  TEST_ASSERT(t, game_tick_get(g, v) == 7, "final tick counter value");
 
   level_dump(g, v, l, w, h);
   TEST_PASSED(t);
@@ -141,13 +141,13 @@ exit:
   return result;
 }
 
-[[nodiscard]] auto test_load_sac_power_crazed() -> bool // NOLINT
+[[nodiscard]] auto test_load_sac_power_crazed_melee() -> bool // NOLINT
 {
   TRACE();
 
-  Testp test = test_load("sac_power_crazed");
+  Testp test = test_load("sac_power_crazed_melee");
 
-  test_callback_set(test, test_sac_power_crazed_melee);
+  test_callback_set(test, test_sac_power_crazed_melee_melee);
 
   return true;
 }

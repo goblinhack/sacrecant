@@ -211,7 +211,7 @@
   if (!test_load_sac_noisy()) { return false; }
   if (!test_load_sac_poison_blood()) { return false; }
   if (!test_load_sac_power_crazed_beam_weapon()) { return false; }
-  if (!test_load_sac_power_crazed()) { return false; }
+  if (!test_load_sac_power_crazed_melee()) { return false; }
   if (!test_load_sac_sickly_health()) { return false; }
   if (!test_load_sac_soul_feast_living()) { return false; }
   if (!test_load_sac_soul_feast_undead()) { return false; }

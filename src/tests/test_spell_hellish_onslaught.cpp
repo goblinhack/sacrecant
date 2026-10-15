@@ -30,20 +30,20 @@
         "xxxxxxxxxxxxxxxxxxxxxxxxxxx";
   std::string const expect1
       = "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        "x........xx.....m..m......x"
         "x........xx...............x"
-        "x........xxm..............x"
         "x.......@mx....g..........x"
-        "x........xx...m...........x"
-        "x........xx.......mm......x"
-        "xxxxxxxxxxxxxxxxxxxxxxxxxxx";
+        "x........xx...............x"
+        "x........xx...............x"
+        "xxxxxxxxxxxxxxmxxxxxxxxxxxx";
   std::string const expect2
       = "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
-        "x........xx!..............x"
-        "x........xx!!.............x"
-        "x.......@mx!!!.g..........x"
-        "x........xx!!.m....m......x"
         "x........xx!......m.......x"
-        "xxxxxxxxxxxxxxxxxxxxxxxxxxx";
+        "x........xx!!..m..........x"
+        "x.......@mx!!!.g..........x"
+        "x........xx!!.............x"
+        "x........xx!...m..........x"
+        "xxxxxxxxxxxxxxxmxxxxxxxxxxx";
 
   Overrides overrides;
   overrides[ 'm' ]  = [](char c, bpoint p) -> Tpp { return tp_find_mand("phantom"); };

@@ -426,8 +426,6 @@ bool tp_player_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thingp 
   TRACE();
 
   if (e.event_type == THING_EVENT_MELEE_DAMAGE) {
-    (void) thing_spawn(g, v, l, tp_first(is_effect_attack), target);
-
     thing_sound_play(g, v, l, attacker, "player_punch");
   }
 

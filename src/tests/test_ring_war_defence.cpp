@@ -109,7 +109,7 @@
 
   TEST_ASSERT(t, thing_is_dead(player), "player is not dead");
 
-  TEST_ASSERT(t, game_tick_get(g, v) == 71, "final tick counter value");
+  TEST_ASSERT(t, game_tick_get(g, v) == 68, "final tick counter value");
 
   level_dump(g, v, l, w, h);
   TEST_PASSED(t);

@@ -280,7 +280,7 @@
       list_macro(is_unused108, "is_unused108"),                                             /* newline */                                       \
       list_macro(is_unused109, "is_unused109"),                                             /* newline */                                       \
       list_macro(is_unused11, "is_unused11"),                                               /* newline */                                       \
-      list_macro(is_unused110, "is_unused110"),                                             /* newline */                                       \
+      list_macro(is_able_to_teleport_safely, "is_able_to_teleport_safely"),                 /* newline */                                       \
       list_macro(is_monst_overlap_allowed, "is_monst_overlap_allowed"),                     /* newline */                                       \
       list_macro(is_dead_on_falling, "is_dead_on_falling"),                                 /* newline */                                       \
       list_macro(is_tentacle, "is_tentacle"),                                               /* newline */                                       \
@@ -900,6 +900,7 @@ class Tp;
 [[nodiscard]] auto tp_is_able_to_see_invisible(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_able_to_see_through_walls(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_able_to_shove(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_able_to_teleport_safely(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_able_to_throw(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_able_to_wear_items(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_active_when_carried(Tpp tp) -> bool;
@@ -1160,7 +1161,6 @@ class Tp;
 [[nodiscard]] auto tp_is_unused108(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused109(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused11(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused110(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused12(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused124(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused13(Tpp tp) -> bool;

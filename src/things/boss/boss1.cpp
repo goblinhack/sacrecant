@@ -20,9 +20,9 @@ static const std::initializer_list< bpoint > additional_body_tiles = {
     bpoint(-3, -2), bpoint(-2, -2), bpoint(-1, -2), bpoint(0, -2), bpoint(1, -2), bpoint(2, -2), bpoint(3, -2), //
     bpoint(-3, -1), bpoint(-2, -1), bpoint(-1, -1), bpoint(0, -1), bpoint(1, -1), bpoint(2, -1), bpoint(3, -1), //
     bpoint(-3, 0),  bpoint(-2, 0),  bpoint(-1, 0),  bpoint(1, 0),  bpoint(2, 0),  bpoint(3, 0),                 //
-    bpoint(3, 1),   bpoint(2, 1),   bpoint(1, 1),   bpoint(0, 1),  bpoint(1, 1),  bpoint(2, 1),  bpoint(3, 1),  //
-    bpoint(3, 2),   bpoint(2, 2),   bpoint(1, 2),   bpoint(0, 2),  bpoint(1, 2),  bpoint(2, 2),  bpoint(3, 2),  //
-    bpoint(3, 3),   bpoint(2, 3),   bpoint(1, 3),   bpoint(0, 3),  bpoint(1, 3),  bpoint(2, 3),  bpoint(3, 3)   //
+    bpoint(-3, 1),  bpoint(-2, 1),  bpoint(-1, 1),  bpoint(0, 1),  bpoint(1, 1),  bpoint(2, 1),  bpoint(3, 1),  //
+    bpoint(-3, 2),  bpoint(-2, 2),  bpoint(-1, 2),  bpoint(0, 2),  bpoint(1, 2),  bpoint(2, 2),  bpoint(3, 2),  //
+    bpoint(-3, 3),  bpoint(-2, 3),  bpoint(-1, 3),  bpoint(0, 3),  bpoint(1, 3),  bpoint(2, 3),  bpoint(3, 3),  //
 };
 
 //
@@ -199,7 +199,6 @@ static bool tp_boss1_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, T
   TRACE_INDENT();
 
   if (adjacent(thing_at(g, v, l, attacker), thing_at(g, v, l, target))) {
-    (void) thing_spawn(g, v, l, tp_first(is_effect_attack), target);
     thing_sound_play(g, v, l, attacker, "hiss");
   }
 
@@ -234,6 +233,7 @@ static bool tp_boss1_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, T
   tp_flag_set(tp, is_able_to_fire_weapons);
   tp_flag_set(tp, is_able_to_move_diagonally);
   tp_flag_set(tp, is_able_to_move);
+  tp_flag_set(tp, is_able_to_teleport_safely);
   tp_flag_set(tp, is_animated_can_hflip);
   tp_flag_set(tp, is_animated);
   tp_flag_set(tp, is_attackable_by_player);

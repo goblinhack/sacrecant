@@ -266,6 +266,16 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
       return false;
     }
 
+    //
+    // Bosses can choose where to land
+    //
+    if (thing_is_able_to_teleport_safely(me)) {
+      if (! thing_assess_landing_spot(g, v, l, me, out)) {
+        THING_DBG(g, v, l, me, "need a safe spot for teleport");
+        continue;
+      }
+    }
+
     if (level_is_teleport_hazard_bool(g, v, l, out)) {
       THING_DBG(g, v, l, me, "target is on a hazard (%d,%d)", out.x, out.y);
       TRACE_INDENT();
@@ -534,6 +544,16 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
           continue;
         }
 
+        //
+        // Bosses can choose where to land
+        //
+        if (thing_is_able_to_teleport_safely(me)) {
+          if (! thing_assess_landing_spot(g, v, l, me, to)) {
+            THING_DBG(g, v, l, me, "need a safe spot for teleport");
+            continue;
+          }
+        }
+
         got_one = true;
         break;
       }
@@ -568,6 +588,16 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
           continue;
         }
 
+        //
+        // Bosses can choose where to land
+        //
+        if (thing_is_able_to_teleport_safely(me)) {
+          if (! thing_assess_landing_spot(g, v, l, me, to)) {
+            THING_DBG(g, v, l, me, "need a safe spot for teleport");
+            continue;
+          }
+        }
+
         got_one = true;
         break;
       }
@@ -595,6 +625,16 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
         if (to == at) {
           THING_DBG(g, v, l, me, "teleport, no; same location");
           continue;
+        }
+
+        //
+        // Bosses can choose where to land
+        //
+        if (thing_is_able_to_teleport_safely(me)) {
+          if (! thing_assess_landing_spot(g, v, l, me, to)) {
+            THING_DBG(g, v, l, me, "need a safe spot for teleport");
+            continue;
+          }
         }
 
         got_one = true;

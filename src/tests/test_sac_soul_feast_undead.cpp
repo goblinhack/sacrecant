@@ -140,9 +140,9 @@
 
   TEST_ASSERT(t, wid_console_find_text(g, "You hit the skeleton"), "did not find console text");
 
-  TEST_ASSERT(t, thing_health(g, v, l, player) == 96, "expecting specific player health");
+  TEST_ASSERT(t, thing_health(g, v, l, player) == 92, "expecting specific player health");
 
-  TEST_ASSERT(t, game_tick_get(g, v) == 4, "final tick counter value");
+  TEST_ASSERT(t, game_tick_get(g, v) == 5, "final tick counter value");
 
   level_dump(g, v, l, w, h);
   TEST_PASSED(t);

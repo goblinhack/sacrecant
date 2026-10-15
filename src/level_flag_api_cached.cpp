@@ -1563,10 +1563,10 @@
   return level_flag_cached(g, v, l, is_unused109, p);
 }
 
-[[nodiscard]] auto level_is_unused110_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_able_to_teleport_safely_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused110, p);
+  return level_flag_cached(g, v, l, is_able_to_teleport_safely, p);
 }
 
 [[nodiscard]] auto level_is_monst_overlap_allowed_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

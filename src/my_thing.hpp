@@ -768,6 +768,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_alloc(Gamep g, Levelsp v, Levelp l, Tpp tp, bpoint p) -> Thingp;
 [[nodiscard]] auto thing_and_tp_get_at_safe(Gamep g, Levelsp v, Levelp l, const bpoint &p, int slot, Tpp *out) -> Thingp;
 [[nodiscard]] auto thing_and_tp_get_at(Gamep g, Levelsp v, Levelp l, const bpoint &p, int slot, Tpp *out) -> Thingp;
+[[nodiscard]] auto thing_assess_landing_spot(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool;
 [[nodiscard]] auto thing_at_no_owner(Gamep g, Levelsp v, Levelp l, Thingp me) -> bpoint;
 [[nodiscard]] auto thing_at(Gamep g, Levelsp v, Levelp l, Thingp me) -> bpoint;
 [[nodiscard]] auto thing_attack_at(Gamep g, Levelsp v, Levelp l, Thingp attacker, const bpoint &attack_at, ThingEvent *e = nullptr) -> bool;
@@ -920,6 +921,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_able_to_see_invisible(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_see_through_walls(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_shove(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
+[[nodiscard]] auto thing_is_able_to_teleport_safely(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_throw(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_wear_items(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_active_when_carried(Thingp t) -> bool;
@@ -1202,7 +1204,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused108(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused109(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused11(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused110(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused12(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused124(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused13(Thingp t) -> bool;

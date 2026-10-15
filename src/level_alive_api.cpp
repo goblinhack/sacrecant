@@ -1526,10 +1526,10 @@
   return level_alive(g, v, l, is_unused109, p);
 }
 
-[[nodiscard]] auto level_alive_is_unused110(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+[[nodiscard]] auto level_alive_is_able_to_teleport_safely(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_alive(g, v, l, is_unused110, p);
+  return level_alive(g, v, l, is_able_to_teleport_safely, p);
 }
 
 [[nodiscard]] auto level_alive_is_monst_overlap_allowed(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp

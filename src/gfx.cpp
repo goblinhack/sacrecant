@@ -7262,27 +7262,36 @@ static void gfx_init_tiles_96x96()
   tile_load_arr_sprites("data/gfx/tiles_96x96.tga", "tiles_96x96", BOSS1_TILE_WIDTH, BOSS1_TILE_HEIGHT, ARRAY_SIZE(tiles), tiles);
 }
 
-static void gfx_init_tiles_64x64()
-{
-  TRACE();
-  const char *tiles[] = {
-      // ##############################################################################
-      "boss2.idle.0",    "boss2.idle.1",    "boss2.idle.2",    "boss2.idle.3",    //
-      "boss2.idle.4",    "boss2.idle.5",    "boss2.idle.6",    "boss2.idle.7",    //
-      "boss2.dormant.0", "boss2.dormant.1", "boss2.dormant.2", "boss2.dormant.3", //
-      "boss2.dead.0",    "boss2.dead.1",    "boss2.dead.2",    "boss2.dead.3",    //
-      // ##############################################################################
-  };
-  tile_load_arr_sprites("data/gfx/tiles_64x64.tga", "tiles_64x64", BOSS2_TILE_WIDTH, BOSS2_TILE_HEIGHT, ARRAY_SIZE(tiles), tiles);
-}
-
 static void gfx_init_tiles_60x60()
 {
   TRACE();
   const char *tiles[] = {
       // ##############################################################################
-      "boss3.idle.0", "boss3.idle.1", "boss3.idle.2", "boss3.idle.3", //
-      "boss3.dead.0", "boss3.dead.1", "boss3.dead.2", "boss3.dead.3",
+      "boss2.idle.0",
+      "boss2.idle.1",
+      "boss2.idle.2",
+      "boss2.idle.3", //
+      "boss2.idle.4",
+      "boss2.idle.5",
+      "boss2.idle.6",
+      "boss2.idle.7", //
+      "boss2.dormant.0",
+      "boss2.dormant.1",
+      "boss2.dormant.2",
+      "boss2.dormant.3", //
+      "boss2.dead.0",
+      "boss2.dead.1",
+      "boss2.dead.2",
+      "boss2.dead.3", //
+      // ##############################################################################
+      "boss3.idle.0",
+      "boss3.idle.1",
+      "boss3.idle.2",
+      "boss3.idle.3", //
+      "boss3.dead.0",
+      "boss3.dead.1",
+      "boss3.dead.2",
+      "boss3.dead.3",
       // ##############################################################################
   };
   tile_load_arr_sprites("data/gfx/tiles_60x60.tga", "tiles_60x60", BOSS3_TILE_WIDTH, BOSS3_TILE_HEIGHT, ARRAY_SIZE(tiles), tiles);
@@ -7448,7 +7457,6 @@ void gfx_init()
   gfx_init_tiles();
   gfx_init_tiles_tall();
   gfx_init_tiles_96x96();
-  gfx_init_tiles_64x64();
   gfx_init_tiles_60x60();
   gfx_init_tiles_walls_and_floors();
   gfx_init_tiles_water_lava_misc();

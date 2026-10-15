@@ -111,10 +111,7 @@ static bool tp_skullferno_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp atta
 
 static bool tp_skullferno_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thingp target, ThingEvent &e)
 {
-  THING_DBG(g, v, l, attacker, "on attack");
-  TRACE_INDENT();
-
-  (void) thing_spawn(g, v, l, tp_first(is_effect_attack), target);
+  TRACE();
 
   thing_sound_play(g, v, l, attacker, "hiss");
 

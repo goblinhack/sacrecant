@@ -103,8 +103,6 @@ static bool tp_skeleton_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker
 {
   TRACE();
 
-  (void) thing_spawn(g, v, l, tp_first(is_effect_attack), target);
-
   thing_sound_play(g, v, l, attacker, "hiss");
 
   return true;

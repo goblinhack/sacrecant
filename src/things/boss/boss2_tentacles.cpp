@@ -119,8 +119,6 @@ static bool tp_boss2_tentacles_on_missing(Gamep g, Levelsp v, Levelp l, Thingp a
 {
   TRACE();
 
-  (void) thing_spawn(g, v, l, tp_first(is_effect_attack), target);
-
   thing_sound_play(g, v, l, attacker, "hiss");
 
   return true;

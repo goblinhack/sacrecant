@@ -24,7 +24,7 @@
   std::string const start
       = "XXXXXXXXXXXXXXX"
         "X....~~~~~~~~.X"
-        "X....~~~~~~~~.X"
+        "X....~m~~~~~~.X"
         "X...@~~~~~m~~.X"
         "X....~~~~~~~~.X"
         "X.............X"
@@ -32,9 +32,9 @@
   std::string const expect1
       = "XXXXXXXXXXXXXXX"
         "X....~~~~~~~~.X"
-        "X....~~~~~~~~.X"
+        "X....~.~~~~~~.X"
         "X..@.m~~~~.~~.X"
-        "X....~~~~~~~~.X"
+        "X....m~~~~~~~.X"
         "X.............X"
         "XXXXXXXXXXXXXXX";
 
@@ -145,7 +145,7 @@
   //
   level_dump(g, v, l, w, h);
   TEST_PROGRESS(t);
-  TEST_ASSERT(t, game_tick_get(g, v) == 19, "final tick counter value");
+  TEST_ASSERT(t, game_tick_get(g, v) == 17, "final tick counter value");
 
   level_dump(g, v, l, w, h);
   TEST_PASSED(t);

@@ -140,7 +140,7 @@
 
   TEST_ASSERT(t, wid_console_find_text(g, "You hit the mantisman"), "did not find console text");
 
-  TEST_ASSERT(t, thing_health(g, v, l, player) == 95, "expecting specific player health");
+  TEST_ASSERT(t, thing_health(g, v, l, player) == 94, "expecting specific player health");
 
   TEST_ASSERT(t, game_tick_get(g, v) == 8, "final tick counter value");
 

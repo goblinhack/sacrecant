@@ -88,7 +88,7 @@ static auto thing_choose_nearby_landing_spot(Gamep g, Levelsp v, Levelp l, Thing
   return false;
 }
 
-static auto thing_assess_landing_spot(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool
+auto thing_assess_landing_spot(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool
 {
   TRACE();
 

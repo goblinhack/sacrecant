@@ -115,6 +115,15 @@ static void level_minimap_levels_update(Gamep g, Levelsp v, Levelp l, const bool
         if (level_is_player_bool(g, v, l, p)) {
           c = CYAN;
         }
+        if (level_is_monst_bool(g, v, l, p)) {
+          c = RED;
+        }
+        if (level_is_proj_bool(g, v, l, p)) {
+          c = ORANGE;
+        }
+        if (level_is_beam_weapon_bool(g, v, l, p)) {
+          c = ORANGE;
+        }
 
         if (level_is_blit_shown_in_overlay_bool(g, v, l, p)) {
           //

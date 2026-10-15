@@ -187,7 +187,6 @@ static bool tp_boss2_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, T
   TRACE_INDENT();
 
   if (adjacent(thing_at(g, v, l, attacker), thing_at(g, v, l, target))) {
-    (void) thing_spawn(g, v, l, tp_first(is_effect_attack), target);
     thing_sound_play(g, v, l, attacker, "hiss");
   }
 
@@ -258,6 +257,7 @@ bool tp_boss2_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   tp_flag_set(tp, is_able_to_fall);
   tp_flag_set(tp, is_able_to_move_diagonally);
   tp_flag_set(tp, is_able_to_move);
+  tp_flag_set(tp, is_able_to_teleport_safely);
   tp_flag_set(tp, is_animated_can_hflip);
   tp_flag_set(tp, is_animated);
   tp_flag_set(tp, is_attackable_by_player);

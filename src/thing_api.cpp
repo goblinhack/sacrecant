@@ -1752,7 +1752,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   return tp_flag(thing_tp(t), is_unused109) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused110(Thingp t) -> bool
+[[nodiscard]] auto thing_is_able_to_teleport_safely(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1760,7 +1760,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused110) != 0;
+  return tp_flag(thing_tp(t), is_able_to_teleport_safely) != 0;
 }
 
 [[nodiscard]] auto thing_is_monst_overlap_allowed(Thingp t) -> bool

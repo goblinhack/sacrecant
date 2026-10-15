@@ -1525,10 +1525,10 @@
   return tp_flag(tp, is_unused109) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused110(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_able_to_teleport_safely(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused110) != 0;
+  return tp_flag(tp, is_able_to_teleport_safely) != 0;
 }
 
 [[nodiscard]] auto tp_is_monst_overlap_allowed(Tpp tp) -> bool

@@ -78,8 +78,6 @@ static bool tp_bat_minion_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attack
 {
   TRACE();
 
-  (void) thing_spawn(g, v, l, tp_first(is_effect_attack), target);
-
   thing_sound_play(g, v, l, attacker, "hiss");
 
   return true;

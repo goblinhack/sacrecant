@@ -209,7 +209,7 @@ auto test_load_sac_noisy_pot_stealth() -> bool;
 auto test_load_sac_noisy() -> bool;
 auto test_load_sac_poison_blood() -> bool;
 auto test_load_sac_power_crazed_beam_weapon() -> bool;
-auto test_load_sac_power_crazed() -> bool;
+auto test_load_sac_power_crazed_melee() -> bool;
 auto test_load_sac_sickly_health() -> bool;
 auto test_load_sac_soul_feast_living() -> bool;
 auto test_load_sac_soul_feast_undead() -> bool;
