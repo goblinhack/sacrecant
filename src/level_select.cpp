@@ -894,7 +894,7 @@ static auto level_select_next(Gamep g, Levelsp v, Levelp l, Levelp level_over) -
     } else {
       thing_level_warp_to_entrance(g, v, new_level, player);
     }
-    level_scroll_warp_to_focus(g, v, l);
+    level_scroll_warp_to_focus(g, v, new_level);
 
     //
     // Disable load and save buttons
