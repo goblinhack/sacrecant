@@ -28,7 +28,7 @@
         "XWWWWWWWWWWWWX"
         "XWWWWWWWWWWWWX"
         "XWWWWWWWWWWWWX"
-        "XxxxxWWWWxxxxX"
+        "XxxxWWWWWxxxxX"
         "XWWWWWWWWWWWWX"
         "XWWWWWWWWWWWWX"
         "XWWWWW@WWWWWWX"
@@ -42,12 +42,12 @@
         "XWWWWWWWWWWWWX"
         "XWWWWWWWWWWWWX"
         "XWWWWWWWWWWWWX"
-        "XWWWmmWWWWWWWX"
-        "XxxxxWWmWxxxxX"
-        "XWWWWmmmmWWWWX"
-        "XWWWWWmWWWWWWX"
+        "XWWmmWWWWWWWWX"
+        "XxxxWWWWWxxxxX"
+        "XWWWmmmmWWWWWX"
+        "XWWWWWmmWWWWWX"
         "XWWWWW@WWWWWWX"
-        "XWWWWWWmWWWWWX"
+        "XWWWWmWWWWWWWX"
         "XXXXXXXXXXXXXX";
 
   //
