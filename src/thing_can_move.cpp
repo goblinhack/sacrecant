@@ -405,6 +405,8 @@
             return false;
           }
         }
+
+        continue;
       }
     }
 
@@ -447,6 +449,11 @@
         //
         if (thing_is_player(me)) {
           THING_DBG(g, v, l, me, "can move to possible: no, obs to movement");
+        }
+
+        if (thing_is_boss(me)) {
+          THING_DBG(g, v, l, me, "can move to possible: no to %d,%d", to.x, to.y);
+          THING_DBG(g, v, l, it, "it");
         }
         return false;
       }

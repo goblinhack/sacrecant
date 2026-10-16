@@ -1513,16 +1513,16 @@
   return tp_flag(tp, is_unused107) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused108(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_argusul(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused108) != 0;
+  return tp_flag(tp, is_argusul) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused109(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_skullferno(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused109) != 0;
+  return tp_flag(tp, is_skullferno) != 0;
 }
 
 [[nodiscard]] auto tp_is_able_to_teleport_safely(Tpp tp) -> bool

@@ -29,14 +29,16 @@ void level_count_items(Gamep g, Levelsp v, Levelp l)
 
   FOR_ALL_THINGS_ON_LEVEL_NO_BREAK_UNSAFE(g, v, l, t)
   {
-    if (thing_is_monst(t)) {
-      l->info.monst_count++;
-    }
-    if (thing_is_monst1(t)) {
-      l->info.monst1_count++;
-    }
-    if (thing_is_monst2(t)) {
-      l->info.monst2_count++;
+    if (! thing_is_boss(t)) {
+      if (thing_is_monst(t)) {
+        l->info.monst_count++;
+      }
+      if (thing_is_monst1(t)) {
+        l->info.monst1_count++;
+      }
+      if (thing_is_monst2(t)) {
+        l->info.monst2_count++;
+      }
     }
     if (thing_is_mob(t)) {
       l->info.mob_count++;

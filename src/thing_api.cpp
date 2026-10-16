@@ -1730,7 +1730,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   return tp_flag(thing_tp(t), is_unused107) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused108(Thingp t) -> bool
+[[nodiscard]] auto thing_is_argusul(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1738,10 +1738,10 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused108) != 0;
+  return tp_flag(thing_tp(t), is_argusul) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused109(Thingp t) -> bool
+[[nodiscard]] auto thing_is_skullferno(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1749,7 +1749,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused109) != 0;
+  return tp_flag(thing_tp(t), is_skullferno) != 0;
 }
 
 [[nodiscard]] auto thing_is_able_to_teleport_safely(Thingp t) -> bool

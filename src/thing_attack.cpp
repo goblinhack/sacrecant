@@ -261,7 +261,7 @@ static auto thing_attack_at_do(Gamep g, Levelsp v, Levelp l, Thingp attacker, Th
 //
 [[nodiscard]] auto thing_attack_at(Gamep g, Levelsp v, Levelp l, Thingp attacker, const bpoint &attack_at, ThingEvent *e) -> bool
 {
-  THING_DBG(g, v, l, attacker, "%s", __FUNCTION__);
+  THING_DBG(g, v, l, attacker, "attack at @%d,%d", attack_at.x, attack_at.y);
   TRACE_INDENT();
 
   auto attacker_at = thing_at(g, v, l, attacker);

@@ -32,6 +32,7 @@
   if (!tp_load_boss2()) { return false; }
   if (!tp_load_boss3()) { return false; }
   if (!tp_load_boss4()) { return false; }
+  if (!tp_load_boss5()) { return false; }
   if (!tp_load_brazier()) { return false; }
   if (!tp_load_bridge()) { return false; }
   if (!tp_load_buff_good_luck()) { return false; }

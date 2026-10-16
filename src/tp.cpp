@@ -143,6 +143,7 @@ static std::initializer_list< std::string > tps = {
     "boss2",
     "boss3",
     "boss4",
+    "boss5",
     "brazier",
     "bridge",
     "buff_good_luck",

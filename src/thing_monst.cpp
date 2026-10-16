@@ -853,6 +853,8 @@ static auto thing_monst_choose_something_we_can_wander_to(Gamep g, Levelsp v, Le
   if (thing_is_flesh_eater(me)) {
     if (level_alive_is_flesh(g, v, l, target) != nullptr) {
       THING_DBG(g, v, l, me, "monst: try attack on flesh");
+      TRACE_INDENT();
+
       if (thing_attack_at(g, v, l, me, target)) {
         THING_DBG(g, v, l, me, "monst: attack success");
         return true;
@@ -863,6 +865,9 @@ static auto thing_monst_choose_something_we_can_wander_to(Gamep g, Levelsp v, Le
   }
 
   if (level_is_attackable_by_monst_bool(g, v, l, target)) {
+    THING_DBG(g, v, l, me, "monst: try attack on attackable thing");
+    TRACE_INDENT();
+
     if (thing_attack_at(g, v, l, me, target)) {
       THING_DBG(g, v, l, me, "monst: attack success");
       return true;

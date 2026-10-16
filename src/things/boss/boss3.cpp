@@ -96,11 +96,6 @@ static void tp_boss3_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   if (! me->tick) {
     (void) sound_play(g, v, l, "monster_roar_epic");
   }
-
-  auto target = thing_monst_target(g, v, l, me);
-  if (level_is_player(g, v, l, target)) {
-    (void) thing_attack_at(g, v, l, me, target);
-  }
 }
 
 static bool tp_boss3_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thingp target, ThingEvent &e)
@@ -255,7 +250,6 @@ bool tp_boss3_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   thing_on_popped_set(tp, tp_boss3_on_popped);
   thing_on_pushed_set(tp, tp_boss3_on_pushed);
   thing_on_tick_begin_set(tp, tp_boss3_tick_begin);
-  tp_multi_tile_tiles_set(tp, multi_tile_tiles);
   tp_attack_count_max_per_tick_set(tp, 1);
   tp_chance_set(tp, THING_CHANCE_CONTINUE_TO_BURN, "1d6"); // fumble => intensify / keep burning / crit => stop burning
   tp_chance_set(tp, THING_CHANCE_START_BURNING, "1d2");    // fumble => flames spread to you
@@ -286,9 +280,9 @@ bool tp_boss3_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   tp_flag_set(tp, is_described_when_killed);
   tp_flag_set(tp, is_flesh);
   tp_flag_set(tp, is_insectoid);
-  tp_flag_set(tp, is_monst_overlap_allowed);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_memory_ext);
+  tp_flag_set(tp, is_monst_overlap_allowed);
   tp_flag_set(tp, is_monst);
   tp_flag_set(tp, is_multi_tile);
   tp_flag_set(tp, is_obs_to_beam);
@@ -305,6 +299,7 @@ bool tp_boss3_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   tp_health_set(tp, "100+12d8");
   tp_hearing_threshold_set(tp, 2); // smaller values => better hearing
   tp_missile_count_max_set(tp, THING_MISSILE_MAX);
+  tp_multi_tile_tiles_set(tp, multi_tile_tiles);
   tp_name_a_or_an_set(tp, "god scorpios");
   tp_name_apostrophize_set(tp, "god scorpios'");
   tp_name_long_set(tp, "god, scorpios");

@@ -7255,8 +7255,23 @@ static void gfx_init_tiles_96x96()
   TRACE();
   const char *tiles[] = {
       // ##############################################################################
-      "boss1.idle.0", "boss1.idle.1", "boss1.idle.2", "boss1.idle.3", //
-      "boss1.dead.0", "boss1.dead.1", "boss1.dead.2", "boss1.dead.3",
+      "boss1.idle.0",
+      "boss1.idle.1",
+      "boss1.idle.2",
+      "boss1.idle.3", //
+      "boss1.dead.0",
+      "boss1.dead.1",
+      "boss1.dead.2",
+      "boss1.dead.3",
+      // ##############################################################################
+      "boss5.idle.0",
+      "boss5.idle.1",
+      "boss5.idle.2",
+      "boss5.idle.3", //
+      "boss5.dead.0",
+      "boss5.dead.1",
+      "boss5.dead.2",
+      "boss5.dead.3",
       // ##############################################################################
   };
   tile_load_arr_sprites("data/gfx/tiles_96x96.tga", "tiles_96x96", BOSS1_TILE_WIDTH, BOSS1_TILE_HEIGHT, ARRAY_SIZE(tiles), tiles);

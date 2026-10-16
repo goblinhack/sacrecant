@@ -30,6 +30,7 @@ auto tp_load_boss2_tentacles() -> bool;
 auto tp_load_boss2() -> bool;
 auto tp_load_boss3() -> bool;
 auto tp_load_boss4() -> bool;
+auto tp_load_boss5() -> bool;
 auto tp_load_brazier() -> bool;
 auto tp_load_bridge() -> bool;
 auto tp_load_buff_good_luck() -> bool;

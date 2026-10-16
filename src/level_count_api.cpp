@@ -1515,16 +1515,16 @@
   return level_count(g, v, l, is_unused107, p);
 }
 
-[[nodiscard]] auto level_count_is_unused108(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_argusul(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused108, p);
+  return level_count(g, v, l, is_argusul, p);
 }
 
-[[nodiscard]] auto level_count_is_unused109(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_skullferno(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused109, p);
+  return level_count(g, v, l, is_skullferno, p);
 }
 
 [[nodiscard]] auto level_count_is_able_to_teleport_safely(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t

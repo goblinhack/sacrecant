@@ -1551,16 +1551,16 @@
   return level_flag_cached(g, v, l, is_unused107, p);
 }
 
-[[nodiscard]] auto level_is_unused108_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_argusul_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused108, p);
+  return level_flag_cached(g, v, l, is_argusul, p);
 }
 
-[[nodiscard]] auto level_is_unused109_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_skullferno_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused109, p);
+  return level_flag_cached(g, v, l, is_skullferno, p);
 }
 
 [[nodiscard]] auto level_is_able_to_teleport_safely_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

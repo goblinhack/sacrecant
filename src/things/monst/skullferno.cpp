@@ -181,6 +181,7 @@ static void tp_skullferno_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_flag_set(tp, is_physics_explosion);
   tp_flag_set(tp, is_removable_when_dead_on_err);
   tp_flag_set(tp, is_shown_health);
+  tp_flag_set(tp, is_skullferno);
   tp_flag_set(tp, is_tickable);
   tp_flag_set(tp, is_undead);
   tp_flag_set(tp, is_vision_360_degrees);

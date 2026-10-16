@@ -132,11 +132,6 @@ static void tp_boss2_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   if (! me->tick) {
     (void) sound_play(g, v, l, "monster_roar_epic");
   }
-
-  auto target = thing_monst_target(g, v, l, me);
-  if (level_is_player(g, v, l, target)) {
-    (void) thing_attack_at(g, v, l, me, target);
-  }
 }
 
 static bool tp_boss2_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thingp target, ThingEvent &e)
@@ -248,7 +243,6 @@ bool tp_boss2_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   thing_on_pushed_set(tp, tp_boss2_on_pushed);
   thing_on_spawned_set(tp, tp_boss2_on_spawned);
   thing_on_tick_begin_set(tp, tp_boss2_tick_begin);
-  tp_multi_tile_tiles_set(tp, multi_tile_tiles);
   tp_attack_count_max_per_tick_set(tp, 1);
   tp_chance_set(tp, THING_CHANCE_CONTINUE_TO_BURN, "1d6"); // fumble => intensify / keep burning / crit => stop burning
   tp_chance_set(tp, THING_CHANCE_START_BURNING, "1d2");    // fumble => flames spread to you
@@ -281,6 +275,7 @@ bool tp_boss2_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_mob_kill_minions_on_death);
   tp_flag_set(tp, is_mob);
+  tp_flag_set(tp, is_monst_overlap_allowed);
   tp_flag_set(tp, is_monst);
   tp_flag_set(tp, is_multi_tile);
   tp_flag_set(tp, is_obs_to_beam);
@@ -293,12 +288,12 @@ bool tp_boss2_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   tp_flag_set(tp, is_removable_when_dead_on_err);
   tp_flag_set(tp, is_shown_health);
   tp_flag_set(tp, is_tickable);
-  tp_flag_set(tp, is_monst_overlap_allowed);
   tp_flag_set(tp, is_vision_360_degrees);
   tp_health_set(tp, "100+12d8");
   tp_hearing_threshold_set(tp, 2); // smaller values => better hearing
   tp_is_immune_to_add(tp, THING_EVENT_WATER_DAMAGE);
   tp_minion_max_set(tp, (int) tentacle_list.size());
+  tp_multi_tile_tiles_set(tp, multi_tile_tiles);
   tp_name_a_or_an_set(tp, "kraken");
   tp_name_apostrophize_set(tp, "kraken's");
   tp_name_long_set(tp, "kraken");

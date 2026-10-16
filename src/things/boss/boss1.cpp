@@ -84,11 +84,6 @@ static void tp_boss1_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   if (! me->tick) {
     (void) sound_play(g, v, l, "monster_roar_epic");
   }
-
-  auto target = thing_monst_target(g, v, l, me);
-  if (level_is_player(g, v, l, target)) {
-    (void) thing_attack_at(g, v, l, me, target);
-  }
 }
 
 static bool tp_boss1_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thingp target, ThingEvent &e)
@@ -253,8 +248,8 @@ static bool tp_boss1_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, T
   tp_flag_set(tp, is_corpse_on_death);
   tp_flag_set(tp, is_described_cursor);
   tp_flag_set(tp, is_described_when_killed);
-  tp_flag_set(tp, is_levitating);
   tp_flag_set(tp, is_flesh);
+  tp_flag_set(tp, is_levitating);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_monst_overlap_allowed);

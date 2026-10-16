@@ -933,6 +933,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_animated_no_dir(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_animated_sync_first(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_animated(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_argusul(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_attackable_by_monst(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_attackable_by_player(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_auto_wear(Thingp t) -> bool;
@@ -1157,6 +1158,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_shown_spell_radius(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_shown_stamina(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_skeleton(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_skullferno(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_sleeping(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_slime(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_smoke(Thingp t) -> bool;
@@ -1201,8 +1203,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused105(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused106(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused107(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused108(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused109(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused11(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused12(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused124(Thingp t) -> bool;

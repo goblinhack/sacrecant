@@ -948,6 +948,9 @@ static void player_check_if_target_needs_move_confirm_callback(Gamep g, bool val
         .source     = me,                    //
     };
 
+    THING_DBG(g, v, l, me, "player melee attack at @%d,%d", to.x, to.y);
+    TRACE_INDENT();
+
     if (thing_attack_at(g, v, l, me, to, &e)) {
       THING_DBG(g, v, l, me, "player melee attack success");
     }
@@ -1091,7 +1094,12 @@ static auto player_move_delta(Gamep g, Levelsp v, Levelp l, int dx, int dy) -> b
   if (thing_is_engulfed(me)) {
     THING_DBG(g, v, l, me, "player is engulfed");
     (void) level_tick_begin_requested(g, v, l, "player attack engulfer");
+
     auto attack_at = thing_at(g, v, l, me);
+
+    THING_DBG(g, v, l, me, "player attack engulfer at @%d,%d", attack_at.x, attack_at.y);
+    TRACE_INDENT();
+
     (void) thing_attack_at(g, v, l, me, attack_at);
     return true;
   }

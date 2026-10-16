@@ -1551,16 +1551,16 @@
   return level_flag(g, v, l, is_unused107, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused108_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_argusul_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused108, p, me) != nullptr;
+  return level_flag(g, v, l, is_argusul, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused109_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_skullferno_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused109, p, me) != nullptr;
+  return level_flag(g, v, l, is_skullferno, p, me) != nullptr;
 }
 
 [[nodiscard]] auto level_is_able_to_teleport_safely_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool

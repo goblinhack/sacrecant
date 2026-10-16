@@ -277,8 +277,8 @@
       list_macro(is_unused105, "is_unused105"),                                             /* newline */                                       \
       list_macro(is_unused106, "is_unused106"),                                             /* newline */                                       \
       list_macro(is_unused107, "is_unused107"),                                             /* newline */                                       \
-      list_macro(is_unused108, "is_unused108"),                                             /* newline */                                       \
-      list_macro(is_unused109, "is_unused109"),                                             /* newline */                                       \
+      list_macro(is_argusul, "is_argusul"),                                                 /* newline */                                       \
+      list_macro(is_skullferno, "is_skullferno"),                                           /* newline */                                       \
       list_macro(is_unused11, "is_unused11"),                                               /* newline */                                       \
       list_macro(is_able_to_teleport_safely, "is_able_to_teleport_safely"),                 /* newline */                                       \
       list_macro(is_monst_overlap_allowed, "is_monst_overlap_allowed"),                     /* newline */                                       \
@@ -832,7 +832,6 @@ class Tp;
 
 // begin sort marker1 {
 [[nodiscard]] auto string2tp(const char **s, int *len = nullptr) -> Tpp;
-[[nodiscard]] auto tp_multi_tile_tiles_get(Tpp tp) -> std::vector< bpoint >;
 [[nodiscard]] auto tp_attack_count_max_per_tick_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_chance_fail(Tpp tp, ThingChanceType val) -> bool;
 [[nodiscard]] auto tp_chance_success(Tpp tp, ThingChanceType val) -> bool;
@@ -911,6 +910,7 @@ class Tp;
 [[nodiscard]] auto tp_is_animated_no_dir(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_animated_sync_first(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_animated(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_argusul(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_attackable_by_monst(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_attackable_by_player(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_auto_wear(Tpp tp) -> bool;
@@ -1118,6 +1118,7 @@ class Tp;
 [[nodiscard]] auto tp_is_shown_noise(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_shown_stamina(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_skeleton(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_skullferno(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_slime(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_smoke(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_soft_landing(Tpp tp) -> bool;
@@ -1158,8 +1159,6 @@ class Tp;
 [[nodiscard]] auto tp_is_unused105(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused106(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused107(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused108(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused109(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused11(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused12(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused124(Tpp tp) -> bool;
@@ -1288,6 +1287,7 @@ class Tp;
 [[nodiscard]] auto tp_mana_max_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_minion_max_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_missile_count_max_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_multi_tile_tiles_get(Tpp tp) -> std::vector< bpoint >;
 [[nodiscard]] auto tp_name_a_or_an(Tpp tp) -> std::string;
 [[nodiscard]] auto tp_name_apostrophize(Tpp tp) -> std::string;
 [[nodiscard]] auto tp_name_long(Tpp tp) -> std::string;
@@ -1339,7 +1339,6 @@ auto tp_spell_options_exist(Tpp tp) -> bool;
 auto tp_spell_options_get(Tpp tp) -> std::map< std::string, TpSpellOption >;
 auto tp_spell_upgrades_exist(Tpp tp) -> bool;
 auto tp_spell_upgrades_get(Tpp tp) -> std::map< std::string, TpSpellUpgrade >;
-void tp_multi_tile_tiles_set(Tpp tp, std::vector< bpoint > val);
 void tp_attack_count_max_per_tick_set(Tpp tp, int val);
 void tp_chance_set(Tpp tp, ThingChanceType e, const std::string &val);
 void tp_charge_count_set(Tpp tp, int val);
@@ -1381,6 +1380,7 @@ void tp_mana_set(Tpp tp, int val);
 void tp_minion_max_set(Tpp tp, int val);
 void tp_missile_count_max_set(Tpp tp, int val);
 void tp_monst_group_add(Tpp tp, ThingMonstGroup val);
+void tp_multi_tile_tiles_set(Tpp tp, std::vector< bpoint > val);
 void tp_name_a_or_an_set(Tpp tp, const std::string &val);
 void tp_name_apostrophize_set(Tpp tp, const std::string &val);
 void tp_name_long_set(Tpp tp, const std::string &val);

@@ -1514,16 +1514,16 @@
   return level_open(g, v, l, is_unused107, p);
 }
 
-[[nodiscard]] auto level_open_is_unused108(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+[[nodiscard]] auto level_open_is_argusul(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_open(g, v, l, is_unused108, p);
+  return level_open(g, v, l, is_argusul, p);
 }
 
-[[nodiscard]] auto level_open_is_unused109(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+[[nodiscard]] auto level_open_is_skullferno(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_open(g, v, l, is_unused109, p);
+  return level_open(g, v, l, is_skullferno, p);
 }
 
 [[nodiscard]] auto level_open_is_able_to_teleport_safely(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp

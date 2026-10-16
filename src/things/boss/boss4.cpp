@@ -73,11 +73,6 @@ static void tp_boss4_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
     (void) sound_play(g, v, l, "humming_creepy");
   }
 
-  auto target = thing_monst_target(g, v, l, me);
-  if (level_is_player(g, v, l, target)) {
-    (void) thing_attack_at(g, v, l, me, target);
-  }
-
   //
   // Spawn a spider!
   //
@@ -160,7 +155,7 @@ static bool tp_boss4_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attacker,
         auto   current_angle_to_target = angle_radians(target_to_origin);
         auto   distance_to_target      = distance(target_real_at, attacker_real_at);
         auto   spread_count            = 0; // how many fireballs either side of the target
-        float  angle_step              = RAD_360 / 32;
+        float  angle_step              = (float) RAD_360 / 32;
 
         //
         // A first fireball at the target directly
@@ -171,7 +166,7 @@ static bool tp_boss4_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attacker,
           (void) thing_proj_launch_at(g, v, l, attacker, fire_what, p, source_offset);
         }
 
-        for (float angle_delta = angle_step; angle_delta < RAD_360 / 2; angle_delta += angle_step) {
+        for (float angle_delta = angle_step; angle_delta < (float) RAD_360 / 2; angle_delta += angle_step) {
           if (spread_count++ > 5) {
             break;
           }
@@ -280,7 +275,6 @@ static auto tp_boss4_assess_tile(Gamep g, Levelsp v, Levelp l, const bpoint &at,
   thing_on_popped_set(tp, tp_boss4_on_popped);
   thing_on_pushed_set(tp, tp_boss4_on_pushed);
   thing_on_tick_begin_set(tp, tp_boss4_tick_begin);
-  tp_multi_tile_tiles_set(tp, multi_tile_tiles);
   tp_attack_count_max_per_tick_set(tp, 1);
   tp_chance_set(tp, THING_CHANCE_CONTINUE_TO_BURN, "1d6"); // fumble => intensify / keep burning / crit => stop burning
   tp_chance_set(tp, THING_CHANCE_START_BURNING, "1d2");    // fumble => flames spread to you
@@ -291,7 +285,6 @@ static auto tp_boss4_assess_tile(Gamep g, Levelsp v, Levelp l, const bpoint &at,
   tp_flag_set(tp, is_able_to_be_invisible);
   tp_flag_set(tp, is_able_to_fire_weapons);
   tp_flag_set(tp, is_able_to_move_diagonally);
-  tp_flag_set(tp, is_monst_overlap_allowed);
   tp_flag_set(tp, is_able_to_move);
   tp_flag_set(tp, is_able_to_teleport_safely);
   tp_flag_set(tp, is_animated_can_hflip);
@@ -303,16 +296,16 @@ static auto tp_boss4_assess_tile(Gamep g, Levelsp v, Levelp l, const bpoint &at,
   tp_flag_set(tp, is_blit_shown_in_chasms);
   tp_flag_set(tp, is_blit_shown_in_overlay);
   tp_flag_set(tp, is_boss);
-  tp_flag_set(tp, is_ethereal);
   tp_flag_set(tp, is_boss4);
   tp_flag_set(tp, is_collision_circle_large);
   tp_flag_set(tp, is_corpse_on_death);
   tp_flag_set(tp, is_described_cursor);
   tp_flag_set(tp, is_described_when_killed);
+  tp_flag_set(tp, is_ethereal);
   tp_flag_set(tp, is_levitating);
   tp_flag_set(tp, is_loggable);
-  tp_flag_set(tp, is_monst_overlap_allowed);
   tp_flag_set(tp, is_memory_ext);
+  tp_flag_set(tp, is_monst_overlap_allowed);
   tp_flag_set(tp, is_monst);
   tp_flag_set(tp, is_multi_tile);
   tp_flag_set(tp, is_obs_to_beam);
@@ -328,6 +321,7 @@ static auto tp_boss4_assess_tile(Gamep g, Levelsp v, Levelp l, const bpoint &at,
   tp_health_set(tp, "100+12d8");
   tp_hearing_threshold_set(tp, 2); // smaller values => better hearing
   tp_missile_count_max_set(tp, THING_MISSILE_MAX);
+  tp_multi_tile_tiles_set(tp, multi_tile_tiles);
   tp_name_a_or_an_set(tp, "duchess of decay");
   tp_name_apostrophize_set(tp, "duchess of decay's");
   tp_name_long_set(tp, "duchess of decay");
