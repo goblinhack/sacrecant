@@ -6,6 +6,7 @@
 #include "../../my_cpp_template.hpp"
 #include "../../my_dice_rolls.hpp"
 #include "../../my_level_inlines.hpp"
+#include "../../my_math.hpp"
 #include "../../my_random.hpp"
 #include "../../my_sound.hpp"
 #include "../../my_thing.hpp"
@@ -76,6 +77,13 @@ static void tp_boss4_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   if (level_is_player(g, v, l, target)) {
     (void) thing_attack_at(g, v, l, me, target);
   }
+
+  //
+  // Spawn a spider!
+  //
+  if (l->info.monst_count < 20) {
+    (void) thing_spawn(g, v, l, tp_first(is_spider), me);
+  }
 }
 
 static bool tp_boss4_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thingp target, ThingEvent &e)
@@ -95,8 +103,9 @@ static bool tp_boss4_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attacker,
     e.damage         = d.dice.roll();
 
     if (d.what != "") {
-      auto target_at = thing_at(g, v, l, target);
-      auto fire_what = tp_find_mand(d.what);
+      fpoint target_real_at   = thing_real_at(g, v, l, target);
+      fpoint attacker_real_at = thing_real_at(g, v, l, attacker);
+      auto   fire_what        = tp_find_mand(d.what);
 
       //
       // Keep track of which stalks fired
@@ -144,9 +153,43 @@ static bool tp_boss4_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attacker,
         THING_DBG(g, v, l, attacker, "source #%d fire", beam);
         TRACE_INDENT();
 
-        (void) thing_proj_launch_at(g, v, l, attacker, fire_what, target_at, source_offset);
+        //
+        // Fire a spread of fireballs
+        //
+        fpoint target_to_origin        = target_real_at - attacker_real_at;
+        auto   current_angle_to_target = angle_radians(target_to_origin);
+        auto   distance_to_target      = distance(target_real_at, attacker_real_at);
+        auto   spread_count            = 0; // how many fireballs either side of the target
+        float  angle_step              = RAD_360 / 32;
+
+        //
+        // A first fireball at the target directly
+        //
+        {
+          fpoint p(attacker_real_at.x + distance_to_target * cosf(current_angle_to_target), //
+                   attacker_real_at.y + distance_to_target * sinf(current_angle_to_target));
+          (void) thing_proj_launch_at(g, v, l, attacker, fire_what, p, source_offset);
+        }
+
+        for (float angle_delta = angle_step; angle_delta < RAD_360 / 2; angle_delta += angle_step) {
+          if (spread_count++ > 5) {
+            break;
+          }
+
+          {
+            fpoint p(attacker_real_at.x + distance_to_target * cosf(current_angle_to_target + angle_delta), //
+                     attacker_real_at.y + distance_to_target * sinf(current_angle_to_target + angle_delta));
+            (void) thing_proj_launch_at(g, v, l, attacker, fire_what, p, source_offset);
+          }
+          {
+            fpoint p(attacker_real_at.x + distance_to_target * cosf(current_angle_to_target - angle_delta), //
+                     attacker_real_at.y + distance_to_target * sinf(current_angle_to_target - angle_delta));
+            (void) thing_proj_launch_at(g, v, l, attacker, fire_what, p, source_offset);
+          }
+        }
       }
 
+      thing_set_dir_from_target(g, v, l, attacker, make_bpoint(target_real_at));
       thing_sound_play(g, v, l, attacker, "hiss");
 
       THING_DBG(g, v, l, attacker, "prevent melee attack as fired weapon");

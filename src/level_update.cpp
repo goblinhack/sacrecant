@@ -156,4 +156,5 @@ void level_update(Gamep g, Levelsp v, Levelp l)
   l->request_to_update_per_pixel_visibility = true;
   level_update_visibility(g, v, l);
   level_update_flags(g, v, l);
+  level_count_items(g, v, l);
 }

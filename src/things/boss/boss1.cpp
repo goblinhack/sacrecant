@@ -158,6 +158,7 @@ static bool tp_boss1_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attacker,
         (void) thing_beam_weapon_fire_at(g, v, l, attacker, fire_what, target_at, eyestalk_offset);
       }
 
+      thing_set_dir_from_target(g, v, l, attacker, target_at);
       thing_sound_play(g, v, l, attacker, "monster_roar");
 
       THING_DBG(g, v, l, attacker, "prevent melee attack as fired weapon");
