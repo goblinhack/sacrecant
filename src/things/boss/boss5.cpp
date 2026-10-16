@@ -358,6 +358,7 @@ static auto tp_boss5_assess_tile(Gamep g, Levelsp v, Levelp l, const bpoint &at,
   tp_flag_set(tp, is_vision_360_degrees);
   tp_health_set(tp, "100+12d8");
   tp_hearing_threshold_set(tp, 2); // smaller values => better hearing
+  tp_is_immune_to_add(tp, THING_EVENT_FIRE_DAMAGE);
   tp_missile_count_max_set(tp, THING_MISSILE_MAX);
   tp_multi_tile_tiles_set(tp, multi_tile_tiles);
   tp_name_a_or_an_set(tp, "lord batcat");
@@ -369,7 +370,6 @@ static auto tp_boss5_assess_tile(Gamep g, Levelsp v, Levelp l, const bpoint &at,
   tp_rarity_set(tp, THING_RARITY_COMMON);
   tp_score_value_set(tp, 10000);
   tp_speed_set(tp, 50);
-  tp_is_immune_to_add(tp, THING_EVENT_FIRE_DAMAGE);
   tp_stat_set(tp, THING_STAT_ATT, "1d4+14");
   tp_stat_set(tp, THING_STAT_DEF, "1d4+14");
   tp_stat_set(tp, THING_STAT_DMG, "1d4+14");

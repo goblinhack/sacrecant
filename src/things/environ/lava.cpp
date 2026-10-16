@@ -25,14 +25,15 @@ static auto tp_lava_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> 
   // begin sort marker1 {
   thing_description_set(tp, tp_lava_description_get);
   tp_damage_set(tp, THING_EVENT_FIRE_DAMAGE, "1d20+20");
+  tp_flag_set(tp, is_able_to_fall);
   tp_flag_set(tp, is_animated);
   tp_flag_set(tp, is_blit_centered);
   tp_flag_set(tp, is_blit_if_has_seen);
   tp_flag_set(tp, is_blit_per_pixel_lighting);
   tp_flag_set(tp, is_blit_shown_in_chasms);
-  tp_flag_set(tp, is_flat);
   tp_flag_set(tp, is_cursor_path_hazard);
   tp_flag_set(tp, is_cursor_path_warning);
+  tp_flag_set(tp, is_dead_on_falling);
   tp_flag_set(tp, is_described_cursor);
   tp_flag_set(tp, is_flat);
   tp_flag_set(tp, is_lava);
