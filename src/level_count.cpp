@@ -29,6 +29,12 @@ void level_count_items(Gamep g, Levelsp v, Levelp l)
 
   FOR_ALL_THINGS_ON_LEVEL_NO_BREAK_UNSAFE(g, v, l, t)
   {
+    //
+    // A hack to reset iterators, just in case something changed level - so we're starting
+    // from scratch.
+    //
+    memset(t->iter, 0, sizeof(t->iter));
+
     if (! thing_is_boss(t)) {
       if (thing_is_monst(t)) {
         l->info.monst_count++;

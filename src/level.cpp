@@ -315,6 +315,12 @@ void level_destroy(Gamep g, Levelsp v, Levelp l)
   // Remove all things
   //
   DBG("Level destroy %u", l->level_num);
+  FOR_ALL_THINGS_ON_LEVEL_NO_BREAK_UNSAFE(g, v, l, t) { thing_fini(g, v, l, t); }
+  DBG("Level destroyed %u", l->level_num);
+
+  //
+  // Try again, in case something was created during destruction
+  //
   FOR_ALL_THINGS_ON_LEVEL_NO_BREAK(g, v, l, t) { thing_fini(g, v, l, t); }
 
   //

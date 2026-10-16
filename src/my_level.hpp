@@ -149,6 +149,14 @@ using Level = struct Level {
   // faster to malloc and memset versus default construction.
   //////////////////////////////////////////////////////////////
   //
+  // Used to only tick things once per loop, even if they move slot
+  //
+  uint8_t iter[ MY_ITERS_MAX ];
+  //
+  // To catch iter nesting
+  //
+  uint8_t in_iter[ MY_ITERS_MAX ];
+  //
   // Where this level is in the bigger map
   //
   LevelNum level_num;
@@ -359,14 +367,6 @@ using Levels = struct Levels {
   //
   uint32_t tick;
   //
-  // Used to only tick things once per loop, even if they move slot
-  //
-  uint8_t iter[ MY_ITERS_MAX ];
-  //
-  // To catch iter nesting
-  //
-  uint8_t in_iter[ MY_ITERS_MAX ];
-  //
   // Increments once per event loop.
   //
   uint32_t frame;
@@ -535,11 +535,12 @@ using Levels = struct Levels {
 
 struct MyIter {
   Levelsp     v;
+  Levelp      l;
   int         iter;
   const char *func;
   int         line;
 
-  MyIter(Gamep g, Levelsp v, int *iter, const char *func, uint16_t line);
+  MyIter(Gamep g, Levelsp v, Levelp l, int *iter, const char *func, uint16_t line);
   ~MyIter();
 };
 
@@ -584,28 +585,28 @@ struct MyIter {
   if ((VERIFY(MTYPE_GAME, _g_)) && (VERIFY(MTYPE_LEVELS, _v_)))                                                                                 \
     if ((_l_))                                                                                                                                  \
       if (int _iter_index_ = 0; true)                                                                                                           \
-        if (MyIter _iter_(_g_, _v_, &_iter_index_, __FUNCTION__, __LINE__); true)                                                               \
+        if (MyIter _iter_(_g_, _v_, _l_, &_iter_index_, __FUNCTION__, __LINE__); true)                                                          \
           for (auto _x_ = 0; _x_ < MAP_WIDTH; _x_++)                                                                                            \
             for (auto _y_ = 0; _y_ < MAP_HEIGHT; _y_++)                                                                                         \
               for (auto _slot_ = 0; _slot_ < MAP_SLOTS; _slot_++)                                                                               \
                 if (ThingId _id_ = 0; (_id_ = (_l_)->thing_id[ _x_ ][ _y_ ][ _slot_ ]))                                                         \
                   if (Thingp _t_ = nullptr; ((_t_) = thing_find(_g_, _v_, _id_)))                                                               \
-                    if ((_t_)->iter[ _iter_index_ ] != (_v_)->iter[ _iter_index_ ])                                                             \
-                      if ((((_t_)->iter[ _iter_index_ ] = (_v_)->iter[ _iter_index_ ])) || 1)
+                    if ((_t_)->iter[ _iter_index_ ] != (_l_)->iter[ _iter_index_ ])                                                             \
+                      if ((((_t_)->iter[ _iter_index_ ] = (_l_)->iter[ _iter_index_ ])) || 1)
 
 #define FOR_ALL_THINGS_ON_LEVEL_NO_BREAK_DEBUG(_g_, _v_, _l_, _t_)                                                                              \
   if ((VERIFY(MTYPE_GAME, _g_)) && (VERIFY(MTYPE_LEVELS, _v_)))                                                                                 \
     if ((_l_))                                                                                                                                  \
       if (int _iter_index_ = 0; true)                                                                                                           \
-        if (MyIter _iter_(_g_, _v_, &_iter_index_, __FUNCTION__, __LINE__); true)                                                               \
+        if (MyIter _iter_(_g_, _v_, _l_, &_iter_index_, __FUNCTION__, __LINE__); true)                                                          \
           for (auto _x_ = 0; _x_ < MAP_WIDTH; _x_++)                                                                                            \
             for (auto _y_ = 0; _y_ < MAP_HEIGHT; _y_++)                                                                                         \
               for (auto _slot_ = 0; _slot_ < MAP_SLOTS; _slot_++)                                                                               \
                 if (ThingId _id_ = 0; (_id_ = (_l_)->thing_id[ _x_ ][ _y_ ][ _slot_ ]))                                                         \
                   if (Thingp _t_ = nullptr; ((_t_) = thing_find(_g_, _v_, _id_)))                                                               \
                     if (thing_debug(_g_, _v_, _l_, _t_, _iter_index_))                                                                          \
-                      if ((_t_)->iter[ _iter_index_ ] != (_v_)->iter[ _iter_index_ ])                                                           \
-                        if ((((_t_)->iter[ _iter_index_ ] = (_v_)->iter[ _iter_index_ ])) || 1)
+                      if ((_t_)->iter[ _iter_index_ ] != (_l_)->iter[ _iter_index_ ])                                                           \
+                        if ((((_t_)->iter[ _iter_index_ ] = (_l_)->iter[ _iter_index_ ])) || 1)
 
 #define FOR_ALL_GROUP_THINGS_ON_LEVEL_UNSAFE(_g_, _v_, _l_, _t_, _group_id_)                                                                    \
   FOR_ALL_THINGS_ON_LEVEL_NO_BREAK_UNSAFE(_g_, _v_, _l_, _t_)                                                                                   \
@@ -633,12 +634,12 @@ struct MyIter {
       if (bpoint _at_ = make_bpoint(_p_); true)                                                                                                 \
         if (! is_oob(_at_))                                                                                                                     \
           if (int _iter_index_ = 0; true)                                                                                                       \
-            if (MyIter _iter_(_g_, _v_, &_iter_index_, __FUNCTION__, __LINE__); true)                                                           \
+            if (MyIter _iter_(_g_, _v_, _l_, &_iter_index_, __FUNCTION__, __LINE__); true)                                                      \
               for (auto _slot_ = 0; _slot_ < MAP_SLOTS; _slot_++)                                                                               \
                 if (ThingId _id_ = 0; (_id_ = (_l_)->thing_id[ _at_.x ][ _at_.y ][ _slot_ ]))                                                   \
                   if (Thingp _t_ = nullptr; ((_t_) = thing_find(_g_, _v_, _id_)))                                                               \
-                    if ((_t_)->iter[ _iter_index_ ] != (_v_)->iter[ _iter_index_ ])                                                             \
-                      if ((((_t_)->iter[ _iter_index_ ] = (_v_)->iter[ _iter_index_ ])) || 1)
+                    if ((_t_)->iter[ _iter_index_ ] != (_l_)->iter[ _iter_index_ ])                                                             \
+                      if ((((_t_)->iter[ _iter_index_ ] = (_l_)->iter[ _iter_index_ ])) || 1)
 
 enum {
   CHANCE_VVV_UNLIKELY = 1,

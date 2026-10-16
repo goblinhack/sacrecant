@@ -12,13 +12,14 @@
 
 static int g_iter;
 
-MyIter::MyIter(Gamep g, Levelsp _v, int *out_iter, const char *_func, const uint16_t _line)
+MyIter::MyIter(Gamep g, Levelsp _v, Levelp _l, int *out_iter, const char *_func, const uint16_t _line)
 {
   if (g_thread_id != MAIN_THREAD) {
     CROAK("using iterator, but not on main thread, thread=%d", g_thread_id);
   }
 
   this->v    = _v;
+  this->l    = _l;
   this->func = _func;
   this->line = _line;
 
@@ -28,22 +29,22 @@ MyIter::MyIter(Gamep g, Levelsp _v, int *out_iter, const char *_func, const uint
     CROAK("%s:%u exceeded number of iterators", func, line);
   }
 
-  if (static_cast< bool >(v->in_iter[ iter ])) {
+  if (static_cast< bool >(l->in_iter[ iter ])) {
     CROAK("%s:%u nested loop for iter %d", func, line, iter);
   }
 
-  v->in_iter[ iter ] = 1U;
+  l->in_iter[ iter ] = 1U;
 
   //
   // This is the iterator value we compare with things to check if they've been walked already.
   //
-  v->iter[ iter ]++;
+  l->iter[ iter ]++;
 
   //
   // Handle wraparound
   //
-  if (! static_cast< bool >(v->iter[ iter ])) {
-    v->iter[ iter ]++;
+  if (! static_cast< bool >(l->iter[ iter ])) {
+    l->iter[ iter ]++;
   }
 
 #if 0
@@ -57,10 +58,10 @@ MyIter::~MyIter()
     CROAK("%s:%u using iterator, but not on main thread, thread=%d", func, line, g_thread_id);
   }
 
-  if (! static_cast< bool >(v->in_iter[ iter ])) {
+  if (! static_cast< bool >(l->in_iter[ iter ])) {
     CROAK("%s:%u bad loop end for iter %d", func, line, iter);
   }
-  v->in_iter[ iter ] = 0U;
+  l->in_iter[ iter ] = 0U;
 
   g_iter--;
 

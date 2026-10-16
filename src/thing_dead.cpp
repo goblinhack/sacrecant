@@ -479,7 +479,6 @@ void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   if (thing_is_loggable(me)) {
     THING_DBG(g, v, l, me, "is dead");
   }
-  TRACE_INDENT();
 
   if (e.reason.empty()) {
     thing_croak(g, v, l, me, "no death reason set");

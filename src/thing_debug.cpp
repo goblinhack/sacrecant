@@ -14,6 +14,6 @@
   if (! thing_is_projectile(t)) {
     return true;
   }
-  THING_DBG(g, v, l, t, "debug iter %u v-iter %u", t->iter[ iter_index ], v->iter[ iter_index ]);
+  THING_DBG(g, v, l, t, "debug iter %u l-iter %u", t->iter[ iter_index ], l->iter[ iter_index ]);
   return true;
 }
