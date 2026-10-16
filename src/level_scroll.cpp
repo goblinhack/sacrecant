@@ -332,4 +332,7 @@ void level_scroll_warp_to_focus(Gamep g, Levelsp v, Levelp l)
   }
 
   level_bounds_set(g, v, l);
+  for (auto tries = 0; tries < 1000; tries++) {
+    level_scroll_to_focus(g, v, l);
+  }
 }

@@ -1404,16 +1404,21 @@ void player_reached_exit_do(Gamep g, Levelsp v, Levelp l)
   level_log(g, v, l, "player reached exit handler");
   TRACE_INDENT();
 
+  auto *player = thing_player(g);
+  if (player == nullptr) {
+    level_err(g, v, l, "no player to reach exit");
+    return;
+  }
+
   game_request_reached_exit_unset(g);
 
   level_is_completed_by_player_exiting(g, v, l);
 
   if (level_is_boss_final_level(g, v, l)) {
-    auto *player = thing_player(g);
-    if (player != nullptr) {
-      thing_is_game_over_set(g, v, l, player);
-    }
+    thing_is_game_over_set(g, v, l, player);
   } else {
+    thing_on_level_reached_exit(g, v, l, player);
+
     player_leave_current_level_and_change_to_level_num(g, v, LEVEL_ARR_IDX_LEVEL_SELECT);
   }
 }

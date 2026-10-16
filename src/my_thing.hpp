@@ -339,6 +339,10 @@ using ThingPlayer = struct ThingPlayer {
   // For hiscores
   //
   int8_t levels_completed;
+  //
+  // To keep track of powerups
+  //
+  uint8_t level_completed[ LEVEL_ARR_IDX_MAX ];
 };
 
 using Thing = struct Thing {

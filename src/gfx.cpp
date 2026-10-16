@@ -953,6 +953,16 @@ static void gfx_ui_init_transition()
   tile_load_arr("data/gfx/ui/transition.tga", "transition", 512, 384, ARRAY_SIZE(tiles), tiles);
 }
 
+static void gfx_ui_init_powerup()
+{
+  TRACE();
+  const char *tiles[] = {
+      "powerup.0", "powerup.1", "powerup.2",  "powerup.3",  "powerup.4",  "powerup.5",  "powerup.6",  "powerup.7",
+      "powerup.8", "powerup.9", "powerup.10", "powerup.11", "powerup.12", "powerup.13", "powerup.14", "powerup.15",
+  };
+  tile_load_arr("data/gfx/ui/powerup.tga", "powerup", 64, 64, ARRAY_SIZE(tiles), tiles);
+}
+
 static void gfx_ui_init_main_bg()
 {
   TRACE();
@@ -6448,7 +6458,7 @@ static void gfx_init_tiles()
       "door_unlocked.idle.damaged",
       "door_unlocked.open.0",
       "door_unlocked.open.damaged",
-      "",
+      "powerup",
       "",
       "",
       "",
@@ -7519,6 +7529,7 @@ void gfx_init()
   gfx_ui_init_solid();
   gfx_ui_init_stat_bar();
   gfx_ui_init_transition();
+  gfx_ui_init_powerup();
   gfx_ui_init_worlds();
   // end sort marker1 }
 }

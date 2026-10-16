@@ -18,6 +18,7 @@
 #include "../../my_tps.hpp"
 #include "../../my_types.hpp"
 #include "../../my_ui.hpp"
+#include "../../my_wids.hpp"
 
 auto tp_player_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
 {
@@ -238,12 +239,11 @@ void tp_player_on_fall_end(Gamep g, Levelsp v, Levelp l, Thingp me)
   }
 }
 
-void tp_player_level_leave(Gamep g, Levelsp v, Levelp l, Thingp me)
+void tp_player_level_changed(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
 
-  THING_DBG(g, v, l, me, "level leave");
-
+  THING_DBG(g, v, l, me, "level changed");
   thing_vision_reset(g, v, l, me);
 
   //
@@ -252,6 +252,43 @@ void tp_player_level_leave(Gamep g, Levelsp v, Levelp l, Thingp me)
   //
   if (v->tick) {
     sound_fade_out(g);
+  }
+}
+
+void tp_player_level_reached_exit(Gamep g, Levelsp v, Levelp l, Thingp me)
+{
+  TRACE();
+
+  THING_DBG(g, v, l, me, "level exit reached");
+
+  //
+  // If in level select we might choose another level than level 1, so only fade out
+  // when leaving a level that we spent time in.
+  //
+  if (v->tick) {
+    sound_fade_out(g);
+  }
+
+  //
+  // Completed the level?
+  //
+  auto *p = thing_player_struct(g);
+  if (p != nullptr) {
+    auto n = l->level_num;
+
+    if (n < LEVEL_ARR_IDX_MAX) {
+      if (! p->level_completed[ n ]) {
+        p->level_completed[ n ] = true;
+
+        if (level_is_boss_level(g, v, l)) {
+          wid_powerup_select(g);
+          (void) thing_health_set(g, v, l, me, thing_health_max(g, v, l, me));
+          (void) thing_stamina_set(g, v, l, me, thing_stamina_max(g, v, l, me));
+          (void) thing_mana_set(g, v, l, me, thing_mana_max(g, v, l, me));
+          thing_sound_play(g, v, l, me, "powerup");
+        }
+      }
+    }
   }
 }
 
@@ -436,7 +473,8 @@ void tp_load_player_common(Tpp tp)
   thing_on_fall_end_set(tp, tp_player_on_fall_end);
   thing_on_jump_end_set(tp, tp_player_on_jump_end);
   thing_on_level_enter_set(tp, tp_player_level_enter);
-  thing_on_level_leave_set(tp, tp_player_level_leave);
+  thing_on_level_changed_set(tp, tp_player_level_changed);
+  thing_on_level_reached_exit_set(tp, tp_player_level_reached_exit);
   thing_on_level_populated_set(tp, tp_player_level_populated);
   thing_on_missing_set(tp, tp_player_on_missing);
   thing_on_moved_set(tp, tp_player_on_moved);

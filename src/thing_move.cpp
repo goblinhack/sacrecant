@@ -144,7 +144,7 @@
   }
 
   if (level_changed) {
-    thing_on_level_leave(g, v, old_level, me);
+    thing_on_level_changed(g, v, old_level, me);
   }
 
   //

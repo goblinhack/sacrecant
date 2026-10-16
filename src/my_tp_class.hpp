@@ -321,7 +321,8 @@ public:
   thing_on_invisible_t          on_invisible          = {};
   thing_on_level_populated_t    on_level_populated    = {};
   thing_on_level_enter_t        on_level_enter        = {};
-  thing_on_level_leave_t        on_level_leave        = {};
+  thing_on_level_changed_t      on_level_changed      = {};
+  thing_on_level_reached_exit_t on_level_reached_exit = {};
   thing_on_engulf_request_t     on_engulf_request     = {};
   thing_on_open_request_t       on_open_request       = {};
   thing_on_carry_request_t      on_carry_request      = {};

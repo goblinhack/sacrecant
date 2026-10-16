@@ -85,6 +85,8 @@ void wid_level_select(Gamep g, Levelsp v, Levelp l)
     topcon("Choose your starting level, mortal.");
     topcon_newline();
     topcon("Mouse hover over levels to preview contents.");
+  } else {
+    topcon("Choose your next level, mortal.");
   }
 
   auto         width = UI_RIGHTBAR_WIDTH;

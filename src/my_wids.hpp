@@ -22,6 +22,7 @@ auto wid_cfg_help_select(Gamep g) -> void;
 auto wid_cfg_mouse_select(Gamep g) -> void;
 void wid_spellbook(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType filter = THING_STAT_NONE);
 void wid_transition_select(Gamep g);
+void wid_powerup_select(Gamep g);
 auto wid_cfg_sound_select(Gamep g) -> void;
 auto wid_console_deserialize(const std::vector< std::string > &r) -> void;
 auto wid_console_fini(Gamep g) -> void;

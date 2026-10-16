@@ -40,3 +40,4 @@ Sound effects
 - Slime by Zuzek06 [found here](https://freesound.org/people/Zuzek06/)
 - Underhell ambience [found here](https://freesound.org/people/looplicator/)
 - Water splash by launemax [found here](https://freesound.org/people/launemax/)
+- Power up by GameAudio [found here](https://freesound.org/people/GameAudio/)
