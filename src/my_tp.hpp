@@ -832,7 +832,7 @@ class Tp;
 
 // begin sort marker1 {
 [[nodiscard]] auto string2tp(const char **s, int *len = nullptr) -> Tpp;
-[[nodiscard]] auto tp_additional_body_tiles_get(Tpp tp) -> std::vector< bpoint >;
+[[nodiscard]] auto tp_multi_tile_tiles_get(Tpp tp) -> std::vector< bpoint >;
 [[nodiscard]] auto tp_attack_count_max_per_tick_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_chance_fail(Tpp tp, ThingChanceType val) -> bool;
 [[nodiscard]] auto tp_chance_success(Tpp tp, ThingChanceType val) -> bool;
@@ -1339,7 +1339,7 @@ auto tp_spell_options_exist(Tpp tp) -> bool;
 auto tp_spell_options_get(Tpp tp) -> std::map< std::string, TpSpellOption >;
 auto tp_spell_upgrades_exist(Tpp tp) -> bool;
 auto tp_spell_upgrades_get(Tpp tp) -> std::map< std::string, TpSpellUpgrade >;
-void tp_additional_body_tiles_set(Tpp tp, std::vector< bpoint > val);
+void tp_multi_tile_tiles_set(Tpp tp, std::vector< bpoint > val);
 void tp_attack_count_max_per_tick_set(Tpp tp, int val);
 void tp_chance_set(Tpp tp, ThingChanceType e, const std::string &val);
 void tp_charge_count_set(Tpp tp, int val);

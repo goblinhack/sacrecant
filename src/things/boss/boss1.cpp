@@ -5,6 +5,7 @@
 #include "../../my_callstack.hpp"
 #include "../../my_cpp_template.hpp"
 #include "../../my_random.hpp"
+#include "../../my_sound.hpp"
 #include "../../my_thing.hpp"
 #include "../../my_thing_callbacks.hpp"
 #include "../../my_thing_inlines.hpp"
@@ -15,7 +16,7 @@
 #include "../../my_ui.hpp"
 #include "my_boss_common.hpp"
 
-static const std::initializer_list< bpoint > additional_body_tiles = {
+static const std::initializer_list< bpoint > multi_tile_tiles = {
     bpoint(-3, -3), bpoint(-2, -3), bpoint(-1, -3), bpoint(0, -3), bpoint(1, -3), bpoint(2, -3), bpoint(3, -3), //
     bpoint(-3, -2), bpoint(-2, -2), bpoint(-1, -2), bpoint(0, -2), bpoint(1, -2), bpoint(2, -2), bpoint(3, -2), //
     bpoint(-3, -1), bpoint(-2, -1), bpoint(-1, -1), bpoint(0, -1), bpoint(1, -1), bpoint(2, -1), bpoint(3, -1), //
@@ -79,6 +80,10 @@ static void tp_boss1_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEven
 static void tp_boss1_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
+
+  if (! me->tick) {
+    (void) sound_play(g, v, l, "monster_roar_epic");
+  }
 
   auto target = thing_monst_target(g, v, l, me);
   if (level_is_player(g, v, l, target)) {
@@ -178,7 +183,7 @@ static void tp_boss1_on_pushed(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   auto at = thing_at(g, v, l, me);
 
-  for (auto p : additional_body_tiles) {
+  for (auto p : multi_tile_tiles) {
     (void) thing_push_additional(g, v, l, me, at + p);
   }
 }
@@ -189,7 +194,7 @@ static void tp_boss1_on_popped(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   auto at = thing_at(g, v, l, me);
 
-  for (auto p : additional_body_tiles) {
+  for (auto p : multi_tile_tiles) {
     (void) thing_pop_additional(g, v, l, me, at + p);
   }
 }
@@ -229,7 +234,6 @@ static bool tp_boss1_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, T
   tp_distance_vision_set(tp, MAP_WIDTH / 2);
   tp_flag_set(tp, is_able_to_be_buffed);
   tp_flag_set(tp, is_able_to_be_invisible);
-  tp_flag_set(tp, is_able_to_be_levitated);
   tp_flag_set(tp, is_able_to_fire_weapons);
   tp_flag_set(tp, is_able_to_move_diagonally);
   tp_flag_set(tp, is_able_to_move);
@@ -248,10 +252,11 @@ static bool tp_boss1_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, T
   tp_flag_set(tp, is_corpse_on_death);
   tp_flag_set(tp, is_described_cursor);
   tp_flag_set(tp, is_described_when_killed);
-  tp_flag_set(tp, is_flesh);
   tp_flag_set(tp, is_levitating);
+  tp_flag_set(tp, is_flesh);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_memory_ext);
+  tp_flag_set(tp, is_monst_overlap_allowed);
   tp_flag_set(tp, is_monst);
   tp_flag_set(tp, is_multi_tile);
   tp_flag_set(tp, is_obs_to_beam);

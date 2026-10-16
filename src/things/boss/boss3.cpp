@@ -7,6 +7,7 @@
 #include "../../my_dice_rolls.hpp"
 #include "../../my_level_inlines.hpp"
 #include "../../my_random.hpp"
+#include "../../my_sound.hpp"
 #include "../../my_thing.hpp"
 #include "../../my_thing_callbacks.hpp"
 #include "../../my_thing_inlines.hpp"
@@ -17,7 +18,7 @@
 #include "../../my_ui.hpp"
 #include "my_boss_common.hpp"
 
-static const std::initializer_list< bpoint > additional_body_tiles = {
+static const std::initializer_list< bpoint > multi_tile_tiles = {
     bpoint(0, -2), bpoint(1, -2),                                           //
     bpoint(0, -1), bpoint(1, -1),                                           //
     bpoint(0, 0),  bpoint(1, 0),                                            //
@@ -91,6 +92,10 @@ static void tp_boss3_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEven
 static void tp_boss3_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
+
+  if (! me->tick) {
+    (void) sound_play(g, v, l, "monster_roar_epic");
+  }
 
   auto target = thing_monst_target(g, v, l, me);
   if (level_is_player(g, v, l, target)) {
@@ -192,7 +197,7 @@ static void tp_boss3_on_pushed(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   auto at = thing_at(g, v, l, me);
 
-  for (auto p : additional_body_tiles) {
+  for (auto p : multi_tile_tiles) {
     (void) thing_push_additional(g, v, l, me, at + p);
   }
 }
@@ -203,7 +208,7 @@ static void tp_boss3_on_popped(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   auto at = thing_at(g, v, l, me);
 
-  for (auto p : additional_body_tiles) {
+  for (auto p : multi_tile_tiles) {
     (void) thing_pop_additional(g, v, l, me, at + p);
   }
 }
@@ -249,7 +254,7 @@ bool tp_boss3_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   thing_on_popped_set(tp, tp_boss3_on_popped);
   thing_on_pushed_set(tp, tp_boss3_on_pushed);
   thing_on_tick_begin_set(tp, tp_boss3_tick_begin);
-  tp_additional_body_tiles_set(tp, additional_body_tiles);
+  tp_multi_tile_tiles_set(tp, multi_tile_tiles);
   tp_attack_count_max_per_tick_set(tp, 1);
   tp_chance_set(tp, THING_CHANCE_CONTINUE_TO_BURN, "1d6"); // fumble => intensify / keep burning / crit => stop burning
   tp_chance_set(tp, THING_CHANCE_START_BURNING, "1d2");    // fumble => flames spread to you
@@ -280,6 +285,7 @@ bool tp_boss3_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   tp_flag_set(tp, is_described_when_killed);
   tp_flag_set(tp, is_flesh);
   tp_flag_set(tp, is_insectoid);
+  tp_flag_set(tp, is_monst_overlap_allowed);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_monst);

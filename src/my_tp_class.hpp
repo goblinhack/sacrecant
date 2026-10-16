@@ -43,7 +43,7 @@ public:
   //
   // Multi tile things. These are tile offsets from the push location.
   //
-  std::vector< bpoint > additional_body_tiles;
+  std::vector< bpoint > multi_tile_tiles;
 
   //
   // Which classes does this monst belong too

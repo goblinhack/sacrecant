@@ -7,6 +7,7 @@
 #include "../../my_dice_rolls.hpp"
 #include "../../my_level_inlines.hpp"
 #include "../../my_random.hpp"
+#include "../../my_sound.hpp"
 #include "../../my_thing.hpp"
 #include "../../my_thing_callbacks.hpp"
 #include "../../my_thing_inlines.hpp"
@@ -17,12 +18,12 @@
 #include "../../my_ui.hpp"
 #include "my_boss_common.hpp"
 
-static const std::initializer_list< bpoint > additional_body_tiles = {
-    bpoint(-2, -2), bpoint(-1, -2), bpoint(0, -2), bpoint(1, -2), bpoint(2, -2), //
-    bpoint(-2, -1), bpoint(-1, -1), bpoint(0, -1), bpoint(1, -1), bpoint(2, -1), //
-    bpoint(-2, 0),  bpoint(-1, 0),  bpoint(1, 0),  bpoint(2, 0),                 //
-    bpoint(-2, 1),  bpoint(-1, 1),  bpoint(0, 1),  bpoint(1, 1),  bpoint(2, 1),  //
-    bpoint(-2, 2),  bpoint(-1, 2),  bpoint(0, 2),  bpoint(1, 2),  bpoint(2, 2),  //
+static const std::initializer_list< bpoint > multi_tile_tiles = {
+    bpoint(-1, -2), bpoint(0, -2), bpoint(1, -2), //
+    bpoint(-1, -1), bpoint(0, -1), bpoint(1, -1), //
+    bpoint(-1, 0),  bpoint(1, 0),                 //
+    bpoint(-1, 1),  bpoint(0, 1),  bpoint(1, 1),  //
+    bpoint(-1, 2),  bpoint(0, 2),  bpoint(1, 2),  //
 };
 
 //
@@ -67,6 +68,10 @@ static void tp_boss4_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
 
+  if (! me->tick) {
+    (void) sound_play(g, v, l, "humming_creepy");
+  }
+
   auto target = thing_monst_target(g, v, l, me);
   if (level_is_player(g, v, l, target)) {
     (void) thing_attack_at(g, v, l, me, target);
@@ -98,7 +103,7 @@ static bool tp_boss4_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attacker,
       //
       std::map< int, bool > source_fired_already = {};
 
-      for (auto beam = 0; beam < 2; beam++) {
+      for (auto beam = 0; beam < 1; beam++) {
         //
         // Get a source
         //
@@ -167,7 +172,7 @@ static void tp_boss4_on_pushed(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   auto at = thing_at(g, v, l, me);
 
-  for (auto p : additional_body_tiles) {
+  for (auto p : multi_tile_tiles) {
     (void) thing_push_additional(g, v, l, me, at + p);
   }
 }
@@ -178,7 +183,7 @@ static void tp_boss4_on_popped(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   auto at = thing_at(g, v, l, me);
 
-  for (auto p : additional_body_tiles) {
+  for (auto p : multi_tile_tiles) {
     (void) thing_pop_additional(g, v, l, me, at + p);
   }
 }
@@ -201,12 +206,28 @@ bool tp_boss4_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   return true;
 }
 
+static auto tp_boss4_assess_tp(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp me) -> ThingEnvironType
+{
+  TRACE_DEBUG();
+
+  return THING_ENVIRON_NEUTRAL;
+}
+
+static auto tp_boss4_assess_tile(Gamep g, Levelsp v, Levelp l, const bpoint &at, Thingp me) -> ThingEnvironType
+{
+  TRACE_DEBUG();
+
+  return THING_ENVIRON_NEUTRAL;
+}
+
 [[nodiscard]] auto tp_load_boss4() -> bool
 {
   auto *tp   = tp_load("boss4"); // keep as string for scripts
   auto  name = tp_name(tp);
 
   // begin sort marker1 {
+  thing_assess_tile_set(tp, tp_boss4_assess_tile);
+  thing_assess_tp_set(tp, tp_boss4_assess_tp);
   thing_description_set(tp, tp_boss4_description_get);
   thing_detail_set(tp, tp_boss4_detail_get);
   thing_on_attacking_set(tp, tp_boss4_on_attacking);
@@ -216,39 +237,38 @@ bool tp_boss4_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   thing_on_popped_set(tp, tp_boss4_on_popped);
   thing_on_pushed_set(tp, tp_boss4_on_pushed);
   thing_on_tick_begin_set(tp, tp_boss4_tick_begin);
-  tp_additional_body_tiles_set(tp, additional_body_tiles);
+  tp_multi_tile_tiles_set(tp, multi_tile_tiles);
   tp_attack_count_max_per_tick_set(tp, 1);
   tp_chance_set(tp, THING_CHANCE_CONTINUE_TO_BURN, "1d6"); // fumble => intensify / keep burning / crit => stop burning
   tp_chance_set(tp, THING_CHANCE_START_BURNING, "1d2");    // fumble => flames spread to you
   tp_damage_set(tp, THING_EVENT_MELEE_DAMAGE, "1d4");
-  tp_distance_vision_set(tp, MAP_WIDTH);
+  tp_distance_avoid_target_set(tp, 2);
+  tp_distance_vision_set(tp, MAP_WIDTH / 2);
   tp_flag_set(tp, is_able_to_be_buffed);
-  tp_flag_set(tp, is_able_to_move);
-  tp_flag_set(tp, is_able_to_move_diagonally);
   tp_flag_set(tp, is_able_to_be_invisible);
-  tp_flag_set(tp, is_able_to_be_teleported);
-  tp_flag_set(tp, is_able_to_breathe);
-  tp_flag_set(tp, is_able_to_choose_targets);
-  tp_flag_set(tp, is_able_to_fall);
   tp_flag_set(tp, is_able_to_fire_weapons);
+  tp_flag_set(tp, is_able_to_move_diagonally);
+  tp_flag_set(tp, is_monst_overlap_allowed);
+  tp_flag_set(tp, is_able_to_move);
   tp_flag_set(tp, is_able_to_teleport_safely);
   tp_flag_set(tp, is_animated_can_hflip);
   tp_flag_set(tp, is_animated);
   tp_flag_set(tp, is_attackable_by_player);
   tp_flag_set(tp, is_blasted_when_dead);
-  tp_flag_set(tp, is_levitating);
   tp_flag_set(tp, is_blit_centered);
   tp_flag_set(tp, is_blit_hit_solid_white);
   tp_flag_set(tp, is_blit_shown_in_chasms);
+  tp_flag_set(tp, is_blit_shown_in_overlay);
   tp_flag_set(tp, is_boss);
+  tp_flag_set(tp, is_ethereal);
   tp_flag_set(tp, is_boss4);
   tp_flag_set(tp, is_collision_circle_large);
   tp_flag_set(tp, is_corpse_on_death);
   tp_flag_set(tp, is_described_cursor);
   tp_flag_set(tp, is_described_when_killed);
-  tp_flag_set(tp, is_flesh);
-  tp_flag_set(tp, is_insectoid);
+  tp_flag_set(tp, is_levitating);
   tp_flag_set(tp, is_loggable);
+  tp_flag_set(tp, is_monst_overlap_allowed);
   tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_monst);
   tp_flag_set(tp, is_multi_tile);
@@ -258,7 +278,6 @@ bool tp_boss4_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   tp_flag_set(tp, is_obs_to_teleporting_onto);
   tp_flag_set(tp, is_obs_to_wall_walker);
   tp_flag_set(tp, is_physics_explosion);
-  tp_flag_set(tp, is_physics_temperature);
   tp_flag_set(tp, is_removable_when_dead_on_err);
   tp_flag_set(tp, is_shown_health);
   tp_flag_set(tp, is_tickable);
@@ -273,7 +292,7 @@ bool tp_boss4_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   tp_name_short_set(tp, "duchess, decay");
   tp_priority_set(tp, THING_PRIORITY_MONST);
   tp_rarity_set(tp, THING_RARITY_COMMON);
-  tp_score_value_set(tp, 3000);
+  tp_score_value_set(tp, 4000);
   tp_speed_set(tp, 25);
   tp_stat_set(tp, THING_STAT_ATT, "1d4+14");
   tp_stat_set(tp, THING_STAT_DEF, "1d4+14");
@@ -282,7 +301,7 @@ bool tp_boss4_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   tp_temperature_initial_set(tp, 20);    // celsius
   tp_temperature_melts_at_set(tp, 250);  // celsius
   tp_weight_set(tp, WEIGHT_VVHEAVY);     // grams
-  tp_z_depth_set(tp, MAP_Z_DEPTH_MONST);
+  tp_z_depth_set(tp, MAP_Z_DEPTH_FLOATING_MONST);
   // end sort marker1 }
 
   tp_special_attack_add(tp,
@@ -297,9 +316,9 @@ bool tp_boss4_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
 
   tp_special_attack_add(tp,
                         TpSpecialAttack {
-                            .type         = "2",            //
-                            .name         = "source blast", //
-                            .what         = "proj_fire",    //
+                            .type         = "2",              //
+                            .name         = "source blast",   //
+                            .what         = "proj_fire_slow", //
                             .d100         = 100,
                             .when_distant = true,
                         });

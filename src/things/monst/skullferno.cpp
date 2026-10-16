@@ -91,7 +91,7 @@ static bool tp_skullferno_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp atta
       auto target_at = thing_at(g, v, l, target);
       auto fire_what = tp_find_mand(d.what);
 
-      THING_DBG(g, v, l, attacker, "fire beam weapon");
+      THING_DBG(g, v, l, attacker, "fire proj");
       TRACE_INDENT();
 
       (void) thing_proj_launch_at(g, v, l, attacker, fire_what, target_at);

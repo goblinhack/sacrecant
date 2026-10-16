@@ -309,7 +309,7 @@
   TRACE_DEBUG();
 
   if (thing_is_multi_tile(me)) {
-    for (auto offset : tp_additional_body_tiles_get(thing_tp(me))) {
+    for (auto offset : tp_multi_tile_tiles_get(thing_tp(me))) {
       auto p = to + offset;
       if (! thing_can_move_to_ai_do(g, v, l, me, p)) {
         return false;
@@ -476,8 +476,12 @@
     }
   }
 
-  if (thing_is_multi_tile(me)) {
-    for (auto offset : tp_additional_body_tiles_get(thing_tp(me))) {
+  if (from_astar) {
+    //
+    // Astar looks at tiles one at a time, so don't do multi tile stuff here
+    //
+  } else if (thing_is_multi_tile(me)) {
+    for (auto offset : tp_multi_tile_tiles_get(thing_tp(me))) {
       auto p = to + offset;
       if (! thing_can_move_to_possible_do(g, v, l, me, p, from_astar)) {
         return false;

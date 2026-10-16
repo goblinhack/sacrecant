@@ -106,7 +106,7 @@ auto thing_assess_landing_spot(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint t
   auto *tp = thing_tp(me);
 
   if (thing_is_multi_tile(me)) {
-    for (auto offset : tp_additional_body_tiles_get(tp)) {
+    for (auto offset : tp_multi_tile_tiles_get(tp)) {
       auto p = to + offset;
       switch (thing_assess_tile(g, v, l, p, me)) {
         case THING_ENVIRON_HATES :    return false;
