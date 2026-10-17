@@ -264,7 +264,19 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
   //
   // Zero the thing out. TAKE CARE not to zero tp_id
   //
-  memset(reinterpret_cast< char * >(t) + SIZEOF(t->tp_id), 0, SIZEOF(*t) - SIZEOF(t->tp_id));
+  if (g_opt_tests || DEBUG) {
+    //
+    // Should be no need to do this as we zero on thing destruction
+    //
+    char *p = reinterpret_cast< char * >(t) + SIZEOF(t->tp_id);
+    for (auto i = 0; i < SIZEOF(*t) - SIZEOF(t->tp_id); i++, p++) {
+      if (*p) {
+        CROAK("expected memory to be zeroed");
+      }
+    }
+
+    memset(reinterpret_cast< char * >(t) + SIZEOF(t->tp_id), 0, SIZEOF(*t) - SIZEOF(t->tp_id));
+  }
 
   //
   // Create the final ID with some rando entropy
