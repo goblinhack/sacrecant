@@ -54,9 +54,9 @@ void thing_blit_text(Gamep g, Levelsp v, Levelp l, spoint tl, spoint br, std::st
   auto text_start          = text.begin();
   auto text_iter           = text_start;
 
-  Tilep tile = nullptr;
-
   for (;;) {
+    Tilep tile = nullptr;
+
     c = *text_iter;
     if (c == 0) {
       break;

@@ -449,7 +449,6 @@ static auto thing_monst_choose_best_target(Gamep g, Levelsp v, Levelp l, Thingp 
 
   auto *ext = thing_ext_struct(g, v, me);
   if (ext == nullptr) [[unlikely]] {
-    thing_err(g, v, l, me, "no ext pointer");
     return false;
   }
 
@@ -530,7 +529,6 @@ static auto thing_monst_choose_something_we_can_wander_to(Gamep g, Levelsp v, Le
 
   auto *ext = thing_ext_struct(g, v, me);
   if (ext == nullptr) [[unlikely]] {
-    thing_err(g, v, l, me, "no ext pointer");
     return false;
   }
 
@@ -1435,7 +1433,7 @@ void thing_monst_tick(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   auto *ext = thing_ext_struct(g, v, me);
   if (ext == nullptr) {
-    CROAK("no ext pointer");
+    return bpoint(0, 0);
   }
 
   return ext->_monst_target;
@@ -1451,7 +1449,7 @@ void thing_monst_target_set(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoin
 
   auto *ext = thing_ext_struct(g, v, me);
   if (ext == nullptr) {
-    CROAK("no ext pointer");
+    return;
   }
 
   ext->_monst_target = val;
@@ -1469,7 +1467,7 @@ void thing_monst_target_set(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoin
 
   auto *ext = thing_ext_struct(g, v, me);
   if (ext == nullptr) {
-    CROAK("no ext pointer");
+    return bpoint(0, 0);
   }
 
   return ext->_attacked_at;
@@ -1485,7 +1483,7 @@ void thing_attacked_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint
 
   auto *ext = thing_ext_struct(g, v, me);
   if (ext == nullptr) {
-    CROAK("no ext pointer");
+    return;
   }
 
   ext->_attacked_at = val;

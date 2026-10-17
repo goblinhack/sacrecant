@@ -1164,7 +1164,6 @@ static auto player_move_delta(Gamep g, Levelsp v, Levelp l, int dx, int dy) -> b
 
   auto *ext = thing_ext_struct(g, v, me);
   if (ext == nullptr) {
-    ERR("no ext struct found");
     return false;
   }
 

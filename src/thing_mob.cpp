@@ -71,7 +71,6 @@
 
   auto *ext = thing_ext_struct(g, v, mob);
   if (ext == nullptr) {
-    thing_err(g, v, l, mob, "mob is missing ext struct");
     return nullptr;
   }
 

@@ -113,7 +113,6 @@ static void thing_hook_sort(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   auto *ext = thing_ext_struct(g, v, me);
   if (ext == nullptr) {
-    thing_err(g, v, l, me, "missing ext struct");
     return;
   }
 
@@ -180,7 +179,6 @@ static void thing_hook_sort(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   auto *ext = thing_ext_struct(g, v, me);
   if (ext == nullptr) {
-    thing_err(g, v, l, me, "missing ext struct");
     return nullptr;
   }
 

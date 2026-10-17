@@ -23,7 +23,6 @@
 
   auto *ext = thing_ext_struct(g, v, me);
   if (ext == nullptr) [[unlikely]] {
-    thing_err(g, v, l, me, "mob has no ext memory");
     return nullptr;
   }
 

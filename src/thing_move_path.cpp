@@ -150,7 +150,6 @@ void thing_move_path_dump(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   auto *ext = thing_ext_struct(g, v, me);
   if (ext == nullptr) {
-    thing_err(g, v, l, me, "no ext struct");
     return;
   }
 
@@ -169,7 +168,6 @@ auto thing_move_path_identical(Gamep g, Levelsp v, Levelp l, Thingp me, const st
 
   auto *ext = thing_ext_struct(g, v, me);
   if (ext == nullptr) {
-    thing_err(g, v, l, me, "no ext struct");
     return false;
   }
 
@@ -198,7 +196,6 @@ static auto thing_move_path_confirmed(Gamep g, Levelsp v, Levelp l, Thingp me, c
 
   auto *ext = thing_ext_struct(g, v, me);
   if (ext == nullptr) {
-    thing_err(g, v, l, me, "no ext struct");
     return false;
   }
 
