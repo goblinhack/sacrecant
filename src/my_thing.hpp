@@ -285,6 +285,30 @@ using ThingExt = struct ThingExt {
   //
   int8_t _hearing_threshold;
   //
+  // Vision in tiles.
+  //
+  int8_t _distance_vision;
+  //
+  // Distance from mob
+  //
+  int8_t _distance_minion_from_mob_max;
+  //
+  // Jump distance in tiles.
+  //
+  int8_t _distance_jump;
+  //
+  // Throw distance in tiles.
+  //
+  int8_t _distance_throw;
+  //
+  // Some monsters like to hang back.
+  //
+  int8_t _distance_avoid_target;
+  //
+  // Limit the number of attacks in a single tick.
+  //
+  uint8_t _attack_count_per_tick;
+  //
   // Last tile we attacked
   //
   bpoint _attacked_at;
@@ -405,30 +429,6 @@ using Thing = struct Thing {
   // For event processing. Lower is better. Player is 0
   //
   ThingPriorityType _priority;
-  //
-  // Vision in tiles.
-  //
-  int8_t _distance_vision;
-  //
-  // Distance from mob
-  //
-  int8_t _distance_minion_from_mob_max;
-  //
-  // Jump distance in tiles.
-  //
-  int8_t _distance_jump;
-  //
-  // Throw distance in tiles.
-  //
-  int8_t _distance_throw;
-  //
-  // Some monsters like to hang back.
-  //
-  int8_t _distance_avoid_target;
-  //
-  // Limit the number of attacks in a single tick.
-  //
-  uint8_t _attack_count_per_tick;
   //
   // Decrements each frame. Increments if hit.
   //
@@ -796,7 +796,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_attack_count_per_tick_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_attack_count_per_tick_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_attack_count_per_tick_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
-[[nodiscard]] auto thing_attack_count_per_tick(Thingp t) -> int;
+[[nodiscard]] auto thing_attack_count_per_tick(Gamep g, Levelsp v, Levelp l, Thingp t) -> int;
 [[nodiscard]] auto thing_attack_poison(Gamep g, Levelsp v, Levelp l, Thingp it) -> bool;
 [[nodiscard]] auto thing_attacked_at(Gamep g, Levelsp v, Levelp l, Thingp me) -> bpoint;
 [[nodiscard]] auto thing_auto_wear_try(Gamep g, Levelsp v, Levelp l, Thingp owner, Thingp item, ThingEvent &e) -> bool;
@@ -840,7 +840,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_distance_avoid_target_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_distance_avoid_target_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_distance_avoid_target_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
-[[nodiscard]] auto thing_distance_avoid_target(Thingp t) -> int;
+[[nodiscard]] auto thing_distance_avoid_target(Gamep g, Levelsp v, Levelp l, Thingp t) -> int;
 [[nodiscard]] auto thing_distance_jump_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
 [[nodiscard]] auto thing_distance_jump_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
 [[nodiscard]] auto thing_distance_jump_max(Gamep g, Levelsp v, Levelp l, Thingp me) -> int;

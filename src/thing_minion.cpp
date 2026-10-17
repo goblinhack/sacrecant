@@ -214,93 +214,105 @@
   return true;
 }
 
-[[nodiscard]] auto thing_is_minion(Thingp t) -> bool
+[[nodiscard]] auto thing_is_minion(Thingp me) -> bool
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_minion) != 0;
+  return tp_flag(thing_tp(me), is_minion) != 0;
 }
 
-[[nodiscard]] auto thing_minion_max(Gamep g, Levelsp v, Levelp l, Thingp t) -> int
+[[nodiscard]] auto thing_minion_max(Gamep g, Levelsp v, Levelp l, Thingp me) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return 0;
   }
-  return t->_minion_max;
+  return me->_minion_max;
 }
 
-[[nodiscard]] auto thing_minion_max_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+[[nodiscard]] auto thing_minion_max_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return 0;
   }
 
   if (val > THING_MINION_MAX) {
-    thing_croak(g, v, l, t, "trying to set minion max too high");
+    thing_croak(g, v, l, me, "trying to set minion max too high");
     val = THING_MINION_MAX;
   }
 
-  return t->_minion_max = val;
+  return me->_minion_max = val;
 }
 
-[[nodiscard]] auto thing_minion_max_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+[[nodiscard]] auto thing_minion_max_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return 0;
   }
 
-  if (t->_minion_max + val >= THING_MINION_MAX) {
-    return t->_minion_max = THING_MINION_MAX;
+  if (me->_minion_max + val >= THING_MINION_MAX) {
+    return me->_minion_max = THING_MINION_MAX;
   }
 
-  return t->_minion_max += val;
+  return me->_minion_max += val;
 }
 
-[[nodiscard]] auto thing_minion_max_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+[[nodiscard]] auto thing_minion_max_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return 0;
   }
-  if (static_cast< int >(t->_minion_max) - val <= 0) {
-    return t->_minion_max = 0;
+  if (static_cast< int >(me->_minion_max) - val <= 0) {
+    return me->_minion_max = 0;
   }
-  return t->_minion_max -= val;
+  return me->_minion_max -= val;
 }
 
-[[nodiscard]] auto thing_distance_minion_from_mob_max(Gamep g, Levelsp v, Levelp l, Thingp t) -> int
+[[nodiscard]] auto thing_distance_minion_from_mob_max(Gamep g, Levelsp v, Levelp l, Thingp me) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return 0;
   }
-  return t->_distance_minion_from_mob_max;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
+  }
+
+  return ext->_distance_minion_from_mob_max;
 }
 
-[[nodiscard]] auto thing_distance_minion_from_mob_max_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+[[nodiscard]] auto thing_distance_minion_from_mob_max_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return 0;
   }
-  return t->_distance_minion_from_mob_max = val;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
+  }
+
+  return ext->_distance_minion_from_mob_max = val;
 }

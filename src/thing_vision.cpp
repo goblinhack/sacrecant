@@ -252,16 +252,21 @@ void thing_vision_calculate(Gamep g, Levelsp v, Levelp l, Thingp me)
   }
 }
 
-[[nodiscard]] auto thing_distance_vision(Gamep g, Levelsp v, Levelp l, Thingp t) -> int
+[[nodiscard]] auto thing_distance_vision(Gamep g, Levelsp v, Levelp l, Thingp me) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return 0;
   }
 
-  auto d = t->_distance_vision;
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return false;
+  }
+
+  auto d = ext->_distance_vision;
   if (d == 0) {
     return d;
   }
@@ -269,7 +274,7 @@ void thing_vision_calculate(Gamep g, Levelsp v, Levelp l, Thingp me)
   //
   // Reduce vision in bogland
   //
-  if (thing_is_player(t)) {
+  if (thing_is_player(me)) {
     switch (level_to_biome(g, v, l)) {
       case BIOME_DUNGEON :    break;
       case BIOME_BOGLAND :    d /= 4; break;
@@ -281,7 +286,7 @@ void thing_vision_calculate(Gamep g, Levelsp v, Levelp l, Thingp me)
     }
   }
 
-  if (thing_is_myopic(g, v, l, t)) {
+  if (thing_is_myopic(g, v, l, me)) {
     d /= 8;
   }
 
@@ -292,40 +297,59 @@ void thing_vision_calculate(Gamep g, Levelsp v, Levelp l, Thingp me)
   return d;
 }
 
-[[nodiscard]] auto thing_distance_vision_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+[[nodiscard]] auto thing_distance_vision_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return 0;
   }
-  return t->_distance_vision = val;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
+  }
+
+  return ext->_distance_vision = val;
 }
 
-[[nodiscard]] auto thing_distance_vision_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+[[nodiscard]] auto thing_distance_vision_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return 0;
   }
-  return t->_distance_vision += val;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
+  }
+
+  return ext->_distance_vision += val;
 }
 
-[[nodiscard]] auto thing_distance_vision_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+[[nodiscard]] auto thing_distance_vision_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return 0;
   }
-  if (static_cast< int >(t->_distance_vision) - val <= 0) {
-    return t->_distance_vision = 0;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
   }
-  return t->_distance_vision -= val;
+
+  if (static_cast< int >(ext->_distance_vision) - val <= 0) {
+    return ext->_distance_vision = 0;
+  }
+
+  return ext->_distance_vision -= val;
 }
 
 [[nodiscard]] auto thing_is_vision_360_degrees(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool

@@ -369,140 +369,126 @@ auto operator<<(std::ostream &out, Bits< const class Game & > const my) -> std::
     //
     // Save Thing offsets
     //
-    tmp = offsetof(Thing, tp_id);                         // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, dir);                           // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, anim_index);                    // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _priority);                     // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _distance_jump);                // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _distance_throw);               // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _is_hit);                       // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _is_hidden);                    // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _is_hot);                       // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, anim_type);                     // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, level_num);                     // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, tile_index);                    // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, anim_ms_remaining);             // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _speed);                        // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _temperature);                  // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _damage_this_tick);             // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _keys_carried);                 // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _value1);                       // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _value2);                       // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _spell_mana_cost);              // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _spell_radius);                 // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _spell_range);                  // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _spell_cost);                   // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _crit_roll);                    // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _fumble_roll);                  // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _mana_max);                     // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _mana);                         // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _sac_points_max);               // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _sac_points);                   // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _jump_attack_pct_chance);       // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _items_collected_max);          // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _attack_count_per_tick);        // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _distance_throw);               // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _charge_count);                 // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _distance_avoid_target);        // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _stamina);                      // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _score_value);                  // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _minion_max);                   // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _distance_minion_from_mob_max); // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _distance_vision);              // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _variant);                      // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _lifespan);                     // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _dormant);                      // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _age);                          // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _submerged_pct);                // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _health);                       // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _stamina);                      // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _fall_ms);                      // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _lunge_ms);                     // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _weight);                       // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, tick);                          // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, tick_temperature);              // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, tick_temperature_last_change);  // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, iter);                          // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, tick_dead);                     // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, tick_teleport);                 // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, id);                            // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, owner_id);                      // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, ext_id);                        // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _prev_pix_at);                  // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _curr_pix_at);                  // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _moving_from);                  // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, last_pushed_at);                // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, thing_dt);                      // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, angle);                         // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _old_at);                       // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _at);                           // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, tp_id);                        // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, dir);                          // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, anim_index);                   // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _priority);                    // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _is_hit);                      // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _is_hidden);                   // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _is_hot);                      // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, anim_type);                    // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, level_num);                    // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, tile_index);                   // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, anim_ms_remaining);            // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _speed);                       // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _temperature);                 // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _damage_this_tick);            // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _keys_carried);                // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _value1);                      // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _value2);                      // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _spell_mana_cost);             // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _spell_radius);                // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _spell_range);                 // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _spell_cost);                  // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _crit_roll);                   // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _fumble_roll);                 // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _mana_max);                    // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _mana);                        // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _sac_points_max);              // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _sac_points);                  // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _jump_attack_pct_chance);      // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _items_collected_max);         // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _charge_count);                // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _stamina);                     // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _score_value);                 // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _minion_max);                  // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _variant);                     // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _lifespan);                    // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _dormant);                     // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _age);                         // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _submerged_pct);               // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _health);                      // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _stamina);                     // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _fall_ms);                     // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _lunge_ms);                    // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _weight);                      // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, tick);                         // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, tick_temperature);             // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, tick_temperature_last_change); // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, iter);                         // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, tick_dead);                    // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, tick_teleport);                // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, id);                           // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, owner_id);                     // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, ext_id);                       // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _prev_pix_at);                 // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _curr_pix_at);                 // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _moving_from);                 // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, last_pushed_at);               // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, thing_dt);                     // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, angle);                        // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _old_at);                      // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, _at);                          // all we're saving here is offsets for validation later
+    out << bits(tmp);                                    // all we're saving here is offsets for validation later
 
     //
     // Save Level offsets

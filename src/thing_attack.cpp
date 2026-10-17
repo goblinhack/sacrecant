@@ -175,7 +175,7 @@ static auto thing_attack_at_do(Gamep g, Levelsp v, Levelp l, Thingp attacker, Th
 
     if (thing_attack_count_per_tick_incr(g, v, l, attacker) > tp_attack_count_max_per_tick_get(thing_tp(attacker))) {
       THING_DBG(g, v, l, attacker, "exceeded max attack count (%d vs %d), ignore", //
-                thing_attack_count_per_tick(attacker),                             //
+                thing_attack_count_per_tick(g, v, l, attacker),                    //
                 tp_attack_count_max_per_tick_get(thing_tp(attacker)));
       return false;
     }
@@ -392,71 +392,96 @@ static auto thing_attack_at_do(Gamep g, Levelsp v, Levelp l, Thingp attacker, Th
   return false;
 }
 
-[[nodiscard]] auto thing_attack_count_per_tick(Thingp t) -> int
+[[nodiscard]] auto thing_attack_count_per_tick(Gamep g, Levelsp v, Levelp l, Thingp me) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return 0;
   }
-  return t->_attack_count_per_tick;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
+  }
+
+  return ext->_attack_count_per_tick;
 }
 
-[[nodiscard]] auto thing_attack_count_per_tick_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+[[nodiscard]] auto thing_attack_count_per_tick_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return 0;
   }
-  return t->_attack_count_per_tick = val;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
+  }
+
+  return ext->_attack_count_per_tick = val;
 }
 
-[[nodiscard]] auto thing_attack_count_per_tick_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+[[nodiscard]] auto thing_attack_count_per_tick_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return 0;
   }
-  return t->_attack_count_per_tick += val;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
+  }
+
+  return ext->_attack_count_per_tick += val;
 }
 
-[[nodiscard]] auto thing_attack_count_per_tick_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+[[nodiscard]] auto thing_attack_count_per_tick_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return 0;
   }
-  if (static_cast< int >(t->_attack_count_per_tick) - val <= 0) {
-    return t->_attack_count_per_tick = 0;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
   }
-  return t->_attack_count_per_tick -= val;
+
+  if (static_cast< int >(ext->_attack_count_per_tick) - val <= 0) {
+    return ext->_attack_count_per_tick = 0;
+  }
+
+  return ext->_attack_count_per_tick -= val;
 }
 
-[[nodiscard]] auto thing_is_attackable_by_player(Thingp t) -> bool
+[[nodiscard]] auto thing_is_attackable_by_player(Thingp me) -> bool
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_attackable_by_player) != 0;
+  return tp_flag(thing_tp(me), is_attackable_by_player) != 0;
 }
 
-[[nodiscard]] auto thing_is_attackable_by_monst(Thingp t) -> bool
+[[nodiscard]] auto thing_is_attackable_by_monst(Thingp me) -> bool
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_attackable_by_monst) != 0;
+  return tp_flag(thing_tp(me), is_attackable_by_monst) != 0;
 }

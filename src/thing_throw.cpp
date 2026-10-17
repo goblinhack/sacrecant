@@ -346,31 +346,41 @@ static auto thing_throw_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thing
   return true;
 }
 
-[[nodiscard]] auto thing_distance_throw_max(Gamep g, Levelsp v, Levelp l, Thingp thrower) -> int
+[[nodiscard]] auto thing_distance_throw_max(Gamep g, Levelsp v, Levelp l, Thingp me) -> int
 {
   TRACE_DEBUG();
 
-  if (thrower == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return 0;
   }
 
-  return thrower->_distance_throw;
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
+  }
+
+  return ext->_distance_throw;
 }
 
-[[nodiscard]] auto thing_distance_throw(Gamep g, Levelsp v, Levelp l, Thingp thrower) -> int
+[[nodiscard]] auto thing_distance_throw(Gamep g, Levelsp v, Levelp l, Thingp me) -> int
 {
   TRACE_DEBUG();
 
-  if (thrower == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return 0;
   }
 
-  auto d = thrower->_distance_throw;
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
+  }
 
-  auto stamina     = thing_stamina(g, v, l, thrower);
-  auto stamina_max = thing_stamina_max(g, v, l, thrower);
+  auto d = ext->_distance_throw;
+
+  auto stamina     = thing_stamina(g, v, l, me);
+  auto stamina_max = thing_stamina_max(g, v, l, me);
 
   if (stamina < stamina_max / 4) {
     d /= 2;
@@ -385,38 +395,57 @@ static auto thing_throw_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thing
   return d;
 }
 
-[[nodiscard]] auto thing_distance_throw_set(Gamep g, Levelsp v, Levelp l, Thingp thrower, int val) -> int
+[[nodiscard]] auto thing_distance_throw_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
-  if (thrower == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return 0;
   }
-  return thrower->_distance_throw = val;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
+  }
+
+  return ext->_distance_throw = val;
 }
 
-[[nodiscard]] auto thing_distance_throw_incr(Gamep g, Levelsp v, Levelp l, Thingp thrower, int val) -> int
+[[nodiscard]] auto thing_distance_throw_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
-  if (thrower == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return 0;
   }
-  return thrower->_distance_throw += val;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
+  }
+
+  return ext->_distance_throw += val;
 }
 
-[[nodiscard]] auto thing_distance_throw_decr(Gamep g, Levelsp v, Levelp l, Thingp thrower, int val) -> int
+[[nodiscard]] auto thing_distance_throw_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
-  if (thrower == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return 0;
   }
-  if (static_cast< int >(thrower->_distance_throw) - val <= 0) {
-    return thrower->_distance_throw = 0;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
   }
-  return thrower->_distance_throw -= val;
+
+  if (static_cast< int >(ext->_distance_throw) - val <= 0) {
+    return ext->_distance_throw = 0;
+  }
+
+  return ext->_distance_throw -= val;
 }

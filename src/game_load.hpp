@@ -765,16 +765,6 @@ auto operator>>(std::istream &in, Bits< class Game & > my) -> std::istream &
       return in;
     }
     in >> bits(tmp);
-    if (tmp != offsetof(Thing, _distance_jump)) {
-      game_load_error = "thing structure changed: offsetof(Thing, _distance_jump)";
-      return in;
-    }
-    in >> bits(tmp);
-    if (tmp != offsetof(Thing, _distance_throw)) {
-      game_load_error = "thing structure changed: offsetof(Thing, _distance_throw)";
-      return in;
-    }
-    in >> bits(tmp);
     if (tmp != offsetof(Thing, _is_hit)) {
       game_load_error = "thing structure changed: offsetof(Thing, _is_hit)";
       return in;
@@ -900,23 +890,8 @@ auto operator>>(std::istream &in, Bits< class Game & > my) -> std::istream &
       return in;
     }
     in >> bits(tmp);
-    if (tmp != offsetof(Thing, _attack_count_per_tick)) {
-      game_load_error = "thing structure changed: offsetof(Thing, _attack_count_per_tick)";
-      return in;
-    }
-    in >> bits(tmp);
-    if (tmp != offsetof(Thing, _distance_throw)) {
-      game_load_error = "thing structure changed: offsetof(Thing, _distance_throw)";
-      return in;
-    }
-    in >> bits(tmp);
     if (tmp != offsetof(Thing, _charge_count)) {
       game_load_error = "thing structure changed: offsetof(Thing, _charge_count)";
-      return in;
-    }
-    in >> bits(tmp);
-    if (tmp != offsetof(Thing, _distance_avoid_target)) {
-      game_load_error = "thing structure changed: offsetof(Thing, _distance_avoid_target)";
       return in;
     }
     in >> bits(tmp);
@@ -932,16 +907,6 @@ auto operator>>(std::istream &in, Bits< class Game & > my) -> std::istream &
     in >> bits(tmp);
     if (tmp != offsetof(Thing, _minion_max)) {
       game_load_error = "thing structure changed: offsetof(Thing, _minion_max)";
-      return in;
-    }
-    in >> bits(tmp);
-    if (tmp != offsetof(Thing, _distance_minion_from_mob_max)) {
-      game_load_error = "thing structure changed: offsetof(Thing, _distance_minion_from_mob_max)";
-      return in;
-    }
-    in >> bits(tmp);
-    if (tmp != offsetof(Thing, _distance_vision)) {
-      game_load_error = "thing structure changed: offsetof(Thing, _distance_vision)";
       return in;
     }
     in >> bits(tmp);

@@ -364,7 +364,12 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
     return 0;
   }
 
-  return me->_distance_jump;
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return false;
+  }
+
+  return ext->_distance_jump;
 }
 
 [[nodiscard]] auto thing_distance_jump(Gamep g, Levelsp v, Levelp l, Thingp me) -> int
@@ -376,7 +381,12 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
     return 0;
   }
 
-  auto d = me->_distance_jump;
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
+  }
+
+  auto d = ext->_distance_jump;
 
   auto stamina     = thing_stamina(g, v, l, me);
   auto stamina_max = thing_stamina_max(g, v, l, me);
@@ -406,7 +416,13 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
     ERR("no thing pointer");
     return 0;
   }
-  return me->_distance_jump = val;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
+  }
+
+  return ext->_distance_jump = val;
 }
 
 [[nodiscard]] auto thing_distance_jump_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
@@ -417,7 +433,13 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
     ERR("no thing pointer");
     return 0;
   }
-  return me->_distance_jump += val;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
+  }
+
+  return ext->_distance_jump += val;
 }
 
 [[nodiscard]] auto thing_distance_jump_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
@@ -428,10 +450,17 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
     ERR("no thing pointer");
     return 0;
   }
-  if (static_cast< int >(me->_distance_jump) - val <= 0) {
-    return me->_distance_jump = 0;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
   }
-  return me->_distance_jump -= val;
+
+  if (static_cast< int >(ext->_distance_jump) - val <= 0) {
+    return ext->_distance_jump = 0;
+  }
+
+  return ext->_distance_jump -= val;
 }
 
 [[nodiscard]] auto thing_is_obs_to_jumping_out_of(Thingp me) -> bool

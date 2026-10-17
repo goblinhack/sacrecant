@@ -240,7 +240,7 @@ static auto thing_monst_apply_target_path_if_possible(Gamep g, Levelsp v, Levelp
     return false;
   }
 
-  if (dist < thing_distance_avoid_target(me)) {
+  if (dist < thing_distance_avoid_target(g, v, l, me)) {
     THING_DBG(g, v, l, me, "choose target: player is too close (player %f) (vision %d)", dist, v_dist);
     TRACE_INDENT();
 
@@ -276,7 +276,7 @@ static auto thing_monst_apply_target_path_if_possible(Gamep g, Levelsp v, Levelp
   // Some monsters don't like to get too close
   //
   if (! avoiding) {
-    auto d = thing_distance_avoid_target(me);
+    auto d = thing_distance_avoid_target(g, v, l, me);
     while (! p.empty() && (d-- > 0)) {
       p.pop_back();
     }
@@ -1502,4 +1502,75 @@ void thing_attacked_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint
   if (compiler_unused) {
     THING_DBG(g, v, l, me, "attacked at set: %d,%d", val.x, val.y);
   }
+}
+
+[[nodiscard]] auto thing_distance_avoid_target(Gamep g, Levelsp v, Levelp l, Thingp me) -> int
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return false;
+  }
+
+  return ext->_distance_avoid_target;
+}
+
+[[nodiscard]] auto thing_distance_avoid_target_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
+  }
+
+  return ext->_distance_avoid_target = val;
+}
+
+[[nodiscard]] auto thing_distance_avoid_target_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
+  }
+
+  return ext->_distance_avoid_target += val;
+}
+
+[[nodiscard]] auto thing_distance_avoid_target_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
+  }
+
+  if (static_cast< int >(ext->_distance_avoid_target) - val <= 0) {
+    return ext->_distance_avoid_target = 0;
+  }
+  return ext->_distance_avoid_target -= val;
 }
