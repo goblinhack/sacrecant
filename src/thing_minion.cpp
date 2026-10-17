@@ -48,7 +48,7 @@
     return nullptr; // can be normal if detached
   }
 
-  auto *mob_ext = thing_ext_struct(g, v, mob);
+  auto *mob_ext = thing_dmap_struct(g, v, mob);
   if (mob_ext == nullptr) {
     return nullptr;
   }

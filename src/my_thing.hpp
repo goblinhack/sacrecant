@@ -44,14 +44,19 @@ using ThingIdPacked = union {
 //
 // Essentially equates to the max number of monsters+light sources per level
 //
-#define THING_EXT_PER_LEVEL_MAX   400                                             // The size of thing_ext
-#define THING_EXT_MAX             (LEVEL_ARR_IDX_MAX * THING_EXT_PER_LEVEL_MAX)   // The size of thing_ext
+#define THING_EXT_PER_LEVEL_MAX 400                                           // The size of thing_ext
+#define THING_EXT_MAX           (LEVEL_ARR_IDX_MAX * THING_EXT_PER_LEVEL_MAX) // The size of thing_ext
+
+#define THING_DMAP_PER_LEVEL_MAX 100                                            // The size of thing_dmap
+#define THING_DMAP_MAX           (LEVEL_ARR_IDX_MAX * THING_DMAP_PER_LEVEL_MAX) // The size of thing_dmap
+
 #define THING_LIGHT_PER_LEVEL_MAX 200                                             // The size of thing_light
 #define THING_LIGHT_MAX           (LEVEL_ARR_IDX_MAX * THING_LIGHT_PER_LEVEL_MAX) // The size of thing_light
-#define THING_MOVE_PATH_MAX       (MAP_WIDTH + MAP_HEIGHT)                        // Player/monster move paths (max size uint8_t)
-#define THING_INVENTORY_MAX       26
-#define THING_SPELLBOOK_MAX       20
-#define THING_MINION_MAX          10
+
+#define THING_MOVE_PATH_MAX (MAP_WIDTH + MAP_HEIGHT) // Player/monster move paths (max size uint8_t)
+#define THING_INVENTORY_MAX 26
+#define THING_SPELLBOOK_MAX 20
+#define THING_MINION_MAX    10
 
 /* begin shell marker1 */
 /* shell printf "#define THING_HOOK_MAX " */
@@ -247,10 +252,38 @@ using ThingSpellBook = struct ThingSpellBook {
 };
 
 //
+// Per thing dmap memory
+//
+using ThingDmap = struct ThingDmap {
+  uint8_t in_use : 1;
+  //
+  // Can be per mob memory of the preferred target, usually the player.
+  //
+  Dmap dmap;
+};
+
+//
 // Per thing extended memory
 //
 using ThingExt = struct ThingExt {
   uint8_t in_use : 1;
+  //
+  // How much noise the thing (player) is generating. Only really used for the player for the noise dmap.
+  //
+  int8_t _noise;
+  //
+  // Consider monster (a) threshold 3 and monster (b) threshold 7
+  //
+  // This is when each monster can detect a sound:
+  //
+  // source of sound
+  //       |
+  //       v
+  //       @  0  1  2  3  4  5  6  7  8  9
+  //                   a  a  a  a  a  a  a
+  //                               b  b  b
+  //
+  int8_t _hearing_threshold;
   //
   // Last tile we attacked
   //
@@ -259,6 +292,10 @@ using ThingExt = struct ThingExt {
   // What we're chasing currently. Might be the player or some random tile.
   //
   bpoint _monst_target;
+  //
+  // Unused for player.
+  //
+  MonstState _monst_state;
   //
   // All minions for this mob
   //
@@ -271,11 +308,6 @@ using ThingExt = struct ThingExt {
   // All hooks active for this thing
   //
   ThingHooks hooks;
-  //
-  // Can be per monster or shared per mob memory of the preferred target,
-  // usually the player.
-  //
-  Dmap dmap;
   //
   // What we have ever seen
   //
@@ -370,10 +402,6 @@ using Thing = struct Thing {
   //
   uint8_t anim_index;
   //
-  // Unused for player.
-  //
-  MonstState _monst_state;
-  //
   // For event processing. Lower is better. Player is 0
   //
   ThingPriorityType _priority;
@@ -413,23 +441,6 @@ using Thing = struct Thing {
   // Decrements each frame. Resets if still too hot when we reach zero.
   //
   uint8_t _is_hot;
-  //
-  // How much noise the thing (player) is generating. Only really used for the player for the noise dmap.
-  //
-  int8_t _noise;
-  //
-  // Consider monster (a) threshold 3 and monster (b) threshold 7
-  //
-  // This is when each monster can detect a sound:
-  //
-  // source of sound
-  //       |
-  //       v
-  //       @  0  1  2  3  4  5  6  7  8  9
-  //                   a  a  a  a  a  a  a
-  //                               b  b  b
-  //
-  int8_t _hearing_threshold;
   //
   // Used so often, we cache it
   //
@@ -703,6 +714,10 @@ using Thing = struct Thing {
   //
   ThingId group_id;
   //
+  // For player and mobs
+  //
+  ThingDmapId dmap_id;
+  //
   // For player and monsters
   //
   ThingExtId ext_id;
@@ -880,7 +895,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_hearing_threshold_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_hearing_threshold_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_hearing_threshold_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
-[[nodiscard]] auto thing_hearing_threshold(Thingp t) -> int;
+[[nodiscard]] auto thing_hearing_threshold(Gamep g, Levelsp v, Levelp l, Thingp t) -> int;
 [[nodiscard]] auto thing_hook_add(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what) -> Thingp;
 [[nodiscard]] auto thing_hook_detach_all(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_hook_detach_me_from_owner(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;

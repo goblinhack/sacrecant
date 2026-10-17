@@ -10,89 +10,109 @@
 #include "my_tp.hpp"
 #include "my_types.hpp"
 
-[[nodiscard]] auto thing_noise(Gamep g, Levelsp v, Levelp l, Thingp t) -> int
+[[nodiscard]] auto thing_noise(Gamep g, Levelsp v, Levelp l, Thingp me) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return 0;
   }
 
-  auto noise = t->_noise;
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
+  }
+
+  auto noise = ext->_noise;
 
   //
   // Allow boots to take precedence over a sacrifice
   //
-  if (thing_is_stealthy(g, v, l, t)) {
-    IF_DEBUG3 { THING_DBG(g, v, l, t, "noise: %d (0 due to stealth)", noise); }
+  if (thing_is_stealthy(g, v, l, me)) {
+    IF_DEBUG3 { THING_DBG(g, v, l, me, "noise: %d (0 due to stealth)", noise); }
     noise = 0;
   }
 
-  if (thing_is_noisy(g, v, l, t)) {
+  if (thing_is_noisy(g, v, l, me)) {
     noise *= 2;
-    IF_DEBUG3 { THING_DBG(g, v, l, t, "noise: %d (noisy)", noise * 2); }
+    IF_DEBUG3 { THING_DBG(g, v, l, me, "noise: %d (noisy)", noise * 2); }
   }
 
-  IF_DEBUG3 { THING_DBG(g, v, l, t, "noise: %d", noise); }
+  IF_DEBUG3 { THING_DBG(g, v, l, me, "noise: %d", noise); }
 
   return noise;
 }
 
-[[nodiscard]] auto thing_noise_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+[[nodiscard]] auto thing_noise_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
+    return 0;
+  }
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
     return 0;
   }
 
   if (val > THING_NOISE_MAX) {
-    thing_err(g, v, l, t, "value overflow: %d", val);
+    thing_err(g, v, l, me, "value overflow: %d", val);
     return 0;
   }
 
   if (val < 0) {
-    thing_err(g, v, l, t, "value underflow: %d", val);
+    thing_err(g, v, l, me, "value underflow: %d", val);
     return 0;
   }
 
-  t->_noise = val;
+  ext->_noise = val;
 
-  return thing_noise(g, v, l, t);
+  return thing_noise(g, v, l, me);
 }
 
-[[nodiscard]] auto thing_noise_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+[[nodiscard]] auto thing_noise_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return 0;
   }
 
-  if (t->_noise + val > THING_NOISE_MAX) {
-    return t->_noise = THING_NOISE_MAX;
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
   }
 
-  return thing_noise_set(g, v, l, t, t->_noise + val);
+  if (ext->_noise + val > THING_NOISE_MAX) {
+    return ext->_noise = THING_NOISE_MAX;
+  }
+
+  return thing_noise_set(g, v, l, me, ext->_noise + val);
 }
 
-[[nodiscard]] auto thing_noise_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+[[nodiscard]] auto thing_noise_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return 0;
   }
 
-  if (static_cast< int >(t->_noise) - val <= 0) {
-    return t->_noise = 0;
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
   }
 
-  return thing_noise_set(g, v, l, t, t->_noise - val);
+  if (static_cast< int >(ext->_noise) - val <= 0) {
+    return ext->_noise = 0;
+  }
+
+  return thing_noise_set(g, v, l, me, ext->_noise - val);
 }
 
 [[nodiscard]] auto thing_is_noisy(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool

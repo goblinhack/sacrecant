@@ -401,8 +401,6 @@ auto operator<<(std::ostream &out, Bits< const class Game & > const my) -> std::
     out << bits(tmp);                                     // all we're saving here is offsets for validation later
     tmp = offsetof(Thing, _damage_this_tick);             // all we're saving here is offsets for validation later
     out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _noise);                        // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
     tmp = offsetof(Thing, _keys_carried);                 // all we're saving here is offsets for validation later
     out << bits(tmp);                                     // all we're saving here is offsets for validation later
     tmp = offsetof(Thing, _value1);                       // all we're saving here is offsets for validation later
@@ -434,8 +432,6 @@ auto operator<<(std::ostream &out, Bits< const class Game & > const my) -> std::
     tmp = offsetof(Thing, _items_collected_max);          // all we're saving here is offsets for validation later
     out << bits(tmp);                                     // all we're saving here is offsets for validation later
     tmp = offsetof(Thing, _attack_count_per_tick);        // all we're saving here is offsets for validation later
-    out << bits(tmp);                                     // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _hearing_threshold);            // all we're saving here is offsets for validation later
     out << bits(tmp);                                     // all we're saving here is offsets for validation later
     tmp = offsetof(Thing, _distance_throw);               // all we're saving here is offsets for validation later
     out << bits(tmp);                                     // all we're saving here is offsets for validation later

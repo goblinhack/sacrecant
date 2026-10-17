@@ -26,10 +26,12 @@ void game_debug_info(Gamep g)
   log("- Levels memory:                   %" PRI_SIZE_T " Mb", sizeof(Levels) / (1024 * 1024));
   log("- Thing body memory:               %" PRI_SIZE_T " Mb", sizeof(v->thing_body) / (1024 * 1024));
   log("- Thing ext memory:                %" PRI_SIZE_T " Mb", sizeof(v->thing_ext) / (1024 * 1024));
+  log("- Thing dmap memory:               %" PRI_SIZE_T " Mb", sizeof(v->thing_dmap) / (1024 * 1024));
   log("- Thing light memory:              %" PRI_SIZE_T " Mb", sizeof(v->thing_light) / (1024 * 1024));
   log("- sizeof(Thing):                   %" PRI_SIZE_T " b", sizeof(Thing));
   log("- sizeof(ThingInventory):          %" PRI_SIZE_T " b", sizeof(ThingInventory));
   log("- sizeof(ThingExt)                 %" PRI_SIZE_T " b", sizeof(ThingExt));
+  log("- sizeof(ThingDmap)                %" PRI_SIZE_T " b", sizeof(ThingDmap));
   log("- sizeof(ThingLight)               %" PRI_SIZE_T " b", sizeof(ThingLight));
   log("- sizeof(ThingPlayer):             %" PRI_SIZE_T " b", sizeof(ThingPlayer));
   log("- MAP_HEIGHT                       %u", MAP_HEIGHT);

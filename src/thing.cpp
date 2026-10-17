@@ -151,8 +151,9 @@ void thing_stats_dump(Gamep g, Levelsp v)
   log("- Total things        %u out of max %u", in_use_things + free_things, THING_ID_MAX);
   log("- In use things       %u", in_use_things);
   log("- Free things         %u", free_things);
-  log("- Ext mem things      %u out of max %u", v->thing_ext_count, THING_EXT_MAX);
-  log("- Light mem things    %u out of max %u", v->thing_light_count, THING_LIGHT_MAX);
+  log("- Thing ext things:   %u out of max %u", v->thing_ext_count, THING_EXT_MAX);
+  log("- Thing dmap things:  %u out of max %u", v->thing_dmap_count, THING_DMAP_MAX);
+  log("- Thing light things: %u out of max %u", v->thing_light_count, THING_LIGHT_MAX);
 }
 
 [[nodiscard]] auto thing_light_struct(Gamep g, Thingp t) -> ThingLightp

@@ -3914,52 +3914,6 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   }
   return t->_items_collected_max -= val;
 }
-[[nodiscard]] auto thing_hearing_threshold(Thingp t) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-  return t->_hearing_threshold;
-}
-
-[[nodiscard]] auto thing_hearing_threshold_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-  return t->_hearing_threshold = val;
-}
-
-[[nodiscard]] auto thing_hearing_threshold_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-  return t->_hearing_threshold += val;
-}
-
-[[nodiscard]] auto thing_hearing_threshold_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    ERR("no thing pointer");
-    return 0;
-  }
-  if (static_cast< int >(t->_hearing_threshold) - val <= 0) {
-    return t->_hearing_threshold = 0;
-  }
-  return t->_hearing_threshold -= val;
-}
 [[nodiscard]] auto thing_distance_avoid_target(Thingp t) -> int
 {
   TRACE_DEBUG();

@@ -82,6 +82,64 @@ static void thing_ext_free(Levelsp v, Thingp t)
   t->ext_id = 0;
 }
 
+[[nodiscard]] static auto thing_dmap_alloc(Levelsp v, Thingp t) -> bool
+{
+  TRACE();
+
+  static uint32_t last_dmap_id;
+
+  //
+  // Continue from the last successful allocation
+  //
+  thing_mutex.lock();
+  for (auto tries = 0; tries < THING_DMAP_MAX; tries++) {
+    ThingDmapId dmap_id = last_dmap_id + tries;
+    dmap_id %= THING_DMAP_MAX;
+    if (dmap_id == 0U) [[unlikely]] {
+      continue;
+    }
+
+    if ((v->thing_dmap[ dmap_id ].in_use) != 0U) [[unlikely]] {
+      continue;
+    }
+
+    v->thing_dmap[ dmap_id ].in_use = true;
+    v->thing_dmap_count++;
+    t->dmap_id   = dmap_id;
+    last_dmap_id = dmap_id;
+
+    thing_mutex.unlock();
+    return true;
+  }
+
+  thing_mutex.unlock();
+  DBG("out of Thing dmap IDs: max is %d", THING_DMAP_MAX);
+
+  return false;
+}
+
+static void thing_dmap_free(Levelsp v, Thingp t)
+{
+  TRACE();
+
+  auto dmap_id = t->dmap_id;
+  if (dmap_id == 0U) {
+    return;
+  }
+
+  if (! v->thing_dmap[ dmap_id ].in_use) {
+    ERR("freeing unused Thing dmap ID is not in use, %" PRIX32 "", dmap_id);
+  }
+
+  v->thing_dmap[ dmap_id ] = {};
+  v->thing_dmap_count--;
+  if (v->thing_dmap_count < 0) {
+    CROAK("bad thing_dmap count");
+  }
+
+  t->dmap_id = 0;
+}
+
 [[nodiscard]] static auto thing_light_alloc(Levelsp v, Thingp t) -> bool
 {
   TRACE();
@@ -140,7 +198,10 @@ static void thing_light_free(Levelsp v, Thingp t)
   t->light_id = 0;
 }
 
-static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked id, bool needs_ext_memory, bool needs_light_memory,
+static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked id,
+                           bool needs_ext_memory,   //
+                           bool needs_dmap_memory,  //
+                           bool needs_light_memory, //
                            bool need_mutex) -> Thingp
 {
   TRACE();
@@ -238,6 +299,14 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
     }
   }
 
+  if (needs_dmap_memory) {
+    if (! thing_dmap_alloc(v, t)) {
+      //
+      // Try to carry on
+      //
+    }
+  }
+
   if (needs_light_memory) {
     if (! thing_light_alloc(v, t)) {
       //
@@ -273,6 +342,14 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
   if (needs_ext_memory) {
     if (v->thing_ext_count >= THING_EXT_MAX - 1) {
       tp_log(tp, "out of ext thing memory");
+      return nullptr;
+    }
+  }
+
+  auto needs_dmap_memory = tp_is_dmap(tp);
+  if (needs_dmap_memory) {
+    if (v->thing_dmap_count >= THING_DMAP_MAX - 1) {
+      tp_log(tp, "out of dmap thing memory");
       return nullptr;
     }
   }
@@ -320,7 +397,7 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
     id.b.level_num    = level_num;
     id.b.per_level_id = per_level_id;
 
-    auto *t = thing_alloc_do(g, v, l, tp, id, needs_ext_memory, needs_light_memory, false /* mutex */);
+    auto *t = thing_alloc_do(g, v, l, tp, id, needs_ext_memory, needs_dmap_memory, needs_light_memory, false /* mutex */);
     if (t != nullptr) {
       last_per_level_id[ level_num ] = per_level_id;
       return t;
@@ -343,7 +420,7 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
     ThingIdPacked id = {};
     id.c.arr_index   = arr_index;
 
-    auto *t = thing_alloc_do(g, v, l, tp, id, needs_ext_memory, needs_light_memory, true /* mutex */);
+    auto *t = thing_alloc_do(g, v, l, tp, id, needs_ext_memory, needs_dmap_memory, needs_light_memory, true /* mutex */);
     if (t != nullptr) {
       last_arr_index = arr_index;
       return t;
@@ -392,6 +469,7 @@ void thing_free(Gamep g, Levelsp v, Levelp l, Thingp t)
   (void) thing_pop(g, v, t);
 
   thing_ext_free(v, t);
+  thing_dmap_free(v, t);
   thing_light_free(v, t);
   memset((void *) t, 0, SIZEOF(*t));
 

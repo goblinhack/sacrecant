@@ -207,7 +207,6 @@ static void tp_door_unlocked_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, T
   tp_flag_set(tp, is_collision_square);
   tp_flag_set(tp, is_combustible); // will continue to burn once on fire
   tp_flag_set(tp, is_described_cursor);
-  tp_flag_set(tp, is_dmap);
   tp_flag_set(tp, is_door_unlocked);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_obs_to_beam);

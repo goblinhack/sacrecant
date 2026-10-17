@@ -405,6 +405,7 @@
   auto arr_index  = id_packed.c.arr_index;
 
   auto *t = &v->thing_body[ arr_index ];
+
 #ifdef ENABLE_PER_THING_MEMORY
   if (v->thing_body_debug[ arr_index ]) {
     t = v->thing_body_debug[ arr_index ];
@@ -517,6 +518,24 @@
   }
 
   return &v->thing_ext[ ext_id ];
+}
+
+[[nodiscard]] static inline auto thing_dmap_struct(Gamep g, Levelsp v, Thingp t) -> ThingDmapp
+{
+#ifdef DEBUG_BUILD
+  TRACE_DEBUG();
+  if (t == nullptr) {
+    ERR("no thing pointer");
+    return 0;
+  }
+#endif
+
+  auto dmap_id = t->dmap_id;
+  if (dmap_id == 0U) [[unlikely]] {
+    return nullptr;
+  }
+
+  return &v->thing_dmap[ dmap_id ];
 }
 
 [[nodiscard]] static inline auto thing_z_depth_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> MapZDepthType

@@ -42,7 +42,6 @@ static auto tp_exit_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::
   tp_flag_set(tp, is_critical_to_dungeon_design);
   tp_flag_set(tp, is_critical_to_gameplay);
   tp_flag_set(tp, is_described_cursor);
-  tp_flag_set(tp, is_dmap);
   tp_flag_set(tp, is_exit);
   tp_flag_set(tp, is_indestructible);
   tp_flag_set(tp, is_loggable);

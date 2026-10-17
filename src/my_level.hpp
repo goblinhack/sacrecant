@@ -422,6 +422,11 @@ using Levels = struct Levels {
   Thingp thing_body_debug[ THING_ID_MAX ];
 #endif
   //
+  // Space for mob dmap memory.
+  //
+  ThingDmap thing_dmap[ THING_DMAP_MAX ];
+  int       thing_dmap_count;
+  //
   // Space for monster memory.
   //
   ThingExt thing_ext[ THING_EXT_MAX ];

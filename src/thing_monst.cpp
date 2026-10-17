@@ -1295,14 +1295,25 @@ void thing_monst_event_loop(Gamep g, Levelsp v, Levelp l, Thingp me)
 [[nodiscard]] auto monst_state(Gamep g, Levelsp v, Levelp l, Thingp me) -> MonstState
 {
   TRACE();
-  return me->_monst_state;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return MONST_STATE_INIT;
+  }
+
+  return ext->_monst_state;
 }
 
 void monst_state_change(Gamep g, Levelsp v, Levelp l, Thingp me, MonstState new_state)
 {
   TRACE();
 
-  auto old_state = me->_monst_state;
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return;
+  }
+
+  auto old_state = ext->_monst_state;
 
   switch (old_state) {
     case MONST_STATE_INIT :
@@ -1323,7 +1334,7 @@ void monst_state_change(Gamep g, Levelsp v, Levelp l, Thingp me, MonstState new_
     case MONST_STATE_ENUM_MAX : break;
   }
 
-  if (me->_monst_state == new_state) {
+  if (ext->_monst_state == new_state) {
     IF_DEBUG { THING_DBG(g, v, l, me, "same state: %s", monst_state_to_string(new_state).c_str()); }
     return;
   }
@@ -1331,7 +1342,7 @@ void monst_state_change(Gamep g, Levelsp v, Levelp l, Thingp me, MonstState new_
   //
   // Set here to stop recursion.
   //
-  me->_monst_state = new_state;
+  ext->_monst_state = new_state;
 
   //
   // Why oh why change state
