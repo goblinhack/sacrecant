@@ -44,12 +44,14 @@ using ThingIdPacked = union {
 //
 // Essentially equates to the max number of monsters+light sources per level
 //
-#define THING_EXT_MAX       (LEVEL_ARR_IDX_MAX * 400) // The size of thing_ext
-#define THING_LIGHT_MAX     (LEVEL_ARR_IDX_MAX * 200) // The size of thing_light
-#define THING_MOVE_PATH_MAX (MAP_WIDTH + MAP_HEIGHT)  // Player/monster move paths (max size uint8_t)
-#define THING_INVENTORY_MAX 26
-#define THING_SPELLBOOK_MAX 20
-#define THING_MINION_MAX    10
+#define THING_EXT_PER_LEVEL_MAX   400                                             // The size of thing_ext
+#define THING_EXT_MAX             (LEVEL_ARR_IDX_MAX * THING_EXT_PER_LEVEL_MAX)   // The size of thing_ext
+#define THING_LIGHT_PER_LEVEL_MAX 200                                             // The size of thing_light
+#define THING_LIGHT_MAX           (LEVEL_ARR_IDX_MAX * THING_LIGHT_PER_LEVEL_MAX) // The size of thing_light
+#define THING_MOVE_PATH_MAX       (MAP_WIDTH + MAP_HEIGHT)                        // Player/monster move paths (max size uint8_t)
+#define THING_INVENTORY_MAX       26
+#define THING_SPELLBOOK_MAX       20
+#define THING_MINION_MAX          10
 
 /* begin shell marker1 */
 /* shell printf "#define THING_HOOK_MAX " */

@@ -60,8 +60,7 @@ void               warn(const char *fmt, ...) CHECK_FORMAT_STR(printf, 1, 2);
     if (stderr != MY_STDERR) {                                                                                                                  \
       fprintf(MY_STDERR, "croaked it at %s:%s():%u, thread %u\n", SRC_FILE_NAME, SRC_FUNC_NAME, SRC_LINE_NUM, g_thread_id);                     \
     }                                                                                                                                           \
-    croak_handler(false, __VA_ARGS__);                                                                                                          \
-    exit(1);                                                                                                                                    \
+    err(__VA_ARGS__);                                                                                                                           \
   }
 
 #define DIE_CLEAN(...)                                                                                                                          \

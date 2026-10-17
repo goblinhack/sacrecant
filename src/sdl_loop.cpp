@@ -74,6 +74,7 @@ static auto sdl_loop_iter(Gamep g) -> bool
       } else {
         con(UI_IMPORTANT_FMT_STR "An error occurred on thread %d. Check the logs." UI_RESET_FMT, g_errored_thread_id);
       }
+      con("%s", g_error_last.c_str());
       auto key = ::to_string(game_key_console_get(g));
       con("To continue playing at your own risk, 'clear errored' and then press <%s>", key.c_str());
       con("For more info 'show error'");

@@ -254,6 +254,12 @@ void err(const char *fmt, ...)
 {
   TRACE();
 
+  static thread_local bool croaked;
+  if (croaked) {
+    return;
+  }
+  croaked = true;
+
   if (g_err_count++ > ENABLE_MAX_ERR_COUNT) {
     CROAK("Too many errors: %d, max %d", g_err_count, ENABLE_MAX_ERR_COUNT);
     exit(1);

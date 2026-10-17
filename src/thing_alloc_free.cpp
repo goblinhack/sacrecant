@@ -55,7 +55,7 @@ static bool memory_test = true;
   }
 
   thing_mutex.unlock();
-  CROAK("out of Thing ext IDs: max is %d", THING_EXT_MAX);
+  DBG("out of Thing ext IDs: max is %d", THING_EXT_MAX);
 
   return false;
 }
@@ -113,7 +113,7 @@ static void thing_ext_free(Levelsp v, Thingp t)
   }
 
   thing_mutex.unlock();
-  CROAK("out of Thing fov IDs: max is %d", THING_LIGHT_MAX);
+  DBG("out of Thing light IDs: max is %d", THING_LIGHT_MAX);
 
   return false;
 }
@@ -232,15 +232,17 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
 
   if (needs_ext_memory) {
     if (! thing_ext_alloc(v, t)) {
-      thing_free(g, v, l, t);
-      return nullptr;
+      //
+      // Try to carry on
+      //
     }
   }
 
   if (needs_light_memory) {
     if (! thing_light_alloc(v, t)) {
-      thing_free(g, v, l, t);
-      return nullptr;
+      //
+      // Try to carry on
+      //
     }
   }
 

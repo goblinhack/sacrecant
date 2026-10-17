@@ -93,7 +93,7 @@ void error_message(Gamep g, const std::string &error_msg)
 
   static std::mutex m;
   m.lock();
-  g_error_last = error_msg + "\n " + callstack_string() + "\nLogfile: " + g_log_stderr_filename + ": ";
+  g_error_last = error_msg + "\n " + callstack_string() + backtrace_string() + "\nLogfile: " + g_log_stderr_filename + ": ";
   m.unlock();
 
   if (g_thread_id != MAIN_THREAD) {

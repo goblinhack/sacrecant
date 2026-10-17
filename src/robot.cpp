@@ -454,6 +454,10 @@ void robot_mode_handler(Gamep g)
 {
   TRACE();
 
+  if (AN_ERROR_OCCURRED()) {
+    return;
+  }
+
   SDL_Event   e   = {};
   SDL_Keysym *key = &e.key.keysym;
 

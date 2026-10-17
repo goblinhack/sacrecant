@@ -152,6 +152,7 @@ void thing_stats_dump(Gamep g, Levelsp v)
   log("- In use things       %u", in_use_things);
   log("- Free things         %u", free_things);
   log("- Ext mem things      %u out of max %u", v->thing_ext_count, THING_EXT_MAX);
+  log("- Light mem things    %u out of max %u", v->thing_light_count, THING_LIGHT_MAX);
 }
 
 [[nodiscard]] auto thing_light_struct(Gamep g, Thingp t) -> ThingLightp

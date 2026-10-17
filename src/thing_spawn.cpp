@@ -43,11 +43,7 @@ void thing_is_spawned_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
 
   auto *t = thing_init(g, v, l, tp, at);
   if (t == nullptr) {
-    if (g_opt_test_current == "test_alloc_free_monsts") {
-      tp_log(tp, "failed to init thing");
-    } else {
-      tp_err(tp, "failed to init thing");
-    }
+    tp_log(tp, "failed to init thing");
     return nullptr;
   }
 
