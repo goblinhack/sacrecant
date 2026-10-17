@@ -44,16 +44,11 @@ using ThingIdPacked = union {
 //
 // Essentially equates to the max number of monsters+light sources per level
 //
-#define THING_EXT_PER_LEVEL_MAX 400                                           // The size of thing_ext
-#define THING_EXT_MAX           (LEVEL_ARR_IDX_MAX * THING_EXT_PER_LEVEL_MAX) // The size of thing_ext
+#define THING_EXT_MAX   (LEVEL_ARR_IDX_MAX * THING_MONST_AND_ITEM_PER_LEVEL_MAX) // The size of thing_ext
+#define THING_DMAP_MAX  (LEVEL_ARR_IDX_MAX * THING_MOB_PER_LEVEL_MAX)            // The size of thing_dmap
+#define THING_LIGHT_MAX (LEVEL_ARR_IDX_MAX * THING_LIGHT_PER_LEVEL_MAX)          // The size of thing_light
 
-#define THING_DMAP_PER_LEVEL_MAX 100                                            // The size of thing_dmap
-#define THING_DMAP_MAX           (LEVEL_ARR_IDX_MAX * THING_DMAP_PER_LEVEL_MAX) // The size of thing_dmap
-
-#define THING_LIGHT_PER_LEVEL_MAX 200                                             // The size of thing_light
-#define THING_LIGHT_MAX           (LEVEL_ARR_IDX_MAX * THING_LIGHT_PER_LEVEL_MAX) // The size of thing_light
-
-#define THING_MOVE_PATH_MAX (MAP_WIDTH + MAP_HEIGHT) // Player/monster move paths (max size uint8_t)
+#define THING_MOVE_PATH_MAX MAP_WIDTH // Player/monster move paths (max size uint8_t)
 #define THING_INVENTORY_MAX 26
 #define THING_SPELLBOOK_MAX 20
 #define THING_MINION_MAX    10
@@ -1764,6 +1759,7 @@ void thing_mob_move_minions_offset(Gamep g, Levelsp v, Levelp l, Thingp me, bpoi
 void thing_mob_warp_minions_to(Gamep g, Levelsp v, Levelp old_level, Levelp new_level, Thingp me, bpoint from, bpoint to);
 void thing_move_path_dump(Gamep g, Levelsp v, Levelp l, Thingp me);
 void thing_topcon(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 5, 6);
+void thing_alloc_free_fini(Gamep g);
 void thing_warn(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 5, 6);
 // end sort marker2 }
 

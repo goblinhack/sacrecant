@@ -118,6 +118,8 @@ static void levels_memory_free(Gamep g, Levelsp v)
   MYFREE(v);
   OLDPTR(MTYPE_LEVELS, v);
 
+  thing_alloc_free_fini(g);
+
   (void) game_levels_set(g, nullptr);
 }
 

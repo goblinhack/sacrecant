@@ -14,6 +14,10 @@ enum {
   MAP_BORDER = 1,
   MAP_SLOTS  = 14,
 
+  THING_MONST_AND_ITEM_PER_LEVEL_MAX = 400,
+  THING_MOB_PER_LEVEL_MAX            = 100,
+  THING_LIGHT_PER_LEVEL_MAX      = 200,
+
   //
   // Entropy is always > 0 for Thing IDs to distinguish them
   // A thing ID is composed as: [ Entropy bits ] [ ID bits ]
@@ -48,7 +52,7 @@ enum {
   // Visible map zoom level
   //
   MAP_ZOOM_FULL_MAP = 1,
-  MAP_ZOOM_DEF      = 2,
+  MAP_ZOOM_DEF      = 4,
   MAP_ZOOM_MAX      = 16,
 
   //

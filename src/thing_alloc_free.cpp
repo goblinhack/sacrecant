@@ -20,6 +20,14 @@
 
 static std::mutex thing_mutex;
 
+static uint32_t thing_id_last_per_level_id[ LEVEL_ARR_IDX_MAX ];
+static uint32_t thing_id_from_end_id = THING_ID_MAX - 1;
+static uint16_t thing_id_entropy;
+
+static uint32_t last_ext_id;
+static uint32_t last_dmap_id;
+static uint32_t last_light_id;
+
 #ifdef ENABLE_PER_THING_MEMORY
 static bool memory_test = true;
 #endif
@@ -27,8 +35,6 @@ static bool memory_test = true;
 [[nodiscard]] static auto thing_ext_alloc(Levelsp v, Thingp t) -> bool
 {
   TRACE();
-
-  static uint32_t last_ext_id;
 
   //
   // Continue from the last successful allocation
@@ -86,8 +92,6 @@ static void thing_ext_free(Levelsp v, Thingp t)
 {
   TRACE();
 
-  static uint32_t last_dmap_id;
-
   //
   // Continue from the last successful allocation
   //
@@ -143,8 +147,6 @@ static void thing_dmap_free(Levelsp v, Thingp t)
 [[nodiscard]] static auto thing_light_alloc(Levelsp v, Thingp t) -> bool
 {
   TRACE();
-
-  static uint32_t last_light_id;
 
   //
   // Continue from the last successful allocation
@@ -267,12 +269,11 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
   //
   // Create the final ID with some rando entropy
   //
-  static uint16_t entropy;
-  entropy++;
-  if (entropy == 0U) {
-    entropy++;
+  thing_id_entropy++;
+  if (thing_id_entropy == 0U) {
+    thing_id_entropy++;
   }
-  id.c.entropy = ++entropy;
+  id.c.entropy = ++thing_id_entropy;
 
   //
   // The thing has the full ID, including entropy
@@ -380,15 +381,13 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
     }
   }
 
-  static uint32_t last_per_level_id[ LEVEL_ARR_IDX_MAX ];
-
   //
   // Sequentially try to allocate an ID from the last ID allocated.
   // Use the level_num as scoping so that we do not need to use a mutex as different
   // levels will allocate from different regions of the array.
   //
   for (uint32_t tries = 0; tries < (1 << THING_PER_LEVEL_THING_ID_BITS); tries++) {
-    uint32_t per_level_id = tries + last_per_level_id[ level_num ] + 1;
+    uint32_t per_level_id = tries + thing_id_last_per_level_id[ level_num ] + 1;
     if (per_level_id == 0U) {
       per_level_id = 1;
     }
@@ -399,7 +398,7 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
 
     auto *t = thing_alloc_do(g, v, l, tp, id, needs_ext_memory, needs_dmap_memory, needs_light_memory, false /* mutex */);
     if (t != nullptr) {
-      last_per_level_id[ level_num ] = per_level_id;
+      thing_id_last_per_level_id[ level_num ] = per_level_id;
       return t;
     }
   }
@@ -415,14 +414,13 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
   //
   // Last resort, allocate from the end backwards.
   //
-  static uint32_t last_arr_index = THING_ID_MAX - 1;
-  for (uint32_t arr_index = last_arr_index - 1; arr_index > 0; arr_index--) {
+  for (uint32_t arr_index = thing_id_from_end_id - 1; arr_index > 0; arr_index--) {
     ThingIdPacked id = {};
     id.c.arr_index   = arr_index;
 
     auto *t = thing_alloc_do(g, v, l, tp, id, needs_ext_memory, needs_dmap_memory, needs_light_memory, true /* mutex */);
     if (t != nullptr) {
-      last_arr_index = arr_index;
+      thing_id_from_end_id = arr_index;
       return t;
     }
   }
@@ -478,6 +476,17 @@ void thing_free(Gamep g, Levelsp v, Levelp l, Thingp t)
     free(t);
   }
 #endif
+}
+
+void thing_alloc_free_fini(Gamep g)
+{
+  TRACE();
+
+  memset(thing_id_last_per_level_id, 0, sizeof(thing_id_last_per_level_id));
+  thing_id_from_end_id = THING_ID_MAX - 1;
+  last_ext_id          = {};
+  last_dmap_id         = {};
+  last_light_id        = {};
 }
 
 [[nodiscard]] auto thing_is_removable_when_dead_on_err(Thingp t) -> bool
