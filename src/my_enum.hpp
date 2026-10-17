@@ -7,7 +7,8 @@
 
 #include "my_types.hpp"
 
-#include <unordered_map>
+#include <array>
+#include <string>
 
 /*
  * Enum list macros .h definitions
@@ -20,7 +21,6 @@
                                                                                                                                                 \
   extern std::string enum_name##_to_string(enum_name val);                                                                                      \
   extern const char *enum_name##_to_c_str(enum_name val);                                                                                       \
-  extern enum_name   enum_name##_str2val(const char *val);                                                                                      \
   extern void        enum_name##_destroy(void);
 
 /*
@@ -35,14 +35,10 @@
                                                                                                                                                 \
   auto enum_name##_to_string(enum_name val) -> std::string                                                                                      \
   {                                                                                                                                             \
-    static const char *arr[] = {ENUM_NAME(ENUM_LIST_MACRO_STRING)};                                                                             \
+    static const auto arr = std::to_array< std::string >({ENUM_NAME(ENUM_LIST_MACRO_STRING)});                                                  \
                                                                                                                                                 \
-    if (val >= (__typeof__(val)) ARRAY_SIZE(arr)) {                                                                                             \
+    if (val >= (__typeof__(val)) arr.size()) {                                                                                                  \
       return (std::string("[bad]"));                                                                                                            \
-    }                                                                                                                                           \
-                                                                                                                                                \
-    if (! arr[ val ]) {                                                                                                                         \
-      return (std::string("[undefined]"));                                                                                                      \
     }                                                                                                                                           \
                                                                                                                                                 \
     return (std::string(arr[ val ]));                                                                                                           \
@@ -50,55 +46,13 @@
                                                                                                                                                 \
   auto enum_name##_to_c_str(enum_name val) -> const char *                                                                                      \
   {                                                                                                                                             \
-    static const char *arr[] = {ENUM_NAME(ENUM_LIST_MACRO_STRING)};                                                                             \
+    static const auto arr = std::to_array< std::string >({ENUM_NAME(ENUM_LIST_MACRO_STRING)});                                                  \
                                                                                                                                                 \
-    if (val >= (__typeof__(val)) ARRAY_SIZE(arr)) {                                                                                             \
+    if (val >= (__typeof__(val)) arr.size()) {                                                                                                  \
       return ("[bad]");                                                                                                                         \
     }                                                                                                                                           \
                                                                                                                                                 \
-    if (! arr[ val ]) {                                                                                                                         \
-      return ("[undefined]");                                                                                                                   \
-    }                                                                                                                                           \
-                                                                                                                                                \
-    return (arr[ val ]);                                                                                                                        \
-  }                                                                                                                                             \
-                                                                                                                                                \
-  static std::unordered_map< std::string, uint32_t > enum_name##_tree;                                                                          \
-                                                                                                                                                \
-  /*                                                                                                                                            \
-   * String to enum.                                                                                                                            \
-   */                                                                                                                                           \
-  auto enum_name##_str2val(const char *val) -> enum_name                                                                                        \
-  {                                                                                                                                             \
-    static const char *arr[] = {ENUM_NAME(ENUM_LIST_MACRO_STRING)};                                                                             \
-                                                                                                                                                \
-    /*                                                                                                                                          \
-     * If no tree, create one and fill it with enums.                                                                                           \
-     */                                                                                                                                         \
-    if (! enum_name##_tree.size()) {                                                                                                            \
-      /*                                                                                                                                        \
-       * Populate the tree with enum values.                                                                                                    \
-       */                                                                                                                                       \
-      FOR_ALL_IN_ARRAY(enum_iter, arr)                                                                                                          \
-      {                                                                                                                                         \
-        auto result = enum_name##_tree.insert(std::make_pair(std::string(*enum_iter), (uint32_t) (enum_iter - arr)));                           \
-                                                                                                                                                \
-        if (result.second == false) {                                                                                                           \
-          ERR("enum insert name [%s] failed", *enum_iter);                                                                                      \
-        }                                                                                                                                       \
-      }                                                                                                                                         \
-    }                                                                                                                                           \
-                                                                                                                                                \
-    /*                                                                                                                                          \
-     * Tree lookup of string.                                                                                                                   \
-     */                                                                                                                                         \
-    auto result = enum_name##_tree.find(std::string(val));                                                                                      \
-                                                                                                                                                \
-    if (result == enum_name##_tree.end()) {                                                                                                     \
-      return ((enum_name) - 1);                                                                                                                 \
-    }                                                                                                                                           \
-                                                                                                                                                \
-    return ((__typeof__(enum_name)) result->second);                                                                                            \
+    return arr[ val ].c_str();                                                                                                                  \
   }                                                                                                                                             \
                                                                                                                                                 \
   void enum_name##_destroy(void) {}
