@@ -156,6 +156,7 @@ static auto load_image(const std::string &filename) -> SDL_Surface *
   image_data = load_raw_image(filename, &x, &y, &comp);
   if (image_data == nullptr) {
     ERR("could not read memory for file, '%s'", filename.c_str());
+    return nullptr;
   }
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
@@ -218,6 +219,7 @@ static void load_images(SDL_Surface **surf1_out, const std::string &filename)
   image_data = load_raw_image(filename, &x, &y, &comp);
   if (image_data == nullptr) {
     ERR("could not read memory for file, '%s'", filename.c_str());
+    return;
   }
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
@@ -255,6 +257,7 @@ static void load_images(SDL_Surface **surf1_out, const std::string &filename)
     NEWPTR(MTYPE_SDL, surf1, "SDL_CreateRGBSurface7");
   } else {
     ERR("could not handle image with %d components", comp);
+    return;
   }
 
   memcpy(surf1->pixels, image_data, comp * x * y);
@@ -305,6 +308,7 @@ static void load_images(SDL_Surface **surf1_out, const std::string &filename)
 
   if (surface == nullptr) {
     ERR("could not make surface from file '%s'", file.c_str());
+    return nullptr;
   }
 
   t = tex_from_surface(surface, file, name, mode);
@@ -477,14 +481,17 @@ void tex_load_sprites(Texp *tex, Texp *tex_monochrome, Texp *tex_mask, // newlin
   Texp t = tex_find(name);
   if (t != nullptr) {
     ERR("tex name already exists '%s'", name.c_str());
+    return;
   }
 
   DBG2("Loading texture '%s', '%s'", file.c_str(), name.c_str());
   if (file.empty()) {
     if (name.empty()) {
       ERR("no file for tex");
+      return;
     } else {
       ERR("no file for tex loading '%s'", name.c_str());
+      return;
     }
   }
 
@@ -495,6 +502,7 @@ void tex_load_sprites(Texp *tex, Texp *tex_monochrome, Texp *tex_mask, // newlin
 
   if (surface == nullptr) {
     ERR("could not make surface from file '%s'", file.c_str());
+    return;
   }
 
   *tex                        = tex_from_surface(surface, file, name, mode);
@@ -515,6 +523,7 @@ void tex_load_sprites(Texp *tex, Texp *tex_monochrome, Texp *tex_mask, // newlin
   TRACE();
   if (file.empty()) {
     ERR("no filename given for tex find");
+    return nullptr;
   }
 
   auto result = textures.find(file);
@@ -534,6 +543,7 @@ void tex_load_sprites(Texp *tex, Texp *tex_monochrome, Texp *tex_mask, // newlin
 
   if (surface == nullptr) {
     ERR("could not make surface from file, '%s'", file.c_str());
+    return nullptr;
   }
 
   DBG2("Texture: '%s', %dx%d", file.c_str(), surface->w, surface->h);
@@ -646,6 +656,7 @@ void tex_load_sprites(Texp *tex, Texp *tex_monochrome, Texp *tex_mask, // newlin
 
   if (! result.second) {
     ERR("tex insert name '%s' failed", name.c_str());
+    return nullptr;
   }
 
   t->width              = w;
@@ -667,6 +678,7 @@ void tex_load_sprites(Texp *tex, Texp *tex_monochrome, Texp *tex_mask, // newlin
   TRACE();
   if (tex == nullptr) {
     ERR("no texture");
+    return 0;
   }
 
   return tex->width;
@@ -677,6 +689,7 @@ void tex_load_sprites(Texp *tex, Texp *tex_monochrome, Texp *tex_mask, // newlin
   TRACE();
   if (tex == nullptr) {
     ERR("no texture");
+    return 0;
   }
 
   return tex->height;
@@ -715,6 +728,7 @@ void tex_load_sprites(Texp *tex, Texp *tex_monochrome, Texp *tex_mask, // newlin
   auto result = textures.find(tmp);
   if (result == textures.end()) {
     ERR("unknown tex '%s'", tmp);
+    return nullptr;
   }
 
   return result->second;
@@ -743,11 +757,13 @@ void tex_load_sprites(Texp *tex, Texp *tex_monochrome, Texp *tex_mask, // newlin
 
   if (iter == s.end()) {
     ERR("unknown tex '%s'", out.c_str());
+    return nullptr;
   }
 
   auto result = textures.find(out);
   if (result == textures.end()) {
     ERR("unknown tex '%s'", out.c_str());
+    return nullptr;
   }
 
   return result->second;

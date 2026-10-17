@@ -212,23 +212,15 @@ void level_scroll_to_focus(Gamep g, Levelsp v, Levelp l)
   // Check for overflow
   //
   if (v->pixel_map_at.x > v->pixel_max.x) {
-    dx                = 0;
     v->pixel_map_at.x = v->pixel_max.x;
   } else if (v->pixel_map_at.x < 0) {
-    dx                = 0;
     v->pixel_map_at.x = 0;
   }
 
   if (v->pixel_map_at.y > v->pixel_max.y) {
-    dy                = 0;
     v->pixel_map_at.y = v->pixel_max.y;
   } else if (v->pixel_map_at.y < 0) {
-    dy                = 0;
     v->pixel_map_at.y = 0;
-  }
-
-  if (compiler_unused) {
-    con("%u [%d,%d] elapsed %u", v->requested_forced_auto_scroll, dx, dy, user_visible_time_ms() - v->requested_forced_auto_scroll);
   }
 
   //

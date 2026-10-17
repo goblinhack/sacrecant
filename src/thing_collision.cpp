@@ -112,10 +112,10 @@ static void thing_collision_sort_cands(Gamep g, Levelsp v, Levelp l, Thingp me, 
   C_at.x += 0.5F;
   C_at.y += 0.5F;
 
-  fpoint const tl(B_at.x, B_at.y);
-  fpoint const br(B_at.x + 1, B_at.y + 1);
-
   if (compiler_unused) {
+    fpoint const tl(B_at.x, B_at.y);
+    fpoint const br(B_at.x + 1, B_at.y + 1);
+
     THING_DBG(g, v, l, C, "circle %f,%f", C_at.x, C_at.y);
     THING_DBG(g, v, l, B, "box %f,%f -> %f,%f", tl.x, tl.y, br.x, br.y);
   }

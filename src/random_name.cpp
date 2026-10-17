@@ -8,6 +8,11 @@
 
 #include "my_random_name.hpp"
 
+#ifdef USE_MORE_MODERN_RAND
+#include <random>
+std::minstd_rand simple_rand;
+#endif
+
 [[nodiscard]] auto os_random_name(int len) -> std::string
 {
   for (;;) {

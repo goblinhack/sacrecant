@@ -44,10 +44,10 @@ void dmap_print(const Dmap *D, bpoint at, bpoint tl, bpoint br)
     maxy = tl.y;
   }
 
-  minx = std::max(minx, static_cast< int8_t >(0));
-  miny = std::max(miny, static_cast< int8_t >(0));
-  maxx = std::min(maxx, static_cast< int8_t >(MAP_WIDTH - 1));
-  maxy = std::min(maxy, static_cast< int8_t >(MAP_HEIGHT - 1));
+  minx = std::max(minx, static_cast< int8_t >(1));
+  miny = std::max(miny, static_cast< int8_t >(1));
+  maxx = std::min(maxx, static_cast< int8_t >(MAP_WIDTH - 2));
+  maxy = std::min(maxy, static_cast< int8_t >(MAP_HEIGHT - 2));
 
   bool all_walls = false;
 
@@ -232,10 +232,10 @@ void dmap_process(Dmap *D, bpoint tl, bpoint br)
   maxx--;
   maxy--;
 
-  minx = std::max(minx, static_cast< int8_t >(0));
-  miny = std::max(miny, static_cast< int8_t >(0));
-  maxx = std::min(maxx, static_cast< int8_t >(MAP_WIDTH - 1));
-  maxy = std::min(maxy, static_cast< int8_t >(MAP_HEIGHT - 1));
+  minx = std::max(minx, static_cast< int8_t >(1));
+  miny = std::max(miny, static_cast< int8_t >(1));
+  maxx = std::min(maxx, static_cast< int8_t >(MAP_WIDTH - 2));
+  maxy = std::min(maxy, static_cast< int8_t >(MAP_HEIGHT - 2));
 
   do {
     changed = false;
@@ -381,10 +381,10 @@ void dmap_process_reverse(Dmap *D, bpoint tl, bpoint br)
   maxx--;
   maxy--;
 
-  minx = std::max(minx, static_cast< int8_t >(0));
-  miny = std::max(miny, static_cast< int8_t >(0));
-  maxx = std::min(maxx, static_cast< int8_t >(MAP_WIDTH - 1));
-  maxy = std::min(maxy, static_cast< int8_t >(MAP_HEIGHT - 1));
+  minx = std::max(minx, static_cast< int8_t >(1));
+  miny = std::max(miny, static_cast< int8_t >(1));
+  maxx = std::min(maxx, static_cast< int8_t >(MAP_WIDTH - 2));
+  maxy = std::min(maxy, static_cast< int8_t >(MAP_HEIGHT - 2));
 
   do {
     changed = false;

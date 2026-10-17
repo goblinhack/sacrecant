@@ -148,10 +148,6 @@ static void wid_powerup_display(Gamep g)
     return;
   }
 
-  spoint mid;
-  mid.x = game_window_pix_width_get(g) / 2;
-  mid.y = game_window_pix_height_get(g) / 2;
-
   blit_flush();
   tile_blit(tile, tl, br, fg);
   blit_flush();

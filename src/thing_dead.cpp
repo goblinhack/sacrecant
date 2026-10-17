@@ -476,6 +476,12 @@ static void thing_killed_by_other(Gamep g, Levelsp v, Levelp l, Thingp me, Thing
 //
 void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
 {
+  TRACE();
+
+  if (! v) {
+    ERR("no levels pointer");
+  }
+
   if (thing_is_loggable(me)) {
     THING_DBG(g, v, l, me, "is dead");
   }
