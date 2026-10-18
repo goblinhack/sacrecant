@@ -755,8 +755,12 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   // "Health         a/b"
   //
   auto health_max = thing_health_max(g, v, l, me);
-  auto h          = thing_health(g, v, l, me);
-  h               = std::max(h, 0);
+  if (! health_max) {
+    return false;
+  }
+
+  auto h = thing_health(g, v, l, me);
+  h      = std::max(h, 0);
 
   std::string const health_str = std::to_string(h) + "/" + std::to_string(health_max);
   (void) my_strlcpy(line_bar + width - health_str.size() - 3, health_str.c_str(), width - health_str.size());
@@ -812,8 +816,12 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   // "Mana         a/b"
   //
   auto mana_max = thing_mana_max(g, v, l, me);
-  auto h        = thing_mana(g, v, l, me);
-  h             = std::max(h, 0);
+  if (! mana_max) {
+    return false;
+  }
+
+  auto h = thing_mana(g, v, l, me);
+  h      = std::max(h, 0);
 
   std::string const mana_str = std::to_string(h) + "/" + std::to_string(mana_max);
   (void) my_strlcpy(line_bar + width - mana_str.size() - 3, mana_str.c_str(), width - mana_str.size());
@@ -881,8 +889,12 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   // "Stamina        a/b"
   //
   auto stamina_max = thing_stamina_max(g, v, l, me);
-  auto stamina     = thing_stamina(g, v, l, me);
-  stamina          = std::max(stamina, 0);
+  if (! stamina_max) {
+    return false;
+  }
+
+  auto stamina = thing_stamina(g, v, l, me);
+  stamina      = std::max(stamina, 0);
 
   std::string const stamina_str = std::to_string(stamina) + "/" + std::to_string(stamina_max);
   (void) my_strlcpy(line_bar + width - stamina_str.size() - 3, stamina_str.c_str(), width - stamina_str.size());
