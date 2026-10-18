@@ -28,8 +28,8 @@
           " entropy: %08" PRIX32             //
           ")",                               //
           id,                                //
-          id_packed.b.level_num,             //
-          id_packed.b.per_level_id,          //
+          id_packed.b.level_arr_idx,         //
+          id_packed.b.per_level_thing_id,    //
           id_packed.b.entropy);
   }
 
@@ -47,13 +47,13 @@
           " entropy: %08" PRIX32                                 //
           ")",                                                   //
           (void *) t,
-          t->id,                    //
-          id_found.b.level_num,     //
-          id_found.b.per_level_id,  //
-          id_found.b.entropy,       //
-          id,                       //
-          id_packed.b.level_num,    //
-          id_packed.b.per_level_id, //
+          t->id,                          //
+          id_found.b.level_arr_idx,       //
+          id_found.b.per_level_thing_id,  //
+          id_found.b.entropy,             //
+          id,                             //
+          id_packed.b.level_arr_idx,      //
+          id_packed.b.per_level_thing_id, //
           id_packed.b.entropy);
   }
 

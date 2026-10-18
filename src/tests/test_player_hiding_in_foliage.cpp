@@ -12,7 +12,7 @@
   TEST_LOG(t, "begin");
   TRACE();
 
-  LevelNum const level_num = 0;
+  LevelArrIdx const level_num = 0;
   auto           w         = 7;
   auto           h         = 9;
 

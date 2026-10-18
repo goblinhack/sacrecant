@@ -274,7 +274,7 @@ void tp_player_level_reached_exit(Gamep g, Levelsp v, Levelp l, Thingp me)
   //
   auto *p = thing_player_struct(g);
   if (p != nullptr) {
-    auto n = l->level_num;
+    auto n = l->level_arr_idx;
 
     if (n < LEVEL_ARR_IDX_MAX) {
       if (! p->level_completed[ n ]) {
@@ -286,6 +286,7 @@ void tp_player_level_reached_exit(Gamep g, Levelsp v, Levelp l, Thingp me)
           (void) thing_stamina_set(g, v, l, me, thing_stamina_max(g, v, l, me));
           (void) thing_mana_set(g, v, l, me, thing_mana_max(g, v, l, me));
           thing_sound_play(g, v, l, me, "powerup");
+          topcon(UI_IMPORTANT_FMT_STR "Health, stamina and mana restored!" UI_RESET_FMT);
         }
       }
     }

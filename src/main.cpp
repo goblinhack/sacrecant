@@ -71,7 +71,7 @@ static void usage()
   con(" --debug3                          -- All debugs. Slow.");
   con(" ");
   con("Testing:");
-  con(" --level name/<number>             -- Start in this level only.");
+  con(" --level name/<number>             -- Start in this level only (levels numbered from 1).");
   con(" --level-select                    -- Start in the level select menu.");
   con(" --player-select                   -- Start in the player select menu.");
   con(" --quick-start                     -- Quick start inside level.");
@@ -198,78 +198,78 @@ static void parse_args(int argc, char *argv[])
         //
         // Level number
         //
-        g_level_opt.level_num = num - 1;
-        g_level_opt.is_set    = true;
+        g_level_opt.level_arr_idx = num - 1;
+        g_level_opt.is_set        = true;
       }
 
       g_opt_quick_start = true;
       i++;
 
       if (g_level_opt.level_name == "boss1") {
-        g_level_opt.level_name = "";
-        g_level_opt.level_num  = LEVEL_ARR_IDX_BOSS_1 - 1;
-        g_level_opt.is_set     = true;
+        g_level_opt.level_name    = "";
+        g_level_opt.level_arr_idx = LEVEL_ARR_IDX_BOSS_1;
+        g_level_opt.is_set        = true;
       }
 
       if (g_level_opt.level_name == "boss2") {
-        g_level_opt.level_name = "";
-        g_level_opt.level_num  = LEVEL_ARR_IDX_BOSS_2 - 1;
-        g_level_opt.is_set     = true;
+        g_level_opt.level_name    = "";
+        g_level_opt.level_arr_idx = LEVEL_ARR_IDX_BOSS_2;
+        g_level_opt.is_set        = true;
       }
 
       if (g_level_opt.level_name == "boss3") {
-        g_level_opt.level_name = "";
-        g_level_opt.level_num  = LEVEL_ARR_IDX_BOSS_3 - 1;
-        g_level_opt.is_set     = true;
+        g_level_opt.level_name    = "";
+        g_level_opt.level_arr_idx = LEVEL_ARR_IDX_BOSS_3;
+        g_level_opt.is_set        = true;
       }
 
       if (g_level_opt.level_name == "boss4") {
-        g_level_opt.level_name = "";
-        g_level_opt.level_num  = LEVEL_ARR_IDX_BOSS_4 - 1;
-        g_level_opt.is_set     = true;
+        g_level_opt.level_name    = "";
+        g_level_opt.level_arr_idx = LEVEL_ARR_IDX_BOSS_4;
+        g_level_opt.is_set        = true;
       }
 
       if (g_level_opt.level_name == "boss5") {
-        g_level_opt.level_name = "";
-        g_level_opt.level_num  = LEVEL_ARR_IDX_BOSS_5 - 1;
-        g_level_opt.is_set     = true;
+        g_level_opt.level_name    = "";
+        g_level_opt.level_arr_idx = LEVEL_ARR_IDX_BOSS_5;
+        g_level_opt.is_set        = true;
       }
 
       continue;
     }
 
     if ((strcasecmp(argv[ i ], "--boss1") == 0) || (strcasecmp(argv[ i ], "-boss1") == 0)) {
-      g_level_opt.level_num = LEVEL_ARR_IDX_BOSS_1 - 1;
-      g_level_opt.is_set    = true;
-      g_opt_quick_start     = true;
+      g_level_opt.level_arr_idx = LEVEL_ARR_IDX_BOSS_1;
+      g_level_opt.is_set        = true;
+      g_opt_quick_start         = true;
       continue;
     }
 
     if ((strcasecmp(argv[ i ], "--boss2") == 0) || (strcasecmp(argv[ i ], "-boss2") == 0)) {
-      g_level_opt.level_num = LEVEL_ARR_IDX_BOSS_2 - 1;
-      g_level_opt.is_set    = true;
-      g_opt_quick_start     = true;
+      g_level_opt.level_arr_idx = LEVEL_ARR_IDX_BOSS_2;
+      g_level_opt.is_set        = true;
+      g_opt_quick_start         = true;
       continue;
     }
 
     if ((strcasecmp(argv[ i ], "--boss3") == 0) || (strcasecmp(argv[ i ], "-boss3") == 0)) {
-      g_level_opt.level_num = LEVEL_ARR_IDX_BOSS_3 - 1;
-      g_level_opt.is_set    = true;
-      g_opt_quick_start     = true;
+      g_level_opt.level_arr_idx = LEVEL_ARR_IDX_BOSS_3;
+      g_level_opt.is_set        = true;
+      g_opt_quick_start         = true;
       continue;
     }
 
     if ((strcasecmp(argv[ i ], "--boss4") == 0) || (strcasecmp(argv[ i ], "-boss4") == 0)) {
-      g_level_opt.level_num = LEVEL_ARR_IDX_BOSS_4 - 1;
-      g_level_opt.is_set    = true;
-      g_opt_quick_start     = true;
+      g_level_opt.level_arr_idx = LEVEL_ARR_IDX_BOSS_4;
+      g_level_opt.is_set        = true;
+      g_opt_quick_start         = true;
       continue;
     }
 
     if ((strcasecmp(argv[ i ], "--boss5") == 0) || (strcasecmp(argv[ i ], "-boss5") == 0)) {
-      g_level_opt.level_num = LEVEL_ARR_IDX_BOSS_5 - 1;
-      g_level_opt.is_set    = true;
-      g_opt_quick_start     = true;
+      g_level_opt.level_arr_idx = LEVEL_ARR_IDX_BOSS_5;
+      g_level_opt.is_set        = true;
+      g_opt_quick_start         = true;
       continue;
     }
 

@@ -116,7 +116,7 @@ void thing_vision_reset(Gamep g, Levelsp v, Levelp l, Thingp t)
   //
   // Check the thing is on the same level.
   //
-  auto *t_level = game_level_get(g, v, t->level_num);
+  auto *t_level = game_level_get(g, v, t->level_arr_idx);
   if ((t_level != nullptr) && (t_level != l)) {
     return false;
   }

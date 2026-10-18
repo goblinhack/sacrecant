@@ -274,7 +274,7 @@ static auto wid_rightbar_thing_info_add(Gamep g, Levelsp v, Levelp l) -> void
     wid_rightbar->log_empty_line(g);
     auto        bs = BiomeType_to_string(l->biome);
     std::string s;
-    auto        num = l->level_num + 1;
+    auto        num = l->level_arr_idx + 1;
 
     //
     // Boss level?

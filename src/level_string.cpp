@@ -22,7 +22,7 @@
   }
 
   return (std::format("L{}{}",
-                      /* newline */ l->level_num + 1,
+                      /* newline */ l->level_arr_idx + 1,
                       /* newline */ level_is_player_level(g, v, l) ? "/curr" : ""));
 }
 

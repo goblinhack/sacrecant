@@ -9,7 +9,7 @@
 #include "my_level.hpp"
 #include "my_main.hpp"
 
-[[nodiscard]] static inline auto game_level_get(Gamep g, Levelsp v, LevelNum n) -> Levelp
+[[nodiscard]] static inline auto game_level_get(Gamep g, Levelsp v, LevelArrIdx n) -> Levelp
 {
 #ifdef DEBUG_BUILD
   TRACE_DEBUG();
@@ -45,7 +45,7 @@
   }
 #endif
 
-  return game_level_get(g, v, v->level_num);
+  return game_level_get(g, v, v->level_arr_idx);
 }
 
 #endif

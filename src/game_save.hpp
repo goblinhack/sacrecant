@@ -385,7 +385,7 @@ auto operator<<(std::ostream &out, Bits< const class Game & > const my) -> std::
     out << bits(tmp);                                    // all we're saving here is offsets for validation later
     tmp = offsetof(Thing, anim_type);                    // all we're saving here is offsets for validation later
     out << bits(tmp);                                    // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, level_num);                    // all we're saving here is offsets for validation later
+    tmp = offsetof(Thing, level_arr_idx);                // all we're saving here is offsets for validation later
     out << bits(tmp);                                    // all we're saving here is offsets for validation later
     tmp = offsetof(Thing, tile_index);                   // all we're saving here is offsets for validation later
     out << bits(tmp);                                    // all we're saving here is offsets for validation later
@@ -493,7 +493,7 @@ auto operator<<(std::ostream &out, Bits< const class Game & > const my) -> std::
     //
     // Save Level offsets
     //
-    tmp = offsetof(Level, level_num);
+    tmp = offsetof(Level, level_arr_idx);
     out << bits(tmp);
     tmp = offsetof(Level, info);
     out << bits(tmp);
@@ -509,7 +509,7 @@ auto operator<<(std::ostream &out, Bits< const class Game & > const my) -> std::
     out << bits(tmp);
     tmp = offsetof(Level, tick_temperature);
     out << bits(tmp);
-    tmp = offsetof(Level, level_num_next);
+    tmp = offsetof(Level, level_arr_idx_next);
     out << bits(tmp);
     tmp = offsetof(Level, is_modified_tile);
     out << bits(tmp);

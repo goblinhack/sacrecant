@@ -37,7 +37,7 @@ void thing_sound_play(Gamep g, Levelsp v, Levelp l, Thingp t, const std::string 
   //
   // Where did the thing play the sound? Might not be on the same level as the player.
   //
-  auto *t_level = game_level_get(g, v, t->level_num);
+  auto *t_level = game_level_get(g, v, t->level_arr_idx);
   if (level_is_boss_level(g, v, t_level)) {
     //
     // Full volume

@@ -708,7 +708,7 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
     //
     // What level is the player on?
     //
-    auto *player_level = game_level_get(g, v, player->level_num);
+    auto *player_level = game_level_get(g, v, player->level_arr_idx);
     if (player_level == nullptr) [[unlikely]] {
       return;
     }

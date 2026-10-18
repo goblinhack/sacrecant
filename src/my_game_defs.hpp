@@ -14,9 +14,9 @@ enum {
   MAP_BORDER = 1,
   MAP_SLOTS  = 14,
 
-  THING_MONST_AND_ITEM_PER_LEVEL_MAX = 400,
-  THING_MOB_PER_LEVEL_MAX            = 100,
-  THING_LIGHT_PER_LEVEL_MAX      = 200,
+  THING_DMAP_ID_PER_LEVEL_MAX  = 100,
+  THING_EXT_ID_PER_LEVEL_MAX   = 400,
+  THING_LIGHT_ID_PER_LEVEL_MAX = 700,
 
   //
   // Entropy is always > 0 for Thing IDs to distinguish them
@@ -176,35 +176,35 @@ enum {
   // 0 x x x x
   // x x x x x
   // x x x x x
-  //    16
+  //    15      boss
   // x x x x x
   // x x x x x
   // x x x x x
-  //    32
+  //    31      boss
   // x x x x x
   // x x x x x
   // x x x x x
-  //    48
+  //    47      boss
   // x x x x x
   // x x x x x
   // x x x x x
-  //    64
+  //    63      boss
   // x x x x x
   // x x x x x
   // x x x x x
-  //    80
-  //    81 level select
-  //    82 player select
-  //    83 LEVEL_ARR_IDX_MAX
+  //    79      boss
+  //    80      level select
+  //    81      player select
+  //    83      LEVEL_ARR_IDX_MAX
   //
-  LEVEL_ARR_IDX_MAX          = (((LEVEL_GRID_ACROSS * LEVEL_GRID_DOWN) + 3) - EMPTY_LEVEL_COUNT), // 83
+  LEVEL_ARR_IDX_MAX          = (((LEVEL_GRID_ACROSS * LEVEL_GRID_DOWN) + 2) - EMPTY_LEVEL_COUNT), // 83
   LEVEL_ARR_IDX_LEVEL_SECRET = (LEVEL_ARR_IDX_MAX - 1),                                           // 82
   LEVEL_ARR_IDX_LEVEL_SELECT = (LEVEL_ARR_IDX_MAX - 2),                                           // 81
-  LEVEL_ARR_IDX_BOSS_5       = 80,
-  LEVEL_ARR_IDX_BOSS_4       = 64,
-  LEVEL_ARR_IDX_BOSS_3       = 48,
-  LEVEL_ARR_IDX_BOSS_2       = 32,
-  LEVEL_ARR_IDX_BOSS_1       = 16,
+  LEVEL_ARR_IDX_BOSS_5       = 79,
+  LEVEL_ARR_IDX_BOSS_4       = 63,
+  LEVEL_ARR_IDX_BOSS_3       = 47,
+  LEVEL_ARR_IDX_BOSS_2       = 31,
+  LEVEL_ARR_IDX_BOSS_1       = 15,
   LEVEL_ARR_IDX_BOSS_OFFSET  = 2, // Boss levels are in the middle of the grid
 
   THING_ARR_INDEX_BITS = (THING_LEVEL_ID_BITS + THING_PER_LEVEL_THING_ID_BITS),

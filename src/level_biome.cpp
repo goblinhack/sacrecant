@@ -17,7 +17,7 @@
     return l->biome;
   }
 
-  switch (l->level_num) {
+  switch (l->level_arr_idx) {
     case 0 :                          return BIOME_DUNGEON;
     case 1 :                          return BIOME_DUNGEON;
     case 2 :                          return BIOME_DUNGEON;
@@ -33,8 +33,8 @@
     case 12 :                         return BIOME_DUNGEON;
     case 13 :                         return BIOME_DUNGEON;
     case 14 :                         return BIOME_DUNGEON;
-    case 15 :                         return BIOME_DUNGEON;
     case LEVEL_ARR_IDX_BOSS_1 :       return BIOME_DUNGEON;
+    case 16 :                         return BIOME_BOGLAND;
     case 17 :                         return BIOME_BOGLAND;
     case 18 :                         return BIOME_BOGLAND;
     case 19 :                         return BIOME_BOGLAND;
@@ -49,8 +49,8 @@
     case 28 :                         return BIOME_BOGLAND;
     case 29 :                         return BIOME_BOGLAND;
     case 30 :                         return BIOME_BOGLAND;
-    case 31 :                         return BIOME_BOGLAND;
     case LEVEL_ARR_IDX_BOSS_2 :       return BIOME_BOGLAND;
+    case 32 :                         return BIOME_BOGLAND;
     case 33 :                         return BIOME_NETHERVOID;
     case 34 :                         return BIOME_NETHERVOID;
     case 35 :                         return BIOME_NETHERVOID;
@@ -65,8 +65,8 @@
     case 44 :                         return BIOME_NETHERVOID;
     case 45 :                         return BIOME_NETHERVOID;
     case 46 :                         return BIOME_NETHERVOID;
-    case 47 :                         return BIOME_NETHERVOID;
     case LEVEL_ARR_IDX_BOSS_3 :       return BIOME_NETHERVOID;
+    case 48 :                         return BIOME_NETHERVOID;
     case 49 :                         return BIOME_GRAVEYARD;
     case 50 :                         return BIOME_GRAVEYARD;
     case 51 :                         return BIOME_GRAVEYARD;
@@ -81,8 +81,8 @@
     case 60 :                         return BIOME_GRAVEYARD;
     case 61 :                         return BIOME_GRAVEYARD;
     case 62 :                         return BIOME_GRAVEYARD;
-    case 63 :                         return BIOME_GRAVEYARD;
     case LEVEL_ARR_IDX_BOSS_4 :       return BIOME_GRAVEYARD;
+    case 64 :                         return BIOME_GRAVEYARD;
     case 65 :                         return BIOME_UNDERHELL;
     case 66 :                         return BIOME_UNDERHELL;
     case 67 :                         return BIOME_UNDERHELL;
@@ -97,10 +97,9 @@
     case 76 :                         return BIOME_UNDERHELL;
     case 77 :                         return BIOME_UNDERHELL;
     case 78 :                         return BIOME_UNDERHELL;
-    case 79 :                         return BIOME_UNDERHELL;
     case LEVEL_ARR_IDX_BOSS_5 :       return BIOME_UNDERHELL;
     case LEVEL_ARR_IDX_LEVEL_SELECT : return BIOME_DUNGEON;
     case LEVEL_ARR_IDX_LEVEL_SECRET : return BIOME_DUNGEON;
-    default :                         ERR("unexpected level number with no biome assigned: %d", l->level_num); return BIOME_DUNGEON;
+    default :                         ERR("unexpected level number with no biome assigned: %d", l->level_arr_idx); return BIOME_DUNGEON;
   }
 }

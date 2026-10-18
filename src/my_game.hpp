@@ -164,7 +164,7 @@ auto               game_difficulty_set(Gamep g, int val) -> void;
 
 [[nodiscard]] auto game_levels_get(Gamep g) -> Levelsp;
 [[nodiscard]] auto game_levels_set(Gamep g, Levelsp val) -> Levelsp;
-[[nodiscard]] auto game_level_populate(Gamep g, Levelsp v, LevelNum n) -> Levelp;
+[[nodiscard]] auto game_level_populate(Gamep g, Levelsp v, LevelArrIdx n) -> Levelp;
 
 [[nodiscard]] auto game_seed_name_get(Gamep g) -> const char *;
 [[nodiscard]] auto game_seed_source_get(Gamep g) -> SeedSource;
@@ -470,6 +470,6 @@ auto game_unset_currently_saving_snapshot(Gamep) -> void;
 auto game_unset_request_reset_state_change(Gamep) -> void;
 auto game_unset_request_to_save_snapshot(Gamep) -> void;
 auto game_unset_request_to_update_same_level(Gamep) -> void;
-auto game_add_new_hiscore(Gamep g, uint32_t score, LevelNum level_num, const char *name, const char *reason) -> void;
+auto game_add_new_hiscore(Gamep g, uint32_t score, LevelArrIdx level_num, const char *name, const char *reason) -> void;
 
 #endif

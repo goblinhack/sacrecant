@@ -201,8 +201,8 @@ static auto thing_monst_over_target_player(Gamep g, Levelsp v, Levelp l, Thingp 
     thing_can_see_dump(g, v, l, me);
   }
 
-  auto *player_level = game_level_get(g, v, player->level_num);
-  auto *monst_level  = game_level_get(g, v, me->level_num);
+  auto *player_level = game_level_get(g, v, player->level_arr_idx);
+  auto *monst_level  = game_level_get(g, v, me->level_arr_idx);
   if (player_level != monst_level) {
     return false;
   }
@@ -361,8 +361,8 @@ static auto thing_monst_choose_target_player(Gamep g, Levelsp v, Levelp l, Thing
     thing_can_see_dump(g, v, l, me);
   }
 
-  auto *player_level = game_level_get(g, v, player->level_num);
-  auto *monst_level  = game_level_get(g, v, me->level_num);
+  auto *player_level = game_level_get(g, v, player->level_arr_idx);
+  auto *monst_level  = game_level_get(g, v, me->level_arr_idx);
   if (player_level != monst_level) {
     THING_DBG(g, v, l, me, "choose target: different level from player");
     return false;

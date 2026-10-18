@@ -35,7 +35,7 @@
   thing_at_set(g, v, l, t, real_at); // INTENTIONAL Doing it twice sets old_at too
   thing_moving_from_set(t, at);
 
-  t->level_num = l->level_num;
+  t->level_arr_idx = l->level_arr_idx;
 
   //
   // Assign an initial tile

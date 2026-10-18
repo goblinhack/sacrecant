@@ -56,7 +56,7 @@ void level_verify(Gamep g, Levelsp v, Levelp l)
     return false;
   }
 
-  return l->level_num == LEVEL_ARR_IDX_LEVEL_SELECT;
+  return l->level_arr_idx == LEVEL_ARR_IDX_LEVEL_SELECT;
 }
 
 //
@@ -70,17 +70,17 @@ void level_verify(Gamep g, Levelsp v, Levelp l)
     return false;
   }
 
-  return l->level_num == LEVEL_ARR_IDX_LEVEL_SECRET;
+  return l->level_arr_idx == LEVEL_ARR_IDX_LEVEL_SECRET;
 }
 
-void level_init(Gamep g, Levelsp v, Levelp l, LevelNum n)
+void level_init(Gamep g, Levelsp v, Levelp l, LevelArrIdx n)
 {
   TRACE();
 
   memset(l, 0, SIZEOF(*l));
 
   l->is_initialized = true;
-  l->level_num      = n;
+  l->level_arr_idx  = n;
   l->biome          = level_to_biome(g, v, l);
 }
 
@@ -207,9 +207,9 @@ void level_is_completed_by_player_falling(Gamep g, Levelsp v, Levelp l)
 //
 // Change the current level
 //
-[[nodiscard]] auto level_change(Gamep g, Levelsp v, LevelNum level_num) -> Levelp
+[[nodiscard]] auto level_change(Gamep g, Levelsp v, LevelArrIdx level_arr_idx) -> Levelp
 {
-  log("level change to %u", level_num);
+  log("level change to %u", level_arr_idx);
   TRACE_INDENT();
 
   VERIFY(MTYPE_LEVELS, v);
@@ -223,26 +223,26 @@ void level_is_completed_by_player_falling(Gamep g, Levelsp v, Levelp l)
     return nullptr;
   }
 
-  if (level_num == LEVEL_ARR_IDX_LEVEL_SECRET) {
+  if (level_arr_idx == LEVEL_ARR_IDX_LEVEL_SECRET) {
     //
     // Enter level selectionm
     //
-    log("level change to %u (player select)", level_num);
-  } else if (level_num == LEVEL_ARR_IDX_LEVEL_SELECT) {
+    log("level change to %u (player select)", level_arr_idx);
+  } else if (level_arr_idx == LEVEL_ARR_IDX_LEVEL_SELECT) {
     //
     // Enter level selectionm
     //
-    log("level change to %u (level select)", level_num);
-  } else if ((level_num > s->level_count) && (static_cast< bool >(s->level_count))) {
+    log("level change to %u (level select)", level_arr_idx);
+  } else if ((level_arr_idx > s->level_count) && (static_cast< bool >(s->level_count))) {
     //
     // Jump to the last real level
     //
-    level_num = s->level_count - 1;
-    log("level change to %u (max level)", level_num);
+    level_arr_idx = s->level_count - 1;
+    log("level change to %u (max level)", level_arr_idx);
   }
 
   Level *old_level = game_level_get(g, v); // NOLINT
-  if (game_level_populate(g, v, level_num) == nullptr) {
+  if (game_level_populate(g, v, level_arr_idx) == nullptr) {
     topcon("The dungeon is still under construction and cannot be entered (BUG)");
     return old_level;
   }
@@ -252,7 +252,7 @@ void level_is_completed_by_player_falling(Gamep g, Levelsp v, Levelp l)
   Level *new_level = game_level_get(g, v);
 
   if (old_level == new_level) {
-    if (new_level->level_num == 0) {
+    if (new_level->level_arr_idx == 0) {
       if (compiler_unused) {
         topcon("Welcome to " UI_IMPORTANT_FMT_STR "Sacrecant" UI_RESET_FMT ". A literal work in progress...");
       }
@@ -269,15 +269,15 @@ void level_is_completed_by_player_falling(Gamep g, Levelsp v, Levelp l)
     wid_level_select(g, v, new_level);
   } else if (new_level->player_completed_level_via_exit) {
     topcon_newline();
-    topcon("You re-enter level %u of dungeon '%s'.", new_level->level_num + 1, game_seed_name_get(g));
+    topcon("You re-enter level %u of dungeon '%s'.", new_level->level_arr_idx + 1, game_seed_name_get(g));
     game_state_change(g, STATE_PLAYING, "re-enter level");
   } else if (new_level->player_fell_out_of_level) {
     topcon_newline();
-    topcon("You stumble back into level %u of dungeon '%s'.", new_level->level_num + 1, game_seed_name_get(g));
+    topcon("You stumble back into level %u of dungeon '%s'.", new_level->level_arr_idx + 1, game_seed_name_get(g));
     game_state_change(g, STATE_PLAYING, "old-level");
-  } else if (level_num > 0) {
+  } else if (level_arr_idx > 0) {
     topcon_newline();
-    topcon("You enter level %u of dungeon '%s'.", new_level->level_num + 1, game_seed_name_get(g));
+    topcon("You enter level %u of dungeon '%s'.", new_level->level_arr_idx + 1, game_seed_name_get(g));
     game_state_change(g, STATE_PLAYING, "new level");
     if (level_is_boss_level(g, v, new_level)) {
       topcon_newline();
@@ -309,16 +309,16 @@ void level_destroy(Gamep g, Levelsp v, Levelp l)
 
   IF_DEBUG2
   {
-    DBG("Level destroy %u dump all", l->level_num);
+    DBG("Level destroy %u dump all", l->level_arr_idx);
     FOR_ALL_THINGS_ON_LEVEL_NO_BREAK(g, v, l, t) { THING_DBG(g, v, l, t, "dump"); }
   }
 
   //
   // Remove all things
   //
-  DBG("Level destroy %u", l->level_num);
+  DBG("Level destroy %u", l->level_arr_idx);
   FOR_ALL_THINGS_ON_LEVEL_NO_BREAK_UNSAFE(g, v, l, t) { thing_fini(g, v, l, t); }
-  DBG("Level destroyed %u", l->level_num);
+  DBG("Level destroyed %u", l->level_arr_idx);
 
   //
   // Try again, in case something was created during destruction

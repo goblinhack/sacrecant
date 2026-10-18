@@ -17,7 +17,7 @@
   //
   // How the dungeon starts out, and how we expect it to change
   //
-  LevelNum const level_num = 0;
+  LevelArrIdx const level_num = 0;
   auto           w         = 8;
   auto           h         = 5;
 

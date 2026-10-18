@@ -219,7 +219,7 @@ public:
   //
   // Level number
   //
-  LevelNum level_num {};
+  LevelArrIdx level_arr_idx {};
 
   //
   // The number of rooms to aim for for a given depth.
@@ -2416,14 +2416,14 @@ static auto level_random_get(LevelType level_type) -> class LevelFixed *
 //
 // Get a random level.
 //
-static auto level_fixed_find_by_name(const std::string &alias, LevelNum level_num) -> class LevelFixed *
+static auto level_fixed_find_by_name(const std::string &alias, LevelArrIdx level_arr_idx) -> class LevelFixed *
 {
   TRACE();
 
   //
   // Add the level number to allow specification of specific depths
   //
-  auto alt = alias + "." + std::to_string(static_cast< int >(level_num) + 1);
+  auto alt = alias + "." + std::to_string(static_cast< int >(level_arr_idx) + 1);
   if (level_alias_all.contains(alt)) {
     return level_alias_all[ alt ];
   }
@@ -2489,9 +2489,9 @@ static void level_gen_dump(class LevelGen *lg, const char *msg)
 
   level_gen_mutex.lock();
   if (msg != nullptr) {
-    log("level: %u (%s)", lg->level_num + 1, msg);
+    log("level: idx: %u num: %u (%s)", lg->level_arr_idx, lg->level_arr_idx + 1, msg);
   } else {
-    log("level: %u", lg->level_num + 1);
+    log("level: idx: %u num: %u", lg->level_arr_idx, lg->level_arr_idx + 1);
   }
   log("--------------");
   TRACE();
@@ -2962,7 +2962,7 @@ static void level_gen_create_remaining_rooms(LevelGen *lg)
   //
   // Centralize the first levels
   //
-  if (lg->level_num <= LEVEL_GRID_ACROSS) {
+  if (lg->level_arr_idx <= LEVEL_GRID_ACROSS) {
     x = MAP_WIDTH / 2;
     y = MAP_HEIGHT / 2;
   }
@@ -2974,7 +2974,7 @@ static void level_gen_create_remaining_rooms(LevelGen *lg)
   //
   auto *r = lg->room_entrance = room_random_get(ROOM_TYPE_ENTRANCE);
   if (! room_can_place_at(lg, r, at)) {
-    if (lg->level_num == 0U) {
+    if (lg->level_arr_idx == 0U) {
       CROAK("failed to place start room");
     }
     return false;
@@ -3150,7 +3150,7 @@ static void level_gen_blob(Gamep g, class LevelGen *lg, char c)
   cave_create(g, &lg->cave, fill_prob, r1, r2, map_generations);
 
   if (compiler_unused) {
-    if (lg->level_num == 0U) {
+    if (lg->level_arr_idx == 0U) {
       cave_dump(lg);
     }
     level_gen_dump(lg, "cave gen");
@@ -3221,14 +3221,14 @@ static void level_gen_blob(Gamep g, class LevelGen *lg, char c)
 //
 // Create rooms from the current seed
 //
-static auto level_gen_new_class(Gamep g, LevelNum level_num) -> class LevelGen *
+static auto level_gen_new_class(Gamep g, LevelArrIdx level_arr_idx) -> class LevelGen *
 {
   TRACE();
 
   //
   // Per thread seed that increments each time we fail. Hopefully this avoids dup levels.
   //
-  uint32_t seed_num = (game_seed_num_get(g) * 1001) + ((level_num + 1) * LEVEL_ARR_IDX_MAX);
+  uint32_t seed_num = (game_seed_num_get(g) * 1001) + ((level_arr_idx + 1) * LEVEL_ARR_IDX_MAX);
   PCG_SRAND(seed_num);
 
   auto *lg = new LevelGen();
@@ -3236,12 +3236,12 @@ static auto level_gen_new_class(Gamep g, LevelNum level_num) -> class LevelGen *
   //
   // Per thread seed that increments each time we fail. Hopefully this avoids dup levels.
   //
-  seed_num = (game_seed_num_get(g) * 1001) + ((level_num + 1) * LEVEL_ARR_IDX_MAX);
+  seed_num = (game_seed_num_get(g) * 1001) + ((level_arr_idx + 1) * LEVEL_ARR_IDX_MAX);
   PCG_SRAND(seed_num);
   lg->info.seed_num = seed_num;
 
-  lg->level_num      = level_num;
-  lg->min_room_count = MIN_LEVEL_ROOM_COUNT + (level_num / 10);
+  lg->level_arr_idx  = level_arr_idx;
+  lg->min_room_count = MIN_LEVEL_ROOM_COUNT + (level_arr_idx / 10);
   lg->max_room_count = lg->min_room_count + 20;
   lg->debug          = DEBUG2;
 
@@ -3251,7 +3251,7 @@ static auto level_gen_new_class(Gamep g, LevelNum level_num) -> class LevelGen *
 //
 // Is this a special named level? or some kind of boss level?
 //
-[[nodiscard]] static auto level_gen_is_special_level(Levelsp v, LevelNum level_num) -> bool
+[[nodiscard]] static auto level_gen_is_special_level(Levelsp v, LevelArrIdx level_arr_idx) -> bool
 {
   TRACE();
 
@@ -3263,7 +3263,7 @@ static auto level_gen_new_class(Gamep g, LevelNum level_num) -> class LevelGen *
   }
 
   LevelSelect const *s = &v->level_select;
-  if (level_num == s->level_count - 1) {
+  if (level_arr_idx == s->level_count - 1) {
     //
     // Final boss level
     //
@@ -3276,7 +3276,7 @@ static auto level_gen_new_class(Gamep g, LevelNum level_num) -> class LevelGen *
 //
 // Create rooms from the current seed
 //
-static auto level_proc_gen_create_rooms(Gamep g, LevelNum level_num) -> class LevelGen *
+static auto level_proc_gen_create_rooms(Gamep g, LevelArrIdx level_arr_idx) -> class LevelGen *
 {
   TRACE();
 
@@ -3285,7 +3285,7 @@ static auto level_proc_gen_create_rooms(Gamep g, LevelNum level_num) -> class Le
   //
   // Per thread seed that increments each time we fail. Hopefully this avoids dup levels.
   //
-  uint32_t seed_num = (game_seed_num_get(g) * 1001) + ((level_num + 1) * LEVEL_ARR_IDX_MAX);
+  uint32_t seed_num = (game_seed_num_get(g) * 1001) + ((level_arr_idx + 1) * LEVEL_ARR_IDX_MAX);
   PCG_SRAND(seed_num);
 
   bool const add_blob = d100() < LEVEL_BLOB_GEN_PROB;
@@ -3299,12 +3299,12 @@ static auto level_proc_gen_create_rooms(Gamep g, LevelNum level_num) -> class Le
       lg = nullptr;
     }
 
-    lg = level_gen_new_class(g, level_num);
+    lg = level_gen_new_class(g, level_arr_idx);
 
     //
     // Per thread seed that increments each time we fail. Hopefully this avoids dup levels.
     //
-    seed_num = (game_seed_num_get(g) * 1001) + ((level_num + 1) * LEVEL_ARR_IDX_MAX) + level_gen_tries;
+    seed_num = (game_seed_num_get(g) * 1001) + ((level_arr_idx + 1) * LEVEL_ARR_IDX_MAX) + level_gen_tries;
     PCG_SRAND(seed_num);
     lg->info.seed_num = seed_num;
 
@@ -3318,7 +3318,7 @@ static auto level_proc_gen_create_rooms(Gamep g, LevelNum level_num) -> class Le
       auto chance    = d100();
       char blob_type = CHARMAP_WATER;
 
-      if (chance < LEVEL_BLOB_LAVA_GEN_PROB + level_num) {
+      if (chance < LEVEL_BLOB_LAVA_GEN_PROB + level_arr_idx) {
         blob_type = CHARMAP_LAVA;
       } else if (chance < LEVEL_BLOB_CHASM_GEN_PROB) {
         blob_type = CHARMAP_CHASM;
@@ -5300,8 +5300,8 @@ static void level_gen_extend_bridges(Gamep g, class LevelGen *lg)
     return false;
   }
 
-  auto *level = game_level_get(g, v, lg->level_num);
-  level_init(g, v, level, lg->level_num);
+  auto *level = game_level_get(g, v, lg->level_arr_idx);
+  level_init(g, v, level, lg->level_arr_idx);
 
   //
   // Create a string holding all the level chars
@@ -5309,13 +5309,13 @@ static void level_gen_extend_bridges(Gamep g, class LevelGen *lg)
   std::string level_string;
   LevelFixed *fixed_level = nullptr;
   Overrides   overrides   = no_overrides;
-  auto        lt          = level_type(lg->level_num + 1);
+  auto        lt          = level_type(lg->level_arr_idx);
 
   if (! g_level_opt.level_name.empty()) {
     //
     // Test level
     //
-    fixed_level = level_fixed_find_by_name(g_level_opt.level_name, lg->level_num);
+    fixed_level = level_fixed_find_by_name(g_level_opt.level_name, lg->level_arr_idx);
     if (fixed_level == nullptr) {
       //
       // Unknown level
@@ -5333,7 +5333,7 @@ static void level_gen_extend_bridges(Gamep g, class LevelGen *lg)
     //
     fixed_level = level_random_get(lt);
     if (fixed_level == nullptr) {
-      ERR("no fixed boss level \"%s\" level %u created", LevelType_to_string(lt).c_str(), lg->level_num);
+      ERR("no fixed boss level \"%s\" level %u created", LevelType_to_string(lt).c_str(), lg->level_arr_idx);
       return false;
     }
 
@@ -5426,11 +5426,11 @@ static void level_gen_test_flood(class LevelGen *lg)
 //
 // Create a level from the current game seed
 //
-static auto level_gen_create_proc_gen_level(Gamep g, LevelNum level_num) -> class LevelGen *
+static auto level_gen_create_proc_gen_level(Gamep g, LevelArrIdx level_arr_idx) -> class LevelGen *
 {
   TRACE();
 
-  LevelGen *lg = level_proc_gen_create_rooms(g, level_num);
+  LevelGen *lg = level_proc_gen_create_rooms(g, level_arr_idx);
   if (lg == nullptr) {
     return lg;
   }
@@ -5617,16 +5617,16 @@ static auto level_gen_create_proc_gen_level(Gamep g, LevelNum level_num) -> clas
 //
 // Create a level (fixed or proc gen) and store in the array of levels
 //
-static void level_gen_create_fixed_or_proc_gen_level(Gamep g, LevelNum level_num)
+static void level_gen_create_fixed_or_proc_gen_level(Gamep g, LevelArrIdx level_arr_idx)
 {
   TRACE();
 
   //
   // Per thread stdout name
   //
-  g_thread_id = level_num + 1;
+  g_thread_id = level_arr_idx + 1;
 
-  if (level_num >= LEVEL_ARR_IDX_LEVEL_SELECT) {
+  if (level_arr_idx >= LEVEL_ARR_IDX_LEVEL_SELECT) {
     CROAK("this will exceed the number of level bits");
   }
 
@@ -5643,23 +5643,23 @@ static void level_gen_create_fixed_or_proc_gen_level(Gamep g, LevelNum level_num
       if (! g_level_opt.level_name.empty()) {
         ERR("no levels generate for level %s", g_level_opt.level_name.c_str());
       } else {
-        ERR("no levels generate for level num %u", level_num);
+        ERR("no levels generate for level num %u", level_arr_idx);
       }
       break;
     }
 
     LevelGen *lg = nullptr;
 
-    if (level_gen_is_special_level(v, level_num)) {
+    if (level_gen_is_special_level(v, level_arr_idx)) {
       //
       // Fixed level of some kind
       //
-      lg = level_gen_new_class(g, level_num);
+      lg = level_gen_new_class(g, level_arr_idx);
     } else {
       //
       // Procedurally generated levels
       //
-      lg = level_gen_create_proc_gen_level(g, level_num);
+      lg = level_gen_create_proc_gen_level(g, level_arr_idx);
     }
 
     //
@@ -5669,7 +5669,7 @@ static void level_gen_create_fixed_or_proc_gen_level(Gamep g, LevelNum level_num
       if (! g_level_opt.level_name.empty()) {
         ERR("no level generated for level %s", g_level_opt.level_name.c_str());
       } else {
-        ERR("no level generated for level num %u", level_num);
+        ERR("no level generated for level num %u", level_arr_idx);
       }
       break;
     }
@@ -5682,7 +5682,7 @@ static void level_gen_create_fixed_or_proc_gen_level(Gamep g, LevelNum level_num
       if (! g_level_opt.level_name.empty()) {
         ERR("no level created for level %s", g_level_opt.level_name.c_str());
       } else {
-        ERR("no level created for level num %u", level_num);
+        ERR("no level created for level num %u", level_arr_idx);
       }
       break;
     }
@@ -5690,15 +5690,15 @@ static void level_gen_create_fixed_or_proc_gen_level(Gamep g, LevelNum level_num
     //
     // Final check it worked
     //
-    levels_generated[ level_num ] = lg;
+    levels_generated[ level_arr_idx ] = lg;
 
     TRACE();
-    auto *level = game_level_get(g, v, level_num);
+    auto *level = game_level_get(g, v, level_arr_idx);
     if (level == nullptr) {
       if (! g_level_opt.level_name.empty()) {
         ERR("no level populated for level %s", g_level_opt.level_name.c_str());
       } else {
-        ERR("no level populated for level num %u", level_num);
+        ERR("no level populated for level num %u", level_arr_idx);
       }
     }
   } while (false);
@@ -5769,7 +5769,7 @@ void level_gen_test(Gamep g)
     // Generate the maximum number of levels
     //
     LevelSelect *s = &v->level_select;
-    s->level_count = LEVEL_ARR_IDX_LEVEL_SELECT - 1;
+    s->level_count = LEVEL_ARR_IDX_BOSS_5 + 1;
 
     //
     // Create the levels
@@ -5779,7 +5779,7 @@ void level_gen_test(Gamep g)
       CROAK("failed");
     }
 
-    thing_stats_dump(g, v);
+    game_debug_info(g);
 
     con("Created %u levels for dungeon seed %u (took %u ms)", s->level_count, seed, s->create_time);
     log("------------------------------------------------------");

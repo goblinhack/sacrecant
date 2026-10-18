@@ -507,7 +507,7 @@ void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   //
   // Where did the thing die? Might not be on the current level.
   //
-  auto *t_level = game_level_get(g, v, me->level_num);
+  auto *t_level = game_level_get(g, v, me->level_arr_idx);
   if (t_level != nullptr) {
     l = t_level;
   }
@@ -607,7 +607,7 @@ void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
       auto score = thing_score(g, me);
       if (game_is_new_hiscore(g, score)) {
         topcon(UI_GOOD_FMT_STR "New high score, %s place!" UI_RESET_FMT, game_place_str(g, score));
-        game_add_new_hiscore(g, score, l->level_num, game_player_name_get(g), death_reason.c_str());
+        game_add_new_hiscore(g, score, l->level_arr_idx, game_player_name_get(g), death_reason.c_str());
       }
 
       //

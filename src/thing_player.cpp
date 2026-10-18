@@ -130,7 +130,7 @@ void thing_player_init(Gamep g)
     return nullptr;
   }
 
-  return game_level_get(g, v, me->level_num);
+  return game_level_get(g, v, me->level_arr_idx);
 }
 
 //
@@ -1355,7 +1355,7 @@ void player_move_accum(Gamep g, Levelsp v, Levelp l, bool up, bool down, bool le
 //
 // Handle common level exit interactions
 //
-static void player_leave_current_level_and_change_to_level_num(Gamep g, Levelsp v, LevelNum level_num = LEVEL_ARR_IDX_LEVEL_SELECT)
+static void player_leave_current_level_and_change_to_level_num(Gamep g, Levelsp v, LevelArrIdx level_num = LEVEL_ARR_IDX_LEVEL_SELECT)
 {
   TRACE();
 
@@ -1368,7 +1368,7 @@ static void player_leave_current_level_and_change_to_level_num(Gamep g, Levelsp 
 //
 // Force move a me to a specific level
 //
-void player_warp_to_specific_level(Gamep g, Levelsp v, Levelp l, LevelNum level_num)
+void player_warp_to_specific_level(Gamep g, Levelsp v, Levelp l, LevelArrIdx level_num)
 {
   TRACE();
 
@@ -1483,7 +1483,7 @@ void player_fell(Gamep g, Levelsp v, Levelp l, Levelp next_level, Thingp /*me*/)
   level_cursor_path_reset(g, v, l);
   level_is_completed_by_player_falling(g, v, l);
 
-  if (next_level != level_change(g, v, next_level->level_num)) {
+  if (next_level != level_change(g, v, next_level->level_arr_idx)) {
     ERR("unexpected level found");
     return;
   }

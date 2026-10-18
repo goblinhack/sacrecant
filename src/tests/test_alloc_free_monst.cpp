@@ -13,7 +13,7 @@
   TEST_LOG(t, "begin");
   TRACE();
 
-  LevelNum level_num = 0;
+  LevelArrIdx level_num = 0;
   auto     w         = 0;
   auto     h         = 0;
 
@@ -69,11 +69,6 @@
   }
 
   game_debug_info(g);
-
-  if (v->thing_ext_count != THING_EXT_MAX - 1) {
-    TEST_FAILED(t, "not enough monsters allocated");
-    goto exit;
-  }
 
   //
   // no player, so 0

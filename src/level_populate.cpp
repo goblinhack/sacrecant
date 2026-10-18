@@ -275,12 +275,12 @@ static auto level_populate_biome_dungeon(Gamep g, Levelsp v, Levelp l, class Lev
         //
         lp.need_entrance = false;
         tp               = lp.tp_player;
-      } else if ((g_level_opt.level_num == l->level_num) && g_level_opt.is_set) {
+      } else if ((g_level_opt.level_arr_idx == l->level_arr_idx) && g_level_opt.is_set) {
         //
         // This is the chosen start level
         //
         tp = lp.tp_player;
-      } else if ((l->level_num == 0) && ! g_level_opt.is_set) {
+      } else if ((l->level_arr_idx == 0) && ! g_level_opt.is_set) {
         //
         // This is the default start level
         //
@@ -651,7 +651,7 @@ static auto level_populate_biome_underhell(Gamep g, Levelsp v, Levelp l, class L
     case CHARMAP_EMPTY : lp.need_dirt = true; break;
     case CHARMAP_WALL :
       lp.need_dirt = true;
-      if (d100() < 30) {
+      if (d100() < 10) {
         tp = lp.tp_lava;
       } else {
         tp = lp.tp_wall;
@@ -664,8 +664,8 @@ static auto level_populate_biome_underhell(Gamep g, Levelsp v, Levelp l, class L
     case CHARMAP_LAVA :          lp.need_dirt = true; break;
     case CHARMAP_DOOR_UNLOCKED : lp.need_dirt = true; break;
     case CHARMAP_BRAZIER :       lp.need_dirt = true; break;
-    case CHARMAP_DEEP_WATER :    tp = lp.tp_lava; break;
-    case CHARMAP_WATER :         tp = lp.tp_lava; break;
+    case CHARMAP_DEEP_WATER :    lp.need_dirt = true; break;
+    case CHARMAP_WATER :         lp.need_dirt = true; break;
     case CHARMAP_DIRT :          lp.need_dirt = true; break;
     case CHARMAP_FOLIAGE :       lp.need_dirt = true; break;
     case CHARMAP_FUNGUS :        lp.need_dirt = true; break;
@@ -676,7 +676,7 @@ static auto level_populate_biome_underhell(Gamep g, Levelsp v, Levelp l, class L
     case CHARMAP_BARREL :        lp.need_dirt = true; break;
     case CHARMAP_PILLAR :        lp.need_dirt = true; break;
     case CHARMAP_RUBBLE :        lp.need_dirt = true; break;
-    case CHARMAP_BORDER :        tp = lp.tp_lava; break;
+    case CHARMAP_BORDER :        tp = lp.tp_chasm; break;
     case CHARMAP_GAS :           [[fallthrough]];
     case CHARMAP_SPIDERWEB :     [[fallthrough]];
     case CHARMAP_TREASURE :      [[fallthrough]];

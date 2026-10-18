@@ -24,7 +24,7 @@
     CROAK("thing_level: thing mismatch found for id, %p %08" PRIX32 "", (void *) t, t->id);
   }
 
-  return game_level_get(g, v, t->level_num);
+  return game_level_get(g, v, t->level_arr_idx);
 }
 
 [[nodiscard]] auto thing_on_same_level_as_player(Gamep g, Levelsp v, Thingp t) -> bool
@@ -41,7 +41,7 @@
     return false;
   }
 
-  auto *t_level = game_level_get(g, v, t->level_num);
+  auto *t_level = game_level_get(g, v, t->level_arr_idx);
   return t_level == player_level;
 }
 

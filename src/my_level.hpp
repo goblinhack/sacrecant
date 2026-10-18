@@ -30,7 +30,7 @@ enum {
 //
 using LevelOpt = struct LevelOpt {
   std::string level_name;
-  LevelNum    level_num {};
+  LevelArrIdx level_arr_idx {};
   bool        is_set {};
 };
 
@@ -159,7 +159,7 @@ using Level = struct Level {
   //
   // Where this level is in the bigger map
   //
-  LevelNum level_num;
+  LevelArrIdx level_arr_idx;
   //
   // The biome for this level
   //
@@ -192,8 +192,8 @@ using Level = struct Level {
   //
   // This is the next level we would fall onto. It's used to show through chasms.
   //
-  LevelNum level_num_next;
-  uint8_t  level_num_next_set : 1;
+  LevelArrIdx level_arr_idx_next;
+  uint8_t     level_arr_idx_next_set : 1;
   //
   // Is this a non null level?
   //
@@ -325,7 +325,7 @@ using LevelSelectCell = struct LevelSelectCell {
   //
   // Back pointer to the level here, if any
   //
-  LevelNum level_num;
+  LevelArrIdx level_arr_idx;
 };
 
 using LevelSelect = struct LevelSelect {
@@ -337,7 +337,7 @@ using LevelSelect = struct LevelSelect {
   //
   // How many levels generated
   //
-  LevelNum level_count;
+  uint8_t level_count;
 
   //
   // How many ms to create all the lvels
@@ -352,7 +352,7 @@ using LevelSelect = struct LevelSelect {
   //
   // This is a reverse mapping from on screen tile to level
   //
-  LevelNum tile_to_level[ MAP_WIDTH ][ MAP_HEIGHT ];
+  LevelArrIdx tile_to_level[ MAP_WIDTH ][ MAP_HEIGHT ];
 };
 
 using Levels = struct Levels {
@@ -397,7 +397,7 @@ using Levels = struct Levels {
   //
   // Current level being played.
   //
-  LevelNum level_num;
+  LevelArrIdx level_arr_idx;
   //
   // Flag array of all levels. The levels equate to one tile in the level grid.
   //
@@ -424,18 +424,15 @@ using Levels = struct Levels {
   //
   // Space for mob dmap memory.
   //
-  ThingDmap thing_dmap[ THING_DMAP_MAX ];
-  int       thing_dmap_count;
+  ThingDmap thing_dmap[ THING_DMAP_ID_MAX ];
   //
   // Space for monster memory.
   //
-  ThingExt thing_ext[ THING_EXT_MAX ];
-  int      thing_ext_count;
+  ThingExt thing_ext[ THING_EXT_ID_MAX ];
   //
   // For lighting memory.
   //
-  ThingLight thing_light[ THING_LIGHT_MAX ];
-  int        thing_light_count;
+  ThingLight thing_light[ THING_LIGHT_ID_MAX ];
   //
   // Space for player memory.
   //
@@ -712,7 +709,7 @@ enum {
 [[nodiscard]] auto fragment_alt_add(Gamep g, int chance, uint32_t flags, const char *file, int line, ...) -> bool;
 [[nodiscard]] auto level_alive(Gamep g, Levelsp v, Levelp l, ThingFlagType f, bpoint p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_alive(Gamep g, Levelsp v, Levelp l, ThingFlagType f, Thingp me) -> Thingp;
-[[nodiscard]] auto level_change(Gamep g, Levelsp v, LevelNum level_num) -> Levelp;
+[[nodiscard]] auto level_change(Gamep g, Levelsp v, LevelArrIdx level_arr_idx) -> Levelp;
 [[nodiscard]] auto level_count(Gamep g, Levelsp v, Levelp l, ThingFlagType f, bpoint p) -> int;
 [[nodiscard]] auto level_count(Gamep g, Levelsp v, Levelp l, ThingFlagType f, Thingp t) -> int;
 [[nodiscard]] auto level_cursor_describe_add(Gamep g, Levelsp v, Thingp t) -> bool;
@@ -763,11 +760,13 @@ enum {
 [[nodiscard]] auto level_tick_begin_requested_cached(Gamep g, Levelsp v, Levelp l, const char *why) -> bool;
 [[nodiscard]] auto level_tick_is_in_progress(Gamep g, Levelsp v, Levelp l) -> bool;
 [[nodiscard]] auto level_to_biome(Gamep g, Levelsp v, Levelp l) -> BiomeType;
-[[nodiscard]] auto level_type_is_boss_level(LevelNum level_num) -> bool;
-[[nodiscard]] auto level_type(LevelNum level_num) -> LevelType;
+[[nodiscard]] auto level_type_is_boss_level(LevelArrIdx level_arr_idx) -> bool;
+[[nodiscard]] auto level_type(LevelArrIdx level_arr_idx) -> LevelType;
 [[nodiscard]] auto levels_memory_alloc(Gamep g) -> Levelsp;
 [[nodiscard]] auto levels_thing_count(Gamep g, Levelsp v) -> int;
 [[nodiscard]] auto levels_thing_ext_count(Gamep g, Levelsp v) -> int;
+[[nodiscard]] auto levels_thing_dmap_count(Gamep g, Levelsp v) -> int;
+[[nodiscard]] auto levels_thing_light_count(Gamep g, Levelsp v) -> int;
 [[nodiscard]] auto player_state_to_string(PlayerStateType state) -> std::string;
 [[nodiscard]] auto player_state(Gamep g, Levelsp v) -> PlayerStateType;
 [[nodiscard]] auto thing_level_select(Gamep g) -> Thingp;
@@ -776,6 +775,10 @@ enum {
 // end sort marker1 }
 
 // begin sort marker2 {
+auto levels_thing_id_histogram(Gamep g, Levelsp v) -> void;
+auto levels_thing_ext_histogram(Gamep g, Levelsp v) -> void;
+auto levels_thing_dmap_histogram(Gamep g, Levelsp v) -> void;
+auto levels_thing_light_histogram(Gamep g, Levelsp v) -> void;
 auto fragment_alts_fini(Gamep g) -> void;
 auto fragments_fini(Gamep g) -> void;
 auto fragments_init(Gamep g) -> void;
@@ -809,7 +812,7 @@ auto level_gen_test(Gamep g) -> void;
 auto level_group_things(Gamep g, Levelsp v, Levelp l, Thingp t) -> void;
 auto level_has_seen_update(Gamep g, Levelsp v, Levelp l) -> void;
 auto level_hearing_gen(Gamep g, Levelsp v, Levelp l) -> void;
-auto level_init(Gamep g, Levelsp v, Levelp l, LevelNum n) -> void;
+auto level_init(Gamep g, Levelsp v, Levelp l, LevelArrIdx n) -> void;
 auto level_is_boss_final_level_set(Gamep g, Levelsp v, Levelp l, bool val = true) -> void;
 auto level_is_boss_level_set(Gamep g, Levelsp v, Levelp l, bool val = true) -> void;
 auto level_is_completed_by_player_exiting(Gamep g, Levelsp v, Levelp l) -> void;

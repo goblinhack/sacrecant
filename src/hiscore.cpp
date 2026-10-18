@@ -32,7 +32,7 @@ HiScores::HiScores()
 
 HiScores::~HiScores() { TRACE(); }
 
-void HiScores::add_new_hiscore(Gamep g, uint32_t score, LevelNum level_num, const std::string &name, const std::string &reason)
+void HiScores::add_new_hiscore(Gamep g, uint32_t score, LevelArrIdx level_num, const std::string &name, const std::string &reason)
 {
   TRACE();
   auto        h = hiscores.begin();

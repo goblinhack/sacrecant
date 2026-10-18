@@ -861,7 +861,7 @@ static auto level_tick_process_pending_request(Gamep g, Levelsp v) -> uint32_t
     //
     iter->tick_begin_requested = false;
 
-    LEVEL_DBG(g, v, iter, "Tick %u: requested by level %u", v->tick, iter->level_num);
+    LEVEL_DBG(g, v, iter, "Tick %u: requested by level %u", v->tick, iter->level_arr_idx);
 
     //
     // If this is the first level requesting a tick, reset the frame counters and move the

@@ -16,7 +16,7 @@ void level_dump(Gamep g, Levelsp v, Levelp l, int w, int h, const std::string &s
 {
   TRACE();
 
-  level_con(g, v, l, "Level: %u", l->level_num + 1);
+  level_con(g, v, l, "Level: %u", l->level_arr_idx + 1);
 
   for (int y = 0; y < h; y++) {
     std::string line;

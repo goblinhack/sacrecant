@@ -61,7 +61,7 @@
                                   /* is_burning                    */ "{}"
                                   /* is_scheduled_for_cleanup      */ "{}",
                                   /* newline */ t->id,
-                                  /* newline */ t->level_num + 1,
+                                  /* newline */ t->level_arr_idx + 1,
                                   /* newline */ t->tick,
                                   /* newline */ thing_health(g, v, l, t),
                                   /* newline */ at.x, at.y,

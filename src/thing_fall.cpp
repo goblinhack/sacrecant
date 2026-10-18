@@ -360,7 +360,7 @@ static void thing_fall_end(Gamep g, Levelsp v, Levelp l, Thingp me)
     player_fell(g, v, l, next_level, me);
   }
 
-  auto *t_level = game_level_get(g, v, me->level_num);
+  auto *t_level = game_level_get(g, v, me->level_arr_idx);
   if (t_level != nullptr) {
     l = t_level;
   } else {
@@ -489,7 +489,7 @@ void thing_fall_end_check(Gamep g, Levelsp v, Levelp l, Thingp me)
 
     thing_fall_end(g, v, l, me);
 
-    auto *t_level = game_level_get(g, v, me->level_num);
+    auto *t_level = game_level_get(g, v, me->level_arr_idx);
     if (t_level == nullptr) {
       thing_err(g, v, l, me, "fell into nothing");
     }

@@ -31,9 +31,9 @@ using ThingIdPacked = union {
     uint32_t val : 32;
   } __attribute__((__packed__)) a;
   struct {
-    uint32_t entropy      : THING_ENTROPY_BITS;
-    uint32_t per_level_id : THING_PER_LEVEL_THING_ID_BITS;
-    uint32_t level_num    : THING_LEVEL_ID_BITS;
+    uint32_t entropy            : THING_ENTROPY_BITS;
+    uint32_t per_level_thing_id : THING_PER_LEVEL_THING_ID_BITS;
+    uint32_t level_arr_idx      : THING_LEVEL_ID_BITS;
   } __attribute__((__packed__)) b;
   struct {
     uint32_t entropy   : THING_ENTROPY_BITS;
@@ -44,9 +44,9 @@ using ThingIdPacked = union {
 //
 // Essentially equates to the max number of monsters+light sources per level
 //
-#define THING_EXT_MAX   (LEVEL_ARR_IDX_MAX * THING_MONST_AND_ITEM_PER_LEVEL_MAX) // The size of thing_ext
-#define THING_DMAP_MAX  (LEVEL_ARR_IDX_MAX * THING_MOB_PER_LEVEL_MAX)            // The size of thing_dmap
-#define THING_LIGHT_MAX (LEVEL_ARR_IDX_MAX * THING_LIGHT_PER_LEVEL_MAX)          // The size of thing_light
+#define THING_EXT_ID_MAX   (LEVEL_ARR_IDX_MAX * THING_EXT_ID_PER_LEVEL_MAX)   // The size of thing_ext
+#define THING_DMAP_ID_MAX  (LEVEL_ARR_IDX_MAX * THING_DMAP_ID_PER_LEVEL_MAX)  // The size of thing_dmap
+#define THING_LIGHT_ID_MAX (LEVEL_ARR_IDX_MAX * THING_LIGHT_ID_PER_LEVEL_MAX) // The size of thing_light
 
 #define THING_MOVE_PATH_MAX MAP_WIDTH // Player/monster move paths (max size uint8_t)
 #define THING_INVENTORY_MAX 26
@@ -528,7 +528,7 @@ using Thing = struct Thing {
   //
   // Which level am I on?
   //
-  LevelNum level_num;
+  LevelArrIdx level_arr_idx;
   //
   // Current tile.
   //
@@ -1617,7 +1617,7 @@ auto player_reached_entrance_do(Gamep g, Levelsp v, Levelp l) -> void;
 auto player_reached_entrance(Gamep g, Levelsp v, Levelp l) -> void;
 auto player_reached_exit_do(Gamep g, Levelsp v, Levelp l) -> void;
 auto player_reached_exit(Gamep g, Levelsp v, Levelp l, Thingp player) -> void;
-auto player_warp_to_specific_level(Gamep g, Levelsp v, Levelp l, LevelNum level_num) -> void;
+auto player_warp_to_specific_level(Gamep g, Levelsp v, Levelp l, LevelArrIdx level_arr_idx) -> void;
 auto thing_anim_init(Gamep g, Levelsp v, Levelp l, Thingp t, ThingAnimType anim_type) -> void;
 auto thing_anim_time_step(Gamep g, Levelsp v, Levelp l, Thingp t, Tpp tp, int time_step) -> void;
 auto thing_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &val) -> void;

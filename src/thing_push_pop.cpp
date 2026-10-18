@@ -116,7 +116,7 @@
         // Save where we were pushed so we can pop the same location
         //
         thing_is_on_map_set(g, v, l, t);
-        t->level_num                        = l->level_num;
+        t->level_arr_idx                    = l->level_arr_idx;
         t->last_pushed_at                   = at;
         l->thing_id[ at.x ][ at.y ][ slot ] = t->id;
 

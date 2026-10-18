@@ -785,8 +785,8 @@ auto operator>>(std::istream &in, Bits< class Game & > my) -> std::istream &
       return in;
     }
     in >> bits(tmp);
-    if (tmp != offsetof(Thing, level_num)) {
-      game_load_error = "thing structure changed: offsetof(Thing, level_num)";
+    if (tmp != offsetof(Thing, level_arr_idx)) {
+      game_load_error = "thing structure changed: offsetof(Thing, level_arr_idx)";
       return in;
     }
     in >> bits(tmp);
@@ -1049,8 +1049,8 @@ auto operator>>(std::istream &in, Bits< class Game & > my) -> std::istream &
     // Check Level offsets
     //
     in >> bits(tmp);
-    if (tmp != offsetof(Level, level_num)) {
-      game_load_error = "Level structure changed: offsetof(Level, level_num)";
+    if (tmp != offsetof(Level, level_arr_idx)) {
+      game_load_error = "Level structure changed: offsetof(Level, level_arr_idx)";
       return in;
     }
     in >> bits(tmp);
@@ -1089,8 +1089,8 @@ auto operator>>(std::istream &in, Bits< class Game & > my) -> std::istream &
       return in;
     }
     in >> bits(tmp);
-    if (tmp != offsetof(Level, level_num_next)) {
-      game_load_error = "Level structure changed: offsetof(Level, level_num_next)";
+    if (tmp != offsetof(Level, level_arr_idx_next)) {
+      game_load_error = "Level structure changed: offsetof(Level, level_arr_idx_next)";
       return in;
     }
     in >> bits(tmp);

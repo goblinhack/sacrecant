@@ -577,8 +577,8 @@ void game_init(Gamep g) { g->init(); }
 //
 // Create a level with the given contents and start the game into playing state
 //
-[[nodiscard]] auto game_test_init(Gamep g, Levelp *l_out, LevelNum level_num, int w, int h, const char *contents, const Overrides &overrides)
-    -> Levelsp
+[[nodiscard]] auto game_test_init(Gamep g, Levelp *l_out, LevelArrIdx level_arr_idx, int w, int h, const char *contents,
+                                  const Overrides &overrides) -> Levelsp
 {
   log("test init");
   TRACE_INDENT();
@@ -596,7 +596,7 @@ void game_init(Gamep g) { g->init(); }
 
   auto *v = game_levels_set(g, levels_memory_alloc(g));
 
-  game_test_init_level(g, v, l_out, level_num, w, h, contents, overrides);
+  game_test_init_level(g, v, l_out, level_arr_idx, w, h, contents, overrides);
 
   game_state_reset(g, "new game");
 
@@ -615,25 +615,25 @@ void game_init(Gamep g) { g->init(); }
 //
 // Create an additional level with the given contents and start the game into playing state
 //
-void game_test_init_level(Gamep g, Levelsp v, Levelp *l_out, LevelNum level_num, bpoint level_at, int w, int h, const char *contents,
+void game_test_init_level(Gamep g, Levelsp v, Levelp *l_out, LevelArrIdx level_arr_idx, bpoint level_at, int w, int h, const char *contents,
                           const Overrides &overrides)
 {
   log("test init level");
   TRACE_INDENT();
 
-  auto *l = game_level_get(g, v, level_num);
+  auto *l = game_level_get(g, v, level_arr_idx);
   if (l_out != nullptr) {
     *l_out = l;
   }
 
-  level_init(g, v, l, level_num);
+  level_init(g, v, l, level_arr_idx);
 
   if (! level_populate(g, v, l, nullptr, w, h, contents, overrides)) {
     CROAK("level populate failed");
   }
 
-  if (level_num >= LEVEL_ARR_IDX_MAX) {
-    CROAK("too many levels deep, level_num %d", level_num);
+  if (level_arr_idx >= LEVEL_ARR_IDX_MAX) {
+    CROAK("too many levels deep, level_arr_idx %d", level_arr_idx);
   }
 
   if (level_at.x >= LEVEL_GRID_ACROSS) {
@@ -650,7 +650,7 @@ void game_test_init_level(Gamep g, Levelsp v, Levelp *l_out, LevelNum level_num,
   l->level_select_at = level_at;
 
   auto *s            = &v->level_select.data[ level_at.x ][ level_at.y ];
-  s->level_num       = l->level_num;
+  s->level_arr_idx   = l->level_arr_idx;
   s->is_set          = 1U;
   l->level_select_at = level_at;
 
@@ -660,9 +660,10 @@ void game_test_init_level(Gamep g, Levelsp v, Levelp *l_out, LevelNum level_num,
   levels_finalize(g, v);
 }
 
-void game_test_init_level(Gamep g, Levelsp v, Levelp *l_out, LevelNum level_num, int w, int h, const char *contents, const Overrides &overrides)
+void game_test_init_level(Gamep g, Levelsp v, Levelp *l_out, LevelArrIdx level_arr_idx, int w, int h, const char *contents,
+                          const Overrides &overrides)
 {
-  game_test_init_level(g, v, l_out, level_num, bpoint(0, level_num), w, h, contents, overrides);
+  game_test_init_level(g, v, l_out, level_arr_idx, bpoint(0, level_arr_idx), w, h, contents, overrides);
 }
 
 void Game::fini()
@@ -1012,7 +1013,7 @@ void Game::create_levels()
   }
 
   //
-  // Crteate the actual levels
+  // Create the actual levels
   //
   level_gen_create_levels(g, v);
 
@@ -1044,8 +1045,8 @@ void Game::create_levels()
   //
   // First level. Usually 0 but can be a specified level.
   //
-  if (level_change(g, v, g_level_opt.level_num) == nullptr) {
-    ERR("failed to change to chosen level %d", g_level_opt.level_num);
+  if (level_change(g, v, g_level_opt.level_arr_idx) == nullptr) {
+    ERR("failed to change to chosen level %d", g_level_opt.level_arr_idx);
     return;
   }
 
@@ -1709,7 +1710,7 @@ void game_display(Gamep g)
   return g->config.hiscores.hiscores[ 0 ].score;
 }
 
-void game_add_new_hiscore(Gamep g, uint32_t score, LevelNum level_num, const char *name, const char *reason)
+void game_add_new_hiscore(Gamep g, uint32_t score, LevelArrIdx level_arr_idx, const char *name, const char *reason)
 {
   TRACE();
 
@@ -1717,7 +1718,7 @@ void game_add_new_hiscore(Gamep g, uint32_t score, LevelNum level_num, const cha
     ERR("no game pointer");
     return;
   }
-  g->config.hiscores.add_new_hiscore(g, score, level_num, name, reason);
+  g->config.hiscores.add_new_hiscore(g, score, level_arr_idx, name, reason);
 }
 
 [[nodiscard]] auto game_is_new_hiscore(Gamep g, uint32_t score) -> bool
@@ -2509,7 +2510,7 @@ void game_sound_volume_set(Gamep g, int val)
   return g->levels = val;
 }
 
-[[nodiscard]] auto game_level_populate(Gamep g, Levelsp v, LevelNum n) -> Levelp
+[[nodiscard]] auto game_level_populate(Gamep g, Levelsp v, LevelArrIdx n) -> Levelp
 {
   TRACE();
 
@@ -2525,7 +2526,7 @@ void game_sound_volume_set(Gamep g, int val)
     ERR("game_level_populate: Exceeded max level arr idx: %u", n);
     return nullptr;
   }
-  v->level_num = n;
+  v->level_arr_idx = n;
   return game_level_get(g, v);
 }
 

@@ -9,11 +9,11 @@
 #include "my_tp.hpp"
 #include "my_types.hpp"
 
-[[nodiscard]] auto level_type(LevelNum level_num) -> LevelType
+[[nodiscard]] auto level_type(LevelArrIdx level_arr_idx) -> LevelType
 {
   TRACE();
 
-  switch (level_num) {
+  switch (level_arr_idx) {
     case LEVEL_ARR_IDX_BOSS_1 : return LEVEL_TYPE_BOSS1;
     case LEVEL_ARR_IDX_BOSS_2 : return LEVEL_TYPE_BOSS2;
     case LEVEL_ARR_IDX_BOSS_3 : return LEVEL_TYPE_BOSS3;
@@ -24,11 +24,11 @@
   return LEVEL_TYPE_NORMAL;
 }
 
-[[nodiscard]] auto level_type_is_boss_level(LevelNum level_num) -> bool
+[[nodiscard]] auto level_type_is_boss_level(LevelArrIdx level_arr_idx) -> bool
 {
   TRACE();
 
-  switch (level_num) {
+  switch (level_arr_idx) {
     case LEVEL_ARR_IDX_BOSS_1 : return true;
     case LEVEL_ARR_IDX_BOSS_2 : return true;
     case LEVEL_ARR_IDX_BOSS_3 : return true;
@@ -48,7 +48,7 @@
     return false;
   }
 
-  switch (l->level_num + 1) {
+  switch (l->level_arr_idx) {
     case LEVEL_ARR_IDX_BOSS_1 : return true;
     case LEVEL_ARR_IDX_BOSS_2 : return true;
     case LEVEL_ARR_IDX_BOSS_3 : return true;
@@ -95,6 +95,9 @@ auto level_is_boss_final_level_set(Gamep g, Levelsp v, Levelp l, bool val) -> vo
   l->is_boss_final_level = val;
 }
 
+//
+// For level selection, what levels can we enter
+//
 [[nodiscard]] auto level_is_valid_grid_coord(int x, int y) -> bool
 {
   TRACE();

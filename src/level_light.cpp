@@ -226,7 +226,7 @@ void level_light_calculate_all(Gamep g, Levelsp v, Levelp l)
   //
   // If the player is not on the level being lit, then nothing to do
   //
-  if (l->level_num != player->level_num) {
+  if (l->level_arr_idx != player->level_arr_idx) {
     return;
   }
 

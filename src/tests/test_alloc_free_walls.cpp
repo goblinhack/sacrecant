@@ -13,7 +13,7 @@
   TEST_LOG(t, "begin");
   TRACE();
 
-  LevelNum level_num = 0;
+  LevelArrIdx level_num = 0;
   auto     w         = 0;
   auto     h         = 0;
 
