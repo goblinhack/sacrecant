@@ -10,12 +10,12 @@
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
-#include <unordered_map>
 #include <string>
+#include <unordered_map>
 
 std::unordered_map< std::string, RamdiskT > ramdisk_data;
 
-[[nodiscard]] auto ramdisk_load(const char *filename, int *outlen) ->  uint8_t *
+[[nodiscard]] auto ramdisk_load(const char *filename, int *outlen) -> unsigned char *
 {
   TRACE();
 
@@ -32,9 +32,9 @@ std::unordered_map< std::string, RamdiskT > ramdisk_data;
     return nullptr;
   }
 
-  memcpy(out, const_cast<uint8_t *>(ramfile.data), ramfile.len);
-  *(static_cast<uint8_t *>(out) + ramfile.len) = 0;
-  *outlen                                = ramfile.len;
+  memcpy(out, const_cast< uint8_t * >(ramfile.data), ramfile.len);
+  *(static_cast< uint8_t * >(out) + ramfile.len) = 0;
+  *outlen                                        = ramfile.len;
 
-  return static_cast<uint8_t *>(out);
+  return static_cast< uint8_t * >(out);
 }
