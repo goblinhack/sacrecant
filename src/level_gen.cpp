@@ -5735,13 +5735,11 @@ void level_gen_create_levels(Gamep g, Levelsp v)
   }
   v->is_generating_levels = false;
 
-  IF_DEBUG2
-  {
-    for (auto i = 0; i < max_threads; i++) {
-      auto *lg = levels_generated[ i ];
-      if (lg != nullptr) {
-        level_gen_dump(lg, "created levels");
-      }
+  for (auto i = 0; i < max_threads; i++) {
+    auto *lg = levels_generated[ i ];
+    if (lg != nullptr) {
+      IF_DEBUG2 { level_gen_dump(lg, "created levels"); }
+      delete (lg);
     }
   }
 
