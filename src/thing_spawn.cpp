@@ -15,65 +15,66 @@
 #include "my_tp_class.hpp"
 #include "my_types.hpp"
 
-static void thing_is_spawned_set(Thingp t, bool val)
+static void thing_is_spawned_set(Thingp me, bool val)
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     ERR("no thing pointer");
     return;
   }
 
-  if (t->_is_spawned == static_cast< int >(val)) {
+  if (me->_is_spawned == static_cast< int >(val)) {
     return;
   }
-  t->_is_spawned = val;
+  me->_is_spawned = val;
 }
 
-void thing_is_spawned_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
+void thing_is_spawned_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE_DEBUG();
 
-  thing_is_spawned_set(t, false);
+  thing_is_spawned_set(me, false);
 }
 
 [[nodiscard]] auto thing_spawn(Gamep g, Levelsp v, Levelp l, Tpp tp, const fpoint &at, ThingEvent *e) -> Thingp
 {
   TRACE();
 
-  auto *t = thing_init(g, v, l, tp, at);
-  if (t == nullptr) {
+  auto *me = thing_init(g, v, l, tp, at);
+  if (me == nullptr) {
     tp_log(tp, "failed to init thing");
     return nullptr;
   }
 
-  if (! thing_push(g, v, l, t)) {
-    THING_DBG(g, v, l, t, "failed to push");
+  if (! thing_push(g, v, l, me)) {
+    THING_DBG(g, v, l, me, "failed to push");
     return nullptr;
   }
 
   //
   // This is reset each tick
   //
-  if (thing_is_tick_end_delay(t)) {
+  if (thing_is_tick_end_delay(me)) {
     l->is_tick_end_delay = true;
   }
+
+  THING_DBG(g, v, l, me, "spawned");
 
   //
   // Need to differentiate things spawned normally at game creation and those after
   //
   if (v->tick != 0U) {
-    THING_DBG(g, v, l, t, "spawned");
-
-    thing_is_spawned_set(t, true);
+    thing_is_spawned_set(me, true);
   }
 
   //
   // Needed for all things, to get items populated
   //
-  thing_on_spawned(g, v, l, t, e);
+  thing_on_spawned(g, v, l, me, e);
+  THING_DBG(g, v, l, me, "dmap id %08x", me->dmap_id);
 
-  return t;
+  return me;
 }
 
 [[nodiscard]] auto thing_spawn(Gamep g, Levelsp v, Levelp l, Tpp tp, const bpoint &at, ThingEvent *e) -> Thingp

@@ -32,7 +32,7 @@ static uint32_t last_light_id[ LEVEL_ARR_IDX_MAX ];
 static bool memory_test = true;
 #endif
 
-[[nodiscard]] static auto thing_ext_alloc(Levelsp v, Levelp l, Thingp t) -> bool
+[[nodiscard]] static auto thing_ext_alloc(Levelsp v, Levelp l, Thingp me) -> bool
 {
   TRACE();
 
@@ -64,39 +64,39 @@ static bool memory_test = true;
     }
 
     v->thing_ext[ ext_id ].in_use = true;
-    t->ext_id                     = ext_id;
+    me->ext_id                    = ext_id;
     last_ext_id[ level_arr_idx ]  = ext_id;
 
     return true;
   }
 
   if (g_thread_id == MAIN_THREAD) {
-    DBG("out of Thing ext IDs: max is %d", THING_EXT_ID_MAX);
+    warn("out of thing ext IDs: max is %08" PRIX32 "", THING_EXT_ID_MAX);
   } else {
-    CROAK("out of Thing ext IDs: max is %d", THING_EXT_ID_MAX);
+    CROAK("out of thing ext IDs: max is %08" PRIX32 "", THING_EXT_ID_MAX);
   }
 
   return false;
 }
 
-static void thing_ext_free(Levelsp v, Thingp t)
+static void thing_ext_free(Levelsp v, Thingp me)
 {
   TRACE();
 
-  auto ext_id = t->ext_id;
+  auto ext_id = me->ext_id;
   if (ext_id == 0U) {
     return;
   }
 
   if (! v->thing_ext[ ext_id ].in_use) {
-    CROAK("freeing unused Thing ext ID is not in use, %" PRIX32 "", ext_id);
+    CROAK("freeing unused thing ext ID is not in use, %" PRIX32 "", ext_id);
   }
 
   v->thing_ext[ ext_id ] = {};
-  t->ext_id              = 0;
+  me->ext_id             = 0;
 }
 
-[[nodiscard]] static auto thing_dmap_alloc(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool
+[[nodiscard]] static auto thing_dmap_alloc(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool
 {
   TRACE();
 
@@ -113,7 +113,7 @@ static void thing_ext_free(Levelsp v, Thingp t)
 
   auto level_arr_idx = l->level_arr_idx;
   if (! last_dmap_id[ level_arr_idx ]) {
-    last_dmap_id[ level_arr_idx ] = level_arr_idx * THING_EXT_ID_PER_LEVEL_MAX;
+    last_dmap_id[ level_arr_idx ] = level_arr_idx * THING_DMAP_ID_PER_LEVEL_MAX;
   }
 
   for (auto tries = 0; tries < max_tries; tries++) {
@@ -128,42 +128,46 @@ static void thing_ext_free(Levelsp v, Thingp t)
     }
 
     v->thing_dmap[ dmap_id ].in_use = true;
-    t->dmap_id                      = dmap_id;
-    THING_DBG(g, v, l, t, "alloc dmap id: %d", t->dmap_id);
+    me->dmap_id                     = dmap_id;
+    if (compiler_unused) {
+      THING_DBG(g, v, l, me, "alloc dmap id: %08" PRIX32 "", me->dmap_id);
+    }
     last_dmap_id[ level_arr_idx ] = dmap_id;
 
     return true;
   }
 
   if (g_thread_id == MAIN_THREAD) {
-    DBG("out of Thing dmap IDs: max is %d", THING_DMAP_ID_MAX);
+    warn("out of thing dmap IDs: max is %08" PRIX32 "", THING_DMAP_ID_MAX);
   } else {
-    CROAK("out of Thing dmap IDs: max is %d", THING_DMAP_ID_MAX);
+    CROAK("out of thing dmap IDs: max is %08" PRIX32 "", THING_DMAP_ID_MAX);
   }
 
   return false;
 }
 
-static void thing_dmap_free(Gamep g, Levelsp v, Levelp l, Thingp t)
+static void thing_dmap_free(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
 
-  auto dmap_id = t->dmap_id;
+  auto dmap_id = me->dmap_id;
   if (dmap_id == 0U) {
     return;
   }
 
-  THING_DBG(g, v, l, t, "free dmap id: %d", t->dmap_id);
+  if (compiler_unused) {
+    THING_DBG(g, v, l, me, "free dmap id: %08" PRIX32 "", me->dmap_id);
+  }
 
   if (! v->thing_dmap[ dmap_id ].in_use) {
-    CROAK("freeing unused Thing dmap ID is not in use, %" PRIX32 "", dmap_id);
+    CROAK("freeing unused thing dmap ID is not in use, %" PRIX32 "", dmap_id);
   }
 
   v->thing_dmap[ dmap_id ] = {};
-  t->dmap_id               = 0;
+  me->dmap_id              = 0;
 }
 
-[[nodiscard]] static auto thing_light_alloc(Levelsp v, Levelp l, Thingp t) -> bool
+[[nodiscard]] static auto thing_light_alloc(Levelsp v, Levelp l, Thingp me) -> bool
 {
   TRACE();
 
@@ -195,36 +199,36 @@ static void thing_dmap_free(Gamep g, Levelsp v, Levelp l, Thingp t)
     }
 
     v->thing_light[ light_id ].in_use = true;
-    t->light_id                       = light_id;
+    me->light_id                      = light_id;
     last_light_id[ level_arr_idx ]    = light_id;
 
     return true;
   }
 
   if (g_thread_id == MAIN_THREAD) {
-    DBG("out of Thing light IDs: max is %d", THING_LIGHT_ID_MAX);
+    warn("out of thing light IDs: max is %08" PRIX32 "", THING_LIGHT_ID_MAX);
   } else {
-    CROAK("out of Thing light IDs on level %d: max is %d", level_arr_idx, THING_LIGHT_ID_MAX);
+    CROAK("out of thing light IDs on level %08" PRIX32 ": max is %08" PRIX32 "", level_arr_idx, THING_LIGHT_ID_MAX);
   }
 
   return false;
 }
 
-static void thing_light_free(Levelsp v, Thingp t)
+static void thing_light_free(Levelsp v, Thingp me)
 {
   TRACE();
 
-  auto light_id = t->light_id;
+  auto light_id = me->light_id;
   if (light_id == 0U) {
     return;
   }
 
   if (! v->thing_light[ light_id ].in_use) {
-    CROAK("freeing unused Thing light ID is not in use, %" PRIX32 "", light_id);
+    CROAK("freeing unused thing light ID is not in use, %" PRIX32 "", light_id);
   }
 
   v->thing_light[ light_id ] = {};
-  t->light_id                = 0;
+  me->light_id               = 0;
 }
 
 static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked id,
@@ -250,8 +254,8 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
   // Check if there is anything at this index
   //
   auto  arr_index = id.c.arr_index;
-  auto *t         = &v->thing_body[ arr_index ];
-  if ((t->tp_id) != 0U) [[unlikely]] {
+  auto *me        = &v->thing_body[ arr_index ];
+  if ((me->tp_id) != 0U) [[unlikely]] {
     //
     // Some other thread grabbed it already?
     //
@@ -267,7 +271,7 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
     //
     // Just in case someone else grabbed it while locking...
     //
-    if ((t->tp_id) != 0U) [[unlikely]] {
+    if ((me->tp_id) != 0U) [[unlikely]] {
       thing_mutex.unlock();
       return nullptr;
     }
@@ -275,34 +279,34 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
     //
     // We safely have this slot
     //
-    t->tp_id = tp_id;
+    me->tp_id = tp_id;
     thing_mutex.unlock();
   } else {
     //
     // No need to worry about other threads
     //
-    if ((t->tp_id) != 0U) [[unlikely]] {
+    if ((me->tp_id) != 0U) [[unlikely]] {
       return nullptr;
     }
 
-    t->tp_id = tp_id;
+    me->tp_id = tp_id;
   }
 
   //
   // Zero the thing out. TAKE CARE not to zero tp_id
   //
-  if (g_opt_tests || DEBUG) {
+  if (g_opt_tests || g_opt_do_level_gen || g_opt_do_level_select_gen || g_opt_do_room_gen || DEBUG) {
     //
     // Should be no need to do this as we zero on thing destruction
     //
-    char *p = reinterpret_cast< char * >(t) + SIZEOF(t->tp_id);
-    for (auto i = 0; i < SIZEOF(*t) - SIZEOF(t->tp_id); i++, p++) {
+    char *p = reinterpret_cast< char * >(me) + SIZEOF(me->tp_id);
+    for (auto i = 0; i < SIZEOF(*me) - SIZEOF(me->tp_id); i++, p++) {
       if (*p) {
         CROAK("expected memory to be zeroed");
       }
     }
 
-    memset(reinterpret_cast< char * >(t) + SIZEOF(t->tp_id), 0, SIZEOF(*t) - SIZEOF(t->tp_id));
+    memset(reinterpret_cast< char * >(me) + SIZEOF(me->tp_id), 0, SIZEOF(*me) - SIZEOF(me->tp_id));
   }
 
   //
@@ -317,7 +321,7 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
   //
   // The thing has the full ID, including entropy
   //
-  t->id = id.a.val;
+  me->id = id.a.val;
 
   if (compiler_unused) {
     log("thing alloc %08" PRIX32 //
@@ -325,14 +329,14 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
         " id: %08" PRIX32        //
         " entropy: %08" PRIX32   //
         ")",                     //
-        t->id,                   //
+        me->id,                  //
         id.b.level_arr_idx,      //
         id.b.per_level_thing_id, //
         id.b.entropy);
   }
 
   if (needs_ext_memory) {
-    if (! thing_ext_alloc(v, l, t)) {
+    if (! thing_ext_alloc(v, l, me)) {
       //
       // Try to carry on
       //
@@ -340,7 +344,7 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
   }
 
   if (needs_dmap_memory) {
-    if (! thing_dmap_alloc(g, v, l, t)) {
+    if (! thing_dmap_alloc(g, v, l, me)) {
       //
       // Try to carry on
       //
@@ -348,23 +352,29 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
   }
 
   if (needs_light_memory) {
-    if (! thing_light_alloc(v, l, t)) {
+    if (! thing_light_alloc(v, l, me)) {
       //
       // Try to carry on
       //
     }
   }
 
+  if (compiler_unused) {
+    THING_DBG(g, v, l, me, "alloced ext id   %08x", me->ext_id);
+    THING_DBG(g, v, l, me, "alloced dmap id  %08x", me->dmap_id);
+    THING_DBG(g, v, l, me, "alloced light id %08x", me->light_id);
+  }
+
 #ifdef ENABLE_PER_THING_MEMORY
   if (memory_test) {
-    auto tmp = malloc(sizeof(*t));
-    memcpy(tmp, t, sizeof(*t));
-    t                                = (Thingp) tmp;
-    v->thing_body_debug[ arr_index ] = t;
+    auto tmp = malloc(sizeof(*me));
+    memcpy(tmp, me, sizeof(*me));
+    me                               = (Thingp) tmp;
+    v->thing_body_debug[ arr_index ] = me;
   }
 #endif
 
-  return t;
+  return me;
 }
 
 [[nodiscard]] auto thing_alloc(Gamep g, Levelsp v, Levelp l, Tpp tp, bpoint /*p*/) -> Thingp
@@ -415,10 +425,10 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
     id.b.level_arr_idx      = level_arr_idx;
     id.b.per_level_thing_id = per_level_id;
 
-    auto *t = thing_alloc_do(g, v, l, tp, id, needs_ext_memory, needs_dmap_memory, needs_light_memory, false /* mutex */);
-    if (t != nullptr) {
+    auto *me = thing_alloc_do(g, v, l, tp, id, needs_ext_memory, needs_dmap_memory, needs_light_memory, false /* mutex */);
+    if (me != nullptr) {
       thing_id_last_per_level_id[ level_arr_idx ] = per_level_id;
-      return t;
+      return me;
     }
   }
 
@@ -437,28 +447,33 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
     ThingIdPacked id = {};
     id.c.arr_index   = arr_index;
 
-    auto *t = thing_alloc_do(g, v, l, tp, id, needs_ext_memory, needs_dmap_memory, needs_light_memory, true /* mutex */);
-    if (t != nullptr) {
+    auto *me = thing_alloc_do(g, v, l, tp, id, needs_ext_memory, needs_dmap_memory, needs_light_memory, true /* mutex */);
+    if (me != nullptr) {
       thing_id_from_end_id = arr_index;
-      return t;
+      return me;
     }
   }
 
-  CROAK("out of Thing IDs: max is %d", THING_ID_MAX);
+  CROAK("out of thing IDs: max is THING_ID_MAX %08" PRIX32 "", THING_ID_MAX);
   return nullptr;
 }
 
-void thing_free(Gamep g, Levelsp v, Levelp l, Thingp t)
+void thing_free(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
-  THING_DBG(g, v, l, t, "free");
+  if (compiler_unused) {
+    THING_DBG(g, v, l, me, "free");
+    THING_DBG(g, v, l, me, "free ext id   %08x", me->ext_id);
+    THING_DBG(g, v, l, me, "free dmap id  %08x", me->dmap_id);
+    THING_DBG(g, v, l, me, "free light id %08x", me->light_id);
+  }
   TRACE();
 
-  auto *o = thing_find(g, v, t->id);
-  if (t != o) {
-    CROAK("thing_free: thing mismatch found for id, %p %08" PRIX32 "", (void *) t, t->id);
+  auto *o = thing_find(g, v, me->id);
+  if (me != o) {
+    CROAK("thing_free: thing mismatch found for id, %p %08" PRIX32 "", (void *) me, me->id);
   }
 
-  auto *tp = thing_tp(t);
+  auto *tp = thing_tp(me);
 
   //
   // Clean up references
@@ -472,24 +487,24 @@ void thing_free(Gamep g, Levelsp v, Levelp l, Thingp t)
   }
 
   if (v->is_generating_levels) {
-    CROAK("unexpected to be freeing things during creation");
+    CROAK("unexpected to be freeing things during level creation");
   }
 
   //
   // Remove from descriptions
   //
-  (void) level_cursor_describe_remove(g, v, t);
+  (void) level_cursor_describe_remove(g, v, me);
 
-  (void) thing_pop(g, v, t);
+  (void) thing_pop(g, v, me);
 
-  thing_ext_free(v, t);
-  thing_dmap_free(g, v, l, t);
-  thing_light_free(v, t);
-  memset((void *) t, 0, SIZEOF(*t));
+  thing_ext_free(v, me);
+  thing_dmap_free(g, v, l, me);
+  thing_light_free(v, me);
+  memset((void *) me, 0, SIZEOF(*me));
 
 #ifdef ENABLE_PER_THING_MEMORY
   if (memory_test) {
-    free(t);
+    free(me);
   }
 #endif
 }
@@ -506,98 +521,98 @@ void thing_alloc_free_fini(Gamep g)
   memset(last_light_id, 0, sizeof(last_light_id));
 }
 
-[[nodiscard]] auto thing_is_removable_when_dead_on_err(Thingp t) -> bool
+[[nodiscard]] auto thing_is_removable_when_dead_on_err(Thingp me) -> bool
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     CROAK("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_removable_when_dead_on_err) != 0;
+  return tp_flag(thing_tp(me), is_removable_when_dead_on_err) != 0;
 }
 
-[[nodiscard]] auto thing_is_removable_on_err(Thingp t) -> bool
+[[nodiscard]] auto thing_is_removable_on_err(Thingp me) -> bool
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     CROAK("no thing pointer");
     return false;
   }
-  return tp_flag(thing_tp(t), is_removable_on_err) != 0;
+  return tp_flag(thing_tp(me), is_removable_on_err) != 0;
 }
 
-[[nodiscard]] auto thing_is_scheduled_for_cleanup(Thingp t) -> bool
+[[nodiscard]] auto thing_is_scheduled_for_cleanup(Thingp me) -> bool
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     CROAK("no thing pointer");
     return false;
   }
 
-  return t->_is_scheduled_for_cleanup;
+  return me->_is_scheduled_for_cleanup;
 }
 
-void thing_is_scheduled_for_cleanup_set(Gamep g, Levelsp v, Levelp l, Thingp t, bool val)
+void thing_is_scheduled_for_cleanup_set(Gamep g, Levelsp v, Levelp l, Thingp me, bool val)
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     CROAK("no thing pointer");
     return;
   }
 
-  if (t->_is_scheduled_for_cleanup == static_cast< int >(val)) {
+  if (me->_is_scheduled_for_cleanup == static_cast< int >(val)) {
     return;
   }
-  t->_is_scheduled_for_cleanup = val;
+  me->_is_scheduled_for_cleanup = val;
 
   if (val) {
-    THING_DBG(g, v, l, t, "is scheduled for cleanup set");
+    THING_DBG(g, v, l, me, "is scheduled for cleanup set");
   }
 
   level_request_to_cleanup_things_set(g, v, l);
 }
 
-void thing_is_scheduled_for_cleanup_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
+void thing_is_scheduled_for_cleanup_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE_DEBUG();
 
-  thing_is_scheduled_for_cleanup_set(g, v, l, t, false);
+  thing_is_scheduled_for_cleanup_set(g, v, l, me, false);
 }
 
-[[nodiscard]] auto thing_is_scheduled_for_worklist(Thingp t) -> bool
+[[nodiscard]] auto thing_is_scheduled_for_worklist(Thingp me) -> bool
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     CROAK("no thing pointer");
     return false;
   }
 
-  return t->_is_scheduled_for_worklist;
+  return me->_is_scheduled_for_worklist;
 }
 
-void thing_is_scheduled_for_worklist_set(Thingp t, bool val)
+void thing_is_scheduled_for_worklist_set(Thingp me, bool val)
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     CROAK("no thing pointer");
     return;
   }
 
-  if (t->_is_scheduled_for_worklist == static_cast< int >(val)) {
+  if (me->_is_scheduled_for_worklist == static_cast< int >(val)) {
     return;
   }
-  t->_is_scheduled_for_worklist = val;
+  me->_is_scheduled_for_worklist = val;
 }
 
-void thing_is_scheduled_for_worklist_unset(Thingp t)
+void thing_is_scheduled_for_worklist_unset(Thingp me)
 {
   TRACE_DEBUG();
 
-  thing_is_scheduled_for_worklist_set(t, false);
+  thing_is_scheduled_for_worklist_set(me, false);
 }
