@@ -96,7 +96,7 @@ static void thing_ext_free(Levelsp v, Thingp t)
   t->ext_id              = 0;
 }
 
-[[nodiscard]] static auto thing_dmap_alloc(Levelsp v, Levelp l, Thingp t) -> bool
+[[nodiscard]] static auto thing_dmap_alloc(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool
 {
   TRACE();
 
@@ -129,7 +129,8 @@ static void thing_ext_free(Levelsp v, Thingp t)
 
     v->thing_dmap[ dmap_id ].in_use = true;
     t->dmap_id                      = dmap_id;
-    last_dmap_id[ level_arr_idx ]   = dmap_id;
+    THING_DBG(g, v, l, t, "alloc dmap id: %d", t->dmap_id);
+    last_dmap_id[ level_arr_idx ] = dmap_id;
 
     return true;
   }
@@ -143,7 +144,7 @@ static void thing_ext_free(Levelsp v, Thingp t)
   return false;
 }
 
-static void thing_dmap_free(Levelsp v, Thingp t)
+static void thing_dmap_free(Gamep g, Levelsp v, Levelp l, Thingp t)
 {
   TRACE();
 
@@ -151,6 +152,8 @@ static void thing_dmap_free(Levelsp v, Thingp t)
   if (dmap_id == 0U) {
     return;
   }
+
+  THING_DBG(g, v, l, t, "free dmap id: %d", t->dmap_id);
 
   if (! v->thing_dmap[ dmap_id ].in_use) {
     CROAK("freeing unused Thing dmap ID is not in use, %" PRIX32 "", dmap_id);
@@ -337,7 +340,7 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
   }
 
   if (needs_dmap_memory) {
-    if (! thing_dmap_alloc(v, l, t)) {
+    if (! thing_dmap_alloc(g, v, l, t)) {
       //
       // Try to carry on
       //
@@ -447,6 +450,7 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
 
 void thing_free(Gamep g, Levelsp v, Levelp l, Thingp t)
 {
+  THING_DBG(g, v, l, t, "free");
   TRACE();
 
   auto *o = thing_find(g, v, t->id);
@@ -467,10 +471,6 @@ void thing_free(Gamep g, Levelsp v, Levelp l, Thingp t)
     v->level_select_id = 0;
   }
 
-  if (compiler_unused) {
-    THING_DBG(g, v, l, t, "free");
-  }
-
   if (v->is_generating_levels) {
     CROAK("unexpected to be freeing things during creation");
   }
@@ -483,7 +483,7 @@ void thing_free(Gamep g, Levelsp v, Levelp l, Thingp t)
   (void) thing_pop(g, v, t);
 
   thing_ext_free(v, t);
-  thing_dmap_free(v, t);
+  thing_dmap_free(g, v, l, t);
   thing_light_free(v, t);
   memset((void *) t, 0, SIZEOF(*t));
 
