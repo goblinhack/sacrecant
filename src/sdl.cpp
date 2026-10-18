@@ -563,6 +563,13 @@ void config_game_gfx_update(Gamep g)
   log("SDL: - window pixel size       : %dx%d", game_window_pix_width_get(g), game_window_pix_height_get(g));
   log("SDL: - aspect ratio            : %f", game_aspect_ratio_get(g));
 
+  if (! game_window_pix_width_get(g) || ! game_window_pix_height_get(g)) {
+    if (! g_skip_audio_and_gfx) {
+      CROAK("no display detected");
+    }
+    return;
+  }
+
   TERM_WIDTH                = TERM_WIDTH_DEF;
   int const new_font_width  = game_window_pix_width_get(g) / TERM_WIDTH;
   int       new_font_height = static_cast< int >(static_cast< float >(new_font_width) * font_aspect_ratio);

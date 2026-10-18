@@ -521,14 +521,14 @@ static void parse_args(int argc, char *argv[])
   }
   game_init(g);
 
-  if (! g_opt_tests) {
+  if (! g_opt_tests && ! g_opt_do_level_gen) {
     TRACE_DEBUG();
     if (! sdl_init()) {
       ERR("SDL: Init");
     }
   }
 
-  if (! g_opt_tests) {
+  if (! g_opt_tests && ! g_opt_do_level_gen) {
     TRACE_DEBUG();
     if (! sdl_display_init(g)) {
       ERR("SDL: Display init");
