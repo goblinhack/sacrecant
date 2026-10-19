@@ -397,8 +397,6 @@ auto operator<<(std::ostream &out, Bits< const class Game & > const my) -> std::
     out << bits(tmp);                                    // all we're saving here is offsets for validation later
     tmp = offsetof(Thing, _damage_this_tick);            // all we're saving here is offsets for validation later
     out << bits(tmp);                                    // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _charge_count);                // all we're saving here is offsets for validation later
-    out << bits(tmp);                                    // all we're saving here is offsets for validation later
     tmp = offsetof(Thing, _variant);                     // all we're saving here is offsets for validation later
     out << bits(tmp);                                    // all we're saving here is offsets for validation later
     tmp = offsetof(Thing, _lifespan);                    // all we're saving here is offsets for validation later
@@ -531,36 +529,38 @@ auto operator<<(std::ostream &out, Bits< const class Game & > const my) -> std::
     out << bits(tmp);                                        // all we're saving here is offsets for validation later
     tmp = offsetof(ThingExt, _keys_carried);                 // all we're saving here is offsets for validation later
     out << bits(tmp);                                        // all we're saving here is offsets for validation later
+    tmp = offsetof(ThingExt, _charge_count);                 // all we're saving here is offsets for validation later
+    out << bits(tmp);                                        // all we're saving here is offsets for validation later
 
     //
     // Save Level offsets
     //
-    tmp = offsetof(Level, level_arr_idx);
-    out << bits(tmp);
-    tmp = offsetof(Level, info);
-    out << bits(tmp);
-    tmp = offsetof(Level, level_select_at);
-    out << bits(tmp);
-    tmp = offsetof(Level, entrance);
-    out << bits(tmp);
-    tmp = offsetof(Level, exit);
-    out << bits(tmp);
-    tmp = offsetof(Level, ts);
-    out << bits(tmp);
-    tmp = offsetof(Level, last_ts);
-    out << bits(tmp);
-    tmp = offsetof(Level, tick_temperature);
-    out << bits(tmp);
-    tmp = offsetof(Level, level_arr_idx_next);
-    out << bits(tmp);
-    tmp = offsetof(Level, is_modified_tile);
-    out << bits(tmp);
-    tmp = offsetof(Level, thing_id);
-    out << bits(tmp);
-    tmp = offsetof(Level, player_has_walked_tile);
-    out << bits(tmp);
-    tmp = offsetof(Level, debug);
-    out << bits(tmp);
+    tmp = offsetof(Level, level_arr_idx);          // all we're saving here is offsets for validation later
+    out << bits(tmp);                              // all we're saving here is offsets for validation later
+    tmp = offsetof(Level, info);                   // all we're saving here is offsets for validation later
+    out << bits(tmp);                              // all we're saving here is offsets for validation later
+    tmp = offsetof(Level, level_select_at);        // all we're saving here is offsets for validation later
+    out << bits(tmp);                              // all we're saving here is offsets for validation later
+    tmp = offsetof(Level, entrance);               // all we're saving here is offsets for validation later
+    out << bits(tmp);                              // all we're saving here is offsets for validation later
+    tmp = offsetof(Level, exit);                   // all we're saving here is offsets for validation later
+    out << bits(tmp);                              // all we're saving here is offsets for validation later
+    tmp = offsetof(Level, ts);                     // all we're saving here is offsets for validation later
+    out << bits(tmp);                              // all we're saving here is offsets for validation later
+    tmp = offsetof(Level, last_ts);                // all we're saving here is offsets for validation later
+    out << bits(tmp);                              // all we're saving here is offsets for validation later
+    tmp = offsetof(Level, tick_temperature);       // all we're saving here is offsets for validation later
+    out << bits(tmp);                              // all we're saving here is offsets for validation later
+    tmp = offsetof(Level, level_arr_idx_next);     // all we're saving here is offsets for validation later
+    out << bits(tmp);                              // all we're saving here is offsets for validation later
+    tmp = offsetof(Level, is_modified_tile);       // all we're saving here is offsets for validation later
+    out << bits(tmp);                              // all we're saving here is offsets for validation later
+    tmp = offsetof(Level, thing_id);               // all we're saving here is offsets for validation later
+    out << bits(tmp);                              // all we're saving here is offsets for validation later
+    tmp = offsetof(Level, player_has_walked_tile); // all we're saving here is offsets for validation later
+    out << bits(tmp);                              // all we're saving here is offsets for validation later
+    tmp = offsetof(Level, debug);                  // all we're saving here is offsets for validation later
+    out << bits(tmp);                              // all we're saving here is offsets for validation later
   }
 
   out << bits(my.t.save_slot);

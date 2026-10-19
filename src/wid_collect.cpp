@@ -489,7 +489,7 @@ void wid_collect_show(Gamep g, Levelsp v, Levelp l, Thingp player, std::vector< 
       line += " ";
 
       if (item != nullptr) {
-        auto charge_count = thing_charge_count(item);
+        auto charge_count = thing_charge_count(g, v, l, item);
         if (charge_count > 0) {
           line += std::to_string(charge_count);
           line += " charges %%tile=icon_lightning$";

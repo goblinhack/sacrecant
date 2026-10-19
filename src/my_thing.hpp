@@ -402,6 +402,10 @@ using ThingExt = struct ThingExt {
   //
   int16_t _score_value;
   //
+  // Wand/stave charges
+  //
+  int16_t _charge_count;
+  //
   // Accumulates and holds the amount of time we've been lunging.
   //
   uint16_t _lunge_ms;
@@ -643,10 +647,6 @@ using Thing = struct Thing {
   //
   int16_t _damage_this_tick;
   //
-  // Wand/stave charges
-  //
-  int16_t _charge_count;
-  //
   // The type of wall
   //
   uint8_t _variant;
@@ -810,7 +810,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_charge_count_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_charge_count_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_charge_count_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
-[[nodiscard]] auto thing_charge_count(Thingp t) -> int;
+[[nodiscard]] auto thing_charge_count(Gamep g, Levelsp v, Levelp l, Thingp t) -> int;
 [[nodiscard]] auto thing_close(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp closer) -> bool;
 [[nodiscard]] auto thing_collect_key(Gamep g, Levelsp v, Levelp l, Thingp owner, Thingp it) -> bool;
 [[nodiscard]] auto thing_collision_handle_done_already(Levelsp v, Thingp obstacle, Thingp me) -> bool;

@@ -2347,7 +2347,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
 
     line += " ";
 
-    auto charge_count = thing_charge_count(item);
+    auto charge_count = thing_charge_count(g, v, l, item);
     if (charge_count > 0) {
       line += std::to_string(charge_count);
       line += "%%tile=icon_lightning$";
@@ -2839,7 +2839,7 @@ void wid_thing_info(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, i
     }
 
     for (auto *fire_what_tp : thing_get_weapon_list(g, v, l, me)) {
-      auto charge_count = thing_charge_count(me);
+      auto charge_count = thing_charge_count(g, v, l, me);
       if (charge_count > 0) {
         auto tmp = string_sprintf(" (x%d charges):", charge_count);
         parent->log(g, UI_INFO_FMT_STR "Fires" + tmp, TEXT_FORMAT_LHS);
