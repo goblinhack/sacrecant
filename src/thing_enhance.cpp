@@ -37,14 +37,12 @@ void thing_enhance(Gamep g, Levelsp v, Levelp l, Thingp t, Tpp tp)
   (void) thing_speed_incr(g, v, l, t, tp_speed_get(tp));
   (void) thing_stamina_max_incr(g, v, l, t, thing_stamina_incr(g, v, l, t, tp_stamina_max_get(tp)));
   (void) thing_temperature_incr(g, v, l, t, tp_temperature_initial_get(tp));
-  (void) thing_value1_incr(g, v, l, t, tp_value1_get(tp));
   (void) thing_mana_incr(g, v, l, t, tp_mana_get(tp));
   (void) thing_mana_max_incr(g, v, l, t, tp_mana_max_get(tp));
   (void) thing_sac_points_incr(g, v, l, t, tp_sac_points_get(tp));
   (void) thing_sac_points_max_incr(g, v, l, t, tp_sac_points_max_get(tp));
   (void) thing_jump_attack_pct_chance_incr(g, v, l, t, tp_jump_attack_pct_chance_get(tp));
   (void) thing_items_collected_max_incr(g, v, l, t, tp_items_collected_max_get(tp));
-  (void) thing_value2_incr(g, v, l, t, tp_value2_get(tp));
   (void) thing_spell_mana_cost_incr(g, v, l, t, tp_spell_mana_cost_get(tp));
   (void) thing_spell_radius_incr(g, v, l, t, tp_spell_radius_get(tp));
   (void) thing_spell_range_incr(g, v, l, t, tp_spell_range_get(tp));
