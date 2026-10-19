@@ -763,8 +763,8 @@ enum {
 [[nodiscard]] auto level_type(LevelArrIdx level_arr_idx) -> LevelType;
 [[nodiscard]] auto levels_memory_alloc(Gamep g) -> Levelsp;
 [[nodiscard]] auto levels_thing_count(Gamep g, Levelsp v) -> int;
-[[nodiscard]] auto levels_thing_ext_count(Gamep g, Levelsp v) -> int;
 [[nodiscard]] auto levels_thing_dmap_count(Gamep g, Levelsp v) -> int;
+[[nodiscard]] auto levels_thing_ext_count(Gamep g, Levelsp v) -> int;
 [[nodiscard]] auto levels_thing_light_count(Gamep g, Levelsp v) -> int;
 [[nodiscard]] auto player_state_to_string(PlayerStateType state) -> std::string;
 [[nodiscard]] auto player_state(Gamep g, Levelsp v) -> PlayerStateType;
@@ -774,12 +774,6 @@ enum {
 // end sort marker1 }
 
 // begin sort marker2 {
-auto levels_thing_id_histogram(Gamep g, Levelsp v) -> void;
-auto levels_thing_ext_histogram(Gamep g, Levelsp v) -> void;
-void no_levels_pointer(void);
-void no_level_pointer(void);
-auto levels_thing_dmap_histogram(Gamep g, Levelsp v) -> void;
-auto levels_thing_light_histogram(Gamep g, Levelsp v) -> void;
 auto fragment_alts_fini(Gamep g) -> void;
 auto fragments_fini(Gamep g) -> void;
 auto fragments_init(Gamep g) -> void;
@@ -866,6 +860,10 @@ auto levels_fini(Gamep g) -> void;
 auto levels_fixed(Gamep g) -> void;
 auto levels_init(Gamep g) -> void;
 auto levels_test(Gamep g) -> void;
+auto levels_thing_dmap_histogram(Gamep g, Levelsp v) -> void;
+auto levels_thing_ext_histogram(Gamep g, Levelsp v) -> void;
+auto levels_thing_id_histogram(Gamep g, Levelsp v) -> void;
+auto levels_thing_light_histogram(Gamep g, Levelsp v) -> void;
 auto levels_tick(Gamep g, Levelsp v) -> void;
 auto player_state_change(Gamep g, Levelsp v, Levelp l, PlayerStateType new_state) -> void;
 auto room_add(Gamep g, int chance, int flags, const char *file, int line, ...) -> void;
@@ -891,6 +889,8 @@ auto rooms_tall(Gamep g) -> void;
 auto rooms_test(Gamep g) -> void;
 auto thing_lunge_modify_position(Gamep g, Levelsp v, Levelp l, Thingp me, spoint &tl, spoint &br) -> void;
 auto wid_level_show_contents(Gamep g, Levelsp v, Levelp l, WidPopup *parent) -> void;
+void no_level_pointer(void);
+void no_levels_pointer(void);
 // end sort marker2 }
 
 struct FovContext;

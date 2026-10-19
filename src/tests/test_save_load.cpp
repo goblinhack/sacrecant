@@ -18,8 +18,8 @@ extern Gamep game;
   return true;
 #else
   LevelArrIdx const level_num = 0;
-  auto           w         = 7;
-  auto           h         = 7;
+  auto              w         = 7;
+  auto              h         = 7;
 
   std::string const file_to_save = ".o/test-tmp-file";
 

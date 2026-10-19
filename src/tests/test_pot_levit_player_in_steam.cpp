@@ -14,8 +14,8 @@
   TRACE();
 
   LevelArrIdx const level_num = 0;
-  auto           w         = 7;
-  auto           h         = 7;
+  auto              w         = 7;
+  auto              h         = 7;
 
   std::string const level // first level
       = "......."

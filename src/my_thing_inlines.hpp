@@ -51,19 +51,19 @@
   id_packed.a.val         = id;
   auto arr_index          = id_packed.c.arr_index;
 
-  auto *t = &v->thing_body[ arr_index ];
+  auto *me = &v->thing_body[ arr_index ];
 
 #ifdef ENABLE_PER_THING_MEMORY
   if (v->thing_body_debug[ arr_index ]) {
-    t = v->thing_body_debug[ arr_index ];
+    me = v->thing_body_debug[ arr_index ];
   }
 #endif
 
-  [[unlikely]] if ((t == nullptr) || (t->id != id)) {
-    t = thing_find_non_inline(g, v, id);
+  [[unlikely]] if ((me == nullptr) || (me->id != id)) {
+    me = thing_find_non_inline(g, v, id);
   }
 
-  return t;
+  return me;
 }
 
 [[nodiscard]] static inline auto thing_tp(Thingp me) -> Tpp
@@ -391,26 +391,26 @@
   id_packed.a.val = id;
   auto arr_index  = id_packed.c.arr_index;
 
-  auto *t = &v->thing_body[ arr_index ];
+  auto *me = &v->thing_body[ arr_index ];
 
 #ifdef ENABLE_PER_THING_MEMORY
   if (v->thing_body_debug[ arr_index ]) {
-    t = v->thing_body_debug[ arr_index ];
+    me = v->thing_body_debug[ arr_index ];
   }
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     return nullptr;
   }
 #endif
 
-  if (t->id == id) {
-    return t;
+  if (me->id == id) {
+    return me;
   }
 
-  if (t->id != 0U) {
-    thing_err(g, v, thing_level(g, v, t), t, "thing_find_optional: thing mismatch found for id, %p %08" PRIX32 "", (void *) t, t->id);
+  if (me->id != 0U) {
+    thing_err(g, v, thing_level(g, v, me), me, "thing_find_optional: thing mismatch found for id, %p %08" PRIX32 "", (void *) me, me->id);
   } else {
-    thing_err(g, v, thing_level(g, v, t), t, "thing_find_optional: thing already freed for id, %p %08" PRIX32 "", (void *) t, t->id);
+    thing_err(g, v, thing_level(g, v, me), me, "thing_find_optional: thing already freed for id, %p %08" PRIX32 "", (void *) me, me->id);
   }
 
   return nullptr;
@@ -430,76 +430,76 @@
   id_packed.a.val = id;
   auto arr_index  = id_packed.c.arr_index;
 
-  auto *t = &v->thing_body[ arr_index ];
+  auto *me = &v->thing_body[ arr_index ];
 #ifdef ENABLE_PER_THING_MEMORY
   if (v->thing_body_debug[ arr_index ]) {
-    t = v->thing_body_debug[ arr_index ];
+    me = v->thing_body_debug[ arr_index ];
   }
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     return nullptr;
   }
 #endif
 
-  if (t->id == id) {
-    return t;
+  if (me->id == id) {
+    return me;
   }
 
-  if (t->id != 0U) {
-    thing_err(g, v, thing_level(g, v, t), t, "thing_find_optional: thing mismatch found for id, %p %08" PRIX32 "", (void *) t, t->id);
+  if (me->id != 0U) {
+    thing_err(g, v, thing_level(g, v, me), me, "thing_find_optional: thing mismatch found for id, %p %08" PRIX32 "", (void *) me, me->id);
   }
 
   return nullptr;
 }
 
-[[nodiscard]] static inline auto thing_is_light_source(Thingp t) -> int
+[[nodiscard]] static inline auto thing_is_light_source(Thingp me) -> int
 {
 #ifdef DEBUG_BUILD
   TRACE_DEBUG();
-  if (t == nullptr) {
+  if (me == nullptr) {
     no_thing_pointer();
     return 0;
   }
 #endif
 
-  return tp_flag(thing_tp(t), is_light_source);
+  return tp_flag(thing_tp(me), is_light_source);
 }
 
-[[nodiscard]] static inline auto thing_submerged_pct(Thingp t) -> int
+[[nodiscard]] static inline auto thing_submerged_pct(Thingp me) -> int
 {
 #ifdef DEBUG_BUILD
   TRACE_DEBUG();
-  if (t == nullptr) {
+  if (me == nullptr) {
     no_thing_pointer();
     return 0;
   }
 #endif
 
-  if (thing_is_jumping(t)) {
-    return (t->_submerged_pct * 2) / 3;
+  if (thing_is_jumping(me)) {
+    return (me->_submerged_pct * 2) / 3;
   }
 
   //
   // Floating when dead?
   //
-  if (thing_is_dead(t)) {
-    return t->_submerged_pct / 2;
+  if (thing_is_dead(me)) {
+    return me->_submerged_pct / 2;
   }
 
-  return t->_submerged_pct;
+  return me->_submerged_pct;
 }
 
-[[nodiscard]] static inline auto thing_ext_struct(Gamep g, Levelsp v, Thingp t) -> ThingExtp
+[[nodiscard]] static inline auto thing_ext_struct(Gamep g, Levelsp v, Thingp me) -> ThingExtp
 {
 #ifdef DEBUG_BUILD
   TRACE_DEBUG();
-  if (t == nullptr) {
+  if (me == nullptr) {
     no_thing_pointer();
     return 0;
   }
 #endif
 
-  auto ext_id = t->ext_id;
+  auto ext_id = me->ext_id;
   if (ext_id == 0U) [[unlikely]] {
     return nullptr;
   }
@@ -507,17 +507,22 @@
   return &v->thing_ext[ ext_id ];
 }
 
-[[nodiscard]] static inline auto thing_dmap_struct(Gamep g, Levelsp v, Thingp t) -> ThingDmapp
+[[nodiscard]] static inline auto thing_dmap_struct(Gamep g, Levelsp v, Thingp me) -> ThingDmapp
 {
 #ifdef DEBUG_BUILD
   TRACE_DEBUG();
-  if (t == nullptr) {
+  if (me == nullptr) {
     no_thing_pointer();
     return 0;
   }
 #endif
 
-  auto dmap_id = t->dmap_id;
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) [[unlikely]] {
+    return nullptr;
+  }
+
+  auto dmap_id = ext->dmap_id;
   if (dmap_id == 0U) [[unlikely]] {
     return nullptr;
   }

@@ -127,10 +127,15 @@ static void thing_ext_free(Levelsp v, Thingp me)
       continue;
     }
 
+    auto *ext = thing_ext_struct(g, v, me);
+    if (ext == nullptr) [[unlikely]] {
+      continue;
+    }
+
     v->thing_dmap[ dmap_id ].in_use = true;
-    me->dmap_id                     = dmap_id;
+    ext->dmap_id                    = dmap_id;
     if (compiler_unused) {
-      THING_DBG(g, v, l, me, "alloc dmap id: %08" PRIX32 "", me->dmap_id);
+      THING_DBG(g, v, l, me, "alloc dmap id: %08" PRIX32 "", ext->dmap_id);
     }
     last_dmap_id[ level_arr_idx ] = dmap_id;
 
@@ -150,13 +155,18 @@ static void thing_dmap_free(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
 
-  auto dmap_id = me->dmap_id;
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) [[unlikely]] {
+    return;
+  }
+
+  auto dmap_id = ext->dmap_id;
   if (dmap_id == 0U) {
     return;
   }
 
   if (compiler_unused) {
-    THING_DBG(g, v, l, me, "free dmap id: %08" PRIX32 "", me->dmap_id);
+    THING_DBG(g, v, l, me, "free dmap id: %08" PRIX32 "", ext->dmap_id);
   }
 
   if (! v->thing_dmap[ dmap_id ].in_use) {
@@ -164,7 +174,7 @@ static void thing_dmap_free(Gamep g, Levelsp v, Levelp l, Thingp me)
   }
 
   v->thing_dmap[ dmap_id ] = {};
-  me->dmap_id              = 0;
+  ext->dmap_id             = 0;
 }
 
 [[nodiscard]] static auto thing_light_alloc(Levelsp v, Levelp l, Thingp me) -> bool
@@ -361,7 +371,12 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
 
   if (compiler_unused) {
     THING_DBG(g, v, l, me, "alloced ext id   %08x", me->ext_id);
-    THING_DBG(g, v, l, me, "alloced dmap id  %08x", me->dmap_id);
+
+    auto *ext = thing_ext_struct(g, v, me);
+    if (ext != nullptr) [[unlikely]] {
+      THING_DBG(g, v, l, me, "alloced dmap id  %08x", ext->dmap_id);
+    }
+
     THING_DBG(g, v, l, me, "alloced light id %08x", me->light_id);
   }
 
@@ -388,8 +403,8 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
   //
   // Check we cannot overflow on monsters
   //
-  auto needs_ext_memory   = tp_is_memory_ext(tp);
   auto needs_dmap_memory  = tp_is_dmap(tp);
+  auto needs_ext_memory   = tp_is_memory_ext(tp) || needs_dmap_memory;
   auto needs_light_memory = tp_is_light_source(tp) || tp_is_player(tp);
 
   //
@@ -463,7 +478,12 @@ void thing_free(Gamep g, Levelsp v, Levelp l, Thingp me)
   if (compiler_unused) {
     THING_DBG(g, v, l, me, "free");
     THING_DBG(g, v, l, me, "free ext id   %08x", me->ext_id);
-    THING_DBG(g, v, l, me, "free dmap id  %08x", me->dmap_id);
+
+    auto *ext = thing_ext_struct(g, v, me);
+    if (ext != nullptr) [[unlikely]] {
+      THING_DBG(g, v, l, me, "free dmap id  %08x", ext->dmap_id);
+    }
+
     THING_DBG(g, v, l, me, "free light id %08x", me->light_id);
   }
   TRACE();
@@ -497,8 +517,8 @@ void thing_free(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   (void) thing_pop(g, v, me);
 
-  thing_ext_free(v, me);
   thing_dmap_free(g, v, l, me);
+  thing_ext_free(v, me);
   thing_light_free(v, me);
   memset((void *) me, 0, SIZEOF(*me));
 

@@ -29,11 +29,16 @@
     return nullptr;
   }
 
-  if (me->mob_id == 0U) {
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) [[unlikely]] {
+    return 0;
+  }
+
+  if (ext->mob_id == 0U) {
     return nullptr;
   }
 
-  return thing_find(g, v, me->mob_id);
+  return thing_find(g, v, ext->mob_id);
 }
 
 //

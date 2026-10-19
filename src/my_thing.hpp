@@ -402,6 +402,26 @@ using ThingExt = struct ThingExt {
   //
   bpoint lunging_to;
   //
+  // If owned, by whom
+  //
+  ThingId owner_id;
+  //
+  // If a mob spawned me, whom
+  //
+  ThingId mob_id;
+  //
+  // If fired, by whom
+  //
+  ThingId fired_by_id;
+  //
+  // If buffed, attached to who
+  //
+  ThingId hook_owner_id;
+  //
+  // For player and mobs
+  //
+  ThingDmapId dmap_id;
+  //
   // Statistics
   //
   uint8_t _stat[ THING_STAT_ENUM_MAX ];
@@ -478,6 +498,10 @@ using Thing = struct Thing {
   // Idle etc...
   //
   ThingAnimType anim_type;
+  //
+  // Which level am I on?
+  //
+  LevelArrIdx level_arr_idx;
   //
   // The current tiles[] index for this object
   //
@@ -579,10 +603,6 @@ using Thing = struct Thing {
   //
   uint8_t _is_thrown            : 1;
   uint8_t _is_thrown_processing : 1;
-  //
-  // Which level am I on?
-  //
-  LevelArrIdx level_arr_idx;
   //
   // Current tile.
   //
@@ -698,30 +718,10 @@ using Thing = struct Thing {
   //
   ThingId id;
   //
-  // If owned, by whom
-  //
-  ThingId owner_id;
-  //
-  // If a mob spawned me, whom
-  //
-  ThingId mob_id;
-  //
-  // If fired, by whom
-  //
-  ThingId fired_by_id;
-  //
-  // If buffed, attached to who
-  //
-  ThingId hook_owner_id;
-  //
   // If this is a thing that is tied to other things, e.g. a bridge tile then
   // they all share this id; which is the id of the first thing in the group
   //
   ThingId group_id;
-  //
-  // For player and mobs
-  //
-  ThingDmapId dmap_id;
   //
   // For player and monsters
   //
@@ -1754,6 +1754,8 @@ void level_log(Gamep g, Levelsp v, Levelp l, const char *fmt, ...) CHECK_FORMAT_
 void level_tick_remove_thing_from_worklist(Thingp me);
 void level_topcon(Gamep g, Levelsp v, Levelp l, const char *fmt, ...) CHECK_FORMAT_STR(printf, 4, 5);
 void level_warn(Gamep g, Levelsp v, Levelp l, const char *fmt, ...) CHECK_FORMAT_STR(printf, 4, 5);
+void no_thing_pointer(void);
+void thing_alloc_free_fini(Gamep g);
 void thing_botcon(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 5, 6);
 void thing_con(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 5, 6);
 void thing_croak(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 5, 6);
@@ -1765,8 +1767,6 @@ void thing_mob_move_minions_offset(Gamep g, Levelsp v, Levelp l, Thingp me, bpoi
 void thing_mob_warp_minions_to(Gamep g, Levelsp v, Levelp old_level, Levelp new_level, Thingp me, bpoint from, bpoint to);
 void thing_move_path_dump(Gamep g, Levelsp v, Levelp l, Thingp me);
 void thing_topcon(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 5, 6);
-void thing_alloc_free_fini(Gamep g);
-void no_thing_pointer(void);
 void thing_warn(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 5, 6);
 // end sort marker2 }
 

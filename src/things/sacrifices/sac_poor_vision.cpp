@@ -32,6 +32,7 @@ static auto tp_sac_poor_vision_detail_get(Gamep g, Levelsp v, Levelp l, Thingp m
   tp_flag_set(tp, is_sacrifice);
   tp_name_long_set(tp, "myopic mania");
   tp_sac_points_set(tp, 5);
+  tp_flag_set(tp, is_memory_ext);
   // end sort marker1 }
 
   return true;

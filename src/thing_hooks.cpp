@@ -226,9 +226,15 @@ static void thing_hook_sort(Gamep g, Levelsp v, Levelp l, Thingp me)
       return nullptr;
     }
 
+    auto *new_hook_ext = thing_ext_struct(g, v, new_hook);
+    if (new_hook_ext == nullptr) [[unlikely]] {
+      thing_err(g, v, l, new_hook, "expected ext struct");
+      return nullptr;
+    }
+
     memset(slot, 0, sizeof(*slot));
-    slot->hook_id           = new_hook->id;
-    new_hook->hook_owner_id = me->id;
+    slot->hook_id               = new_hook->id;
+    new_hook_ext->hook_owner_id = me->id;
     ext->hooks.count++;
 
     THING_DBG(g, v, l, me, "added hook %s", to_string(g, v, l, new_hook).c_str());
@@ -258,11 +264,16 @@ static void thing_hook_sort(Gamep g, Levelsp v, Levelp l, Thingp me)
     return nullptr;
   }
 
-  if (me->hook_owner_id == 0U) {
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) [[unlikely]] {
     return nullptr;
   }
 
-  return thing_find(g, v, me->hook_owner_id);
+  if (ext->hook_owner_id == 0U) {
+    return nullptr;
+  }
+
+  return thing_find(g, v, ext->hook_owner_id);
 }
 
 //
@@ -300,7 +311,12 @@ static void thing_hook_sort(Gamep g, Levelsp v, Levelp l, Thingp me)
       }
     }
 
-    if (! static_cast< bool >(hook->hook_owner_id)) {
+    auto *hook_ext = thing_ext_struct(g, v, hook);
+    if (ext == nullptr) [[unlikely]] {
+      continue;
+    }
+
+    if (! static_cast< bool >(hook_ext->hook_owner_id)) {
       thing_err(g, v, l, me, "found detached hook: %s", to_string(g, v, l, hook).c_str());
       return false;
     }
@@ -312,7 +328,7 @@ static void thing_hook_sort(Gamep g, Levelsp v, Levelp l, Thingp me)
 
     ext->hooks.count--;
     memset(slot, 0, sizeof(*slot));
-    hook->hook_owner_id = 0;
+    hook_ext->hook_owner_id = 0;
 
     if (e.event_type != THING_EVENT_NONE) {
       THING_DBG(g, v, l, me, "kill hook %s", to_string(g, v, l, hook).c_str());

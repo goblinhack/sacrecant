@@ -473,10 +473,10 @@ void tp_load_player_common(Tpp tp)
   thing_on_fall_begin_set(tp, tp_player_on_fall_begin);
   thing_on_fall_end_set(tp, tp_player_on_fall_end);
   thing_on_jump_end_set(tp, tp_player_on_jump_end);
-  thing_on_level_enter_set(tp, tp_player_level_enter);
   thing_on_level_changed_set(tp, tp_player_level_changed);
-  thing_on_level_reached_exit_set(tp, tp_player_level_reached_exit);
+  thing_on_level_enter_set(tp, tp_player_level_enter);
   thing_on_level_populated_set(tp, tp_player_level_populated);
+  thing_on_level_reached_exit_set(tp, tp_player_level_reached_exit);
   thing_on_missing_set(tp, tp_player_on_missing);
   thing_on_moved_set(tp, tp_player_on_moved);
   thing_on_moving_to_set(tp, tp_player_on_moving_to);

@@ -75,6 +75,7 @@ static bool tp_boost_devoted_thrust_on_attacking(Gamep g, Levelsp v, Levelp l, T
   tp_flag_set(tp, is_loggable);
   tp_name_long_set(tp, "devoted thrust");
   tp_sac_points_set(tp, -1);
+  tp_flag_set(tp, is_memory_ext);
   // end sort marker1 }
 
   return true;

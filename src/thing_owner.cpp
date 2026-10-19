@@ -17,11 +17,16 @@
     return nullptr;
   }
 
-  if (! static_cast< bool >(me->owner_id)) {
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) [[unlikely]] {
     return nullptr;
   }
 
-  return thing_find_optional(g, v, me->owner_id);
+  if (! static_cast< bool >(ext->owner_id)) {
+    return nullptr;
+  }
+
+  return thing_find_optional(g, v, ext->owner_id);
 }
 
 void thing_owner_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
@@ -33,9 +38,14 @@ void thing_owner_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
     return;
   }
 
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) [[unlikely]] {
+    return;
+  }
+
   auto *owner = thing_owner(g, v, l, me);
   if (owner != nullptr) {
-    me->owner_id = 0;
+    ext->owner_id = 0;
   }
 }
 
@@ -53,7 +63,12 @@ void thing_owner_set(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp owner)
     return;
   }
 
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) [[unlikely]] {
+    return;
+  }
+
   thing_owner_unset(g, v, l, me);
 
-  me->owner_id = owner->id;
+  ext->owner_id = owner->id;
 }

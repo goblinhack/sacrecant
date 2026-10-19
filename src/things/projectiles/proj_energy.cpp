@@ -54,6 +54,7 @@ static void tp_proj_energy_on_moved(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_flag_set(tp, is_gaseous);
   tp_flag_set(tp, is_light_source, 2);
   tp_flag_set(tp, is_loggable);
+  tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_physics_temperature);
   tp_flag_set(tp, is_projectile);
   tp_flag_set(tp, is_removable_on_err);

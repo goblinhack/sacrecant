@@ -243,7 +243,7 @@ using Testp        = class Test *;
 using Widp         = class Wid *;
 using Fragmentp    = class Fragment *;
 using FragmentAltp = class FragmentAlt *;
-using LevelArrIdx     = uint8_t;
+using LevelArrIdx  = uint8_t;
 
 #define NULL_THING ((Thingp) nullptr)
 #define NULL_TP    ((Tpp) nullptr)

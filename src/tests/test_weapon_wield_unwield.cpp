@@ -13,8 +13,8 @@
   TRACE();
 
   LevelArrIdx const level_num = 0;
-  auto           w         = 27;
-  auto           h         = 7;
+  auto              w         = 27;
+  auto              h         = 7;
 
   //
   // How the dungeon starts out, and how we expect it to change

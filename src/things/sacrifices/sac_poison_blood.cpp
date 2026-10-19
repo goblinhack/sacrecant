@@ -85,6 +85,7 @@ static void tp_sac_poison_blood_on_tick_begin(Gamep g, Levelsp v, Levelp l, Thin
   tp_name_long_set(tp, "poison blood");
   tp_sac_points_set(tp, 2);
   tp_stat_set(tp, THING_STAT_ATT, "12");
+  tp_flag_set(tp, is_memory_ext);
   // end sort marker1 }
 
   return true;

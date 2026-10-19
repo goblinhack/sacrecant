@@ -104,9 +104,15 @@
       return nullptr;
     }
 
+    auto *new_missile_ext = thing_ext_struct(g, v, new_missile);
+    if (new_missile_ext == nullptr) [[unlikely]] {
+      thing_err(g, v, l, me, "expecting ext struct");
+      return nullptr;
+    }
+
     memset(slot, 0, sizeof(*slot));
-    slot->missile_id         = new_missile->id;
-    new_missile->fired_by_id = me->id;
+    slot->missile_id             = new_missile->id;
+    new_missile_ext->fired_by_id = me->id;
     ext->missiles.count++;
 
     THING_DBG(g, v, l, me, "spawned missile %s", to_string(g, v, l, new_missile).c_str());
@@ -134,11 +140,16 @@
     return nullptr;
   }
 
-  if (me->fired_by_id == 0U) {
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) [[unlikely]] {
     return nullptr;
   }
 
-  return thing_find(g, v, me->fired_by_id);
+  if (ext->fired_by_id == 0U) {
+    return nullptr;
+  }
+
+  return thing_find(g, v, ext->fired_by_id);
 }
 
 //
@@ -199,7 +210,12 @@
       }
     }
 
-    if (! static_cast< bool >(missile->fired_by_id)) {
+    auto *missile_ext = thing_ext_struct(g, v, missile);
+    if (ext == nullptr) [[unlikely]] {
+      return 0;
+    }
+
+    if (! static_cast< bool >(missile_ext->fired_by_id)) {
       thing_err(g, v, l, me, "found detached missile: %s", to_string(g, v, l, missile).c_str());
       return false;
     }
@@ -211,7 +227,7 @@
 
     ext->missiles.count--;
     memset(slot, 0, sizeof(*slot));
-    missile->fired_by_id = 0;
+    missile_ext->fired_by_id = 0;
 
     if (e.event_type != THING_EVENT_NONE) {
       THING_DBG(g, v, l, me, "kill missile %s", to_string(g, v, l, missile).c_str());

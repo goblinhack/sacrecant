@@ -44,6 +44,7 @@ static void tp_debuff_poison_on_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp 
   tp_lifespan_set(tp, "1d20");
   tp_name_short_set(tp, "poison");
   tp_stat_set(tp, THING_STAT_DEF, "8");
+  tp_flag_set(tp, is_memory_ext);
   // end sort marker1 }
 
   return true;

@@ -19,8 +19,16 @@
 //
 [[nodiscard]] auto thing_get_dmap(Gamep g, Levelsp v, Levelp l, Thingp me) -> Dmap *
 {
-  THING_DBG(g, v, l, me, "dmap id %08x", me->dmap_id);
   TRACE();
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) [[unlikely]] {
+    return nullptr;
+  }
+
+  if (compiler_unused) {
+    THING_DBG(g, v, l, me, "dmap id %08x", ext->dmap_id);
+  }
 
   auto *dmap = thing_dmap_struct(g, v, me);
   if (dmap == nullptr) [[unlikely]] {
@@ -36,11 +44,11 @@
 //
 void thing_dmap(Gamep g, Levelsp v, Levelp l, Thingp me, bool reverse)
 {
+  TRACE();
+
   if (! thing_is_dmap(me)) {
     return;
   }
-
-  TRACE();
 
   uint8_t const minx = 0;
   uint8_t const miny = 0;

@@ -35,6 +35,7 @@ static auto tp_sac_defenceless_detail_get(Gamep g, Levelsp v, Levelp l, Thingp m
   tp_name_long_set(tp, "naked defence");
   tp_sac_points_set(tp, 3);
   tp_stat_set(tp, THING_STAT_DEF, "0");
+  tp_flag_set(tp, is_memory_ext);
   // end sort marker1 }
 
   return true;

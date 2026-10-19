@@ -49,8 +49,11 @@ static void tp_beam_of_energy_on_spawned(Gamep g, Levelsp v, Levelp l, Thingp me
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_animated_sync_first);
   tp_flag_set(tp, is_physics_temperature);
+  tp_flag_set(tp, is_memory_ext);
+  tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_removable_on_err);
   tp_flag_set(tp, is_tickable);
+  tp_flag_set(tp, is_memory_ext);
   tp_health_set(tp, "1");
   tp_light_color_set(tp, "cyan");
   tp_name_a_or_an_set(tp, "a beam of energy");

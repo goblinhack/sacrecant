@@ -101,9 +101,15 @@
       return nullptr;
     }
 
+    auto *new_minion_ext = thing_ext_struct(g, v, new_minion);
+    if (new_minion_ext == nullptr) [[unlikely]] {
+      thing_err(g, v, l, new_minion, "expecting thing ext");
+      return nullptr;
+    }
+
     memset(slot, 0, sizeof(*slot));
-    slot->minion_id    = new_minion->id;
-    new_minion->mob_id = mob->id;
+    slot->minion_id        = new_minion->id;
+    new_minion_ext->mob_id = mob->id;
     ext->minions.count++;
 
     THING_DBG(g, v, l, mob, "spawned minion %s (max %d)", to_string(g, v, l, new_minion).c_str(), thing_minion_max(g, v, l, mob));
@@ -179,7 +185,13 @@
     THING_DBG(g, v, l, minion, "process minion");
     TRACE_INDENT();
 
-    if (! static_cast< bool >(minion->mob_id)) {
+    auto *minion_ext = thing_ext_struct(g, v, minion);
+    if (minion_ext == nullptr) [[unlikely]] {
+      thing_err(g, v, l, minion, "expecting thing ext");
+      continue;
+    }
+
+    if (! static_cast< bool >(minion_ext->mob_id)) {
       thing_err(g, v, l, mob, "mob found detached minion: %s", to_string(g, v, l, minion).c_str());
       return false;
     }
@@ -191,7 +203,7 @@
 
     ext->minions.count--;
     memset(slot, 0, sizeof(*slot));
-    minion->mob_id = 0;
+    minion_ext->mob_id = 0;
 
     if (e.event_type != THING_EVENT_NONE) {
       THING_DBG(g, v, l, mob, "kill minion %s", to_string(g, v, l, minion).c_str());

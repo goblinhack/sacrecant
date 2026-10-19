@@ -72,7 +72,6 @@ void thing_is_spawned_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
   // Needed for all things, to get items populated
   //
   thing_on_spawned(g, v, l, me, e);
-  THING_DBG(g, v, l, me, "dmap id %08x", me->dmap_id);
 
   return me;
 }
