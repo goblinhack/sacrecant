@@ -349,7 +349,7 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   thing_sound_play(g, v, l, me, "teleport");
 
-  me->tick_teleport = v->tick;
+  me->tick_event = v->tick;
 
   return true;
 }
@@ -362,8 +362,8 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
   THING_DBG(g, v, l, me, "teleport, try");
   TRACE_INDENT();
 
-  if (me->tick_teleport != 0U) {
-    if (me->tick_teleport == v->tick) {
+  if (me->tick_event != 0U) {
+    if (me->tick_event == v->tick) {
       THING_DBG(g, v, l, me, "teleport, no; too frequent");
       return false;
     }
@@ -416,8 +416,8 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
   THING_DBG(g, v, l, me, "teleport, try");
   TRACE_INDENT();
 
-  if (me->tick_teleport != 0U) {
-    if (me->tick_teleport == v->tick) {
+  if (me->tick_event != 0U) {
+    if (me->tick_event == v->tick) {
       THING_DBG(g, v, l, me, "teleport, no; too frequent");
       return false;
     }

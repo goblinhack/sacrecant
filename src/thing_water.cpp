@@ -12,10 +12,10 @@ void thing_water_handle(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
 
-  if (me->tick_water == v->tick) {
+  if (me->tick_event == v->tick) {
     return;
   }
-  me->tick_water = v->tick;
+  me->tick_event = v->tick;
 
   THING_DBG(g, v, l, me, "over water");
 

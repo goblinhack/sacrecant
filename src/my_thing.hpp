@@ -481,7 +481,7 @@ using ThingPlayer = struct ThingPlayer {
   //
   // For hiscores
   //
-  int8_t levels_completed;
+  uint8_t levels_completed;
   //
   // To keep track of powerups
   //
@@ -534,6 +534,134 @@ using Thing = struct Thing {
   // Decrements each frame. Resets if still too hot when we reach zero.
   //
   uint8_t _is_hot;
+  //
+  // Damage can be capped per tick to a limit so we don't kill a player in one go
+  //
+  uint8_t _damage_this_tick;
+  //
+  // Used in lava, water etc...
+  //
+  uint8_t _submerged_pct;
+  //
+  // Used to only tick things once per loop, even if they move slot
+  //
+  uint8_t iter[ MY_ITERS_MAX ];
+  //
+  // Current tile.
+  //
+  uint16_t tile_index;
+  //
+  // Move speed, with 100 being player.
+  //
+  uint16_t _speed;
+  //
+  // This is the amount move moving (the speed above) we can do per tick.
+  //
+  // If we are 200 and the player is 100, then we get 2 moves per tick.
+  //
+  // If we are 50 then we get to move every other tick.
+  //
+  // Each tick, this amount is incremented by the speed value until it
+  // is >= the player's speed. At which point the monst can move.
+  //
+  int16_t _move_remaining; // can be decremented, so signed is safer
+  //
+  // Count down until the next animation frame should start
+  //
+  int16_t anim_ms_remaining; // can be decremented, so signed is safer
+  //
+  // Temperature in celsius.
+  //
+  int16_t _temperature; // can be decremented, so signed is safer
+  //
+  // Lifespan remaining in ticks
+  //
+  int16_t _lifespan; // can be decremented, so signed is safer
+  int16_t _lifespan_initial;
+  //
+  // How long this thing has lived
+  //
+  int16_t _age; // can be decremented, so signed is safer
+  //
+  // Health of the item.
+  //
+  int16_t _health;
+  int16_t _health_max;
+  //
+  // Accumulates and holds the amount of time we've been falling.
+  //
+  uint16_t _fall_ms;
+  //
+  // Weight in grams. Impacts things like grass being crushed.
+  //
+  uint32_t _weight;
+  //
+  // Current game tick this thing has completed
+  //
+  uint32_t tick;
+  //
+  // Used to keep track if we have ran the temperature checks yet this tick.
+  //
+  uint32_t tick_temperature;
+  uint32_t tick_temperature_last_change;
+  //
+  // When this poor thing died.
+  //
+  uint32_t tick_dead;
+  //
+  // Avoid fast teleport loops
+  // Ensure only one event per tick
+  //
+  uint32_t tick_event;
+  //
+  // Unique ID with some entropy built in
+  //
+  ThingId id;
+  //
+  // If this is a thing that is tied to other things, e.g. a bridge tile then
+  // they all share this id; which is the id of the first thing in the group
+  //
+  ThingId group_id;
+  //
+  // For player and monsters
+  //
+  ThingExtId ext_id;
+  //
+  // For light sources and player and monsters
+  //
+  ThingLightId light_id;
+  //
+  // Previous map coordinates used for interpolation when moving. Changes when
+  // the move finishes.
+  //
+  bpoint _moving_from;
+  //
+  // Last location we were pushed onto the map.
+  //
+  bpoint last_pushed_at;
+  //
+  // Interpolated coordinates in pixels
+  //
+  spoint _prev_pix_at;
+  spoint _curr_pix_at;
+  //
+  // Increases per tick and when it reaches 1, allows the thing to move
+  //
+  f16 thing_dt;
+  //
+  // Angle of movement. Also used when falling.
+  //
+  f16 angle;
+  //
+  // Previous map coordinates. Does not change when the move finishes.
+  //
+  fpoint _old_at;
+  //
+  // Map coordinates. This is the slot the thing is at when rounded.
+  //
+  // However some things like missiles can be at fractional positions.
+  //
+  fpoint _at;
   //
   // Used so often, we cache it
   //
@@ -620,144 +748,9 @@ using Thing = struct Thing {
   uint8_t _is_thrown            : 1;
   uint8_t _is_thrown_processing : 1;
   //
-  // Current tile.
-  //
-  uint16_t tile_index;
-  //
-  // Move speed, with 100 being player.
-  //
-  uint16_t _speed;
-  //
-  // This is the amount move moving (the speed above) we can do per tick.
-  //
-  // If we are 200 and the player is 100, then we get 2 moves per tick.
-  //
-  // If we are 50 then we get to move every other tick.
-  //
-  // Each tick, this amount is incremented by the speed value until it
-  // is >= the player's speed. At which point the monst can move.
-  //
-  int16_t _move_remaining; // can be decremented, so signed is safer
-  //
-  // Count down until the next animation frame should start
-  //
-  int16_t anim_ms_remaining; // can be decremented, so signed is safer
-  //
-  // Temperature in celsius.
-  //
-  int16_t _temperature; // can be decremented, so signed is safer
-  //
-  // Damage can be capped per tick to a limit so we don't kill a player in one go
-  //
-  int16_t _damage_this_tick;
-  //
   // The type of wall
   //
-  uint8_t _variant;
-  //
-  // Used in lava, water etc...
-  //
-  uint8_t _submerged_pct;
-  //
-  // Lifespan remaining in ticks
-  //
-  int16_t _lifespan; // can be decremented, so signed is safer
-  int16_t _lifespan_initial;
-  //
-  // How long this thing has lived
-  //
-  int16_t _age; // can be decremented, so signed is safer
-  //
-  // Health of the item.
-  //
-  int16_t _health;
-  int16_t _health_max;
-  //
-  // Accumulates and holds the amount of time we've been falling.
-  //
-  uint16_t _fall_ms;
-  //
-  // Weight in grams. Impacts things like grass being crushed.
-  //
-  uint32_t _weight;
-  //
-  // Current game tick this thing has completed
-  //
-  uint32_t tick;
-  //
-  // Used to keep track if we have ran the temperature checks yet this tick.
-  //
-  uint32_t tick_temperature;
-  uint32_t tick_temperature_last_change;
-  //
-  // Used to only tick things once per loop, even if they move slot
-  //
-  uint8_t iter[ MY_ITERS_MAX ];
-  //
-  // When this poor thing died.
-  //
-  uint32_t tick_dead;
-  //
-  // Avoid fast teleport loops
-  //
-  uint32_t tick_teleport;
-  //
-  // Ensure only one event per tick
-  //
-  uint32_t tick_water;
-  //
-  // Ensure only one event per tick
-  //
-  uint32_t tick_trap;
-  //
-  // Unique ID with some entropy built in
-  //
-  ThingId id;
-  //
-  // If this is a thing that is tied to other things, e.g. a bridge tile then
-  // they all share this id; which is the id of the first thing in the group
-  //
-  ThingId group_id;
-  //
-  // For player and monsters
-  //
-  ThingExtId ext_id;
-  //
-  // For light sources and player and monsters
-  //
-  ThingLightId light_id;
-  //
-  // Interpolated coordinates in pixels
-  //
-  spoint _prev_pix_at;
-  spoint _curr_pix_at;
-  //
-  // Previous map coordinates used for interpolation when moving. Changes when
-  // the move finishes.
-  //
-  bpoint _moving_from;
-  //
-  // Last location we were pushed onto the map.
-  //
-  bpoint last_pushed_at;
-  //
-  // Increases per tick and when it reaches 1, allows the thing to move
-  //
-  f16 thing_dt;
-  //
-  // Angle of movement. Also used when falling.
-  //
-  f16 angle;
-  //
-  // Previous map coordinates. Does not change when the move finishes.
-  //
-  fpoint _old_at;
-  //
-  // Map coordinates. This is the slot the thing is at when rounded.
-  //
-  // However some things like missiles can be at fractional positions.
-  //
-  fpoint _at;
+  uint8_t _variant : 5;
 };
 
 // begin sort marker1 {
