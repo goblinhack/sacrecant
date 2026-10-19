@@ -222,7 +222,7 @@ void tp_temperature_init(Tpp tp)
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return me->_temperature;
@@ -233,7 +233,7 @@ void tp_temperature_init(Tpp tp)
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -268,7 +268,7 @@ void tp_temperature_init(Tpp tp)
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return thing_temperature_set(g, v, l, me, me->_temperature + val);
@@ -279,7 +279,7 @@ void tp_temperature_init(Tpp tp)
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return thing_temperature_set(g, v, l, me, me->_temperature - val);

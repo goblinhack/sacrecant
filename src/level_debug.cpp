@@ -252,6 +252,8 @@ void level_debug(Gamep g, Levelsp v, Levelp l)
 {
   TRACE();
 
+  IF_NODEBUG { return; }
+
   level_log(g, v, l, "level             : idx:%d num:%d", l->level_arr_idx, l->level_arr_idx + 1);
   level_log(g, v, l, "seed              : %u", l->info.seed_num);
 

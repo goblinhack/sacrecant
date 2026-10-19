@@ -777,6 +777,8 @@ enum {
 // begin sort marker2 {
 auto levels_thing_id_histogram(Gamep g, Levelsp v) -> void;
 auto levels_thing_ext_histogram(Gamep g, Levelsp v) -> void;
+void no_levels_pointer(void);
+void no_level_pointer(void);
 auto levels_thing_dmap_histogram(Gamep g, Levelsp v) -> void;
 auto levels_thing_light_histogram(Gamep g, Levelsp v) -> void;
 auto fragment_alts_fini(Gamep g) -> void;

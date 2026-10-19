@@ -18,7 +18,7 @@
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return t->_weight;
@@ -29,7 +29,7 @@
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -46,7 +46,7 @@
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return t->_is_on_map;
@@ -57,7 +57,7 @@ void thing_is_on_map_set(Gamep g, Levelsp v, Levelp l, Thingp t, bool val)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return;
   }
   t->_is_on_map = val;
@@ -75,7 +75,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_animated_can_hflip) != 0;
@@ -86,7 +86,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_animated_no_dir) != 0;
@@ -97,7 +97,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_animated_sync_first) != 0;
@@ -108,7 +108,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_animated) != 0;
@@ -119,7 +119,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_barrel) != 0;
@@ -130,7 +130,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_blit_centered) != 0;
@@ -141,7 +141,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_blit_flush_per_line) != 0;
@@ -152,7 +152,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_blit_outlined) != 0;
@@ -163,7 +163,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_blit_square_outlined) != 0;
@@ -174,7 +174,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_brazier) != 0;
@@ -185,7 +185,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_bridge) != 0;
@@ -196,7 +196,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_chasm) != 0;
@@ -207,7 +207,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_corridor) != 0;
@@ -218,7 +218,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -239,7 +239,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_cursor_path_hazard) != 0;
@@ -250,7 +250,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_cursor_path) != 0;
@@ -261,7 +261,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_cursor) != 0;
@@ -272,7 +272,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_water_deep) != 0;
@@ -283,7 +283,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_described_cursor) != 0;
@@ -294,7 +294,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_dirt) != 0;
@@ -305,7 +305,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_door_unlocked) != 0;
@@ -316,7 +316,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_dungeon_entrance) != 0;
@@ -327,7 +327,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_entrance) != 0;
@@ -338,7 +338,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_exit) != 0;
@@ -349,7 +349,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_phantom) != 0;
@@ -360,7 +360,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_kobalos) != 0;
@@ -371,7 +371,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_grass) != 0;
@@ -382,7 +382,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_key) != 0;
@@ -393,7 +393,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_usable) != 0;
@@ -404,7 +404,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_level_curr_icon) != 0;
@@ -415,7 +415,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_critical_to_dungeon_design) != 0;
@@ -426,7 +426,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_level_final_icon) != 0;
@@ -437,7 +437,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_level_next_icon) != 0;
@@ -448,7 +448,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_level_locked_icon) != 0;
@@ -459,7 +459,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_level_closed_icon) != 0;
@@ -470,7 +470,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_pillar) != 0;
@@ -481,7 +481,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_rock) != 0;
@@ -492,7 +492,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_door_secret) != 0;
@@ -503,7 +503,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_slime) != 0;
@@ -514,7 +514,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_tickable) != 0;
@@ -525,7 +525,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_tiled) != 0;
@@ -536,7 +536,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_trap) != 0;
@@ -547,7 +547,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_treasure) != 0;
@@ -558,7 +558,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused1) != 0;
@@ -569,7 +569,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused2) != 0;
@@ -580,7 +580,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused3) != 0;
@@ -591,7 +591,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused4) != 0;
@@ -602,7 +602,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused5) != 0;
@@ -613,7 +613,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused6) != 0;
@@ -624,7 +624,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused7) != 0;
@@ -635,7 +635,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused8) != 0;
@@ -646,7 +646,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused9) != 0;
@@ -657,7 +657,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused10) != 0;
@@ -668,7 +668,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused11) != 0;
@@ -679,7 +679,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused12) != 0;
@@ -690,7 +690,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused13) != 0;
@@ -701,7 +701,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused14) != 0;
@@ -712,7 +712,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused15) != 0;
@@ -723,7 +723,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused16) != 0;
@@ -734,7 +734,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused17) != 0;
@@ -745,7 +745,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused18) != 0;
@@ -756,7 +756,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused19) != 0;
@@ -767,7 +767,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused20) != 0;
@@ -778,7 +778,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused21) != 0;
@@ -789,7 +789,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused22) != 0;
@@ -800,7 +800,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused23) != 0;
@@ -811,7 +811,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused24) != 0;
@@ -822,7 +822,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused25) != 0;
@@ -833,7 +833,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused26) != 0;
@@ -844,7 +844,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused27) != 0;
@@ -855,7 +855,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused28) != 0;
@@ -866,7 +866,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused29) != 0;
@@ -877,7 +877,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused30) != 0;
@@ -888,7 +888,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused31) != 0;
@@ -899,7 +899,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused32) != 0;
@@ -910,7 +910,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused33) != 0;
@@ -921,7 +921,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused34) != 0;
@@ -932,7 +932,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused35) != 0;
@@ -943,7 +943,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused36) != 0;
@@ -954,7 +954,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused37) != 0;
@@ -965,7 +965,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused38) != 0;
@@ -976,7 +976,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused39) != 0;
@@ -987,7 +987,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused40) != 0;
@@ -998,7 +998,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused41) != 0;
@@ -1009,7 +1009,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused42) != 0;
@@ -1020,7 +1020,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused43) != 0;
@@ -1031,7 +1031,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused44) != 0;
@@ -1042,7 +1042,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused45) != 0;
@@ -1053,7 +1053,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused46) != 0;
@@ -1064,7 +1064,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused47) != 0;
@@ -1075,7 +1075,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused48) != 0;
@@ -1086,7 +1086,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused49) != 0;
@@ -1097,7 +1097,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused50) != 0;
@@ -1108,7 +1108,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused51) != 0;
@@ -1119,7 +1119,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused52) != 0;
@@ -1130,7 +1130,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused53) != 0;
@@ -1141,7 +1141,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused54) != 0;
@@ -1152,7 +1152,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused55) != 0;
@@ -1163,7 +1163,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused56) != 0;
@@ -1174,7 +1174,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused57) != 0;
@@ -1185,7 +1185,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused58) != 0;
@@ -1196,7 +1196,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused59) != 0;
@@ -1207,7 +1207,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused60) != 0;
@@ -1218,7 +1218,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused61) != 0;
@@ -1229,7 +1229,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused62) != 0;
@@ -1240,7 +1240,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused63) != 0;
@@ -1251,7 +1251,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused64) != 0;
@@ -1262,7 +1262,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused65) != 0;
@@ -1273,7 +1273,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused66) != 0;
@@ -1284,7 +1284,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused67) != 0;
@@ -1295,7 +1295,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused68) != 0;
@@ -1306,7 +1306,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused69) != 0;
@@ -1317,7 +1317,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused70) != 0;
@@ -1328,7 +1328,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused71) != 0;
@@ -1339,7 +1339,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused72) != 0;
@@ -1350,7 +1350,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused73) != 0;
@@ -1361,7 +1361,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused74) != 0;
@@ -1372,7 +1372,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused75) != 0;
@@ -1383,7 +1383,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused76) != 0;
@@ -1394,7 +1394,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused77) != 0;
@@ -1405,7 +1405,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused78) != 0;
@@ -1416,7 +1416,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused79) != 0;
@@ -1427,7 +1427,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused80) != 0;
@@ -1438,7 +1438,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused81) != 0;
@@ -1449,7 +1449,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused82) != 0;
@@ -1460,7 +1460,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused83) != 0;
@@ -1471,7 +1471,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused84) != 0;
@@ -1482,7 +1482,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused85) != 0;
@@ -1493,7 +1493,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused86) != 0;
@@ -1504,7 +1504,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused87) != 0;
@@ -1515,7 +1515,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused88) != 0;
@@ -1526,7 +1526,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused89) != 0;
@@ -1537,7 +1537,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused90) != 0;
@@ -1548,7 +1548,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused91) != 0;
@@ -1559,7 +1559,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused92) != 0;
@@ -1570,7 +1570,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused93) != 0;
@@ -1581,7 +1581,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused94) != 0;
@@ -1592,7 +1592,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused95) != 0;
@@ -1603,7 +1603,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused96) != 0;
@@ -1614,7 +1614,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused97) != 0;
@@ -1625,7 +1625,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused98) != 0;
@@ -1636,7 +1636,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused99) != 0;
@@ -1647,7 +1647,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused100) != 0;
@@ -1658,7 +1658,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused101) != 0;
@@ -1669,7 +1669,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused102) != 0;
@@ -1680,7 +1680,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused103) != 0;
@@ -1691,7 +1691,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused104) != 0;
@@ -1702,7 +1702,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused105) != 0;
@@ -1713,7 +1713,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused106) != 0;
@@ -1724,7 +1724,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused107) != 0;
@@ -1735,7 +1735,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_argusul) != 0;
@@ -1746,7 +1746,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_skullferno) != 0;
@@ -1757,7 +1757,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_able_to_teleport_safely) != 0;
@@ -1768,7 +1768,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_monst_overlap_allowed) != 0;
@@ -1779,7 +1779,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_dead_on_falling) != 0;
@@ -1790,7 +1790,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_tentacle) != 0;
@@ -1801,7 +1801,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_boss5) != 0;
@@ -1812,7 +1812,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_boss4) != 0;
@@ -1823,7 +1823,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_boss3) != 0;
@@ -1834,7 +1834,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_boss2) != 0;
@@ -1845,7 +1845,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_memory_ext) != 0;
@@ -1856,7 +1856,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_cursor_path_jump_over) != 0;
@@ -1867,7 +1867,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_haunt) != 0;
@@ -1878,7 +1878,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_dumb_ai) != 0;
@@ -1889,7 +1889,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_exit_closed) != 0;
@@ -1900,7 +1900,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_blit_hit_solid_white) != 0;
@@ -1911,7 +1911,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused124) != 0;
@@ -1922,7 +1922,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_multi_tile) != 0;
@@ -1933,7 +1933,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_boss1) != 0;
@@ -1944,7 +1944,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_boss) != 0;
@@ -1955,7 +1955,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_bat_minion) != 0;
@@ -1966,7 +1966,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_bat) != 0;
@@ -1977,7 +1977,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_meat) != 0;
@@ -1988,7 +1988,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_gas_explosive) != 0;
@@ -1999,7 +1999,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_fire_spready) != 0;
@@ -2010,7 +2010,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_able_to_breathe) != 0;
@@ -2021,7 +2021,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_obs_to_gas) != 0;
@@ -2032,7 +2032,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_gas_life) != 0;
@@ -2043,7 +2043,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_gas_death) != 0;
@@ -2054,7 +2054,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_gas) != 0;
@@ -2065,7 +2065,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_fungus) != 0;
@@ -2076,7 +2076,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_effect_explosion1) != 0;
@@ -2087,7 +2087,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_effect_explosion2) != 0;
@@ -2098,7 +2098,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_fire_normal) != 0;
@@ -2109,7 +2109,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_explosion) != 0;
@@ -2120,7 +2120,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_internal) != 0;
@@ -2131,7 +2131,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_able_to_heal) != 0;
@@ -2142,7 +2142,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_boost) != 0;
@@ -2153,7 +2153,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_weaponless_on_spawn) != 0;
@@ -2164,7 +2164,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_hook) != 0;
@@ -2175,7 +2175,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_sacrifice) != 0;
@@ -2186,7 +2186,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_debuff) != 0;
@@ -2197,7 +2197,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_venomous) != 0;
@@ -2208,7 +2208,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_able_to_see_invisible) != 0;
@@ -2219,7 +2219,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_critical_to_gameplay) != 0;
@@ -2230,7 +2230,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_fish) != 0;
@@ -2241,7 +2241,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unlucky) != 0;
@@ -2252,7 +2252,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_cursed) != 0;
@@ -2263,7 +2263,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_chocolate) != 0;
@@ -2274,7 +2274,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_tick_on_eaten) != 0;
@@ -2285,7 +2285,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_able_to_eat_food) != 0;
@@ -2296,7 +2296,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_edible) != 0;
@@ -2307,7 +2307,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_able_to_be_engulfed_blocked) != 0;
@@ -2318,7 +2318,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_able_to_be_ensnared_blocked) != 0;
@@ -2329,7 +2329,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_active_when_worn) != 0;
@@ -2340,7 +2340,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_leather) != 0;
@@ -2351,7 +2351,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_boots) != 0;
@@ -2362,7 +2362,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_spider_giant) != 0;
@@ -2373,7 +2373,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_spider_baby) != 0;
@@ -2384,7 +2384,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_able_to_choose_targets) != 0;
@@ -2395,7 +2395,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_flesh_eater) != 0;
@@ -2406,7 +2406,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_able_to_move) != 0;
@@ -2417,7 +2417,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_spider) != 0;
@@ -2428,7 +2428,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_spiderweb) != 0;
@@ -2439,7 +2439,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_rubble) != 0;
@@ -2450,7 +2450,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_fire_magical) != 0;
@@ -2461,7 +2461,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_skeleton) != 0;
@@ -2472,7 +2472,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_water_bound) != 0;
@@ -2483,7 +2483,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_amphibious) != 0;
@@ -2494,7 +2494,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_soft_landing) != 0;
@@ -2505,7 +2505,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_gelatinous) != 0;
@@ -2516,7 +2516,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_potion) != 0;
@@ -2527,7 +2527,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_teleport_hazard) != 0;
@@ -2538,7 +2538,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_active_when_carried) != 0;
@@ -2549,7 +2549,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_wearable) != 0;
@@ -2560,7 +2560,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_ring) != 0;
@@ -2571,7 +2571,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_lava_bg) != 0;
@@ -2582,7 +2582,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_light_flicker) != 0;
@@ -2593,7 +2593,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_able_to_drop_all_items_on_death) != 0;
@@ -2604,7 +2604,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_effect_ripple) != 0;
@@ -2615,7 +2615,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_shown_noise) != 0;
@@ -2626,7 +2626,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_obs_to_hearing) != 0;
@@ -2637,7 +2637,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_throwable) != 0;
@@ -2648,7 +2648,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_obs_to_throwing_over) != 0;
@@ -2659,7 +2659,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_obs_to_throwing_onto) != 0;
@@ -2670,7 +2670,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_physics_trap) != 0;
@@ -2681,7 +2681,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_tick_on_strip) != 0;
@@ -2692,7 +2692,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_tick_on_worn) != 0;
@@ -2703,7 +2703,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_buff) != 0;
@@ -2714,7 +2714,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -2730,7 +2730,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_tick_on_drop) != 0;
@@ -2741,7 +2741,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_tick_on_use) != 0;
@@ -2752,7 +2752,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -2768,7 +2768,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_chest) != 0;
@@ -2779,7 +2779,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_flammable) != 0;
@@ -2790,7 +2790,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_auto_wear) != 0;
@@ -2801,7 +2801,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -2813,7 +2813,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_weapon) != 0;
@@ -2824,7 +2824,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -2840,7 +2840,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_wand) != 0;
@@ -2851,7 +2851,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_staff) != 0;
@@ -2862,7 +2862,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_able_to_eat_treasure) != 0;
@@ -2873,7 +2873,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_wait_on_anim) != 0;
@@ -2884,7 +2884,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_flat) != 0;
@@ -2895,7 +2895,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_obs_to_beam) != 0;
@@ -2906,7 +2906,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_beam_weapon) != 0;
@@ -2917,7 +2917,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_vault) != 0;
@@ -2928,7 +2928,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_biome_underhell) != 0;
@@ -2939,7 +2939,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_biome_graveyard) != 0;
@@ -2950,7 +2950,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_biome_nethervoid) != 0;
@@ -2961,7 +2961,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_biome_bogland) != 0;
@@ -2972,7 +2972,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_biome_dungeon) != 0;
@@ -2983,7 +2983,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_level_open_icon) != 0;
@@ -2994,7 +2994,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_blit_bg) != 0;
@@ -3005,7 +3005,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_level_select_bg) != 0;
@@ -3016,7 +3016,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_blit_hit_outline_w_black_inside) != 0;
@@ -3027,7 +3027,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_blit_hit_outline_w_invis_inside) != 0;
@@ -3038,7 +3038,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_blit_when_obscured_outline) != 0;
@@ -3049,7 +3049,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_effect) != 0;
@@ -3060,7 +3060,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_effect_attack) != 0;
@@ -3071,7 +3071,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_effect_blood) != 0;
@@ -3082,7 +3082,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_grouped_thing) != 0;
@@ -3093,7 +3093,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -3109,7 +3109,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_obs_to_paths) != 0;
@@ -3120,7 +3120,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_blit_on_ground) != 0;
@@ -3131,7 +3131,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_insectoid) != 0;
@@ -3142,7 +3142,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_able_to_eat_items) != 0;
@@ -3153,7 +3153,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_dmap) != 0;
@@ -3164,7 +3164,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_obs_to_spawning) != 0;
@@ -3175,7 +3175,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_border) != 0;
@@ -3186,7 +3186,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_gold) != 0;
@@ -3197,7 +3197,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_glass) != 0;
@@ -3208,7 +3208,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_plant) != 0;
@@ -3219,7 +3219,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_wood) != 0;
@@ -3230,7 +3230,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_metal) != 0;
@@ -3241,7 +3241,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_flesh) != 0;
@@ -3252,7 +3252,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_stone) != 0;
@@ -3263,7 +3263,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_meltable) != 0;
@@ -3274,7 +3274,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_blit_per_pixel_lighting) != 0;
@@ -3285,7 +3285,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_cursor_path_warning) != 0;
@@ -3296,7 +3296,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_lucky) != 0;
@@ -3307,7 +3307,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_projectile) != 0;
@@ -3318,7 +3318,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_item_mergeable) != 0;
@@ -3329,7 +3329,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_door_locked) != 0;
@@ -3340,7 +3340,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_inventory_item) != 0;
@@ -3351,7 +3351,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -3367,7 +3367,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_item) != 0;
@@ -3378,7 +3378,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -3394,7 +3394,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -3410,7 +3410,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -3422,7 +3422,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_collectable) != 0;
@@ -3433,7 +3433,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_blit_when_obscured_faded) != 0;
@@ -3444,7 +3444,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_openable) != 0;
@@ -3455,7 +3455,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_tick_end_delay) != 0;
@@ -3466,7 +3466,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_physics_explosion) != 0;
@@ -3477,7 +3477,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -3498,7 +3498,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_cursor_path_none) != 0;
@@ -3509,7 +3509,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_blit_obscures) != 0;
@@ -3520,7 +3520,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_obs_to_ethereal) != 0;
@@ -3531,7 +3531,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_physics_water) != 0;
@@ -3542,7 +3542,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_indestructible) != 0;
@@ -3553,7 +3553,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -3574,7 +3574,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_combustible) != 0;
@@ -3585,7 +3585,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_blit_shown_in_chasms) != 0;
@@ -3596,7 +3596,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_gaseous) != 0;
@@ -3607,7 +3607,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_blit_if_has_seen) != 0;
@@ -3618,7 +3618,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_smoke) != 0;
@@ -3629,7 +3629,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_steam) != 0;
@@ -3640,7 +3640,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_burnable) != 0;
@@ -3651,7 +3651,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -3678,7 +3678,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_crushable) != 0;
@@ -3689,7 +3689,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_blit_shown_in_overlay) != 0;
@@ -3700,7 +3700,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_unused183) != 0;
@@ -3711,7 +3711,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_droppable) != 0;
@@ -3722,7 +3722,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_able_to_see_through_walls) != 0;
@@ -3733,7 +3733,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return t->_value1;
@@ -3744,7 +3744,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return t->_value1 = val;
@@ -3755,7 +3755,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return t->_value1 += val;
@@ -3766,7 +3766,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   if (static_cast< int >(t->_value1) - val <= 0) {
@@ -3779,7 +3779,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return t->_value2;
@@ -3790,7 +3790,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return t->_value2 = val;
@@ -3801,7 +3801,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return t->_value2 += val;
@@ -3812,7 +3812,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   if (static_cast< int >(t->_value2) - val <= 0) {
@@ -3826,7 +3826,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return t->_difficulty;
@@ -3837,7 +3837,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return t->_difficulty = val;
@@ -3848,7 +3848,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return t->_difficulty += val;
@@ -3859,7 +3859,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   if (static_cast< int >(t->_difficulty) - val <= 0) {
@@ -3873,7 +3873,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return t->_items_collected_max;
@@ -3884,7 +3884,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return t->_items_collected_max = val;
@@ -3895,7 +3895,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return t->_items_collected_max += val;
@@ -3906,7 +3906,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   if (static_cast< int >(t->_items_collected_max) - val <= 0) {
@@ -3920,7 +3920,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return t->_variant;
@@ -3931,7 +3931,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return t->_variant = val;
@@ -3942,7 +3942,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return THING_PRIORITY_LOWEST;
   }
   if (thing_is_dead(t)) {
@@ -3956,7 +3956,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return THING_PRIORITY_LOWEST;
   }
   return t->_priority = val;
@@ -3967,7 +3967,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_always_hit) != 0;

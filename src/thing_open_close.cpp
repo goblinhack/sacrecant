@@ -22,7 +22,7 @@
   TRACE_INDENT();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -87,7 +87,7 @@
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return t->_is_unlocked;
@@ -98,7 +98,7 @@ void thing_is_unlocked_set(Gamep g, Levelsp v, Levelp l, Thingp t, bool val)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return;
   }
   t->_is_unlocked = val;

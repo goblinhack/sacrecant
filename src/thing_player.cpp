@@ -1039,7 +1039,7 @@ static auto player_move_delta(Gamep g, Levelsp v, Levelp l, int dx, int dy) -> b
 
   auto *me = thing_player(g);
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -1376,7 +1376,7 @@ void player_warp_to_specific_level(Gamep g, Levelsp v, Levelp l, LevelArrIdx lev
 
   auto *me = thing_player(g);
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return;
   }
 

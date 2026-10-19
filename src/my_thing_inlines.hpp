@@ -20,7 +20,7 @@
 #ifdef DEBUG_BUILD
   TRACE_DEBUG(); // expensive
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return 0;
   }
 #endif
@@ -37,12 +37,12 @@
 #ifdef DEBUG_BUILD
   TRACE_DEBUG(); // expensive
   if (g == nullptr) [[unlikely]] {
-    ERR("no game pointer");
+    no_game_pointer();
     return nullptr;
   }
   //
   if (v == nullptr) [[unlikely]] {
-    ERR("no levels pointer");
+    no_levels_pointer();
     return nullptr;
   }
 #endif
@@ -71,7 +71,7 @@
 #ifdef DEBUG_BUILD
   TRACE_DEBUG(); // expensive
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return nullptr;
   }
 #endif
@@ -84,7 +84,7 @@
 #ifdef DEBUG_BUILD
   TRACE_DEBUG();
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 #endif
@@ -97,7 +97,7 @@
 #ifdef DEBUG_BUILD
   TRACE_DEBUG();
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 #endif
@@ -110,7 +110,7 @@
 #ifdef DEBUG_BUILD
   TRACE_DEBUG();
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 #endif
@@ -123,7 +123,7 @@
 #ifdef DEBUG_BUILD
   TRACE_DEBUG();
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 #endif
@@ -136,7 +136,7 @@
 #ifdef DEBUG_BUILD
   TRACE_DEBUG();
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 #endif
@@ -149,7 +149,7 @@
 #ifdef DEBUG_BUILD
   TRACE_DEBUG();
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 #endif
@@ -162,7 +162,7 @@
 #ifdef DEBUG_BUILD
   TRACE_DEBUG();
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 #endif
@@ -175,7 +175,7 @@
 #ifdef DEBUG_BUILD
   TRACE_DEBUG();
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 #endif
@@ -188,7 +188,7 @@
 #ifdef DEBUG_BUILD
   TRACE_DEBUG();
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 #endif
@@ -201,7 +201,7 @@
 #ifdef DEBUG_BUILD
   TRACE_DEBUG();
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 #endif
@@ -214,7 +214,7 @@
 #ifdef DEBUG_BUILD
   TRACE_DEBUG();
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 #endif
@@ -227,7 +227,7 @@
 #ifdef DEBUG_BUILD
   TRACE_DEBUG();
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 #endif
@@ -240,7 +240,7 @@
 #ifdef DEBUG_BUILD
   TRACE_DEBUG();
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 #endif
@@ -253,7 +253,7 @@
 #ifdef DEBUG_BUILD
   TRACE_DEBUG();
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 #endif
@@ -267,7 +267,7 @@
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 #endif
@@ -280,7 +280,7 @@
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 #endif
@@ -293,7 +293,7 @@
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 #endif
@@ -306,7 +306,7 @@
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 #endif
@@ -319,7 +319,7 @@
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 #endif
@@ -331,7 +331,7 @@
 #ifdef DEBUG_BUILD
   TRACE_DEBUG();
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 #endif
@@ -356,7 +356,7 @@
 #ifdef DEBUG_BUILD
   TRACE_DEBUG();
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 #endif
@@ -369,7 +369,7 @@
 #ifdef DEBUG_BUILD
   TRACE_DEBUG();
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 #endif
@@ -382,7 +382,7 @@
 #ifdef DEBUG_BUILD
   TRACE_DEBUG();
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 #endif
@@ -470,7 +470,7 @@
 #ifdef DEBUG_BUILD
   TRACE_DEBUG();
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 #endif
@@ -483,7 +483,7 @@
 #ifdef DEBUG_BUILD
   TRACE_DEBUG();
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 #endif
@@ -507,7 +507,7 @@
 #ifdef DEBUG_BUILD
   TRACE_DEBUG();
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 #endif
@@ -525,7 +525,7 @@
 #ifdef DEBUG_BUILD
   TRACE_DEBUG();
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 #endif
@@ -547,7 +547,7 @@
   auto *tp = thing_tp(me);
 #ifdef DEBUG_BUILD
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return MAP_Z_DEPTH_FLOOR;
   }
 #endif
@@ -575,7 +575,7 @@
   auto *tp = thing_tp(me);
 #ifdef DEBUG_BUILD
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return MAP_Z_DEPTH_FLOOR;
   }
 #endif
@@ -591,7 +591,7 @@
   auto *tp = thing_tp(me);
 #ifdef DEBUG_BUILD
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return MAP_Z_DEPTH_FLOOR;
   }
 #endif
@@ -607,7 +607,7 @@
   auto *tp = thing_tp(me);
 #ifdef DEBUG_BUILD
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return MAP_Z_DEPTH_FLOOR;
   }
 #endif

@@ -15,7 +15,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -49,7 +49,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -78,7 +78,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -99,7 +99,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -120,7 +120,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 

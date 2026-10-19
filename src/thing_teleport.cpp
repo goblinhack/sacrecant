@@ -26,7 +26,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return me->_is_teleporting;
@@ -37,7 +37,7 @@ void thing_is_teleporting_set(Gamep g, Levelsp v, Levelp l, Thingp me, bool val)
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return;
   }
 
@@ -659,7 +659,7 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_teleport) != 0;
@@ -670,7 +670,7 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 

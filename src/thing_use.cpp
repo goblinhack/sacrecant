@@ -17,7 +17,7 @@ void thing_on_use_set(Tpp tp, thing_on_use_t callback)
 {
   TRACE();
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return;
   }
   tp->on_use = callback;
@@ -28,7 +28,7 @@ void thing_on_use_set(Tpp tp, thing_on_use_t callback)
   TRACE();
   auto *tp = thing_tp(me);
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return false;
   }
   if (tp->on_use == nullptr) {
@@ -122,7 +122,7 @@ static auto thing_use_item(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp use
   TRACE();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 

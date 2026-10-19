@@ -34,7 +34,7 @@ void wid_progress_bar_destroy(Gamep g)
 void wid_progress_bar(Gamep g, const std::string &title, float pct)
 {
   VERIFY(MTYPE_GAME, g);
-  log("progress bar: %s, %.2f pct", title.c_str(), pct);
+  DBG("progress bar: %s, %.2f pct", title.c_str(), pct);
   TRACE();
 
   if (g_opt_robot) {

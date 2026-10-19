@@ -351,7 +351,7 @@ void sdl_prepare_to_exit(Gamep g)
     return;
   }
 
-  log("finishing: SDL main loop is exiting...");
+  log("FINI: finishing: SDL main loop is exiting...");
   TRACE();
 
 #ifdef ENABLE_UI_ASCII_MOUSE

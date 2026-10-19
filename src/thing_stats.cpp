@@ -181,7 +181,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return THING_STAT_DEFAULT;
   }
 
@@ -398,7 +398,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return THING_STAT_DEFAULT;
   }
 
@@ -561,7 +561,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -585,7 +585,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return me->_fumble_roll = val;
@@ -596,7 +596,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return me->_fumble_roll += val;
@@ -607,7 +607,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   if (static_cast< int >(me->_fumble_roll) - val <= 0) {
@@ -621,7 +621,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -645,7 +645,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return me->_crit_roll = val;
@@ -656,7 +656,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return me->_crit_roll += val;
@@ -667,7 +667,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   if (static_cast< int >(me->_crit_roll) - val <= 0) {

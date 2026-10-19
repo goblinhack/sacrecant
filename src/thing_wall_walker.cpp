@@ -14,7 +14,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -40,7 +40,7 @@
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_wall_walker_pass_through) != 0;
@@ -51,7 +51,7 @@
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_obs_to_wall_walker) != 0;

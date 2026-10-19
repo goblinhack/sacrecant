@@ -109,11 +109,11 @@ static void parse_args(int argc, char *argv[])
   // Parse format arguments
   //
   IF_DEBUG { con("Parse command line arguments for '%s'", argv[ 0 ]); }
-  else { log("parse command line arguments for '%s'", argv[ 0 ]); }
+  else { log("INIT: parse command line arguments for '%s'", argv[ 0 ]); }
 
   for (i = 1; i < argc; i++) {
     IF_DEBUG { con("+ argument: \"%s\"", argv[ i ]); }
-    else { log("+ argument: \"%s\"", argv[ i ]); }
+    else { log("INIT: + argument: \"%s\"", argv[ i ]); }
   }
 
   if (argc != 0) {
@@ -387,11 +387,11 @@ static void parse_args(int argc, char *argv[])
 
   TRACE_DEBUG();
   (void) redirect_stdout();
-  log("will use STDOUT as '%s'", g_log_stdout_filename.c_str());
+  log("INIT: will use STDOUT as '%s'", g_log_stdout_filename.c_str());
 
   TRACE_DEBUG();
   (void) redirect_stderr();
-  log("will use STDERR as '%s'", g_log_stderr_filename.c_str());
+  log("INIT: will use STDERR as '%s'", g_log_stderr_filename.c_str());
 
   //////////////////////////////////////////////////////////////////////////////
   // Set the weekly seed
@@ -433,19 +433,19 @@ static void parse_args(int argc, char *argv[])
   //////////////////////////////////////////////////////////////////////////////
   TRACE_DEBUG();
 #ifdef _WIN32
-  log("platform is _WIN32");
+  log("INIT: platform is _WIN32");
 #endif
 #ifdef __MINGW32__
-  log("platform is __MINGW32__");
+  log("INIT: platform is __MINGW32__");
 #endif
 #ifdef __MINGW64__
-  log("platform is __MINGW64__");
+  log("INIT: platform is __MINGW64__");
 #endif
 #ifdef __APPLE__
-  log("platform is __APPLE__");
+  log("INIT: platform is __APPLE__");
 #endif
 #ifdef __linux__
-  log("platform is __linux__");
+  log("INIT: platform is __linux__");
 #endif
 
   //////////////////////////////////////////////////////////////////////////////
@@ -459,14 +459,14 @@ static void parse_args(int argc, char *argv[])
   }
 
   {
-    log("ramdisk init");
-    TRACE_DEBUG();
+    log("INIT: ramdisk init");
+    TRACE_INDENT();
     ramdisk_init();
   }
 
   {
-    log("create console");
-    TRACE_DEBUG();
+    log("INIT: create console");
+    TRACE_INDENT();
     ascii_init();
   }
 
@@ -474,7 +474,7 @@ static void parse_args(int argc, char *argv[])
   // Need this to get the UTF on the console
   //
 #ifndef _WIN32
-  log("set locale for console");
+  log("INIT: set locale for console");
   std::locale const loc("");
   std::ios_base::sync_with_stdio(false);
   std::wcout.imbue(loc);
@@ -484,7 +484,7 @@ static void parse_args(int argc, char *argv[])
   //
   // Crash handlers
   //
-  log("install crash handlers");
+  log("INIT: install crash handlers");
 #ifdef SIGSEGV
   signal(SIGSEGV, crash_handler);
 #endif
@@ -561,7 +561,7 @@ static void parse_args(int argc, char *argv[])
   {
     TRACE_DEBUG();
     IF_DEBUG { con("Load early gfx tiles, text, UI etc..."); }
-    else { log("load early gfx tiles, text, UI etc..."); }
+    else { log("INIT: load early gfx tiles, text, UI etc..."); }
     gfx_init();
   }
 
@@ -581,7 +581,7 @@ static void parse_args(int argc, char *argv[])
   if (! g_skip_audio_and_gfx) {
     TRACE_DEBUG();
     IF_DEBUG { con("Load fonts"); }
-    else { log("load fonts"); }
+    else { log("INIT: load fonts"); }
     if (! font_init(g)) {
       ERR("font init");
     }
@@ -594,7 +594,7 @@ static void parse_args(int argc, char *argv[])
   if (! g_skip_audio_and_gfx) {
     TRACE_DEBUG();
     IF_DEBUG { con("Load console"); }
-    else { log("load console"); }
+    else { log("INIT: load console"); }
     if (! wid_console_init(g)) {
       ERR("wid_console init");
     }
@@ -615,14 +615,14 @@ static void parse_args(int argc, char *argv[])
     TRACE_DEBUG();
     g_program_name = std::string(argv[ 0 ]);
     IF_DEBUG { con("Original program name: %s", g_program_name.c_str()); }
-    else { log("original program name: %s", g_program_name.c_str()); }
+    else { log("INIT: original program name: %s", g_program_name.c_str()); }
     wid_console_flush(g);
   }
 
   if (! g_skip_audio_and_gfx) {
     TRACE_DEBUG();
     IF_DEBUG { con("Load tiles"); }
-    else { log("load tiles"); }
+    else { log("INIT: load tiles"); }
     if (! wid_tiles_init()) {
       ERR("widget tiles init");
     }
@@ -639,7 +639,7 @@ static void parse_args(int argc, char *argv[])
   if (! g_skip_audio_and_gfx) {
     TRACE_DEBUG();
     IF_DEBUG { con("Load textures"); }
-    else { log("load textures"); }
+    else { log("INIT: load textures"); }
     if (! tex_init()) {
       ERR("tex init");
     }
@@ -649,7 +649,7 @@ static void parse_args(int argc, char *argv[])
   if (! g_skip_audio_and_gfx) {
     TRACE_DEBUG();
     IF_DEBUG { con("Init audio"); }
-    else { log("init audio"); }
+    else { log("INIT: init audio"); }
     if (! audio_init()) {
       ERR("audio init");
     }
@@ -659,7 +659,7 @@ static void parse_args(int argc, char *argv[])
   if (! g_skip_audio_and_gfx) {
     TRACE_DEBUG();
     IF_DEBUG { con("Init music"); }
-    else { log("init music"); }
+    else { log("INIT: init music"); }
     if (! music_init()) {
       ERR("music init");
     } else {
@@ -671,7 +671,7 @@ static void parse_args(int argc, char *argv[])
   if (! g_skip_audio_and_gfx) {
     TRACE_DEBUG();
     IF_DEBUG { con("Load sounds"); }
-    else { log("load sounds"); }
+    else { log("INIT: load sounds"); }
     if (! sound_init()) {
       ERR("sound init");
     } else {
@@ -683,20 +683,20 @@ static void parse_args(int argc, char *argv[])
   {
     TRACE_DEBUG();
 
-    log("load templates");
+    log("INIT: load templates");
     if (! tp_init()) {
       ERR("templates init");
     }
-    log("loaded templates");
+    log("INIT: loaded templates");
   }
 
   {
     TRACE_DEBUG();
-    log("load commands");
+    log("INIT: load commands");
     if (! command_init()) {
       ERR("command init");
     }
-    log("loaded commands");
+    log("INIT: loaded commands");
     wid_console_flush(g);
   }
 
@@ -816,7 +816,7 @@ static void parse_args(int argc, char *argv[])
     restart(g, g_need_restart_with_given_arguments);
   }
 
-  log("quit");
+  log("FINI: quit");
   cleanup();
 
   return 0;

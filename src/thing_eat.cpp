@@ -17,7 +17,7 @@ void thing_on_eaten_set(Tpp tp, thing_on_eaten_t callback)
 {
   TRACE();
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return;
   }
   tp->on_eaten = callback;
@@ -28,7 +28,7 @@ void thing_on_eaten_set(Tpp tp, thing_on_eaten_t callback)
   TRACE();
   auto *tp = thing_tp(item);
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return false;
   }
   if (tp->on_eaten == nullptr) {
@@ -146,7 +146,7 @@ static auto thing_eat_item(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp eat
   TRACE();
 
   if (user == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 

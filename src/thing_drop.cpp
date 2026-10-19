@@ -174,7 +174,7 @@ void thing_on_drop_request_set(Tpp tp, thing_on_drop_request_t callback)
 {
   TRACE();
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return;
   }
   tp->on_drop_request = callback;
@@ -185,7 +185,7 @@ void thing_on_drop_request_set(Tpp tp, thing_on_drop_request_t callback)
   TRACE();
   auto *tp = thing_tp(item);
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return false;
   }
 
@@ -218,7 +218,7 @@ void thing_on_drop_success_set(Tpp tp, thing_on_drop_success_t callback)
 {
   TRACE();
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return;
   }
   tp->on_drop_success = callback;
@@ -229,7 +229,7 @@ void thing_on_drop_success_set(Tpp tp, thing_on_drop_success_t callback)
   TRACE();
   auto *tp = thing_tp(item);
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return false;
   }
   if (tp->on_drop_success == nullptr) {
@@ -255,7 +255,7 @@ void thing_on_drop_success_set(Tpp tp, thing_on_drop_success_t callback)
   TRACE();
 
   if (user == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -278,7 +278,7 @@ void thing_on_drop_success_set(Tpp tp, thing_on_drop_success_t callback)
   TRACE();
 
   if (user == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 

@@ -74,7 +74,7 @@ static bool music_init_done;
 
 void music_fini()
 {
-  log("music fini");
+  log("FINI: music fini");
   TRACE();
 
   if (music_init_done) {

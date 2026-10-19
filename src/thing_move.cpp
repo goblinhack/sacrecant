@@ -326,7 +326,7 @@ void thing_update_pos(Gamep g, Levelsp v, Levelp l, Thingp me)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return t->_move_remaining;
@@ -337,7 +337,7 @@ void thing_update_pos(Gamep g, Levelsp v, Levelp l, Thingp me)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return t->_move_remaining = val;
@@ -348,7 +348,7 @@ void thing_update_pos(Gamep g, Levelsp v, Levelp l, Thingp me)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return t->_move_remaining += val;
@@ -359,7 +359,7 @@ void thing_update_pos(Gamep g, Levelsp v, Levelp l, Thingp me)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   if (t->_move_remaining - val <= 0) {
@@ -393,7 +393,7 @@ void thing_moving_from_set(Thingp t, const bpoint &val)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -414,7 +414,7 @@ void thing_moving_from_set(Thingp t, const bpoint &val)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_able_to_move_diagonally) != 0;
@@ -425,7 +425,7 @@ void thing_moving_from_set(Thingp t, const bpoint &val)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_needs_move_confirm) != 0;

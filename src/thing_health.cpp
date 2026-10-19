@@ -17,7 +17,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return me->_health;
@@ -28,7 +28,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -56,7 +56,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -68,7 +68,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -84,7 +84,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return me->_health_max;
@@ -95,7 +95,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -124,7 +124,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return thing_health_max_set(g, v, l, me, me->_health_max + val);
@@ -135,7 +135,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -151,7 +151,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(me), is_shown_health) != 0;

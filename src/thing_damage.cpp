@@ -29,7 +29,7 @@
   TRACE();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -90,7 +90,7 @@
 {
   TRACE_DEBUG();
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return 0;
   }
 
@@ -106,7 +106,7 @@
 {
   TRACE();
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return 0;
   }
 
@@ -130,7 +130,7 @@
   TRACE();
 
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return 0;
   }
 
@@ -146,7 +146,7 @@
   TRACE();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -229,7 +229,7 @@
   std::vector< ThingEventType > out;
 
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return out;
   }
 
@@ -1180,7 +1180,7 @@ void thing_damage_apply(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return t->_damage_this_tick;
@@ -1191,7 +1191,7 @@ void thing_damage_apply(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -1208,7 +1208,7 @@ void thing_damage_apply(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return t->_damage_this_tick += val;
@@ -1219,7 +1219,7 @@ void thing_damage_apply(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -1235,7 +1235,7 @@ void thing_damage_apply(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_damage_capped) != 0;

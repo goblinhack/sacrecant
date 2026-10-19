@@ -125,7 +125,7 @@ void thing_continue_to_burn_check(Gamep g, Levelsp v, Levelp l, Thingp me)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return t->_is_burning;
@@ -136,7 +136,7 @@ void thing_is_burning_set(Gamep g, Levelsp v, Levelp l, Thingp t, bool val)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return;
   }
 

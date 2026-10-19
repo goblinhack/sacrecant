@@ -100,7 +100,7 @@ auto thing_strip_item(Gamep g, Levelsp v, Levelp l, Thingp owner, Thingp item, T
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return t->_is_worn;
@@ -119,7 +119,7 @@ auto thing_strip_item(Gamep g, Levelsp v, Levelp l, Thingp owner, Thingp item, T
   }
 
   if (item == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -179,7 +179,7 @@ auto thing_strip_item(Gamep g, Levelsp v, Levelp l, Thingp owner, Thingp item, T
   TRACE();
 
   if (owner == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return nullptr;
   }
 
@@ -263,7 +263,7 @@ static auto thing_wear_item_do(Gamep g, Levelsp v, Levelp l, Thingp owner, Thing
   TRACE();
 
   if (owner == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -331,7 +331,7 @@ static auto thing_wear_item_do(Gamep g, Levelsp v, Levelp l, Thingp owner, Thing
   TRACE();
 
   if (owner == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -473,7 +473,7 @@ void thing_on_worn_request_set(Tpp tp, thing_on_worn_request_t callback)
 {
   TRACE();
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return;
   }
   tp->on_worn_request = callback;
@@ -484,7 +484,7 @@ void thing_on_worn_request_set(Tpp tp, thing_on_worn_request_t callback)
   TRACE();
   auto *tp = thing_tp(me);
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return false;
   }
   if (tp->on_worn_request == nullptr) {
@@ -504,7 +504,7 @@ void thing_on_strip_request_set(Tpp tp, thing_on_strip_request_t callback)
 {
   TRACE();
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return;
   }
   tp->on_strip_request = callback;
@@ -515,7 +515,7 @@ void thing_on_strip_request_set(Tpp tp, thing_on_strip_request_t callback)
   TRACE();
   auto *tp = thing_tp(me);
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return false;
   }
   if (tp->on_strip_request == nullptr) {

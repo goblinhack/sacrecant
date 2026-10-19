@@ -28,7 +28,7 @@ void thing_is_jumping_set(Gamep g, Levelsp v, Levelp l, Thingp me, bool val)
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return;
   }
 
@@ -360,7 +360,7 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -377,7 +377,7 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -413,7 +413,7 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -430,7 +430,7 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -447,7 +447,7 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -468,7 +468,7 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(me), is_obs_to_jumping_out_of) != 0;
@@ -479,7 +479,7 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -500,7 +500,7 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -521,7 +521,7 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -541,7 +541,7 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -561,7 +561,7 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -581,7 +581,7 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return me->_jump_attack_pct_chance;
@@ -592,7 +592,7 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return me->_jump_attack_pct_chance = val;
@@ -603,7 +603,7 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return me->_jump_attack_pct_chance += val;
@@ -614,7 +614,7 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   if (static_cast< int >(me->_jump_attack_pct_chance) - val <= 0) {

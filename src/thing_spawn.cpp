@@ -20,7 +20,7 @@ static void thing_is_spawned_set(Thingp me, bool val)
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return;
   }
 
@@ -87,7 +87,7 @@ void thing_is_spawned_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
   TRACE();
 
   if (spawner == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return nullptr;
   }
 
@@ -107,7 +107,7 @@ void thing_on_spawned_set(Tpp tp, thing_on_spawned_t callback)
 {
   TRACE();
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return;
   }
   tp->on_spawned = callback;
@@ -118,7 +118,7 @@ void thing_on_spawned(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent *e)
   TRACE();
   auto *tp = thing_tp(me);
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return;
   }
   if (tp->on_spawned == nullptr) {

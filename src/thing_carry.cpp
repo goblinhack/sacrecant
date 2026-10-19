@@ -94,7 +94,7 @@ static auto thing_carry_item(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp c
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return t->_is_carried;
@@ -113,7 +113,7 @@ static auto thing_carry_item(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp c
   }
 
   if (item == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -230,7 +230,7 @@ void thing_on_carry_request_set(Tpp tp, thing_on_carry_request_t callback)
 {
   TRACE();
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return;
   }
   tp->on_carry_request = callback;
@@ -241,7 +241,7 @@ void thing_on_carry_request_set(Tpp tp, thing_on_carry_request_t callback)
   TRACE();
   auto *tp = thing_tp(me);
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return false;
   }
   if (tp->on_carry_request == nullptr) {
@@ -261,7 +261,7 @@ void thing_on_carry_success_set(Tpp tp, thing_on_carry_success_t callback)
 {
   TRACE();
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return;
   }
   tp->on_carry_success = callback;
@@ -272,7 +272,7 @@ void thing_on_carry_success_set(Tpp tp, thing_on_carry_success_t callback)
   TRACE();
   auto *tp = thing_tp(me);
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return false;
   }
   if (tp->on_carry_success == nullptr) {
@@ -296,7 +296,7 @@ void thing_on_carry_success_set(Tpp tp, thing_on_carry_success_t callback)
   TRACE();
 
   if (collector == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -344,7 +344,7 @@ void thing_on_carry_success_set(Tpp tp, thing_on_carry_success_t callback)
   TRACE();
 
   if (collector == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -376,7 +376,7 @@ void thing_on_carry_success_set(Tpp tp, thing_on_carry_success_t callback)
   TRACE();
 
   if (collector == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 

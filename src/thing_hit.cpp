@@ -25,7 +25,7 @@ void thing_is_hit_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return;
   }
 
@@ -62,7 +62,7 @@ void thing_is_hit_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -78,7 +78,7 @@ void thing_is_hit_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 

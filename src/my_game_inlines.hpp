@@ -15,11 +15,11 @@
   TRACE_DEBUG();
 
   if (g == nullptr) [[unlikely]] {
-    ERR("game_level_get: no game pointer");
+    no_game_pointer();
     return nullptr;
   }
   if (v == nullptr) [[unlikely]] {
-    ERR("game_level_get: no levels pointer");
+    no_levels_pointer();
     return nullptr;
   }
 #endif
@@ -36,11 +36,11 @@
   TRACE_DEBUG();
 
   if (g == nullptr) [[unlikely]] {
-    ERR("game_level_get: no game pointer");
+    no_game_pointer();
     return nullptr;
   }
   if (v == nullptr) [[unlikely]] {
-    ERR("game_level_get: no levels pointer");
+    no_levels_pointer();
     return nullptr;
   }
 #endif

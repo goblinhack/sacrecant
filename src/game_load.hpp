@@ -66,9 +66,9 @@ auto operator>>(std::istream &in, Bits< Config & > my) -> std::istream &
   TRACE();
 
   in >> bits(my.t.version);
-  log("read config: version                = [%s]", my.t.version.c_str());
+  log("GAME: read config: version                = [%s]", my.t.version.c_str());
   in >> bits(my.t.serialized_size);
-  log("read config: serialized_size        = %d", my.t.serialized_size);
+  log("GAME: read config: serialized_size        = %d", my.t.serialized_size);
 
   if (my.t.serialized_size != sizeof(Config)) {
     game_load_error = "bad save file header version";
@@ -619,22 +619,22 @@ auto operator>>(std::istream &in, Bits< Config & > my) -> std::istream &
   in >> bits(my.t.sdl_delay);
   in >> bits(my.t.sound_volume);
 
-  log("read config: config_font            = %d", my.t.config_font);
-  log("read config: config_font_height     = %d", my.t.config_font_height);
-  log("read config: config_font_width      = %d", my.t.config_font_width);
-  log("read config: config_pix_height      = %d", my.t.config_pix_height);
-  log("read config: config_pix_width       = %d", my.t.config_pix_width);
-  log("read config: debug_mode             = %d", static_cast< int >(my.t.debug_mode));
-  log("read config: fps_counter            = %d", static_cast< int >(my.t.fps_counter));
-  log("read config: gfx_borderless         = %d", static_cast< int >(my.t.gfx_borderless));
-  log("read config: gfx_fullscreen         = %d", static_cast< int >(my.t.gfx_fullscreen));
-  log("read config: gfx_fullscreen_desktop = %d", static_cast< int >(my.t.gfx_fullscreen_desktop));
-  log("read config: gfx_vsync_enable       = %d", static_cast< int >(my.t.gfx_vsync_enable));
-  log("read config: mouse_wheel_lr_negated = %d", static_cast< int >(my.t.mouse_wheel_lr_negated));
-  log("read config: mouse_wheel_ud_negated = %d", static_cast< int >(my.t.mouse_wheel_ud_negated));
-  log("read config: music_volume           = %d", my.t.music_volume);
-  log("read config: sdl_delay              = %d", my.t.sdl_delay);
-  log("read config: sound_volume           = %d", my.t.sound_volume);
+  log("GAME: read config: config_font            = %d", my.t.config_font);
+  log("GAME: read config: config_font_height     = %d", my.t.config_font_height);
+  log("GAME: read config: config_font_width      = %d", my.t.config_font_width);
+  log("GAME: read config: config_pix_height      = %d", my.t.config_pix_height);
+  log("GAME: read config: config_pix_width       = %d", my.t.config_pix_width);
+  log("GAME: read config: debug_mode             = %d", static_cast< int >(my.t.debug_mode));
+  log("GAME: read config: fps_counter            = %d", static_cast< int >(my.t.fps_counter));
+  log("GAME: read config: gfx_borderless         = %d", static_cast< int >(my.t.gfx_borderless));
+  log("GAME: read config: gfx_fullscreen         = %d", static_cast< int >(my.t.gfx_fullscreen));
+  log("GAME: read config: gfx_fullscreen_desktop = %d", static_cast< int >(my.t.gfx_fullscreen_desktop));
+  log("GAME: read config: gfx_vsync_enable       = %d", static_cast< int >(my.t.gfx_vsync_enable));
+  log("GAME: read config: mouse_wheel_lr_negated = %d", static_cast< int >(my.t.mouse_wheel_lr_negated));
+  log("GAME: read config: mouse_wheel_ud_negated = %d", static_cast< int >(my.t.mouse_wheel_ud_negated));
+  log("GAME: read config: music_volume           = %d", my.t.music_volume);
+  log("GAME: read config: sdl_delay              = %d", my.t.sdl_delay);
+  log("GAME: read config: sound_volume           = %d", my.t.sound_volume);
 
   if (! g_opt_override_debug_level) {
     if (my.t.debug_mode) {
@@ -723,19 +723,19 @@ auto operator>>(std::istream &in, Bits< class Game & > my) -> std::istream &
     uint32_t tmp = 0;
 
     in >> bits(tmp);
-    log("read config: sizeof(Thing)          = %u", tmp);
+    log("GAME: read config: sizeof(Thing)          = %u", tmp);
     if (tmp != sizeof(Thing)) {
       game_load_error = "Incompatible Thing structure size";
       return in;
     }
     in >> bits(tmp);
-    log("read config: sizeof(Level)          = %u", tmp);
+    log("GAME: read config: sizeof(Level)          = %u", tmp);
     if (tmp != sizeof(Level)) {
       game_load_error = "Incompatible Level structure size";
       return in;
     }
     in >> bits(tmp);
-    log("read config: sizeof(Levels)         = %u", tmp);
+    log("GAME: read config: sizeof(Levels)         = %u", tmp);
     if (tmp != sizeof(Levels)) {
       game_load_error = "Incompatible Levels structure size";
       return in;
@@ -827,26 +827,6 @@ auto operator>>(std::istream &in, Bits< class Game & > my) -> std::istream &
     in >> bits(tmp);
     if (tmp != offsetof(Thing, _value2)) {
       game_load_error = "thing structure changed: offsetof(Thing, _value2)";
-      return in;
-    }
-    in >> bits(tmp);
-    if (tmp != offsetof(Thing, _spell_mana_cost)) {
-      game_load_error = "thing structure changed: offsetof(Thing, _spell_mana_cost)";
-      return in;
-    }
-    in >> bits(tmp);
-    if (tmp != offsetof(Thing, _spell_radius)) {
-      game_load_error = "thing structure changed: offsetof(Thing, _spell_radius)";
-      return in;
-    }
-    in >> bits(tmp);
-    if (tmp != offsetof(Thing, _spell_range)) {
-      game_load_error = "thing structure changed: offsetof(Thing, _spell_range)";
-      return in;
-    }
-    in >> bits(tmp);
-    if (tmp != offsetof(Thing, _spell_cost)) {
-      game_load_error = "thing structure changed: offsetof(Thing, _spell_cost)";
       return in;
     }
     in >> bits(tmp);
@@ -1046,6 +1026,145 @@ auto operator>>(std::istream &in, Bits< class Game & > my) -> std::istream &
     }
 
     //
+    // Check ThingExt offsets
+    //
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, _noise)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, _noise)";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, _hearing_threshold)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, _hearing_threshold)";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, _distance_vision)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, _distance_vision)";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, _distance_minion_from_mob_max)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, _distance_minion_from_mob_max)";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, _distance_jump)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, _distance_jump)";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, _distance_throw)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, _distance_throw)";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, _distance_avoid_target)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, _distance_avoid_target)";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, _attack_count_per_tick)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, _attack_count_per_tick)";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, _spell_mana_cost)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, _spell_mana_cost)";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, _spell_radius)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, _spell_radius)";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, _spell_radius_max)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, _spell_radius_max)";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, _spell_range)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, _spell_range)";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, _spell_range_max)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, _spell_range_max)";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, _spell_cost)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, _spell_cost)";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, _attacked_at)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, _attacked_at)";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, _monst_target)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, _monst_target)";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, _monst_state)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, _monst_state)";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, minions)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, minions)";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, missiles)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, missiles)";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, hooks)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, hooks)";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, has_seen)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, has_seen)";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, can_see)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, can_see)";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, inventory)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, inventory)";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, spellbook)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, spellbook)";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, worn_id)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, worn_id)";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, _stat)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, _stat)";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, move_path)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, move_path)";
+      return in;
+    }
+
+    //
     // Check Level offsets
     //
     in >> bits(tmp);
@@ -1180,7 +1299,7 @@ static auto read_lzo_file(const std::string &filename, long *uncompressed_sz) ->
 
 auto Game::load(const std::string &file_to_load, class Game &target) -> bool
 {
-  log("load: %s", file_to_load.c_str());
+  log("GAME: load: %s", file_to_load.c_str());
   TRACE_INDENT();
 
   VERIFY(MTYPE_GAME, this);
@@ -1227,7 +1346,7 @@ auto Game::load(const std::string &file_to_load, class Game &target) -> bool
 
   auto start = user_visible_time_ms();
 
-  log("expect: %s, decompress %ld (%ld bytes) -> %ld Mb (%ld bytes)", file_to_load.c_str(),
+  log("GAME: expect: %s, decompress %ld (%ld bytes) -> %ld Mb (%ld bytes)", file_to_load.c_str(),
       src_size / (1024 * 1024), //
       src_size,                 //
       dst_size / (1024 * 1024), //
@@ -1329,7 +1448,7 @@ auto Game::load_config() const -> std::string
 
 auto Game::load(int slot) -> bool
 {
-  log("load slot: %d", slot);
+  log("GAME: load slot: %d", slot);
   TRACE_INDENT();
 
   if (slot < 0) {
@@ -1350,7 +1469,7 @@ auto Game::load(int slot) -> bool
     return false;
   }
 
-  log("clean up current game");
+  log("GAME: clean up current game");
   game->fini();
 
   auto this_save_file = saved_dir + "saved-slot-" + std::to_string(slot);
@@ -1359,7 +1478,7 @@ auto Game::load(int slot) -> bool
     this_save_file = saved_dir + "saved-snapshot";
   }
 
-  log("loading: %s", this_save_file.c_str());
+  log("GAME: loading: %s", this_save_file.c_str());
   g_loading = true;
   load(this_save_file, *this);
   g_loading = false;
@@ -1379,14 +1498,14 @@ auto Game::load(int slot) -> bool
 
 auto Game::load_snapshot() -> bool
 {
-  log("load snapshot");
+  log("GAME: load snapshot");
   TRACE_INDENT();
 
   game->fini();
 
   auto this_save_file = saved_dir + "saved-snapshot";
 
-  log("loading: %s", this_save_file.c_str());
+  log("GAME: loading: %s", this_save_file.c_str());
   g_loading = true;
   load(this_save_file, *this);
   g_loading = false;
@@ -1404,7 +1523,7 @@ void wid_load_destroy(Gamep g)
     return;
   }
 
-  log("widget load destroy");
+  log("GAME: widget load destroy");
   TRACE_INDENT();
 
   delete wid_load;
@@ -1454,7 +1573,7 @@ static auto wid_load_key_up(Gamep g, Widp w, const struct SDL_Keysym *key) -> bo
               case 'B' :
               case SDLK_ESCAPE :
                 {
-                  log("load game cancelled");
+                  log("GAME: load game cancelled");
                   TRACE_INDENT();
 
                   wid_load_destroy(game);
@@ -1484,7 +1603,7 @@ static auto wid_load_key_down(Gamep g, Widp w, const struct SDL_Keysym *key) -> 
 
 static auto wid_load_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
-  log("load selected slot");
+  log("GAME: load selected slot");
   TRACE_INDENT();
 
   auto slot = wid_get_int_context(w);
@@ -1495,7 +1614,7 @@ static auto wid_load_mouse_down(Gamep g, Widp w, int x, int y, uint32_t button) 
 
 static auto wid_load_saved_snapshot(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
-  log("load menu: load snapshot");
+  log("GAME: load menu: load snapshot");
   TRACE_INDENT();
 
   game->load_snapshot();
@@ -1505,7 +1624,7 @@ static auto wid_load_saved_snapshot(Gamep g, Widp w, int x, int y, uint32_t butt
 
 static auto wid_load_cancel(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
-  log("load menu: load cancel");
+  log("GAME: load menu: load cancel");
   TRACE_INDENT();
 
   wid_load_destroy(game);
@@ -1515,7 +1634,7 @@ static auto wid_load_cancel(Gamep g, Widp w, int x, int y, uint32_t button) -> b
 
 void Game::load_select()
 {
-  log("load menu: load menu");
+  log("GAME: load menu: load menu");
   TRACE_INDENT();
 
   if (wid_load != nullptr) {
@@ -1605,7 +1724,7 @@ void wid_load_select(Gamep g) { g->load_select(); }
 
 auto game_load_last_config(const char *appdata) -> bool
 {
-  log("load config");
+  log("GAME: load config");
   TRACE_INDENT();
 
   game = new Game(std::string(appdata));

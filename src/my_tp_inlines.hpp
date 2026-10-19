@@ -19,7 +19,7 @@
 #ifdef DEBUG_BUILD
   TRACE_DEBUG(); // expensive
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return 0;
   }
 #endif
@@ -31,7 +31,7 @@
 #ifdef DEBUG_BUILD
   TRACE_DEBUG(); // expensive
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return 0;
   }
 #endif
@@ -43,7 +43,7 @@
 #ifdef DEBUG_BUILD
   TRACE_DEBUG(); // expensive
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return 0;
   }
 #endif

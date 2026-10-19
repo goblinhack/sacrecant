@@ -27,12 +27,12 @@ void level_cursor_describe_update(Gamep g, Levelsp v)
   TRACE();
 
   if (g == nullptr) [[unlikely]] {
-    ERR("no game pointer");
+    no_game_pointer();
     return;
   }
 
   if (v == nullptr) [[unlikely]] {
-    ERR("no levels pointer");
+    no_levels_pointer();
     return;
   }
 
@@ -53,17 +53,17 @@ void level_cursor_describe_update(Gamep g, Levelsp v)
   TRACE();
 
   if (g == nullptr) [[unlikely]] {
-    ERR("no game pointer");
+    no_game_pointer();
     return false;
   }
 
   if (v == nullptr) [[unlikely]] {
-    ERR("no levels pointer");
+    no_levels_pointer();
     return false;
   }
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -126,17 +126,17 @@ void level_cursor_describe_update(Gamep g, Levelsp v)
   TRACE();
 
   if (g == nullptr) [[unlikely]] {
-    ERR("no game pointer");
+    no_game_pointer();
     return false;
   }
 
   if (v == nullptr) [[unlikely]] {
-    ERR("no levels pointer");
+    no_levels_pointer();
     return false;
   }
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -158,12 +158,12 @@ void level_cursor_describe_clear(Gamep g, Levelsp v)
   TRACE();
 
   if (g == nullptr) [[unlikely]] {
-    ERR("no game pointer");
+    no_game_pointer();
     return;
   }
 
   if (v == nullptr) [[unlikely]] {
-    ERR("no levels pointer");
+    no_levels_pointer();
     return;
   }
 
@@ -182,23 +182,22 @@ void level_cursor_describe(Gamep g, Levelsp v, Levelp l)
   TRACE();
 
   if (g == nullptr) [[unlikely]] {
-    ERR("no game pointer");
+    no_game_pointer();
     return;
   }
 
   if (v == nullptr) [[unlikely]] {
-    ERR("no levels pointer");
+    no_levels_pointer();
     return;
   }
 
   if (l == nullptr) [[unlikely]] {
-    ERR("no level pointer");
+    no_level_pointer();
     return;
   }
 
   auto *player = thing_player(g);
   if (player == nullptr) [[unlikely]] {
-    ERR("no player pointer");
     return;
   }
 

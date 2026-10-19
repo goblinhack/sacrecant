@@ -259,7 +259,7 @@ void thing_inventory_dump(Gamep g, Levelsp v, Levelp l, Thingp owner)
   FOR_ALL_INVENTORY_SLOTS_NO_BREAK(g, v, l, owner, slot, item)
   {
     if (item == nullptr) {
-      THING_DBG(g, v, l, owner, "slot %d: -", _n_);
+      IF_DEBUG2 { THING_DBG(g, v, l, owner, "slot %d: -", _n_); }
       continue;
     }
 

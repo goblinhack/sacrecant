@@ -16,7 +16,7 @@ void thing_on_use_weapon_request_set(Tpp tp, thing_on_use_weapon_request_t callb
 {
   TRACE();
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return;
   }
   tp->on_use_weapon_request = callback;
@@ -27,7 +27,7 @@ void thing_on_use_weapon_request_set(Tpp tp, thing_on_use_weapon_request_t callb
   TRACE();
   auto *tp = thing_tp(me);
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return nullptr;
   }
   if (tp->on_use_weapon_request == nullptr) {
@@ -51,7 +51,7 @@ void thing_get_weapon_list_set(Tpp tp, thing_get_weapon_list_t callback)
 {
   TRACE();
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return;
   }
   tp->get_weapon_list = callback;
@@ -65,7 +65,7 @@ void thing_get_weapon_list_set(Tpp tp, thing_get_weapon_list_t callback)
 
   auto *tp = thing_tp(me);
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return none;
   }
   if (tp->get_weapon_list == nullptr) {

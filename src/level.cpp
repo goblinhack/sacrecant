@@ -28,6 +28,20 @@
 
 LevelOpt g_level_opt;
 
+void no_levels_pointer(void)
+{
+  TRACE();
+
+  warn("no levels pointer");
+}
+
+void no_level_pointer(void)
+{
+  TRACE();
+
+  warn("no level pointer");
+}
+
 void level_verify(Gamep g, Levelsp v, Levelp l)
 {
   TRACE();
@@ -86,8 +100,7 @@ void level_init(Gamep g, Levelsp v, Levelp l, LevelArrIdx n)
 
 [[nodiscard]] auto levels_memory_alloc(Gamep g) -> Levelsp
 {
-  log("levels alloc memory");
-  TRACE_INDENT();
+  TRACE();
 
   auto *v = game_levels_get(g);
   if (v != nullptr) {
@@ -111,7 +124,7 @@ void level_init(Gamep g, Levelsp v, Levelp l, LevelArrIdx n)
 
 static void levels_memory_free(Gamep g, Levelsp v)
 {
-  log("levels free memory");
+  DBG("levels free memory");
   TRACE_INDENT();
 
   VERIFY(MTYPE_LEVELS, v);
@@ -125,7 +138,7 @@ static void levels_memory_free(Gamep g, Levelsp v)
 
 void levels_destroy(Gamep g, Levelsp v)
 {
-  log("levels destroy");
+  DBG("levels destroy");
   TRACE_INDENT();
 
   FOR_ALL_LEVELS(g, v, iter)
@@ -147,7 +160,7 @@ void level_finalize(Gamep g, Levelsp v, Levelp l)
 
 void levels_finalize(Gamep g, Levelsp v)
 {
-  log("levels finalize");
+  DBG("levels finalize");
   TRACE_INDENT();
 
   if (g == nullptr) [[unlikely]] {
@@ -209,7 +222,7 @@ void level_is_completed_by_player_falling(Gamep g, Levelsp v, Levelp l)
 //
 [[nodiscard]] auto level_change(Gamep g, Levelsp v, LevelArrIdx level_arr_idx) -> Levelp
 {
-  log("level change to %u", level_arr_idx);
+  DBG("level change to %u", level_arr_idx);
   TRACE_INDENT();
 
   VERIFY(MTYPE_LEVELS, v);
@@ -227,18 +240,18 @@ void level_is_completed_by_player_falling(Gamep g, Levelsp v, Levelp l)
     //
     // Enter level selectionm
     //
-    log("level change to %u (player select)", level_arr_idx);
+    DBG("level change to %u (player select)", level_arr_idx);
   } else if (level_arr_idx == LEVEL_ARR_IDX_LEVEL_SELECT) {
     //
     // Enter level selectionm
     //
-    log("level change to %u (level select)", level_arr_idx);
+    DBG("level change to %u (level select)", level_arr_idx);
   } else if ((level_arr_idx > s->level_count) && (static_cast< bool >(s->level_count))) {
     //
     // Jump to the last real level
     //
     level_arr_idx = s->level_count - 1;
-    log("level change to %u (max level)", level_arr_idx);
+    DBG("level change to %u (max level)", level_arr_idx);
   }
 
   Level *old_level = game_level_get(g, v); // NOLINT
@@ -625,7 +638,7 @@ void level_update_flags(Gamep g, Levelsp v, Levelp l)
   TRACE();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return nullptr;
   }
 
@@ -676,7 +689,7 @@ void level_update_flags(Gamep g, Levelsp v, Levelp l)
   TRACE();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return nullptr;
   }
 
@@ -727,7 +740,7 @@ void level_update_flags(Gamep g, Levelsp v, Levelp l)
   TRACE();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return nullptr;
   }
 

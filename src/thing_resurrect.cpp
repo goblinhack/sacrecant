@@ -39,7 +39,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return me->_ticks_to_stay_dead;
@@ -50,7 +50,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return me->_ticks_to_stay_dead = val;
@@ -61,7 +61,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return me->_ticks_to_stay_dead += val;
@@ -72,7 +72,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   if (static_cast< int >(me->_ticks_to_stay_dead) - val <= 0) {
@@ -86,7 +86,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return me->_ticks_to_stay_dead_initial;
@@ -97,7 +97,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return me->_ticks_to_stay_dead_initial = val;
@@ -108,7 +108,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return me->_ticks_to_stay_dead_initial += val;
@@ -119,7 +119,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   if (static_cast< int >(me->_ticks_to_stay_dead_initial) - val <= 0) {
@@ -133,7 +133,7 @@
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_able_to_resurrect) != 0;

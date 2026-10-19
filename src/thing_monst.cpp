@@ -1406,7 +1406,7 @@ void thing_monst_tick(Gamep g, Levelsp v, Levelp l, Thingp me)
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(me), is_monst) != 0;
@@ -1417,7 +1417,7 @@ void thing_monst_tick(Gamep g, Levelsp v, Levelp l, Thingp me)
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(me), is_monst1) != 0;
@@ -1428,7 +1428,7 @@ void thing_monst_tick(Gamep g, Levelsp v, Levelp l, Thingp me)
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(me), is_monst2) != 0;
@@ -1509,7 +1509,7 @@ void thing_attacked_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -1526,7 +1526,7 @@ void thing_attacked_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -1543,7 +1543,7 @@ void thing_attacked_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -1560,7 +1560,7 @@ void thing_attacked_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 

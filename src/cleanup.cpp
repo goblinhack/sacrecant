@@ -34,7 +34,7 @@
 //
 void cleanup()
 {
-  log("cleanup, thread %d", g_thread_id);
+  log("FINI: cleanup, thread %d", g_thread_id);
   TRACE_INDENT();
 
   if (g_thread_id != MAIN_THREAD) {
@@ -139,7 +139,7 @@ void cleanup()
     g_exec_dir = nullptr;
   }
 
-  log("cleanup done");
+  log("FINI: cleanup done");
 
   ptrcheck_leak_print();
   ptrcheck_fini();

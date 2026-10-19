@@ -326,7 +326,7 @@ void thing_dump_missiles(Gamep g, Levelsp v, Levelp l, Thingp me)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return t->_missile_count_max;
@@ -337,7 +337,7 @@ void thing_dump_missiles(Gamep g, Levelsp v, Levelp l, Thingp me)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -354,7 +354,7 @@ void thing_dump_missiles(Gamep g, Levelsp v, Levelp l, Thingp me)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -370,7 +370,7 @@ void thing_dump_missiles(Gamep g, Levelsp v, Levelp l, Thingp me)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   if (static_cast< int >(t->_missile_count_max) - val <= 0) {

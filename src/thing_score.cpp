@@ -13,7 +13,7 @@ auto thing_score(Gamep g, Thingp t) -> int
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -30,7 +30,7 @@ auto thing_score_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -48,7 +48,7 @@ auto thing_score_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -66,7 +66,7 @@ auto thing_score_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -88,7 +88,7 @@ auto thing_score_value(Thingp t) -> int
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return t->_score_value;
@@ -99,7 +99,7 @@ auto thing_score_value_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> i
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return t->_score_value = val;
@@ -110,7 +110,7 @@ auto thing_score_value_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> 
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return t->_score_value += val;
@@ -121,7 +121,7 @@ auto thing_score_value_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> 
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   if (static_cast< int >(t->_score_value) - val <= 0) {

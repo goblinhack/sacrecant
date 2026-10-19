@@ -197,7 +197,7 @@ static void thing_shoved_by_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(me), is_dead_on_shoving) != 0;
@@ -208,7 +208,7 @@ static void thing_shoved_by_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -224,7 +224,7 @@ static void thing_shoved_by_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 

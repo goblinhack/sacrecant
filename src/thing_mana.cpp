@@ -17,7 +17,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return me->_mana;
@@ -28,7 +28,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -55,7 +55,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   game_request_to_remake_ui_set(g);
@@ -71,7 +71,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   game_request_to_remake_ui_set(g);
@@ -88,7 +88,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   return me->_mana_max;
@@ -99,7 +99,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -117,7 +117,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   game_request_to_remake_ui_set(g);
@@ -129,7 +129,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
   game_request_to_remake_ui_set(g);
@@ -146,12 +146,12 @@ auto thing_spell_mana_cost_for(Gamep g, Levelsp v, Levelp l, Thingp spell, Thing
   TRACE_DEBUG();
 
   if (spell == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
   if (user == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -192,10 +192,16 @@ auto thing_spell_mana_cost_for(Gamep g, Levelsp v, Levelp l, Thingp spell, Thing
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
-  return me->_spell_mana_cost;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
+  }
+
+  return ext->_spell_mana_cost;
 }
 
 [[nodiscard]] auto thing_spell_mana_cost_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
@@ -203,10 +209,16 @@ auto thing_spell_mana_cost_for(Gamep g, Levelsp v, Levelp l, Thingp spell, Thing
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
-  return me->_spell_mana_cost = val;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
+  }
+
+  return ext->_spell_mana_cost = val;
 }
 
 [[nodiscard]] auto thing_spell_mana_cost_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
@@ -214,10 +226,16 @@ auto thing_spell_mana_cost_for(Gamep g, Levelsp v, Levelp l, Thingp spell, Thing
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
-  return me->_spell_mana_cost += val;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
+  }
+
+  return ext->_spell_mana_cost += val;
 }
 
 [[nodiscard]] auto thing_spell_mana_cost_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
@@ -225,11 +243,17 @@ auto thing_spell_mana_cost_for(Gamep g, Levelsp v, Levelp l, Thingp spell, Thing
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
-  if (static_cast< int >(me->_spell_mana_cost) - val <= 0) {
-    return me->_spell_mana_cost = 0;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
   }
-  return me->_spell_mana_cost -= val;
+
+  if (static_cast< int >(ext->_spell_mana_cost) - val <= 0) {
+    return ext->_spell_mana_cost = 0;
+  }
+  return ext->_spell_mana_cost -= val;
 }

@@ -469,6 +469,7 @@ auto game_tick(Gamep g) -> void;
 auto game_unset_currently_saving_snapshot(Gamep) -> void;
 auto game_unset_request_reset_state_change(Gamep) -> void;
 auto game_unset_request_to_save_snapshot(Gamep) -> void;
+void no_game_pointer(void);
 auto game_unset_request_to_update_same_level(Gamep) -> void;
 auto game_add_new_hiscore(Gamep g, uint32_t score, LevelArrIdx level_num, const char *name, const char *reason) -> void;
 

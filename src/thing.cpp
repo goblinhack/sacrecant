@@ -15,6 +15,13 @@
 
 #include <cmath>
 
+void no_thing_pointer(void)
+{
+  TRACE();
+
+  warn("no thing pointer");
+}
+
 [[nodiscard]] auto thing_get(Gamep g, Levelsp v, Levelp l, const bpoint &p, int slot) -> Thingp
 {
   TRACE_DEBUG();

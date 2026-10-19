@@ -403,14 +403,6 @@ auto operator<<(std::ostream &out, Bits< const class Game & > const my) -> std::
     out << bits(tmp);                                    // all we're saving here is offsets for validation later
     tmp = offsetof(Thing, _value2);                      // all we're saving here is offsets for validation later
     out << bits(tmp);                                    // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _spell_mana_cost);             // all we're saving here is offsets for validation later
-    out << bits(tmp);                                    // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _spell_radius);                // all we're saving here is offsets for validation later
-    out << bits(tmp);                                    // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _spell_range);                 // all we're saving here is offsets for validation later
-    out << bits(tmp);                                    // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _spell_cost);                  // all we're saving here is offsets for validation later
-    out << bits(tmp);                                    // all we're saving here is offsets for validation later
     tmp = offsetof(Thing, _crit_roll);                   // all we're saving here is offsets for validation later
     out << bits(tmp);                                    // all we're saving here is offsets for validation later
     tmp = offsetof(Thing, _fumble_roll);                 // all we're saving here is offsets for validation later
@@ -491,6 +483,38 @@ auto operator<<(std::ostream &out, Bits< const class Game & > const my) -> std::
     out << bits(tmp);                                    // all we're saving here is offsets for validation later
 
     //
+    // ThingExt offsets
+    //
+    tmp = offsetof(ThingExt, _noise);                 // all we're saving here is offsets for validation later
+    out << bits(tmp);                                 // all we're saving here is offsets for validation later
+    tmp = offsetof(ThingExt, _distance_vision);       // all we're saving here is offsets for validation later
+    out << bits(tmp);                                 // all we're saving here is offsets for validation later
+    tmp = offsetof(ThingExt, _distance_jump);         // all we're saving here is offsets for validation later
+    out << bits(tmp);                                 // all we're saving here is offsets for validation later
+    tmp = offsetof(ThingExt, _distance_avoid_target); // all we're saving here is offsets for validation later
+    out << bits(tmp);                                 // all we're saving here is offsets for validation later
+    tmp = offsetof(ThingExt, _spell_mana_cost);       // all we're saving here is offsets for validation later
+    out << bits(tmp);                                 // all we're saving here is offsets for validation later
+    tmp = offsetof(ThingExt, _spell_radius_max);      // all we're saving here is offsets for validation later
+    out << bits(tmp);                                 // all we're saving here is offsets for validation later
+    tmp = offsetof(ThingExt, _spell_range_max);       // all we're saving here is offsets for validation later
+    out << bits(tmp);                                 // all we're saving here is offsets for validation later
+    tmp = offsetof(ThingExt, _attacked_at);           // all we're saving here is offsets for validation later
+    out << bits(tmp);                                 // all we're saving here is offsets for validation later
+    tmp = offsetof(ThingExt, _monst_state);           // all we're saving here is offsets for validation later
+    out << bits(tmp);                                 // all we're saving here is offsets for validation later
+    tmp = offsetof(ThingExt, missiles);               // all we're saving here is offsets for validation later
+    out << bits(tmp);                                 // all we're saving here is offsets for validation later
+    tmp = offsetof(ThingExt, has_seen);               // all we're saving here is offsets for validation later
+    out << bits(tmp);                                 // all we're saving here is offsets for validation later
+    tmp = offsetof(ThingExt, inventory);              // all we're saving here is offsets for validation later
+    out << bits(tmp);                                 // all we're saving here is offsets for validation later
+    tmp = offsetof(ThingExt, worn_id);                // all we're saving here is offsets for validation later
+    out << bits(tmp);                                 // all we're saving here is offsets for validation later
+    tmp = offsetof(ThingExt, move_path);              // all we're saving here is offsets for validation later
+    out << bits(tmp);                                 // all we're saving here is offsets for validation later
+
+    //
     // Save Level offsets
     //
     tmp = offsetof(Level, level_arr_idx);
@@ -536,7 +560,7 @@ auto operator<<(std::ostream &out, Bits< const class Game & > const my) -> std::
 
 auto Game::save(const std::string &file_to_save) -> bool
 {
-  log("save: %s", file_to_save.c_str());
+  log("GAME: save: %s", file_to_save.c_str());
   TRACE_INDENT();
 
   //
@@ -678,13 +702,13 @@ auto Game::save(const std::string &file_to_save) -> bool
     return false;
   }
 
-  log("opened: %s for writing", file_to_save.c_str());
+  log("GAME: opened: %s for writing", file_to_save.c_str());
 
   fwrite(reinterpret_cast< char * >(&src_size), sizeof(src_size), 1, ofile);
   fwrite(dst, dst_size, 1, ofile);
   fclose(ofile);
 
-  log("wrote: %s", file_to_save.c_str());
+  log("GAME: wrote: %s", file_to_save.c_str());
 
   if (need_larger_src_buffer) {
     free(src);
@@ -706,14 +730,14 @@ auto Game::save(const std::string &file_to_save) -> bool
 
 auto game_save(Gamep g, const std::string &file_to_save) -> bool
 {
-  log("save: %s", file_to_save.c_str());
+  log("GAME: save: %s", file_to_save.c_str());
 
   return g->save(file_to_save);
 }
 
 auto Game::save(int slot) -> bool
 {
-  log("save slot: %d", slot);
+  log("GAME: save slot: %d", slot);
   TRACE_INDENT();
 
   if (slot < 0) {
@@ -726,14 +750,14 @@ auto Game::save(int slot) -> bool
 
   auto this_save_file = saved_dir + "saved-slot-info-" + std::to_string(slot);
 
-  log("saving: %s", this_save_file.c_str());
+  log("GAME: saving: %s", this_save_file.c_str());
   game_headers_only = true;
   save(this_save_file);
   game_headers_only = false;
 
   this_save_file = saved_dir + "saved-slot-" + std::to_string(slot);
 
-  log("saving: %s", this_save_file.c_str());
+  log("GAME: saving: %s", this_save_file.c_str());
   auto ret = save(this_save_file);
 
   con("Saved the game to %s.", this_save_file.c_str());
@@ -743,19 +767,19 @@ auto Game::save(int slot) -> bool
 
 auto Game::save_snapshot() -> bool
 {
-  log("save snapshot");
+  log("GAME: save snapshot");
   TRACE_INDENT();
 
   auto this_save_file = saved_dir + "saved-snapshot-info";
 
-  log("saving: %s", this_save_file.c_str());
+  log("GAME: saving: %s", this_save_file.c_str());
   game_headers_only = true;
   save(this_save_file);
   game_headers_only = true;
 
   this_save_file = saved_dir + "saved-snapshot";
 
-  log("saving: %s", this_save_file.c_str());
+  log("GAME: saving: %s", this_save_file.c_str());
   auto ret = save(this_save_file);
 
   con("%%fg=green$Autosaved.%%fg=reset$");
@@ -775,7 +799,7 @@ auto Game::save_config() -> bool
   std::ofstream out(filename, std::ios::binary);
 
   if (out) {
-    log("opened '%s' for writing", filename.c_str());
+    log("GAME: opened '%s' for writing", filename.c_str());
     const Config &c = game->config;
     out << bits(c);
     out << std::flush;
@@ -791,7 +815,7 @@ auto Game::save_config() -> bool
     return false;
   }
 
-  log("opened fallback of '%s' for writing", filename_fallback);
+  log("GAME: opened fallback of '%s' for writing", filename_fallback);
   const Config &c = game->config;
   out << bits(c);
   out << std::flush;
@@ -806,7 +830,7 @@ void wid_save_destroy(Gamep g)
     return;
   }
 
-  log("widget save destroy");
+  log("GAME: widget save destroy");
   TRACE_INDENT();
 
   delete wid_save;
@@ -851,7 +875,7 @@ static auto wid_save_key_up(Gamep g, Widp w, const struct SDL_Keysym *key) -> bo
               case 'B' :
               case SDLK_ESCAPE :
                 {
-                  log("save game cancelled");
+                  log("GAME: save game cancelled");
                   TRACE_INDENT();
                   wid_save_destroy(game);
                   return true;
@@ -897,7 +921,7 @@ static auto wid_save_cancel(Gamep g, Widp w, int x, int y, uint32_t button) -> b
 
 auto Game::save_select() -> bool
 {
-  log("save menu");
+  log("GAME: save menu");
   TRACE_INDENT();
 
   if (wid_save != nullptr) {

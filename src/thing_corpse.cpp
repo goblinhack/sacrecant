@@ -80,7 +80,7 @@
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return t->_is_corpse;
@@ -91,7 +91,7 @@ void thing_is_corpse_set(Gamep g, Levelsp v, Levelp l, Thingp t, bool val)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return;
   }
 
@@ -117,7 +117,7 @@ void thing_is_corpse_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_corpse_on_death) != 0;

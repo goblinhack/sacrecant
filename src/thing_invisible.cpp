@@ -17,7 +17,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -51,7 +51,7 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -76,7 +76,7 @@ void thing_on_invisible_set(Tpp tp, thing_on_invisible_t callback)
 {
   TRACE();
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return;
   }
   tp->on_invisible = callback;
@@ -87,7 +87,7 @@ void thing_on_invisible(Gamep g, Levelsp v, Levelp l, Thingp me)
   TRACE();
   auto *tp = thing_tp(me);
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return;
   }
   if (tp->on_invisible == nullptr) {

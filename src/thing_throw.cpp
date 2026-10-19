@@ -26,7 +26,7 @@ void thing_is_thrown_set(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp throw
   TRACE_DEBUG();
 
   if (item == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return;
   }
 
@@ -212,12 +212,12 @@ static auto thing_throw_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thing
 [[nodiscard]] auto thing_throw_to(Gamep g, Levelsp v, Levelp l, Thingp thrower, Thingp item, bpoint to) -> bool
 {
   if (thrower == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
   if (item == nullptr) {
-    ERR("no thing pointer to throw");
+    no_thing_pointer();
     return false;
   }
 
@@ -351,7 +351,7 @@ static auto thing_throw_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thing
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -368,7 +368,7 @@ static auto thing_throw_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thing
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -400,7 +400,7 @@ static auto thing_throw_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thing
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -417,7 +417,7 @@ static auto thing_throw_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thing
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 
@@ -434,7 +434,7 @@ static auto thing_throw_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thing
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return 0;
   }
 

@@ -60,14 +60,14 @@ void gl_init_2d_mode(Gamep g)
   //
   // Enable Textures
   //
-  DBG("GFX: OpenGL enable textures");
+  DBG("GL: OpenGL enable textures");
   glEnable(GL_TEXTURE_2D);
   GL_ERROR_CHECK();
 
   //
   // Enable alpha blending for sprites
   //
-  DBG("GFX: OpenGL enable blending");
+  DBG("GL: OpenGL enable blending");
   glEnable(GL_BLEND);
   GL_ERROR_CHECK();
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -76,7 +76,7 @@ void gl_init_2d_mode(Gamep g)
   //
   // Setup our viewport
   //
-  DBG("GFX: OpenGL enable viewport");
+  DBG("GL: OpenGL enable viewport");
   glViewport(0, 0, game_window_pix_width_get(g), game_window_pix_height_get(g));
   GL_ERROR_CHECK();
 
@@ -93,7 +93,7 @@ void gl_init_2d_mode(Gamep g)
   glEnable(GL_LINE_SMOOTH);
   GL_ERROR_CHECK();
 
-  log("GFX: OpenGL initialized");
+  log("GL: OpenGL initialized");
 }
 
 void gl_fini_2d_mode(Gamep g)
@@ -266,7 +266,7 @@ void gl_clear_fbo_all()
 static void gl_init_fbo_(FboEnum fbo, GLuint *render_buf_id, GLuint *fbo_id, GLuint *fbo_tex_id, GLuint tex_width, GLuint tex_height)
 {
   TRACE();
-  DBG("GFX: create FBO, size %dx%d", tex_width, tex_height);
+  DBG("GL: create FBO, size %dx%d", tex_width, tex_height);
 
   GL_ERROR_CHECK();
 
@@ -412,7 +412,7 @@ static void gl_init_fbo_(FboEnum fbo, GLuint *render_buf_id, GLuint *fbo_id, GLu
 
 #ifdef GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT
     if (status == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
-      log("GL: - GFX: GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT Not all framebuffer attachment points "
+      log("GL: - GL: GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT Not all framebuffer attachment points "
           "are framebuffer attachment complete. This means that at least one attachment point with a "
           "renderbuffer or texture attached has its attached object no longer in existence or has an "
           "attached image with a width or height of zero, or the color attachment point has a "
@@ -424,29 +424,29 @@ static void gl_init_fbo_(FboEnum fbo, GLuint *render_buf_id, GLuint *fbo_id, GLu
 #endif
 #ifdef GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS
     if (status == GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS) {
-      log("GL: - GFX: GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS Not all attached images have the same "
+      log("GL: - GL: GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS Not all attached images have the same "
           "width and height.");
     }
 #endif
 #ifdef GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT
     if (status == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
-      log("GL: - GFX: GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT No images are attached to the framebuffer.");
+      log("GL: - GL: GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT No images are attached to the framebuffer.");
     }
 #endif
 #ifdef GL_FRAMEBUFFER_UNSUPPORTED
     if (status == GL_FRAMEBUFFER_UNSUPPORTED) {
-      log("GL: - GFX: GL_FRAMEBUFFER_UNSUPPORTED The combination of internal formats of the attached images "
+      log("GL: - GL: GL_FRAMEBUFFER_UNSUPPORTED The combination of internal formats of the attached images "
           "violates an implementation-dependent set of restrictions.");
     }
 #endif
 #ifdef GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER
     if (status == GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER) {
-      log("GL: - GFX: GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER");
+      log("GL: - GL: GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER");
     }
 #endif
 #ifdef GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER
     if (status == GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER) {
-      log("GL: - GFX: GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER");
+      log("GL: - GL: GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER");
     }
 #endif
   }
@@ -464,7 +464,7 @@ static void gl_init_fbo_(FboEnum fbo, GLuint *render_buf_id, GLuint *fbo_id, GLu
 static void gl_fini_fbo_(GLuint *fbo_id, GLuint *fbo_tex_id, GLuint tex_width, GLuint tex_height)
 {
   TRACE();
-  DBG2("GFX: destroy FBO, size %dx%d", tex_width, tex_height);
+  DBG2("GL: destroy FBO, size %dx%d", tex_width, tex_height);
 
   GL_ERROR_CHECK();
 
@@ -494,7 +494,7 @@ static void gl_fini_fbo_(GLuint *fbo_id, GLuint *fbo_tex_id, GLuint tex_width, G
 
 void gl_init_fbo(Gamep g, FboEnum fbo)
 {
-  log("GFX: OpenGL create FBO %s", FboEnum_to_string(fbo).c_str());
+  log("GL: OpenGL create FBO %s", FboEnum_to_string(fbo).c_str());
   TRACE_INDENT();
 
   GL_ERROR_CHECK();
@@ -550,7 +550,7 @@ void gl_init_fbo(Gamep g, FboEnum fbo)
     }
   }
 
-  DBG("GFX: OpenGL created FBOs");
+  DBG("GL: OpenGL created FBOs");
   GL_ERROR_CHECK();
 
   if (fbo == FBO_NONE) {
@@ -560,7 +560,7 @@ void gl_init_fbo(Gamep g, FboEnum fbo)
 
 void gl_fini_fbo(Gamep g)
 {
-  log("GFX: OpenGL destroy FBOs");
+  log("GL: OpenGL destroy FBOs");
   TRACE_INDENT();
 
   GL_ERROR_CHECK();
@@ -576,7 +576,7 @@ void gl_fini_fbo(Gamep g)
     g_fbo_size[ i ] = isize(0, 0);
   }
 
-  DBG("GFX: OpenGL destroyed FBOs");
+  DBG("GL: OpenGL destroyed FBOs");
   GL_ERROR_CHECK();
 }
 
@@ -1362,7 +1362,7 @@ void gl_ext_init(void)
   WNDCLASSEX wc;
   HWND       hwnd;
 
-  log("GFX: extensions");
+  log("GL: extensions");
 
   DBG("GL: - GetModuleHandle");
   HINSTANCE hInstance = GetModuleHandle(0);
@@ -1429,21 +1429,21 @@ void gl_error(GLenum errCode)
   TRACE();
 
   if (errCode == GL_INVALID_ENUM) {
-    log("GFX: error, GL_INVALID_ENUM");
+    log("GL: error, GL_INVALID_ENUM");
   } else if (errCode == GL_INVALID_VALUE) {
-    log("GFX: error, GL_INVALID_VALUE");
+    log("GL: error, GL_INVALID_VALUE");
   } else if (errCode == GL_INVALID_OPERATION) {
-    log("GFX: error, GL_INVALID_OPERATION");
+    log("GL: error, GL_INVALID_OPERATION");
   } else if (errCode == GL_STACK_OVERFLOW) {
-    log("GFX: error, GL_STACK_OVERFLOW");
+    log("GL: error, GL_STACK_OVERFLOW");
   } else if (errCode == GL_STACK_UNDERFLOW) {
-    log("GFX: error, GL_STACK_UNDERFLOW");
+    log("GL: error, GL_STACK_UNDERFLOW");
   } else if (errCode == GL_OUT_OF_MEMORY) {
-    log("GFX: error, GL_OUT_OF_MEMORY");
+    log("GL: error, GL_OUT_OF_MEMORY");
   } else if (errCode == GL_INVALID_FRAMEBUFFER_OPERATION) {
-    log("GFX: error, GL_INVALID_FRAMEBUFFER_OPERATION");
+    log("GL: error, GL_INVALID_FRAMEBUFFER_OPERATION");
   } else {
-    log("GFX: unknown error, %d", errCode);
+    log("GL: unknown error, %d", errCode);
   }
 }
 

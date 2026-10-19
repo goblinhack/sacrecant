@@ -304,6 +304,15 @@ using ThingExt = struct ThingExt {
   //
   uint8_t _attack_count_per_tick;
   //
+  // Spell related
+  //
+  uint8_t _spell_mana_cost;
+  uint8_t _spell_radius;
+  uint8_t _spell_radius_max;
+  uint8_t _spell_range;
+  uint8_t _spell_range_max;
+  uint8_t _spell_cost;
+  //
   // Last tile we attacked
   //
   bpoint _attacked_at;
@@ -417,13 +426,17 @@ using Thing = struct Thing {
   //
   ThingDirType dir;
   //
-  // The current tiles[] index for this object
-  //
-  uint8_t anim_index;
-  //
   // For event processing. Lower is better. Player is 0
   //
   ThingPriorityType _priority;
+  //
+  // Idle etc...
+  //
+  ThingAnimType anim_type;
+  //
+  // The current tiles[] index for this object
+  //
+  uint8_t anim_index;
   //
   // Decrements each frame. Increments if hit.
   //
@@ -522,10 +535,6 @@ using Thing = struct Thing {
   uint8_t _is_thrown            : 1;
   uint8_t _is_thrown_processing : 1;
   //
-  // Idle etc...
-  //
-  ThingAnimType anim_type;
-  //
   // Which level am I on?
   //
   LevelArrIdx level_arr_idx;
@@ -570,12 +579,6 @@ using Thing = struct Thing {
   int16_t _keys_carried;
   int16_t _value1;
   int16_t _value2;
-  int16_t _spell_mana_cost;
-  int16_t _spell_radius;
-  int16_t _spell_radius_max;
-  int16_t _spell_range;
-  int16_t _spell_range_max;
-  int16_t _spell_cost;
   int16_t _crit_roll;
   int16_t _fumble_roll;
   int16_t _difficulty;
@@ -1760,6 +1763,7 @@ void thing_mob_warp_minions_to(Gamep g, Levelsp v, Levelp old_level, Levelp new_
 void thing_move_path_dump(Gamep g, Levelsp v, Levelp l, Thingp me);
 void thing_topcon(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 5, 6);
 void thing_alloc_free_fini(Gamep g);
+void no_thing_pointer(void);
 void thing_warn(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 5, 6);
 // end sort marker2 }
 

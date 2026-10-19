@@ -19,7 +19,7 @@
   TRACE();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return "<no thing>";
   }
 
@@ -27,7 +27,7 @@
 
   auto *tp = thing_tp(t);
   if (t == nullptr) {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return "<no tp>";
   }
 

@@ -37,7 +37,7 @@ void thing_on_upgrade_possible_set(Tpp tp, thing_on_upgrade_possible_t callback)
 {
   TRACE();
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return;
   }
   tp->on_upgrade_possible = callback;
@@ -48,7 +48,7 @@ auto thing_on_upgrade_possible(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellU
   TRACE();
   auto *tp = thing_tp(me);
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return false;
   }
   if (tp->on_upgrade_possible == nullptr) {
@@ -61,7 +61,7 @@ void thing_on_upgrade_do_set(Tpp tp, thing_on_upgrade_do_t callback)
 {
   TRACE();
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return;
   }
   tp->on_upgrade_do = callback;
@@ -72,7 +72,7 @@ auto thing_on_upgrade_do(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade
   TRACE();
   auto *tp = thing_tp(me);
   if (tp == nullptr) [[unlikely]] {
-    ERR("no thing template pointer");
+    no_tp_pointer();
     return false;
   }
   if (tp->on_upgrade_do == nullptr) {

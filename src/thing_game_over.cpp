@@ -16,7 +16,7 @@
 #ifdef DEBUG_BUILD
   TRACE_DEBUG();
   if (player == nullptr) [[unlikely]] {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 #endif
@@ -29,7 +29,7 @@ void thing_is_game_over_set(Gamep g, Levelsp v, Levelp l, Thingp player, bool va
   TRACE_DEBUG();
 
   if (player == nullptr) [[unlikely]] {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return;
   }
 

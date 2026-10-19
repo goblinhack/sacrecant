@@ -13,7 +13,7 @@
   TRACE();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return nullptr;
   }
 
@@ -29,7 +29,7 @@ void thing_owner_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
   TRACE();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return;
   }
 
@@ -44,7 +44,7 @@ void thing_owner_set(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp owner)
   TRACE();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return;
   }
 

@@ -105,7 +105,7 @@ void sound_fini()
 {
   TRACE();
 
-  log("sound fini");
+  log("FINI: sound fini");
 
   if (sound_init_done) {
     sound_init_done = false;

@@ -20,7 +20,7 @@ auto thing_special_attack_get_random(Gamep g, Levelsp v, Levelp l, Thingp attack
   TRACE();
 
   if (attacker == nullptr) [[unlikely]] {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -95,7 +95,7 @@ auto thing_special_attack_get_all(Gamep g, Levelsp v, Levelp l, Thingp me) -> st
   std::vector< TpSpecialAttack > out;
 
   if (me == nullptr) [[unlikely]] {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return out;
   }
 

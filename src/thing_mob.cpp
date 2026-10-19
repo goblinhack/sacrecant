@@ -277,7 +277,7 @@ void thing_mob_dump_minions(Gamep g, Levelsp v, Levelp l, Thingp mob)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_mob) != 0;
@@ -288,7 +288,7 @@ void thing_mob_dump_minions(Gamep g, Levelsp v, Levelp l, Thingp mob)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_mob1) != 0;
@@ -299,7 +299,7 @@ void thing_mob_dump_minions(Gamep g, Levelsp v, Levelp l, Thingp mob)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(t), is_mob2) != 0;

@@ -479,7 +479,7 @@ void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   TRACE();
 
   if (! v) {
-    ERR("no levels pointer");
+    no_levels_pointer();
   }
 
   if (thing_is_loggable(me)) {
@@ -735,7 +735,7 @@ void thing_is_dead_set(Gamep g, Levelsp v, Levelp l, Thingp me, bool val)
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return;
   }
 
@@ -763,7 +763,7 @@ void thing_is_dead_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(me), is_dead_when_discharged) != 0;
@@ -774,7 +774,7 @@ void thing_is_dead_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(me), is_blasted_when_dead) != 0;
@@ -785,7 +785,7 @@ void thing_is_dead_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(me), is_obs_when_dead) != 0;
@@ -796,7 +796,7 @@ void thing_is_dead_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(me), is_dead_on_collision) != 0;
@@ -807,7 +807,7 @@ void thing_is_dead_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(me), is_undead) != 0;
@@ -818,7 +818,7 @@ void thing_is_dead_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(me), is_wait_on_dead_anim) != 0;
@@ -829,7 +829,7 @@ void thing_is_dead_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(me), is_mob_kill_minions_on_death) != 0;
@@ -840,7 +840,7 @@ void thing_is_dead_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(me), is_extinguished_on_death) != 0;
@@ -851,7 +851,7 @@ void thing_is_dead_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(me), is_broken_on_death) != 0;
@@ -862,7 +862,7 @@ void thing_is_dead_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(me), is_described_when_killed) != 0;

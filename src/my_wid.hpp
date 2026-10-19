@@ -237,6 +237,7 @@ auto wid_set_tilename(int depth, Widp w, const std::string &name) -> void;
 auto wid_set_top_focus(Gamep g) -> void;
 auto wid_set_top(Gamep, Widp, bool val = true) -> void;
 auto wid_set_void_context(Widp w, void *context) -> void;
+void no_wid_pointer(void);
 auto wid_toggle_hidden(Gamep g, Widp w) -> void;
 auto wid_unset_focus_lock() -> void;
 auto wid_unset_focus(Gamep g) -> void;

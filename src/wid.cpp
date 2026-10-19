@@ -161,6 +161,13 @@ Wid::Wid() { NEWPTR(MTYPE_WID, this, "wid"); }
 
 Wid::~Wid() { OLDPTR(MTYPE_WID, this); }
 
+void no_wid_pointer(void)
+{
+  TRACE();
+
+  warn("no wid pointer");
+}
+
 //
 // Check if we are on the main thread and not exiting
 //
@@ -429,7 +436,7 @@ void wid_set_string_context(Widp w, std::string wid_string_context)
   TRACE();
 
   if (w == nullptr) {
-    ERR("no widget pointer");
+    no_wid_pointer();
     return;
   }
   w->wid_string_context = std::move(wid_string_context);
@@ -440,7 +447,7 @@ void wid_set_string_context(Widp w, std::string wid_string_context)
   TRACE();
 
   if (w == nullptr) {
-    ERR("no widget pointer");
+    no_wid_pointer();
     return "";
   }
   return w->wid_string_context;
@@ -451,7 +458,7 @@ void wid_set_int_context(Widp w, int wid_int_context)
   TRACE();
 
   if (w == nullptr) {
-    ERR("no widget pointer");
+    no_wid_pointer();
     return;
   }
   w->wid_int_context = wid_int_context;
@@ -462,7 +469,7 @@ void wid_set_int_context(Widp w, int wid_int_context)
   TRACE();
 
   if (w == nullptr) {
-    ERR("no widget pointer");
+    no_wid_pointer();
     return 0;
   }
   return w->wid_int_context;
@@ -473,7 +480,7 @@ void wid_set_void_context(Widp w, void *wid_void_context)
   TRACE();
 
   if (w == nullptr) {
-    ERR("no widget pointer");
+    no_wid_pointer();
     return;
   }
   w->wid_void_context = wid_void_context;
@@ -484,7 +491,7 @@ void wid_set_void_context(Widp w, void *wid_void_context)
   TRACE();
 
   if (w == nullptr) {
-    ERR("no widget pointer");
+    no_wid_pointer();
     return nullptr;
   }
   return w->wid_void_context;
@@ -495,28 +502,28 @@ void wid_set_thing_context(Gamep g, Levelsp v, Widp w, Thingp t)
   TRACE();
 
   if (g == nullptr) [[unlikely]] {
-    ERR("no game pointer");
+    no_game_pointer();
     return;
   }
 
   if (v == nullptr) [[unlikely]] {
-    ERR("no levels pointer");
+    no_levels_pointer();
     return;
   }
 
   auto *l = game_level_get(g, v);
   if (l == nullptr) {
-    ERR("no level pointer");
+    no_level_pointer();
     return;
   }
 
   if (w == nullptr) {
-    ERR("no widget pointer");
+    no_wid_pointer();
     return;
   }
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return;
   }
 
@@ -543,22 +550,22 @@ void wid_unset_thing_context(Gamep g, Levelsp v, Widp w, Thingp t)
   TRACE();
 
   if (g == nullptr) [[unlikely]] {
-    ERR("no game pointer");
+    no_game_pointer();
     return;
   }
 
   if (v == nullptr) [[unlikely]] {
-    ERR("no levels pointer");
+    no_levels_pointer();
     return;
   }
 
   if (w == nullptr) {
-    ERR("no widget pointer");
+    no_wid_pointer();
     return;
   }
 
   if (t == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return;
   }
 
@@ -576,17 +583,17 @@ void wid_unset_thing_context(Gamep g, Levelsp v, Widp w, Thingp t)
   TRACE();
 
   if (g == nullptr) [[unlikely]] {
-    ERR("no game pointer");
+    no_game_pointer();
     return nullptr;
   }
 
   if (v == nullptr) [[unlikely]] {
-    ERR("no levels pointer");
+    no_levels_pointer();
     return nullptr;
   }
 
   if (w == nullptr) {
-    ERR("no widget pointer");
+    no_wid_pointer();
     return nullptr;
   }
 
@@ -607,17 +614,17 @@ void wid_set_tp_context(Gamep g, Widp w, Tpp tp)
   TRACE();
 
   if (g == nullptr) [[unlikely]] {
-    ERR("no game pointer");
+    no_game_pointer();
     return;
   }
 
   if (w == nullptr) {
-    ERR("no widget pointer");
+    no_wid_pointer();
     return;
   }
 
   if (tp == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return;
   }
 
@@ -642,17 +649,17 @@ void wid_unset_tp_context(Gamep g, Widp w, Tpp tp)
   TRACE();
 
   if (g == nullptr) [[unlikely]] {
-    ERR("no game pointer");
+    no_game_pointer();
     return;
   }
 
   if (w == nullptr) {
-    ERR("no widget pointer");
+    no_wid_pointer();
     return;
   }
 
   if (tp == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return;
   }
 
@@ -670,12 +677,12 @@ void wid_unset_tp_context(Gamep g, Widp w, Tpp tp)
   TRACE();
 
   if (g == nullptr) [[unlikely]] {
-    ERR("no game pointer");
+    no_game_pointer();
     return nullptr;
   }
 
   if (w == nullptr) {
-    ERR("no widget pointer");
+    no_wid_pointer();
     return nullptr;
   }
 
@@ -4009,7 +4016,7 @@ void wid_scroll_with_input(Gamep g, Widp w, const std::string &str)
   w = wid_get_top_parent(wid_console_input_line);
 
   if (sdlk_eq(*key, game_key_console_get(g))) {
-    log("open console");
+    log("USER: open console");
 
     if (AN_ERROR_OCCURRED()) {
       //
@@ -4445,7 +4452,7 @@ void wid_move_to_y_off(Gamep g, Widp w, int off)
 {
   TRACE();
   if (g == nullptr) [[unlikely]] {
-    ERR("no game pointer");
+    no_game_pointer();
     return;
   }
   wid_move_delta(g, w, 0, off);

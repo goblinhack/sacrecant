@@ -147,7 +147,7 @@ void thing_is_hot_set(Gamep g, Levelsp v, Levelp l, Thingp me, bool val)
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    ERR("no thing pointer");
+    no_thing_pointer();
     return;
   }
 
