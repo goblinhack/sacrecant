@@ -189,8 +189,12 @@ static void thing_killed_by_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
 {
   TRACE();
 
-  if (! thing_is_described_when_killed(me)) {
-    return;
+  //
+  // Record the death count
+  //
+  auto *p = thing_player_struct(g);
+  if (p != nullptr) {
+    p->defeated[ tp_id_get(thing_tp(me)) ]++;
   }
 
   auto *player = e.source;
@@ -198,12 +202,8 @@ static void thing_killed_by_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
     return;
   }
 
-  //
-  // Record the death count
-  //
-  auto *p = thing_player_struct(g);
-  if (p != nullptr) {
-    p->defeated[ tp_id_get(thing_tp(me)) ]++;
+  if (! thing_is_described_when_killed(me)) {
+    return;
   }
 
   auto at = thing_at(g, v, l, me);
