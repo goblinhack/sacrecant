@@ -88,7 +88,7 @@ void thing_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   //
   if (thing_is_corpse(me)) {
     if (thing_is_able_to_resurrect(me)) {
-      if (thing_ticks_to_stay_dead_initial(me) != 0) {
+      if (thing_ticks_to_stay_dead_initial(g, v, l, me) != 0) {
         if (thing_ticks_to_stay_dead_decr(g, v, l, me) == 0) {
           if (tp_chance_success(thing_tp(me), THING_CHANCE_RESURRECTION)) {
             (void) thing_resurrect(g, v, l, me);

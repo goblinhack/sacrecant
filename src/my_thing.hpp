@@ -361,6 +361,16 @@ using ThingExt = struct ThingExt {
   //
   uint16_t hook_sort_order;
   //
+  // For mobs that pause during spawning
+  //
+  int16_t _dormant; // can be decremented, so signed is safer
+  int16_t _dormant_max;
+  //
+  // How long to stay dead
+  //
+  int16_t _ticks_to_stay_dead; // can be decremented, so signed is safer
+  int16_t _ticks_to_stay_dead_initial;
+  //
   // Statistics
   //
   uint8_t _stat[ THING_STAT_ENUM_MAX ];
@@ -608,16 +618,6 @@ using Thing = struct Thing {
   int16_t _lifespan; // can be decremented, so signed is safer
   int16_t _lifespan_initial;
   //
-  // For mobs that pause during spawning
-  //
-  int16_t _dormant; // can be decremented, so signed is safer
-  int16_t _dormant_max;
-  //
-  // How long to stay dead
-  //
-  int16_t _ticks_to_stay_dead; // can be decremented, so signed is safer
-  int16_t _ticks_to_stay_dead_initial;
-  //
   // How long this thing has lived
   //
   int16_t _age; // can be decremented, so signed is safer
@@ -860,7 +860,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_dormant_max_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
 [[nodiscard]] auto thing_dormant_max_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
 [[nodiscard]] auto thing_dormant_max_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int;
-[[nodiscard]] auto thing_dormant_max(Thingp me) -> int;
+[[nodiscard]] auto thing_dormant_max(Gamep g, Levelsp v, Levelp l, Thingp me) -> int;
 [[nodiscard]] auto thing_dormant_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int;
 [[nodiscard]] auto thing_dormant(Gamep g, Levelsp v, Levelp l, Thingp me) -> int;
 [[nodiscard]] auto thing_drop_all(Gamep g, Levelsp v, Levelp l, Thingp user, ThingEvent &e) -> bool;
@@ -1553,7 +1553,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_ticks_to_stay_dead_initial_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
 [[nodiscard]] auto thing_ticks_to_stay_dead_initial_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
 [[nodiscard]] auto thing_ticks_to_stay_dead_initial_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int;
-[[nodiscard]] auto thing_ticks_to_stay_dead_initial(Thingp me) -> int;
+[[nodiscard]] auto thing_ticks_to_stay_dead_initial(Gamep g, Levelsp v, Levelp l, Thingp me) -> int;
 [[nodiscard]] auto thing_ticks_to_stay_dead_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int;
 [[nodiscard]] auto thing_ticks_to_stay_dead(Gamep g, Levelsp v, Levelp l, Thingp me) -> int;
 [[nodiscard]] auto thing_unengulf(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp engulfer) -> bool;

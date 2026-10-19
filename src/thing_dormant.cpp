@@ -5,6 +5,7 @@
 #include "my_callstack.hpp"
 #include "my_main.hpp"
 #include "my_thing.hpp"
+#include "my_thing_inlines.hpp"
 #include "my_tp.hpp"
 #include "my_types.hpp"
 
@@ -16,7 +17,13 @@
     no_thing_pointer();
     return 0;
   }
-  return me->_dormant;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
+  }
+
+  return ext->_dormant;
 }
 
 [[nodiscard]] auto thing_dormant_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
@@ -28,9 +35,14 @@
     return 0;
   }
 
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
+  }
+
   thing_anim_init(g, v, l, me, THING_ANIM_DORMANT);
 
-  return me->_dormant = val;
+  return ext->_dormant = val;
 }
 
 [[nodiscard]] auto thing_dormant_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
@@ -41,7 +53,13 @@
     no_thing_pointer();
     return 0;
   }
-  return me->_dormant += val;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return false;
+  }
+
+  return ext->_dormant += val;
 }
 
 [[nodiscard]] auto thing_dormant_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
@@ -52,20 +70,26 @@
     no_thing_pointer();
     return 0;
   }
-  if (static_cast< int >(me->_dormant) - val <= 0) {
-    me->_dormant = 0;
-  } else {
-    me->_dormant -= val;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return false;
   }
 
-  if (me->_dormant == 0) {
+  if (static_cast< int >(ext->_dormant) - val <= 0) {
+    ext->_dormant = 0;
+  } else {
+    ext->_dormant -= val;
+  }
+
+  if (ext->_dormant == 0) {
     thing_anim_init(g, v, l, me, THING_ANIM_IDLE);
   }
 
-  return me->_dormant;
+  return ext->_dormant;
 }
 
-[[nodiscard]] auto thing_dormant_max(Thingp me) -> int
+[[nodiscard]] auto thing_dormant_max(Gamep g, Levelsp v, Levelp l, Thingp me) -> int
 {
   TRACE_DEBUG();
 
@@ -73,7 +97,13 @@
     no_thing_pointer();
     return 0;
   }
-  return me->_dormant_max;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return false;
+  }
+
+  return ext->_dormant_max;
 }
 
 [[nodiscard]] auto thing_dormant_max_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
@@ -84,7 +114,13 @@
     no_thing_pointer();
     return 0;
   }
-  return me->_dormant_max = val;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return false;
+  }
+
+  return ext->_dormant_max = val;
 }
 
 [[nodiscard]] auto thing_dormant_max_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
@@ -95,7 +131,13 @@
     no_thing_pointer();
     return 0;
   }
-  return me->_dormant_max += val;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return false;
+  }
+
+  return ext->_dormant_max += val;
 }
 
 [[nodiscard]] auto thing_dormant_max_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
@@ -106,8 +148,14 @@
     no_thing_pointer();
     return 0;
   }
-  if (static_cast< int >(me->_dormant_max) - val <= 0) {
-    return me->_dormant_max = 0;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
   }
-  return me->_dormant_max -= val;
+
+  if (static_cast< int >(ext->_dormant_max) - val <= 0) {
+    return ext->_dormant_max = 0;
+  }
+  return ext->_dormant_max -= val;
 }

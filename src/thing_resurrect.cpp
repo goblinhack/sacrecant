@@ -42,7 +42,13 @@
     no_thing_pointer();
     return 0;
   }
-  return me->_ticks_to_stay_dead;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
+  }
+
+  return ext->_ticks_to_stay_dead;
 }
 
 [[nodiscard]] auto thing_ticks_to_stay_dead_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
@@ -53,7 +59,13 @@
     no_thing_pointer();
     return 0;
   }
-  return me->_ticks_to_stay_dead = val;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
+  }
+
+  return ext->_ticks_to_stay_dead = val;
 }
 
 [[nodiscard]] auto thing_ticks_to_stay_dead_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
@@ -64,7 +76,13 @@
     no_thing_pointer();
     return 0;
   }
-  return me->_ticks_to_stay_dead += val;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
+  }
+
+  return ext->_ticks_to_stay_dead += val;
 }
 
 [[nodiscard]] auto thing_ticks_to_stay_dead_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
@@ -75,13 +93,19 @@
     no_thing_pointer();
     return 0;
   }
-  if (static_cast< int >(me->_ticks_to_stay_dead) - val <= 0) {
-    return me->_ticks_to_stay_dead = 0;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
   }
-  return me->_ticks_to_stay_dead -= val;
+
+  if (static_cast< int >(ext->_ticks_to_stay_dead) - val <= 0) {
+    return ext->_ticks_to_stay_dead = 0;
+  }
+  return ext->_ticks_to_stay_dead -= val;
 }
 
-[[nodiscard]] auto thing_ticks_to_stay_dead_initial(Thingp me) -> int
+[[nodiscard]] auto thing_ticks_to_stay_dead_initial(Gamep g, Levelsp v, Levelp l, Thingp me) -> int
 {
   TRACE_DEBUG();
 
@@ -89,7 +113,13 @@
     no_thing_pointer();
     return 0;
   }
-  return me->_ticks_to_stay_dead_initial;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
+  }
+
+  return ext->_ticks_to_stay_dead_initial;
 }
 
 [[nodiscard]] auto thing_ticks_to_stay_dead_initial_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
@@ -100,7 +130,13 @@
     no_thing_pointer();
     return 0;
   }
-  return me->_ticks_to_stay_dead_initial = val;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
+  }
+
+  return ext->_ticks_to_stay_dead_initial = val;
 }
 
 [[nodiscard]] auto thing_ticks_to_stay_dead_initial_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
@@ -111,7 +147,13 @@
     no_thing_pointer();
     return 0;
   }
-  return me->_ticks_to_stay_dead_initial += val;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
+  }
+
+  return ext->_ticks_to_stay_dead_initial += val;
 }
 
 [[nodiscard]] auto thing_ticks_to_stay_dead_initial_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
@@ -122,10 +164,16 @@
     no_thing_pointer();
     return 0;
   }
-  if (static_cast< int >(me->_ticks_to_stay_dead_initial) - val <= 0) {
-    return me->_ticks_to_stay_dead_initial = 0;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return false;
   }
-  return me->_ticks_to_stay_dead_initial -= val;
+
+  if (static_cast< int >(ext->_ticks_to_stay_dead_initial) - val <= 0) {
+    return ext->_ticks_to_stay_dead_initial = 0;
+  }
+  return ext->_ticks_to_stay_dead_initial -= val;
 }
 
 [[nodiscard]] auto thing_is_able_to_resurrect(Thingp t) -> bool

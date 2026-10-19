@@ -431,8 +431,6 @@ auto operator<<(std::ostream &out, Bits< const class Game & > const my) -> std::
     out << bits(tmp);                                    // all we're saving here is offsets for validation later
     tmp = offsetof(Thing, _lifespan);                    // all we're saving here is offsets for validation later
     out << bits(tmp);                                    // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _dormant);                     // all we're saving here is offsets for validation later
-    out << bits(tmp);                                    // all we're saving here is offsets for validation later
     tmp = offsetof(Thing, _age);                         // all we're saving here is offsets for validation later
     out << bits(tmp);                                    // all we're saving here is offsets for validation later
     tmp = offsetof(Thing, _submerged_pct);               // all we're saving here is offsets for validation later
@@ -540,6 +538,8 @@ auto operator<<(std::ostream &out, Bits< const class Game & > const my) -> std::
     tmp = offsetof(ThingExt, _stat);                         // all we're saving here is offsets for validation later
     out << bits(tmp);                                        // all we're saving here is offsets for validation later
     tmp = offsetof(ThingExt, move_path);                     // all we're saving here is offsets for validation later
+    out << bits(tmp);                                        // all we're saving here is offsets for validation later
+    tmp = offsetof(ThingExt, _dormant);                      // all we're saving here is offsets for validation later
     out << bits(tmp);                                        // all we're saving here is offsets for validation later
 
     //
