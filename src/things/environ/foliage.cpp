@@ -55,6 +55,7 @@ static auto tp_foliage_z_depth_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> M
   tp_flag_set(tp, is_foliage);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_obs_to_vision);
+  tp_flag_set(tp, is_removable_on_err);
   tp_flag_set(tp, is_physics_explosion);
   tp_flag_set(tp, is_physics_temperature);
   tp_flag_set(tp, is_plant);

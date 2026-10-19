@@ -153,7 +153,7 @@
     }
 
     //
-    // We failed to pop this thing. Try to remove something and try again.
+    // We failed to push this thing. Try to remove something and try again.
     // Try to remove any higher priority things if we're still stuck.
     //
     for (auto slot = 0; slot < MAP_SLOTS; slot++) {
@@ -172,6 +172,44 @@
 
     if (removed_one) {
       continue;
+    }
+
+    //
+    // Try again
+    //
+    for (auto slot = 0; slot < MAP_SLOTS; slot++) {
+      auto o_id = l->thing_id[ at.x ][ at.y ][ slot ];
+      if (o_id != 0U) {
+        auto *it = thing_find(g, v, o_id);
+        if ((it != nullptr) && thing_is_item(it)) {
+          if (thing_pop(g, v, it)) {
+            THING_DBG(g, v, l, t, "removed from the map due to lack of slots");
+            removed_one = true;
+            break;
+          }
+        }
+      }
+    }
+
+    if (removed_one) {
+      continue;
+    }
+
+    //
+    // Last resort
+    //
+    for (auto slot = 0; slot < MAP_SLOTS; slot++) {
+      auto o_id = l->thing_id[ at.x ][ at.y ][ slot ];
+      if (o_id != 0U) {
+        auto *it = thing_find(g, v, o_id);
+        if ((it != nullptr) && thing_is_monst(it) && ! thing_is_boss(it)) {
+          if (thing_pop(g, v, it)) {
+            THING_DBG(g, v, l, t, "removed from the map due to lack of slots");
+            removed_one = true;
+            break;
+          }
+        }
+      }
     }
 
     //

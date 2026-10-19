@@ -122,6 +122,7 @@ static bool tp_fungus_pyro_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, Th
   tp_flag_set(tp, is_removable_when_dead_on_err);
   tp_flag_set(tp, is_soft_landing);
   tp_flag_set(tp, is_submergible);
+  tp_flag_set(tp, is_removable_on_err);
   tp_flag_set(tp, is_tickable);
   tp_health_set(tp, "1d5");
   tp_is_immune_to_add(tp, THING_EVENT_FIRE_DAMAGE);
