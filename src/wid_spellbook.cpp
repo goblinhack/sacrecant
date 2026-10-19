@@ -37,7 +37,7 @@ static Widp          wid_available_mana;
 static Widp          wid_spellbook_window;
 static WidPopup     *wid_spellbook_list;
 static WidPopup     *wid_over_stats;
-static ThingStatType wid_spell_filter = THING_STAT_NONE;
+static ThingStatType wid_spell_filter = THING_STAT_ENUM_MAX;
 
 static Widp wid_spell[ THING_SPELLBOOK_MAX ];
 
@@ -506,7 +506,7 @@ static void wid_spellbook_key_down_which_spell(Gamep g, Widp w, int index)
   }
 
   if (wid_spell_filter == THING_STAT_ARCANA_GEO) {
-    wid_spellbook(g, v, l, player, THING_STAT_NONE);
+    wid_spellbook(g, v, l, player, THING_STAT_ENUM_MAX);
   } else {
     wid_spellbook(g, v, l, player, THING_STAT_ARCANA_GEO);
   }
@@ -534,7 +534,7 @@ static void wid_spellbook_key_down_which_spell(Gamep g, Widp w, int index)
   }
 
   if (wid_spell_filter == THING_STAT_ARCANA_PYRO) {
-    wid_spellbook(g, v, l, player, THING_STAT_NONE);
+    wid_spellbook(g, v, l, player, THING_STAT_ENUM_MAX);
   } else {
     wid_spellbook(g, v, l, player, THING_STAT_ARCANA_PYRO);
   }
@@ -562,7 +562,7 @@ static void wid_spellbook_key_down_which_spell(Gamep g, Widp w, int index)
   }
 
   if (wid_spell_filter == THING_STAT_ARCANA_BIO) {
-    wid_spellbook(g, v, l, player, THING_STAT_NONE);
+    wid_spellbook(g, v, l, player, THING_STAT_ENUM_MAX);
   } else {
     wid_spellbook(g, v, l, player, THING_STAT_ARCANA_BIO);
   }
@@ -590,7 +590,7 @@ static void wid_spellbook_key_down_which_spell(Gamep g, Widp w, int index)
   }
 
   if (wid_spell_filter == THING_STAT_ARCANA_NECRO) {
-    wid_spellbook(g, v, l, player, THING_STAT_NONE);
+    wid_spellbook(g, v, l, player, THING_STAT_ENUM_MAX);
   } else {
     wid_spellbook(g, v, l, player, THING_STAT_ARCANA_NECRO);
   }
@@ -744,7 +744,7 @@ void wid_spellbook(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType fi
     //
     // Filter?
     //
-    if (filter == 0U) {
+    if (filter == THING_STAT_ENUM_MAX) {
       //
       // All spells
       //

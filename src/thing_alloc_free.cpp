@@ -49,7 +49,7 @@ static bool memory_test = true;
   }
 
   auto level_arr_idx = l->level_arr_idx;
-  if (last_ext_id[ level_arr_idx ] == 0u) {
+  if (last_ext_id[ level_arr_idx ] == 0U) {
     last_ext_id[ level_arr_idx ] = level_arr_idx * THING_EXT_ID_PER_LEVEL_MAX;
   }
 
@@ -113,7 +113,7 @@ static void thing_ext_free(Levelsp v, Thingp me)
   }
 
   auto level_arr_idx = l->level_arr_idx;
-  if (last_dmap_id[ level_arr_idx ] == 0u) {
+  if (last_dmap_id[ level_arr_idx ] == 0U) {
     last_dmap_id[ level_arr_idx ] = level_arr_idx * THING_DMAP_ID_PER_LEVEL_MAX;
   }
 
@@ -194,7 +194,7 @@ static void thing_dmap_free(Gamep g, Levelsp v, Levelp l, Thingp me)
   }
 
   auto level_arr_idx = l->level_arr_idx;
-  if (last_light_id[ level_arr_idx ] == 0u) {
+  if (last_light_id[ level_arr_idx ] == 0U) {
     last_light_id[ level_arr_idx ] = level_arr_idx * THING_LIGHT_ID_PER_LEVEL_MAX;
   }
 

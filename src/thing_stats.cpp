@@ -91,13 +91,11 @@
 [[nodiscard]] auto stat_to_name_short(ThingStatType stat) -> const std::string
 {
   switch (stat) {
-    case THING_STAT_NONE :         return "-";
     case THING_STAT_ATT :          return "Att";
     case THING_STAT_DMG :          return "Dmg";
     case THING_STAT_DEF :          return "Def";
     case THING_STAT_STR :          return "Str";
     case THING_STAT_CON :          return "Con";
-    case THING_STAT_INT :          return "Int";
     case THING_STAT_DEX :          return "Dex";
     case THING_STAT_PSI :          return "Psi";
     case THING_STAT_LUCK :         return "Lck";
@@ -113,35 +111,31 @@
 [[nodiscard]] auto stat_to_opposing_stat(ThingStatType stat) -> ThingStatType
 {
   switch (stat) {
-    case THING_STAT_NONE :         return THING_STAT_NONE;
-    case THING_STAT_ATT :          return THING_STAT_NONE;
-    case THING_STAT_DMG :          return THING_STAT_NONE;
-    case THING_STAT_DEF :          return THING_STAT_NONE;
-    case THING_STAT_STR :          return THING_STAT_NONE;
-    case THING_STAT_CON :          return THING_STAT_NONE;
-    case THING_STAT_INT :          return THING_STAT_NONE;
-    case THING_STAT_DEX :          return THING_STAT_NONE;
-    case THING_STAT_PSI :          return THING_STAT_NONE;
-    case THING_STAT_LUCK :         return THING_STAT_NONE;
+    case THING_STAT_ATT :          return THING_STAT_ENUM_MAX;
+    case THING_STAT_DMG :          return THING_STAT_ENUM_MAX;
+    case THING_STAT_DEF :          return THING_STAT_ENUM_MAX;
+    case THING_STAT_STR :          return THING_STAT_ENUM_MAX;
+    case THING_STAT_CON :          return THING_STAT_ENUM_MAX;
+    case THING_STAT_DEX :          return THING_STAT_ENUM_MAX;
+    case THING_STAT_PSI :          return THING_STAT_ENUM_MAX;
+    case THING_STAT_LUCK :         return THING_STAT_ENUM_MAX;
     case THING_STAT_ARCANA_NECRO : return THING_STAT_ARCANA_BIO;
     case THING_STAT_ARCANA_BIO :   return THING_STAT_ARCANA_NECRO;
     case THING_STAT_ARCANA_PYRO :  return THING_STAT_ARCANA_GEO;
     case THING_STAT_ARCANA_GEO :   return THING_STAT_ARCANA_PYRO;
-    case THING_STAT_ENUM_MAX :     return THING_STAT_NONE;
+    case THING_STAT_ENUM_MAX :     return THING_STAT_ENUM_MAX;
   }
-  return THING_STAT_NONE;
+  return THING_STAT_ENUM_MAX;
 }
 
 [[nodiscard]] auto stat_to_name_long(ThingStatType stat) -> const std::string
 {
   switch (stat) {
-    case THING_STAT_NONE :         return "-";
     case THING_STAT_ATT :          return "Attack";
     case THING_STAT_DMG :          return "Damage";
     case THING_STAT_DEF :          return "Defence";
     case THING_STAT_STR :          return "Strength";
     case THING_STAT_CON :          return "Constitution";
-    case THING_STAT_INT :          return "Intelligence";
     case THING_STAT_DEX :          return "Dexterity";
     case THING_STAT_PSI :          return "Psi";
     case THING_STAT_LUCK :         return "Luck";
@@ -157,13 +151,11 @@
 [[nodiscard]] auto stat_is_arcana(ThingStatType stat) -> bool
 {
   switch (stat) {
-    case THING_STAT_NONE :         return false;
     case THING_STAT_ATT :          return false;
     case THING_STAT_DMG :          return false;
     case THING_STAT_DEF :          return false;
     case THING_STAT_STR :          return false;
     case THING_STAT_CON :          return false;
-    case THING_STAT_INT :          return false;
     case THING_STAT_DEX :          return false;
     case THING_STAT_PSI :          return false;
     case THING_STAT_LUCK :         return false;
@@ -271,7 +263,6 @@
     case THING_STAT_DEF :  return string_sprintf("%s %2d", stat_name.c_str(), val);
     case THING_STAT_STR :  break;
     case THING_STAT_CON :  break;
-    case THING_STAT_INT :  break;
     case THING_STAT_DEX :  break;
     case THING_STAT_PSI :  break;
     case THING_STAT_DMG :  break;
@@ -320,7 +311,6 @@
 
     case THING_STAT_STR :  break;
     case THING_STAT_CON :  break;
-    case THING_STAT_INT :  break;
     case THING_STAT_DEX :  break;
     case THING_STAT_PSI :  break;
     case THING_STAT_DMG :  break;
@@ -369,7 +359,6 @@
 
     case THING_STAT_STR :  break;
     case THING_STAT_CON :  break;
-    case THING_STAT_INT :  break;
     case THING_STAT_DEX :  break;
     case THING_STAT_PSI :  break;
     case THING_STAT_DMG :  break;

@@ -150,7 +150,7 @@ auto levels_thing_id_histogram(Gamep g, Levelsp v) -> void
 
     for (auto i = 0; i < max_per_level_count; i++) {
       auto id = max_per_level_count * level_num;
-      if (v->thing_body[ id + i ].tp_id != 0u) {
+      if (v->thing_body[ id + i ].tp_id != 0U) {
         count++;
       }
     }

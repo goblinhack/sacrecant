@@ -1,5 +1,6 @@
 bugs
 ----
+if out of slots, get rid of effects, missiles, plants, monsts (not boss), items
 sfpoint?
 use warnings more
 

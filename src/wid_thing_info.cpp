@@ -1447,13 +1447,11 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     }
 
     switch (stat) {
-      case THING_STAT_NONE :
       case THING_STAT_ATT :
       case THING_STAT_DMG :
       case THING_STAT_DEF :
       case THING_STAT_STR :
       case THING_STAT_CON :
-      case THING_STAT_INT :
       case THING_STAT_DEX :
       case THING_STAT_PSI :
       case THING_STAT_LUCK :
@@ -1471,7 +1469,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
           printed_something = true;
 
           TRACE();
-          if (stat_to_opposing_stat(stat) != THING_STAT_NONE) {
+          if (stat_to_opposing_stat(stat) != THING_STAT_ENUM_MAX) {
             switch (thing_stat_mod(g, v, l, me, stat)) {
               case 9 :
                 line = string_sprintf("- +3 SP cost for %s spells", stat_to_name_long(opposing_arcana).c_str());

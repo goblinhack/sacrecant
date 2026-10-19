@@ -43,7 +43,7 @@ static Widp          wid_spell_learn_window;
 static WidPopup     *wid_spell_learn_list;
 static WidPopup     *wid_spell_learn_learn_window;
 static WidPopup     *wid_over_stats;
-static ThingStatType wid_spell_filter = THING_STAT_NONE;
+static ThingStatType wid_spell_filter = THING_STAT_ENUM_MAX;
 
 static std::map< Thingp, std::set< std::string > > wid_spell_upgrades;
 
@@ -717,7 +717,7 @@ static void wid_spell_learn_spell_via_mouse_over_end(Gamep g, Widp w)
   }
 
   if (wid_spell_filter == THING_STAT_ARCANA_PYRO) {
-    wid_spell_learn(g, v, l, player, THING_STAT_NONE);
+    wid_spell_learn(g, v, l, player, THING_STAT_ENUM_MAX);
   } else {
     wid_spell_learn(g, v, l, player, THING_STAT_ARCANA_PYRO);
   }
@@ -745,7 +745,7 @@ static void wid_spell_learn_spell_via_mouse_over_end(Gamep g, Widp w)
   }
 
   if (wid_spell_filter == THING_STAT_ARCANA_GEO) {
-    wid_spell_learn(g, v, l, player, THING_STAT_NONE);
+    wid_spell_learn(g, v, l, player, THING_STAT_ENUM_MAX);
   } else {
     wid_spell_learn(g, v, l, player, THING_STAT_ARCANA_GEO);
   }
@@ -773,7 +773,7 @@ static void wid_spell_learn_spell_via_mouse_over_end(Gamep g, Widp w)
   }
 
   if (wid_spell_filter == THING_STAT_ARCANA_BIO) {
-    wid_spell_learn(g, v, l, player, THING_STAT_NONE);
+    wid_spell_learn(g, v, l, player, THING_STAT_ENUM_MAX);
   } else {
     wid_spell_learn(g, v, l, player, THING_STAT_ARCANA_BIO);
   }
@@ -801,7 +801,7 @@ static void wid_spell_learn_spell_via_mouse_over_end(Gamep g, Widp w)
   }
 
   if (wid_spell_filter == THING_STAT_ARCANA_NECRO) {
-    wid_spell_learn(g, v, l, player, THING_STAT_NONE);
+    wid_spell_learn(g, v, l, player, THING_STAT_ENUM_MAX);
   } else {
     wid_spell_learn(g, v, l, player, THING_STAT_ARCANA_NECRO);
   }
@@ -1020,7 +1020,7 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType 
       // Upgrades?
       //
       if (thing_is_upgradable(g, v, l, already_learned)) {
-        if (filter == 0U) {
+        if (filter == THING_STAT_ENUM_MAX) {
           //
           // All spells
           //
@@ -1038,7 +1038,7 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType 
       //
       // Filter?
       //
-      if (filter == 0U) {
+      if (filter == THING_STAT_ENUM_MAX) {
         //
         // All spells
         //

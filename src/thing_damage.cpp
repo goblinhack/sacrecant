@@ -22,6 +22,7 @@
 #include <cassert>
 #include <limits>
 #include <string>
+#include <utility>
 #include <vector>
 
 [[nodiscard]] auto thing_damage_calculate(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEventType event_type) -> int
@@ -1195,7 +1196,7 @@ void thing_damage_apply(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
     return 0;
   }
 
-  if (val > std::numeric_limits< decltype(t->_damage_this_tick) >::max()) {
+  if (std::cmp_greater(val, std::numeric_limits< decltype(t->_damage_this_tick) >::max())) {
     thing_err(g, v, l, t, "value overflow: %d", val);
     return 0;
   }
