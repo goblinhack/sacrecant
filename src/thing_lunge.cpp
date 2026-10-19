@@ -90,6 +90,11 @@ void thing_is_lunging_set(Gamep g, Levelsp v, Levelp l, Thingp me, bool val)
     return;
   }
 
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) [[unlikely]] {
+    return;
+  }
+
   //
   // Once lunge, it is treated as a counter
   //
@@ -97,21 +102,21 @@ void thing_is_lunging_set(Gamep g, Levelsp v, Levelp l, Thingp me, bool val)
     //
     // Start lunge if not doing do
     //
-    if (static_cast< bool >(me->_lunge_ms)) {
+    if (static_cast< bool >(ext->_lunge_ms)) {
       return;
     }
   } else {
     //
     // Stop lunge
     //
-    if (! static_cast< bool >(me->_lunge_ms)) {
+    if (! static_cast< bool >(ext->_lunge_ms)) {
       return;
     }
   }
-  me->_lunge_ms = static_cast< uint16_t >(val);
+  ext->_lunge_ms = static_cast< uint16_t >(val);
 }
 
-static auto thing_is_lunging_incr(Thingp me, int val) -> int
+static auto thing_is_lunging_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
@@ -120,7 +125,12 @@ static auto thing_is_lunging_incr(Thingp me, int val) -> int
     return 0;
   }
 
-  return me->_lunge_ms += val;
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) [[unlikely]] {
+    return 0;
+  }
+
+  return ext->_lunge_ms += val;
 }
 
 //
@@ -130,10 +140,10 @@ void thing_lunge_time_step(Gamep g, Levelsp v, Levelp l, Thingp me, int time_ste
 {
   TRACE();
 
-  (void) thing_is_lunging_incr(me, time_step);
+  (void) thing_is_lunging_incr(g, v, l, me, time_step);
 
   if (compiler_unused) {
-    THING_DBG(g, v, l, me, "lunge incr %u", thing_is_lunging(me));
+    THING_DBG(g, v, l, me, "lunge incr %u", thing_is_lunging(g, v, me));
   }
 
   thing_lunge_end_check(g, v, l, me);
@@ -159,7 +169,12 @@ void thing_lunge_time_step(Gamep g, Levelsp v, Levelp l, Thingp me, int time_ste
     return false;
   }
 
-  if (thing_is_lunging(me) != 0) {
+  if (thing_is_lunging(g, v, me) != 0) {
+    return false;
+  }
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) [[unlikely]] {
     return false;
   }
 
@@ -185,7 +200,7 @@ void thing_lunge_time_step(Gamep g, Levelsp v, Levelp l, Thingp me, int time_ste
 
   thing_is_lunging_set(g, v, l, me, true);
 
-  me->lunging_to = dest;
+  ext->lunging_to = dest;
 
   return true;
 }
@@ -197,9 +212,14 @@ void thing_lunge_end_check(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
 
-  if (thing_is_lunging(me) >= THING_LUNGE_ANIM_MS) {
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) [[unlikely]] {
+    return;
+  }
+
+  if (thing_is_lunging(g, v, me) >= THING_LUNGE_ANIM_MS) {
     if (compiler_unused) {
-      THING_DBG(g, v, l, me, "lunge to (%d,%d) done", me->lunging_to.x, me->lunging_to.y);
+      THING_DBG(g, v, l, me, "lunge to (%d,%d) done", ext->lunging_to.x, ext->lunging_to.y);
     }
 
     thing_is_lunging_set(g, v, l, me, false);
@@ -210,13 +230,18 @@ void thing_lunge_modify_position(Gamep g, Levelsp v, Levelp l, Thingp me, spoint
 {
   TRACE();
 
-  if (thing_is_lunging(me) == 0) {
+  if (thing_is_lunging(g, v, me) == 0) {
     return;
   }
 
-  auto dir = me->lunging_to - thing_at(g, v, l, me);
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) [[unlikely]] {
+    return;
+  }
 
-  auto pct  = static_cast< float >(me->_lunge_ms) / static_cast< float >(THING_LUNGE_ANIM_MS);
+  auto dir = ext->lunging_to - thing_at(g, v, l, me);
+
+  auto pct  = static_cast< float >(ext->_lunge_ms) / static_cast< float >(THING_LUNGE_ANIM_MS);
   auto idxs = ARRAY_SIZE(lunge_amount);
   auto idx  = static_cast< int >(idxs * pct);
 
@@ -232,7 +257,7 @@ void thing_lunge_modify_position(Gamep g, Levelsp v, Levelp l, Thingp me, spoint
   auto off_y = static_cast< float >(dir.y) * w * amount;
 
   if (compiler_unused) {
-    THING_DBG(g, v, l, me, "lunge to (%d,%d) idx %d off %f,%f am %f w %f", me->lunging_to.x, me->lunging_to.y, idx, off_x, off_y, amount, w);
+    THING_DBG(g, v, l, me, "lunge to (%d,%d) idx %d off %f,%f am %f w %f", ext->lunging_to.x, ext->lunging_to.y, idx, off_x, off_y, amount, w);
   }
 
   tl.x += static_cast< short >(off_x);

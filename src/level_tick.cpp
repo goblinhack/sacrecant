@@ -121,9 +121,9 @@ static void level_tick_ok_to_end_check(Gamep g, Levelsp v, Levelp l)
     //
     // Lunging complete?
     //
-    if (thing_is_lunging(t) != 0) {
+    if (thing_is_lunging(g, v, t) != 0) {
       thing_lunge_end_check(g, v, l, t);
-      if (thing_is_lunging(t) != 0) {
+      if (thing_is_lunging(g, v, t) != 0) {
         if (compiler_unused) { //
           LEVEL_DBG(g, v, l, "waiting on lunge %s", to_string(g, v, l, t).c_str());
         }

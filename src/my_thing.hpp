@@ -394,6 +394,14 @@ using ThingExt = struct ThingExt {
   //
   int16_t _score_value;
   //
+  // Accumulates and holds the amount of time we've been lunging.
+  //
+  uint16_t _lunge_ms;
+  //
+  // Where we're lunging
+  //
+  bpoint lunging_to;
+  //
   // Statistics
   //
   uint8_t _stat[ THING_STAT_ENUM_MAX ];
@@ -649,10 +657,6 @@ using Thing = struct Thing {
   //
   uint16_t _fall_ms;
   //
-  // Accumulates and holds the amount of time we've been lunging.
-  //
-  uint16_t _lunge_ms;
-  //
   // Weight in grams. Impacts things like grass being crushed.
   //
   uint32_t _weight;
@@ -740,10 +744,6 @@ using Thing = struct Thing {
   // Last location we were pushed onto the map.
   //
   bpoint last_pushed_at;
-  //
-  // Where we're lunging
-  //
-  bpoint lunging_to;
   //
   // Increases per tick and when it reaches 1, allows the thing to move
   //
