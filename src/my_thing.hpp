@@ -644,7 +644,6 @@ using Thing = struct Thing {
   int16_t _keys_carried;
   int16_t _crit_roll;
   int16_t _fumble_roll;
-  int16_t _difficulty;
   //
   // How many items we can carry
   //
@@ -837,10 +836,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_damage_this_tick(Thingp t) -> int;
 [[nodiscard]] auto thing_damage_types(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::vector< ThingEventType >;
 [[nodiscard]] auto thing_debug(Gamep g, Levelsp v, Levelp l, Thingp t, uint32_t iter_index) -> bool;
-[[nodiscard]] auto thing_difficulty_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
-[[nodiscard]] auto thing_difficulty_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
-[[nodiscard]] auto thing_difficulty_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
-[[nodiscard]] auto thing_difficulty(Thingp t) -> int;
 [[nodiscard]] auto thing_distance_avoid_target_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_distance_avoid_target_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_distance_avoid_target_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;

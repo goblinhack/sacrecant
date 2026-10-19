@@ -48,5 +48,4 @@ void thing_enhance(Gamep g, Levelsp v, Levelp l, Thingp t, Tpp tp)
   (void) thing_spell_cost_incr(g, v, l, t, tp_spell_cost_get(tp));
   (void) thing_crit_roll_incr(g, v, l, t, tp_crit_roll_get(tp));
   (void) thing_fumble_roll_incr(g, v, l, t, tp_fumble_roll_get(tp));
-  (void) thing_difficulty_incr(g, v, l, t, tp_difficulty_get(tp));
 }

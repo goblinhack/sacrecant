@@ -3728,53 +3728,6 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   return tp_flag(thing_tp(t), is_able_to_see_through_walls) != 0;
 }
 
-[[nodiscard]] auto thing_difficulty(Thingp t) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    no_thing_pointer();
-    return 0;
-  }
-  return t->_difficulty;
-}
-
-[[nodiscard]] auto thing_difficulty_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    no_thing_pointer();
-    return 0;
-  }
-  return t->_difficulty = val;
-}
-
-[[nodiscard]] auto thing_difficulty_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    no_thing_pointer();
-    return 0;
-  }
-  return t->_difficulty += val;
-}
-
-[[nodiscard]] auto thing_difficulty_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    no_thing_pointer();
-    return 0;
-  }
-  if (static_cast< int >(t->_difficulty) - val <= 0) {
-    return t->_difficulty = 0;
-  }
-  return t->_difficulty -= val;
-}
-
 [[nodiscard]] auto thing_items_collected_max(Thingp t) -> int
 {
   TRACE_DEBUG();
