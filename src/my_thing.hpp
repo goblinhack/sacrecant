@@ -642,12 +642,6 @@ using Thing = struct Thing {
   // How many keys are carried
   //
   int16_t _keys_carried;
-  int16_t _crit_roll;
-  int16_t _fumble_roll;
-  //
-  // How many items we can carry
-  //
-  int16_t _items_collected_max;
   //
   // Wand/stave charges
   //
@@ -822,9 +816,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_collision_handle_done_already(Levelsp v, Thingp obstacle, Thingp me) -> bool;
 [[nodiscard]] auto thing_collision_radius(Thingp t) -> float;
 [[nodiscard]] auto thing_corpse_allowed(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
-[[nodiscard]] auto thing_crit_roll_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
-[[nodiscard]] auto thing_crit_roll_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
-[[nodiscard]] auto thing_crit_roll_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int;
 [[nodiscard]] auto thing_crit_roll(Gamep g, Levelsp v, Levelp l, Thingp me) -> int;
 [[nodiscard]] auto thing_crush(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp crusher) -> bool;
 [[nodiscard]] auto thing_damage_calculate(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEventType event_type) -> int;
@@ -872,9 +863,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_ensnarer(Gamep g, Levelsp v, Levelp l, Thingp me) -> Thingp;
 [[nodiscard]] auto thing_find_non_inline(Gamep g, Levelsp v, ThingId id) -> Thingp;
 [[nodiscard]] auto thing_fire_at(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp item, Tpp fire_what, const bpoint &target) -> bool;
-[[nodiscard]] auto thing_fumble_roll_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
-[[nodiscard]] auto thing_fumble_roll_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
-[[nodiscard]] auto thing_fumble_roll_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int;
 [[nodiscard]] auto thing_fumble_roll(Gamep g, Levelsp v, Levelp l, Thingp me) -> int;
 [[nodiscard]] auto thing_get_at_safe(Gamep g, Levelsp v, Levelp l, const bpoint &p, int slot) -> Thingp;
 [[nodiscard]] auto thing_get_attacker(Gamep g, Levelsp v, Levelp l, ThingEvent &e) -> Thingp;
@@ -1344,10 +1332,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_worn_try_set(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp owner, bool val = true) -> bool;
 [[nodiscard]] auto thing_is_worn_try_unset(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp owner) -> bool;
 [[nodiscard]] auto thing_is_worn(Thingp t) -> bool;
-[[nodiscard]] auto thing_items_collected_max_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
-[[nodiscard]] auto thing_items_collected_max_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
-[[nodiscard]] auto thing_items_collected_max_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
-[[nodiscard]] auto thing_items_collected_max(Thingp t) -> int;
 [[nodiscard]] auto thing_jump_attack_pct_chance(Thingp me) -> int;
 [[nodiscard]] auto thing_jump_to(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to, bool warn = true) -> bool;
 [[nodiscard]] auto thing_keys_carried_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;

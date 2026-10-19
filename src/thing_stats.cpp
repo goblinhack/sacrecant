@@ -565,7 +565,7 @@
     return 0;
   }
 
-  int roll = me->_fumble_roll;
+  int roll = tp_fumble_roll_get(thing_tp(me));
 
   FOR_ALL_HOOKS(g, v, l, me, buff)
   { //
@@ -580,42 +580,6 @@
   return roll;
 }
 
-[[nodiscard]] auto thing_fumble_roll_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (me == nullptr) {
-    no_thing_pointer();
-    return 0;
-  }
-  return me->_fumble_roll = val;
-}
-
-[[nodiscard]] auto thing_fumble_roll_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (me == nullptr) {
-    no_thing_pointer();
-    return 0;
-  }
-  return me->_fumble_roll += val;
-}
-
-[[nodiscard]] auto thing_fumble_roll_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (me == nullptr) {
-    no_thing_pointer();
-    return 0;
-  }
-  if (static_cast< int >(me->_fumble_roll) - val <= 0) {
-    return me->_fumble_roll = 0;
-  }
-  return me->_fumble_roll -= val;
-}
-
 [[nodiscard]] auto thing_crit_roll(Gamep g, Levelsp v, Levelp l, Thingp me) -> int
 {
   TRACE_DEBUG();
@@ -625,7 +589,7 @@
     return 0;
   }
 
-  int roll = me->_crit_roll;
+  int roll = tp_crit_roll_get(thing_tp(me));
 
   FOR_ALL_HOOKS(g, v, l, me, buff)
   { //
@@ -640,38 +604,3 @@
   return roll;
 }
 
-[[nodiscard]] auto thing_crit_roll_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (me == nullptr) {
-    no_thing_pointer();
-    return 0;
-  }
-  return me->_crit_roll = val;
-}
-
-[[nodiscard]] auto thing_crit_roll_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (me == nullptr) {
-    no_thing_pointer();
-    return 0;
-  }
-  return me->_crit_roll += val;
-}
-
-[[nodiscard]] auto thing_crit_roll_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (me == nullptr) {
-    no_thing_pointer();
-    return 0;
-  }
-  if (static_cast< int >(me->_crit_roll) - val <= 0) {
-    return me->_crit_roll = 0;
-  }
-  return me->_crit_roll -= val;
-}

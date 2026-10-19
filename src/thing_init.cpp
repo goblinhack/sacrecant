@@ -82,7 +82,6 @@
   (void) thing_distance_vision_set(g, v, l, t, tp_distance_vision_get(tp));
   (void) thing_health_max_set(g, v, l, t, thing_health_set(g, v, l, t, tp_health_max_get(tp)));
   (void) thing_hearing_threshold_set(g, v, l, t, tp_hearing_threshold_get(tp));
-  (void) thing_items_collected_max_set(g, v, l, t, tp_items_collected_max_get(tp));
   (void) thing_minion_max_set(g, v, l, t, tp_minion_max_get(tp));
   (void) thing_missile_count_max_set(g, v, l, t, tp_missile_count_max_get(tp));
   (void) thing_priority_set(g, v, l, t, tp_priority_get(tp));
@@ -96,8 +95,6 @@
   (void) thing_spell_range_set(g, v, l, t, tp_spell_range_get(tp));
   (void) thing_spell_range_max_set(g, v, l, t, tp_spell_range_max_get(tp));
   (void) thing_spell_cost_set(g, v, l, t, tp_spell_cost_get(tp));
-  (void) thing_crit_roll_set(g, v, l, t, tp_crit_roll_get(tp));
-  (void) thing_fumble_roll_set(g, v, l, t, tp_fumble_roll_get(tp));
   (void) thing_mana_set(g, v, l, t, tp_mana_get(tp));
   (void) thing_mana_max_set(g, v, l, t, tp_mana_get(tp));
   (void) thing_sac_points_set(g, v, l, t, tp_sac_points_get(tp));

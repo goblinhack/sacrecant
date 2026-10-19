@@ -92,13 +92,13 @@ static auto tp_cleaner_assess_tile(Gamep g, Levelsp v, Levelp l, const bpoint &a
   }
 
   if (level_is_treasure_cached(g, v, l, at)) {
-    if (thing_inventory_get_item_count(g, v, l, me) < thing_items_collected_max(me)) {
+    if (thing_inventory_get_item_count(g, v, l, me) < tp_items_collected_max_get(thing_tp(me))) {
       return THING_ENVIRON_LIKES;
     }
   }
 
   if (level_is_item_cached(g, v, l, at)) {
-    if (thing_inventory_get_item_count(g, v, l, me) < thing_items_collected_max(me)) {
+    if (thing_inventory_get_item_count(g, v, l, me) < tp_items_collected_max_get(thing_tp(me))) {
       return THING_ENVIRON_LIKES;
     }
   }
