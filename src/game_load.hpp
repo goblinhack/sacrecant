@@ -1154,6 +1154,11 @@ auto operator>>(std::istream &in, Bits< class Game & > my) -> std::istream &
       return in;
     }
     in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, hook_sort_order)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, hook_sort_order)";
+      return in;
+    }
+    in >> bits(tmp);
     if (tmp != offsetof(ThingExt, _stat)) {
       game_load_error = "thing structure changed: offsetof(ThingExt, _stat)";
       return in;

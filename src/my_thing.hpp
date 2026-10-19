@@ -357,6 +357,10 @@ using ThingExt = struct ThingExt {
   //
   ThingId worn_id[ WORN_TYPE_ENUM_MAX ];
   //
+  // For hooks. This is the order of selection.
+  //
+  uint16_t hook_sort_order;
+  //
   // Statistics
   //
   uint8_t _stat[ THING_STAT_ENUM_MAX ];
@@ -542,10 +546,6 @@ using Thing = struct Thing {
   // Current tile.
   //
   uint16_t tile_index;
-  //
-  // For hooks. This is the order of selection.
-  //
-  uint16_t hook_sort_order;
   //
   // Move speed, with 100 being player.
   //

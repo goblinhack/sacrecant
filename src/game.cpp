@@ -1015,7 +1015,7 @@ void Game::create_levels()
   //
   auto *v = game_levels_get(g);
   if (v == nullptr) [[unlikely]] {
-    ERR("no level memory created");
+    no_levels_pointer();
     return;
   }
 
@@ -3910,13 +3910,29 @@ void game_chosen_player_set(Gamep g, Tpp t)
     return out;
   }
 
+  auto *v = game_levels_get(g);
+  if (v == nullptr) [[unlikely]] {
+    no_levels_pointer();
+    return out;
+  }
+
   std::vector< Thingp > tmp;
   for (auto t : g->sacrifice_cand) {
     Thingp it = t.first;
     tmp.push_back(it);
   }
 
-  std::ranges::sort(tmp, [](Thingp a, Thingp b) -> bool { return a->hook_sort_order < b->hook_sort_order; });
+  std::ranges::sort(tmp, [ g, v ](Thingp a, Thingp b) -> bool {
+    auto *exta = thing_ext_struct(g, v, a);
+    if (exta == nullptr) {
+      return false;
+    }
+    auto *extb = thing_ext_struct(g, v, b);
+    if (extb == nullptr) {
+      return false;
+    }
+    return exta->hook_sort_order < extb->hook_sort_order;
+  });
 
   for (auto *t : tmp) {
     out.push_back(thing_tp(t));
@@ -3935,7 +3951,7 @@ void game_chosen_player_set(Gamep g, Tpp t)
 
   return g->sacrifice_prev_cand;
 }
-void game_cand_sacrifice_set(Gamep g, Thingp t)
+void game_cand_sacrifice_set(Gamep g, Thingp me)
 {
   TRACE();
 
@@ -3944,16 +3960,28 @@ void game_cand_sacrifice_set(Gamep g, Thingp t)
     return;
   }
 
-  if (t == nullptr) {
+  auto *v = game_levels_get(g);
+  if (v == nullptr) [[unlikely]] {
+    no_levels_pointer();
+    return;
+  }
+
+  if (me == nullptr) {
     no_thing_pointer();
     return;
   }
 
-  g->sacrifice_cand[ t ] = true;
-  g->sacrifice_prev_cand = t;
-  t->hook_sort_order     = g->hook_sort_order++;
+  g->sacrifice_cand[ me ] = true;
+  g->sacrifice_prev_cand  = me;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return;
+  }
+
+  ext->hook_sort_order = g->hook_sort_order++;
 }
-void game_cand_sacrifice_unset(Gamep g, Thingp t)
+void game_cand_sacrifice_unset(Gamep g, Thingp me)
 {
   TRACE();
 
@@ -3961,7 +3989,7 @@ void game_cand_sacrifice_unset(Gamep g, Thingp t)
     no_game_pointer();
     return;
   }
-  g->sacrifice_cand.erase(t);
+  g->sacrifice_cand.erase(me);
   g->sacrifice_prev_cand = {};
 }
 void game_sacrifice_clear(Gamep g)
@@ -3989,7 +4017,7 @@ void game_sacrifice_clear(Gamep g)
   }
   return g->sacrifice_chosen;
 }
-[[nodiscard]] auto game_cand_sacrifice_find(Gamep g, Thingp t) -> bool
+[[nodiscard]] auto game_cand_sacrifice_find(Gamep g, Thingp me) -> bool
 {
   TRACE();
 
@@ -3998,12 +4026,12 @@ void game_sacrifice_clear(Gamep g)
     return false;
   }
 
-  if (g->sacrifice_cand.contains(t)) {
+  if (g->sacrifice_cand.contains(me)) {
     return true;
   }
   return false;
 }
-void game_chosen_sacrifice_set(Gamep g, std::vector< Tpp > t)
+void game_chosen_sacrifice_set(Gamep g, std::vector< Tpp > me)
 {
   TRACE();
 
@@ -4011,7 +4039,7 @@ void game_chosen_sacrifice_set(Gamep g, std::vector< Tpp > t)
     no_game_pointer();
     return;
   }
-  g->sacrifice_chosen = std::move(t);
+  g->sacrifice_chosen = std::move(me);
 }
 
 [[nodiscard]] auto game_cand_spell_get(Gamep g) -> std::vector< Tpp >
@@ -4024,13 +4052,29 @@ void game_chosen_sacrifice_set(Gamep g, std::vector< Tpp > t)
     return out;
   }
 
+  auto *v = game_levels_get(g);
+  if (v == nullptr) [[unlikely]] {
+    no_levels_pointer();
+    return out;
+  }
+
   std::vector< Thingp > tmp;
   for (auto t : g->spell_cand) {
     Thingp it = t.first;
     tmp.push_back(it);
   }
 
-  std::ranges::sort(tmp, [](Thingp a, Thingp b) -> bool { return a->hook_sort_order < b->hook_sort_order; });
+  std::ranges::sort(tmp, [ g, v ](Thingp a, Thingp b) -> bool {
+    auto *exta = thing_ext_struct(g, v, a);
+    if (exta == nullptr) {
+      return false;
+    }
+    auto *extb = thing_ext_struct(g, v, b);
+    if (extb == nullptr) {
+      return false;
+    }
+    return exta->hook_sort_order < extb->hook_sort_order;
+  });
 
   for (auto *t : tmp) {
     out.push_back(thing_tp(t));
@@ -4049,7 +4093,7 @@ void game_chosen_sacrifice_set(Gamep g, std::vector< Tpp > t)
 
   return g->spell_prev_cand;
 }
-void game_cand_spell_set(Gamep g, Thingp t)
+void game_cand_spell_set(Gamep g, Thingp me)
 {
   TRACE();
 
@@ -4058,16 +4102,28 @@ void game_cand_spell_set(Gamep g, Thingp t)
     return;
   }
 
-  if (t == nullptr) {
+  auto *v = game_levels_get(g);
+  if (v == nullptr) [[unlikely]] {
+    no_levels_pointer();
+    return;
+  }
+
+  if (me == nullptr) {
     no_thing_pointer();
     return;
   }
 
-  g->spell_cand[ t ] = true;
-  g->spell_prev_cand = t;
-  t->hook_sort_order = g->hook_sort_order++;
+  g->spell_cand[ me ] = true;
+  g->spell_prev_cand  = me;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return;
+  }
+
+  ext->hook_sort_order = g->hook_sort_order++;
 }
-void game_cand_spell_unset(Gamep g, Thingp t)
+void game_cand_spell_unset(Gamep g, Thingp me)
 {
   TRACE();
 
@@ -4075,7 +4131,7 @@ void game_cand_spell_unset(Gamep g, Thingp t)
     no_game_pointer();
     return;
   }
-  g->spell_cand.erase(t);
+  g->spell_cand.erase(me);
   g->spell_prev_cand = {};
 }
 void game_spell_clear(Gamep g)
@@ -4103,7 +4159,7 @@ void game_spell_clear(Gamep g)
   }
   return g->spell_chosen;
 }
-[[nodiscard]] auto game_cand_spell_find(Gamep g, Thingp t) -> bool
+[[nodiscard]] auto game_cand_spell_find(Gamep g, Thingp me) -> bool
 {
   TRACE();
 
@@ -4112,12 +4168,12 @@ void game_spell_clear(Gamep g)
     return false;
   }
 
-  if (g->spell_cand.contains(t)) {
+  if (g->spell_cand.contains(me)) {
     return true;
   }
   return false;
 }
-void game_chosen_spell_set(Gamep g, std::vector< Tpp > t)
+void game_chosen_spell_set(Gamep g, std::vector< Tpp > me)
 {
   TRACE();
 
@@ -4125,7 +4181,7 @@ void game_chosen_spell_set(Gamep g, std::vector< Tpp > t)
     no_game_pointer();
     return;
   }
-  g->spell_chosen = std::move(t);
+  g->spell_chosen = std::move(me);
 }
 
 [[nodiscard]] auto game_cand_boost_get(Gamep g) -> std::vector< Tpp >
@@ -4139,13 +4195,29 @@ void game_chosen_spell_set(Gamep g, std::vector< Tpp > t)
     return out;
   }
 
+  auto *v = game_levels_get(g);
+  if (v == nullptr) [[unlikely]] {
+    no_levels_pointer();
+    return out;
+  }
+
   std::vector< Thingp > tmp;
   for (auto t : g->boost_cand) {
     Thingp it = t.first;
     tmp.push_back(it);
   }
 
-  std::ranges::sort(tmp, [](Thingp a, Thingp b) -> bool { return a->hook_sort_order < b->hook_sort_order; });
+  std::ranges::sort(tmp, [ g, v ](Thingp a, Thingp b) -> bool {
+    auto *exta = thing_ext_struct(g, v, a);
+    if (exta == nullptr) {
+      return false;
+    }
+    auto *extb = thing_ext_struct(g, v, b);
+    if (extb == nullptr) {
+      return false;
+    }
+    return exta->hook_sort_order < extb->hook_sort_order;
+  });
 
   for (auto *t : tmp) {
     out.push_back(thing_tp(t));
@@ -4162,7 +4234,7 @@ void game_chosen_spell_set(Gamep g, std::vector< Tpp > t)
   }
   return g->boost_prev_cand;
 }
-void game_cand_boost_set(Gamep g, Thingp t)
+void game_cand_boost_set(Gamep g, Thingp me)
 {
   TRACE();
 
@@ -4171,16 +4243,27 @@ void game_cand_boost_set(Gamep g, Thingp t)
     return;
   }
 
-  if (t == nullptr) {
+  auto *v = game_levels_get(g);
+  if (v == nullptr) [[unlikely]] {
+    no_levels_pointer();
+    return;
+  }
+
+  if (me == nullptr) {
     no_thing_pointer();
     return;
   }
 
-  g->boost_cand[ t ] = true;
-  g->boost_prev_cand = t;
-  t->hook_sort_order = g->hook_sort_order++;
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return;
+  }
+
+  g->boost_cand[ me ]  = true;
+  g->boost_prev_cand   = me;
+  ext->hook_sort_order = g->hook_sort_order++;
 }
-void game_cand_boost_unset(Gamep g, Thingp t)
+void game_cand_boost_unset(Gamep g, Thingp me)
 {
   TRACE();
 
@@ -4189,7 +4272,7 @@ void game_cand_boost_unset(Gamep g, Thingp t)
     return;
   }
 
-  g->boost_cand.erase(t);
+  g->boost_cand.erase(me);
   g->boost_prev_cand = {};
 }
 void game_boost_clear(Gamep g)
@@ -4217,7 +4300,7 @@ void game_boost_clear(Gamep g)
   }
   return g->boost_chosen;
 }
-[[nodiscard]] auto game_cand_boost_find(Gamep g, Thingp t) -> bool
+[[nodiscard]] auto game_cand_boost_find(Gamep g, Thingp me) -> bool
 {
   TRACE();
 
@@ -4225,12 +4308,12 @@ void game_boost_clear(Gamep g)
     return false;
   }
 
-  if (g->boost_cand.contains(t)) {
+  if (g->boost_cand.contains(me)) {
     return true;
   }
   return false;
 }
-void game_chosen_boost_set(Gamep g, std::vector< Tpp > t)
+void game_chosen_boost_set(Gamep g, std::vector< Tpp > me)
 {
   TRACE();
 
@@ -4238,7 +4321,7 @@ void game_chosen_boost_set(Gamep g, std::vector< Tpp > t)
     no_game_pointer();
     return;
   }
-  g->boost_chosen = std::move(t);
+  g->boost_chosen = std::move(me);
 }
 
 [[nodiscard]] auto game_mouse_over_player_get(Gamep g) -> Thingp
@@ -4250,7 +4333,7 @@ void game_chosen_boost_set(Gamep g, std::vector< Tpp > t)
   }
   return g->player_mouse_over_currently;
 }
-void game_mouse_over_player_set(Gamep g, Thingp t)
+void game_mouse_over_player_set(Gamep g, Thingp me)
 {
   TRACE();
 
@@ -4258,7 +4341,7 @@ void game_mouse_over_player_set(Gamep g, Thingp t)
     no_game_pointer();
     return;
   }
-  g->player_mouse_over_currently = t;
+  g->player_mouse_over_currently = me;
 }
 
 [[nodiscard]] auto game_sacrifice_mouse_over_currently_get(Gamep g) -> Thingp
@@ -4270,7 +4353,7 @@ void game_mouse_over_player_set(Gamep g, Thingp t)
   }
   return g->sacrifice_mouse_over_currently;
 }
-void game_sacrifice_mouse_over_currently_set(Gamep g, Thingp t)
+void game_sacrifice_mouse_over_currently_set(Gamep g, Thingp me)
 {
   TRACE();
 
@@ -4279,7 +4362,7 @@ void game_sacrifice_mouse_over_currently_set(Gamep g, Thingp t)
     return;
   }
 
-  g->sacrifice_mouse_over_currently = t;
+  g->sacrifice_mouse_over_currently = me;
 }
 
 [[nodiscard]] auto game_spell_mouse_over_currently_get(Gamep g) -> Thingp
@@ -4291,7 +4374,7 @@ void game_sacrifice_mouse_over_currently_set(Gamep g, Thingp t)
   }
   return g->spell_mouse_over_currently;
 }
-void game_spell_mouse_over_currently_set(Gamep g, Thingp t)
+void game_spell_mouse_over_currently_set(Gamep g, Thingp me)
 {
   TRACE();
 
@@ -4300,7 +4383,7 @@ void game_spell_mouse_over_currently_set(Gamep g, Thingp t)
     return;
   }
 
-  g->spell_mouse_over_currently = t;
+  g->spell_mouse_over_currently = me;
 }
 
 [[nodiscard]] auto game_boost_mouse_over_currently_get(Gamep g) -> Thingp
@@ -4312,7 +4395,7 @@ void game_spell_mouse_over_currently_set(Gamep g, Thingp t)
   }
   return g->boost_mouse_over_currently;
 }
-void game_boost_mouse_over_currently_set(Gamep g, Thingp t)
+void game_boost_mouse_over_currently_set(Gamep g, Thingp me)
 {
   TRACE();
 
@@ -4320,7 +4403,7 @@ void game_boost_mouse_over_currently_set(Gamep g, Thingp t)
     no_game_pointer();
     return;
   }
-  g->boost_mouse_over_currently = t;
+  g->boost_mouse_over_currently = me;
 }
 
 [[nodiscard]] auto game_map_single_pix_size_get(Gamep g) -> int
