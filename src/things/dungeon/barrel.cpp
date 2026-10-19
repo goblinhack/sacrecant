@@ -123,6 +123,7 @@ static void tp_barrel_on_fall_end(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_flag_set(tp, is_combustible); // will continue to burn once on fire
   tp_flag_set(tp, is_described_cursor);
   tp_flag_set(tp, is_loggable);
+  tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_obs_to_beam);
   tp_flag_set(tp, is_obs_to_cursor_path);
   tp_flag_set(tp, is_obs_to_falling_onto);

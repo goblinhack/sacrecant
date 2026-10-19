@@ -7,33 +7,35 @@ pre:
 TOP=$(shell pwd)
 DIRS=src
 FORMAT_DIRS=$(DIRS) \
-	    src/things \
-	    src/things/boosts \
-	    src/things/boots \
-	    src/things/boss \
-	    src/things/buffs \
-	    src/things/debuffs \
-	    src/things/dungeon \
-	    src/things/effect \
-	    src/things/environ \
-	    src/things/food \
-	    src/things/internal/cursor \
-	    src/things/internal/levels \
-	    src/things/internal/things \
-	    src/things/minion \
-	    src/things/mob \
-	    src/things/monst \
-	    src/things/player \
-	    src/things/potions \
-	    src/things/projectiles \
-	    src/things/rings \
-	    src/things/sacrifices \
-	    src/things/spells \
-	    src/things/staff \
-	    src/things/traps \
-	    src/things/treasure \
-	    src/things/wand \
-	    src/tests
+		src/things \
+		src/things/beams \
+		src/things/boosts \
+		src/things/boots \
+		src/things/boss \
+		src/things/buffs \
+		src/things/debuffs \
+		src/things/dungeon \
+		src/things/effect \
+		src/things/environ \
+		src/things/food \
+		src/things/internal \
+		src/things/internal/cursor \
+		src/things/internal/levels \
+		src/things/internal/things \
+		src/things/minion \
+		src/things/mob \
+		src/things/monst \
+		src/things/player \
+		src/things/potions \
+		src/things/projectiles \
+		src/things/rings \
+		src/things/sacrifices \
+		src/things/spells \
+		src/things/staff \
+		src/things/traps \
+		src/things/treasure \
+		src/things/wand \
+		src/tests
 
 all: pre
 	@$(foreach var,$(DIRS), $(MAKE) -C $(var) $(CORES) $@; )

@@ -28,12 +28,12 @@ static auto tp_buff_good_luck_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me
   tp_flag_set(tp, is_buff);
   tp_flag_set(tp, is_hook);
   tp_flag_set(tp, is_loggable);
+  tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_tick_on_use);
   tp_flag_set(tp, is_tickable);
   tp_lifespan_set(tp, "1d100+1000");
   tp_name_short_set(tp, "good luck");
   tp_stat_set(tp, THING_STAT_LUCK, "11");
-  tp_flag_set(tp, is_memory_ext);
   // end sort marker1 }
 
   return true;

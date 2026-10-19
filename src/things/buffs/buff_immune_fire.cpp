@@ -30,12 +30,12 @@ static auto tp_buff_immune_fire_detail_get(Gamep g, Levelsp v, Levelp l, Thingp 
   tp_flag_set(tp, is_buff);
   tp_flag_set(tp, is_hook);
   tp_flag_set(tp, is_loggable);
+  tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_tick_on_use);
   tp_flag_set(tp, is_tickable);
   tp_is_immune_to_add(tp, THING_EVENT_FIRE_DAMAGE);
   tp_lifespan_set(tp, "1d100+1000");
   tp_name_short_set(tp, "fire immune");
-  tp_flag_set(tp, is_memory_ext);
   // end sort marker1 }
 
   return true;

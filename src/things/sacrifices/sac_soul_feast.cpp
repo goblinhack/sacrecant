@@ -89,7 +89,6 @@ static bool tp_sac_soul_feast_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp 
   tp_flag_set(tp, is_sacrifice);
   tp_name_long_set(tp, "soul feast");
   tp_sac_points_set(tp, 2);
-  tp_flag_set(tp, is_memory_ext);
   // end sort marker1 }
 
   return true;

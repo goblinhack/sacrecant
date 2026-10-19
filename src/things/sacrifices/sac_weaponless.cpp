@@ -37,7 +37,6 @@ static auto tp_sac_weaponless_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me
   tp_sac_points_set(tp, 3);
   tp_stat_set(tp, THING_STAT_DMG, "16");
   tp_stat_set(tp, THING_STAT_STR, "12");
-  tp_flag_set(tp, is_memory_ext);
   // end sort marker1 }
 
   return true;

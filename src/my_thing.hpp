@@ -410,6 +410,10 @@ using ThingExt = struct ThingExt {
   //
   uint16_t _lunge_ms;
   //
+  // Avoid drop carry loops
+  //
+  uint32_t tick_dropped;
+  //
   // Where we're lunging
   //
   bpoint lunging_to;
@@ -697,10 +701,6 @@ using Thing = struct Thing {
   // Avoid fast teleport loops
   //
   uint32_t tick_teleport;
-  //
-  // Avoid drop carry loops
-  //
-  uint32_t tick_dropped;
   //
   // Ensure only one event per tick
   //

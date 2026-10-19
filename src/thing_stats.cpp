@@ -603,4 +603,3 @@
 
   return roll;
 }
-

@@ -41,7 +41,6 @@ static auto tp_sac_noisy_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> 
   tp_flag_set(tp, is_sacrifice);
   tp_name_long_set(tp, "squeaky boots");
   tp_sac_points_set(tp, 4);
-  tp_flag_set(tp, is_memory_ext);
   // end sort marker1 }
 
   return true;

@@ -305,6 +305,12 @@ void thing_on_carry_success_set(Tpp tp, thing_on_carry_success_t callback)
     return false;
   }
 
+  auto *ext_item = thing_ext_struct(g, v, item);
+  if (ext_item == nullptr) {
+    thing_err(g, v, l, item, "no thing ext");
+    return false;
+  }
+
   //
   // The dead cannot carry. But they can drop items.
   //
@@ -323,8 +329,8 @@ void thing_on_carry_success_set(Tpp tp, thing_on_carry_success_t callback)
   //
   // Avoid rapid drop/collect loops
   //
-  if (item->tick_dropped != 0U) {
-    if (item->tick_dropped >= v->tick - 1) {
+  if (ext_item->tick_dropped != 0U) {
+    if (ext_item->tick_dropped >= v->tick - 1) {
       return false;
     }
   }

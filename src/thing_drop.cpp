@@ -23,6 +23,12 @@ static auto thing_drop_no_fail(Gamep g, Levelsp v, Levelp l, Thingp user, Thingp
   THING_DBG(g, v, l, user, "drop-no-fail: %s", s.c_str());
   TRACE_INDENT();
 
+  auto *ext_item = thing_ext_struct(g, v, item);
+  if (ext_item == nullptr) {
+    thing_err(g, v, l, item, "no ext thing");
+    return;
+  }
+
   //
   // Replace the thing with a copy if count exists
   //
@@ -82,7 +88,7 @@ static auto thing_drop_no_fail(Gamep g, Levelsp v, Levelp l, Thingp user, Thingp
 
   thing_inventory_dump(g, v, l, user);
 
-  item->tick_dropped = v->tick;
+  ext_item->tick_dropped = v->tick;
 
   if (e.event_type == THING_EVENT_FINI) {
     thing_fini(g, v, l, item);
