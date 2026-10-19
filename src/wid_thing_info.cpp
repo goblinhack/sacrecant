@@ -568,7 +568,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   auto *text = parent->wid_text_area;
   auto *b    = parent->wid_text_area->wid_text_area;
 
-  auto key_count = thing_keys_carried(me);
+  auto key_count = thing_keys_carried(g, v, l, me);
   if (key_count == 0) {
     return false;
   }

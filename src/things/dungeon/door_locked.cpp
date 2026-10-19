@@ -132,7 +132,7 @@ static auto tp_door_locked_at_display_get_tile_info(Gamep g, Levelsp v, Levelp l
   //
   // Doors need keys
   //
-  if (thing_keys_carried(opener) == 0) {
+  if (thing_keys_carried(g, v, l, opener) == 0) {
     //
     // No keys are carried
     //

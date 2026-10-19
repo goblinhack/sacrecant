@@ -46,57 +46,79 @@
   return true;
 }
 
-[[nodiscard]] auto thing_keys_carried(Thingp t) -> int
+[[nodiscard]] auto thing_keys_carried(Gamep g, Levelsp v, Levelp l, Thingp me) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     no_thing_pointer();
     return 0;
   }
-  return t->_keys_carried;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return false;
+  }
+
+  return ext->_keys_carried;
 }
 
-[[nodiscard]] auto thing_keys_carried_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+[[nodiscard]] auto thing_keys_carried_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     no_thing_pointer();
     return 0;
   }
 
-  if (val > std::numeric_limits< decltype(t->_keys_carried) >::max()) {
-    thing_err(g, v, l, t, "value overflow: %d", val);
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return false;
+  }
+
+  if (val > std::numeric_limits< decltype(ext->_keys_carried) >::max()) {
+    thing_err(g, v, l, me, "value overflow: %d", val);
     return 0;
   }
 
-  return t->_keys_carried = val;
+  return ext->_keys_carried = val;
 }
 
-[[nodiscard]] auto thing_keys_carried_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+[[nodiscard]] auto thing_keys_carried_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     no_thing_pointer();
     return 0;
   }
-  return t->_keys_carried += val;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
+  }
+
+  return ext->_keys_carried += val;
 }
 
-[[nodiscard]] auto thing_keys_carried_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+[[nodiscard]] auto thing_keys_carried_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     no_thing_pointer();
     return 0;
   }
 
-  if (static_cast< int >(t->_keys_carried) - val <= 0) {
-    return t->_keys_carried = 0;
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) {
+    return 0;
   }
 
-  return t->_keys_carried -= val;
+  if (static_cast< int >(ext->_keys_carried) - val <= 0) {
+    return ext->_keys_carried = 0;
+  }
+
+  return ext->_keys_carried -= val;
 }

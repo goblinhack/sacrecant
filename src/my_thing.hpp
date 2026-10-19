@@ -321,6 +321,10 @@ using ThingExt = struct ThingExt {
   //
   uint8_t _missile_count_max;
   //
+  // How many keys are carried
+  //
+  uint8_t _keys_carried;
+  //
   // Last tile we attacked
   //
   bpoint _attacked_at;
@@ -638,10 +642,6 @@ using Thing = struct Thing {
   // Damage can be capped per tick to a limit so we don't kill a player in one go
   //
   int16_t _damage_this_tick;
-  //
-  // How many keys are carried
-  //
-  int16_t _keys_carried;
   //
   // Wand/stave charges
   //
@@ -1337,7 +1337,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_keys_carried_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_keys_carried_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_keys_carried_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
-[[nodiscard]] auto thing_keys_carried(Thingp t) -> int;
+[[nodiscard]] auto thing_keys_carried(Gamep g, Levelsp v, Levelp l, Thingp t) -> int;
 [[nodiscard]] auto thing_level(Gamep g, Levelsp v, Thingp t) -> Levelp;
 [[nodiscard]] auto thing_levitate(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_lifespan_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;

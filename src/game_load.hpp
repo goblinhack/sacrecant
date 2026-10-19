@@ -815,11 +815,6 @@ auto operator>>(std::istream &in, Bits< class Game & > my) -> std::istream &
       return in;
     }
     in >> bits(tmp);
-    if (tmp != offsetof(Thing, _keys_carried)) {
-      game_load_error = "thing structure changed: offsetof(Thing, _keys_carried)";
-      return in;
-    }
-    in >> bits(tmp);
     if (tmp != offsetof(Thing, _charge_count)) {
       game_load_error = "thing structure changed: offsetof(Thing, _charge_count)";
       return in;
@@ -1141,6 +1136,11 @@ auto operator>>(std::istream &in, Bits< class Game & > my) -> std::istream &
     in >> bits(tmp);
     if (tmp != offsetof(ThingExt, _missile_count_max)) {
       game_load_error = "thing structure changed: offsetof(ThingExt, _missile_count_max)";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, _keys_carried)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, _keys_carried)";
       return in;
     }
 

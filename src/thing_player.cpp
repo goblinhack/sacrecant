@@ -856,7 +856,7 @@ static void player_check_if_target_needs_move_confirm_callback(Gamep g, bool val
   //
   // Don't want to melee attack a locked door if we have a key
   //
-  auto can_unlock = (level_alive_is_door_locked(g, v, l, to) != nullptr) && (thing_keys_carried(me) != 0);
+  auto can_unlock = (level_alive_is_door_locked(g, v, l, to) != nullptr) && (thing_keys_carried(g, v, l, me) != 0);
 
   auto *item = thing_worn_get(g, v, l, me, WORN_TYPE_WEAPON);
 
@@ -1112,7 +1112,7 @@ static auto player_move_delta(Gamep g, Levelsp v, Levelp l, int dx, int dy) -> b
   //
   // Don't want to melee attack a locked door if we have a key
   //
-  auto can_unlock = (level_alive_is_door_locked(g, v, l, target) != nullptr) && (thing_keys_carried(me) != 0);
+  auto can_unlock = (level_alive_is_door_locked(g, v, l, target) != nullptr) && (thing_keys_carried(g, v, l, me) != 0);
 
   if (fire_what != nullptr) {
     //
