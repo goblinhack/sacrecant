@@ -747,9 +747,9 @@ using Thing = struct Thing {
   //
   // Increases per tick and when it reaches 1, allows the thing to move
   //
-  float thing_dt;
+  f16 thing_dt;
   //
-  // Angle of movement.
+  // Angle of movement. Also used when falling.
   //
   f16 angle;
   //

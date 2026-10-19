@@ -464,9 +464,9 @@ static void level_tick_body(Gamep g, Levelsp v, Levelp l, float dt, bool tick_is
     if (compiler_unused) {
       THING_DBG(g, v, l, t, "level dt %f old_thing_dt %f thing_dt %f thing_dt_change %f speed %d v %d",
                 dt,                          //
-                old_thing_dt,                //
-                t->thing_dt,                 //
-                thing_dt_change,             //
+                (float) old_thing_dt,        //
+                (float) t->thing_dt,         //
+                (float) thing_dt_change,     //
                 static_cast< int >(t_speed), //
                 player_speed                 //
       );
