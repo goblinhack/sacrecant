@@ -13,13 +13,13 @@
 
 #include <cstring>
 
-[[nodiscard]] auto thing_missile_get_delta_from_dt(Gamep g, Levelsp v, Levelp l, Thingp t, float dt) -> fpoint
+[[nodiscard]] auto thing_missile_get_delta_from_dt(Gamep g, Levelsp v, Levelp l, Thingp me, float dt) -> fpoint
 {
   TRACE();
 
   float s = 0;
   float c = 0;
-  SINCOSF(t->angle, &s, &c);
+  SINCOSF(me->angle, &s, &c);
 
   auto *player = thing_player(g);
   if (player == nullptr) [[unlikely]] {
@@ -28,7 +28,7 @@
   }
 
   const int   player_speed = thing_speed(g, v, l, player);
-  const float t_speed      = thing_speed(g, v, l, t);
+  const float t_speed      = thing_speed(g, v, l, me);
   const auto  tile_speed   = (t_speed / static_cast< float >(player_speed));
 
   auto delta = fpoint(c * dt * tile_speed, s * dt * tile_speed);
@@ -39,11 +39,11 @@
   return delta;
 }
 
-[[nodiscard]] auto thing_missile_get_direction(Gamep g, Levelsp v, Levelp l, Thingp t) -> fpoint
+[[nodiscard]] auto thing_missile_get_direction(Gamep g, Levelsp v, Levelp l, Thingp me) -> fpoint
 {
   TRACE();
 
-  return unit(thing_missile_get_delta_from_dt(g, v, l, t, 1.0));
+  return unit(thing_missile_get_delta_from_dt(g, v, l, me, 1.0));
 }
 
 //
@@ -337,60 +337,82 @@ void thing_dump_missiles(Gamep g, Levelsp v, Levelp l, Thingp me)
   }
 }
 
-[[nodiscard]] auto thing_missile_count_max(Gamep g, Levelsp v, Levelp l, Thingp t) -> int
+[[nodiscard]] auto thing_missile_count_max(Gamep g, Levelsp v, Levelp l, Thingp me) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     no_thing_pointer();
     return 0;
   }
-  return t->_missile_count_max;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) [[unlikely]] {
+    return 0;
+  }
+
+  return ext->_missile_count_max;
 }
 
-[[nodiscard]] auto thing_missile_count_max_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+[[nodiscard]] auto thing_missile_count_max_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     no_thing_pointer();
+    return 0;
+  }
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) [[unlikely]] {
     return 0;
   }
 
   if (val > THING_MISSILE_MAX) {
-    thing_err(g, v, l, t, "trying to set missile max too high");
+    thing_err(g, v, l, me, "trying to set missile max too high");
     val = THING_MISSILE_MAX;
   }
 
-  return t->_missile_count_max = val;
+  return ext->_missile_count_max = val;
 }
 
-[[nodiscard]] auto thing_missile_count_max_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+[[nodiscard]] auto thing_missile_count_max_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     no_thing_pointer();
     return 0;
   }
 
-  if (t->_missile_count_max + val >= THING_MISSILE_MAX) {
-    return t->_missile_count_max = THING_MISSILE_MAX;
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) [[unlikely]] {
+    return 0;
   }
 
-  return t->_missile_count_max += val;
+  if (ext->_missile_count_max + val >= THING_MISSILE_MAX) {
+    return ext->_missile_count_max = THING_MISSILE_MAX;
+  }
+
+  return ext->_missile_count_max += val;
 }
 
-[[nodiscard]] auto thing_missile_count_max_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+[[nodiscard]] auto thing_missile_count_max_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     no_thing_pointer();
     return 0;
   }
-  if (static_cast< int >(t->_missile_count_max) - val <= 0) {
-    return t->_missile_count_max = 0;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) [[unlikely]] {
+    return 0;
   }
-  return t->_missile_count_max -= val;
+
+  if (static_cast< int >(ext->_missile_count_max) - val <= 0) {
+    return ext->_missile_count_max = 0;
+  }
+  return ext->_missile_count_max -= val;
 }

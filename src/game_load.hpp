@@ -1168,6 +1168,11 @@ auto operator>>(std::istream &in, Bits< class Game & > my) -> std::istream &
       game_load_error = "thing structure changed: offsetof(ThingExt, owner_id)";
       return in;
     }
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, _missile_count_max)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, _missile_count_max)";
+      return in;
+    }
 
     //
     // Check Level offsets

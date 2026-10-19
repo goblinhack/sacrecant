@@ -317,6 +317,10 @@ using ThingExt = struct ThingExt {
   uint8_t _spell_range_max;
   uint8_t _spell_cost;
   //
+  // How many projectiles this thing can spawn
+  //
+  uint8_t _missile_count_max;
+  //
   // Last tile we attacked
   //
   bpoint _attacked_at;
@@ -646,10 +650,6 @@ using Thing = struct Thing {
   int16_t _jump_attack_pct_chance;
   int16_t _items_collected_max;
   int16_t _charge_count;
-  //
-  // How many projectiles this thing can spawn
-  //
-  uint8_t _missile_count_max;
   //
   // The type of wall
   //
