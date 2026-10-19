@@ -225,7 +225,7 @@ void level_cursor_describe(Gamep g, Levelsp v, Levelp l)
 
   level_cursor_describe_clear(g, v);
 
-  FOR_ALL_THINGS_AT(g, v, l, it, at)
+  FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, at)
   {
     if (! thing_is_described_cursor(it)) {
       continue;

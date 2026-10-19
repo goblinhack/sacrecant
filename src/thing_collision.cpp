@@ -742,7 +742,7 @@ void thing_collision_handle(Gamep g, Levelsp v, Levelp l, Thingp me)
   }
 
   ThingCands candidates;
-  FOR_ALL_THINGS_AT(g, v, l, obstacle, at)
+  FOR_ALL_THINGS_AT_UNSAFE(g, v, l, obstacle, at)
   {
     //
     // Filter to only things that can be hit
@@ -811,7 +811,7 @@ static void thing_collision_interpolated_expand_candidates(Gamep g, Levelsp v, L
   //
   // For all other things on the same tile as the collision
   //
-  FOR_ALL_THINGS_AT(g, v, l, obstacle, collision_at)
+  FOR_ALL_THINGS_AT_UNSAFE(g, v, l, obstacle, collision_at)
   {
     if (compiler_unused) {
       THING_DBG(g, v, l, obstacle, "obs");
@@ -967,7 +967,7 @@ static void thing_collision_handle_interpolated_delta(Gamep g, Levelsp v, Levelp
 {
   TRACE();
 
-  FOR_ALL_THINGS_AT(g, v, l, obstacle, collision_at)
+  FOR_ALL_THINGS_AT_UNSAFE(g, v, l, obstacle, collision_at)
   {
     if (obstacle == me) {
       continue;
@@ -1025,7 +1025,8 @@ void thing_collision_handle_interpolated(Gamep g, Levelsp v, Levelp l, Thingp me
         for (auto dy = -1; dy <= 1; dy++) {
           bpoint collision_at(interp_at.x + dx, interp_at.y + dy);
           THING_DBG(g, v, l, me, "- at (%d,%d)", collision_at.x, collision_at.y);
-          FOR_ALL_THINGS_AT(g, v, l, obstacle, collision_at)
+
+          FOR_ALL_THINGS_AT_UNSAFE(g, v, l, obstacle, collision_at)
           {
             if (obstacle != me) {
               THING_DBG(g, v, l, obstacle, "   - check for collision");

@@ -119,7 +119,8 @@ auto thing_beam_weapon_fire_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what
     //
     bool last           = (step == beam_target_distance - 1);
     auto beam_weapon_at = thing_at(g, v, l, beam_weapon);
-    FOR_ALL_THINGS_AT(g, v, l, it, beam_weapon_at)
+
+    FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, beam_weapon_at)
     {
       if (it == me) {
         continue;

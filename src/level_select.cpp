@@ -80,7 +80,7 @@
   auto *tp_is_level_open_icon   = tp_first(is_level_open_icon);
   auto *tp_is_level_next_icon   = tp_first(is_level_next_icon);
 
-  FOR_ALL_THINGS_AT(g, v, level_select, t, p)
+  FOR_ALL_THINGS_AT_UNSAFE(g, v, level_select, t, p)
   {
     auto *tp = thing_tp(t);
 
@@ -109,7 +109,7 @@
 
   auto *level_select = game_level_get(g, v, LEVEL_ARR_IDX_LEVEL_SELECT);
 
-  FOR_ALL_THINGS_AT(g, v, level_select, t, p) { return t; }
+  FOR_ALL_THINGS_AT_UNSAFE(g, v, level_select, t, p) { return t; }
 
   return nullptr;
 }

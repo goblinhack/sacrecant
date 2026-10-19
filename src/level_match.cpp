@@ -63,7 +63,7 @@
       }
       bpoint p(x, y);
 
-      FOR_ALL_THINGS_AT(g, v, l, unused, p)
+      FOR_ALL_THINGS_AT_UNSAFE(g, v, l, unused, p)
       {
         level_dump(g, v, l, MAP_WIDTH, MAP_HEIGHT);
         con_newline();

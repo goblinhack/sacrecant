@@ -530,7 +530,7 @@
     return false;
   }
 
-  FOR_ALL_THINGS_AT(g, v, l, it, to)
+  FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, to)
   {
     //
     // A wall or pillar or some-such?

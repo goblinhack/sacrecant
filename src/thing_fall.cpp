@@ -559,7 +559,7 @@ void thing_fall(Gamep g, Levelsp v, Levelp l, Thingp me)
   // Drag the engulfed
   //
   if (thing_is_able_to_engulf(me)) {
-    FOR_ALL_THINGS_AT(g, v, l, it, thing_at(g, v, l, me))
+    FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, thing_at(g, v, l, me))
     {
       if (thing_is_engulfed(it)) {
         THING_DBG(g, v, l, it, "is engulfed and needs to follow the engulfer down");

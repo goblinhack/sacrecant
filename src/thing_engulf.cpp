@@ -31,7 +31,7 @@
 
   auto at = thing_at(g, v, l, me);
 
-  FOR_ALL_THINGS_AT(g, v, l, it, at)
+  FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, at)
   {
     if (it == me) {
       continue;
