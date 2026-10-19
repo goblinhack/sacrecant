@@ -73,20 +73,6 @@ void level_verify(Gamep g, Levelsp v, Levelp l)
   return l->level_arr_idx == LEVEL_ARR_IDX_LEVEL_SELECT;
 }
 
-//
-// Are we on the player selection level?
-//
-[[nodiscard]] auto level_is_level_secret(Gamep g, Levelsp v, Levelp l) -> bool
-{
-  TRACE();
-
-  if ((g == nullptr) || (v == nullptr) || (l == nullptr)) {
-    return false;
-  }
-
-  return l->level_arr_idx == LEVEL_ARR_IDX_LEVEL_SECRET;
-}
-
 void level_init(Gamep g, Levelsp v, Levelp l, LevelArrIdx n)
 {
   TRACE();
@@ -236,12 +222,7 @@ void level_is_completed_by_player_falling(Gamep g, Levelsp v, Levelp l)
     return nullptr;
   }
 
-  if (level_arr_idx == LEVEL_ARR_IDX_LEVEL_SECRET) {
-    //
-    // Enter level selectionm
-    //
-    DBG("level change to %u (player select)", level_arr_idx);
-  } else if (level_arr_idx == LEVEL_ARR_IDX_LEVEL_SELECT) {
+  if (level_arr_idx == LEVEL_ARR_IDX_LEVEL_SELECT) {
     //
     // Enter level selectionm
     //

@@ -194,12 +194,10 @@ enum {
   // x x x x x
   //    79      boss
   //    80      level select
-  //    81      player select
-  //    83      LEVEL_ARR_IDX_MAX
+  //    81      LEVEL_ARR_IDX_MAX
   //
-  LEVEL_ARR_IDX_MAX          = (((LEVEL_GRID_ACROSS * LEVEL_GRID_DOWN) + 2) - EMPTY_LEVEL_COUNT), // 83
-  LEVEL_ARR_IDX_LEVEL_SECRET = (LEVEL_ARR_IDX_MAX - 1),                                           // 82
-  LEVEL_ARR_IDX_LEVEL_SELECT = (LEVEL_ARR_IDX_MAX - 2),                                           // 81
+  LEVEL_ARR_IDX_MAX          = (((LEVEL_GRID_ACROSS * LEVEL_GRID_DOWN) + 1) - EMPTY_LEVEL_COUNT), // 83
+  LEVEL_ARR_IDX_LEVEL_SELECT = (LEVEL_ARR_IDX_MAX - 1),                                           // 81
   LEVEL_ARR_IDX_BOSS_5       = 79,
   LEVEL_ARR_IDX_BOSS_4       = 63,
   LEVEL_ARR_IDX_BOSS_3       = 47,

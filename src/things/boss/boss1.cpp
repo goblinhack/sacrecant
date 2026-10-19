@@ -136,7 +136,8 @@ static bool tp_boss1_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attacker,
           which_eyestalk = PCG_RANDOM_RANGE(0, eyestalks.size());
 
           if (tries++ > 10000) {
-            CROAK("failed eyestalk fire");
+            warn("failed eyestalk fire");
+            break;
           }
         }
 

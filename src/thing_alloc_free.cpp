@@ -397,7 +397,7 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
   // is not initialized
   //
   auto level_arr_idx = l->level_arr_idx;
-  if ((level_arr_idx == LEVEL_ARR_IDX_LEVEL_SELECT) || (level_arr_idx == LEVEL_ARR_IDX_LEVEL_SECRET)) {
+  if (level_arr_idx == LEVEL_ARR_IDX_LEVEL_SELECT) {
     if (v->is_generating_levels) {
       CROAK("cannot allocate level select while mutexes are off");
     }

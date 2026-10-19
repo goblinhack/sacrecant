@@ -150,7 +150,8 @@ static bool tp_boss3_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attacker,
           which_stinger = PCG_RANDOM_RANGE(0, stingers.size());
 
           if (tries++ > 10000) {
-            CROAK("failed stinger fire");
+            warn("failed stinger fire");
+            break;
           }
         }
 

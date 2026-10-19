@@ -174,7 +174,8 @@ static bool tp_boss5_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attacker,
           which_source = PCG_RANDOM_RANGE(0, sources.size());
 
           if (tries++ > 10000) {
-            CROAK("failed source fire");
+            warn("failed source fire");
+            break;
           }
         }
 
