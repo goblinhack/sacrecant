@@ -90,7 +90,6 @@
   (void) thing_speed_set(g, v, l, t, tp_speed_get(tp));
   (void) thing_stamina_max_set(g, v, l, t, thing_stamina_set(g, v, l, t, tp_stamina_max_get(tp)));
   (void) thing_temperature_set(g, v, l, t, tp_temperature_initial_get(tp));
-  (void) thing_jump_attack_pct_chance_set(g, v, l, t, tp_jump_attack_pct_chance_get(tp));
   (void) thing_spell_mana_cost_set(g, v, l, t, tp_spell_mana_cost_get(tp));
   (void) thing_spell_radius_set(g, v, l, t, tp_spell_radius_get(tp));
   (void) thing_spell_radius_max_set(g, v, l, t, tp_spell_radius_max_get(tp));

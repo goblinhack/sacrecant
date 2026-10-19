@@ -584,41 +584,5 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
     no_thing_pointer();
     return 0;
   }
-  return me->_jump_attack_pct_chance;
-}
-
-[[nodiscard]] auto thing_jump_attack_pct_chance_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (me == nullptr) {
-    no_thing_pointer();
-    return 0;
-  }
-  return me->_jump_attack_pct_chance = val;
-}
-
-[[nodiscard]] auto thing_jump_attack_pct_chance_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (me == nullptr) {
-    no_thing_pointer();
-    return 0;
-  }
-  return me->_jump_attack_pct_chance += val;
-}
-
-[[nodiscard]] auto thing_jump_attack_pct_chance_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
-{
-  TRACE_DEBUG();
-
-  if (me == nullptr) {
-    no_thing_pointer();
-    return 0;
-  }
-  if (static_cast< int >(me->_jump_attack_pct_chance) - val <= 0) {
-    return me->_jump_attack_pct_chance = 0;
-  }
-  return me->_jump_attack_pct_chance -= val;
+  return tp_jump_attack_pct_chance_get(thing_tp(me));
 }

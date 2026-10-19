@@ -645,8 +645,13 @@ using Thing = struct Thing {
   int16_t _crit_roll;
   int16_t _fumble_roll;
   int16_t _difficulty;
-  int16_t _jump_attack_pct_chance;
+  //
+  // How many items we can carry
+  //
   int16_t _items_collected_max;
+  //
+  // Wand/stave charges
+  //
   int16_t _charge_count;
   //
   // The type of wall
@@ -1348,9 +1353,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_items_collected_max_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_items_collected_max_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
 [[nodiscard]] auto thing_items_collected_max(Thingp t) -> int;
-[[nodiscard]] auto thing_jump_attack_pct_chance_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
-[[nodiscard]] auto thing_jump_attack_pct_chance_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
-[[nodiscard]] auto thing_jump_attack_pct_chance_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int;
 [[nodiscard]] auto thing_jump_attack_pct_chance(Thingp me) -> int;
 [[nodiscard]] auto thing_jump_to(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to, bool warn = true) -> bool;
 [[nodiscard]] auto thing_keys_carried_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
