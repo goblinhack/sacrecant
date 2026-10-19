@@ -233,7 +233,13 @@
     no_thing_pointer();
     return 0;
   }
-  return me->_minion_max;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) [[unlikely]] {
+    return 0;
+  }
+
+  return ext->_minion_max;
 }
 
 [[nodiscard]] auto thing_minion_max_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
@@ -245,12 +251,17 @@
     return 0;
   }
 
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) [[unlikely]] {
+    return 0;
+  }
+
   if (val > THING_MINION_MAX) {
     thing_croak(g, v, l, me, "trying to set minion max too high");
     val = THING_MINION_MAX;
   }
 
-  return me->_minion_max = val;
+  return ext->_minion_max = val;
 }
 
 [[nodiscard]] auto thing_minion_max_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
@@ -262,11 +273,16 @@
     return 0;
   }
 
-  if (me->_minion_max + val >= THING_MINION_MAX) {
-    return me->_minion_max = THING_MINION_MAX;
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) [[unlikely]] {
+    return 0;
   }
 
-  return me->_minion_max += val;
+  if (ext->_minion_max + val >= THING_MINION_MAX) {
+    return ext->_minion_max = THING_MINION_MAX;
+  }
+
+  return ext->_minion_max += val;
 }
 
 [[nodiscard]] auto thing_minion_max_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
@@ -277,10 +293,16 @@
     no_thing_pointer();
     return 0;
   }
-  if (static_cast< int >(me->_minion_max) - val <= 0) {
-    return me->_minion_max = 0;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) [[unlikely]] {
+    return 0;
   }
-  return me->_minion_max -= val;
+
+  if (static_cast< int >(ext->_minion_max) - val <= 0) {
+    return ext->_minion_max = 0;
+  }
+  return ext->_minion_max -= val;
 }
 
 [[nodiscard]] auto thing_distance_minion_from_mob_max(Gamep g, Levelsp v, Levelp l, Thingp me) -> int

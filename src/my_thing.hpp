@@ -304,6 +304,10 @@ using ThingExt = struct ThingExt {
   //
   uint8_t _attack_count_per_tick;
   //
+  // How many minions this mob can spawn
+  //
+  uint8_t _minion_max;
+  //
   // Spell related
   //
   uint8_t _spell_mana_cost;
@@ -370,6 +374,25 @@ using ThingExt = struct ThingExt {
   //
   int16_t _ticks_to_stay_dead; // can be decremented, so signed is safer
   int16_t _ticks_to_stay_dead_initial;
+  //
+  // Stamina of the item.
+  //
+  int16_t _stamina;
+  int16_t _stamina_max;
+  //
+  // Magical mana for spell casting
+  //
+  int16_t _mana_max;
+  int16_t _mana;
+  //
+  // Sacrificial points for spell purchase
+  //
+  int16_t _sac_points_max;
+  int16_t _sac_points;
+  //
+  // How much score from killing?
+  //
+  int16_t _score_value;
   //
   // Statistics
   //
@@ -595,11 +618,6 @@ using Thing = struct Thing {
   int16_t _jump_attack_pct_chance;
   int16_t _items_collected_max;
   int16_t _charge_count;
-  int16_t _score_value;
-  //
-  // How many minions this mob can spawn
-  //
-  uint8_t _minion_max;
   //
   // How many projectiles this thing can spawn
   //
@@ -626,21 +644,6 @@ using Thing = struct Thing {
   //
   int16_t _health;
   int16_t _health_max;
-  //
-  // Stamina of the item.
-  //
-  int16_t _stamina;
-  int16_t _stamina_max;
-  //
-  // Magical mana for spell casting
-  //
-  int16_t _mana_max;
-  int16_t _mana;
-  //
-  // Sacrificial points for spell purchase
-  //
-  int16_t _sac_points_max;
-  int16_t _sac_points;
   //
   // Accumulates and holds the amount of time we've been falling.
   //
@@ -1469,7 +1472,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_score_value_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_score_value_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_score_value_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
-[[nodiscard]] auto thing_score_value(Thingp t) -> int;
+[[nodiscard]] auto thing_score_value(Gamep g, Levelsp v, Levelp l, Thingp t) -> int;
 [[nodiscard]] auto thing_score(Gamep g, Thingp t) -> int;
 [[nodiscard]] auto thing_shove_handle(Gamep g, Levelsp v, Levelp l, Thingp shover, bpoint at) -> bool;
 [[nodiscard]] auto thing_shove_to(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool;

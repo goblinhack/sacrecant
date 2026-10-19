@@ -840,26 +840,6 @@ auto operator>>(std::istream &in, Bits< class Game & > my) -> std::istream &
       return in;
     }
     in >> bits(tmp);
-    if (tmp != offsetof(Thing, _mana_max)) {
-      game_load_error = "thing structure changed: offsetof(Thing, _mana_max)";
-      return in;
-    }
-    in >> bits(tmp);
-    if (tmp != offsetof(Thing, _mana)) {
-      game_load_error = "thing structure changed: offsetof(Thing, _mana)";
-      return in;
-    }
-    in >> bits(tmp);
-    if (tmp != offsetof(Thing, _sac_points_max)) {
-      game_load_error = "thing structure changed: offsetof(Thing, _sac_points_max)";
-      return in;
-    }
-    in >> bits(tmp);
-    if (tmp != offsetof(Thing, _sac_points)) {
-      game_load_error = "thing structure changed: offsetof(Thing, _sac_points)";
-      return in;
-    }
-    in >> bits(tmp);
     if (tmp != offsetof(Thing, _jump_attack_pct_chance)) {
       game_load_error = "thing structure changed: offsetof(Thing, _jump_attack_pct_chance)";
       return in;
@@ -872,21 +852,6 @@ auto operator>>(std::istream &in, Bits< class Game & > my) -> std::istream &
     in >> bits(tmp);
     if (tmp != offsetof(Thing, _charge_count)) {
       game_load_error = "thing structure changed: offsetof(Thing, _charge_count)";
-      return in;
-    }
-    in >> bits(tmp);
-    if (tmp != offsetof(Thing, _stamina)) {
-      game_load_error = "thing structure changed: offsetof(Thing, _stamina)";
-      return in;
-    }
-    in >> bits(tmp);
-    if (tmp != offsetof(Thing, _score_value)) {
-      game_load_error = "thing structure changed: offsetof(Thing, _score_value)";
-      return in;
-    }
-    in >> bits(tmp);
-    if (tmp != offsetof(Thing, _minion_max)) {
-      game_load_error = "thing structure changed: offsetof(Thing, _minion_max)";
       return in;
     }
     in >> bits(tmp);
@@ -912,11 +877,6 @@ auto operator>>(std::istream &in, Bits< class Game & > my) -> std::istream &
     in >> bits(tmp);
     if (tmp != offsetof(Thing, _health)) {
       game_load_error = "thing structure changed: offsetof(Thing, _health)";
-      return in;
-    }
-    in >> bits(tmp);
-    if (tmp != offsetof(Thing, _stamina)) {
-      game_load_error = "thing structure changed: offsetof(Thing, _stamina)";
       return in;
     }
     in >> bits(tmp);
@@ -1166,6 +1126,46 @@ auto operator>>(std::istream &in, Bits< class Game & > my) -> std::istream &
     in >> bits(tmp);
     if (tmp != offsetof(ThingExt, _dormant)) {
       game_load_error = "thing structure changed: offsetof(ThingExt, _dormant)";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, _mana)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, _mana)";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, _mana_max)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, _mana_max)";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, _sac_points)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, _sac_points)";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, _sac_points_max)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, _sac_points_max)";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, _stamina)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, _stamina)";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, _stamina_max)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, _stamina_max)";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, _score_value)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, _score_value)";
+      return in;
+    }
+    in >> bits(tmp);
+    if (tmp != offsetof(ThingExt, _minion_max)) {
+      game_load_error = "thing structure changed: offsetof(ThingExt, _minion_max)";
       return in;
     }
 

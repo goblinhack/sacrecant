@@ -6,13 +6,14 @@
 #include "my_game.hpp"
 #include "my_main.hpp"
 #include "my_thing.hpp"
+#include "my_thing_inlines.hpp"
 #include "my_types.hpp"
 
-auto thing_score(Gamep g, Thingp t) -> int
+auto thing_score(Gamep g, Thingp me) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     no_thing_pointer();
     return 0;
   }
@@ -25,11 +26,11 @@ auto thing_score(Gamep g, Thingp t) -> int
   return ext->score;
 }
 
-auto thing_score_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+auto thing_score_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     no_thing_pointer();
     return 0;
   }
@@ -43,11 +44,11 @@ auto thing_score_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
   return ext->score = val;
 }
 
-auto thing_score_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+auto thing_score_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     no_thing_pointer();
     return 0;
   }
@@ -61,11 +62,11 @@ auto thing_score_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
   return ext->score += val;
 }
 
-auto thing_score_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+auto thing_score_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     no_thing_pointer();
     return 0;
   }
@@ -83,49 +84,73 @@ auto thing_score_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
   return ext->score -= val;
 }
 
-auto thing_score_value(Thingp t) -> int
+auto thing_score_value(Gamep g, Levelsp v, Levelp l, Thingp me) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     no_thing_pointer();
     return 0;
   }
-  return t->_score_value;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) [[unlikely]] {
+    return 0;
+  }
+
+  return ext->_score_value;
 }
 
-auto thing_score_value_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+auto thing_score_value_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     no_thing_pointer();
     return 0;
   }
-  return t->_score_value = val;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) [[unlikely]] {
+    return 0;
+  }
+
+  return ext->_score_value = val;
 }
 
-auto thing_score_value_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+auto thing_score_value_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     no_thing_pointer();
     return 0;
   }
-  return t->_score_value += val;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) [[unlikely]] {
+    return 0;
+  }
+
+  return ext->_score_value += val;
 }
 
-auto thing_score_value_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+auto thing_score_value_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     no_thing_pointer();
     return 0;
   }
-  if (static_cast< int >(t->_score_value) - val <= 0) {
-    return t->_score_value = 0;
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) [[unlikely]] {
+    return 0;
   }
-  return t->_score_value -= val;
+
+  if (static_cast< int >(ext->_score_value) - val <= 0) {
+    return ext->_score_value = 0;
+  }
+  return ext->_score_value -= val;
 }
