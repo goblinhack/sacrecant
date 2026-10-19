@@ -489,10 +489,9 @@ void tex_load_sprites(Texp *tex, Texp *tex_monochrome, Texp *tex_mask, // newlin
     if (name.empty()) {
       ERR("no file for tex");
       return;
-    } else {
-      ERR("no file for tex loading '%s'", name.c_str());
-      return;
     }
+    ERR("no file for tex loading '%s'", name.c_str());
+    return;
   }
 
   DBG2("- create textures '%s', '%s'", file.c_str(), name.c_str());

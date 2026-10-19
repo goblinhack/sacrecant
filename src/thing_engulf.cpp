@@ -6,7 +6,6 @@
 #include "my_callstack.hpp"
 #include "my_level.hpp"
 #include "my_level_inlines.hpp"
-#include "my_main.hpp"
 #include "my_thing.hpp"
 #include "my_thing_callbacks.hpp"
 #include "my_thing_inlines.hpp"

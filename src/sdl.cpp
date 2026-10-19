@@ -563,7 +563,7 @@ void config_game_gfx_update(Gamep g)
   log("SDL: - window pixel size       : %dx%d", game_window_pix_width_get(g), game_window_pix_height_get(g));
   log("SDL: - aspect ratio            : %f", game_aspect_ratio_get(g));
 
-  if (! game_window_pix_width_get(g) || ! game_window_pix_height_get(g)) {
+  if ((game_window_pix_width_get(g) == 0) || (game_window_pix_height_get(g) == 0)) {
     if (! g_skip_audio_and_gfx) {
       CROAK("no display detected");
     }

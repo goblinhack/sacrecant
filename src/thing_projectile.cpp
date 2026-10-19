@@ -145,6 +145,6 @@ void thing_proj_move(Gamep g, Levelsp v, Levelp l, Thingp me, float dt)
   thing_collision_handle_interpolated(g, v, l, me, old_at);
 
   if (compiler_unused) {
-    THING_DBG(g, v, l, me, "post move of delta %f,%f dt %f", delta.x, delta.y, (float) me->thing_dt);
+    THING_DBG(g, v, l, me, "post move of delta %f,%f dt %f", delta.x, delta.y, static_cast< float >(me->thing_dt));
   }
 }

@@ -755,7 +755,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   // "Health         a/b"
   //
   auto health_max = thing_health_max(g, v, l, me);
-  if (! health_max) {
+  if (health_max == 0) {
     return false;
   }
 
@@ -816,7 +816,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   // "Mana         a/b"
   //
   auto mana_max = thing_mana_max(g, v, l, me);
-  if (! mana_max) {
+  if (mana_max == 0) {
     return false;
   }
 
@@ -889,7 +889,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   // "Stamina        a/b"
   //
   auto stamina_max = thing_stamina_max(g, v, l, me);
-  if (! stamina_max) {
+  if (stamina_max == 0) {
     return false;
   }
 

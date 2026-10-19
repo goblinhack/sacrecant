@@ -14,6 +14,7 @@
 #include "my_game_inlines.hpp"
 #include "my_gl.hpp"
 #include "my_globals.hpp"
+#include "my_level.hpp"
 #include "my_log.hpp"
 #include "my_main.hpp"
 #include "my_ptrcheck.hpp"
@@ -161,7 +162,7 @@ Wid::Wid() { NEWPTR(MTYPE_WID, this, "wid"); }
 
 Wid::~Wid() { OLDPTR(MTYPE_WID, this); }
 
-void no_wid_pointer(void)
+void no_wid_pointer()
 {
   TRACE();
 

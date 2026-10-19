@@ -889,8 +889,8 @@ auto rooms_tall(Gamep g) -> void;
 auto rooms_test(Gamep g) -> void;
 auto thing_lunge_modify_position(Gamep g, Levelsp v, Levelp l, Thingp me, spoint &tl, spoint &br) -> void;
 auto wid_level_show_contents(Gamep g, Levelsp v, Levelp l, WidPopup *parent) -> void;
-void no_level_pointer(void);
-void no_levels_pointer(void);
+void no_level_pointer();
+void no_levels_pointer();
 // end sort marker2 }
 
 struct FovContext;

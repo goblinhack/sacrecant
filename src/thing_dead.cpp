@@ -478,7 +478,7 @@ void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
 {
   TRACE();
 
-  if (! v) {
+  if (v == nullptr) {
     no_levels_pointer();
   }
 

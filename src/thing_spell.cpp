@@ -17,6 +17,7 @@
 #include <algorithm>
 #include <limits>
 #include <string>
+#include <utility>
 
 [[nodiscard]] static auto thing_spell_cast_do(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, ThingEvent &e) -> bool;
 
@@ -393,7 +394,7 @@ void thing_on_cast_do_set(Tpp tp, thing_on_cast_do_t callback)
     return 0;
   }
 
-  if (val > std::numeric_limits< decltype(ext->_spell_radius) >::max()) {
+  if (std::cmp_greater(val, std::numeric_limits< decltype(ext->_spell_radius) >::max())) {
     thing_err(g, v, l, me, "value overflow: %d", val);
     return 0;
   }
@@ -481,7 +482,7 @@ void thing_on_cast_do_set(Tpp tp, thing_on_cast_do_t callback)
     return 0;
   }
 
-  if (val > std::numeric_limits< decltype(ext->_spell_radius_max) >::max()) {
+  if (std::cmp_greater(val, std::numeric_limits< decltype(ext->_spell_radius_max) >::max())) {
     thing_err(g, v, l, me, "value overflow: %d", val);
     return 0;
   }
@@ -570,7 +571,7 @@ void thing_on_cast_do_set(Tpp tp, thing_on_cast_do_t callback)
     return 0;
   }
 
-  if (val > std::numeric_limits< decltype(ext->_spell_range) >::max()) {
+  if (std::cmp_greater(val, std::numeric_limits< decltype(ext->_spell_range) >::max())) {
     thing_err(g, v, l, me, "value overflow: %d", val);
     return 0;
   }
@@ -658,7 +659,7 @@ void thing_on_cast_do_set(Tpp tp, thing_on_cast_do_t callback)
     return 0;
   }
 
-  if (val > std::numeric_limits< decltype(ext->_spell_range_max) >::max()) {
+  if (std::cmp_greater(val, std::numeric_limits< decltype(ext->_spell_range_max) >::max())) {
     thing_err(g, v, l, me, "value overflow: %d", val);
     return 0;
   }

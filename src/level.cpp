@@ -22,20 +22,19 @@
 #include "my_wids.hpp"
 
 #include <algorithm>
-#include <cmath>
 #include <cstring>
 #include <vector>
 
 LevelOpt g_level_opt;
 
-void no_levels_pointer(void)
+void no_levels_pointer()
 {
   TRACE();
 
   warn("no levels pointer");
 }
 
-void no_level_pointer(void)
+void no_level_pointer()
 {
   TRACE();
 

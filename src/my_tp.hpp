@@ -1339,7 +1339,7 @@ auto tp_spell_options_exist(Tpp tp) -> bool;
 auto tp_spell_options_get(Tpp tp) -> std::map< std::string, TpSpellOption >;
 auto tp_spell_upgrades_exist(Tpp tp) -> bool;
 auto tp_spell_upgrades_get(Tpp tp) -> std::map< std::string, TpSpellUpgrade >;
-void no_tp_pointer(void);
+void no_tp_pointer();
 void tp_attack_count_max_per_tick_set(Tpp tp, int val);
 void tp_chance_set(Tpp tp, ThingChanceType e, const std::string &val);
 void tp_charge_count_set(Tpp tp, int val);

@@ -3,7 +3,6 @@
 //
 
 #include "my_callstack.hpp"
-#include "my_main.hpp"
 #include "my_thing.hpp"
 #include "my_thing_inlines.hpp"
 #include "my_tp.hpp"
@@ -167,7 +166,7 @@
 
   auto *ext = thing_ext_struct(g, v, me);
   if (ext == nullptr) {
-    return false;
+    return 0;
   }
 
   if (static_cast< int >(ext->_ticks_to_stay_dead_initial) - val <= 0) {

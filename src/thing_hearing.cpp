@@ -94,7 +94,7 @@
 
   auto *ext = thing_ext_struct(g, v, me);
   if (ext == nullptr) {
-    return false;
+    return 0;
   }
 
   return ext->_hearing_threshold = val;
@@ -111,7 +111,7 @@
 
   auto *ext = thing_ext_struct(g, v, me);
   if (ext == nullptr) {
-    return false;
+    return 0;
   }
 
   return ext->_hearing_threshold += val;
@@ -128,7 +128,7 @@
 
   auto *ext = thing_ext_struct(g, v, me);
   if (ext == nullptr) {
-    return false;
+    return 0;
   }
 
   if (static_cast< int >(ext->_hearing_threshold) - val <= 0) {

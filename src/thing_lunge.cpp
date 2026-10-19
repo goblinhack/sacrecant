@@ -116,7 +116,7 @@ void thing_is_lunging_set(Gamep g, Levelsp v, Levelp l, Thingp me, bool val)
   ext->_lunge_ms = static_cast< uint16_t >(val);
 }
 
-static auto thing_is_lunging_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
+static auto thing_is_lunging_incr(Gamep g, Levelsp v, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
@@ -140,7 +140,7 @@ void thing_lunge_time_step(Gamep g, Levelsp v, Levelp l, Thingp me, int time_ste
 {
   TRACE();
 
-  (void) thing_is_lunging_incr(g, v, l, me, time_step);
+  (void) thing_is_lunging_incr(g, v, me, time_step);
 
   if (compiler_unused) {
     THING_DBG(g, v, l, me, "lunge incr %u", thing_is_lunging(g, v, me));

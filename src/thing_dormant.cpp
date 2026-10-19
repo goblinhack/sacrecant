@@ -3,7 +3,6 @@
 //
 
 #include "my_callstack.hpp"
-#include "my_main.hpp"
 #include "my_thing.hpp"
 #include "my_thing_inlines.hpp"
 #include "my_tp.hpp"
@@ -56,7 +55,7 @@
 
   auto *ext = thing_ext_struct(g, v, me);
   if (ext == nullptr) {
-    return false;
+    return 0;
   }
 
   return ext->_dormant += val;
@@ -73,7 +72,7 @@
 
   auto *ext = thing_ext_struct(g, v, me);
   if (ext == nullptr) {
-    return false;
+    return 0;
   }
 
   if (static_cast< int >(ext->_dormant) - val <= 0) {
@@ -100,7 +99,7 @@
 
   auto *ext = thing_ext_struct(g, v, me);
   if (ext == nullptr) {
-    return false;
+    return 0;
   }
 
   return ext->_dormant_max;
@@ -117,7 +116,7 @@
 
   auto *ext = thing_ext_struct(g, v, me);
   if (ext == nullptr) {
-    return false;
+    return 0;
   }
 
   return ext->_dormant_max = val;
@@ -134,7 +133,7 @@
 
   auto *ext = thing_ext_struct(g, v, me);
   if (ext == nullptr) {
-    return false;
+    return 0;
   }
 
   return ext->_dormant_max += val;

@@ -102,7 +102,6 @@ static bool tp_eyes_in_a_jar_on_eaten(Gamep g, Levelsp v, Levelp l, Thingp me, T
   tp_temperature_initial_set(tp, 20);   // celsius
   tp_weight_set(tp, WEIGHT_LIGHT);      // grams
   tp_z_depth_set(tp, MAP_Z_DEPTH_OBJ);
-  tp_flag_set(tp, is_memory_ext);
   // end sort marker1 }
 
   auto delay = 1000;

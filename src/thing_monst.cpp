@@ -1395,7 +1395,7 @@ void thing_monst_tick(Gamep g, Levelsp v, Levelp l, Thingp me)
   //
   (void) thing_move_remaining_incr(g, v, l, me, thing_speed(g, v, l, me));
 
-  THING_DBG(g, v, l, me, "monst tick, move_rem %d dt %f", thing_move_remaining(me), (float) me->thing_dt);
+  THING_DBG(g, v, l, me, "monst tick, move_rem %d dt %f", thing_move_remaining(me), static_cast< float >(me->thing_dt));
   TRACE_INDENT();
 
   thing_monst_event_loop(g, v, l, me);
@@ -1515,7 +1515,7 @@ void thing_attacked_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint
 
   auto *ext = thing_ext_struct(g, v, me);
   if (ext == nullptr) {
-    return false;
+    return 0;
   }
 
   return ext->_distance_avoid_target;

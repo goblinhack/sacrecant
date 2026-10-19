@@ -373,38 +373,38 @@ void               game_chosen_player_set(Gamep g, Tpp t);
 [[nodiscard]] auto game_cand_sacrifice_get_prev(Gamep g) -> Thingp;
 [[nodiscard]] auto game_cand_sacrifice_get(Gamep g) -> std::vector< Tpp >;
 void               game_sacrifice_clear(Gamep g);
-void               game_cand_sacrifice_set(Gamep g, Thingp t);
-[[nodiscard]] auto game_cand_sacrifice_find(Gamep g, Thingp t) -> bool;
-void               game_cand_sacrifice_unset(Gamep g, Thingp t);
+void               game_cand_sacrifice_set(Gamep g, Thingp me);
+[[nodiscard]] auto game_cand_sacrifice_find(Gamep g, Thingp me) -> bool;
+void               game_cand_sacrifice_unset(Gamep g, Thingp me);
 [[nodiscard]] auto game_chosen_sacrifice_get(Gamep g) -> std::vector< Tpp >;
-void               game_chosen_sacrifice_set(Gamep g, std::vector< Tpp > t);
+void               game_chosen_sacrifice_set(Gamep g, std::vector< Tpp > me);
 [[nodiscard]] auto game_sacrifice_mouse_over_currently_get(Gamep g) -> Thingp;
-void               game_sacrifice_mouse_over_currently_set(Gamep g, Thingp t);
+void               game_sacrifice_mouse_over_currently_set(Gamep g, Thingp me);
 
 [[nodiscard]] auto game_cand_spell_get_prev(Gamep g) -> Thingp;
 [[nodiscard]] auto game_cand_spell_get(Gamep g) -> std::vector< Tpp >;
 void               game_spell_clear(Gamep g);
-void               game_cand_spell_set(Gamep g, Thingp t);
-[[nodiscard]] auto game_cand_spell_find(Gamep g, Thingp t) -> bool;
-void               game_cand_spell_unset(Gamep g, Thingp t);
+void               game_cand_spell_set(Gamep g, Thingp me);
+[[nodiscard]] auto game_cand_spell_find(Gamep g, Thingp me) -> bool;
+void               game_cand_spell_unset(Gamep g, Thingp me);
 [[nodiscard]] auto game_chosen_spells_get(Gamep g) -> std::vector< Tpp >;
-void               game_chosen_spell_set(Gamep g, std::vector< Tpp > t);
+void               game_chosen_spell_set(Gamep g, std::vector< Tpp > me);
 [[nodiscard]] auto game_spell_mouse_over_currently_get(Gamep g) -> Thingp;
-void               game_spell_mouse_over_currently_set(Gamep g, Thingp t);
+void               game_spell_mouse_over_currently_set(Gamep g, Thingp me);
 
 [[nodiscard]] auto game_cand_boost_get_prev(Gamep g) -> Thingp;
 [[nodiscard]] auto game_cand_boost_get(Gamep g) -> std::vector< Tpp >;
 void               game_boost_clear(Gamep g);
-void               game_cand_boost_set(Gamep g, Thingp t);
-[[nodiscard]] auto game_cand_boost_find(Gamep g, Thingp t) -> bool;
-void               game_cand_boost_unset(Gamep g, Thingp t);
+void               game_cand_boost_set(Gamep g, Thingp me);
+[[nodiscard]] auto game_cand_boost_find(Gamep g, Thingp me) -> bool;
+void               game_cand_boost_unset(Gamep g, Thingp me);
 [[nodiscard]] auto game_chosen_boost_get(Gamep g) -> std::vector< Tpp >;
-void               game_chosen_boost_set(Gamep g, std::vector< Tpp > t);
+void               game_chosen_boost_set(Gamep g, std::vector< Tpp > me);
 [[nodiscard]] auto game_boost_mouse_over_currently_get(Gamep g) -> Thingp;
-void               game_boost_mouse_over_currently_set(Gamep g, Thingp t);
+void               game_boost_mouse_over_currently_set(Gamep g, Thingp me);
 
 [[nodiscard]] auto game_mouse_over_player_get(Gamep g) -> Thingp;
-void               game_mouse_over_player_set(Gamep g, Thingp t);
+void               game_mouse_over_player_set(Gamep g, Thingp me);
 
 [[nodiscard]] auto game_throw_id_get(Gamep g) -> ThingId;
 void               game_throw_id_set(Gamep g, ThingId id);
@@ -469,8 +469,8 @@ auto game_tick(Gamep g) -> void;
 auto game_unset_currently_saving_snapshot(Gamep) -> void;
 auto game_unset_request_reset_state_change(Gamep) -> void;
 auto game_unset_request_to_save_snapshot(Gamep) -> void;
-void no_game_pointer(void);
+void no_game_pointer();
 auto game_unset_request_to_update_same_level(Gamep) -> void;
-auto game_add_new_hiscore(Gamep g, uint32_t score, LevelArrIdx level_num, const char *name, const char *reason) -> void;
+auto game_add_new_hiscore(Gamep g, uint32_t score, LevelArrIdx level_arr_idx, const char *name, const char *reason) -> void;
 
 #endif

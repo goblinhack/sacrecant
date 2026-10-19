@@ -110,27 +110,27 @@ void game_debug_info(Gamep g)
   TRACE();
 
   auto count = 0;
-  for (auto id = 0; id < THING_EXT_ID_MAX; id++) {
-    if (v->thing_ext[ id ].in_use) {
+  for (auto &id : v->thing_ext) {
+    if (id.in_use) {
       count++;
     }
   }
   return count;
 }
 
-static auto levels_histogram(Gamep g, Levelsp v, int level_num, int count, int max_count) -> void
+static auto levels_histogram(int level_num, int count, int max_count) -> void
 {
   TRACE();
 
-  int         histogram_width = 32;
-  int         pct             = (int) (((float) count / (float) max_count) * histogram_width);
+  int const   histogram_width = 32;
+  int         pct             = static_cast< int >((static_cast< float >(count) / static_cast< float >(max_count)) * histogram_width);
   std::string s;
 
   while (pct-- > 0) {
     s += '#';
   }
 
-  while ((int) s.size() < histogram_width) {
+  while (static_cast< int >(s.size()) < histogram_width) {
     s += '.';
   }
 
@@ -150,11 +150,11 @@ auto levels_thing_id_histogram(Gamep g, Levelsp v) -> void
 
     for (auto i = 0; i < max_per_level_count; i++) {
       auto id = max_per_level_count * level_num;
-      if (v->thing_body[ id + i ].tp_id) {
+      if (v->thing_body[ id + i ].tp_id != 0u) {
         count++;
       }
     }
-    levels_histogram(g, v, level_num, count, max_per_level_count);
+    levels_histogram(level_num, count, max_per_level_count);
   }
 }
 
@@ -175,7 +175,7 @@ auto levels_thing_ext_histogram(Gamep g, Levelsp v) -> void
         count++;
       }
     }
-    levels_histogram(g, v, level_num, count, max_per_level_count);
+    levels_histogram(level_num, count, max_per_level_count);
   }
 }
 
@@ -196,7 +196,7 @@ auto levels_thing_dmap_histogram(Gamep g, Levelsp v) -> void
         count++;
       }
     }
-    levels_histogram(g, v, level_num, count, max_per_level_count);
+    levels_histogram(level_num, count, max_per_level_count);
   }
 }
 
@@ -217,7 +217,7 @@ auto levels_thing_light_histogram(Gamep g, Levelsp v) -> void
         count++;
       }
     }
-    levels_histogram(g, v, level_num, count, max_per_level_count);
+    levels_histogram(level_num, count, max_per_level_count);
   }
 }
 
@@ -226,8 +226,8 @@ auto levels_thing_light_histogram(Gamep g, Levelsp v) -> void
   TRACE();
 
   auto count = 0;
-  for (auto id = 0; id < THING_DMAP_ID_MAX; id++) {
-    if (v->thing_dmap[ id ].in_use) {
+  for (auto &id : v->thing_dmap) {
+    if (id.in_use) {
       count++;
     }
   }
@@ -239,8 +239,8 @@ auto levels_thing_light_histogram(Gamep g, Levelsp v) -> void
   TRACE();
 
   auto count = 0;
-  for (auto id = 0; id < THING_LIGHT_ID_MAX; id++) {
-    if (v->thing_light[ id ].in_use) {
+  for (auto &id : v->thing_light) {
+    if (id.in_use) {
       count++;
     }
   }

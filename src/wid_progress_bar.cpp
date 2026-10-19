@@ -17,7 +17,6 @@
 #include "my_wids.hpp"
 
 #include <algorithm>
-#include <cmath>
 #include <string>
 
 static int progress_steps = 32;

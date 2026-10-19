@@ -4,7 +4,7 @@
 
 #include "my_callstack.hpp"
 #include "my_game.hpp"
-#include "my_main.hpp"
+#include "my_main.hpp" // NOLINT
 #include "my_thing.hpp"
 #include "my_tp.hpp"
 #include "my_types.hpp"

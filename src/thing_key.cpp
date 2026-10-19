@@ -3,12 +3,12 @@
 //
 
 #include "my_callstack.hpp"
-#include "my_main.hpp"
 #include "my_thing.hpp"
 #include "my_thing_inlines.hpp"
 #include "my_tp.hpp"
 #include "my_types.hpp"
 #include <limits>
+#include <utility>
 
 //
 // Add a key to the things inventory
@@ -57,7 +57,7 @@
 
   auto *ext = thing_ext_struct(g, v, me);
   if (ext == nullptr) {
-    return false;
+    return 0;
   }
 
   return ext->_keys_carried;
@@ -74,10 +74,10 @@
 
   auto *ext = thing_ext_struct(g, v, me);
   if (ext == nullptr) {
-    return false;
+    return 0;
   }
 
-  if (val > std::numeric_limits< decltype(ext->_keys_carried) >::max()) {
+  if (std::cmp_greater(val, std::numeric_limits< decltype(ext->_keys_carried) >::max())) {
     thing_err(g, v, l, me, "value overflow: %d", val);
     return 0;
   }

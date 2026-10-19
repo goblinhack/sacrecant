@@ -8,6 +8,7 @@
 #include "my_thing.hpp"
 #include "my_thing_inlines.hpp" // NOLINT
 #include "my_types.hpp"
+#include <cstring>
 
 //
 // See what's on the level

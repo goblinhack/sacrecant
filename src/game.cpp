@@ -435,7 +435,7 @@ auto game_load_last_config(const char *appdata) -> bool
 #include "game_save.hpp"
 #endif
 
-void no_game_pointer(void)
+void no_game_pointer()
 {
   TRACE();
 

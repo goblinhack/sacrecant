@@ -309,7 +309,7 @@ Tp::~Tp()
   OLDPTR(MTYPE_TP, this);
 }
 
-void no_tp_pointer(void)
+void no_tp_pointer()
 {
   TRACE();
 

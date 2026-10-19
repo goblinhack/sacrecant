@@ -263,7 +263,7 @@ void thing_vision_calculate(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   auto *ext = thing_ext_struct(g, v, me);
   if (ext == nullptr) {
-    return false;
+    return 0;
   }
 
   auto d = ext->_distance_vision;

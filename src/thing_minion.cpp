@@ -6,7 +6,6 @@
 #include "my_callstack.hpp"
 #include "my_dmap.hpp"
 #include "my_level_inlines.hpp"
-#include "my_main.hpp"
 #include "my_random.hpp"
 #include "my_thing.hpp"
 #include "my_thing_inlines.hpp"
@@ -31,7 +30,7 @@
 
   auto *ext = thing_ext_struct(g, v, me);
   if (ext == nullptr) [[unlikely]] {
-    return 0;
+    return nullptr;
   }
 
   if (ext->mob_id == 0U) {

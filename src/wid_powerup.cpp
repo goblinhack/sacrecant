@@ -21,6 +21,7 @@
 #include "my_wids.hpp"
 
 #include <cstdint>
+#include <string>
 
 const int       duration_total = 8000;
 static uint32_t wid_powerup_window_created_ms;
@@ -53,8 +54,8 @@ static void game_display_powerups_do(Gamep g)
     tile = tile_find_mand("powerup");
   }
 
-  int w = game_window_pix_width_get(g);
-  int h = game_window_pix_height_get(g);
+  int const w = game_window_pix_width_get(g);
+  int const h = game_window_pix_height_get(g);
 
   auto zoomed = (user_visible_time_ms() - wid_powerup_window_created_ms) / static_cast< float >(duration_total);
 
@@ -77,7 +78,7 @@ static void game_display_powerups_do(Gamep g)
     spoint *at = &powerup_at[ i ];
 
     auto tl = *at;
-    auto br = spoint(at->x + w / 8, at->y + h / 6);
+    auto br = spoint(at->x + (w / 8), at->y + (h / 6));
 
     blit_init();
     tile_blit(tile, tl, br, WHITE);
@@ -112,7 +113,7 @@ static void wid_powerup_display(Gamep g)
     frame = 0;
   }
 
-  auto tile = tile_find_mand("powerup" + std::string(".") + std::to_string(frame));
+  auto *tile = tile_find_mand("powerup" + std::string(".") + std::to_string(frame));
 
   float const tw = tile_width(tile);
   float const th = tile_height(tile);
@@ -157,13 +158,13 @@ static void wid_powerup_display(Gamep g)
   auto *tp = thing_tp(player);
   tile     = tp_tiles_get(tp, player->anim_type, player->anim_index);
 
-  if (tile) {
+  if (tile != nullptr) {
     blit_flush();
 
-    auto   dw = (br.x - tl.x) / 4;
-    auto   dh = (br.y - tl.y) / 4;
-    spoint tl2(tl.x + dw, tl.y + dh);
-    spoint br2(br.x - dw, br.y - dh);
+    auto         dw = (br.x - tl.x) / 4;
+    auto         dh = (br.y - tl.y) / 4;
+    spoint const tl2(tl.x + dw, tl.y + dh);
+    spoint const br2(br.x - dw, br.y - dh);
     tile_blit(tile, tl2, br2, fg);
     blit_flush();
   }

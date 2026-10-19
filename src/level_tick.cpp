@@ -450,25 +450,25 @@ static void level_tick_body(Gamep g, Levelsp v, Levelp l, float dt, bool tick_is
     auto old_thing_dt = t->thing_dt;
 
     if (thing_is_projectile(t)) {
-      t->thing_dt = (f16) v->time_step;
+      t->thing_dt = static_cast< f16 >(v->time_step);
     } else {
-      t->thing_dt += (f16) (dt * (t_speed / static_cast< float >(player_speed)));
+      t->thing_dt += static_cast< f16 >(dt * (t_speed / static_cast< float >(player_speed)));
     }
 
     if (tick_is_about_to_end || (t->thing_dt >= 1.0)) {
-      t->thing_dt = (f16) 1.0;
+      t->thing_dt = static_cast< f16 >(1.0);
     }
 
     auto thing_dt_change = t->thing_dt - old_thing_dt;
 
     if (compiler_unused) {
       THING_DBG(g, v, l, t, "level dt %f old_thing_dt %f thing_dt %f thing_dt_change %f speed %d v %d",
-                dt,                          //
-                (float) old_thing_dt,        //
-                (float) t->thing_dt,         //
-                (float) thing_dt_change,     //
-                static_cast< int >(t_speed), //
-                player_speed                 //
+                dt,                                    //
+                static_cast< float >(old_thing_dt),    //
+                static_cast< float >(t->thing_dt),     //
+                static_cast< float >(thing_dt_change), //
+                static_cast< int >(t_speed),           //
+                player_speed                           //
       );
     }
 

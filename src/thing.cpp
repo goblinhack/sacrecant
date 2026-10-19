@@ -15,7 +15,7 @@
 
 #include <cmath>
 
-void no_thing_pointer(void)
+void no_thing_pointer()
 {
   TRACE();
 

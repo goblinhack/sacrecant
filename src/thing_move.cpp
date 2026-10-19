@@ -258,7 +258,7 @@ void thing_move_finish(Gamep g, Levelsp v, Levelp l, Thingp me)
   if (thing_is_moving(me)) {
     thing_interpolate(g, v, l, me, 1.0);
   }
-  me->thing_dt = (f16) 0.0;
+  me->thing_dt = static_cast< f16 >(0.0);
 
   auto at = thing_at(g, v, l, me);
   thing_moving_from_set(me, at);

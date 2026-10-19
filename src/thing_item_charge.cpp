@@ -3,7 +3,6 @@
 //
 
 #include "my_callstack.hpp"
-#include "my_main.hpp"
 #include "my_thing.hpp"         // NOLINT
 #include "my_thing_inlines.hpp" // NOLINT
 #include "my_types.hpp"

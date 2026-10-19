@@ -5,6 +5,7 @@
 #include "my_bpoint.hpp"
 #include "my_callstack.hpp"
 #include "my_game_defs.hpp"
+#include "my_globals.hpp"
 #include "my_level.hpp"
 #include "my_main.hpp"
 #include "my_thing.hpp"
@@ -39,7 +40,7 @@ static bool memory_test = true;
   //
   // Continue from the last successful allocation
   //
-  int max_tries;
+  int max_tries = 0;
 
   if (g_thread_id == MAIN_THREAD) {
     max_tries = THING_EXT_ID_MAX;
@@ -48,7 +49,7 @@ static bool memory_test = true;
   }
 
   auto level_arr_idx = l->level_arr_idx;
-  if (! last_ext_id[ level_arr_idx ]) {
+  if (last_ext_id[ level_arr_idx ] == 0u) {
     last_ext_id[ level_arr_idx ] = level_arr_idx * THING_EXT_ID_PER_LEVEL_MAX;
   }
 
@@ -103,7 +104,7 @@ static void thing_ext_free(Levelsp v, Thingp me)
   //
   // Continue from the last successful allocation
   //
-  int max_tries;
+  int max_tries = 0;
 
   if (g_thread_id == MAIN_THREAD) {
     max_tries = THING_DMAP_ID_MAX;
@@ -112,7 +113,7 @@ static void thing_ext_free(Levelsp v, Thingp me)
   }
 
   auto level_arr_idx = l->level_arr_idx;
-  if (! last_dmap_id[ level_arr_idx ]) {
+  if (last_dmap_id[ level_arr_idx ] == 0u) {
     last_dmap_id[ level_arr_idx ] = level_arr_idx * THING_DMAP_ID_PER_LEVEL_MAX;
   }
 
@@ -184,7 +185,7 @@ static void thing_dmap_free(Gamep g, Levelsp v, Levelp l, Thingp me)
   //
   // Continue from the last successful allocation
   //
-  int max_tries;
+  int max_tries = 0;
 
   if (g_thread_id == MAIN_THREAD) {
     max_tries = THING_LIGHT_ID_MAX;
@@ -193,7 +194,7 @@ static void thing_dmap_free(Gamep g, Levelsp v, Levelp l, Thingp me)
   }
 
   auto level_arr_idx = l->level_arr_idx;
-  if (! last_light_id[ level_arr_idx ]) {
+  if (last_light_id[ level_arr_idx ] == 0u) {
     last_light_id[ level_arr_idx ] = level_arr_idx * THING_LIGHT_ID_PER_LEVEL_MAX;
   }
 
@@ -309,9 +310,9 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
     //
     // Should be no need to do this as we zero on thing destruction
     //
-    char *p = reinterpret_cast< char * >(me) + SIZEOF(me->tp_id);
+    char const *p = reinterpret_cast< char * >(me) + SIZEOF(me->tp_id);
     for (auto i = 0; i < SIZEOF(*me) - SIZEOF(me->tp_id); i++, p++) {
-      if (*p) {
+      if (*p != 0) {
         CROAK("expected memory to be zeroed");
       }
     }

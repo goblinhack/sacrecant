@@ -6,7 +6,6 @@
 #include "my_game_defs.hpp"
 #include "my_level.hpp"
 #include "my_level_inlines.hpp" // NOLINT
-#include "my_main.hpp"
 #include "my_thing.hpp"
 #include "my_thing_callbacks.hpp"
 #include "my_thing_inlines.hpp" // NOLINT
