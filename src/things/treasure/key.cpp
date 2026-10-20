@@ -46,7 +46,6 @@ static auto tp_key_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> s
   tp_flag_set(tp, is_animated);
   tp_flag_set(tp, is_blit_centered);
   tp_flag_set(tp, is_blit_hit_outline_w_black_inside);
-  tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_blit_shown_in_chasms);
   tp_flag_set(tp, is_collectable);
   tp_flag_set(tp, is_collision_circle_large);
@@ -55,6 +54,7 @@ static auto tp_key_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> s
   tp_flag_set(tp, is_levitating);
   tp_flag_set(tp, is_light_source, 2);
   tp_flag_set(tp, is_loggable);
+  tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_metal);
   tp_flag_set(tp, is_submergible); // is seen submerged when in water
   tp_is_immune_to_add(tp, THING_EVENT_WATER_DAMAGE);

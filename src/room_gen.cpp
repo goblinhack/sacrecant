@@ -460,8 +460,8 @@ static void room_gen_design_cross_room(RoomGen *grid)
   int roomX2       = 0;
   int roomY2       = 0;
 
-  room_width  = PCG_RANDOM_RANGE(3, 12);
-  roomX       = PCG_RANDOM_RANGE(std::max(0, MAP_SMALL_WIDTH / 2 - (room_width - 1)), std::min((int) MAP_SMALL_WIDTH, (int) MAP_SMALL_WIDTH / 2));
+  room_width = PCG_RANDOM_RANGE(3, 12);
+  roomX      = PCG_RANDOM_RANGE(std::max(0, MAP_SMALL_WIDTH / 2 - (room_width - 1)), std::min((int) MAP_SMALL_WIDTH, (int) MAP_SMALL_WIDTH / 2));
   room_width2 = PCG_RANDOM_RANGE(4, 20);
   roomX2      = (roomX + (room_width / 2) + PCG_RANDOM_RANGE(0, 2) + PCG_RANDOM_RANGE(0, 2) - 3) - (room_width2 / 2);
 
@@ -500,8 +500,10 @@ static void room_gen_design_cross_room_symmetrical(RoomGen *grid)
     minor_height -= 1;
   }
 
-  room_gen_draw_rectangle(grid, (MAP_SMALL_WIDTH - major_width) / 2, (MAP_SMALL_HEIGHT - minor_height) / 2, major_width, minor_height, CHARMAP_FLOOR);
-  room_gen_draw_rectangle(grid, (MAP_SMALL_WIDTH - minor_width) / 2, (MAP_SMALL_HEIGHT - major_height) / 2, minor_width, major_height, CHARMAP_FLOOR);
+  room_gen_draw_rectangle(grid, (MAP_SMALL_WIDTH - major_width) / 2, (MAP_SMALL_HEIGHT - minor_height) / 2, major_width, minor_height,
+                          CHARMAP_FLOOR);
+  room_gen_draw_rectangle(grid, (MAP_SMALL_WIDTH - minor_width) / 2, (MAP_SMALL_HEIGHT - major_height) / 2, minor_width, major_height,
+                          CHARMAP_FLOOR);
 }
 
 static void room_gen_design_small_room(RoomGen *grid)

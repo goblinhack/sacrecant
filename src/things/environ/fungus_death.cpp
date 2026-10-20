@@ -99,9 +99,9 @@ static bool tp_fungus_death_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, T
   tp_flag_set(tp, is_obs_to_vision);
   tp_flag_set(tp, is_physics_explosion);
   tp_flag_set(tp, is_physics_temperature);
+  tp_flag_set(tp, is_removable_on_err);
   tp_flag_set(tp, is_removable_when_dead_on_err);
   tp_flag_set(tp, is_soft_landing);
-  tp_flag_set(tp, is_removable_on_err);
   tp_flag_set(tp, is_submergible);
   tp_flag_set(tp, is_tickable);
   tp_health_set(tp, "1d5");

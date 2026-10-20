@@ -22,6 +22,7 @@
 #include "my_wid_popup.hpp"
 #include "my_wids.hpp"
 
+#include <SDL_events.h>
 #include <SDL_keyboard.h>
 #include <algorithm>
 #include <cmath>
@@ -86,7 +87,7 @@ void wid_main_menu_hide(Gamep g)
   return true;
 }
 
-[[nodiscard]] static auto game_menu_new_game(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+[[nodiscard]] static auto game_menu_new_game(Gamep g, int y, uint32_t button) -> bool
 {
   con("Main menu: new game");
   TRACE_INDENT();
@@ -114,7 +115,7 @@ void wid_main_menu_hide(Gamep g)
     game_seed_clear(g);
   }
 
-  return game_menu_new_game(g, w, x, y, button);
+  return game_menu_new_game(g, y, button);
 }
 
 [[nodiscard]] static auto game_menu_current_seed(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
@@ -122,7 +123,7 @@ void wid_main_menu_hide(Gamep g)
   con("Main menu: specific seed");
   TRACE_INDENT();
 
-  return game_menu_new_game(g, w, x, y, button);
+  return game_menu_new_game(g, y, button);
 }
 
 [[nodiscard]] static auto game_menu_weekly_seed(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
@@ -132,7 +133,7 @@ void wid_main_menu_hide(Gamep g)
 
   game_seed_set(g, g_opt_seed_name_weekly.c_str());
 
-  return game_menu_new_game(g, w, x, y, button);
+  return game_menu_new_game(g, y, button);
 }
 
 [[nodiscard]] static auto game_menu_daily_seed(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
@@ -142,7 +143,7 @@ void wid_main_menu_hide(Gamep g)
 
   game_seed_set(g, g_opt_seed_name_daily.c_str());
 
-  return game_menu_new_game(g, w, x, y, button);
+  return game_menu_new_game(g, y, button);
 }
 
 [[nodiscard]] static auto game_menu_previous_seed(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
@@ -152,7 +153,7 @@ void wid_main_menu_hide(Gamep g)
 
   game_seed_set(g, g_opt_seed_name_previous.c_str());
 
-  return game_menu_new_game(g, w, x, y, button);
+  return game_menu_new_game(g, y, button);
 }
 
 [[nodiscard]] static auto wid_main_menu_quit(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
@@ -181,7 +182,7 @@ void wid_main_menu_hide(Gamep g)
     TRACE();
     ((void) sound_play(g, "keypress"));
 
-    if (wid_over) {
+    if (wid_over != nullptr) {
       SDL_Event e     = {};
       e.type          = SDL_MOUSEBUTTONDOWN;
       e.button.button = 0;
@@ -189,14 +190,14 @@ void wid_main_menu_hide(Gamep g)
       return true;
     }
 
-    (void) game_menu_new_game(g, nullptr, 0, 0, 0);
+    (void) game_menu_new_game(g, 0, 0);
     return true;
   }
 
   if (s == "n" || s == "N") {
     TRACE();
     ((void) sound_play(g, "keypress"));
-    (void) game_menu_new_game(g, nullptr, 0, 0, 0);
+    (void) game_menu_new_game(g, 0, 0);
     return true;
   }
 
@@ -463,7 +464,7 @@ void wid_main_menu_select(Gamep g)
     }
   }
 
-  if (game_seed_name_get(g)) {
+  if (game_seed_name_get(g) != nullptr) {
     if (game_seed_source_get(g) == SEED_SOURCE_USER) {
       menu_height += 3;
     }
@@ -514,7 +515,7 @@ void wid_main_menu_select(Gamep g)
     y_at += button_step;
   }
 
-  if (game_seed_name_get(g)) {
+  if (game_seed_name_get(g) != nullptr) {
     if (game_seed_source_get(g) == SEED_SOURCE_USER) {
       TRACE();
       auto *p = wid_main_menu_window->wid_text_area->wid_text_area;

@@ -34,7 +34,6 @@ static auto tp_grass_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) ->
   tp_chance_set(tp, THING_CHANCE_START_BURNING, "1d100");  // fumble => flames spread to you
   tp_flag_set(tp, is_able_to_fall);
   tp_flag_set(tp, is_blit_centered);
-  tp_flag_set(tp, is_removable_on_err);
   tp_flag_set(tp, is_blit_hit_outline_w_black_inside);
   tp_flag_set(tp, is_blit_if_has_seen);
   tp_flag_set(tp, is_blit_shown_in_chasms);

@@ -2581,8 +2581,8 @@ static void level_gen_dump(class LevelGen *lg, const char *msg)
     for (int y = 0; y < lg->map_height; y++) {
       std::string tmp;
       for (int x = 0; x < lg->map_width; x++) {
-        auto c = lg->data[ x ][ y ].c;
-        auto r = lg->data[ x ][ y ].room;
+        auto  c = lg->data[ x ][ y ].c;
+        auto *r = lg->data[ x ][ y ].room;
 
         if (r != nullptr) {
           c = 'r';
@@ -2979,7 +2979,7 @@ static void level_gen_create_remaining_rooms(LevelGen *lg)
   // Choose a random first room and place it
   //
   auto *r = lg->room_entrance = room_random_get(ROOM_TYPE_ENTRANCE);
-  if (! r) {
+  if (r == nullptr) {
     CROAK("failed to find start room");
     return false;
   }
@@ -3015,15 +3015,15 @@ static void cave_dump(class LevelGen *lg)
   uint8_t y = 0;
 
   std::print("+");
-  for (x = 0; x < lg->map_width; x++) {
+  for (x = 0; std::cmp_less(x, lg->map_width); x++) {
     std::print("-");
   }
   std::print("+");
   std::println("");
 
-  for (y = 0; y < lg->map_height; y++) {
+  for (y = 0; std::cmp_less(y, lg->map_height); y++) {
     std::print("|");
-    for (x = 0; x < lg->map_width; x++) {
+    for (x = 0; std::cmp_less(x, lg->map_width); x++) {
       if (lg->cave.curr[ x + MAP_LEVEL_CELLULAR_BORDER ][ y + MAP_LEVEL_CELLULAR_BORDER ] != 0U) {
         std::print("x");
       } else {
@@ -3035,7 +3035,7 @@ static void cave_dump(class LevelGen *lg)
   }
 
   std::print("+");
-  for (x = 0; x < lg->map_width; x++) {
+  for (x = 0; std::cmp_less(x, lg->map_width); x++) {
     std::print("-");
   }
   std::print("+");
@@ -3092,8 +3092,8 @@ static void level_gen_single_large_blob_in_center(Gamep g, class LevelGen *lg, c
     add_bridge_down = true;
   }
 
-  for (x = 0; x < lg->map_width; x++) {
-    for (y = 0; y < lg->map_height; y++) {
+  for (x = 0; std::cmp_less(x, lg->map_width); x++) {
+    for (y = 0; std::cmp_less(y, lg->map_height); y++) {
       if (lg->cave.curr[ x + MAP_LEVEL_CELLULAR_BORDER ][ y + MAP_LEVEL_CELLULAR_BORDER ] != 0U) {
 
         switch (lg->data[ x ][ y ].c) {
@@ -3173,8 +3173,8 @@ static void level_gen_blob(Gamep g, class LevelGen *lg, char c)
     level_gen_dump(lg, "cave gen");
   }
 
-  for (x = 0; x < lg->map_width; x++) {
-    for (y = 0; y < lg->map_height; y++) {
+  for (x = 0; std::cmp_less(x, lg->map_width); x++) {
+    for (y = 0; std::cmp_less(y, lg->map_height); y++) {
       if (lg->cave.curr[ x + MAP_LEVEL_CELLULAR_BORDER ][ y + MAP_LEVEL_CELLULAR_BORDER ] != 0U) {
         switch (lg->data[ x ][ y ].c) {
           case CHARMAP_BARREL :
