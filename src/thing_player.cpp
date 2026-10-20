@@ -1573,7 +1573,7 @@ void player_collision_handle(Gamep g, Levelsp v, Levelp l, Thingp me)
 [[nodiscard]] auto player_jump(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool
 {
   TRACE();
-  THING_DBG(g, v, l, me, "player jump");
+  THING_DBG(g, v, l, me, "player jump to @%d,%d", to.x, to.y);
 
   auto *player_struct = thing_player_struct(g);
   if (player_struct == nullptr) {
@@ -1595,7 +1595,7 @@ void player_collision_handle(Gamep g, Levelsp v, Levelp l, Thingp me)
   bool warn      = true;
 
   for (auto intermediate : std::ranges::reverse_view(jump_path)) {
-    if (thing_jump_to(g, v, l, me, intermediate, warn)) {
+    if (thing_jump_to(g, v, l, me, to, intermediate, warn)) {
 
       if (player_check_if_target_needs_move_confirm(g, v, l, me, intermediate)) {
         return true;

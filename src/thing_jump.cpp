@@ -11,6 +11,7 @@
 #include "my_level_inlines.hpp"
 #include "my_line.hpp"
 #include "my_main.hpp"
+#include "my_sound.hpp"
 #include "my_spoint.hpp"
 #include "my_thing.hpp"
 #include "my_thing_callbacks.hpp"
@@ -134,9 +135,13 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
 //
 // Handles player and monster jumps
 //
-[[nodiscard]] auto thing_jump_to(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to, bool warn) -> bool
+[[nodiscard]] auto thing_jump_to(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint orig_target, bpoint to, bool warn) -> bool
 {
-  THING_DBG(g, v, l, me, "jump to (%d,%d)", to.x, to.y);
+  if (orig_target != to) {
+    THING_DBG(g, v, l, me, "jump to (%d,%d) originally (%d,%d)", to.x, to.y, orig_target.x, orig_target.y);
+  } else {
+    THING_DBG(g, v, l, me, "jump to (%d,%d)", to.x, to.y);
+  }
   TRACE_INDENT();
 
   if (is_oob_or_border(to)) [[unlikely]] {
@@ -204,6 +209,7 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
     } else {
       if (thing_is_player(me)) {
         topcon("You are too tired to jump.");
+        (void) sound_play(g, "error");
       }
       return false;
     }
@@ -226,6 +232,7 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
       if (warn) {
         auto the_thing = thing_name_long_the(g, v, l, obs);
         topcon(UI_WARN_FMT_STR "You cannot jump over %s." UI_RESET_FMT, the_thing.c_str());
+        (void) sound_play(g, "error");
       }
     }
     THING_DBG(g, v, l, me, "jump to (%d,%d) something in the way", to.x, to.y);
@@ -253,7 +260,12 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
         blocked = true;
         if (thing_is_player(me)) {
           if (warn) {
-            topcon("There is something in the way there.");
+            if (to != orig_target) {
+              topcon("Your cannot jump as far and there is something in the way now. Rest?");
+            } else {
+              topcon("There is something in the way there.");
+            }
+            (void) sound_play(g, "error");
           }
         }
 
@@ -264,7 +276,12 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
         blocked = true;
         if (thing_is_player(me)) {
           if (warn) {
-            topcon("There is something in the way of jumping there.");
+            if (to != orig_target) {
+              topcon("Your cannot jump as far and there is something in the way now. Rest?");
+            } else {
+              topcon("There is something in the way there.");
+            }
+            (void) sound_play(g, "error");
           }
         }
 
@@ -329,7 +346,7 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
   if (thing_is_wooden_leg(g, v, l, me)) {
     (void) thing_stamina_decr(g, v, l, me, 1);
   } else {
-    auto stamina = static_cast< int >(static_cast< float >(thing_stamina(g, v, l, me)) * 0.8);
+    auto stamina = static_cast< int >(static_cast< float >(thing_stamina(g, v, l, me)) * 0.9);
     (void) thing_stamina_set(g, v, l, me, stamina);
   }
 
@@ -353,6 +370,19 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
   }
 
   return true;
+}
+
+//
+// Handles player and monster jumps
+//
+[[nodiscard]] auto thing_jump_to(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to, bool warn) -> bool
+{
+  THING_DBG(g, v, l, me, "jump to (%d,%d)", to.x, to.y);
+  TRACE_INDENT();
+
+  auto intermediate = to;
+
+  return thing_jump_to(g, v, l, me, to, intermediate, warn);
 }
 
 [[nodiscard]] auto thing_distance_jump_max(Gamep g, Levelsp v, Levelp l, Thingp me) -> int
