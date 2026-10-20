@@ -43,7 +43,6 @@ void game_debug_info(Gamep g)
   log("  LEVEL_GRID_DOWN                  %u", LEVEL_GRID_DOWN);
   log("  LEVEL_ARR_IDX_LEVEL_SELECT       %u", LEVEL_ARR_IDX_LEVEL_SELECT);
   log("  LEVEL_ARR_IDX_MAX                %u", LEVEL_ARR_IDX_MAX);
-  log("  LEVEL_ID_MAX                     %u", THING_ID_PER_LEVEL_MAX);
   log("  THING_LEVEL_ID_BITS              %u (%u indices)", THING_LEVEL_ID_BITS, (1 << THING_LEVEL_ID_BITS) - 1);
   log("  THING_PER_LEVEL_THING_ID_BITS    %u (%u indices)", THING_PER_LEVEL_THING_ID_BITS, (1 << THING_PER_LEVEL_THING_ID_BITS) - 1);
   log("  THING_ARR_INDEX_BITS             %u (%u total indices)", THING_ARR_INDEX_BITS, (1 << THING_ARR_INDEX_BITS) - 1);

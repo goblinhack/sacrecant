@@ -111,7 +111,7 @@
         "xLLLLLLLLLLLLLLLLLLLLLLLLLLLxLLLLLLLLLLLLLLLLLLx"  //
         "xLLLLLLLLLLLLLLLLLLLLLLLLLLLxLLLLLLLLLLLLLLLLLLx"  //
         "xLLLLLLLLLLLLLLLLLLLLLLLLLLLxLLLLLLLLLLLLLLLLLLx"  //
-        "x..........................@x..................x"  //
+        "x...........................x@.................x"  //
         "x...........................x..................x"  //
         "x...........................x..................x"  //
         "x...........................x..................x"  //

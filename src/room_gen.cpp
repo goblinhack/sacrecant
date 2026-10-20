@@ -59,7 +59,7 @@ private:
 public:
   RoomGen()
   {
-    for (int y = 0; y < MAP_HEIGHT; y++) {
+    for (int y = 0; y < MAP_SMALL_HEIGHT; y++) {
       for (auto &x : data) {
         x[ y ] = CHARMAP_EMPTY;
       }
@@ -70,7 +70,7 @@ public:
   //
   // Level tiles and room info
   //
-  char data[ MAP_WIDTH ][ MAP_HEIGHT ] = {};
+  char data[ MAP_SMALL_WIDTH ][ MAP_SMALL_HEIGHT ] = {};
 
   //
   // Top left and bottom right bounds
@@ -97,7 +97,7 @@ static void room_gen_dump_console(RoomGen *grid)
 
   std::println("  room_add(g, CHANCE_NORMAL, ROOM_FLAG_CHECK_EXITS, __FUNCTION__, __LINE__,");
 
-  for (int y = 0; y < MAP_HEIGHT; y++) {
+  for (int y = 0; y < MAP_SMALL_HEIGHT; y++) {
     std::print("           /* line */ (const char *) \"");
     for (auto &x : grid->data) {
       std::print("{}", x[ y ]);
@@ -117,7 +117,7 @@ static void room_gen_dump(RoomGen *grid)
 
   std::println(grid->out, "  room_add(g, CHANCE_NORMAL, ROOM_FLAG_CHECK_EXITS, __FUNCTION__, __LINE__,");
 
-  for (int y = 0; y < MAP_HEIGHT; y++) {
+  for (int y = 0; y < MAP_SMALL_HEIGHT; y++) {
     std::print(grid->out, "           /* line */ (const char *) \"");
     for (auto &x : grid->data) {
       std::print(grid->out, "{}", x[ y ]);
@@ -167,8 +167,8 @@ static void room_gen_keep_largest_chunk(Gamep g, class RoomGen *grid)
   //
   // Populate the cave with the room
   //
-  for (y = 0; y < MAP_HEIGHT; y++) {
-    for (x = 0; x < MAP_WIDTH; x++) {
+  for (y = 0; y < MAP_SMALL_HEIGHT; y++) {
+    for (x = 0; x < MAP_SMALL_WIDTH; x++) {
       if (grid->data[ x ][ y ] != CHARMAP_EMPTY) {
         cave.curr[ x + MAP_LEVEL_CELLULAR_BORDER ][ y + MAP_LEVEL_CELLULAR_BORDER ] = 1;
       }
@@ -185,8 +185,8 @@ static void room_gen_keep_largest_chunk(Gamep g, class RoomGen *grid)
   //
   room_gen_clear(grid);
 
-  for (y = 0; y < MAP_HEIGHT; y++) {
-    for (x = 0; x < MAP_WIDTH; x++) {
+  for (y = 0; y < MAP_SMALL_HEIGHT; y++) {
+    for (x = 0; x < MAP_SMALL_WIDTH; x++) {
       if (cave.curr[ x + MAP_LEVEL_CELLULAR_BORDER ][ y + MAP_LEVEL_CELLULAR_BORDER ] != 0U) {
         grid->data[ x ][ y ] = CHARMAP_FLOOR;
       }
@@ -208,8 +208,8 @@ static void room_gen_keep_largest_chunk(Gamep g, class RoomGen *grid)
   //
   // Get the top left and bottom right bounds
   //
-  for (y = 0; y < MAP_HEIGHT; y++) {
-    for (x = 0; x < MAP_WIDTH; x++) {
+  for (y = 0; y < MAP_SMALL_HEIGHT; y++) {
+    for (x = 0; x < MAP_SMALL_WIDTH; x++) {
       if (grid->data[ x ][ y ] != CHARMAP_EMPTY) {
         tl.x = std::min< int >(x, tl.x);
         tl.y = std::min< int >(y, tl.y);
@@ -238,10 +238,10 @@ static void room_gen_keep_largest_chunk(Gamep g, class RoomGen *grid)
   if (tl.y < ROOM_BORDER) {
     return false;
   }
-  if (br.x >= MAP_WIDTH - ROOM_BORDER) {
+  if (br.x >= MAP_SMALL_WIDTH - ROOM_BORDER) {
     return false;
   }
-  if (br.x >= MAP_HEIGHT - ROOM_BORDER) {
+  if (br.x >= MAP_SMALL_HEIGHT - ROOM_BORDER) {
     return false;
   }
 
@@ -286,8 +286,8 @@ static void room_gen_draw_circle(RoomGen *grid, int x, int y, int radius, char v
   int i = 0;
   int j = 0;
 
-  for (i = std::max(0, x - radius - 1); i < std::max(static_cast< int >(MAP_WIDTH), x + radius); i++) {
-    for (j = std::max(0, y - radius - 1); j < std::max(static_cast< int >(MAP_HEIGHT), y + radius); j++) {
+  for (i = std::max(0, x - radius - 1); i < std::max(static_cast< int >(MAP_SMALL_WIDTH), x + radius); i++) {
+    for (j = std::max(0, y - radius - 1); j < std::max(static_cast< int >(MAP_SMALL_HEIGHT), y + radius); j++) {
       if (((i - x) * (i - x)) + ((j - y) * (j - y)) < (radius * radius) + radius) {
         bpoint const p(i, j);
         if (is_oob(p)) [[unlikely]] {
@@ -461,15 +461,15 @@ static void room_gen_design_cross_room(RoomGen *grid)
   int roomY2       = 0;
 
   room_width  = PCG_RANDOM_RANGE(3, 12);
-  roomX       = PCG_RANDOM_RANGE(std::max(0, MAP_WIDTH / 2 - (room_width - 1)), std::min((int) MAP_WIDTH, (int) MAP_WIDTH / 2));
+  roomX       = PCG_RANDOM_RANGE(std::max(0, MAP_SMALL_WIDTH / 2 - (room_width - 1)), std::min((int) MAP_SMALL_WIDTH, (int) MAP_SMALL_WIDTH / 2));
   room_width2 = PCG_RANDOM_RANGE(4, 20);
   roomX2      = (roomX + (room_width / 2) + PCG_RANDOM_RANGE(0, 2) + PCG_RANDOM_RANGE(0, 2) - 3) - (room_width2 / 2);
 
   room_height = PCG_RANDOM_RANGE(3, 7);
-  roomY       = ((MAP_HEIGHT / 2) - room_height);
+  roomY       = ((MAP_SMALL_HEIGHT / 2) - room_height);
 
   room_height2 = PCG_RANDOM_RANGE(2, 5);
-  roomY2       = ((MAP_HEIGHT / 2) - room_height2 - (PCG_RANDOM_RANGE(0, 2) + PCG_RANDOM_RANGE(0, 1)));
+  roomY2       = ((MAP_SMALL_HEIGHT / 2) - room_height2 - (PCG_RANDOM_RANGE(0, 2) + PCG_RANDOM_RANGE(0, 1)));
 
   room_gen_draw_rectangle(grid, roomX - 5, roomY + 5, room_width, room_height, CHARMAP_FLOOR);
   room_gen_draw_rectangle(grid, roomX2 - 5, roomY2 + 5, room_width2, room_height2, CHARMAP_FLOOR);
@@ -500,8 +500,8 @@ static void room_gen_design_cross_room_symmetrical(RoomGen *grid)
     minor_height -= 1;
   }
 
-  room_gen_draw_rectangle(grid, (MAP_WIDTH - major_width) / 2, (MAP_HEIGHT - minor_height) / 2, major_width, minor_height, CHARMAP_FLOOR);
-  room_gen_draw_rectangle(grid, (MAP_WIDTH - minor_width) / 2, (MAP_HEIGHT - major_height) / 2, minor_width, major_height, CHARMAP_FLOOR);
+  room_gen_draw_rectangle(grid, (MAP_SMALL_WIDTH - major_width) / 2, (MAP_SMALL_HEIGHT - minor_height) / 2, major_width, minor_height, CHARMAP_FLOOR);
+  room_gen_draw_rectangle(grid, (MAP_SMALL_WIDTH - minor_width) / 2, (MAP_SMALL_HEIGHT - major_height) / 2, minor_width, major_height, CHARMAP_FLOOR);
 }
 
 static void room_gen_design_small_room(RoomGen *grid)
@@ -514,7 +514,7 @@ static void room_gen_design_small_room(RoomGen *grid)
   width  = PCG_RANDOM_RANGE(3, 6);
   height = PCG_RANDOM_RANGE(3, 6);
 
-  room_gen_draw_rectangle(grid, (MAP_WIDTH - width) / 2, (MAP_HEIGHT - height) / 2, width, height, CHARMAP_FLOOR);
+  room_gen_draw_rectangle(grid, (MAP_SMALL_WIDTH - width) / 2, (MAP_SMALL_HEIGHT - height) / 2, width, height, CHARMAP_FLOOR);
 }
 
 static void room_gen_design_medium_room(RoomGen *grid)
@@ -527,7 +527,7 @@ static void room_gen_design_medium_room(RoomGen *grid)
   width  = PCG_RANDOM_RANGE(6, 10);
   height = PCG_RANDOM_RANGE(6, 10);
 
-  room_gen_draw_rectangle(grid, (MAP_WIDTH - width) / 2, (MAP_HEIGHT - height) / 2, width, height, CHARMAP_FLOOR);
+  room_gen_draw_rectangle(grid, (MAP_SMALL_WIDTH - width) / 2, (MAP_SMALL_HEIGHT - height) / 2, width, height, CHARMAP_FLOOR);
 }
 
 static void room_gen_design_large_room(RoomGen *grid)
@@ -540,7 +540,7 @@ static void room_gen_design_large_room(RoomGen *grid)
   width  = PCG_RANDOM_RANGE(10, 20);
   height = PCG_RANDOM_RANGE(10, 20);
 
-  room_gen_draw_rectangle(grid, (MAP_WIDTH - width) / 2, (MAP_HEIGHT - height) / 2, width, height, CHARMAP_FLOOR);
+  room_gen_draw_rectangle(grid, (MAP_SMALL_WIDTH - width) / 2, (MAP_SMALL_HEIGHT - height) / 2, width, height, CHARMAP_FLOOR);
 }
 
 static void room_gen_design_tall_room(RoomGen *grid)
@@ -550,10 +550,10 @@ static void room_gen_design_tall_room(RoomGen *grid)
   int width  = 0;
   int height = 0;
 
-  width  = PCG_RANDOM_RANGE(3, MAP_WIDTH / 4);
-  height = PCG_RANDOM_RANGE(10, MAP_WIDTH - 4);
+  width  = PCG_RANDOM_RANGE(3, MAP_SMALL_WIDTH / 4);
+  height = PCG_RANDOM_RANGE(10, MAP_SMALL_WIDTH - 4);
 
-  room_gen_draw_rectangle(grid, (MAP_WIDTH - width) / 2, (MAP_HEIGHT - height) / 2, width, height, CHARMAP_FLOOR);
+  room_gen_draw_rectangle(grid, (MAP_SMALL_WIDTH - width) / 2, (MAP_SMALL_HEIGHT - height) / 2, width, height, CHARMAP_FLOOR);
 }
 
 static void room_gen_design_long_room(RoomGen *grid)
@@ -563,10 +563,10 @@ static void room_gen_design_long_room(RoomGen *grid)
   int width  = 0;
   int height = 0;
 
-  width  = PCG_RANDOM_RANGE(10, MAP_WIDTH - 4);
-  height = PCG_RANDOM_RANGE(3, MAP_HEIGHT / 4);
+  width  = PCG_RANDOM_RANGE(10, MAP_SMALL_WIDTH - 4);
+  height = PCG_RANDOM_RANGE(3, MAP_SMALL_HEIGHT / 4);
 
-  room_gen_draw_rectangle(grid, (MAP_WIDTH - width) / 2, (MAP_HEIGHT - height) / 2, width, height, CHARMAP_FLOOR);
+  room_gen_draw_rectangle(grid, (MAP_SMALL_WIDTH - width) / 2, (MAP_SMALL_HEIGHT - height) / 2, width, height, CHARMAP_FLOOR);
 }
 
 static void room_gen_design_circular_room(RoomGen *grid)
@@ -576,15 +576,15 @@ static void room_gen_design_circular_room(RoomGen *grid)
   if (d100() < 90) {
     radius = PCG_RANDOM_RANGE(2, 4);
   } else if (d100() < 90) {
-    radius = PCG_RANDOM_RANGE(4, 10);
+    radius = PCG_RANDOM_RANGE(3, 5);
   } else {
-    radius = PCG_RANDOM_RANGE(10, 20);
+    radius = PCG_RANDOM_RANGE(4, 6);
   }
 
-  room_gen_draw_circle(grid, MAP_WIDTH / 2, MAP_HEIGHT / 2, radius, CHARMAP_FLOOR);
+  room_gen_draw_circle(grid, MAP_SMALL_WIDTH / 2, MAP_SMALL_HEIGHT / 2, radius, CHARMAP_FLOOR);
 
   if (radius > 6 && d100() < 50) {
-    room_gen_draw_circle(grid, MAP_WIDTH / 2, MAP_HEIGHT / 2, PCG_RANDOM_RANGE(3, radius - 3), CHARMAP_EMPTY);
+    room_gen_draw_circle(grid, MAP_SMALL_WIDTH / 2, MAP_SMALL_HEIGHT / 2, PCG_RANDOM_RANGE(3, radius - 3), CHARMAP_EMPTY);
   }
 }
 
@@ -601,12 +601,12 @@ static void room_gen_design_chunky_room(RoomGen *grid)
   int       maxY       = 0;
   int const chunkCount = PCG_RANDOM_RANGE(2, 8);
 
-  room_gen_draw_circle(grid, MAP_WIDTH / 2, MAP_HEIGHT / 2, 2, CHARMAP_FLOOR);
+  room_gen_draw_circle(grid, MAP_SMALL_WIDTH / 2, MAP_SMALL_HEIGHT / 2, 2, CHARMAP_FLOOR);
 
-  minX = (MAP_WIDTH / 2) - 3;
-  maxX = (MAP_WIDTH / 2) + 3;
-  minY = (MAP_HEIGHT / 2) - 3;
-  maxY = (MAP_HEIGHT / 2) + 3;
+  minX = (MAP_SMALL_WIDTH / 2) - 3;
+  maxX = (MAP_SMALL_WIDTH / 2) + 3;
+  minY = (MAP_SMALL_HEIGHT / 2) - 3;
+  maxY = (MAP_SMALL_HEIGHT / 2) + 3;
 
   for (i = 0; i < chunkCount;) {
     x = PCG_RANDOM_RANGE(minX, maxX);
@@ -617,9 +617,9 @@ static void room_gen_design_chunky_room(RoomGen *grid)
 
       i++;
       minX = std::max(1, std::min(x - 3, minX));
-      maxX = std::min(MAP_WIDTH - 2, std::max(x + 3, maxX));
+      maxX = std::min(MAP_SMALL_WIDTH - 2, std::max(x + 3, maxX));
       minY = std::max(1, std::min(y - 3, minY));
-      maxY = std::min(MAP_HEIGHT - 2, std::max(y + 3, maxY));
+      maxY = std::min(MAP_SMALL_HEIGHT - 2, std::max(y + 3, maxY));
     }
   }
 }
@@ -649,13 +649,13 @@ static auto fragment_put(Gamep g, class RoomGen *r, class Fragment *f, bpoint at
       if ((p.x <= 0)) [[unlikely]] {
         continue;
       }
-      if ((p.x >= MAP_WIDTH - 1)) [[unlikely]] {
+      if ((p.x >= MAP_SMALL_WIDTH - 1)) [[unlikely]] {
         continue;
       }
       if ((p.y <= 0)) [[unlikely]] {
         continue;
       }
-      if ((p.y >= MAP_HEIGHT - 1)) [[unlikely]] {
+      if ((p.y >= MAP_SMALL_HEIGHT - 1)) [[unlikely]] {
         continue;
       }
 
@@ -684,13 +684,13 @@ static auto fragment_put(Gamep g, class RoomGen *r, class Fragment *f, bpoint at
       if ((p.x <= 0)) [[unlikely]] {
         return false;
       }
-      if ((p.x >= MAP_WIDTH - 1)) [[unlikely]] {
+      if ((p.x >= MAP_SMALL_WIDTH - 1)) [[unlikely]] {
         return false;
       }
       if ((p.y <= 0)) [[unlikely]] {
         return false;
       }
-      if ((p.y >= MAP_HEIGHT - 1)) [[unlikely]] {
+      if ((p.y >= MAP_SMALL_HEIGHT - 1)) [[unlikely]] {
         return false;
       }
       if (c != r->data[ p.x ][ p.y ]) {

@@ -736,6 +736,7 @@ enum {
 [[nodiscard]] auto level_is_boss_final_level(Gamep g, Levelsp v, Levelp l) -> bool;
 [[nodiscard]] auto level_is_boss_level(Gamep g, Levelsp v, Levelp l) -> bool;
 [[nodiscard]] auto level_is_empty_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
+[[nodiscard]] auto level_get_random_coord(Gamep g, Levelsp v, Levelp l) -> bpoint;
 [[nodiscard]] auto level_is_level_select(Gamep g, Levelsp v, Levelp l) -> bool;
 [[nodiscard]] auto level_is_player_level(Gamep g, Levelsp v, Levelp l) -> bool;
 [[nodiscard]] auto level_is_same_obj_type_at(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp) -> bool;

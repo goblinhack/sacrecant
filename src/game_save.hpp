@@ -235,7 +235,10 @@ auto operator<<(std::ostream &out, Bits< const Config & > const my) -> std::ostr
     out << bits(tmp);
   }
 
-  if (my.t.seed_name == TEST_SEED) {
+  if (my.t.seed_source == SEED_SOURCE_COMMAND_LINE) {
+    std::string nothing;
+    out << bits(nothing);
+  } else if (my.t.seed_name == TEST_SEED) {
     std::string nothing;
     out << bits(nothing);
   } else {

@@ -11,6 +11,7 @@
 #include "my_level_inlines.hpp"
 #include "my_main.hpp"
 #include "my_ptrcheck.hpp"
+#include "my_random.hpp"
 #include "my_thing.hpp"
 #include "my_thing_callbacks.hpp"
 #include "my_thing_inlines.hpp"
@@ -882,4 +883,19 @@ void level_bounds_set(Gamep g, Levelsp v, Levelp l)
   TRACE_DEBUG();
   FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, p) { return false; }
   return true;
+}
+
+[[nodiscard]] auto level_get_random_coord(Gamep g, Levelsp v, Levelp l) -> bpoint
+{
+  TRACE_DEBUG();
+
+  auto pad_w = (MAP_WIDTH - MAP_SMALL_WIDTH) / 2;
+  auto pad_h = (MAP_HEIGHT - MAP_SMALL_HEIGHT) / 2;
+
+  bpoint p;
+
+  p.x = PCG_RANDOM_RANGE(pad_w, pad_w + MAP_SMALL_WIDTH);
+  p.y = PCG_RANDOM_RANGE(pad_h, pad_h + MAP_SMALL_HEIGHT);
+
+  return p;
 }

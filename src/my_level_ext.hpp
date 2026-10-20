@@ -22,8 +22,6 @@ extern Overrides no_overrides;
 
 void level_fixed_add(Gamep g, int chance, LevelType level_type, const std::string &alias, const char *file, int line, const Overrides &overrides,
                      int dummy, ...);
-[[nodiscard]] auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, const char *in, const Overrides &o_in = no_overrides)
-    -> bool;
 [[nodiscard]] auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, int w, int h, const char *in,
                                   const Overrides &o_in = no_overrides) -> bool;
 

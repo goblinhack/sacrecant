@@ -1,6 +1,7 @@
 bugs
 ----
-if out of slots, get rid of effects, missiles, plants, monsts (not boss), items
+boss anim speed
+L6 seed 6 cannot jump over rubble next to foliage
 sfpoint?
 use warnings more
 

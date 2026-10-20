@@ -57,6 +57,7 @@ class LevelPopulate
 public:
   char      c = {};
   bpoint    at {};
+  bpoint    spawn_at {};
   BiomeType biome                 = {BIOME_DUNGEON};
   Tpp       tp_wall               = {};
   Tpp       tp_vault              = {};
@@ -95,7 +96,6 @@ public:
   bool      need_foliage          = {};
   bool      need_fungus           = {};
   bool      need_reeds            = {};
-  bool      need_border           = {};
   bool      is_room_entrance      = {};
   bool      is_room_exit          = {};
   bool      is_room_locked        = {};
@@ -294,12 +294,12 @@ static auto level_populate_biome_dungeon(Gamep g, Levelsp v, Levelp l, class Lev
       //
       // Even if we do not need an entrance, we still need to start the player somewhere
       //
-      l->entrance = lp.at;
+      l->entrance = lp.spawn_at;
       break;
     case CHARMAP_EXIT :
       lp.need_floor = true;
       tp            = lp.tp_exit;
-      l->exit       = lp.at;
+      l->exit       = lp.spawn_at;
       break;
     case CHARMAP_KEY :
       lp.need_floor = true;
@@ -743,7 +743,19 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
   auto expected_len = w * h;
 
   if (std::cmp_not_equal(strlen(in), expected_len)) {
-    CROAK("bad map size, expected %d chars, got %d chars for map of expected size %dx%d", (int) expected_len, (int) strlen(in), w, h);
+    CROAK("level populate: bad map size, expected %d chars, got %d chars for map of expected size %dx%d", (int) expected_len, (int) strlen(in),
+          w, h);
+  }
+
+  auto pad_w = (MAP_WIDTH - w) / 2;
+  auto pad_h = (MAP_HEIGHT - h) / 2;
+
+  //
+  // Do not center test levels
+  //
+  if (g_opt_tests) {
+    pad_w = 0;
+    pad_h = 0;
   }
 
   LevelPopulate lp;
@@ -804,8 +816,9 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
       auto offset = (w * y) + x;
       Tpp  tp     = nullptr;
 
-      lp.c  = in[ offset ];
-      lp.at = bpoint(x, y);
+      lp.c        = in[ offset ];
+      lp.at       = bpoint(x, y);
+      lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
 
       lp.is_room_entrance = level_gen_is_room_entrance(g, lg, lp.at);
       lp.is_room_exit     = level_gen_is_room_exit(g, lg, lp.at);
@@ -822,11 +835,6 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
       lp.need_foliage  = false;
       lp.need_fungus   = false;
       lp.need_reeds    = false;
-      lp.need_border   = ! lp.is_test_level && ((x == 0) || (x == MAP_WIDTH - 1) || (y == 0) || (y == MAP_HEIGHT - 1));
-
-      if (lp.biome == BIOME_NETHERVOID) {
-        lp.need_border = false;
-      }
 
       auto o = o_in.find(lp.c);
       if (o != o_in.end()) {
@@ -839,11 +847,6 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
           return false;
         }
         lp.need_floor = true;
-      } else if (lp.need_border) {
-        //
-        // Border tiles around the edge to stop the player
-        //
-        tp = lp.tp_border;
       } else if (lp.is_test_level || lp.is_room_exit || lp.is_room_locked || lp.is_room_secret) {
         //
         // Keep these special rooms as is
@@ -891,55 +894,55 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
 
       if (lp.need_floor) {
         auto *tp_add = lp.tp_floor;
-        if (thing_spawn(g, v, l, tp_add, lp.at) == nullptr) {
+        if (thing_spawn(g, v, l, tp_add, lp.spawn_at) == nullptr) {
           return false;
         }
       }
 
       if (lp.need_corridor) {
         auto *tp_add = lp.tp_corridor;
-        if (thing_spawn(g, v, l, tp_add, lp.at) == nullptr) {
+        if (thing_spawn(g, v, l, tp_add, lp.spawn_at) == nullptr) {
           return false;
         }
       }
 
       if (lp.need_dirt) {
         auto *tp_add = lp.tp_dirt;
-        if (thing_spawn(g, v, l, tp_add, lp.at) == nullptr) {
+        if (thing_spawn(g, v, l, tp_add, lp.spawn_at) == nullptr) {
           return false;
         }
       }
 
       if (lp.need_water) {
-        if (thing_spawn(g, v, l, lp.tp_water, lp.at) == nullptr) {
+        if (thing_spawn(g, v, l, lp.tp_water, lp.spawn_at) == nullptr) {
           return false;
         }
       }
 
       if (lp.need_foliage) {
         auto *tp_add = lp.tp_foliage;
-        if (thing_spawn(g, v, l, tp_add, lp.at) == nullptr) {
+        if (thing_spawn(g, v, l, tp_add, lp.spawn_at) == nullptr) {
           return false;
         }
       }
 
       if (lp.need_fungus) {
         auto *tp_add = lp.tp_fungus;
-        if (thing_spawn(g, v, l, tp_add, lp.at) == nullptr) {
+        if (thing_spawn(g, v, l, tp_add, lp.spawn_at) == nullptr) {
           return false;
         }
       }
 
       if (lp.need_reeds) {
         auto *tp_add = lp.tp_reeds;
-        if (thing_spawn(g, v, l, tp_add, lp.at) == nullptr) {
+        if (thing_spawn(g, v, l, tp_add, lp.spawn_at) == nullptr) {
           return false;
         }
       }
 
       if (lp.need_entrance) {
         auto *tp_add = lp.tp_entrance;
-        if (thing_spawn(g, v, l, tp_add, lp.at) == nullptr) {
+        if (thing_spawn(g, v, l, tp_add, lp.spawn_at) == nullptr) {
           return false;
         }
       }
@@ -960,7 +963,7 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
             }
 
             if (tp_add != nullptr) {
-              if (thing_spawn(g, v, l, tp_add, lp.at) == nullptr) {
+              if (thing_spawn(g, v, l, tp_add, lp.spawn_at) == nullptr) {
                 return false;
               }
             }
@@ -973,11 +976,11 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
           //
           // Spawn the player
           //
-          if (! thing_player_spawn(g, v, l, tp, lp.at)) {
+          if (! thing_player_spawn(g, v, l, tp, lp.spawn_at)) {
             return false;
           }
           if (compiler_unused) {
-            if (thing_spawn(g, v, l, tp_random(g, v, l, is_exit), lp.at + bpoint(1, 0)) == nullptr) {
+            if (thing_spawn(g, v, l, tp_random(g, v, l, is_exit), lp.spawn_at + bpoint(1, 0)) == nullptr) {
               return false;
             }
           }
@@ -985,7 +988,7 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
           //
           // Spawn all other things
           //
-          if (thing_spawn(g, v, l, tp, lp.at) == nullptr) {
+          if (thing_spawn(g, v, l, tp, lp.spawn_at) == nullptr) {
             return false;
           }
         }
@@ -995,12 +998,33 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
         if (compiler_unused) {
           if (tp == lp.tp_player) {
             {
-              if (thing_spawn(g, v, l, tp_random(g, v, l, is_trap), lp.at + bpoint(1, 0)) == nullptr) {
+              if (thing_spawn(g, v, l, tp_random(g, v, l, is_trap), lp.spawn_at + bpoint(1, 0)) == nullptr) {
                 return false;
               }
             }
           }
         }
+      }
+    }
+  }
+
+  if ((lp.biome != BIOME_NETHERVOID) && ! lp.is_test_level) {
+    if (w == MAP_SMALL_WIDTH) {
+      for (auto y = -1; y <= h; y++) {
+        auto x      = -1;
+        lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
+        (void) thing_spawn(g, v, l, tp_random(g, v, l, is_border), lp.spawn_at);
+        x           = w;
+        lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
+        (void) thing_spawn(g, v, l, tp_random(g, v, l, is_border), lp.spawn_at);
+      }
+      for (auto x = -1; x <= w; x++) {
+        auto y      = -1;
+        lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
+        (void) thing_spawn(g, v, l, tp_random(g, v, l, is_border), lp.spawn_at);
+        y           = h;
+        lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
+        (void) thing_spawn(g, v, l, tp_random(g, v, l, is_border), lp.spawn_at);
       }
     }
   }
@@ -1029,16 +1053,4 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
   }
 
   return level_populated(g, v, l);
-}
-
-[[nodiscard]] auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, const char *in, const Overrides &o_in) -> bool
-{
-  TRACE();
-
-  if (! level_populate(g, v, l, lg, MAP_WIDTH, MAP_HEIGHT, in, o_in)) {
-    level_err(g, v, l, "level populate failed");
-    return false;
-  }
-
-  return true;
 }

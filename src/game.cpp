@@ -821,7 +821,7 @@ void Game::seed_set(const char *maybe_seed)
         con("Set seed '%s' from testing option", config.seed_name.c_str());
         break;
       case SEED_SOURCE_COMMAND_LINE : //
-        con("Set seed '%s' from previous save", config.seed_name.c_str());
+        con("Set seed '%s' from command line", config.seed_name.c_str());
         break;
       case SEED_SOURCE_USER : //
         con("Set seed '%s' from previous load", config.seed_name.c_str());

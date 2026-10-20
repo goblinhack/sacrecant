@@ -140,9 +140,7 @@ static auto thing_choose_random_landing_spot(Gamep g, Levelsp v, Levelp l, Thing
   // Find somewhere random to land
   //
   for (auto attempt = 0; attempt < 1000; attempt++) {
-    uint8_t const border = MAP_BORDER;
-    to.x                 = PCG_RANDOM_RANGE(border, (uint8_t) MAP_WIDTH - border);
-    to.y                 = PCG_RANDOM_RANGE(border, (uint8_t) MAP_HEIGHT - border);
+    to = level_get_random_coord(g, v, l);
 
     if (is_oob_or_border(to)) [[unlikely]] {
       IF_DEBUG3 { THING_DBG(g, v, l, me, "choose landing spot, no; oob"); }

@@ -105,6 +105,26 @@ void wid_main_menu_hide(Gamep g)
   return true;
 }
 
+[[nodiscard]] static auto game_menu_random_seed(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+{
+  con("Main menu: random seed");
+  TRACE_INDENT();
+
+  if (game_seed_source_get(g) != SEED_SOURCE_RANDOM) {
+    game_seed_clear(g);
+  }
+
+  return game_menu_new_game(g, w, x, y, button);
+}
+
+[[nodiscard]] static auto game_menu_current_seed(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
+{
+  con("Main menu: specific seed");
+  TRACE_INDENT();
+
+  return game_menu_new_game(g, w, x, y, button);
+}
+
 [[nodiscard]] static auto game_menu_weekly_seed(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   con("Main menu: weekly seed");
@@ -157,7 +177,23 @@ void wid_main_menu_hide(Gamep g)
 
   auto s = to_string(*key);
 
-  if (s == "<Sp>" || s == "<Ret>" || s == "n" || s == "N") {
+  if (s == "<Sp>" || s == "<Ret>") {
+    TRACE();
+    ((void) sound_play(g, "keypress"));
+
+    if (wid_over) {
+      SDL_Event e     = {};
+      e.type          = SDL_MOUSEBUTTONDOWN;
+      e.button.button = 0;
+      SDL_PushEvent(&e);
+      return true;
+    }
+
+    (void) game_menu_new_game(g, nullptr, 0, 0, 0);
+    return true;
+  }
+
+  if (s == "n" || s == "N") {
     TRACE();
     ((void) sound_play(g, "keypress"));
     (void) game_menu_new_game(g, nullptr, 0, 0, 0);
@@ -418,15 +454,22 @@ void wid_main_menu_select(Gamep g)
   }
 
   if (! g_opt_seed_name_previous.empty()) {
-    if ((g_opt_seed_name_previous != g_opt_seed_name_weekly) && //
-        (g_opt_seed_name_previous != g_opt_seed_name_daily)) {
-      menu_height += 3;
+    menu_height += 3;
 
-      if (game_seed_name_get(g) == g_opt_seed_name_previous) {
-        DBG("clear old seed as using 'previous seed'");
-        game_seed_clear(g);
-        game_seed_set(g, nullptr);
-      }
+    if (game_seed_name_get(g) == g_opt_seed_name_previous) {
+      DBG("clear old seed as using 'previous seed'");
+      game_seed_clear(g);
+      game_seed_set(g, nullptr);
+    }
+  }
+
+  if (game_seed_name_get(g)) {
+    if (game_seed_source_get(g) == SEED_SOURCE_USER) {
+      menu_height += 3;
+    }
+
+    if (game_seed_source_get(g) == SEED_SOURCE_COMMAND_LINE) {
+      menu_height += 3;
     }
   }
 
@@ -463,19 +506,43 @@ void wid_main_menu_select(Gamep g)
 
     spoint const tl(0, y_at);
     spoint const br(button_width, y_at + button_height);
-    wid_set_on_mouse_down(w, game_menu_new_game);
+    wid_set_on_mouse_down(w, game_menu_random_seed);
     wid_set_pos(w, tl, br);
-    if (game_seed_source_get(g) == SEED_SOURCE_RANDOM) {
-      std::string const s = std::string(UI_HIGHLIGHT_FMT_STR) + std::string("N") + std::string(UI_RESET_FMT) + std::string("ew sacrifice")
-                          + std::string(UI_RESET_FMT);
+    std::string const s = std::string(UI_HIGHLIGHT_FMT_STR) + std::string("N") + std::string(UI_RESET_FMT) + std::string("ew sacrifice")
+                        + std::string(UI_RESET_FMT);
+    wid_set_text(w, s);
+    y_at += button_step;
+  }
+
+  if (game_seed_name_get(g)) {
+    if (game_seed_source_get(g) == SEED_SOURCE_USER) {
+      TRACE();
+      auto *p = wid_main_menu_window->wid_text_area->wid_text_area;
+      auto *w = wid_new_menu_button(g, p, "User Sacrifice");
+
+      spoint const tl(0, y_at);
+      spoint const br(button_width, y_at + button_height);
+      wid_set_on_mouse_down(w, game_menu_current_seed);
+      wid_set_pos(w, tl, br);
+      std::string const s = std::string("User seed: ") + game_seed_name_get(g);
       wid_set_text(w, s);
-    } else {
-      std::string const s = std::string(UI_HIGHLIGHT_FMT_STR) + std::string("N") + std::string(UI_RESET_FMT) + std::string("ew sacrifice:")
-                          + std::string(UI_RESET_FMT) + std::string(" ") + game_seed_name_get(g);
+      y_at += button_step;
+    }
+
+    if (game_seed_source_get(g) == SEED_SOURCE_COMMAND_LINE) {
+      TRACE();
+      auto *p = wid_main_menu_window->wid_text_area->wid_text_area;
+      auto *w = wid_new_menu_button(g, p, "Old Sacrifice");
+
+      spoint const tl(0, y_at);
+      spoint const br(button_width, y_at + button_height);
+      wid_set_on_mouse_down(w, game_menu_current_seed);
+      wid_set_pos(w, tl, br);
+      std::string const s = std::string("CLI seed: ") + game_seed_name_get(g);
       wid_set_text(w, s);
+      y_at += button_step;
     }
   }
-  y_at += button_step;
 
   if (! g_opt_seed_name_daily.empty()) {
     TRACE();
@@ -486,8 +553,7 @@ void wid_main_menu_select(Gamep g)
     spoint const br(button_width, y_at + button_height);
     wid_set_on_mouse_down(w, game_menu_daily_seed);
     wid_set_pos(w, tl, br);
-    std::string const s = std::string(UI_HIGHLIGHT_FMT_STR) + std::string("D") + std::string(UI_RESET_FMT) + std::string("aily seed:")
-                        + std::string(UI_RESET_FMT) + std::string(" ") + g_opt_seed_name_daily;
+    std::string const s = "Daily seed: " + g_opt_seed_name_daily;
     wid_set_text(w, s);
     y_at += button_step;
   }
@@ -501,28 +567,26 @@ void wid_main_menu_select(Gamep g)
     spoint const br(button_width, y_at + button_height);
     wid_set_on_mouse_down(w, game_menu_weekly_seed);
     wid_set_pos(w, tl, br);
-    std::string const s = std::string(UI_HIGHLIGHT_FMT_STR) + std::string("W") + std::string(UI_RESET_FMT) + std::string("eekly seed:")
-                        + std::string(UI_RESET_FMT) + std::string(" ") + g_opt_seed_name_weekly;
+    std::string const s = "Weekly seed: " + g_opt_seed_name_weekly;
     wid_set_text(w, s);
     y_at += button_step;
   }
 
   if (! g_opt_seed_name_previous.empty()) {
-    if (g_opt_seed_name_previous != g_opt_seed_name_weekly) {
-      TRACE();
-      auto *p = wid_main_menu_window->wid_text_area->wid_text_area;
-      auto *w = wid_new_menu_button(g, p, "Previous Seed");
+    TRACE();
+    auto *p = wid_main_menu_window->wid_text_area->wid_text_area;
+    auto *w = wid_new_menu_button(g, p, "Previous Seed");
 
-      spoint const tl(0, y_at);
-      spoint const br(button_width, y_at + button_height);
-      wid_set_on_mouse_down(w, game_menu_previous_seed);
-      wid_set_pos(w, tl, br);
-      std::string const s = std::string(UI_HIGHLIGHT_FMT_STR) + std::string("P") + std::string(UI_RESET_FMT) + std::string("revious seed:")
-                          + std::string(UI_RESET_FMT) + std::string(" ") + g_opt_seed_name_previous;
-      wid_set_text(w, s);
-      y_at += button_step;
-    }
+    spoint const tl(0, y_at);
+    spoint const br(button_width, y_at + button_height);
+    wid_set_on_mouse_down(w, game_menu_previous_seed);
+    wid_set_pos(w, tl, br);
+    std::string const s = std::string(UI_HIGHLIGHT_FMT_STR) + std::string("P") + std::string(UI_RESET_FMT) + std::string("revious seed:")
+                        + std::string(UI_RESET_FMT) + std::string(" ") + g_opt_seed_name_previous;
+    wid_set_text(w, s);
+    y_at += button_step;
   }
+
 #ifndef WEB_BUILD
   {
     TRACE();

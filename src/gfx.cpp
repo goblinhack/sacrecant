@@ -936,7 +936,7 @@ static void gfx_ui_init_lava()
   tile_load_arr("data/gfx/tiles_lava.tga", "lava", static_cast< int >(TILE_WIDTH) * static_cast< int >(MAP_WIDTH),
                 static_cast< int >(TILE_HEIGHT) * static_cast< int >(MAP_HEIGHT), ARRAY_SIZE(tiles), tiles);
 
-  if (! g_opt_tests) {
+  if (! g_opt_tests && ! g_opt_do_level_gen) {
     auto *tex = tex_find("lava");
     if (tex != nullptr) {
       glBindTexture(GL_TEXTURE_2D, tex_get_gl_binding(tex));

@@ -9,10 +9,12 @@
 // The level map dimensions
 //
 enum {
-  MAP_HEIGHT = 48,
-  MAP_WIDTH  = 48,
-  MAP_BORDER = 1,
-  MAP_SLOTS  = 14,
+  MAP_HEIGHT       = 48,
+  MAP_WIDTH        = 48,
+  MAP_SMALL_HEIGHT = 32,
+  MAP_SMALL_WIDTH  = 32,
+  MAP_BORDER       = 1,
+  MAP_SLOTS        = 14,
 
   THING_DMAP_ID_PER_LEVEL_MAX  = 100,
   THING_EXT_ID_PER_LEVEL_MAX   = 400,
@@ -31,8 +33,8 @@ enum {
   // L Level        (enough for LEVEL_ARR_IDX_MAX - 1)
   //
   THING_LEVEL_ID_BITS           = 7,
-  THING_PER_LEVEL_THING_ID_BITS = 15,
-  THING_ENTROPY_BITS            = 9,
+  THING_PER_LEVEL_THING_ID_BITS = 14,
+  THING_ENTROPY_BITS            = 11,
 
   //
   // In the world minimap, this is how large each level tile is
@@ -206,10 +208,10 @@ enum {
   LEVEL_ARR_IDX_BOSS_OFFSET  = 2, // Boss levels are in the middle of the grid
 
   THING_ARR_INDEX_BITS = (THING_LEVEL_ID_BITS + THING_PER_LEVEL_THING_ID_BITS),
-  THING_ID_MAX         = (1 << THING_ARR_INDEX_BITS),
 
-  THING_ID_PER_LEVEL_REQ = (MAP_SLOTS * MAP_WIDTH * MAP_HEIGHT),
+  THING_ID_PER_LEVEL_REQ = (MAP_SLOTS * MAP_SMALL_WIDTH * MAP_SMALL_HEIGHT),
   THING_ID_PER_LEVEL_MAX = (1 << THING_PER_LEVEL_THING_ID_BITS),
+  THING_ID_MAX           = (LEVEL_ARR_IDX_MAX * THING_ID_PER_LEVEL_MAX),
 
   //
   // Maximum number of things

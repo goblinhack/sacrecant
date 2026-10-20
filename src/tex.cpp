@@ -584,7 +584,7 @@ void tex_load_sprites(Texp *tex, Texp *tex_monochrome, Texp *tex_mask, // newlin
   //
   GLuint gl_surface_binding = 0;
 
-  if (! g_opt_tests) {
+  if (! g_opt_tests && ! g_opt_do_level_gen) {
     glEnable(GL_TEXTURE_2D); // Apparently needed for ATI drivers
 
     glGenTextures(1, &gl_surface_binding);

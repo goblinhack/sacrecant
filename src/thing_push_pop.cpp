@@ -303,13 +303,9 @@
   //
   // Last resort. Try anywhere.
   //
-  auto tries  = 100;
-  auto border = 1;
+  auto tries = 100;
   while (tries-- > 0) {
-    auto x = PCG_RANDOM_RANGE(border, MAP_WIDTH - border);
-    auto y = PCG_RANDOM_RANGE(border, MAP_HEIGHT - border);
-
-    auto new_at = bpoint(x, y);
+    auto new_at = level_get_random_coord(g, v, l);
 
     if (is_oob(new_at)) [[unlikely]] {
       continue;
