@@ -380,7 +380,8 @@ static void level_tick_body(Gamep g, Levelsp v, Levelp l, float dt, bool tick_is
   TRACE();
 
   if (dt < 0) {
-    CROAK("negative dt %f", dt);
+    warn("negative dt %f for tick", dt);
+    return;
   }
 
   if (tick_is_about_to_end) {

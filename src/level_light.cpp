@@ -125,7 +125,7 @@ static inline void level_light_per_pixel(const FovContext &ctx, const bpoint &p)
       //
       if ((light_fade_index >= MAP_WIDTH)) [[unlikely]] {
         light_fade_index = MAP_WIDTH - 1;
-        CROAK("unexpected overflow");
+        CROAK("unexpected lighting overflow");
       }
 #endif
 

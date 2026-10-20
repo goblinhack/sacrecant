@@ -642,7 +642,6 @@ using Thing = struct Thing {
   //
   // Interpolated coordinates in pixels
   //
-  spoint _prev_pix_at;
   spoint _curr_pix_at;
   //
   // Increases per tick and when it reaches 1, allows the thing to move
@@ -1424,7 +1423,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_player(Gamep g) -> Thingp;
 [[nodiscard]] auto thing_pop_additional(Gamep g, Levelsp v, Levelp l, Thingp t, bpoint at) -> bool;
 [[nodiscard]] auto thing_pop(Gamep g, Levelsp v, Thingp t) -> bool;
-[[nodiscard]] auto thing_prev_pix_at(Thingp me) -> spoint;
 [[nodiscard]] auto thing_priority_set(Gamep g, Levelsp v, Levelp l, Thingp t, ThingPriorityType val) -> ThingPriorityType;
 [[nodiscard]] auto thing_priority(Thingp t) -> ThingPriorityType;
 [[nodiscard]] auto thing_push_additional(Gamep g, Levelsp v, Levelp l, Thingp t, bpoint at) -> bool;
@@ -1683,7 +1681,6 @@ auto thing_pix_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, const spoint &val
 auto thing_pix_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, short x, short y) -> void;
 auto thing_player_event_loop(Gamep g, Levelsp v, Levelp l) -> void;
 auto thing_player_init(Gamep g) -> void;
-auto thing_prev_pix_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, const spoint &val) -> void;
 auto thing_proj_move(Gamep g, Levelsp v, Levelp l, Thingp me, float dt) -> void;
 auto thing_set_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &p) -> void;
 auto thing_set_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp me, int dx, int dy) -> void;

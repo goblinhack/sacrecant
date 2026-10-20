@@ -187,7 +187,8 @@ static auto level_select_get_level_from_grid_coords(Levelsp v, bpoint p) -> Leve
 
   LevelSelect const *s = &v->level_select;
   if (s == nullptr) {
-    CROAK("missing level select pointer");
+    warn("missing level select pointer");
+    return nullptr;
   }
 
   auto   p         = l->level_select_at;

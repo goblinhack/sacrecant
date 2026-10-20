@@ -194,7 +194,7 @@ void level_fov(const FovContext &ctx)
   // Player age map is set to 1
   //
   if (thing_is_player(ctx.me)) {
-    CROAK("unexpected");
+    CROAK("unexpected to have the player here");
   }
 
   if (ctx.can_see_tile != nullptr) {

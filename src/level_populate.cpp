@@ -743,8 +743,7 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
   auto expected_len = w * h;
 
   if (std::cmp_not_equal(strlen(in), expected_len)) {
-    CROAK("level populate: bad map size, expected %d chars, got %d chars for map of expected size %dx%d", (int) expected_len, (int) strlen(in),
-          w, h);
+    CROAK("level populate: bad map size, expected %d chars, got %d chars for map of size %dx%d", (int) expected_len, (int) strlen(in), w, h);
   }
 
   auto pad_w = (MAP_WIDTH - w) / 2;

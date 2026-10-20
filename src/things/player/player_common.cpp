@@ -307,11 +307,6 @@ void tp_player_level_enter(Gamep g, Levelsp v, Levelp l, Thingp me)
   auto loops = 1000;
   auto scale = 1;
 
-  //
-  // Needed to make sure the light resets as it looks for pixel changes.
-  //
-  thing_prev_pix_at_set(g, v, l, me, spoint(-1, -1));
-
   if (g_opt_tests) {
     return;
   }

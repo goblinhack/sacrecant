@@ -117,28 +117,6 @@ void thing_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, const fpoint &val)
   return make_bpoint(me->_old_at);
 }
 
-[[nodiscard]] auto thing_prev_pix_at(Thingp me) -> spoint
-{
-  TRACE_DEBUG();
-
-  if (me == nullptr) {
-    no_thing_pointer();
-    return spoint(0, 0);
-  }
-  return me->_prev_pix_at;
-}
-
-void thing_prev_pix_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, const spoint &val)
-{
-  TRACE_DEBUG();
-
-  if (me == nullptr) {
-    no_thing_pointer();
-    return;
-  }
-  me->_prev_pix_at = val;
-}
-
 void thing_pix_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, const spoint &val)
 {
   TRACE_DEBUG();
@@ -154,7 +132,6 @@ void thing_pix_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, const spoint &val
     }
   }
 
-  me->_prev_pix_at = me->_curr_pix_at;
   me->_curr_pix_at = val;
 }
 
@@ -175,6 +152,5 @@ void thing_pix_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, short x, short y)
     }
   }
 
-  me->_prev_pix_at = me->_curr_pix_at;
   me->_curr_pix_at = val;
 }

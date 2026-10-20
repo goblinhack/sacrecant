@@ -885,11 +885,6 @@ auto operator>>(std::istream &in, Bits< class Game & > my) -> std::istream &
       return in;
     }
     in >> bits(tmp);
-    if (tmp != offsetof(Thing, _prev_pix_at)) {
-      game_load_error = "thing structure changed: offsetof(Thing, _prev_pix_at)";
-      return in;
-    }
-    in >> bits(tmp);
     if (tmp != offsetof(Thing, _curr_pix_at)) {
       game_load_error = "thing structure changed: offsetof(Thing, _curr_pix_at)";
       return in;
