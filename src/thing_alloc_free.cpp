@@ -90,7 +90,7 @@ static void thing_ext_free(Levelsp v, Thingp me)
   }
 
   if (! v->thing_ext[ ext_id ].in_use) {
-    CROAK("freeing unused thing ext ID is not in use, %" PRIX32 "", ext_id);
+    CROAK("freeing thing ext ID which is not in use, %" PRIX32 "", ext_id);
   }
 
   v->thing_ext[ ext_id ] = {};
@@ -171,7 +171,7 @@ static void thing_dmap_free(Gamep g, Levelsp v, Levelp l, Thingp me)
   }
 
   if (! v->thing_dmap[ dmap_id ].in_use) {
-    CROAK("freeing unused thing dmap ID is not in use, %" PRIX32 "", dmap_id);
+    CROAK("freeing thing dmap ID which is not in use, %" PRIX32 "", dmap_id);
   }
 
   v->thing_dmap[ dmap_id ] = {};
@@ -235,7 +235,7 @@ static void thing_light_free(Levelsp v, Thingp me)
   }
 
   if (! v->thing_light[ light_id ].in_use) {
-    CROAK("freeing unused thing light ID is not in use, %" PRIX32 "", light_id);
+    CROAK("freeing thing light ID which is not in use, %" PRIX32 "", light_id);
   }
 
   v->thing_light[ light_id ] = {};
@@ -408,14 +408,18 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
   auto needs_ext_memory   = tp_is_memory_ext(tp) || needs_dmap_memory;
   auto needs_light_memory = tp_is_light_source(tp) || tp_is_player(tp);
 
+  auto level_arr_idx = l->level_arr_idx;
+
+#if 0
   //
   // The level select level doesn't have a dedicated bit slot so just use a level that
   // is not initialized
   //
-  auto level_arr_idx = l->level_arr_idx;
+  // Is this true? I don't think so.
+  //
   if (level_arr_idx == LEVEL_ARR_IDX_LEVEL_SELECT) {
     if (v->is_generating_levels) {
-      CROAK("cannot allocate level select while mutexes are off");
+      CROAK("cannot allocate level selection things while mutexes are off");
     }
 
     for (auto i = 0; i < LEVEL_ARR_IDX_MAX; i++) {
@@ -425,6 +429,7 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
       }
     }
   }
+#endif
 
   //
   // Sequentially try to allocate an ID from the last ID allocated.
@@ -547,7 +552,7 @@ void thing_alloc_free_fini(Gamep g)
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    CROAK("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(me), is_removable_when_dead_on_err) != 0;
@@ -558,7 +563,7 @@ void thing_alloc_free_fini(Gamep g)
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    CROAK("no thing pointer");
+    no_thing_pointer();
     return false;
   }
   return tp_flag(thing_tp(me), is_removable_on_err) != 0;
@@ -569,7 +574,7 @@ void thing_alloc_free_fini(Gamep g)
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    CROAK("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -581,7 +586,8 @@ void thing_is_scheduled_for_cleanup_set(Gamep g, Levelsp v, Levelp l, Thingp me,
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    CROAK("no thing pointer");
+    no_thing_pointer();
+    return;
     return;
   }
 
@@ -609,7 +615,7 @@ void thing_is_scheduled_for_cleanup_unset(Gamep g, Levelsp v, Levelp l, Thingp m
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    CROAK("no thing pointer");
+    no_thing_pointer();
     return false;
   }
 
@@ -621,7 +627,8 @@ void thing_is_scheduled_for_worklist_set(Thingp me, bool val)
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    CROAK("no thing pointer");
+    no_thing_pointer();
+    return;
     return;
   }
 

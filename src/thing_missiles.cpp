@@ -106,7 +106,8 @@
 
     auto *new_missile_ext = thing_ext_struct(g, v, new_missile);
     if (new_missile_ext == nullptr) [[unlikely]] {
-      thing_err(g, v, l, me, "expecting ext struct");
+      thing_err(g, v, l, new_missile, "no thing ext pointer");
+      no_thing_ext_pointer();
       return nullptr;
     }
 

@@ -1720,6 +1720,7 @@ void level_tick_remove_thing_from_worklist(Thingp me);
 void level_topcon(Gamep g, Levelsp v, Levelp l, const char *fmt, ...) CHECK_FORMAT_STR(printf, 4, 5);
 void level_warn(Gamep g, Levelsp v, Levelp l, const char *fmt, ...) CHECK_FORMAT_STR(printf, 4, 5);
 void no_thing_pointer();
+void no_thing_ext_pointer();
 void thing_alloc_free_fini(Gamep g);
 void thing_botcon(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 5, 6);
 void thing_con(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 5, 6);

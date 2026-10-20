@@ -307,7 +307,8 @@ void thing_on_carry_success_set(Tpp tp, thing_on_carry_success_t callback)
 
   auto *ext_item = thing_ext_struct(g, v, item);
   if (ext_item == nullptr) {
-    thing_err(g, v, l, item, "no thing ext");
+    thing_err(g, v, l, item, "no thing ext pointer");
+    no_thing_ext_pointer();
     return false;
   }
 

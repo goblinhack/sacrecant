@@ -1439,7 +1439,8 @@ void thing_monst_tick(Gamep g, Levelsp v, Levelp l, Thingp me)
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    CROAK("no thing pointer");
+    no_thing_pointer();
+    return bpoint(0, 0);
   }
 
   auto *ext = thing_ext_struct(g, v, me);
@@ -1455,7 +1456,8 @@ void thing_monst_target_set(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoin
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    CROAK("no thing pointer");
+    no_thing_pointer();
+    return;
   }
 
   auto *ext = thing_ext_struct(g, v, me);
@@ -1473,7 +1475,8 @@ void thing_monst_target_set(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoin
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    CROAK("no thing pointer");
+    no_thing_pointer();
+    return bpoint(0, 0);
   }
 
   auto *ext = thing_ext_struct(g, v, me);
@@ -1489,7 +1492,8 @@ void thing_attacked_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    CROAK("no thing pointer");
+    no_thing_pointer();
+    return;
   }
 
   auto *ext = thing_ext_struct(g, v, me);

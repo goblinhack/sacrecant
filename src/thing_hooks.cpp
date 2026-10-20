@@ -228,7 +228,8 @@ static void thing_hook_sort(Gamep g, Levelsp v, Levelp l, Thingp me)
 
     auto *new_hook_ext = thing_ext_struct(g, v, new_hook);
     if (new_hook_ext == nullptr) [[unlikely]] {
-      thing_err(g, v, l, new_hook, "expected ext struct");
+      thing_err(g, v, l, new_hook, "no thing ext pointer");
+      no_thing_ext_pointer();
       return nullptr;
     }
 

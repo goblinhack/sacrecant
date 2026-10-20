@@ -56,7 +56,7 @@ void level_verify(Gamep g, Levelsp v, Levelp l)
     }
   }
 
-  CROAK("unknown level pointer %p", (void *) l);
+  warn("unknown level pointer %p", (void *) l);
 }
 
 //
@@ -150,11 +150,13 @@ void levels_finalize(Gamep g, Levelsp v)
   TRACE_INDENT();
 
   if (g == nullptr) [[unlikely]] {
-    CROAK("no game pointer");
+    no_game_pointer();
+    return;
   }
 
   if (v == nullptr) [[unlikely]] {
-    CROAK("no levels pointer");
+    no_levels_pointer();
+    return;
   }
 
   v->level_count = 0;

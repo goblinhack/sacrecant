@@ -331,7 +331,7 @@
 #ifdef DEBUG_BUILD
   TRACE_DEBUG();
   if (me == nullptr) {
-    CROAK("no thing pointer");
+    no_thing_pointer(); return;
   }
 #endif
 

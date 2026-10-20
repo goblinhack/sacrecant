@@ -373,7 +373,8 @@ void thing_update_pos(Gamep g, Levelsp v, Levelp l, Thingp me)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    CROAK("no thing pointer");
+    no_thing_pointer();
+    return bpoint(0, 0);
   }
   return t->_moving_from;
 }
@@ -383,7 +384,8 @@ void thing_moving_from_set(Thingp t, const bpoint &val)
   TRACE_DEBUG();
 
   if (t == nullptr) {
-    CROAK("no thing pointer");
+    no_thing_pointer();
+    return;
   }
   t->_moving_from = val;
 }

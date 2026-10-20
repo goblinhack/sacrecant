@@ -103,7 +103,8 @@
 
     auto *new_minion_ext = thing_ext_struct(g, v, new_minion);
     if (new_minion_ext == nullptr) [[unlikely]] {
-      thing_err(g, v, l, new_minion, "expecting thing ext");
+      thing_err(g, v, l, new_minion, "no thing ext pointer");
+      no_thing_ext_pointer();
       return nullptr;
     }
 
@@ -187,7 +188,8 @@
 
     auto *minion_ext = thing_ext_struct(g, v, minion);
     if (minion_ext == nullptr) [[unlikely]] {
-      thing_err(g, v, l, minion, "expecting thing ext");
+      thing_err(g, v, l, minion, "no thing ext pointer");
+      no_thing_ext_pointer();
       continue;
     }
 

@@ -17,7 +17,8 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    CROAK("no thing pointer");
+    no_thing_pointer();
+    return bpoint(0, 0);
   }
 
   if (! thing_is_thrown(me)) {
@@ -37,7 +38,8 @@
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    CROAK("no thing pointer");
+    no_thing_pointer();
+    return bpoint(0, 0);
   }
 
   return make_bpoint(me->_at);
@@ -48,7 +50,8 @@ void thing_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &val)
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    CROAK("no thing pointer");
+    no_thing_pointer();
+    return;
   }
 
   auto valf = make_fpoint(val);
@@ -73,7 +76,8 @@ void thing_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &val)
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    CROAK("no thing pointer");
+    no_thing_pointer();
+    return fpoint(0, 0);
   }
   return me->_at;
 }
@@ -83,7 +87,8 @@ void thing_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, const fpoint &val)
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    CROAK("no thing pointer");
+    no_thing_pointer();
+    return;
   }
 
   //
@@ -106,7 +111,8 @@ void thing_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, const fpoint &val)
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    CROAK("no thing pointer");
+    no_thing_pointer();
+    return bpoint(0, 0);
   }
   return make_bpoint(me->_old_at);
 }
@@ -116,7 +122,8 @@ void thing_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, const fpoint &val)
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    CROAK("no thing pointer");
+    no_thing_pointer();
+    return spoint(0, 0);
   }
   return me->_prev_pix_at;
 }
@@ -126,7 +133,8 @@ void thing_prev_pix_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, const spoint
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    CROAK("no thing pointer");
+    no_thing_pointer();
+    return;
   }
   me->_prev_pix_at = val;
 }
@@ -136,7 +144,8 @@ void thing_pix_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, const spoint &val
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    CROAK("no thing pointer");
+    no_thing_pointer();
+    return;
   }
 
   if (thing_is_light_source(me) != 0) {
@@ -154,7 +163,8 @@ void thing_pix_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, short x, short y)
   TRACE_DEBUG();
 
   if (me == nullptr) {
-    CROAK("no thing pointer");
+    no_thing_pointer();
+    return;
   }
 
   spoint const val(x, y);

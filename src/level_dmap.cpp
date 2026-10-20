@@ -27,11 +27,13 @@ void levels_dmap(Gamep g, Levelsp v)
   TRACE_INDENT();
 
   if (g == nullptr) [[unlikely]] {
-    CROAK("no game pointer");
+    no_game_pointer();
+    return;
   }
 
   if (v == nullptr) [[unlikely]] {
-    CROAK("no levels pointer");
+    no_levels_pointer();
+    return;
   }
 
   FOR_ALL_LEVELS(g, v, iter) { level_dmap(g, v, iter); }
