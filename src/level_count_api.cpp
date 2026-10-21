@@ -1503,10 +1503,10 @@
   return level_count(g, v, l, is_unused105, p);
 }
 
-[[nodiscard]] auto level_count_is_unused106(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_transparent_wall(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused106, p);
+  return level_count(g, v, l, is_transparent_wall, p);
 }
 
 [[nodiscard]] auto level_count_is_level_locked_treasure_icon(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t

@@ -275,7 +275,7 @@
       list_macro(is_unused103, "is_unused103"),                                             /* newline */                                       \
       list_macro(is_unused104, "is_unused104"),                                             /* newline */                                       \
       list_macro(is_unused105, "is_unused105"),                                             /* newline */                                       \
-      list_macro(is_unused106, "is_unused106"),                                             /* newline */                                       \
+      list_macro(is_transparent_wall, "is_transparent_wall"),                               /* newline */                                       \
       list_macro(is_level_locked_treasure_icon, "is_level_locked_treasure_icon"),           /* newline */                                       \
       list_macro(is_argusul, "is_argusul"),                                                 /* newline */                                       \
       list_macro(is_skullferno, "is_skullferno"),                                           /* newline */                                       \
@@ -1149,6 +1149,7 @@ class Tp;
 [[nodiscard]] auto tp_is_tickable(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_tiled(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_tireless(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_transparent_wall(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_trap(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_treasure(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_undead(Tpp tp) -> bool;
@@ -1161,7 +1162,6 @@ class Tp;
 [[nodiscard]] auto tp_is_unused103(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused104(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused105(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused106(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused11(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused12(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused124(Tpp tp) -> bool;

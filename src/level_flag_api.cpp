@@ -1502,10 +1502,10 @@
   return level_flag(g, v, l, is_unused105, p, me);
 }
 
-[[nodiscard]] auto level_is_unused106(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_transparent_wall(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused106, p, me);
+  return level_flag(g, v, l, is_transparent_wall, p, me);
 }
 
 [[nodiscard]] auto level_is_level_locked_treasure_icon(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp

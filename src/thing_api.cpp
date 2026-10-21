@@ -1708,7 +1708,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   return tp_flag(thing_tp(t), is_unused105) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused106(Thingp t) -> bool
+[[nodiscard]] auto thing_is_transparent_wall(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1716,7 +1716,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     no_thing_pointer();
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused106) != 0;
+  return tp_flag(thing_tp(t), is_transparent_wall) != 0;
 }
 
 [[nodiscard]] auto thing_is_level_locked_treasure_icon(Thingp t) -> bool

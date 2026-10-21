@@ -164,6 +164,7 @@ auto tp_load_staff_energy() -> bool;
 auto tp_load_staff_fire() -> bool;
 auto tp_load_steam() -> bool;
 auto tp_load_teleport() -> bool;
+auto tp_load_transparent_wall() -> bool;
 auto tp_load_trap_chasm() -> bool;
 auto tp_load_trap_gas_death() -> bool;
 auto tp_load_trap_gas_explosive() -> bool;
