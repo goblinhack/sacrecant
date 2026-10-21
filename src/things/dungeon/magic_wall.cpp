@@ -64,14 +64,16 @@ static void tp_magic_wall_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
     std::string const name = "magic_wall" + std::to_string(variant);
     auto             *tp   = tp_load(name);
     // begin sort marker1 {
-    tp_distance_light_penetration_pixels_set(tp, TILE_WIDTH);
     thing_on_death_set(tp, tp_magic_wall_on_death);
     tp_flag_set(tp, is_blit_if_has_seen);
     tp_flag_set(tp, is_blit_obscures);
     tp_flag_set(tp, is_blit_on_ground);
+    tp_flag_set(tp, is_blit_shown_in_overlay);
     tp_flag_set(tp, is_blit_per_pixel_lighting);
+    tp_flag_set(tp, is_tiled);
     tp_flag_set(tp, is_blit_shown_in_chasms);
     tp_flag_set(tp, is_collision_square);
+    tp_flag_set(tp, is_described_cursor);
     tp_flag_set(tp, is_magic_wall);
     tp_flag_set(tp, is_obs_to_beam);
     tp_flag_set(tp, is_obs_to_cursor_path);
@@ -88,7 +90,6 @@ static void tp_magic_wall_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
     tp_flag_set(tp, is_obs_to_spawning);
     tp_flag_set(tp, is_obs_to_teleporting_onto);
     tp_flag_set(tp, is_obs_to_throwing_onto);
-    tp_flag_set(tp, is_obs_to_vision);
     tp_flag_set(tp, is_stone);
     tp_health_set(tp, "1");
     tp_name_a_or_an_set(tp, "a magic wall");
@@ -99,7 +100,7 @@ static void tp_magic_wall_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
     tp_priority_set(tp, THING_PRIORITY_WALL);
     tp_variant_set(tp, variant);
     tp_weight_set(tp, WEIGHT_VVHEAVY); // grams
-    tp_z_depth_set(tp, MAP_Z_DEPTH_WALL);
+    tp_z_depth_set(tp, MAP_Z_DEPTH_EFFECT);
     // end sort marker1 }
 
     auto *tile = tile_find_mand(name + ".IS_JOIN_BL");

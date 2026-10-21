@@ -51,6 +51,7 @@ enum : char {
   CHARMAP_WATER         = '~',
   CHARMAP_WEAPON        = '-',
   CHARMAP_WILDCARD      = '*',
+  CHARMAP_MAGIC_WALL    = '%',
   // end sort marker1 }
 };
 

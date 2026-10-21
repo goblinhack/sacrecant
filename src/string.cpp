@@ -371,7 +371,7 @@ static auto dynvprintf_(const char *fmt, va_list args) -> const char *
 }
 
 /*
- * dynamically allocate a printf formatted string. e.g.
+ * dynamically allocate a printf formatted string e.g.
  * dynprintf("%sbar", "foo"); => "foobar"
  */
 [[nodiscard]] auto dynprintf(const char *fmt, ...) -> char *

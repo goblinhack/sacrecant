@@ -60,6 +60,7 @@ public:
   bpoint    spawn_at {};
   BiomeType biome                 = {BIOME_DUNGEON};
   Tpp       tp_wall               = {};
+  Tpp       tp_magic_wall         = {};
   Tpp       tp_vault              = {};
   Tpp       tp_border             = {};
   Tpp       tp_gas                = {};
@@ -86,6 +87,7 @@ public:
   Tpp       tp_player             = {};
   Tpp       tp_entrance           = {};
   int       wall_variant          = {};
+  int       magic_wall_variant    = {};
   bool      is_test_level         = {};
   bool      is_decoration_allowed = {};
   bool      need_floor            = {};
@@ -213,6 +215,10 @@ static auto level_populate_biome_dungeon(Gamep g, Levelsp v, Levelp l, class Lev
       } else {
         tp = tp_variant(is_door_secret, lp.wall_variant);
       }
+      break;
+    case CHARMAP_MAGIC_WALL :
+      lp.need_floor = true;
+      tp            = tp_variant(is_magic_wall, lp.magic_wall_variant);
       break;
     case CHARMAP_DOOR_SECRET :
       lp.need_floor = true;
@@ -425,6 +431,7 @@ static auto level_populate_biome_bogland(Gamep g, Levelsp v, Levelp l, class Lev
     case CHARMAP_TRAP :        [[fallthrough]];
     case CHARMAP_DOOR_LOCKED : [[fallthrough]];
     case CHARMAP_DOOR_SECRET : [[fallthrough]];
+    case CHARMAP_MAGIC_WALL :  [[fallthrough]];
     case CHARMAP_GRASS :       [[fallthrough]];
     case CHARMAP_MONST1 :      [[fallthrough]];
     case CHARMAP_MONST2 :      [[fallthrough]];
@@ -487,6 +494,7 @@ static auto level_populate_biome_nethervoid(Gamep g, Levelsp v, Levelp l, class 
     case CHARMAP_TRAP :          [[fallthrough]];
     case CHARMAP_DOOR_LOCKED :   [[fallthrough]];
     case CHARMAP_DOOR_SECRET :   [[fallthrough]];
+    case CHARMAP_MAGIC_WALL :    [[fallthrough]];
     case CHARMAP_MONST1 :        [[fallthrough]];
     case CHARMAP_MONST2 :        [[fallthrough]];
     case CHARMAP_MOB1 :          [[fallthrough]];
@@ -589,6 +597,7 @@ static auto level_populate_biome_graveyard(Gamep g, Levelsp v, Levelp l, class L
     case CHARMAP_TRAP :          [[fallthrough]];
     case CHARMAP_DOOR_LOCKED :   [[fallthrough]];
     case CHARMAP_DOOR_SECRET :   [[fallthrough]];
+    case CHARMAP_MAGIC_WALL :    [[fallthrough]];
     case CHARMAP_MONST1 :        [[fallthrough]];
     case CHARMAP_MONST2 :        [[fallthrough]];
     case CHARMAP_MOB1 :          [[fallthrough]];
@@ -684,6 +693,7 @@ static auto level_populate_biome_underhell(Gamep g, Levelsp v, Levelp l, class L
     case CHARMAP_TRAP :          [[fallthrough]];
     case CHARMAP_DOOR_LOCKED :   [[fallthrough]];
     case CHARMAP_DOOR_SECRET :   [[fallthrough]];
+    case CHARMAP_MAGIC_WALL :    [[fallthrough]];
     case CHARMAP_MONST1 :        [[fallthrough]];
     case CHARMAP_MONST2 :        [[fallthrough]];
     case CHARMAP_MOB1 :          [[fallthrough]];
@@ -763,6 +773,7 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
   lp.tp_border     = tp_first(is_border);
   lp.tp_gas        = tp_first(is_gas_death);
   lp.tp_wall       = tp_random(g, v, l, is_wall);
+  lp.tp_magic_wall = tp_random(g, v, l, is_magic_wall);
   lp.tp_rock       = tp_random(g, v, l, is_rock);
   lp.tp_water      = tp_random(g, v, l, is_water_shallow);
   lp.tp_lava       = tp_random(g, v, l, is_lava);
@@ -800,7 +811,8 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
   //
   // We need secret doors to match the style of walls
   //
-  lp.wall_variant = tp_variant_get(lp.tp_wall);
+  lp.wall_variant       = tp_variant_get(lp.tp_wall);
+  lp.magic_wall_variant = tp_variant_get(lp.tp_magic_wall);
 
   //
   // Same with vaults
@@ -838,7 +850,7 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
       auto o = o_in.find(lp.c);
       if (o != o_in.end()) {
         //
-        // Allow some characters to be overridden. e.g. to place a specific monster
+        // Allow some characters to be overridden e.g. to place a specific monster
         //
         tp = (o->second)(lp.c, lp.at);
         if (tp == nullptr) [[unlikely]] {

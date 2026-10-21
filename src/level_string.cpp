@@ -99,6 +99,9 @@
           c = CHARMAP_DOOR_SECRET;
         }
       }
+      if (level_is_magic_wall_bool(g, v, l, p)) {
+        c = CHARMAP_MAGIC_WALL;
+      }
       if (level_is_key_bool(g, v, l, p)) {
         c = CHARMAP_KEY;
       }

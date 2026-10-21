@@ -455,7 +455,7 @@ static void level_display_fbo_do(Gamep g, Levelsp v, Levelp level_above, Levelp 
             }
 
             //
-            // Need to show hidden things in the overlay. e.g. a ghost inside a wall
+            // Need to show hidden things in the overlay e.g. a ghost inside a wall
             //
             if (! display_tile) {
               //

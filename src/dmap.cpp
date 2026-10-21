@@ -593,7 +593,7 @@ static auto dmap_solve_manhattan(const Dmap *D, const bpoint start) -> std::vect
 {
   //
   // No path? Intentionally not allowing diagonal moves here as that allows the
-  // player to take a shortcut around walls. e.g.
+  // player to take a shortcut around walls e.g.
   //
   // ..###    ..###
   // ..#$#    ..#$#

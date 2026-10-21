@@ -648,6 +648,7 @@ static auto room_flip_horiz(class Room *r) -> class Room *
     case CHARMAP_DIRT :          return true;
     case CHARMAP_DOOR_LOCKED :   return true;
     case CHARMAP_DOOR_SECRET :   return true;
+    case CHARMAP_MAGIC_WALL :    return true;
     case CHARMAP_DOOR_UNLOCKED : return true;
     case CHARMAP_EMPTY :         return false;
     case CHARMAP_ENTRANCE :      return true;
@@ -702,6 +703,7 @@ static auto room_flip_horiz(class Room *r) -> class Room *
     case CHARMAP_DIRT :          return false;
     case CHARMAP_DOOR_LOCKED :   return false;
     case CHARMAP_DOOR_SECRET :   return false;
+    case CHARMAP_MAGIC_WALL :    return false;
     case CHARMAP_DOOR_UNLOCKED : return false;
     case CHARMAP_EMPTY :         return true;
     case CHARMAP_ENTRANCE :      return false;
@@ -755,6 +757,7 @@ static auto room_flip_horiz(class Room *r) -> class Room *
     case CHARMAP_DIRT :          return false;
     case CHARMAP_DOOR_LOCKED :   return true;
     case CHARMAP_DOOR_SECRET :   return true;
+    case CHARMAP_MAGIC_WALL :    return true;
     case CHARMAP_DOOR_UNLOCKED : return true;
     case CHARMAP_EMPTY :         return false;
     case CHARMAP_ENTRANCE :      return true;
@@ -875,6 +878,7 @@ void room_add(Gamep g, int chance, int room_flags, const char *file, int line, .
         case CHARMAP_DEEP_WATER :    break;
         case CHARMAP_DOOR_LOCKED :   break;
         case CHARMAP_DOOR_SECRET :   break;
+        case CHARMAP_MAGIC_WALL :    break;
         case CHARMAP_DOOR_UNLOCKED : break;
         case CHARMAP_EMPTY :         break;
         case CHARMAP_FLOOR :         break;
@@ -1509,6 +1513,7 @@ static auto fragment_alt_flip_horiz(class FragmentAlt *r) -> class FragmentAlt *
         case CHARMAP_DEEP_WATER :    break;
         case CHARMAP_DOOR_LOCKED :   break;
         case CHARMAP_DOOR_SECRET :   break;
+        case CHARMAP_MAGIC_WALL :    break;
         case CHARMAP_DOOR_UNLOCKED : break;
         case CHARMAP_EMPTY :         break;
         case CHARMAP_ENTRANCE :      break;
@@ -1888,6 +1893,7 @@ static auto fragment_flip_horiz(class Fragment *f) -> class Fragment *
         case CHARMAP_DEEP_WATER :    break;
         case CHARMAP_DOOR_LOCKED :   break;
         case CHARMAP_DOOR_SECRET :   break;
+        case CHARMAP_MAGIC_WALL :    break;
         case CHARMAP_DOOR_UNLOCKED : break;
         case CHARMAP_EMPTY :         break;
         case CHARMAP_ENTRANCE :      break;
@@ -2257,6 +2263,7 @@ void level_fixed_add(Gamep g, int chance, LevelType level_type, const std::strin
         case CHARMAP_CORRIDOR :      break;
         case CHARMAP_DEEP_WATER :    break;
         case CHARMAP_DOOR_SECRET :   break;
+        case CHARMAP_MAGIC_WALL :    break;
         case CHARMAP_DIRT :          break;
         case CHARMAP_DOOR_UNLOCKED : break;
         case CHARMAP_DOOR_LOCKED :   break;
@@ -2541,6 +2548,7 @@ static void level_gen_dump(class LevelGen *lg, const char *msg)
           case CHARMAP_CHASM :
           case CHARMAP_DOOR_LOCKED :
           case CHARMAP_DOOR_SECRET :
+          case CHARMAP_MAGIC_WALL :
           case CHARMAP_DOOR_UNLOCKED :
           case CHARMAP_ENTRANCE :
           case CHARMAP_EXIT :
@@ -3108,6 +3116,7 @@ static void level_gen_single_large_blob_in_center(Gamep g, class LevelGen *lg, c
           case CHARMAP_CORRIDOR :
           case CHARMAP_DOOR_LOCKED :
           case CHARMAP_DOOR_SECRET :
+          case CHARMAP_MAGIC_WALL :
           case CHARMAP_DOOR_UNLOCKED :
           case CHARMAP_ENTRANCE :
           case CHARMAP_EXIT :
@@ -3191,6 +3200,7 @@ static void level_gen_blob(Gamep g, class LevelGen *lg, char c)
           case CHARMAP_DOOR_LOCKED :
           case CHARMAP_DOOR_SECRET :
           case CHARMAP_DOOR_UNLOCKED :
+          case CHARMAP_MAGIC_WALL :
           case CHARMAP_EMPTY :
           case CHARMAP_ENTRANCE :
           case CHARMAP_EXIT :
@@ -4133,6 +4143,7 @@ static void level_gen_add_foliage_around_secret_doors(Gamep g, class LevelGen *l
         case CHARMAP_MOB2 :
         case CHARMAP_DOOR_UNLOCKED :
         case CHARMAP_SPIDERWEB :
+        case CHARMAP_MAGIC_WALL :
         case CHARMAP_MONST1 :
         case CHARMAP_MONST2 :        break;
         case CHARMAP_VAULT :
@@ -5183,37 +5194,38 @@ static void level_gen_extend_bridges_do(Gamep g, class LevelGen *lg, int x, int 
   }
 
   switch (lg->data[ x ][ y ].c) {
-    case CHARMAP_CHASM_50 :   break;
-    case CHARMAP_CORRIDOR :   break;
-    case CHARMAP_DEEP_WATER : break;
-    case CHARMAP_FLOOR :      break;
-    case CHARMAP_FLOOR_50 :   break;
-    case CHARMAP_JOIN :       break;
-    case CHARMAP_KEY :        break;
-    case CHARMAP_MOB1 :       break;
-    case CHARMAP_MOB2 :       break;
-    case CHARMAP_MONST1 :     break;
-    case CHARMAP_MONST2 :     break;
-    case CHARMAP_PILLAR :     break;
-    case CHARMAP_TELEPORT :   break;
-    case CHARMAP_TRAP :       break;
-    case CHARMAP_FIRE :       break;
-    case CHARMAP_EXIT :       break;
-    case CHARMAP_ENTRANCE :   break;
-    case CHARMAP_DOOR_LOCKED :
-    case CHARMAP_DOOR_SECRET :
-    case CHARMAP_DOOR_UNLOCKED :
+    case CHARMAP_CHASM_50 :      break;
+    case CHARMAP_CORRIDOR :      break;
+    case CHARMAP_DEEP_WATER :    break;
+    case CHARMAP_FLOOR :         break;
+    case CHARMAP_FLOOR_50 :      break;
+    case CHARMAP_JOIN :          break;
+    case CHARMAP_KEY :           break;
+    case CHARMAP_MOB1 :          break;
+    case CHARMAP_MOB2 :          break;
+    case CHARMAP_MONST1 :        break;
+    case CHARMAP_MONST2 :        break;
+    case CHARMAP_PILLAR :        break;
+    case CHARMAP_TELEPORT :      break;
+    case CHARMAP_TRAP :          break;
+    case CHARMAP_FIRE :          break;
+    case CHARMAP_EXIT :          break;
+    case CHARMAP_MAGIC_WALL :    break;
+    case CHARMAP_ENTRANCE :      break;
+    case CHARMAP_DOOR_LOCKED :   break;
+    case CHARMAP_DOOR_SECRET :   break;
+    case CHARMAP_DOOR_UNLOCKED : break;
+    case CHARMAP_BARREL :        break;
+    case CHARMAP_BRAZIER :       break;
+    case CHARMAP_VAULT :         break;
+    case CHARMAP_WALL :          break;
+    case CHARMAP_SPIDERWEB :     break;
+    case CHARMAP_TREASURE :      break;
     case CHARMAP_GRASS :
-    case CHARMAP_TREASURE :
-    case CHARMAP_SPIDERWEB :
     case CHARMAP_RUBBLE :
     case CHARMAP_FOLIAGE :
     case CHARMAP_FUNGUS :
     case CHARMAP_REEDS :
-    case CHARMAP_BARREL :
-    case CHARMAP_BRAZIER :
-    case CHARMAP_VAULT :
-    case CHARMAP_WALL :
     case CHARMAP_WATER :
     case CHARMAP_LAVA :
     case CHARMAP_BRIDGE :
