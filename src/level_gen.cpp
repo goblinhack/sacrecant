@@ -178,6 +178,8 @@ static int level_no_exit_room;
 //
 static std::array< class LevelGen *, LEVEL_ARR_IDX_MAX > levels_generated = {};
 
+static std::array< bool, LEVEL_ARR_IDX_MAX > is_treasure_level = {};
+
 static void level_gen_dump(class LevelGen *lg, const char *msg);
 
 class Cell
@@ -2288,8 +2290,10 @@ void level_fixed_add(Gamep g, int chance, LevelType level_type, const std::strin
         case CHARMAP_FIRE :          break;
         case CHARMAP_EXIT :
           if ((exit_count++) != 0) {
-            CROAK("level has too many exits in level @ %s:%d", file, line);
-            return;
+            if (level_type == LEVEL_TYPE_NORMAL) {
+              CROAK("level has too many exits in level @ %s:%d", file, line);
+              return;
+            }
           }
           break;
         case CHARMAP_ENTRANCE :
@@ -3279,10 +3283,16 @@ static auto level_gen_new_class(Gamep g, LevelArrIdx level_arr_idx) -> class Lev
     return true;
   }
 
-  LevelSelect const *s = &v->level_select;
-  if (level_arr_idx == s->level_count - 1) {
+  if (level_type_is_boss_level(level_arr_idx)) {
     //
-    // Final boss level
+    // Boss level
+    //
+    return true;
+  }
+
+  if (is_treasure_level[ level_arr_idx ]) {
+    //
+    // Treasure level
     //
     return true;
   }
@@ -5362,6 +5372,31 @@ static void level_gen_extend_bridges(Gamep g, class LevelGen *lg)
 
     level_string = level_gen_string(lg, fixed_level);
     overrides    = fixed_level->overrides;
+  } else if (is_treasure_level[ lg->level_arr_idx ]) {
+    //
+    // Treasure level
+    //
+    switch (level_to_biome(g, lg->level_arr_idx)) {
+      case BIOME_DUNGEON :    lt = LEVEL_TYPE_TREASURE1; break;
+      case BIOME_BOGLAND :    lt = LEVEL_TYPE_TREASURE2; break;
+      case BIOME_NETHERVOID : lt = LEVEL_TYPE_TREASURE3; break;
+      case BIOME_GRAVEYARD :  lt = LEVEL_TYPE_TREASURE4; break;
+      case BIOME_UNDERHELL :  lt = LEVEL_TYPE_TREASURE5; break;
+      case BIOME_NONE :       [[fallthrough]];
+      case BIOME_ENUM_MAX :   lt = LEVEL_TYPE_TREASURE1; break;
+    }
+
+    fixed_level = level_random_get(lt);
+    if (fixed_level == nullptr) {
+      ERR("no treasure boss level \"%s\" level %u created", LevelType_to_string(lt).c_str(), lg->level_arr_idx);
+      return false;
+    }
+
+    lg->map_width  = fixed_level->width;
+    lg->map_height = fixed_level->height;
+
+    level_string = level_gen_string(lg, fixed_level);
+    overrides    = fixed_level->overrides;
   } else {
     //
     // Procedurally generated level
@@ -5390,6 +5425,11 @@ static void level_gen_extend_bridges(Gamep g, class LevelGen *lg)
     level->is_fixed_level = true;
     (void) my_strlcpy(level->info.name, fixed_level->alias.c_str(), sizeof(level->info.name));
   }
+
+  //
+  // Keep track if this is a treasure level
+  //
+  level->is_treasure_level = is_treasure_level[ lg->level_arr_idx ];
 
   //
   // Create things
@@ -5737,6 +5777,19 @@ void level_gen_create_levels(Gamep g, Levelsp v)
 {
   LevelSelect *s           = &v->level_select;
   int const    max_threads = s->level_count;
+
+  //
+  // Establish some random treasure levels
+  //
+  for (auto i = 0; i < (int) is_treasure_level.size(); i++) {
+    if (i > 5) {
+      if (d100() < 10) {
+        is_treasure_level[ i ] = true;
+      } else {
+        is_treasure_level[ i ] = false;
+      }
+    }
+  }
 
   //
   // We keep one level free for the grid level

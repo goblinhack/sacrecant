@@ -12,6 +12,7 @@
 #include "my_ui.hpp"
 #include "my_wid_popup.hpp"
 #include "my_wid_text_box.hpp"
+#include "my_wids.hpp"
 
 #include <cstdint>
 #include <cstring>
@@ -115,6 +116,11 @@ void wid_level_show_contents(Gamep g, Levelsp v, Levelp l, WidPopup *parent)
     }
   }
 
+  if (l->is_treasure_level) {
+    parent->log(g, UI_GOOD_FMT_STR "Treasure level" UI_RESET_FMT);
+    parent->log_empty_line(g);
+  }
+
   auto tmp = std::format("Preview of level {}", l->level_arr_idx + 1);
   parent->log(g, UI_INFO_FMT_STR + std::string(tmp) + UI_RESET_FMT);
   parent->log_empty_line(g);
@@ -164,4 +170,31 @@ void wid_level_show_contents(Gamep g, Levelsp v, Levelp l, WidPopup *parent)
     parent->log_empty_line(g);
     parent->log(g, UI_INFO_FMT_STR "This level appears empty...", TEXT_FORMAT_LHS);
   }
+
+  if (l->is_treasure_level) {
+    static auto minimap_size = 14;
+
+    level_minimaps_update(g, v, l);
+
+    parent->log_empty_line(g);
+    parent->log(g, "Minimap:");
+
+    auto w = parent->log_empty_line(g);
+    if (w) {
+      auto         tly = wid_get_tl_y(w);
+      auto        *w2  = wid_new_square_button(g, parent->wid_popup_container, "level map");
+      spoint const minimap_tl(1, tly);
+      spoint const minimap_br(minimap_size + 2, tly + minimap_size);
+      wid_set_tilename(TILE_LAYER_BOX_FG, w2, "FBO_MINIMAP_LEVEL");
+      wid_set_text_lhs(w2);
+      wid_set_text_top(w2);
+      wid_set_pos(w2, minimap_tl, minimap_br);
+      wid_set_mode(w2, WID_MODE_OVER);
+      wid_set_color(w2, WID_COLOR_BG, WHITE);
+      wid_set_mode(w2, WID_MODE_NORMAL);
+      wid_set_color(w2, WID_COLOR_BG, WHITE);
+    }
+  }
+
+  wid_update(g, parent->wid_popup_container);
 }

@@ -1545,10 +1545,10 @@
   return level_flag(g, v, l, is_unused106, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused107_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_level_locked_treasure_icon_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused107, p, me) != nullptr;
+  return level_flag(g, v, l, is_level_locked_treasure_icon, p, me) != nullptr;
 }
 
 [[nodiscard]] auto level_is_argusul_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool

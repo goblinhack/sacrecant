@@ -15,4 +15,5 @@ void levels_init(Gamep g)
 
   levels_test(g);
   levels_fixed(g);
+  levels_treasure(g);
 }

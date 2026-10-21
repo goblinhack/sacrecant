@@ -331,7 +331,8 @@
 #ifdef DEBUG_BUILD
   TRACE_DEBUG();
   if (me == nullptr) {
-    no_thing_pointer(); return;
+    no_thing_pointer();
+    return spoint(0, 0);
   }
 #endif
 
@@ -495,7 +496,7 @@
   TRACE_DEBUG();
   if (me == nullptr) {
     no_thing_pointer();
-    return 0;
+    return nullptr;
   }
 #endif
 
@@ -513,7 +514,7 @@
   TRACE_DEBUG();
   if (me == nullptr) {
     no_thing_pointer();
-    return 0;
+    return nullptr;
   }
 #endif
 

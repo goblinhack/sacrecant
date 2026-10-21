@@ -276,7 +276,7 @@
       list_macro(is_unused104, "is_unused104"),                                             /* newline */                                       \
       list_macro(is_unused105, "is_unused105"),                                             /* newline */                                       \
       list_macro(is_unused106, "is_unused106"),                                             /* newline */                                       \
-      list_macro(is_unused107, "is_unused107"),                                             /* newline */                                       \
+      list_macro(is_level_locked_treasure_icon, "is_level_locked_treasure_icon"),           /* newline */                                       \
       list_macro(is_argusul, "is_argusul"),                                                 /* newline */                                       \
       list_macro(is_skullferno, "is_skullferno"),                                           /* newline */                                       \
       list_macro(is_unused11, "is_unused11"),                                               /* newline */                                       \
@@ -471,15 +471,20 @@ ENUM_DEF_H(MAP_Z_DEPTH_ENUM, MapZDepthType)
 // Level Type
 //
 #define LEVEL_TYPE_ENUM(list_macro)                                                                                                             \
-  CLANG_FORMAT_INDENT()                        /* dummy line for clang indentation fixup */                                                     \
-  list_macro(LEVEL_TYPE_NONE, "none"),         /* newline */                                                                                    \
-      list_macro(LEVEL_TYPE_NORMAL, "normal"), /* newline */                                                                                    \
-      list_macro(LEVEL_TYPE_TEST, "test"),     /* newline */                                                                                    \
-      list_macro(LEVEL_TYPE_BOSS1, "boss1"),   /* newline */                                                                                    \
-      list_macro(LEVEL_TYPE_BOSS2, "boss2"),   /* newline */                                                                                    \
-      list_macro(LEVEL_TYPE_BOSS3, "boss3"),   /* newline */                                                                                    \
-      list_macro(LEVEL_TYPE_BOSS4, "boss4"),   /* newline */                                                                                    \
-      list_macro(LEVEL_TYPE_BOSS5, "boss5"),   /* newline */
+  CLANG_FORMAT_INDENT()                              /* dummy line for clang indentation fixup */                                               \
+  list_macro(LEVEL_TYPE_NONE, "none"),               /* newline */                                                                              \
+      list_macro(LEVEL_TYPE_NORMAL, "normal"),       /* newline */                                                                              \
+      list_macro(LEVEL_TYPE_TEST, "test"),           /* newline */                                                                              \
+      list_macro(LEVEL_TYPE_BOSS1, "boss1"),         /* newline */                                                                              \
+      list_macro(LEVEL_TYPE_BOSS2, "boss2"),         /* newline */                                                                              \
+      list_macro(LEVEL_TYPE_BOSS3, "boss3"),         /* newline */                                                                              \
+      list_macro(LEVEL_TYPE_BOSS4, "boss4"),         /* newline */                                                                              \
+      list_macro(LEVEL_TYPE_BOSS5, "boss5"),         /* newline */                                                                              \
+      list_macro(LEVEL_TYPE_TREASURE1, "treasure1"), /* newline */                                                                              \
+      list_macro(LEVEL_TYPE_TREASURE2, "treasure2"), /* newline */                                                                              \
+      list_macro(LEVEL_TYPE_TREASURE3, "treasure3"), /* newline */                                                                              \
+      list_macro(LEVEL_TYPE_TREASURE4, "treasure4"), /* newline */                                                                              \
+      list_macro(LEVEL_TYPE_TREASURE5, "treasure5"), /* newline */
 
 ENUM_DEF_H(LEVEL_TYPE_ENUM, LevelType)
 
@@ -1046,6 +1051,7 @@ class Tp;
 [[nodiscard]] auto tp_is_level_curr_icon(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_level_final_icon(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_level_locked_icon(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_level_locked_treasure_icon(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_level_next_icon(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_level_open_icon(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_level_select_bg(Tpp tp) -> bool;
@@ -1156,7 +1162,6 @@ class Tp;
 [[nodiscard]] auto tp_is_unused104(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused105(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused106(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused107(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused11(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused12(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused124(Tpp tp) -> bool;

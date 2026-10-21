@@ -9,15 +9,11 @@
 #include "my_tp.hpp"
 #include "my_types.hpp"
 
-[[nodiscard]] auto level_to_biome(Gamep g, Levelsp v, Levelp l) -> BiomeType
+[[nodiscard]] auto level_to_biome(Gamep g, LevelArrIdx level_arr_idx) -> BiomeType
 {
   TRACE();
 
-  if (l->biome != 0U) {
-    return l->biome;
-  }
-
-  switch (l->level_arr_idx) {
+  switch (level_arr_idx) {
     case 0 :                          return BIOME_DUNGEON;
     case 1 :                          return BIOME_DUNGEON;
     case 2 :                          return BIOME_DUNGEON;
@@ -99,6 +95,16 @@
     case 78 :                         return BIOME_UNDERHELL;
     case LEVEL_ARR_IDX_BOSS_5 :       return BIOME_UNDERHELL;
     case LEVEL_ARR_IDX_LEVEL_SELECT : return BIOME_DUNGEON;
-    default :                         ERR("unexpected level number with no biome assigned: %d", l->level_arr_idx); return BIOME_DUNGEON;
+    default :                         ERR("unexpected level number with no biome assigned: %d", level_arr_idx); return BIOME_DUNGEON;
   }
+}
+
+[[nodiscard]] auto level_to_biome(Gamep g, Levelsp v, Levelp l) -> BiomeType
+{
+  TRACE();
+
+  if (l->biome != 0U) {
+    return l->biome;
+  }
+  return level_to_biome(g, l->level_arr_idx);
 }

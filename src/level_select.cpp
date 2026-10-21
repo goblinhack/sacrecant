@@ -4,6 +4,7 @@
 
 #include "my_bpoint.hpp"
 #include "my_callstack.hpp"
+#include "my_dice_rolls.hpp"
 #include "my_game.hpp"
 #include "my_game_defs.hpp"
 #include "my_game_inlines.hpp"
@@ -72,22 +73,24 @@
   auto  *level_select = game_level_get(g, v, LEVEL_ARR_IDX_LEVEL_SELECT);
   Levelp level_over   = nullptr;
 
-  auto *tp_is_level_locked_icon = tp_first(is_level_locked_icon);
-  auto *tp_is_level_curr_icon   = tp_first(is_level_curr_icon);
-  auto *tp_is_level_final_icon  = tp_first(is_level_final_icon);
-  auto *tp_is_level_closed_icon = tp_first(is_level_closed_icon);
-  auto *tp_is_level_open_icon   = tp_first(is_level_open_icon);
-  auto *tp_is_level_next_icon   = tp_first(is_level_next_icon);
+  auto *tp_is_level_locked_icon          = tp_first(is_level_locked_icon);
+  auto *tp_is_level_locked_treasure_icon = tp_first(is_level_locked_treasure_icon);
+  auto *tp_is_level_curr_icon            = tp_first(is_level_curr_icon);
+  auto *tp_is_level_final_icon           = tp_first(is_level_final_icon);
+  auto *tp_is_level_closed_icon          = tp_first(is_level_closed_icon);
+  auto *tp_is_level_open_icon            = tp_first(is_level_open_icon);
+  auto *tp_is_level_next_icon            = tp_first(is_level_next_icon);
 
   FOR_ALL_THINGS_AT_UNSAFE(g, v, level_select, t, p)
   {
     auto *tp = thing_tp(t);
 
-    if ((tp == tp_is_level_locked_icon) || // newline
-        (tp == tp_is_level_curr_icon) ||   // newline
-        (tp == tp_is_level_final_icon) ||  // newline
-        (tp == tp_is_level_closed_icon) || // newline
-        (tp == tp_is_level_open_icon) ||   // newline
+    if ((tp == tp_is_level_locked_icon) ||          // newline
+        (tp == tp_is_level_locked_treasure_icon) || // newline
+        (tp == tp_is_level_curr_icon) ||            // newline
+        (tp == tp_is_level_final_icon) ||           // newline
+        (tp == tp_is_level_closed_icon) ||          // newline
+        (tp == tp_is_level_open_icon) ||            // newline
         (tp == tp_is_level_next_icon)) {
       auto at             = thing_at(g, v, level_select, t);
       auto level_num_over = v->level_select.tile_to_level[ at.x ][ at.y ];
@@ -386,9 +389,6 @@ void level_select_assign_levels_to_grid(Gamep g, Levelsp v)
         l->level_select_at = bpoint(x, y);
 
         c->level_arr_idx = l->level_arr_idx;
-        if ((x == LEVEL_ARR_IDX_BOSS_OFFSET) && (y == LEVEL_GRID_DOWN - 1)) {
-          c->final_level = true;
-        }
 
         n++;
       }
@@ -463,11 +463,12 @@ static auto level_select_count_levels(LevelSelect *s) -> int
 
   memset(level_select->debug, ' ', SIZEOF(level_select->debug));
 
-  auto *tp_is_level_locked_icon = tp_first(is_level_locked_icon);
-  auto *tp_is_level_curr_icon   = tp_first(is_level_curr_icon);
-  auto *tp_is_level_final_icon  = tp_first(is_level_final_icon);
-  auto *tp_is_level_closed_icon = tp_first(is_level_closed_icon);
-  auto *tp_is_level_next_icon   = tp_first(is_level_next_icon);
+  auto *tp_is_level_locked_icon          = tp_first(is_level_locked_icon);
+  auto *tp_is_level_locked_treasure_icon = tp_first(is_level_locked_treasure_icon);
+  auto *tp_is_level_curr_icon            = tp_first(is_level_curr_icon);
+  auto *tp_is_level_final_icon           = tp_first(is_level_final_icon);
+  auto *tp_is_level_closed_icon          = tp_first(is_level_closed_icon);
+  auto *tp_is_level_next_icon            = tp_first(is_level_next_icon);
 
   bpoint const map_offset(18, 5);
 
@@ -506,6 +507,13 @@ static auto level_select_count_levels(LevelSelect *s) -> int
       // Default
       //
       Tpp tp = tp_is_level_locked_icon;
+
+      //
+      // Treasure level
+      //
+      if (l->is_treasure_level) {
+        tp = tp_is_level_locked_treasure_icon;
+      }
 
       //
       // Can we enter this level?
@@ -645,6 +653,9 @@ static auto level_select_count_levels(LevelSelect *s) -> int
         if (tp == tp_is_level_locked_icon) {
           level_select->debug[ at.x ][ at.y ] = '?';
         }
+        if (tp == tp_is_level_locked_treasure_icon) {
+          level_select->debug[ at.x ][ at.y ] = '$';
+        }
         if (tp == tp_is_level_curr_icon) {
           level_select->debug[ at.x ][ at.y ] = '@';
         }
@@ -661,6 +672,10 @@ static auto level_select_count_levels(LevelSelect *s) -> int
         IF_DEBUG3
         {
           if (g_opt_level_select_menu && (tp == tp_is_level_locked_icon)) {
+            tp = tp_is_level_next_icon;
+          }
+
+          if (g_opt_level_select_menu && (tp == tp_is_level_locked_treasure_icon)) {
             tp = tp_is_level_next_icon;
           }
         }
@@ -847,6 +862,12 @@ static auto level_select_next(Gamep g, Levelsp v, Levelp l, Levelp level_over) -
     return false;
   }
 
+  if (level_is_level_locked_treasure_icon_bool(g, v, l, at)) {
+    topcon("You cannot enter this treasure level yet. Choose an open door.");
+    (void) sound_play(g, "error");
+    return false;
+  }
+
   bool ok_to_choose = {};
   if (level_is_level_final_icon_bool(g, v, l, at)) {
     // ok to choose
@@ -903,6 +924,14 @@ static auto level_select_next(Gamep g, Levelsp v, Levelp l, Levelp level_over) -
     game_request_to_remake_ui_set(g);
   }
 
+  if (v->tick == 0U) {
+    (void) sound_play(g, "enter");
+    (void) sound_play(g, "enter2");
+    if (! g_opt_quick_start) {
+      wid_transition_select(g);
+    }
+  }
+
   return true;
 }
 
@@ -931,14 +960,6 @@ auto level_select_mouse_down(Gamep g) -> bool
     return false;
   }
 
-  if (v->tick == 0U) {
-    (void) sound_play(g, "enter");
-    (void) sound_play(g, "enter2");
-    if (! g_opt_quick_start) {
-      wid_transition_select(g);
-    }
-  }
-
   return level_select_next(g, v, l, level_over);
 }
 
@@ -958,14 +979,6 @@ auto level_select_mouse_down(Gamep g, Levelsp v, Levelp l) -> bool
   if (level_over == nullptr) {
     (void) sound_play(g, "error");
     return false;
-  }
-
-  if (v->tick == 0U) {
-    (void) sound_play(g, "enter");
-    (void) sound_play(g, "enter2");
-    if (! g_opt_quick_start) {
-      wid_transition_select(g);
-    }
   }
 
   return level_select_next(g, v, l, level_over);

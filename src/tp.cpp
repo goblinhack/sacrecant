@@ -204,6 +204,7 @@ static std::initializer_list< std::string > tps = {
     "level_closed",
     "level_curr",
     "level_final",
+    "level_locked_treasure",
     "level_locked",
     "level_next",
     "level_open",

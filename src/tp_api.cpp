@@ -1507,10 +1507,10 @@
   return tp_flag(tp, is_unused106) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused107(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_level_locked_treasure_icon(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused107) != 0;
+  return tp_flag(tp, is_level_locked_treasure_icon) != 0;
 }
 
 [[nodiscard]] auto tp_is_argusul(Tpp tp) -> bool

@@ -13,6 +13,7 @@
 #include <string>
 #include <vector>
 
+void wid_rightbar_create_minimap_level(Gamep g);
 auto wid_actionbar_fini(Gamep g) -> void;
 auto wid_botcon_fini(Gamep g) -> void;
 auto wid_botcon_flush(Gamep g) -> void;

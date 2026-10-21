@@ -26,7 +26,7 @@
 static WidPopup *wid_rightbar;
 static auto      minimap_size = 14;
 
-static void wid_rightbar_create_minimap_level(Gamep g)
+void wid_rightbar_create_minimap_level(Gamep g)
 {
   TRACE();
 

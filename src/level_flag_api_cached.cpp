@@ -1545,10 +1545,10 @@
   return level_flag_cached(g, v, l, is_unused106, p);
 }
 
-[[nodiscard]] auto level_is_unused107_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_level_locked_treasure_icon_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused107, p);
+  return level_flag_cached(g, v, l, is_level_locked_treasure_icon, p);
 }
 
 [[nodiscard]] auto level_is_argusul_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

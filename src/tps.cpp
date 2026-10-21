@@ -93,6 +93,7 @@
   if (!tp_load_level_closed()) { return false; }
   if (!tp_load_level_curr()) { return false; }
   if (!tp_load_level_final()) { return false; }
+  if (!tp_load_level_locked_treasure()) { return false; }
   if (!tp_load_level_locked()) { return false; }
   if (!tp_load_level_next()) { return false; }
   if (!tp_load_level_open()) { return false; }

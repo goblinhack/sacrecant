@@ -1087,6 +1087,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_level_curr_icon(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_level_final_icon(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_level_locked_icon(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_level_locked_treasure_icon(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_level_next_icon(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_level_open_icon(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_level_select_bg(Thingp t) -> bool;
@@ -1202,7 +1203,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused104(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused105(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused106(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused107(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused11(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused12(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused124(Thingp t) -> bool;
@@ -1716,8 +1716,8 @@ void level_log(Gamep g, Levelsp v, Levelp l, const char *fmt, ...) CHECK_FORMAT_
 void level_tick_remove_thing_from_worklist(Thingp me);
 void level_topcon(Gamep g, Levelsp v, Levelp l, const char *fmt, ...) CHECK_FORMAT_STR(printf, 4, 5);
 void level_warn(Gamep g, Levelsp v, Levelp l, const char *fmt, ...) CHECK_FORMAT_STR(printf, 4, 5);
-void no_thing_pointer();
 void no_thing_ext_pointer();
+void no_thing_pointer();
 void thing_alloc_free_fini(Gamep g);
 void thing_botcon(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 5, 6);
 void thing_con(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 5, 6);

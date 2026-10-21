@@ -91,6 +91,7 @@ auto tp_load_lava() -> bool;
 auto tp_load_level_closed() -> bool;
 auto tp_load_level_curr() -> bool;
 auto tp_load_level_final() -> bool;
+auto tp_load_level_locked_treasure() -> bool;
 auto tp_load_level_locked() -> bool;
 auto tp_load_level_next() -> bool;
 auto tp_load_level_open() -> bool;

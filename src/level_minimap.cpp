@@ -12,6 +12,7 @@
 #include "my_globals.hpp"
 #include "my_level.hpp"
 #include "my_level_inlines.hpp"
+#include "my_sdl_proto.hpp" // NOLINT
 #include "my_tex.hpp"
 #include "my_thing.hpp"
 #include "my_types.hpp"
@@ -49,9 +50,15 @@ static void level_minimap_levels_update(Gamep g, Levelsp v, Levelp l, const bool
         color        c = BLACK;
         bpoint const p(x, y);
 
-        if (! g_opt_debug1) {
-          if (! level_has_seen_cached(g, v, l, p)) {
+        if (level_select) {
+          if (! l->is_treasure_level) {
             continue;
+          }
+        } else {
+          if (! g_opt_debug1) {
+            if (! level_has_seen_cached(g, v, l, p)) {
+              continue;
+            }
           }
         }
 
@@ -65,7 +72,7 @@ static void level_minimap_levels_update(Gamep g, Levelsp v, Levelp l, const bool
           c = GRAY30;
         }
         if (level_is_wall_bool(g, v, l, p)) {
-          c = GRAY50;
+          c = GRAY90;
         }
         if (level_is_rock_bool(g, v, l, p)) {
           c = BROWN4;
@@ -133,9 +140,6 @@ static void level_minimap_levels_update(Gamep g, Levelsp v, Levelp l, const bool
           //
           // No vision in level selection
           //
-          c.r /= 2;
-          c.g /= 2;
-          c.b /= 2;
         } else if (! thing_vision_can_see_tile(g, v, l, player, p)) {
           //
           // Dim
@@ -186,5 +190,8 @@ void level_minimaps_update(Gamep g, Levelsp v, Levelp l)
   }
 
   level_minimap_levels_update(g, v, l, level_select);
-  //  sdl_fbo_dump(g, FBO_MINIMAP_LEVEL, "level");
+
+  if (compiler_unused) {
+    sdl_fbo_dump(g, FBO_MINIMAP_LEVEL, "level");
+  }
 }
