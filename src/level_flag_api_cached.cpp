@@ -1539,10 +1539,10 @@
   return level_flag_cached(g, v, l, is_unused105, p);
 }
 
-[[nodiscard]] auto level_is_transparent_wall_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_magic_wall_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_transparent_wall, p);
+  return level_flag_cached(g, v, l, is_magic_wall, p);
 }
 
 [[nodiscard]] auto level_is_level_locked_treasure_icon_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

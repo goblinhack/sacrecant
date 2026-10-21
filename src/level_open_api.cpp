@@ -1502,10 +1502,10 @@
   return level_open(g, v, l, is_unused105, p);
 }
 
-[[nodiscard]] auto level_open_is_transparent_wall(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+[[nodiscard]] auto level_open_is_magic_wall(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_open(g, v, l, is_transparent_wall, p);
+  return level_open(g, v, l, is_magic_wall, p);
 }
 
 [[nodiscard]] auto level_open_is_level_locked_treasure_icon(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp

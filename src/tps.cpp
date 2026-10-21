@@ -99,6 +99,7 @@
   if (!tp_load_level_open()) { return false; }
   if (!tp_load_level_select_bg()) { return false; }
   if (!tp_load_life_fungus()) { return false; }
+  if (!tp_load_magic_wall()) { return false; }
   if (!tp_load_mantisman()) { return false; }
   if (!tp_load_minotorte()) { return false; }
   if (!tp_load_mummy()) { return false; }
@@ -166,7 +167,6 @@
   if (!tp_load_staff_fire()) { return false; }
   if (!tp_load_steam()) { return false; }
   if (!tp_load_teleport()) { return false; }
-  if (!tp_load_transparent_wall()) { return false; }
   if (!tp_load_trap_chasm()) { return false; }
   if (!tp_load_trap_gas_death()) { return false; }
   if (!tp_load_trap_gas_explosive()) { return false; }

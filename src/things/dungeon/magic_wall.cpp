@@ -3,34 +3,82 @@
 //
 
 #include "../../my_callstack.hpp"
+#include "../../my_level_inlines.hpp"
 #include "../../my_main.hpp"
 #include "../../my_thing_callbacks.hpp"
+#include "../../my_thing_inlines.hpp"
 #include "../../my_tile.hpp"
 #include "../../my_tp.hpp"
 #include "../../my_tps.hpp"
 #include "../../my_types.hpp"
+#include "../../my_ui.hpp"
 
-[[nodiscard]] auto tp_load_transparent_wall() -> bool
+static void tp_magic_wall_group_destroy(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
+{
+  TRACE();
+
+  std::vector< Thingp > group;
+  auto                  group_id = me->group_id;
+
+  FOR_ALL_GROUP_THINGS_ON_LEVEL(g, v, l, o, group_id)
+  {
+    group.push_back(o);
+    thing_group_member_leave(g, v, l, o);
+  }
+
+  for (auto o : group) {
+    thing_dead(g, v, l, o, e);
+  }
+}
+
+static void tp_magic_wall_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
+{
+  TRACE();
+
+  if (! me->group_id) {
+    return;
+  }
+
+  auto *player = thing_player(g);
+  if (player != nullptr) {
+    auto player_at = thing_at(g, v, l, player);
+    if (thing_on_same_level_as_player(g, v, me)) {
+      if (thing_vision_can_see_tile(g, v, l, player, player_at)) {
+        topcon(UI_WARN_FMT_STR "The magic wall opens!" UI_RESET_FMT);
+      } else {
+        topcon("You hear a magic wall open!");
+      }
+    } else {
+      topcon("You hear a very distant magic_wall collapse!");
+    }
+  }
+
+  tp_magic_wall_group_destroy(g, v, l, me, e);
+}
+
+[[nodiscard]] auto tp_load_magic_wall() -> bool
 {
   TRACE();
 
   for (auto variant = 1; variant <= TRANSPARENT_WALL_VARIANTS; variant++) {
-    std::string const name = "transparent_wall" + std::to_string(variant);
+    std::string const name = "magic_wall" + std::to_string(variant);
     auto             *tp   = tp_load(name);
     // begin sort marker1 {
     tp_distance_light_penetration_pixels_set(tp, TILE_WIDTH);
+    thing_on_death_set(tp, tp_magic_wall_on_death);
     tp_flag_set(tp, is_blit_if_has_seen);
     tp_flag_set(tp, is_blit_obscures);
     tp_flag_set(tp, is_blit_on_ground);
     tp_flag_set(tp, is_blit_per_pixel_lighting);
     tp_flag_set(tp, is_blit_shown_in_chasms);
     tp_flag_set(tp, is_collision_square);
-    tp_flag_set(tp, is_meltable);
+    tp_flag_set(tp, is_magic_wall);
     tp_flag_set(tp, is_obs_to_beam);
     tp_flag_set(tp, is_obs_to_cursor_path);
     tp_flag_set(tp, is_obs_to_explosion);
     tp_flag_set(tp, is_obs_to_falling_onto);
     tp_flag_set(tp, is_obs_to_fire);
+    tp_flag_set(tp, is_grouped_thing);
     tp_flag_set(tp, is_obs_to_gas);
     tp_flag_set(tp, is_obs_to_hearing);
     tp_flag_set(tp, is_obs_to_jumping_onto);
@@ -41,22 +89,14 @@
     tp_flag_set(tp, is_obs_to_teleporting_onto);
     tp_flag_set(tp, is_obs_to_throwing_onto);
     tp_flag_set(tp, is_obs_to_vision);
-    tp_flag_set(tp, is_physics_explosion);
-    tp_flag_set(tp, is_physics_temperature);
     tp_flag_set(tp, is_stone);
-    tp_flag_set(tp, is_transparent_wall);
     tp_health_set(tp, "1");
-    tp_is_immune_to_add(tp, THING_EVENT_MELEE_DAMAGE);
-    tp_is_immune_to_add(tp, THING_EVENT_WATER_DAMAGE);
     tp_name_a_or_an_set(tp, "a magic wall");
     tp_name_apostrophize_set(tp, "magic walls'");
     tp_name_long_set(tp, "magic wall");
     tp_name_pluralize_set(tp, "magic walls");
     tp_name_short_set(tp, "magic wall");
     tp_priority_set(tp, THING_PRIORITY_WALL);
-    tp_temperature_damage_at_set(tp, 50); // celsius
-    tp_temperature_initial_set(tp, 20);   // celsius
-    tp_temperature_melts_at_set(tp, 300); // celsius
     tp_variant_set(tp, variant);
     tp_weight_set(tp, WEIGHT_VVHEAVY); // grams
     tp_z_depth_set(tp, MAP_Z_DEPTH_WALL);

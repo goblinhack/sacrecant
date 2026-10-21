@@ -73,7 +73,7 @@ static std::initializer_list< std::string > tps = {
     "door_secret24", // Update WALL_VARIANTS
     "door_secret25", // Update WALL_VARIANTS
     "door_secret26", // Update WALL_VARIANTS
-    "transparent_wall1", // Update TRANSPARENT_WALL_VARIANTS
+    "magic_wall1", // Update TRANSPARENT_WALL_VARIANTS
     "wall1", // Update WALL_VARIANTS
     "wall2", // Update WALL_VARIANTS
     "wall3", // Update WALL_VARIANTS

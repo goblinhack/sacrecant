@@ -1095,6 +1095,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_light_flicker(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_loggable(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_lucky(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_magic_wall(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_meat(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_meltable(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_memory_ext(Thingp t) -> bool;
@@ -1189,7 +1190,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_tickable(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_tiled(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_tireless(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
-[[nodiscard]] auto thing_is_transparent_wall(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_trap(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_treasure(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_undead(Thingp me) -> bool;
