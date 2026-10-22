@@ -213,27 +213,6 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   return tp_flag(thing_tp(t), is_corridor) != 0;
 }
 
-[[nodiscard]] auto thing_is_obs_to_cursor_path(Thingp t) -> bool
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    no_thing_pointer();
-    return false;
-  }
-
-  //
-  // Unless open
-  //
-  if (thing_is_openable(t)) {
-    if (thing_is_open(t)) {
-      return false;
-    }
-  }
-
-  return tp_flag(thing_tp(t), is_obs_to_cursor_path) != 0;
-}
-
 [[nodiscard]] auto thing_is_cursor_path_hazard(Thingp t) -> bool
 {
   TRACE_DEBUG();
@@ -1851,17 +1830,6 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   return tp_flag(thing_tp(t), is_memory_ext) != 0;
 }
 
-[[nodiscard]] auto thing_is_cursor_path_jump_over(Thingp t) -> bool
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    no_thing_pointer();
-    return false;
-  }
-  return tp_flag(thing_tp(t), is_cursor_path_jump_over) != 0;
-}
-
 [[nodiscard]] auto thing_is_haunt(Thingp t) -> bool
 {
   TRACE_DEBUG();
@@ -3104,17 +3072,6 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   return tp_flag(thing_tp(t), is_able_to_lunge) != 0;
 }
 
-[[nodiscard]] auto thing_is_obs_to_paths(Thingp t) -> bool
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    no_thing_pointer();
-    return false;
-  }
-  return tp_flag(thing_tp(t), is_obs_to_paths) != 0;
-}
-
 [[nodiscard]] auto thing_is_blit_on_ground(Thingp t) -> bool
 {
   TRACE_DEBUG();
@@ -3278,17 +3235,6 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     return false;
   }
   return tp_flag(thing_tp(t), is_blit_per_pixel_lighting) != 0;
-}
-
-[[nodiscard]] auto thing_is_cursor_path_warning(Thingp t) -> bool
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    no_thing_pointer();
-    return false;
-  }
-  return tp_flag(thing_tp(t), is_cursor_path_warning) != 0;
 }
 
 [[nodiscard]] auto thing_is_lucky(Thingp t) -> bool

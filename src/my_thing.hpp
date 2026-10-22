@@ -998,10 +998,10 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_critical_to_gameplay(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_crushable(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_cursed(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_cursor_path_hazard(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_cursor_path_jump_over(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_cursor_path_jump_over(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst) -> bool;
+[[nodiscard]] auto thing_is_cursor_path_hazard(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst) -> bool;
+[[nodiscard]] auto thing_is_cursor_path_warning(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst) -> bool;
 [[nodiscard]] auto thing_is_cursor_path_none(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_cursor_path_warning(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_cursor_path(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_cursor(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_damage_capped(Thingp t) -> bool;
@@ -1114,7 +1114,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_needs_move_confirm(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_noisy(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_obs_to_beam(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_obs_to_cursor_path(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_obs_to_ethereal(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_obs_to_explosion(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_obs_to_falling_onto(Thingp me) -> bool;
@@ -1124,8 +1123,9 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_obs_to_jumping_onto(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_obs_to_jumping_out_of(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_obs_to_jumping_over(Thingp me) -> bool;
-[[nodiscard]] auto thing_is_obs_to_movement(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_obs_to_paths(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_obs_to_cursor_path(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp other = nullptr) -> bool;
+[[nodiscard]] auto thing_is_obs_to_movement(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp other = nullptr) -> bool;
+[[nodiscard]] auto thing_is_obs_to_paths(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp other = nullptr) -> bool;
 [[nodiscard]] auto thing_is_obs_to_spawning(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_obs_to_teleporting_onto(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_obs_to_throwing_onto(Thingp t) -> bool;

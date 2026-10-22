@@ -239,7 +239,7 @@
     //
     // A wall or pillar or some such?
     //
-    if (thing_is_obs_to_paths(it)) {
+    if (thing_is_obs_to_paths(g, v, l, it, me)) {
       if (thing_is_flat(it) && (thing_is_flying(g, v, l, me) || thing_is_levitating(g, v, l, me))) {
         //
         // Ok to levitate over rubble
@@ -428,35 +428,29 @@
       }
     }
 
-    if (thing_is_obs_to_movement(it)) {
-      if (thing_is_flat(it) && (thing_is_flying(g, v, l, me) || thing_is_levitating(g, v, l, me))) {
-        //
-        // Ok to levitate over rubble
-        //
-      } else {
-        //
-        // Need to allow astar to make paths through invisible things so that a monster
-        // can bump into you
-        //
-        if (from_astar) {
-          if (thing_is_invisible(g, v, l, it)) {
-            return true;
-          }
+    if (thing_is_obs_to_movement(g, v, l, it, me)) {
+      //
+      // Need to allow astar to make paths through invisible things so that a monster
+      // can bump into you
+      //
+      if (from_astar) {
+        if (thing_is_invisible(g, v, l, it)) {
+          return true;
         }
-
-        //
-        // Blocked
-        //
-        if (thing_is_player(me)) {
-          THING_DBG(g, v, l, me, "can move to possible: no, obs to movement");
-        }
-
-        if (thing_is_boss(me)) {
-          THING_DBG(g, v, l, me, "can move to possible: no to %d,%d", to.x, to.y);
-          THING_DBG(g, v, l, it, "it");
-        }
-        return false;
       }
+
+      //
+      // Blocked
+      //
+      if (thing_is_player(me)) {
+        THING_DBG(g, v, l, me, "can move to possible: no, obs to movement");
+      }
+
+      if (thing_is_boss(me)) {
+        THING_DBG(g, v, l, me, "can move to possible: no to %d,%d", to.x, to.y);
+        THING_DBG(g, v, l, it, "it");
+      }
+      return false;
     }
   }
 
@@ -535,7 +529,7 @@
     //
     // A wall or pillar or some-such?
     //
-    if (thing_is_obs_to_movement(it)) {
+    if (thing_is_obs_to_movement(g, v, l, it, me)) {
       //
       // But make exceptions for things like braziers
       //

@@ -54,7 +54,7 @@ static bool tp_spell_dispel_obstacles_spawn_chasm(Gamep g, Levelsp v, Levelp l, 
       continue;
     }
 
-    if (! thing_is_obs_to_movement(it)) {
+    if (! thing_is_obs_to_movement(g, v, l, it, user)) {
       continue;
     }
 

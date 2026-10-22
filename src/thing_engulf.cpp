@@ -277,7 +277,7 @@
     //
     // A wall or pillar or some-such?
     //
-    if (thing_is_obs_to_movement(it)) {
+    if (thing_is_obs_to_movement(g, v, l, it, me)) {
       if (thing_is_able_to_be_engulfed(g, v, l, it)) {
         if (thing_engulf(g, v, l, it, me)) {
           return true;

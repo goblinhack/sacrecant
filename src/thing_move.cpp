@@ -390,11 +390,14 @@ void thing_moving_from_set(Thingp t, const bpoint &val)
   t->_moving_from = val;
 }
 
-[[nodiscard]] auto thing_is_obs_to_movement(Thingp t) -> bool
+//
+// Return false to ignore this obstacle
+//
+[[nodiscard]] static auto thing_is_obs_to_movement_common(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst) -> bool
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     no_thing_pointer();
     return false;
   }
@@ -402,33 +405,137 @@ void thing_moving_from_set(Thingp t, const bpoint &val)
   //
   // Unless open
   //
-  if (thing_is_openable(t)) {
-    if (thing_is_open(t)) {
+  if (thing_is_openable(me)) {
+    if (thing_is_open(me)) {
       return false;
     }
   }
 
-  return tp_flag(thing_tp(t), is_obs_to_movement) != 0;
+  if (player_or_monst) {
+    if (thing_is_player(player_or_monst)) {
+      if (thing_is_magic_wall(me)) {
+        return false;
+      }
+    }
+
+    //
+    // e.g. a mob, monst, locked door vault and this is a wall walker, ensure we cannot pass
+    //
+    if (thing_is_obs_to_wall_walker(me)) {
+      if (thing_is_wall_walker(g, v, l, me)) {
+        return true;
+      }
+    }
+
+    //
+    // e.g. a vault and this is an ethereal monst, ensure we cannot pass
+    //
+    if (thing_is_obs_to_ethereal(me)) {
+      if (thing_is_ethereal(g, v, l, player_or_monst)) {
+        return true;
+      }
+    }
+
+    if (thing_is_levitating(g, v, l, player_or_monst)) {
+      if (thing_is_flat(me)) {
+        return false;
+      }
+    }
+
+    if (thing_is_flying(g, v, l, player_or_monst)) {
+      if (thing_is_flat(me)) {
+        return false;
+      }
+    }
+  }
+
+  return true;
 }
 
-[[nodiscard]] auto thing_is_able_to_move_diagonally(Thingp t) -> bool
+[[nodiscard]] auto thing_is_obs_to_movement(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst) -> bool
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
-    no_thing_pointer();
+  if (! thing_is_obs_to_movement_common(g, v, l, me, player_or_monst)) {
     return false;
   }
-  return tp_flag(thing_tp(t), is_able_to_move_diagonally) != 0;
+
+  return tp_flag(thing_tp(me), is_obs_to_movement) != 0;
 }
 
-[[nodiscard]] auto thing_is_needs_move_confirm(Thingp t) -> bool
+[[nodiscard]] auto thing_is_obs_to_cursor_path(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst) -> bool
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (! thing_is_obs_to_movement_common(g, v, l, me, player_or_monst)) {
+    return false;
+  }
+
+  return tp_flag(thing_tp(me), is_obs_to_cursor_path) != 0;
+}
+
+[[nodiscard]] auto thing_is_obs_to_paths(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst) -> bool
+{
+  TRACE_DEBUG();
+
+  if (! thing_is_obs_to_movement_common(g, v, l, me, player_or_monst)) {
+    return false;
+  }
+
+  return tp_flag(thing_tp(me), is_obs_to_paths) != 0;
+}
+
+[[nodiscard]] auto thing_is_cursor_path_warning(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst) -> bool
+{
+  TRACE_DEBUG();
+
+  if (! thing_is_obs_to_movement_common(g, v, l, me, player_or_monst)) {
+    return false;
+  }
+
+  return tp_flag(thing_tp(me), is_cursor_path_warning) != 0;
+}
+
+[[nodiscard]] auto thing_is_cursor_path_hazard(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst) -> bool
+{
+  TRACE_DEBUG();
+
+  if (! thing_is_obs_to_movement_common(g, v, l, me, player_or_monst)) {
+    return false;
+  }
+
+  return tp_flag(thing_tp(me), is_cursor_path_hazard) != 0;
+}
+
+[[nodiscard]] auto thing_is_cursor_path_jump_over(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst) -> bool
+{
+  TRACE_DEBUG();
+
+  if (! thing_is_obs_to_movement_common(g, v, l, me, player_or_monst)) {
+    return false;
+  }
+
+  return tp_flag(thing_tp(me), is_cursor_path_jump_over) != 0;
+}
+
+[[nodiscard]] auto thing_is_able_to_move_diagonally(Thingp me) -> bool
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
     no_thing_pointer();
     return false;
   }
-  return tp_flag(thing_tp(t), is_needs_move_confirm) != 0;
+  return tp_flag(thing_tp(me), is_able_to_move_diagonally) != 0;
+}
+
+[[nodiscard]] auto thing_is_needs_move_confirm(Thingp me) -> bool
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    no_thing_pointer();
+    return false;
+  }
+  return tp_flag(thing_tp(me), is_needs_move_confirm) != 0;
 }

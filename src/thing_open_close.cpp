@@ -202,7 +202,7 @@ void thing_is_unlocked_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     //
     // A wall or pillar or some-such?
     //
-    if (thing_is_obs_to_movement(it)) {
+    if (thing_is_obs_to_movement(g, v, l, it, me)) {
       //
       // But make exceptions for things like doors
       //

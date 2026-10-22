@@ -6,6 +6,7 @@
 #include "../../my_dice_rolls.hpp"
 #include "../../my_game_popups.hpp"
 #include "../../my_level.hpp"
+#include "../../my_level_inlines.hpp"
 #include "../../my_main.hpp"
 #include "../../my_music.hpp"
 #include "../../my_random.hpp"
@@ -42,14 +43,30 @@ void tp_player_on_moved(Gamep g, Levelsp v, Levelp l, Thingp me)
   THING_DBG(g, v, l, me, "player moved");
   TRACE_INDENT();
 
+  auto at = thing_at(g, v, l, me);
+
   //
   // If we fell into another chasm, don't make an oof sound
   //
-  if (level_is_chasm_bool(g, v, l, thing_at(g, v, l, me))) {
+  if (level_is_chasm_bool(g, v, l, at)) {
     return;
   }
 
-  if (thing_is_submergible(g, v, l, me) && level_is_water_deep_bool(g, v, l, thing_at(g, v, l, me))) {
+  if (level_is_magic_wall_bool(g, v, l, at)) {
+    ThingEvent e {
+        .reason     = "by opening",     //
+        .event_type = THING_EVENT_OPEN, //
+    };
+
+    FOR_ALL_THINGS_AT(g, v, l, it, at)
+    {
+      if (thing_is_magic_wall(it)) {
+        thing_dead(g, v, l, it, e);
+      }
+    }
+  }
+
+  if (thing_is_submergible(g, v, l, me) && level_is_water_deep_bool(g, v, l, at)) {
     //
     // Allow some items to drift away
     //
@@ -101,19 +118,19 @@ void tp_player_on_moved(Gamep g, Levelsp v, Levelp l, Thingp me)
     //
     if (d100() < 50) {
       if (thing_noise_incr(g, v, l, me, THING_NOISE_SPLASH)) {
-        auto at = thing_old_at(me);
+        auto was_at = thing_old_at(me);
 
-        if (! level_is_water_shallow_bool(g, v, l, at)) {
-          at = thing_at(g, v, l, me);
+        if (! level_is_water_shallow_bool(g, v, l, was_at)) {
+          was_at = thing_at(g, v, l, me);
         }
 
         if (d100() < 50) {
-          game_popup_text_add(g, at.x, at.y, std::string("Splosh!"));
+          game_popup_text_add(g, was_at.x, was_at.y, std::string("Splosh!"));
         } else {
-          game_popup_text_add(g, at.x, at.y, std::string("Splash!"));
+          game_popup_text_add(g, was_at.x, was_at.y, std::string("Splash!"));
         }
 
-        (void) thing_spawn(g, v, l, tp_first(is_effect_ripple), at);
+        (void) thing_spawn(g, v, l, tp_first(is_effect_ripple), was_at);
         thing_sound_play(g, v, l, me, "splash");
       }
     }
@@ -147,7 +164,6 @@ void tp_player_on_moved(Gamep g, Levelsp v, Levelp l, Thingp me)
     }
   }
 
-  auto at                   = thing_at(g, v, l, me);
   v->cursor[ at.x ][ at.y ] = CURSOR_NONE;
 }
 

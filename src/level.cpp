@@ -457,26 +457,34 @@ void level_destroy(Gamep g, Levelsp v, Levelp l)
         }
         break;
 
-      case is_cursor_path_warning :   [[fallthrough]];
-      case is_cursor_path_jump_over : [[fallthrough]];
-      case is_cursor_path_hazard :
-        if (thing_is_ethereal(g, v, l, me)) {
-          if (thing_is_obs_to_ethereal(it)) {
-            break;
-          }
-        }
-        if (thing_is_flying(g, v, l, me) || thing_is_levitating(g, v, l, me)) {
+      case is_cursor_path_warning :
+        if (! thing_is_cursor_path_warning(g, v, l, it, me)) {
           return true; // filter out i.e. ignore
         }
         break;
-
-      case is_obs_to_paths :    [[fallthrough]];
-      case is_obs_to_movement : [[fallthrough]];
+      case is_cursor_path_jump_over :
+        if (! thing_is_cursor_path_jump_over(g, v, l, it, me)) {
+          return true; // filter out i.e. ignore
+        }
+        break;
+      case is_cursor_path_hazard :
+        if (! thing_is_cursor_path_hazard(g, v, l, it, me)) {
+          return true; // filter out i.e. ignore
+        }
+        break;
+      case is_obs_to_movement :
+        if (! thing_is_obs_to_movement(g, v, l, it, me)) {
+          return true; // filter out i.e. ignore
+        }
+        break;
+      case is_obs_to_paths :
+        if (! thing_is_obs_to_paths(g, v, l, it, me)) {
+          return true; // filter out i.e. ignore
+        }
+        break;
       case is_obs_to_cursor_path :
-        if (thing_is_ethereal(g, v, l, me)) {
-          if (! thing_is_obs_to_ethereal(it)) {
-            return true; // filter out i.e. ignore
-          }
+        if (! thing_is_obs_to_cursor_path(g, v, l, it, me)) {
+          return true; // filter out i.e. ignore
         }
         break;
 
