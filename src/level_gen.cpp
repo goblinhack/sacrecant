@@ -5793,12 +5793,16 @@ void level_gen_create_levels(Gamep g, Levelsp v)
   //
   // Establish some random treasure levels
   //
-  for (auto i = 0; i < (int) is_treasure_level.size(); i++) {
-    if (i > 5) {
+  for (auto level_arr_idx = 0; level_arr_idx < (int) is_treasure_level.size(); level_arr_idx++) {
+    if (level_type_is_boss_level(level_arr_idx)) {
+      continue;
+    }
+
+    if (level_arr_idx > 5) {
       if (d100() < 10) {
-        is_treasure_level[ i ] = true;
+        is_treasure_level[ level_arr_idx ] = true;
       } else {
-        is_treasure_level[ i ] = false;
+        is_treasure_level[ level_arr_idx ] = false;
       }
     }
   }
@@ -5813,18 +5817,18 @@ void level_gen_create_levels(Gamep g, Levelsp v)
   std::vector< std::thread > threads;
 
   threads.reserve(max_threads);
-  for (auto i = 0; i < max_threads; i++) {
-    threads.emplace_back(level_gen_create_fixed_or_proc_gen_level, g, i);
+  for (auto level_arr_idx = 0; level_arr_idx < max_threads; level_arr_idx++) {
+    threads.emplace_back(level_gen_create_fixed_or_proc_gen_level, g, level_arr_idx);
   }
 
   v->is_generating_levels = true;
-  for (auto i = 0; i < max_threads; i++) {
-    threads[ i ].join();
+  for (auto level_arr_idx = 0; level_arr_idx < max_threads; level_arr_idx++) {
+    threads[ level_arr_idx ].join();
   }
   v->is_generating_levels = false;
 
-  for (auto i = 0; i < max_threads; i++) {
-    auto *lg = levels_generated[ i ];
+  for (auto level_arr_idx = 0; level_arr_idx < max_threads; level_arr_idx++) {
+    auto *lg = levels_generated[ level_arr_idx ];
     if (lg != nullptr) {
       IF_DEBUG2 { level_gen_dump(lg, "created levels"); }
       delete (lg);

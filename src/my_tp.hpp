@@ -274,9 +274,9 @@
       list_macro(is_unused102, "is_unused102"),                                             /* newline */                                       \
       list_macro(is_unused103, "is_unused103"),                                             /* newline */                                       \
       list_macro(is_unused104, "is_unused104"),                                             /* newline */                                       \
-      list_macro(is_unused105, "is_unused105"),                                             /* newline */                                       \
+      list_macro(is_level_boss_icon, "is_level_boss_icon"),                                 /* newline */                                       \
       list_macro(is_magic_wall, "is_magic_wall"),                                           /* newline */                                       \
-      list_macro(is_level_locked_treasure_icon, "is_level_locked_treasure_icon"),           /* newline */                                       \
+      list_macro(is_level_treasure_icon, "is_level_treasure_icon"),                         /* newline */                                       \
       list_macro(is_argusul, "is_argusul"),                                                 /* newline */                                       \
       list_macro(is_skullferno, "is_skullferno"),                                           /* newline */                                       \
       list_macro(is_unused11, "is_unused11"),                                               /* newline */                                       \
@@ -1047,14 +1047,15 @@ class Tp;
 [[nodiscard]] auto tp_is_lava_bg(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_lava(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_leather(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_level_boss_icon(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_level_closed_icon(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_level_curr_icon(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_level_final_icon(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_level_locked_icon(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_level_locked_treasure_icon(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_level_next_icon(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_level_open_icon(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_level_select_bg(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_level_treasure_icon(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_levitating(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_light_flicker(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_light_source(Tpp tp) -> bool;
@@ -1161,7 +1162,6 @@ class Tp;
 [[nodiscard]] auto tp_is_unused102(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused103(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused104(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused105(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused11(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused12(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused124(Tpp tp) -> bool;

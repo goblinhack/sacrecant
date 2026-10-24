@@ -1495,10 +1495,10 @@
   return tp_flag(tp, is_unused104) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused105(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_level_boss_icon(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused105) != 0;
+  return tp_flag(tp, is_level_boss_icon) != 0;
 }
 
 [[nodiscard]] auto tp_is_magic_wall(Tpp tp) -> bool
@@ -1507,10 +1507,10 @@
   return tp_flag(tp, is_magic_wall) != 0;
 }
 
-[[nodiscard]] auto tp_is_level_locked_treasure_icon(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_level_treasure_icon(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_level_locked_treasure_icon) != 0;
+  return tp_flag(tp, is_level_treasure_icon) != 0;
 }
 
 [[nodiscard]] auto tp_is_argusul(Tpp tp) -> bool

@@ -1533,10 +1533,10 @@
   return level_flag_cached(g, v, l, is_unused104, p);
 }
 
-[[nodiscard]] auto level_is_unused105_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_level_boss_icon_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused105, p);
+  return level_flag_cached(g, v, l, is_level_boss_icon, p);
 }
 
 [[nodiscard]] auto level_is_magic_wall_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
@@ -1545,10 +1545,10 @@
   return level_flag_cached(g, v, l, is_magic_wall, p);
 }
 
-[[nodiscard]] auto level_is_level_locked_treasure_icon_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_level_treasure_icon_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_level_locked_treasure_icon, p);
+  return level_flag_cached(g, v, l, is_level_treasure_icon, p);
 }
 
 [[nodiscard]] auto level_is_argusul_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

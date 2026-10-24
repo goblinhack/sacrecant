@@ -1083,14 +1083,15 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_kobalos(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_lava_bg(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_leather(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_level_boss_icon(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_level_closed_icon(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_level_curr_icon(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_level_final_icon(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_level_locked_icon(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_level_locked_treasure_icon(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_level_next_icon(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_level_open_icon(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_level_select_bg(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_level_treasure_icon(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_levitating(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_light_flicker(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_loggable(Thingp t) -> bool;
@@ -1202,7 +1203,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused102(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused103(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused104(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused105(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused11(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused12(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused124(Thingp t) -> bool;

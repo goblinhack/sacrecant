@@ -1496,10 +1496,10 @@
   return level_open(g, v, l, is_unused104, p);
 }
 
-[[nodiscard]] auto level_open_is_unused105(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+[[nodiscard]] auto level_open_is_level_boss_icon(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_open(g, v, l, is_unused105, p);
+  return level_open(g, v, l, is_level_boss_icon, p);
 }
 
 [[nodiscard]] auto level_open_is_magic_wall(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
@@ -1508,10 +1508,10 @@
   return level_open(g, v, l, is_magic_wall, p);
 }
 
-[[nodiscard]] auto level_open_is_level_locked_treasure_icon(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+[[nodiscard]] auto level_open_is_level_treasure_icon(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_open(g, v, l, is_level_locked_treasure_icon, p);
+  return level_open(g, v, l, is_level_treasure_icon, p);
 }
 
 [[nodiscard]] auto level_open_is_argusul(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp

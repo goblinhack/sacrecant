@@ -1676,7 +1676,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   return tp_flag(thing_tp(t), is_unused104) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused105(Thingp t) -> bool
+[[nodiscard]] auto thing_is_level_boss_icon(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1684,7 +1684,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     no_thing_pointer();
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused105) != 0;
+  return tp_flag(thing_tp(t), is_level_boss_icon) != 0;
 }
 
 [[nodiscard]] auto thing_is_magic_wall(Thingp t) -> bool
@@ -1698,7 +1698,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   return tp_flag(thing_tp(t), is_magic_wall) != 0;
 }
 
-[[nodiscard]] auto thing_is_level_locked_treasure_icon(Thingp t) -> bool
+[[nodiscard]] auto thing_is_level_treasure_icon(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1706,7 +1706,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     no_thing_pointer();
     return false;
   }
-  return tp_flag(thing_tp(t), is_level_locked_treasure_icon) != 0;
+  return tp_flag(thing_tp(t), is_level_treasure_icon) != 0;
 }
 
 [[nodiscard]] auto thing_is_argusul(Thingp t) -> bool

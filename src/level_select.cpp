@@ -73,24 +73,26 @@
   auto  *level_select = game_level_get(g, v, LEVEL_ARR_IDX_LEVEL_SELECT);
   Levelp level_over   = nullptr;
 
-  auto *tp_is_level_locked_icon          = tp_first(is_level_locked_icon);
-  auto *tp_is_level_locked_treasure_icon = tp_first(is_level_locked_treasure_icon);
-  auto *tp_is_level_curr_icon            = tp_first(is_level_curr_icon);
-  auto *tp_is_level_final_icon           = tp_first(is_level_final_icon);
-  auto *tp_is_level_closed_icon          = tp_first(is_level_closed_icon);
-  auto *tp_is_level_open_icon            = tp_first(is_level_open_icon);
-  auto *tp_is_level_next_icon            = tp_first(is_level_next_icon);
+  auto *tp_is_level_locked_icon   = tp_first(is_level_locked_icon);
+  auto *tp_is_level_treasure_icon = tp_first(is_level_treasure_icon);
+  auto *tp_is_level_boss_icon     = tp_first(is_level_boss_icon);
+  auto *tp_is_level_curr_icon     = tp_first(is_level_curr_icon);
+  auto *tp_is_level_final_icon    = tp_first(is_level_final_icon);
+  auto *tp_is_level_closed_icon   = tp_first(is_level_closed_icon);
+  auto *tp_is_level_open_icon     = tp_first(is_level_open_icon);
+  auto *tp_is_level_next_icon     = tp_first(is_level_next_icon);
 
   FOR_ALL_THINGS_AT_UNSAFE(g, v, level_select, t, p)
   {
     auto *tp = thing_tp(t);
 
-    if ((tp == tp_is_level_locked_icon) ||          // newline
-        (tp == tp_is_level_locked_treasure_icon) || // newline
-        (tp == tp_is_level_curr_icon) ||            // newline
-        (tp == tp_is_level_final_icon) ||           // newline
-        (tp == tp_is_level_closed_icon) ||          // newline
-        (tp == tp_is_level_open_icon) ||            // newline
+    if ((tp == tp_is_level_locked_icon) ||   // newline
+        (tp == tp_is_level_treasure_icon) || // newline
+        (tp == tp_is_level_boss_icon) ||     // newline
+        (tp == tp_is_level_curr_icon) ||     // newline
+        (tp == tp_is_level_final_icon) ||    // newline
+        (tp == tp_is_level_closed_icon) ||   // newline
+        (tp == tp_is_level_open_icon) ||     // newline
         (tp == tp_is_level_next_icon)) {
       auto at             = thing_at(g, v, level_select, t);
       auto level_num_over = v->level_select.tile_to_level[ at.x ][ at.y ];
@@ -463,12 +465,13 @@ static auto level_select_count_levels(LevelSelect *s) -> int
 
   memset(level_select->debug, ' ', SIZEOF(level_select->debug));
 
-  auto *tp_is_level_locked_icon          = tp_first(is_level_locked_icon);
-  auto *tp_is_level_locked_treasure_icon = tp_first(is_level_locked_treasure_icon);
-  auto *tp_is_level_curr_icon            = tp_first(is_level_curr_icon);
-  auto *tp_is_level_final_icon           = tp_first(is_level_final_icon);
-  auto *tp_is_level_closed_icon          = tp_first(is_level_closed_icon);
-  auto *tp_is_level_next_icon            = tp_first(is_level_next_icon);
+  auto *tp_is_level_locked_icon   = tp_first(is_level_locked_icon);
+  auto *tp_is_level_treasure_icon = tp_first(is_level_treasure_icon);
+  auto *tp_is_level_boss_icon     = tp_first(is_level_boss_icon);
+  auto *tp_is_level_curr_icon     = tp_first(is_level_curr_icon);
+  auto *tp_is_level_final_icon    = tp_first(is_level_final_icon);
+  auto *tp_is_level_closed_icon   = tp_first(is_level_closed_icon);
+  auto *tp_is_level_next_icon     = tp_first(is_level_next_icon);
 
   bpoint const map_offset(18, 5);
 
@@ -512,7 +515,14 @@ static auto level_select_count_levels(LevelSelect *s) -> int
       // Treasure level
       //
       if (l->is_treasure_level) {
-        tp = tp_is_level_locked_treasure_icon;
+        tp = tp_is_level_treasure_icon;
+      }
+
+      //
+      // Boss level
+      //
+      if (l->is_boss_level) {
+        tp = tp_is_level_boss_icon;
       }
 
       //
@@ -653,8 +663,11 @@ static auto level_select_count_levels(LevelSelect *s) -> int
         if (tp == tp_is_level_locked_icon) {
           level_select->debug[ at.x ][ at.y ] = '?';
         }
-        if (tp == tp_is_level_locked_treasure_icon) {
+        if (tp == tp_is_level_treasure_icon) {
           level_select->debug[ at.x ][ at.y ] = '$';
+        }
+        if (tp == tp_is_level_boss_icon) {
+          level_select->debug[ at.x ][ at.y ] = 'B';
         }
         if (tp == tp_is_level_curr_icon) {
           level_select->debug[ at.x ][ at.y ] = '@';
@@ -675,7 +688,11 @@ static auto level_select_count_levels(LevelSelect *s) -> int
             tp = tp_is_level_next_icon;
           }
 
-          if (g_opt_level_select_menu && (tp == tp_is_level_locked_treasure_icon)) {
+          if (g_opt_level_select_menu && (tp == tp_is_level_treasure_icon)) {
+            tp = tp_is_level_next_icon;
+          }
+
+          if (g_opt_level_select_menu && (tp == tp_is_level_boss_icon)) {
             tp = tp_is_level_next_icon;
           }
         }
@@ -862,8 +879,14 @@ static auto level_select_next(Gamep g, Levelsp v, Levelp l, Levelp level_over) -
     return false;
   }
 
-  if (level_is_level_locked_treasure_icon_bool(g, v, l, at)) {
+  if (level_is_level_treasure_icon_bool(g, v, l, at)) {
     topcon("You cannot enter this treasure level yet. Choose an open door.");
+    (void) sound_play(g, "error");
+    return false;
+  }
+
+  if (level_is_level_boss_icon_bool(g, v, l, at)) {
+    topcon("You cannot enter this boss level yet. Choose an open door.");
     (void) sound_play(g, "error");
     return false;
   }
