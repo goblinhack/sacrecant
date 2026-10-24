@@ -5,6 +5,7 @@
 #include "../../my_callstack.hpp"
 #include "../../my_level_inlines.hpp"
 #include "../../my_main.hpp"
+#include "../../my_sound.hpp"
 #include "../../my_thing_callbacks.hpp"
 #include "../../my_thing_inlines.hpp"
 #include "../../my_tile.hpp"
@@ -48,6 +49,8 @@ static void tp_magic_wall_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
       } else {
         topcon("You hear a magic wall open!");
       }
+
+      thing_sound_play(g, v, l, me, "bell");
     } else {
       topcon("You hear a very distant magic_wall collapse!");
     }
