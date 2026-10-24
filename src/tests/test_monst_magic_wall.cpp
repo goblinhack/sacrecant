@@ -21,19 +21,19 @@
   //
   std::string const start
       = "xxxxxxx"
-        "x..%..x"
-        "x..%..x"
-        "x@.%.mx"
-        "x..%..x"
-        "x..%..x"
+        "x.._..x"
+        "x.._..x"
+        "x@._.mx"
+        "x.._..x"
+        "x.._..x"
         "xxxxxxx";
   std::string const expect1
       = "xxxxxxx"
-        "x..%..x"
-        "x..%..x"
-        "x@.%..x"
-        "x..%m.x"
-        "x..%..x"
+        "x.._..x"
+        "x.._..x"
+        "x@._..x"
+        "x.._m.x"
+        "x.._..x"
         "xxxxxxx";
 
   //

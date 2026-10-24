@@ -32,7 +32,7 @@ enum : char {
   CHARMAP_JOIN          = '^',
   CHARMAP_KEY           = 'k',
   CHARMAP_LAVA          = 'L',
-  CHARMAP_MAGIC_WALL    = '%',
+  CHARMAP_MAGIC_WALL    = '_',
   CHARMAP_MOB1          = 'g',
   CHARMAP_MOB2          = 'G',
   CHARMAP_MONST1        = 'm',

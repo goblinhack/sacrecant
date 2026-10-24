@@ -873,22 +873,25 @@ static auto level_select_next(Gamep g, Levelsp v, Levelp l, Levelp level_over) -
 
   auto at = v->cursor_at;
 
-  if (level_is_level_locked_icon_bool(g, v, l, at)) {
-    topcon("You cannot enter this level yet. Choose an open door.");
-    (void) sound_play(g, "error");
-    return false;
-  }
+  IF_NODEBUG
+  {
+    if (level_is_level_locked_icon_bool(g, v, l, at)) {
+      topcon("You cannot enter this level yet. Choose an open door.");
+      (void) sound_play(g, "error");
+      return false;
+    }
 
-  if (level_is_level_treasure_icon_bool(g, v, l, at)) {
-    topcon("You cannot enter this treasure level yet. Choose an open door.");
-    (void) sound_play(g, "error");
-    return false;
-  }
+    if (level_is_level_treasure_icon_bool(g, v, l, at)) {
+      topcon("You cannot enter this treasure level yet. Choose an open door.");
+      (void) sound_play(g, "error");
+      return false;
+    }
 
-  if (level_is_level_boss_icon_bool(g, v, l, at)) {
-    topcon("You cannot enter this boss level yet. Choose an open door.");
-    (void) sound_play(g, "error");
-    return false;
+    if (level_is_level_boss_icon_bool(g, v, l, at)) {
+      topcon("You cannot enter this boss level yet. Choose an open door.");
+      (void) sound_play(g, "error");
+      return false;
+    }
   }
 
   bool ok_to_choose = {};
@@ -912,6 +915,8 @@ static auto level_select_next(Gamep g, Levelsp v, Levelp l, Levelp level_over) -
     // ok to choose
     ok_to_choose = true;
   }
+
+  IF_DEBUG { ok_to_choose = true; }
 
   //
   // Switch to the chosen level if possible; allow going back to the old level to clean up if needed

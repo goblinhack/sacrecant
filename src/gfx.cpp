@@ -2922,69 +2922,69 @@ static void gfx_init_tiles_walls_and_floors()
       "door_secret26.idle.0",
       "door_secret26.open.0",
       // ##############################################################################
-      "magic_wall1.IS_JOIN_TL2",
-      "magic_wall1.IS_JOIN_T_3",
-      "magic_wall1.IS_JOIN_TR2",
-      "magic_wall1.IS_JOIN_TOP",
-      "magic_wall1.IS_JOIN_X4_180",
-      "magic_wall1.IS_JOIN_X4_270",
-      "magic_wall1.IS_JOIN_X2_270",
-      "magic_wall1.IS_JOIN_X2",
-      "magic_wall1.IS_JOIN_X1_180",
-      "magic_wall1.IS_JOIN_X1",
-      "magic_wall1.IS_JOIN_X",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      // ##############################################################################
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
       "",
       "",
       "",
       "",
       "",
       // ##############################################################################
-      "magic_wall1.IS_JOIN_T270_3",
-      "magic_wall1.IS_JOIN_BLOCK",
-      "magic_wall1.IS_JOIN_T90_3",
-      "magic_wall1.IS_JOIN_VERT",
-      "magic_wall1.IS_JOIN_X4_90",
-      "magic_wall1.IS_JOIN_X4",
-      "magic_wall1.IS_JOIN_X2_180",
-      "magic_wall1.IS_JOIN_X2_90",
-      "magic_wall1.IS_JOIN_X1_90",
-      "magic_wall1.IS_JOIN_X1_270",
-      "magic_wall1.IS_JOIN_X3_180",
-      "magic_wall1.IS_JOIN_X3",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
       "",
       "",
       "",
       "",
       // ##############################################################################
-      "magic_wall1.IS_JOIN_BL2",
-      "magic_wall1.IS_JOIN_T180_3",
-      "magic_wall1.IS_JOIN_BR2",
-      "magic_wall1.IS_JOIN_BOT",
-      "magic_wall1.IS_JOIN_T_1",
-      "magic_wall1.IS_JOIN_T_2",
-      "magic_wall1.IS_JOIN_T270_2",
-      "magic_wall1.IS_JOIN_T90_1",
-      "magic_wall1.IS_JOIN_T",
-      "magic_wall1.IS_JOIN_T90",
-      "magic_wall1.IS_JOIN_TL",
-      "magic_wall1.IS_JOIN_TR",
       "",
       "",
       "",
       "",
-      // ##############################################################################
-      "magic_wall1.IS_JOIN_LEFT",
-      "magic_wall1.IS_JOIN_HORIZ",
-      "magic_wall1.IS_JOIN_RIGHT",
-      "magic_wall1.IS_JOIN_NODE",
-      "magic_wall1.IS_JOIN_T180_2",
-      "magic_wall1.IS_JOIN_T180_1",
-      "magic_wall1.IS_JOIN_T270_1",
-      "magic_wall1.IS_JOIN_T90_2",
-      "magic_wall1.IS_JOIN_T270",
-      "magic_wall1.IS_JOIN_T180",
-      "magic_wall1.IS_JOIN_BL",
-      "magic_wall1.IS_JOIN_BR",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
       "",
       "",
       "",
@@ -3454,6 +3454,81 @@ static void gfx_init_tiles_walls_and_floors()
 
   auto *tile = tile_find_mand("none");
   tile_size_set(tile, TILE_WIDTH, TILE_HEIGHT);
+}
+
+static void gfx_init_tiles_20x20()
+{
+  TRACE();
+  const char *tiles[] = {
+      "magic_wall1.IS_JOIN_TL2",
+      "magic_wall1.IS_JOIN_T_3",
+      "magic_wall1.IS_JOIN_TR2",
+      "magic_wall1.IS_JOIN_TOP",
+      "magic_wall1.IS_JOIN_X4_180",
+      "magic_wall1.IS_JOIN_X4_270",
+      "magic_wall1.IS_JOIN_X2_270",
+      "magic_wall1.IS_JOIN_X2",
+      "magic_wall1.IS_JOIN_X1_180",
+      "magic_wall1.IS_JOIN_X1",
+      "magic_wall1.IS_JOIN_X",
+      "",
+      "",
+      "",
+      "",
+      "",
+      // ##############################################################################
+      "magic_wall1.IS_JOIN_T270_3",
+      "magic_wall1.IS_JOIN_BLOCK",
+      "magic_wall1.IS_JOIN_T90_3",
+      "magic_wall1.IS_JOIN_VERT",
+      "magic_wall1.IS_JOIN_X4_90",
+      "magic_wall1.IS_JOIN_X4",
+      "magic_wall1.IS_JOIN_X2_180",
+      "magic_wall1.IS_JOIN_X2_90",
+      "magic_wall1.IS_JOIN_X1_90",
+      "magic_wall1.IS_JOIN_X1_270",
+      "magic_wall1.IS_JOIN_X3_180",
+      "magic_wall1.IS_JOIN_X3",
+      "",
+      "",
+      "",
+      "",
+      // ##############################################################################
+      "magic_wall1.IS_JOIN_BL2",
+      "magic_wall1.IS_JOIN_T180_3",
+      "magic_wall1.IS_JOIN_BR2",
+      "magic_wall1.IS_JOIN_BOT",
+      "magic_wall1.IS_JOIN_T_1",
+      "magic_wall1.IS_JOIN_T_2",
+      "magic_wall1.IS_JOIN_T270_2",
+      "magic_wall1.IS_JOIN_T90_1",
+      "magic_wall1.IS_JOIN_T",
+      "magic_wall1.IS_JOIN_T90",
+      "magic_wall1.IS_JOIN_TL",
+      "magic_wall1.IS_JOIN_TR",
+      "",
+      "",
+      "",
+      "",
+      // ##############################################################################
+      "magic_wall1.IS_JOIN_LEFT",
+      "magic_wall1.IS_JOIN_HORIZ",
+      "magic_wall1.IS_JOIN_RIGHT",
+      "magic_wall1.IS_JOIN_NODE",
+      "magic_wall1.IS_JOIN_T180_2",
+      "magic_wall1.IS_JOIN_T180_1",
+      "magic_wall1.IS_JOIN_T270_1",
+      "magic_wall1.IS_JOIN_T90_2",
+      "magic_wall1.IS_JOIN_T270",
+      "magic_wall1.IS_JOIN_T180",
+      "magic_wall1.IS_JOIN_BL",
+      "magic_wall1.IS_JOIN_BR",
+      "",
+      "",
+      "",
+      "",
+  };
+  tile_load_arr_sprites("data/gfx/tiles_20x20.tga", "tiles_20x20", 20, 20, ARRAY_SIZE(tiles), tiles);
 }
 
 static void gfx_init_tiles_water_lava_misc()
@@ -7268,7 +7343,7 @@ static void gfx_init_tiles()
   tile_load_arr_sprites("data/gfx/tiles.tga", "tiles", OUTLINE_TILE_WIDTH, OUTLINE_TILE_HEIGHT, ARRAY_SIZE(tiles), tiles);
 }
 
-static void gfx_init_tiles_tall()
+static void gfx_init_tiles_14x28()
 {
   TRACE();
   const char *tiles[] = {
@@ -7325,7 +7400,7 @@ static void gfx_init_tiles_tall()
       "explosion.idle.15",
       // ##############################################################################
   };
-  tile_load_arr_sprites("data/gfx/tiles_tall.tga", "tiles_tall", OUTLINE_TILE_WIDTH, OUTLINE_TILE_HEIGHT * 2, ARRAY_SIZE(tiles), tiles);
+  tile_load_arr_sprites("data/gfx/tiles_14x28.tga", "tiles_14x28", OUTLINE_TILE_WIDTH, OUTLINE_TILE_HEIGHT * 2, ARRAY_SIZE(tiles), tiles);
 }
 
 static void gfx_init_tiles_96x96()
@@ -7557,7 +7632,8 @@ void gfx_init()
   gfx_init_tiles_beam_of_fire();
   gfx_init_tiles_beam_of_energy();
   gfx_init_tiles();
-  gfx_init_tiles_tall();
+  gfx_init_tiles_14x28();
+  gfx_init_tiles_20x20();
   gfx_init_tiles_96x96();
   gfx_init_tiles_60x60();
   gfx_init_tiles_walls_and_floors();

@@ -454,6 +454,7 @@ ENUM_DEF_H(THING_FLAG_ENUM, ThingFlagType)
       list_macro(MAP_Z_DEPTH_PLAYER, "monsts"),                   /* newline */                                                                 \
       list_macro(MAP_Z_DEPTH_ENGULFING_MONST, "engulfing-monst"), /* newline */                                                                 \
       list_macro(MAP_Z_DEPTH_FOLIAGE, "obscuring plants"),        /* newline */                                                                 \
+      list_macro(MAP_Z_DEPTH_MAGIC_WALL, "magic-wall"),           /* newline */                                                                 \
       list_macro(MAP_Z_DEPTH_EFFECT, "effect"),                   /* newline */                                                                 \
       list_macro(MAP_Z_DEPTH_WEAPON, "projectile"),               /* newline */                                                                 \
       list_macro(MAP_Z_DEPTH_GAS, "fire, smoke"),                 /* newline */
