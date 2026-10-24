@@ -52,17 +52,21 @@ void tp_player_on_moved(Gamep g, Levelsp v, Levelp l, Thingp me)
     return;
   }
 
-  if (level_is_magic_wall_bool(g, v, l, at)) {
-    ThingEvent e {
-        .reason     = "by opening",     //
-        .event_type = THING_EVENT_OPEN, //
-    };
+  if (thing_keys_carried(g, v, l, me) != 0) {
+    if (level_is_magic_wall_bool(g, v, l, at)) {
+      ThingEvent e {
+          .reason     = "by opening",     //
+          .event_type = THING_EVENT_OPEN, //
+      };
 
-    FOR_ALL_THINGS_AT(g, v, l, it, at)
-    {
-      if (thing_is_magic_wall(it)) {
-        thing_dead(g, v, l, it, e);
+      FOR_ALL_THINGS_AT(g, v, l, it, at)
+      {
+        if (thing_is_magic_wall(it)) {
+          thing_dead(g, v, l, it, e);
+        }
       }
+
+      (void) thing_keys_carried_decr(g, v, l, me, 1);
     }
   }
 

@@ -42,8 +42,8 @@
       = "xxxxxxx"
         "x...x.x"
         "x...x.x"
-        "x...@mx"
-        "x...x.x"
+        "x...@.x"
+        "x...xmx"
         "x...x.x"
         "xxxxxxx";
   std::string const expect3
@@ -219,7 +219,7 @@
 
   TEST_ASSERT(t, thing_is_dead(monst), "monster not killed in slam attack");
 
-  TEST_ASSERT(t, game_tick_get(g, v) == 25, "final tick counter value");
+  TEST_ASSERT(t, game_tick_get(g, v) == 23, "final tick counter value");
 
   level_dump(g, v, l, w, h);
   TEST_PASSED(t);

@@ -782,6 +782,20 @@ void levels_test(Gamep g)
                   /* line */ (const char *) "           ",
                   /* end */ nullptr);
 
+  level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "magic_wall", __FUNCTION__, __LINE__, no_overrides, 0,
+                  /* line */ (const char *) "           ",
+                  /* line */ (const char *) " xxxxx     ",
+                  /* line */ (const char *) " x...x     ",
+                  /* line */ (const char *) " x...xxxxx ",
+                  /* line */ (const char *) " x...%..mx ",
+                  /* line */ (const char *) " x@.k%...x ",
+                  /* line */ (const char *) " x...%...x ",
+                  /* line */ (const char *) " x...xxxxx ",
+                  /* line */ (const char *) " x...x     ",
+                  /* line */ (const char *) " xxxxx     ",
+                  /* line */ (const char *) "           ",
+                  /* end */ nullptr);
+
   level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "item", __FUNCTION__, __LINE__, no_overrides, 0,
                   /* line */ (const char *) "           ",
                   /* line */ (const char *) " xxxxxxxxx ",

@@ -414,7 +414,11 @@ void thing_moving_from_set(Thingp t, const bpoint &val)
   if (player_or_monst) {
     if (thing_is_player(player_or_monst)) {
       if (thing_is_magic_wall(me)) {
-        return false;
+        if (thing_keys_carried(g, v, l, player_or_monst) == 0) {
+          return true;
+        } else {
+          return false;
+        }
       }
     }
 

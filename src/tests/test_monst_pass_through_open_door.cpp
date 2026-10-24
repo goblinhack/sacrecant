@@ -39,8 +39,8 @@
       = "xxxxxxx"
         "x...x.x"
         "x...x.x"
-        "x...@mx"
-        "x...x.x"
+        "x...@.x"
+        "x...xmx"
         "x...x.x"
         "xxxxxxx";
   std::string const expect3
@@ -145,7 +145,7 @@
     goto exit;
   }
 
-  TEST_ASSERT(t, game_tick_get(g, v) == 13, "final tick counter value");
+  TEST_ASSERT(t, game_tick_get(g, v) == 12, "final tick counter value");
 
   level_dump(g, v, l, w, h);
   TEST_PASSED(t);

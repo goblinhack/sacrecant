@@ -24,6 +24,7 @@
   if (!test_load_beam_weapon_door_locked()) { return false; }
   if (!test_load_beam_weapon_door_secret()) { return false; }
   if (!test_load_beam_weapon_door_unlocked()) { return false; }
+  if (!test_load_beam_weapon_magic_wall()) { return false; }
   if (!test_load_beam_weapon_mob()) { return false; }
   if (!test_load_beam_weapon_monst_chain()) { return false; }
   if (!test_load_beam_weapon_over_grass()) { return false; }
@@ -93,6 +94,7 @@
   if (!test_load_monst_jump_over_lava()) { return false; }
   if (!test_load_monst_jumper()) { return false; }
   if (!test_load_monst_levit()) { return false; }
+  if (!test_load_monst_magic_wall()) { return false; }
   if (!test_load_monst_massacre()) { return false; }
   if (!test_load_monst_maze()) { return false; }
   if (!test_load_monst_mob_dumb_leash()) { return false; }
@@ -158,6 +160,8 @@
   if (!test_load_player_open_door_locked_fail()) { return false; }
   if (!test_load_player_open_door_locked_success()) { return false; }
   if (!test_load_player_open_door_unlocked()) { return false; }
+  if (!test_load_player_open_magic_wall_fail()) { return false; }
+  if (!test_load_player_open_magic_wall_success()) { return false; }
   if (!test_load_player_trap_chasm_triggered()) { return false; }
   if (!test_load_player_trap_did_not_trigger_due_to_clover()) { return false; }
   if (!test_load_player_trap_did_not_trigger_due_to_horseshoe()) { return false; }
@@ -187,6 +191,7 @@
   if (!test_load_proj_door_locked()) { return false; }
   if (!test_load_proj_door_secret()) { return false; }
   if (!test_load_proj_door_unlocked()) { return false; }
+  if (!test_load_proj_magic_wall()) { return false; }
   if (!test_load_proj_mob()) { return false; }
   if (!test_load_proj_over_grass()) { return false; }
   if (!test_load_proj_over_water()) { return false; }

@@ -127,6 +127,10 @@ void thing_is_unlocked_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     return false;
   }
 
+  if (thing_is_open(me)) {
+    return true;
+  }
+
   bool const success = thing_is_open_try_set(g, v, l, me, opener);
   if (success) {
     if (thing_is_player(opener)) {
@@ -153,6 +157,10 @@ void thing_is_unlocked_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
 
   if (! thing_is_openable(me)) {
     return false;
+  }
+
+  if (! thing_is_open(me)) {
+    return true;
   }
 
   bool const success = thing_is_open_try_unset(g, v, l, me, closer);

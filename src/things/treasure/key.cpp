@@ -50,6 +50,7 @@ static auto tp_key_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> s
   tp_flag_set(tp, is_collectable);
   tp_flag_set(tp, is_collision_circle_large);
   tp_flag_set(tp, is_described_cursor);
+  tp_flag_set(tp, is_indestructible);
   tp_flag_set(tp, is_key);
   tp_flag_set(tp, is_levitating);
   tp_flag_set(tp, is_light_source, 2);
