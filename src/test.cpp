@@ -210,6 +210,7 @@ static std::initializer_list< std::string > tests = {
     "proj_door_secret",
     "proj_door_unlocked",
     "proj_magic_wall",
+    "proj_mob_dormant_should_die",
     "proj_mob",
     "proj_over_grass",
     "proj_over_water",

@@ -1725,6 +1725,7 @@ void thing_croak(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) C
 void thing_dbg(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 5, 6);
 void thing_err(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 5, 6);
 void thing_log(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 5, 6);
+void thing_mob_dead(Gamep g, Levelsp v, Levelp l, Thingp mob, ThingEvent &e);
 void thing_mob_minions_kill_if_too_far(Gamep g, Levelsp v, Levelp l, Thingp me);
 void thing_mob_move_minions_offset(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint offset);
 void thing_mob_warp_minions_to(Gamep g, Levelsp v, Levelp old_level, Levelp new_level, Thingp me, bpoint from, bpoint to);

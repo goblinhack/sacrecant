@@ -190,6 +190,7 @@ auto test_load_proj_door_locked() -> bool;
 auto test_load_proj_door_secret() -> bool;
 auto test_load_proj_door_unlocked() -> bool;
 auto test_load_proj_magic_wall() -> bool;
+auto test_load_proj_mob_dormant_should_die() -> bool;
 auto test_load_proj_mob() -> bool;
 auto test_load_proj_over_grass() -> bool;
 auto test_load_proj_over_water() -> bool;

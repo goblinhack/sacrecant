@@ -537,6 +537,11 @@ void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   thing_is_dead_set(g, v, l, me);
 
   //
+  // Can't be dormant and dead. This is mainly for mobs.
+  //
+  (void) thing_dormant_set(g, v, l, me, 0);
+
+  //
   // Update the animation, for example, flattened grass
   //
   if (thing_is_burning(me) && (tp_tiles_size(tp, THING_ANIM_BURNT) != 0)) {
@@ -627,12 +632,7 @@ void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   // If the mob dies, unleash or kill minions
   //
   if (thing_is_mob(me)) {
-    TRACE_INDENT();
-    if (thing_is_mob_kill_minions_on_death(me)) {
-      (void) thing_mob_kill_all_minions(g, v, l, me, e);
-    } else {
-      (void) thing_mob_detach_all_minions(g, v, l, me);
-    }
+    thing_mob_dead(g, v, l, me, e);
   }
 
   //

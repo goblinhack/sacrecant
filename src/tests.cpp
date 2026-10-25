@@ -192,6 +192,7 @@
   if (!test_load_proj_door_secret()) { return false; }
   if (!test_load_proj_door_unlocked()) { return false; }
   if (!test_load_proj_magic_wall()) { return false; }
+  if (!test_load_proj_mob_dormant_should_die()) { return false; }
   if (!test_load_proj_mob()) { return false; }
   if (!test_load_proj_over_grass()) { return false; }
   if (!test_load_proj_over_water()) { return false; }

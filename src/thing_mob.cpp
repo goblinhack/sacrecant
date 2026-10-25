@@ -13,6 +13,25 @@
 #include "my_types.hpp"
 #include <cstring>
 
+void thing_mob_dead(Gamep g, Levelsp v, Levelp l, Thingp mob, ThingEvent &e)
+{
+  TRACE();
+
+  if (mob == nullptr) {
+    return;
+  }
+
+  if (! thing_is_mob(mob)) {
+    return;
+  }
+
+  if (thing_is_mob_kill_minions_on_death(mob)) {
+    (void) thing_mob_kill_all_minions(g, v, l, mob, e);
+  } else {
+    (void) thing_mob_detach_all_minions(g, v, l, mob);
+  }
+}
+
 //
 // How many minions?
 //

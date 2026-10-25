@@ -46,6 +46,7 @@
                                   /* name                          */ "{}"
                                   /* name                          */ " {}"
                                   /* is_dead                       */ "{}"
+                                  /* is_dormant                    */ "{}"
                                   /* is_moving                     */ "{}"
                                   /* is_worn                       */ "{}"
                                   /* is_jumping                    */ "{}"
@@ -75,6 +76,7 @@
                                   /* newline */ thing_is_ensnared(t) ? "/snrd" : "",
                                   /* newline */ thing_is_carried(t) ? "/carr" : "",
                                   /* newline */ thing_is_dead(t) ? "/dead" : "",
+                                  /* newline */ thing_dormant(g, v, l, t) ? "/dormant" : "",
                                   /* newline */ thing_is_sleeping(t) ? "/zzz" : "",
                                   /* newline */ (thing_is_falling(t) != 0) ? "/fall" : "",
                                   /* newline */ thing_is_open(t) ? "/open" : "",

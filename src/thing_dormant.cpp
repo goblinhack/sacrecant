@@ -39,6 +39,10 @@
     return 0;
   }
 
+  if (thing_is_dead(me)) {
+    return ext->_dormant = 0;
+  }
+
   thing_anim_init(g, v, l, me, THING_ANIM_DORMANT);
 
   return ext->_dormant = val;
