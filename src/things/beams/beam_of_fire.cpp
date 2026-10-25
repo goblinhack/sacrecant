@@ -73,7 +73,7 @@ static void tp_beam_of_fire_on_spawned(Gamep g, Levelsp v, Levelp l, Thingp me, 
   tp_z_depth_set(tp, MAP_Z_DEPTH_WEAPON);
   // end sort marker1 }
 
-  auto delay = 10;
+  auto delay = 5;
 
   for (auto frame = 0; frame < THING_BEAM_WEAPON_TILES_MAX; frame++) {
     for (auto step = 0; step < THING_BEAM_WEAPON_TILES_MAX; step++) {

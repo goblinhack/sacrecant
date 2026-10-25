@@ -139,7 +139,7 @@ auto thing_beam_weapon_fire_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what
       }
     }
 
-    if (last) {
+    if (last && (step > 0)) {
       beam_weapon->anim_index = THING_BEAM_WEAPON_TILES_MAX - 1;
       break;
     }
