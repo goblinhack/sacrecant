@@ -50,6 +50,11 @@ using LevelInfo = struct LevelInfo {
   char name[ MAXSHORTSTR ];
 
   //
+  // Seed used to generated all levels
+  //
+  uint32_t seed_base;
+
+  //
   // Seed used to generated this level
   //
   uint32_t seed_num;
