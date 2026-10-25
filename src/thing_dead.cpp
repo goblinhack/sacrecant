@@ -240,7 +240,7 @@ static void thing_killed_by_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
       by_player = thing_name_apostrophize_the(g, v, l, fired_by) + " " + thing_name_long(g, v, l, player);
     }
   } else {
-    by_player = thing_name_long_the(g, v, l, player);
+    by_player = thing_name_long(g, v, l, player);
   }
 
   switch (e.event_type) {
