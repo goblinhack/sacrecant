@@ -88,8 +88,8 @@ static void thing_collision_sort_cands(Gamep g, Levelsp v, Levelp l, Thingp me, 
   float const dist          = distance(A_at, B_at);
 
   if (compiler_unused) {
-    THING_DBG(g, v, l, A, "A %f,%f touching_dist %f dist %f ", A_at.x, A_at.y, touching_dist, dist);
-    THING_DBG(g, v, l, B, "B %f,%f", B_at.x, B_at.y);
+    THING_DBG(g, v, l, A, "A %f,%f touching_dist %f dist %f ", (float) A_at.x, (float) A_at.y, touching_dist, dist);
+    THING_DBG(g, v, l, B, "B %f,%f", (float) B_at.x, (float) B_at.y);
   }
 
   if (dist >= touching_dist) {
@@ -116,8 +116,8 @@ static void thing_collision_sort_cands(Gamep g, Levelsp v, Levelp l, Thingp me, 
     fpoint const tl(B_at.x, B_at.y);
     fpoint const br(B_at.x + 1, B_at.y + 1);
 
-    THING_DBG(g, v, l, C, "circle %f,%f", C_at.x, C_at.y);
-    THING_DBG(g, v, l, B, "box %f,%f -> %f,%f", tl.x, tl.y, br.x, br.y);
+    THING_DBG(g, v, l, C, "circle %f,%f", (float) C_at.x, (float) C_at.y);
+    THING_DBG(g, v, l, B, "box %f,%f -> %f,%f", (float) tl.x, (float) tl.y, (float) br.x, (float) br.y);
   }
 
   fpoint const B0(B_at.x - 0, B_at.y - 0);
@@ -1020,7 +1020,7 @@ void thing_collision_handle_interpolated(Gamep g, Levelsp v, Levelp l, Thingp me
     bpoint const interp_at = make_bpoint(static_cast< int >(interp_at_f.x), static_cast< int >(interp_at_f.y));
 
     if (compiler_unused) {
-      THING_DBG(g, v, l, me, "interp collision at %f,%f step %d", interp_at_f.x, interp_at_f.y, step);
+      THING_DBG(g, v, l, me, "interp collision at %f,%f step %d", (float) interp_at_f.x, (float) interp_at_f.y, step);
       for (auto dx = -1; dx <= 1; dx++) {
         for (auto dy = -1; dy <= 1; dy++) {
           bpoint collision_at(interp_at.x + dx, interp_at.y + dy);

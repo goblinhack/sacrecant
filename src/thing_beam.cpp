@@ -41,7 +41,7 @@ static auto thing_beam_weapon_truncate(const fpoint &from, fpoint &to) -> float
 
 auto thing_beam_weapon_fire_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what, const fpoint target, const fpoint offset) -> bool
 {
-  THING_DBG(g, v, l, me, "fire beam weapon at @%f,%f offset %f,%f", target.x, target.y, offset.x, offset.y);
+  THING_DBG(g, v, l, me, "fire beam weapon at @%f,%f offset %f,%f", (float) target.x, (float) target.y, (float) offset.x, (float) offset.y);
   TRACE_INDENT();
 
   //
@@ -90,7 +90,7 @@ auto thing_beam_weapon_fire_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what
     THING_DBG(g, v, l, me, "beam component, step %d", step);
 
     if (compiler_unused) {
-      thing_topcon(g, v, l, me, "%f,%f step %d", fbeam_at.x, fbeam_at.y, step);
+      thing_topcon(g, v, l, me, "%f,%f step %d", (float) fbeam_at.x, (float) fbeam_at.y, step);
     }
 
     ThingEvent e {};

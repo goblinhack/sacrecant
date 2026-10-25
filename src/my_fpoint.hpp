@@ -13,8 +13,8 @@
 
 using fpoint = struct MyFpoint {
 public:
-  float x;
-  float y;
+  f16 x;
+  f16 y;
 
   void               operator+=(MyFpoint const &b);
   void               operator-=(MyFpoint const &b);

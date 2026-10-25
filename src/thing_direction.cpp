@@ -295,8 +295,8 @@ void thing_set_dir_from_target(Gamep g, Levelsp v, Levelp l, Thingp me, const bp
     fpoint dir = thing_missile_get_direction(g, v, l, me);
     bpoint dir_out;
 
-    dir.x = static_cast< int >(std::round(dir.x));
-    dir.y = static_cast< int >(std::round(dir.y));
+    dir.x = static_cast< int >(std::round((float) dir.x));
+    dir.y = static_cast< int >(std::round((float) dir.y));
 
     if (dir.x > 0) {
       dir_out.x = 1;

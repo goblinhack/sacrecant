@@ -114,7 +114,7 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
     tof   = outf + delta;
     to    = make_bpoint(tof);
     out   = to;
-    THING_DBG(g, v, l, me, "teleport projectile, delta %f,%f bpoint %d,%d", delta.x, delta.y, to.x, to.y);
+    THING_DBG(g, v, l, me, "teleport projectile, delta %f,%f bpoint %d,%d", (float) delta.x, (float) delta.y, to.x, to.y);
     return true;
   }
 
@@ -133,7 +133,7 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
         if ((delta != fpoint(0, 0)) && ! level_is_obs_to_teleporting_onto_bool(g, v, l, to)) {
           if (! level_is_obs_to_teleporting_onto_bool(g, v, l, to)) {
             out = to;
-            THING_DBG(g, v, l, me, "found a landing spot (%d,%d) delta(%f,%f), (1)", to.x, to.y, delta.x, delta.y);
+            THING_DBG(g, v, l, me, "found a landing spot (%d,%d) delta(%f,%f), (1)", to.x, to.y, (float) delta.x, (float) delta.y);
             return true;
           }
         }
@@ -220,7 +220,7 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
   }
 
   if (compiler_unused) {
-    THING_DBG(g, v, l, me, "delta %f,%f bpoint %d,%d out %d,%d", delta.x, delta.y, to.x, to.y, out.x, out.y);
+    THING_DBG(g, v, l, me, "delta %f,%f bpoint %d,%d out %d,%d", (float) delta.x, (float) delta.y, to.x, to.y, out.x, out.y);
   }
 
   if (level_is_obs_to_teleporting_onto_bool(g, v, l, to)) {

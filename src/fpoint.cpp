@@ -39,11 +39,11 @@ void fpoint::operator/=(float b)
   y /= b;
 }
 
-auto fpoint::length() const -> float { return (sqrt((x * x) + (y * y))); }
+auto fpoint::length() const -> float { return (sqrtf((x * x) + (y * y))); }
 
 void fpoint::unit()
 {
-  float const len = sqrt((x * x) + (y * y));
+  float const len = sqrtf((x * x) + (y * y));
   x /= len;
   y /= len;
 }
@@ -101,13 +101,13 @@ auto rotate_radians(const fpoint &p, float angle) -> fpoint
 
 auto normal(const fpoint &p) -> fpoint
 {
-  float const length = sqrt((p.x * p.x) + (p.y * p.y));
+  float const length = sqrtf((p.x * p.x) + (p.y * p.y));
   return fpoint(p.x / length, p.y / length);
 }
 
 auto unit(const fpoint &p) -> fpoint
 {
-  float const length = sqrt((p.x * p.x) + (p.y * p.y));
+  float const length = sqrtf((p.x * p.x) + (p.y * p.y));
   return fpoint(p.x / length, p.y / length);
 }
 
