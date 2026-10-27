@@ -528,6 +528,7 @@ void tp_load_player_common(Tpp tp)
   tp_flag_set(tp, is_able_to_lunge);
   tp_flag_set(tp, is_able_to_move_diagonally);
   tp_flag_set(tp, is_able_to_open_things);
+  tp_flag_set(tp, is_able_to_recoil);
   tp_flag_set(tp, is_able_to_shove);
   tp_flag_set(tp, is_able_to_throw);
   tp_flag_set(tp, is_able_to_wear_items);

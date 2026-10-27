@@ -1521,10 +1521,10 @@
   return level_flag(g, v, l, is_unused102, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused103_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_able_to_recoil_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused103, p, me) != nullptr;
+  return level_flag(g, v, l, is_able_to_recoil, p, me) != nullptr;
 }
 
 [[nodiscard]] auto level_is_effect_sparks_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool

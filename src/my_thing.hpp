@@ -333,6 +333,7 @@ using ThingExt = struct ThingExt {
   // Where we're lunging
   //
   ThingDirType lunge_dir;
+  ThingDirType recoil_dir;
   //
   // Last tile we attacked
   //
@@ -820,6 +821,9 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_damage_this_tick(Thingp t) -> int;
 [[nodiscard]] auto thing_damage_types(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::vector< ThingEventType >;
 [[nodiscard]] auto thing_debug(Gamep g, Levelsp v, Levelp l, Thingp t, uint32_t iter_index) -> bool;
+[[nodiscard]] auto thing_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &delta) -> ThingDirType;
+[[nodiscard]] auto thing_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp me, const fpoint &delta) -> ThingDirType;
+[[nodiscard]] auto thing_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp me, int dx, int dy) -> ThingDirType;
 [[nodiscard]] auto thing_distance_avoid_target_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
 [[nodiscard]] auto thing_distance_avoid_target_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
 [[nodiscard]] auto thing_distance_avoid_target_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int;
@@ -861,8 +865,8 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_get_attacker(Gamep g, Levelsp v, Levelp l, ThingEvent &e) -> Thingp;
 [[nodiscard]] auto thing_get_attacker(Gamep g, Levelsp v, Levelp l, Thingp /*attacker*/) -> Thingp;
 [[nodiscard]] auto thing_get_direction_grid(Gamep g, Levelsp v, Levelp l, Thingp me) -> bpoint;
-[[nodiscard]] auto thing_get_direction(ThingDirType dir) -> bpoint;
 [[nodiscard]] auto thing_get_direction(Gamep g, Levelsp v, Levelp l, Thingp me) -> fpoint;
+[[nodiscard]] auto thing_get_direction(ThingDirType dir) -> bpoint;
 [[nodiscard]] auto thing_get_dmap(Gamep g, Levelsp v, Levelp l, Thingp me) -> Dmap *;
 [[nodiscard]] auto thing_get(Gamep g, Levelsp v, Levelp l, const bpoint &p, int slot) -> Thingp;
 [[nodiscard]] auto thing_health_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
@@ -919,6 +923,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_able_to_move_diagonally(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_move(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_open_things(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_able_to_recoil(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_resurrect(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_see_invisible(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_see_through_walls(Thingp t) -> bool;
@@ -1204,7 +1209,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused100(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused101(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused102(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused103(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused11(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused12(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused124(Thingp t) -> bool;
@@ -1286,9 +1290,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused80(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused81(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused82(Thingp t) -> bool;
-[[nodiscard]] auto thing_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp me, int dx, int dy) -> ThingDirType;
-[[nodiscard]] auto thing_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &delta) -> ThingDirType;
-[[nodiscard]] auto thing_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp me, const fpoint &delta) -> ThingDirType;
 [[nodiscard]] auto thing_is_unused83(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused84(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused85(Thingp t) -> bool;
@@ -1433,6 +1434,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_push_additional(Gamep g, Levelsp v, Levelp l, Thingp t, bpoint at) -> bool;
 [[nodiscard]] auto thing_push(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
 [[nodiscard]] auto thing_real_at(Gamep g, Levelsp v, Levelp l, Thingp me) -> fpoint;
+[[nodiscard]] auto thing_recoil(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &to) -> bool;
 [[nodiscard]] auto thing_resurrect(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_sac_points_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
 [[nodiscard]] auto thing_sac_points_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
@@ -1653,6 +1655,7 @@ auto thing_is_moving_set(Gamep g, Levelsp v, Levelp l, Thingp t, bool val = true
 auto thing_is_moving_unset(Gamep g, Levelsp v, Levelp l, Thingp t) -> void;
 auto thing_is_on_map_set(Gamep g, Levelsp v, Levelp l, Thingp t, bool val = true) -> void;
 auto thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t) -> void;
+auto thing_is_recoil_set(Gamep g, Levelsp v, Levelp l, Thingp me, bool val) -> void;
 auto thing_is_scheduled_for_cleanup_set(Gamep g, Levelsp v, Levelp l, Thingp me, bool val = true) -> void;
 auto thing_is_scheduled_for_cleanup_unset(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
 auto thing_is_scheduled_for_worklist_set(Thingp me, bool val = true) -> void;
@@ -1669,6 +1672,7 @@ auto thing_is_unlocked_unset(Gamep g, Levelsp v, Levelp l, Thingp t) -> void;
 auto thing_level_warp_to_entrance(Gamep g, Levelsp v, Levelp new_level, Thingp t) -> void;
 auto thing_level_warp_to_exit(Gamep g, Levelsp v, Levelp new_level, Thingp t) -> void;
 auto thing_lunge_end_check(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
+auto thing_lunge_modify_position(Gamep g, Levelsp v, Levelp l, Thingp me, spoint &tl, spoint &br) -> void;
 auto thing_lunge_time_step(Gamep g, Levelsp v, Levelp l, Thingp me, int time_step) -> void;
 auto thing_melt(Gamep g, Levelsp v, Levelp l, Thingp t) -> void;
 auto thing_mob_dump_minions(Gamep g, Levelsp v, Levelp l, Thingp mob) -> void;
@@ -1687,6 +1691,9 @@ auto thing_pix_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, short x, short y)
 auto thing_player_event_loop(Gamep g, Levelsp v, Levelp l) -> void;
 auto thing_player_init(Gamep g) -> void;
 auto thing_proj_move(Gamep g, Levelsp v, Levelp l, Thingp me, float dt) -> void;
+auto thing_recoil_end_check(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
+auto thing_recoil_modify_position(Gamep g, Levelsp v, Levelp l, Thingp me, spoint &tl, spoint &br) -> void;
+auto thing_recoil_time_step(Gamep g, Levelsp v, Levelp l, Thingp me, int time_step) -> void;
 auto thing_set_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &p) -> void;
 auto thing_set_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp me, int dx, int dy) -> void;
 auto thing_set_dir_from_target(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &p) -> void;

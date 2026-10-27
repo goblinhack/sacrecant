@@ -1483,10 +1483,10 @@
   return tp_flag(tp, is_unused102) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused103(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_able_to_recoil(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused103) != 0;
+  return tp_flag(tp, is_able_to_recoil) != 0;
 }
 
 [[nodiscard]] auto tp_is_effect_sparks(Tpp tp) -> bool

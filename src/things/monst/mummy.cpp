@@ -123,6 +123,7 @@ static bool tp_mummy_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, T
   tp_flag_set(tp, is_able_to_lunge);
   tp_flag_set(tp, is_able_to_move_diagonally);
   tp_flag_set(tp, is_able_to_move);
+  tp_flag_set(tp, is_able_to_recoil);
   tp_flag_set(tp, is_able_to_resurrect);
   tp_flag_set(tp, is_animated_can_hflip);
   tp_flag_set(tp, is_animated);
@@ -130,6 +131,7 @@ static bool tp_mummy_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker, T
   tp_flag_set(tp, is_biome_dungeon);
   tp_flag_set(tp, is_blasted_when_dead);
   tp_flag_set(tp, is_blit_hit_outline_w_invis_inside);
+  tp_flag_set(tp, is_blit_hit_solid_white);
   tp_flag_set(tp, is_blit_on_ground);
   tp_flag_set(tp, is_blit_shown_in_chasms);
   tp_flag_set(tp, is_burnable); // is capable of being burned by fire

@@ -94,6 +94,11 @@ enum {
   THING_LUNGE_ANIM_MS = 150,
 
   //
+  // Recoil duration
+  //
+  THING_RECOIL_ANIM_MS = 150,
+
+  //
   // Don't let corpses pile up as each corpse take up a lot
   //
   THING_CORPSES_PER_TILE = 3,

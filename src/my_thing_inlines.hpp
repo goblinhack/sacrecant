@@ -625,4 +625,22 @@
   return ext->_lunge_ms;
 }
 
+[[nodiscard]] static inline auto thing_is_recoiling(Gamep g, Levelsp v, Thingp me) -> int
+{
+#ifdef DEBUG_BUILD
+  TRACE_DEBUG();
+  if (me == nullptr) {
+    no_thing_pointer();
+    return 0;
+  }
+#endif
+
+  auto *ext = thing_ext_struct(g, v, me);
+  if (ext == nullptr) [[unlikely]] {
+    return 0;
+  }
+
+  return ext->_recoil_ms;
+}
+
 #endif // MY_THING_INLINES_HPP

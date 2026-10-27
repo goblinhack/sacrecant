@@ -1179,7 +1179,18 @@ static auto player_move_delta(Gamep g, Levelsp v, Levelp l, int dx, int dy) -> b
     return false;
   }
 
-  thing_set_dir_from_delta(g, v, l, me, dx, dy);
+  //
+  // Set direction on firing
+  //
+  thing_set_dir_from_target(g, v, l, me, target);
+
+  auto dir = thing_get_direction(g, v, l, me);
+
+  //
+  // Recoil on firing
+  //
+  auto at = thing_real_at(g, v, l, me);
+  (void) thing_recoil(g, v, l, me, make_bpoint(at - dir));
 
   //
   // No firing in deep water

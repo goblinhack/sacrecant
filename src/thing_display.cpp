@@ -179,6 +179,7 @@ void thing_display_get_tile_info(Gamep g, Levelsp v, Levelp l, const bpoint &p, 
 
   if (t_maybe_null != nullptr) {
     thing_lunge_modify_position(g, v, l, t_maybe_null, tl, br);
+    thing_recoil_modify_position(g, v, l, t_maybe_null, tl, br);
   }
 }
 

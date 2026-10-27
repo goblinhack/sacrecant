@@ -143,8 +143,13 @@ void wid_level_show_contents(Gamep g, Levelsp v, Levelp l, WidPopup *parent)
         parent->log_empty_line(g);
       }
     } else if (l != player_level) {
-      parent->log(g, "You cannot enter here yet.", TEXT_FORMAT_LHS);
-      parent->log_empty_line(g);
+      if (l->player_fell_out_of_level) {
+        parent->log(g, "You can re-enter this level.", TEXT_FORMAT_LHS);
+        parent->log_empty_line(g);
+      } else {
+        parent->log(g, "You cannot enter here yet.", TEXT_FORMAT_LHS);
+        parent->log_empty_line(g);
+      }
     } else {
       parent->log(g, "You can re-enter this level.", TEXT_FORMAT_LHS);
       parent->log_empty_line(g);

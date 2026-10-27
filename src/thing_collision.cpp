@@ -578,6 +578,13 @@ static void thing_collision_handle_alive_thing(Gamep g, Levelsp v, Levelp l, Thi
     TRACE_INDENT();
 
     thing_damage_apply(g, v, l, obstacle, e);
+
+    //
+    // Recoil from impact
+    //
+    auto dir = thing_get_direction(g, v, l, me);
+    auto at  = thing_real_at(g, v, l, obstacle);
+    (void) thing_recoil(g, v, l, obstacle, make_bpoint(at + dir));
   }
 
   if (thing_is_dead_on_collision(me)) {

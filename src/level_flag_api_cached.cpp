@@ -1521,10 +1521,10 @@
   return level_flag_cached(g, v, l, is_unused102, p);
 }
 
-[[nodiscard]] auto level_is_unused103_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_able_to_recoil_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused103, p);
+  return level_flag_cached(g, v, l, is_able_to_recoil, p);
 }
 
 [[nodiscard]] auto level_is_effect_sparks_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

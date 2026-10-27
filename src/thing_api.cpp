@@ -1654,7 +1654,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   return tp_flag(thing_tp(t), is_unused102) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused103(Thingp t) -> bool
+[[nodiscard]] auto thing_is_able_to_recoil(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1662,7 +1662,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     no_thing_pointer();
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused103) != 0;
+  return tp_flag(thing_tp(t), is_able_to_recoil) != 0;
 }
 
 [[nodiscard]] auto thing_is_effect_sparks(Thingp t) -> bool

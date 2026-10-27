@@ -58,5 +58,9 @@ void level_anim(Gamep g, Levelsp v, Levelp l)
     if (thing_is_lunging(g, v, t) != 0) {
       thing_lunge_time_step(g, v, l, t, time_step);
     }
+
+    if (thing_is_recoiling(g, v, t) != 0) {
+      thing_recoil_time_step(g, v, l, t, time_step);
+    }
   }
 }

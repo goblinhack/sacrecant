@@ -1484,10 +1484,10 @@
   return level_alive(g, v, l, is_unused102, p);
 }
 
-[[nodiscard]] auto level_alive_is_unused103(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+[[nodiscard]] auto level_alive_is_able_to_recoil(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_alive(g, v, l, is_unused103, p);
+  return level_alive(g, v, l, is_able_to_recoil, p);
 }
 
 [[nodiscard]] auto level_alive_is_effect_sparks(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp

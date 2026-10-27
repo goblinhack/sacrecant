@@ -1484,10 +1484,10 @@
   return level_flag(g, v, l, is_unused102, p, me);
 }
 
-[[nodiscard]] auto level_is_unused103(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_able_to_recoil(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused103, p, me);
+  return level_flag(g, v, l, is_able_to_recoil, p, me);
 }
 
 [[nodiscard]] auto level_is_effect_sparks(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp

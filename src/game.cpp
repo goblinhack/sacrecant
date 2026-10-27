@@ -576,6 +576,7 @@ void Game::init()
 
   level_light_precalculate(this);
   level_lunge_precalculate(this);
+  level_recoil_precalculate(this);
 
   player_name_set(nullptr);
 }
