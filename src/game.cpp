@@ -573,7 +573,6 @@ void Game::init()
   seed_set();
 
   level_raycast_init(this);
-
   level_light_precalculate(this);
   level_lunge_precalculate(this);
   level_recoil_precalculate(this);
