@@ -6,6 +6,7 @@
 #include "../../my_dice_rolls.hpp"
 #include "../../my_globals.hpp"
 #include "../../my_level.hpp"
+#include "../../my_random.hpp"
 #include "../../my_thing_callbacks.hpp"
 #include "../../my_tile.hpp"
 #include "../../my_tp.hpp"
@@ -26,6 +27,13 @@ static void tp_beam_of_energy_on_spawned(Gamep g, Levelsp v, Levelp l, Thingp me
   }
 }
 
+static auto tp_load_beam_of_energy_use_weapon(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp user, const fpoint &target) -> void
+{
+  TRACE();
+
+  (void) thing_spawn(g, v, l, tp_random(g, v, l, is_effect_sparks), target);
+}
+
 [[nodiscard]] auto tp_load_beam_of_energy() -> bool
 {
   auto *tp   = tp_load("beam_of_energy"); // keep as string for scripts
@@ -33,6 +41,7 @@ static void tp_beam_of_energy_on_spawned(Gamep g, Levelsp v, Levelp l, Thingp me
 
   // begin sort marker1 {
   thing_on_spawned_set(tp, tp_beam_of_energy_on_spawned);
+  thing_on_use_weapon_set(tp, tp_load_beam_of_energy_use_weapon);
   tp_damage_set(tp, THING_EVENT_ENERGY_DAMAGE, "1d4");
   tp_flag_set(tp, is_able_to_be_teleported);
   tp_flag_set(tp, is_animated_sync_first);

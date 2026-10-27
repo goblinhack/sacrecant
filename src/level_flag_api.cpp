@@ -1490,10 +1490,10 @@
   return level_flag(g, v, l, is_unused103, p, me);
 }
 
-[[nodiscard]] auto level_is_unused104(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_effect_sparks(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused104, p, me);
+  return level_flag(g, v, l, is_effect_sparks, p, me);
 }
 
 [[nodiscard]] auto level_is_level_boss_icon(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp

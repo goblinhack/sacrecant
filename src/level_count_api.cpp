@@ -1491,10 +1491,10 @@
   return level_count(g, v, l, is_unused103, p);
 }
 
-[[nodiscard]] auto level_count_is_unused104(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_effect_sparks(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused104, p);
+  return level_count(g, v, l, is_effect_sparks, p);
 }
 
 [[nodiscard]] auto level_count_is_level_boss_icon(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t

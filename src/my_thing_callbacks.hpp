@@ -108,6 +108,10 @@ using thing_on_use_weapon_request_t = Tpp (*)(Gamep, Levelsp, Levelp, Thingp me,
 auto               thing_on_use_weapon_request_set(Tpp tp, thing_on_use_weapon_request_t callback) -> void;
 [[nodiscard]] auto thing_on_use_weapon_request(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp user) -> Tpp;
 
+using thing_on_use_weapon_t = void (*)(Gamep, Levelsp, Levelp, Thingp me, Thingp user, const fpoint &target);
+auto thing_on_use_weapon_set(Tpp tp, thing_on_use_weapon_t callback) -> void;
+auto thing_on_use_weapon(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp user, const fpoint &target) -> void;
+
 using thing_get_weapon_list_t = std::vector< Tpp > (*)(Gamep, Levelsp, Levelp, Thingp me);
 auto               thing_get_weapon_list_set(Tpp tp, thing_get_weapon_list_t callback) -> void;
 [[nodiscard]] auto thing_get_weapon_list(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::vector< Tpp >;

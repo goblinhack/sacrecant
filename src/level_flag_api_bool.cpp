@@ -1527,10 +1527,10 @@
   return level_flag(g, v, l, is_unused103, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused104_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_effect_sparks_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused104, p, me) != nullptr;
+  return level_flag(g, v, l, is_effect_sparks, p, me) != nullptr;
 }
 
 [[nodiscard]] auto level_is_level_boss_icon_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool

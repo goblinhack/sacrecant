@@ -1527,10 +1527,10 @@
   return level_flag_cached(g, v, l, is_unused103, p);
 }
 
-[[nodiscard]] auto level_is_unused104_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_effect_sparks_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused104, p);
+  return level_flag_cached(g, v, l, is_effect_sparks, p);
 }
 
 [[nodiscard]] auto level_is_level_boss_icon_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

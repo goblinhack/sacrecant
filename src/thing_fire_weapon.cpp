@@ -47,6 +47,41 @@ void thing_on_use_weapon_request_set(Tpp tp, thing_on_use_weapon_request_t callb
   return tp->on_use_weapon_request(g, v, l, me, user);
 }
 
+void thing_on_use_weapon_set(Tpp tp, thing_on_use_weapon_t callback)
+{
+  TRACE();
+  if (tp == nullptr) [[unlikely]] {
+    no_tp_pointer();
+    return;
+  }
+  tp->on_use_weapon = callback;
+}
+
+auto thing_on_use_weapon(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp user, const fpoint &target) -> void
+{
+  TRACE();
+  auto *tp = thing_tp(me);
+  if (tp == nullptr) [[unlikely]] {
+    no_tp_pointer();
+    return;
+  }
+  if (tp->on_use_weapon == nullptr) {
+    //
+    // Assume success
+    //
+    return;
+  }
+
+  if (user != nullptr) {
+    if (! thing_is_player(user) && ! thing_is_monst(user)) {
+      thing_err(g, v, l, user, "unexpected thing for %s", __FUNCTION__);
+      return;
+    }
+  }
+
+  tp->on_use_weapon(g, v, l, me, user, target);
+}
+
 void thing_get_weapon_list_set(Tpp tp, thing_get_weapon_list_t callback)
 {
   TRACE();

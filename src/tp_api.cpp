@@ -1489,10 +1489,10 @@
   return tp_flag(tp, is_unused103) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused104(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_effect_sparks(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused104) != 0;
+  return tp_flag(tp, is_effect_sparks) != 0;
 }
 
 [[nodiscard]] auto tp_is_level_boss_icon(Tpp tp) -> bool

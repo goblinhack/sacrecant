@@ -63,7 +63,7 @@ void sounds_load(Gamep g)
   (void) sound_load(1.0F /* volume */, "data/sounds/misc/footstep_foliage.ogg", "footstep_foliage");
   (void) sound_load(1.0F /* volume */, "data/sounds/misc/footstep.ogg", "footstep");
   (void) sound_load(1.0F /* volume */, "data/sounds/misc/teleport.ogg", "teleport");
-  (void) sound_load(1.0F /* volume */, "data/sounds/missiles/beam_weapon.ogg", "beam_weapon", 5 /* concurrent_max */);
-  (void) sound_load(1.0F /* volume */, "data/sounds/missiles/projectile.ogg", "projectile", 5 /* concurrent_max */);
+  (void) sound_load(1.0F /* volume */, "data/sounds/missiles/beam_weapon.ogg", "beam_weapon", 10 /* concurrent_max */);
+  (void) sound_load(1.0F /* volume */, "data/sounds/missiles/projectile.ogg", "projectile", 10 /* concurrent_max */);
   (void) sound_load(1.0F /* volume */, "data/sounds/treasure/key.ogg", "key");
 }

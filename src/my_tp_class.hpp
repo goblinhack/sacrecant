@@ -332,6 +332,7 @@ public:
   thing_on_carry_success_t      on_carry_success      = {};
   thing_on_drop_success_t       on_drop_success       = {};
   thing_on_use_weapon_request_t on_use_weapon_request = {};
+  thing_on_use_weapon_t         on_use_weapon         = {};
   thing_get_weapon_list_t       get_weapon_list       = {};
   thing_on_use_t                on_use                = {};
   thing_on_eaten_t              on_eaten              = {};

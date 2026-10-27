@@ -103,6 +103,10 @@ auto thing_beam_weapon_fire_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what
       break;
     }
 
+    if (step == 0) {
+      (void) thing_on_use_weapon(g, v, l, beam_weapon, me, target);
+    }
+
     beam_weapon->angle = static_cast< f16 >(angle);
 
     //

@@ -1490,10 +1490,10 @@
   return level_open(g, v, l, is_unused103, p);
 }
 
-[[nodiscard]] auto level_open_is_unused104(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+[[nodiscard]] auto level_open_is_effect_sparks(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_open(g, v, l, is_unused104, p);
+  return level_open(g, v, l, is_effect_sparks, p);
 }
 
 [[nodiscard]] auto level_open_is_level_boss_icon(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
