@@ -191,6 +191,75 @@ static void thing_dir_set_br(Thingp me)
 //
 // Set tile direction from delta
 //
+ThingDirType thing_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp me, int dx, int dy)
+{
+  TRACE();
+
+  if (dx < 0) {
+    if (dy > 0) {
+      return THING_DIR_BL;
+    } else if (dy < 0) {
+      return THING_DIR_TL;
+    } else {
+      return THING_DIR_LEFT;
+    }
+  }
+
+  if (dx > 0) {
+    if (dy > 0) {
+      return THING_DIR_BR;
+    } else if (dy < 0) {
+      return THING_DIR_TR;
+    } else {
+      return THING_DIR_RIGHT;
+    }
+  }
+
+  if (dy > 0) {
+    if (dx > 0) {
+      return THING_DIR_BR;
+    } else if (dx < 0) {
+      return THING_DIR_BL;
+    } else {
+      return THING_DIR_DOWN;
+    }
+  }
+
+  if (dy < 0) {
+    if (dx > 0) {
+      return THING_DIR_TR;
+    } else if (dx < 0) {
+      return THING_DIR_TL;
+    } else {
+      return THING_DIR_UP;
+    }
+  }
+  return THING_DIR_NONE;
+}
+
+//
+// Set tile direction from delta
+//
+ThingDirType thing_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &to)
+{
+  TRACE();
+  auto delta = to - thing_at(g, v, l, me);
+  return thing_dir_from_delta(g, v, l, me, delta.x, delta.y);
+}
+
+//
+// Set tile direction from delta
+//
+ThingDirType thing_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp me, const fpoint &to)
+{
+  TRACE();
+  auto delta = to - thing_real_at(g, v, l, me);
+  return thing_dir_from_delta(g, v, l, me, (int) delta.x, (int) delta.y);
+}
+
+//
+// Set tile direction from delta
+//
 void thing_set_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp me, int dx, int dy)
 {
   if (compiler_unused) {
@@ -313,6 +382,24 @@ void thing_set_dir_from_target(Gamep g, Levelsp v, Levelp l, Thingp me, const bp
   }
 
   switch (me->dir) {
+    case THING_DIR_BR :    return bpoint(1, 1);
+    case THING_DIR_TR :    return bpoint(1, -1);
+    case THING_DIR_BL :    return bpoint(-1, 1);
+    case THING_DIR_TL :    return bpoint(-1, -1);
+    case THING_DIR_RIGHT : return bpoint(1, 0);
+    case THING_DIR_NONE :  return bpoint(0, 0);
+    case THING_DIR_DOWN :  return bpoint(0, 1);
+    case THING_DIR_UP :    return bpoint(0, -1);
+    case THING_DIR_LEFT :  return bpoint(-1, 0);
+    default :              return bpoint(0, 0);
+  }
+}
+
+[[nodiscard]] auto thing_get_direction(ThingDirType dir) -> bpoint
+{
+  TRACE();
+
+  switch (dir) {
     case THING_DIR_BR :    return bpoint(1, 1);
     case THING_DIR_TR :    return bpoint(1, -1);
     case THING_DIR_BL :    return bpoint(-1, 1);

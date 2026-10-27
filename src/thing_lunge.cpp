@@ -200,7 +200,7 @@ void thing_lunge_time_step(Gamep g, Levelsp v, Levelp l, Thingp me, int time_ste
 
   thing_is_lunging_set(g, v, l, me, true);
 
-  ext->lunging_to = dest;
+  ext->lunge_dir = thing_dir_from_delta(g, v, l, me, dest);
 
   return true;
 }
@@ -219,7 +219,7 @@ void thing_lunge_end_check(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   if (thing_is_lunging(g, v, me) >= THING_LUNGE_ANIM_MS) {
     if (compiler_unused) {
-      THING_DBG(g, v, l, me, "lunge to (%d,%d) done", ext->lunging_to.x, ext->lunging_to.y);
+      THING_DBG(g, v, l, me, "lunge done");
     }
 
     thing_is_lunging_set(g, v, l, me, false);
@@ -239,8 +239,7 @@ void thing_lunge_modify_position(Gamep g, Levelsp v, Levelp l, Thingp me, spoint
     return;
   }
 
-  auto dir = ext->lunging_to - thing_at(g, v, l, me);
-
+  auto dir  = thing_get_direction(ext->lunge_dir);
   auto pct  = static_cast< float >(ext->_lunge_ms) / static_cast< float >(THING_LUNGE_ANIM_MS);
   auto idxs = ARRAY_SIZE(lunge_amount);
   auto idx  = static_cast< int >(idxs * pct);
@@ -255,10 +254,6 @@ void thing_lunge_modify_position(Gamep g, Levelsp v, Levelp l, Thingp me, spoint
 
   auto off_x = static_cast< float >(dir.x) * w * amount;
   auto off_y = static_cast< float >(dir.y) * w * amount;
-
-  if (compiler_unused) {
-    THING_DBG(g, v, l, me, "lunge to (%d,%d) idx %d off %f,%f am %f w %f", ext->lunging_to.x, ext->lunging_to.y, idx, off_x, off_y, amount, w);
-  }
 
   tl.x += static_cast< short >(off_x);
   tl.y += static_cast< short >(off_y);

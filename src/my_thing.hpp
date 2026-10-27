@@ -325,6 +325,15 @@ using ThingExt = struct ThingExt {
   //
   uint8_t _keys_carried;
   //
+  // Accumulates and holds the amount of time we've been lunging.
+  //
+  uint8_t _lunge_ms;
+  uint8_t _recoil_ms;
+  //
+  // Where we're lunging
+  //
+  ThingDirType lunge_dir;
+  //
   // Last tile we attacked
   //
   bpoint _attacked_at;
@@ -406,17 +415,9 @@ using ThingExt = struct ThingExt {
   //
   int16_t _charge_count;
   //
-  // Accumulates and holds the amount of time we've been lunging.
-  //
-  uint16_t _lunge_ms;
-  //
   // Avoid drop carry loops
   //
   uint32_t tick_dropped;
-  //
-  // Where we're lunging
-  //
-  bpoint lunging_to;
   //
   // If owned, by whom
   //
@@ -860,6 +861,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_get_attacker(Gamep g, Levelsp v, Levelp l, ThingEvent &e) -> Thingp;
 [[nodiscard]] auto thing_get_attacker(Gamep g, Levelsp v, Levelp l, Thingp /*attacker*/) -> Thingp;
 [[nodiscard]] auto thing_get_direction_grid(Gamep g, Levelsp v, Levelp l, Thingp me) -> bpoint;
+[[nodiscard]] auto thing_get_direction(ThingDirType dir) -> bpoint;
 [[nodiscard]] auto thing_get_direction(Gamep g, Levelsp v, Levelp l, Thingp me) -> fpoint;
 [[nodiscard]] auto thing_get_dmap(Gamep g, Levelsp v, Levelp l, Thingp me) -> Dmap *;
 [[nodiscard]] auto thing_get(Gamep g, Levelsp v, Levelp l, const bpoint &p, int slot) -> Thingp;
@@ -1284,6 +1286,9 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused80(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused81(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused82(Thingp t) -> bool;
+[[nodiscard]] auto thing_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp me, int dx, int dy) -> ThingDirType;
+[[nodiscard]] auto thing_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &delta) -> ThingDirType;
+[[nodiscard]] auto thing_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp me, const fpoint &delta) -> ThingDirType;
 [[nodiscard]] auto thing_is_unused83(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused84(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused85(Thingp t) -> bool;
