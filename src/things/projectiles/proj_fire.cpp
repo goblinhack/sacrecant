@@ -6,6 +6,7 @@
 #include "../../my_dice_rolls.hpp"
 #include "../../my_globals.hpp"
 #include "../../my_level.hpp"
+#include "../../my_random.hpp"
 #include "../../my_thing_callbacks.hpp"
 #include "../../my_tile.hpp"
 #include "../../my_tp.hpp"
@@ -24,6 +25,8 @@ static void tp_proj_fire_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, Thing
   TRACE();
 
   thing_sound_play(g, v, l, me, "explosion");
+
+  (void) thing_spawn(g, v, l, tp_random(g, v, l, is_effect_sparks), me);
 }
 
 static void tp_proj_fire_on_moved(Gamep g, Levelsp v, Levelp l, Thingp me)

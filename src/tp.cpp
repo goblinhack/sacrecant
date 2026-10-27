@@ -178,6 +178,8 @@ static std::initializer_list< std::string > tps = {
     "effect_ripple",
     "effect_sparks1",
     "effect_sparks2",
+    "effect_sparks3",
+    "effect_sparks4",
     "entrance",
     "exit_closed",
     "exit",
