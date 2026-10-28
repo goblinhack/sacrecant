@@ -785,6 +785,17 @@ static void gl_draw(GLenum mode, int layout, const void *data, GLsizei stride, G
   }
   if (tex != 0) {
     flags |= FLAG_TEXTURE;
+
+    //
+    // Doesn't seem to fix
+    //
+    // POSSIBLE ISSUE: unit 0 GLD_TEXTURE_INDEX_2D is unloadable and bound to sampler type (Float) - using zero texture because texture
+    // unloadable
+    //
+    // Didn't help
+    //
+    // glUniform1i(glGetUniformLocation(gl_program, "u_Textures[0]"), 0 /* slot */);
+
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, tex);
     glUniform1i(gl_loc_tex, 0);
