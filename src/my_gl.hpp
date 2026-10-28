@@ -12,7 +12,7 @@
 
 #include <array>
 
-#ifdef WEB_BUILD
+#ifdef GLES_BUILD
 //
 // OpenGL ES 3.0 is used on all platforms. The legacy desktop OpenGL fixed function
 // pipeline (matrix stacks, client arrays, glColor etc...) does not exist in ES, so
@@ -195,7 +195,7 @@ auto gl_leave_2d_mode(Gamep g) -> void;
 auto gl_clear() -> void;
 void gl_clear_fbo_all();
 
-#ifdef WEB_BUILD
+#ifdef GLES_BUILD
 //
 // Replacements for the legacy fixed function state that no longer exists in OpenGL ES.
 //
@@ -267,7 +267,7 @@ extern PFNGLBINDBUFFERARBPROC           glBindBufferARB_EXT;
 extern PFNGLBUFFERDATAARBPROC           glBufferDataARB_EXT;
 extern PFNGLDELETEBUFFERSARBPROC        glDeleteBuffersARB_EXT;
 extern PFNGLDEBUGMESSAGECALLBACKPROC    glDebugMessageCallback_EXT;
-#elif WEB_BUILD
+#elif GLES_BUILD
 #define glDebugMessageCallback_EXT    glDebugMessageCallback
 #define glCreateProgram_EXT           glCreateProgram
 #define glDeleteProgram_EXT           glDeleteProgram

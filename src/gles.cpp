@@ -2,7 +2,7 @@
 // Copyright goblinhack@gmail.com
 //
 
-#ifdef WEB_BUILD
+#ifdef GLES_BUILD
 #include "my_callstack.hpp"
 #include "my_color.hpp"
 #include "my_color_defs.hpp"
@@ -685,9 +685,10 @@ static auto gl_shader_compile(GLenum type, const char *src) -> GLuint
   GLint ok = 0;
   glGetShaderiv(shader, GL_COMPILE_STATUS, &ok);
   if (ok == 0) {
-    std::array< char, 1024 > info {};
-    glGetShaderInfoLog(shader, static_cast< GLsizei >(info.size()), nullptr, info.data());
-    CROAK("GLES: shader compile failed: %s", info.data());
+    int                                    chars = 0;
+    std::array< char, GL_INFO_LOG_LENGTH > info {};
+    glGetShaderInfoLog(shader, GL_INFO_LOG_LENGTH, &chars, info.data());
+    CROAK("GLES: shader compile failed: [%s], %d chars", info.data(), chars);
   }
   return shader;
 }

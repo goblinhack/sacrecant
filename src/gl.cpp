@@ -2,7 +2,7 @@
 // Copyright goblinhack@gmail.com
 //
 
-#ifndef WEB_BUILD
+#ifndef GLES_BUILD
 #include "my_callstack.hpp"
 #include "my_game.hpp"
 #include "my_gl.hpp"
@@ -307,7 +307,7 @@ void gl_init_fbo_(FboEnum fbo, GLuint *render_buf_id, GLuint *fbo_id, GLuint *fb
 
   DBG2("DesktopOpenGL: - glTexImage2D");
 
-#ifdef WEB_BUILD
+#ifdef GLES_BUILD
   glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, tex_width, tex_height, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, nullptr);
 #else
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, tex_width, tex_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);

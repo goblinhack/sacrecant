@@ -118,14 +118,15 @@ Usage: $0 [options]
   [--prof]   Enable gprof
   [--gcc]    Prefer g++ over clang
   [--github] CI/CD build (turns off modification of README)
-  [--web]    Enable web asm output (builds for GLES3 but gfx don't seem to work fully)
-             (compiles but does not work, emscripten opengl3.0 is partial)
+  [--web]    Enable emscripten build
+  [--gles]   Enable GLES build
 %%
 }
 
 OPT_RELEASE_BUILD="yes"
 OPT_DEBUG_BUILD=
 OPT_WEB_BUILD=
+OPT_GLES_BUILD=
 OPT_SANITY_BUILD=
 OPT_PROFILE_BUILD=
 OPT_GCC=
@@ -162,6 +163,11 @@ read_opts()
                 ;;
             -*web)
                 OPT_WEB_BUILD="yes"
+                OPT_GLES_BUILD="yes"
+                shift
+                ;;
+            -*gles)
+                OPT_GLES_BUILD="yes"
                 shift
                 ;;
             -*gcc)
@@ -189,6 +195,7 @@ read_opts()
 export OPT_SANITY_BUILD
 export OPT_DEBUG_BUILD
 export OPT_WEB_BUILD
+export OPT_GLES_BUILD
 export OPT_RELEASE_BUILD
 export OPT_GITHUB_BUILD
 export OPT_PROFILE_BUILD

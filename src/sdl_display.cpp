@@ -170,7 +170,7 @@ static inline void sdl_list_video_size()
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
   SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 
-#ifdef WEB_BUILD
+#ifdef GLES_BUILD
   //
   // We use OpenGL ES 3.0 everywhere. These must be set before the window is created.
   //

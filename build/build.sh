@@ -475,7 +475,7 @@ if [[ $OPT_WEB_BUILD = "" ]]; then
         LDLIBS+=" -lstdc++"
         LDLIBS+=" -lstdc++exp"
 
-        if [[ $OPT_WEB_BUILD = "" ]]; then
+        if [[ $OPT_GLES_BUILD = "" ]]; then
           LDLIBS+=" -lopengl32"
         else
           LDLIBS+=" -lGLESv2"
@@ -529,7 +529,7 @@ if [[ $OPT_WEB_BUILD = "" ]]; then
         EXE=""
         LDLIBS+=" -funwind-tables"
 
-        if [[ $OPT_WEB_BUILD = "" ]]; then
+        if [[ $OPT_GLES_BUILD = "" ]]; then
           LDLIBS+=" -Wl,-framework,Opengl"
         else
           LDLIBS+=" -lGLESv2"
@@ -560,7 +560,7 @@ if [[ $OPT_WEB_BUILD = "" ]]; then
         ;;
     *inux*)
         EXE=""
-        if [[ $OPT_WEB_BUILD = "" ]]; then
+        if [[ $OPT_GLES_BUILD = "" ]]; then
           LDLIBS+=" -lGL"
         else
           LDLIBS+=" -lGLESv2"
@@ -619,6 +619,10 @@ fi
 
 if [[ $OPT_WEB_BUILD != "" ]]; then
     CFLAGS+=" -DWEB_BUILD"
+fi
+
+if [[ $OPT_GLES_BUILD != "" ]]; then
+    CFLAGS+=" -DGLES_BUILD"
 fi
 
 if [[ $OPT_GITHUB_BUILD != "" ]]; then

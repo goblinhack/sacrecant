@@ -39,7 +39,7 @@ void gl_error(GLenum errCode)
     log("GL: error, GL_INVALID_VALUE");
   } else if (errCode == GL_INVALID_OPERATION) {
     log("GL: error, GL_INVALID_OPERATION");
-#ifndef WEB_BUILD
+#ifndef GLES_BUILD
   } else if (errCode == GL_STACK_OVERFLOW) {
     log("GL: error, GL_STACK_OVERFLOW");
   } else if (errCode == GL_STACK_UNDERFLOW) {
@@ -217,4 +217,8 @@ void fbo_get_size(Gamep g, FboEnum fbo, int &w, int &h)
   }
 }
 
-void fbo_get_curr_size(Gamep g, int &w, int &h) { fbo_get_size(g, fbo_last, w, h); }
+void fbo_get_curr_size(Gamep g, int &w, int &h)
+{
+  TRACE();
+  fbo_get_size(g, fbo_last, w, h);
+}
