@@ -749,7 +749,7 @@ void config_game_gfx_update(Gamep g)
     int fbo_tmp_w = 0;
     int fbo_tmp_h = 0;
     fbo_get_size(g, fbo, fbo_tmp_w, fbo_tmp_h);
-    log("SDL: - %-30s : %ux%u pixels", FboEnum_to_string(fbo).c_str(), fbo_tmp_w, fbo_tmp_h);
+    log("SDL: - %-50s : %ux%u pixels", FboEnum_to_string(fbo).c_str(), fbo_tmp_w, fbo_tmp_h);
   }
 
   log("SDL: Map");
