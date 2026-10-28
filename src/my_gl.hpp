@@ -90,7 +90,7 @@
     (p)    = (GLfloat *) c;                                                                                                                     \
   }
 
-#define GL_PUSH_VERTEX_SIMPLE(x, y)                                                                                                                           \
+#define GL_PUSH_VERTEX_SIMPLE(x, y)                                                                                                             \
   *xyp++ = x;                                                                                                                                   \
   *xyp++ = y;
 
@@ -181,11 +181,6 @@ auto blit_init() -> void;
 auto fbo_get_size(Gamep g, FboEnum fbo, int &w, int &h) -> void;
 auto fbo_get_curr_size(Gamep g, int &w, int &h) -> void;
 
-auto gl_blitline(GLshort left, GLshort top, GLshort right, GLshort bottom) -> void;
-auto gl_blitquad(spoint tl, spoint tr, spoint bl, spoint br) -> void;
-auto gl_blitquad(GLshort left, GLshort top, GLshort right, GLshort bottom) -> void;
-auto gl_blitsquare(GLshort left, GLshort top, GLshort right, GLshort bottom) -> void;
-auto gl_enter_2_5d_mode(Gamep) -> void;
 auto gl_enter_2d_mode(Gamep g, int w, int h) -> void;
 auto gl_enter_2d_mode(Gamep g) -> void;
 auto gl_error(GLenum err) -> void;

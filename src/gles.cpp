@@ -871,64 +871,6 @@ void blit_flush_triangle_fan(float *b, const float *e)
   blit_init();
 }
 
-void gl_blitquad(GLshort left, GLshort top, GLshort right, GLshort bottom)
-{
-  TRACE_DEBUG();
-
-  GLshort  xy[ 4 * 2 ];
-  GLshort *xyp = xy; // NOLINT
-
-  GL_PUSH_VERTEX_SIMPLE(left, top);
-  GL_PUSH_VERTEX_SIMPLE(right, top);
-  GL_PUSH_VERTEX_SIMPLE(left, bottom);
-  GL_PUSH_VERTEX_SIMPLE(right, bottom);
-
-  gl_draw(GL_TRIANGLE_STRIP, VERTEX_XY, xy, SIZEOF(GLshort) * 2, 4, 0);
-}
-
-void gl_blitquad(const spoint tl, const spoint tr, const spoint bl, const spoint br)
-{
-  TRACE_DEBUG();
-
-  GLshort  xy[ 4 * 2 ];
-  GLshort *xyp = xy; // NOLINT
-
-  GL_PUSH_VERTEX_SIMPLE(tl.x, tl.y);
-  GL_PUSH_VERTEX_SIMPLE(tr.x, tr.y);
-  GL_PUSH_VERTEX_SIMPLE(bl.x, bl.y);
-  GL_PUSH_VERTEX_SIMPLE(br.x, br.y);
-
-  gl_draw(GL_TRIANGLE_STRIP, VERTEX_XY, xy, SIZEOF(GLshort) * 2, 4, 0);
-}
-
-void gl_blitsquare(GLshort left, GLshort top, GLshort right, GLshort bottom)
-{
-  TRACE_DEBUG();
-
-  GLshort  xy[ 4 * 2 ];
-  GLshort *xyp = xy; // NOLINT
-
-  GL_PUSH_VERTEX_SIMPLE(left, top);
-  GL_PUSH_VERTEX_SIMPLE(right, top);
-  GL_PUSH_VERTEX_SIMPLE(right, bottom);
-  GL_PUSH_VERTEX_SIMPLE(left, bottom);
-
-  gl_draw(GL_LINE_LOOP, VERTEX_XY, xy, SIZEOF(GLshort) * 2, 4, 0);
-}
-
-void gl_blitline(GLshort left, GLshort top, GLshort right, GLshort bottom)
-{
-  TRACE_DEBUG();
-
-  GLshort  xy[ 2 * 2 ];
-  GLshort *xyp = xy; // NOLINT
-
-  GL_PUSH_VERTEX_SIMPLE(left, top);
-  GL_PUSH_VERTEX_SIMPLE(right, bottom);
-
-  gl_draw(GL_LINES, VERTEX_XY, xy, SIZEOF(GLshort) * 2, 2, 0);
-}
-
 //
 // OpenGL ES 3.0 entry points are all exported directly by libGLESv2 so there is nothing to load.
 //
