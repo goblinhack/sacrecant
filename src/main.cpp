@@ -784,8 +784,6 @@ static void parse_args(int argc, char *argv[])
   }
 
   {
-    glEnable(GL_TEXTURE_2D);
-
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
     GL_ERROR_CHECK();
 

@@ -238,6 +238,9 @@ void level_light_calculate_all(Gamep g, Levelsp v, Levelp l)
   //
   // Calculate thing lighting
   //
+#ifdef WEB_BUILD
+  level_light_calculate_all_things(g, v, l);
+#else
   std::vector< std::thread > threads;
 
   threads.emplace_back(level_light_calculate_all_things, g, v, l);
@@ -250,4 +253,5 @@ void level_light_calculate_all(Gamep g, Levelsp v, Levelp l)
   for (auto &t : threads) {
     t.join();
   }
+#endif
 }

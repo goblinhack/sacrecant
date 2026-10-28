@@ -103,14 +103,14 @@ static void wid_transition_display(Gamep g)
   mid.y = game_window_pix_height_get(g) / 2;
 
   blit_flush();
-  glPushMatrix();
-  glTranslatef(mid.x, mid.y, 0);
+  gl_matrix_push();
+  gl_matrix_translate(mid.x, mid.y, 0);
   float const ang = zoomed * 1000;
-  glRotatef(ang, 0.0F, 0.0F, 1.0F);
-  glTranslatef(-mid.x, -mid.y, 0);
+  gl_matrix_rotate(ang, 0.0F, 0.0F, 1.0F);
+  gl_matrix_translate(-mid.x, -mid.y, 0);
   tile_blit(tile, tl, br, fg);
   blit_flush();
-  glPopMatrix();
+  gl_matrix_pop();
 
   if (game_time_have_x_ms_passed_since(duration_total, wid_transition_window_created_ms)) {
     wid_transition_destroy(g);

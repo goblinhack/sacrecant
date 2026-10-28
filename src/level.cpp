@@ -169,7 +169,7 @@ void levels_finalize(Gamep g, Levelsp v)
 
 void level_enter(Gamep g, Levelsp v, Levelp l, Thingp player)
 {
-  level_log(g, v, l, "Level entered");
+  LEVEL_DBG(g, v, l, "Level entered");
   TRACE_INDENT();
 
   l->player_has_entered_level = true;
@@ -189,7 +189,7 @@ void level_is_completed_by_player_exiting(Gamep g, Levelsp v, Levelp l)
   }
   l->player_completed_level_via_exit = true;
 
-  level_log(g, v, l, "Level completed");
+  LEVEL_DBG(g, v, l, "Level completed");
   TRACE_INDENT();
 
   auto *player_struct = thing_player_struct(g);

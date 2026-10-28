@@ -170,6 +170,21 @@ static inline void sdl_list_video_size()
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
   SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 
+#ifdef WEB_BUILD
+  //
+  // We use OpenGL ES 3.0 everywhere. These must be set before the window is created.
+  //
+#if defined(_WIN32) || defined(__APPLE__)
+  //
+  // Use the EGL/GLES libraries (e.g. ANGLE) rather than the native desktop OpenGL.
+  //
+  SDL_SetHint(SDL_HINT_OPENGL_ES_DRIVER, "1");
+#endif
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+#endif
+
   uint32_t video_flags = 0;
 
   log("SDL: Set SDL_WINDOW_OPENGL");

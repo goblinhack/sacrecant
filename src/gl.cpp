@@ -2,6 +2,7 @@
 // Copyright goblinhack@gmail.com
 //
 
+#ifndef WEB_BUILD
 #include "my_callstack.hpp"
 #include "my_color.hpp"
 #include "my_color_defs.hpp"
@@ -23,22 +24,7 @@
 #include <cstdint>
 #include <cstring>
 
-ENUM_DEF_C(FBO_ENUM, FboEnum)
-
 static bool in_2d_mode;
-
-float   glapi_last_tex_right;
-float   glapi_last_tex_bottom;
-GLshort glapi_last_right;
-GLshort glapi_last_bottom;
-
-GLuint       g_fbo_id[ FBO_ENUM_MAX ];
-GLuint       g_fbo_tex_id[ FBO_ENUM_MAX ];
-GLuint       g_render_buf_id[ FBO_ENUM_MAX ];
-static isize g_fbo_size[ FBO_ENUM_MAX ];
-
-static FboEnum fbo_locked = FBO_NONE;
-static FboEnum fbo_last   = FBO_NONE;
 
 // NOLINTBEGIN
 void MessageCallback(GLenum /*source*/, GLenum type, GLuint id, GLenum severity, GLsizei /*length*/, const GLchar *message,
@@ -48,6 +34,23 @@ void MessageCallback(GLenum /*source*/, GLenum type, GLuint id, GLenum severity,
   con("GL CALLBACK: type = 0x%x, severity = 0x%x, message = %s\n", type, severity, message);
 }
 // NOLINTEND
+
+void gl_matrix_mode(int mode) { glMatrixMode(mode); }
+
+void gl_matrix_push() { glPushMatrix(); }
+
+void gl_matrix_pop() { glPopMatrix(); }
+
+void gl_matrix_identity() { glLoadIdentity(); }
+
+void gl_matrix_ortho(float left, float right, float bottom, float top, float near_val, float far_val)
+{
+  glOrtho(left, right, bottom, top, near_val, far_val);
+}
+
+void gl_matrix_translate(float x, float y, float z) { glTranslatef(x, y, z); }
+
+void gl_matrix_rotate(float angle_degrees, float x, float y, float z) { glRotatef(angle_degrees, x, y, z); }
 
 void gl_init_2d_mode(Gamep g)
 {
@@ -60,14 +63,14 @@ void gl_init_2d_mode(Gamep g)
   //
   // Enable Textures
   //
-  DBG("GL: OpenGL enable textures");
+  DBG("DesktopOpenGL: OpenGL enable textures");
   glEnable(GL_TEXTURE_2D);
   GL_ERROR_CHECK();
 
   //
   // Enable alpha blending for sprites
   //
-  DBG("GL: OpenGL enable blending");
+  DBG("DesktopOpenGL: OpenGL enable blending");
   glEnable(GL_BLEND);
   GL_ERROR_CHECK();
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -76,7 +79,7 @@ void gl_init_2d_mode(Gamep g)
   //
   // Setup our viewport
   //
-  DBG("GL: OpenGL enable viewport");
+  DBG("DesktopOpenGL: OpenGL enable viewport");
   glViewport(0, 0, game_window_pix_width_get(g), game_window_pix_height_get(g));
   GL_ERROR_CHECK();
 
@@ -93,7 +96,7 @@ void gl_init_2d_mode(Gamep g)
   glEnable(GL_LINE_SMOOTH);
   GL_ERROR_CHECK();
 
-  log("GL: OpenGL initialized");
+  log("DesktopOpenGL: OpenGL initialized");
 }
 
 void gl_fini_2d_mode(Gamep g)
@@ -242,44 +245,23 @@ void gl_leave_2d_mode(Gamep g)
   GL_ERROR_CHECK();
 }
 
-void gl_clear()
+void gl_init_fbo_(FboEnum fbo, GLuint *render_buf_id, GLuint *fbo_id, GLuint *fbo_tex_id, GLuint tex_width, GLuint tex_height)
 {
   TRACE();
-
-  GLCOLOR(WHITE);
-  glClearColor(0, 0, 0, 0);
-  glClear(GL_COLOR_BUFFER_BIT);
-}
-
-void gl_clear_fbo_all()
-{
-  TRACE();
-
-  FOR_ALL_FBO(i)
-  {
-    blit_fbo_bind(i);
-    gl_clear();
-    blit_fbo_unbind();
-  }
-}
-
-static void gl_init_fbo_(FboEnum fbo, GLuint *render_buf_id, GLuint *fbo_id, GLuint *fbo_tex_id, GLuint tex_width, GLuint tex_height)
-{
-  TRACE();
-  DBG("GL: create FBO, size %dx%d", tex_width, tex_height);
+  DBG("DesktopOpenGL: create FBO, size %dx%d", tex_width, tex_height);
 
   GL_ERROR_CHECK();
 
-  DBG2("GL: - glGenTextures");
+  DBG2("DesktopOpenGL: - glGenTextures");
   if (static_cast< bool >(*fbo_tex_id)) {
-    DBG2("GL: - glDeleteTextures");
+    DBG2("DesktopOpenGL: - glDeleteTextures");
     glDeleteTextures(1, fbo_tex_id);
     GL_ERROR_CHECK();
     *fbo_tex_id = 0;
   }
 
   if (static_cast< bool >(*fbo_id)) {
-    DBG2("GL: - glDeleteRenderbuffers");
+    DBG2("DesktopOpenGL: - glDeleteRenderbuffers");
     glDeleteRenderbuffers_EXT(1, fbo_id);
     GL_ERROR_CHECK();
     *fbo_id = 0;
@@ -288,11 +270,11 @@ static void gl_init_fbo_(FboEnum fbo, GLuint *render_buf_id, GLuint *fbo_id, GLu
   glGenTextures(1, fbo_tex_id);
   GL_ERROR_CHECK();
 
-  DBG2("GL: - glBindTexture");
+  DBG2("DesktopOpenGL: - glBindTexture");
   glBindTexture(GL_TEXTURE_2D, *fbo_tex_id);
   GL_ERROR_CHECK();
 
-  DBG2("GL: - glTexParameterf (clamping)");
+  DBG2("DesktopOpenGL: - glTexParameterf (clamping)");
   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
   GL_ERROR_CHECK();
   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -333,7 +315,7 @@ static void gl_init_fbo_(FboEnum fbo, GLuint *render_buf_id, GLuint *fbo_id, GLu
       break;
   }
 
-  DBG2("GL: - glTexImage2D");
+  DBG2("DesktopOpenGL: - glTexImage2D");
 
 #ifdef WEB_BUILD
   glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, tex_width, tex_height, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, nullptr);
@@ -354,37 +336,37 @@ static void gl_init_fbo_(FboEnum fbo, GLuint *render_buf_id, GLuint *fbo_id, GLu
   }
 #endif
 
-  DBG2("GL: - glGenRenderbuffers_EXT");
+  DBG2("DesktopOpenGL: - glGenRenderbuffers_EXT");
   glGenRenderbuffers_EXT(1, render_buf_id);
   GL_ERROR_CHECK();
 
-  DBG2("GL: - glBindRenderbuffer_EXT");
+  DBG2("DesktopOpenGL: - glBindRenderbuffer_EXT");
   glBindRenderbuffer_EXT(GL_RENDERBUFFER, *render_buf_id);
   GL_ERROR_CHECK();
 
-  DBG2("GL: - glRenderbufferStorage_EXT");
+  DBG2("DesktopOpenGL: - glRenderbufferStorage_EXT");
   glRenderbufferStorage_EXT(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, tex_width, tex_height);
   GL_ERROR_CHECK();
 
-  DBG2("GL: - glBindRenderbuffer_EXT");
+  DBG2("DesktopOpenGL: - glBindRenderbuffer_EXT");
   glBindRenderbuffer_EXT(GL_RENDERBUFFER, 0);
   GL_ERROR_CHECK();
 
   //
   // Create a frame buffer object.
   //
-  DBG2("GL: - glGenFramebuffers_EXT");
+  DBG2("DesktopOpenGL: - glGenFramebuffers_EXT");
   glGenFramebuffers_EXT(1, fbo_id);
   GL_ERROR_CHECK();
 
-  DBG2("GL: - glBindFramebuffer_EXT");
+  DBG2("DesktopOpenGL: - glBindFramebuffer_EXT");
   glBindFramebuffer_EXT(GL_FRAMEBUFFER, *fbo_id);
   GL_ERROR_CHECK();
 
   //
   // Attach the texture to FBO color attachment point
   //
-  DBG2("GL: - glFramebufferTexture2D_EXT");
+  DBG2("DesktopOpenGL: - glFramebufferTexture2D_EXT");
   glFramebufferTexture2D_EXT(GL_FRAMEBUFFER,       // 1. fbo target: GL_FRAMEBUFFER
                              GL_COLOR_ATTACHMENT0, // 2. attachment point
                              GL_TEXTURE_2D,        // 3. tex target: GL_TEXTURE_2D
@@ -395,7 +377,7 @@ static void gl_init_fbo_(FboEnum fbo, GLuint *render_buf_id, GLuint *fbo_id, GLu
   //
   // Attach the renderbuffer to depth attachment point
   //
-  DBG2("GL: - glFramebufferRenderbuffer_EXT");
+  DBG2("DesktopOpenGL: - glFramebufferRenderbuffer_EXT");
   glFramebufferRenderbuffer_EXT(GL_FRAMEBUFFER,      // 1. fbo target: GL_FRAMEBUFFER
                                 GL_DEPTH_ATTACHMENT, // 2. attachment point
                                 GL_RENDERBUFFER,     // 3. rbo target: GL_RENDERBUFFER
@@ -405,14 +387,14 @@ static void gl_init_fbo_(FboEnum fbo, GLuint *render_buf_id, GLuint *fbo_id, GLu
   //
   // Check FBO status
   //
-  DBG2("GL: - glCheckFramebufferStatus_EXT");
+  DBG2("DesktopOpenGL: - glCheckFramebufferStatus_EXT");
   auto status = glCheckFramebufferStatus_EXT(GL_FRAMEBUFFER);
   if ((static_cast< bool >(status)) && (status != GL_FRAMEBUFFER_COMPLETE)) {
-    log("GL: failed to create framebuffer, error: %d/0x%x", status, status);
+    log("DesktopOpenGL: failed to create framebuffer, error: %d/0x%x", status, status);
 
 #ifdef GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT
     if (status == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
-      log("GL: - GL: GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT Not all framebuffer attachment points "
+      log("DesktopOpenGL: - DesktopOpenGL: GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT Not all framebuffer attachment points "
           "are framebuffer attachment complete. This means that at least one attachment point with a "
           "renderbuffer or texture attached has its attached object no longer in existence or has an "
           "attached image with a width or height of zero, or the color attachment point has a "
@@ -424,29 +406,29 @@ static void gl_init_fbo_(FboEnum fbo, GLuint *render_buf_id, GLuint *fbo_id, GLu
 #endif
 #ifdef GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS
     if (status == GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS) {
-      log("GL: - GL: GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS Not all attached images have the same "
+      log("DesktopOpenGL: - DesktopOpenGL: GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS Not all attached images have the same "
           "width and height.");
     }
 #endif
 #ifdef GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT
     if (status == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
-      log("GL: - GL: GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT No images are attached to the framebuffer.");
+      log("DesktopOpenGL: - DesktopOpenGL: GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT No images are attached to the framebuffer.");
     }
 #endif
 #ifdef GL_FRAMEBUFFER_UNSUPPORTED
     if (status == GL_FRAMEBUFFER_UNSUPPORTED) {
-      log("GL: - GL: GL_FRAMEBUFFER_UNSUPPORTED The combination of internal formats of the attached images "
+      log("DesktopOpenGL: - DesktopOpenGL: GL_FRAMEBUFFER_UNSUPPORTED The combination of internal formats of the attached images "
           "violates an implementation-dependent set of restrictions.");
     }
 #endif
 #ifdef GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER
     if (status == GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER) {
-      log("GL: - GL: GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER");
+      log("DesktopOpenGL: - DesktopOpenGL: GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER");
     }
 #endif
 #ifdef GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER
     if (status == GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER) {
-      log("GL: - GL: GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER");
+      log("DesktopOpenGL: - DesktopOpenGL: GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER");
     }
 #endif
   }
@@ -456,31 +438,38 @@ static void gl_init_fbo_(FboEnum fbo, GLuint *render_buf_id, GLuint *fbo_id, GLu
   GL_ERROR_CHECK();
 
   // switch back to window-system-provided framebuffer
-  DBG2("GL: - glBindFramebuffer_EXT");
+  DBG2("DesktopOpenGL: - glBindFramebuffer_EXT");
   glBindFramebuffer_EXT(GL_FRAMEBUFFER, 0);
   GL_ERROR_CHECK();
 }
 
-static void gl_fini_fbo_(GLuint *fbo_id, GLuint *fbo_tex_id, GLuint tex_width, GLuint tex_height)
+void gl_fini_fbo_(GLuint *render_buf_id, GLuint *fbo_id, GLuint *fbo_tex_id, GLuint tex_width, GLuint tex_height)
 {
   TRACE();
-  DBG2("GL: destroy FBO, size %dx%d", tex_width, tex_height);
+  DBG2("DesktopOpenGL: destroy FBO, size %dx%d", tex_width, tex_height);
 
   GL_ERROR_CHECK();
 
-  DBG2("GL: - glGenTextures");
+  DBG2("DesktopOpenGL: - glGenTextures");
   if (static_cast< bool >(*fbo_tex_id)) {
-    DBG2("GL: - glDeleteTextures");
+    DBG2("DesktopOpenGL: - glDeleteTextures");
     glDeleteTextures(1, fbo_tex_id);
     GL_ERROR_CHECK();
     *fbo_tex_id = 0;
   }
 
   if (static_cast< bool >(*fbo_id)) {
-    DBG2("GL: - glDeleteRenderbuffers");
-    glDeleteRenderbuffers_EXT(1, fbo_id);
+    DBG2("GLES: - glDeleteFramebuffers");
+    glDeleteFramebuffers_EXT(1, fbo_id);
     GL_ERROR_CHECK();
     *fbo_id = 0;
+  }
+
+  if (static_cast< bool >(*render_buf_id)) {
+    DBG2("GLES: - glDeleteRenderbuffers");
+    glDeleteRenderbuffers_EXT(1, render_buf_id);
+    GL_ERROR_CHECK();
+    *render_buf_id = 0;
   }
 
   memset(g_fbo_id, 0, SIZEOF(g_fbo_id));
@@ -490,163 +479,6 @@ static void gl_fini_fbo_(GLuint *fbo_id, GLuint *fbo_tex_id, GLuint tex_width, G
   for (auto &i : g_fbo_size) {
     i = isize(0, 0);
   }
-}
-
-void gl_init_fbo(Gamep g, FboEnum fbo)
-{
-  log("GL: OpenGL create FBO %s", FboEnum_to_string(fbo).c_str());
-  TRACE_INDENT();
-
-  GL_ERROR_CHECK();
-
-  static bool first = true;
-
-  FOR_ALL_FBO(i)
-  {
-    int tex_width  = 0;
-    int tex_height = 0;
-
-    //
-    // Filter to a specific fbo?
-    //
-    if (fbo != FBO_NONE) {
-      if (i != fbo) {
-        continue;
-      }
-    }
-
-    // old size check
-    fbo_get_size(g, i, tex_width, tex_height);
-
-    //
-    // If no change in size then do not reset the FBO
-    //
-    if (g_fbo_size[ i ] == isize(tex_width, tex_height)) {
-      DBG("no change in size for FBO %u, %ux%u", i, tex_width, tex_height);
-      // continue;
-    }
-    if (g_fbo_size[ i ].w != 0) {
-      DBG("Change in size for FBO %u, %ux%u -> %ux%u", i, g_fbo_size[ i ].w, g_fbo_size[ i ].h, tex_width, tex_height);
-    } else {
-      DBG("Init FBO %u, %ux%u", i, tex_width, tex_height);
-    }
-
-    gl_init_fbo_(i, &g_render_buf_id[ i ], &g_fbo_id[ i ], &g_fbo_tex_id[ i ], tex_width, tex_height);
-    g_fbo_size[ i ] = isize(tex_width, tex_height);
-
-    if (compiler_unused) {
-      gl_enter_2d_mode(g, tex_width, tex_height);
-      blit_fbo_bind(i);
-      {
-        gl_clear();
-      }
-      blit_fbo_unbind();
-    }
-
-    if (fbo == FBO_NONE) {
-      if (first) {
-        tile_from_fbo(g, i);
-      }
-    }
-  }
-
-  DBG("GL: OpenGL created FBOs");
-  GL_ERROR_CHECK();
-
-  if (fbo == FBO_NONE) {
-    first = false;
-  }
-}
-
-void gl_fini_fbo(Gamep g)
-{
-  log("GL: OpenGL destroy FBOs");
-  TRACE_INDENT();
-
-  GL_ERROR_CHECK();
-
-  FOR_ALL_FBO(i)
-  {
-    int tex_width  = 0;
-    int tex_height = 0;
-
-    fbo_get_size(g, i, tex_width, tex_height);
-
-    gl_fini_fbo_(&g_fbo_id[ i ], &g_fbo_tex_id[ i ], tex_width, tex_height);
-    g_fbo_size[ i ] = isize(0, 0);
-  }
-
-  DBG("GL: OpenGL destroyed FBOs");
-  GL_ERROR_CHECK();
-}
-
-void fbo_get_size(Gamep g, FboEnum fbo, int &w, int &h)
-{
-  TRACE();
-
-  switch (fbo) {
-    case FBO_MAP_BG_PREVIOUSLY_SEEN_TILES :
-    case FBO_MAP_BG_FLOOR_WATER_LAVA :
-    case FBO_MAP_FG :
-    case FBO_MAP_FG_OVERLAY :
-    case FBO_MAP_LAVA_OVERLAY :
-      w = game_map_fbo_width_get(g);
-      h = game_map_fbo_height_get(g);
-      break;
-    case FBO_MAP_LIGHT :
-      w = static_cast< int >(MAP_WIDTH) * static_cast< int >(TILE_WIDTH);
-      h = static_cast< int >(MAP_HEIGHT) * static_cast< int >(TILE_HEIGHT);
-      break;
-    case FBO_FULL_SCREEN_PREVIOUSLY_SEEN_TILES :
-    case FBO_FULL_SCREEN_VISIBLE_TILES :
-    case FBO_FULL_SCREEN_LEVEL_CURR :
-    case FBO_FULL_SCREEN_LEVEL_BELOW :
-    case FBO_FULL_SCREEN_LEVEL_MERGED :
-    case FBO_FULL_SCREEN_WID :
-    case FBO_FULL_SCREEN_FINAL :
-      w = game_window_pix_width_get(g);
-      h = game_window_pix_height_get(g);
-      break;
-    case FBO_MINIMAP_LEVEL :
-      w = MAP_WIDTH;
-      h = MAP_HEIGHT;
-      break;
-    case FBO_SPRITE1 :
-      w = game_window_pix_width_get(g);
-      h = game_window_pix_height_get(g);
-      break;
-    case FBO_FLAMES :
-    case FBO_SKULLS :
-      w = 256;
-      h = 192;
-      break;
-    default : //
-      CROAK("Need size for fbo %d", fbo);
-      break;
-  }
-}
-
-void fbo_get_curr_size(Gamep g, int &w, int &h) { fbo_get_size(g, fbo_last, w, h); }
-
-void blit_fbo(Gamep g, FboEnum fbo, color c)
-{
-  TRACE_DEBUG();
-
-  int tex_width  = 0;
-  int tex_height = 0;
-  fbo_get_size(g, fbo, tex_width, tex_height);
-  blit_init();
-  blit(g_fbo_tex_id[ fbo ], 0.0, 1.0, 1.0, 0.0, 0, 0, tex_width, tex_height, c);
-  blit_flush();
-}
-
-void blit_fbo(Gamep g, FboEnum fbo, int tl_x, int tl_y, int br_x, int br_y, color c)
-{
-  TRACE_DEBUG();
-
-  blit_init();
-  blit(g_fbo_tex_id[ fbo ], 0.0, 1.0, 1.0, 0.0, tl_x, tl_y, br_x, br_y, c);
-  blit_flush();
 }
 
 void blit_fbo_push(FboEnum fbo)
@@ -699,75 +531,6 @@ void blit_fbo_unbind_locked()
   glBindFramebuffer_EXT(GL_FRAMEBUFFER, 0);
 }
 
-//
-// x and y per element.
-//
-#define NUMBER_DIMENSIONS_PER_COORD_2D 2
-
-//
-// r,g,b,a per element
-//
-#define NUMBER_COMPONENTS_PER_COLOR 4
-
-uint32_t NUMBER_BYTES_PER_VERTEX_2D = (SIZEOF(GLfloat) * NUMBER_DIMENSIONS_PER_COORD_2D) + (SIZEOF(GLshort) * NUMBER_DIMENSIONS_PER_COORD_2D)
-                                    + (SIZEOF(GLubyte) * NUMBER_COMPONENTS_PER_COLOR);
-//
-// Two arrays, xy and uv.
-//
-float *gl_array_buf;
-float *gl_array_buf_end;
-
-//
-// Where we are currently up to in writing to these buffers.
-//
-GLfloat *bufp;
-GLfloat *bufp_end;
-int      buf_tex;
-
-void blit_init()
-{
-  TRACE_DEBUG();
-
-  buf_tex = 0;
-
-  if (gl_array_buf != nullptr) {
-    bufp = gl_array_buf;
-    return;
-  }
-
-  //
-  // Our array size requirements.
-  //
-  uint32_t gl_array_size_required = 0;
-
-  //
-  // If the screen size has changed or this is the first run, allocate our
-  // buffer if our size requirements have changed.
-  //
-  gl_array_size_required = 32 * 1024 * 1024;
-
-  gl_array_buf = static_cast< __typeof__(gl_array_buf) >(MYZALLOC(gl_array_size_required, "GL xy buffer"));
-
-  //
-  // Make the end a bit smaller so we have plenty of headroom.
-  //
-  gl_array_buf_end
-      = reinterpret_cast< __typeof__(gl_array_buf_end) >(reinterpret_cast< char * >(gl_array_buf)) + ((gl_array_size_required * 2) / 3);
-
-  bufp     = gl_array_buf;
-  bufp_end = gl_array_buf_end;
-}
-
-void blit_fini()
-{
-  TRACE_DEBUG();
-
-  if (gl_array_buf != nullptr) {
-    MYFREE(gl_array_buf);
-    gl_array_buf = nullptr;
-  }
-}
-
 void blit_flush()
 {
   TRACE_DEBUG();
@@ -815,15 +578,6 @@ void blit_flush()
   glDisableClientState(GL_COLOR_ARRAY);
 
   blit_init();
-}
-
-void blit_flush_triangle_fan() { blit_flush_triangle_fan(gl_array_buf, bufp); }
-
-void blit_flush_colored_triangle_fan()
-{
-  TRACE_DEBUG();
-
-  blit_flush_colored_triangle_fan(gl_array_buf, bufp);
 }
 
 void blit_flush_colored_triangle_fan(float *b, const float *e)
@@ -887,10 +641,10 @@ void gl_blitquad(GLshort left, GLshort top, GLshort right, GLshort bottom)
   GLshort  xy[ 4 * 2 ];
   GLshort *xyp = xy; // NOLINT
 
-  Vertex2(left, top);
-  Vertex2(right, top);
-  Vertex2(left, bottom);
-  Vertex2(right, bottom);
+  GL_PUSH_VERTEX_SIMPLE(left, top);
+  GL_PUSH_VERTEX_SIMPLE(right, top);
+  GL_PUSH_VERTEX_SIMPLE(left, bottom);
+  GL_PUSH_VERTEX_SIMPLE(right, bottom);
 
   glEnableClientState(GL_VERTEX_ARRAY);
 
@@ -908,10 +662,10 @@ void gl_blitquad(const spoint tl, const spoint tr, const spoint bl, const spoint
   GLshort  xy[ 4 * 2 ];
   GLshort *xyp = xy; // NOLINT
 
-  Vertex2(tl.x, tl.y);
-  Vertex2(tr.x, tr.y);
-  Vertex2(bl.x, bl.y);
-  Vertex2(br.x, br.y);
+  GL_PUSH_VERTEX_SIMPLE(tl.x, tl.y);
+  GL_PUSH_VERTEX_SIMPLE(tr.x, tr.y);
+  GL_PUSH_VERTEX_SIMPLE(bl.x, bl.y);
+  GL_PUSH_VERTEX_SIMPLE(br.x, br.y);
 
   glEnableClientState(GL_VERTEX_ARRAY);
 
@@ -929,10 +683,10 @@ void gl_blitsquare(GLshort left, GLshort top, GLshort right, GLshort bottom)
   GLshort  xy[ 4 * 2 ];
   GLshort *xyp = xy; // NOLINT
 
-  Vertex2(left, top);
-  Vertex2(right, top);
-  Vertex2(right, bottom);
-  Vertex2(left, bottom);
+  GL_PUSH_VERTEX_SIMPLE(left, top);
+  GL_PUSH_VERTEX_SIMPLE(right, top);
+  GL_PUSH_VERTEX_SIMPLE(right, bottom);
+  GL_PUSH_VERTEX_SIMPLE(left, bottom);
 
   glEnableClientState(GL_VERTEX_ARRAY);
 
@@ -950,8 +704,8 @@ void gl_blitline(GLshort left, GLshort top, GLshort right, GLshort bottom)
   GLshort  xy[ 2 * 2 ];
   GLshort *xyp = xy; // NOLINT
 
-  Vertex2(left, top);
-  Vertex2(right, bottom);
+  GL_PUSH_VERTEX_SIMPLE(left, top);
+  GL_PUSH_VERTEX_SIMPLE(right, bottom);
 
   glEnableClientState(GL_VERTEX_ARRAY);
 
@@ -1011,9 +765,9 @@ static void gl_ext_load(void)
   TRACE();
   glDebugMessageCallback_EXT = (__typeof__(glDebugMessageCallback_EXT)) (void *) wglGetProcAddress("glDebugMessageCallback");
   if (! glDebugMessageCallback_EXT) {
-    log("GL: - glDebugMessageCallback_EXT - NOT present");
+    log("DesktopOpenGL: - glDebugMessageCallback_EXT - NOT present");
   } else {
-    log("GL: - glDebugMessageCallback_EXT - present");
+    log("DesktopOpenGL: - glDebugMessageCallback_EXT - present");
   }
 
   if (glDebugMessageCallback_EXT) {
@@ -1024,240 +778,240 @@ static void gl_ext_load(void)
   TRACE();
   glCreateProgram_EXT = (__typeof__(glCreateProgram_EXT)) (void *) wglGetProcAddress("glCreateProgram");
   if (! glCreateProgram_EXT) {
-    log("GL: - glCreateProgram_EXT - NOT present");
+    log("DesktopOpenGL: - glCreateProgram_EXT - NOT present");
   } else {
-    log("GL: - glCreateProgram_EXT - present");
+    log("DesktopOpenGL: - glCreateProgram_EXT - present");
   }
 
   glDeleteProgram_EXT = (__typeof__(glDeleteProgram_EXT)) (void *) wglGetProcAddress("glDeleteProgram");
   if (! glDeleteProgram_EXT) {
-    log("GL: - glDeleteProgram_EXT - NOT present");
+    log("DesktopOpenGL: - glDeleteProgram_EXT - NOT present");
   } else {
-    log("GL: - glDeleteProgram_EXT - present");
+    log("DesktopOpenGL: - glDeleteProgram_EXT - present");
   }
 
   glIsProgram_EXT = (__typeof__(glIsProgram_EXT)) (void *) wglGetProcAddress("glIsProgram");
   if (! glIsProgram_EXT) {
-    log("GL: - glIsProgram_EXT - NOT present");
+    log("DesktopOpenGL: - glIsProgram_EXT - NOT present");
   } else {
-    log("GL: - glIsProgram_EXT - present");
+    log("DesktopOpenGL: - glIsProgram_EXT - present");
   }
 
   glCreateShader_EXT = (__typeof__(glCreateShader_EXT)) (void *) wglGetProcAddress("glCreateShader");
   if (! glCreateShader_EXT) {
-    log("GL: - glCreateShader_EXT - NOT present");
+    log("DesktopOpenGL: - glCreateShader_EXT - NOT present");
   } else {
-    log("GL: - glCreateShader_EXT - present");
+    log("DesktopOpenGL: - glCreateShader_EXT - present");
   }
 
   glDeleteShader_EXT = (__typeof__(glDeleteShader_EXT)) (void *) wglGetProcAddress("glDeleteShader");
   if (! glDeleteShader_EXT) {
-    log("GL: - glDeleteShader_EXT - NOT present");
+    log("DesktopOpenGL: - glDeleteShader_EXT - NOT present");
   } else {
-    log("GL: - glDeleteShader_EXT - present");
+    log("DesktopOpenGL: - glDeleteShader_EXT - present");
   }
 
   glShaderSource_EXT = (__typeof__(glShaderSource_EXT)) (void *) wglGetProcAddress("glShaderSource");
   if (! glShaderSource_EXT) {
-    log("GL: - glShaderSource_EXT - NOT present");
+    log("DesktopOpenGL: - glShaderSource_EXT - NOT present");
   } else {
-    log("GL: - glShaderSource_EXT - present");
+    log("DesktopOpenGL: - glShaderSource_EXT - present");
   }
 
   glCompileShader_EXT = (__typeof__(glCompileShader_EXT)) (void *) wglGetProcAddress("glCompileShader");
   if (! glCompileShader_EXT) {
-    log("GL: - glCompileShader_EXT - NOT present");
+    log("DesktopOpenGL: - glCompileShader_EXT - NOT present");
   } else {
-    log("GL: - glCompileShader_EXT - present");
+    log("DesktopOpenGL: - glCompileShader_EXT - present");
   }
 
   glAttachShader_EXT = (__typeof__(glAttachShader_EXT)) (void *) wglGetProcAddress("glAttachShader");
   if (! glAttachShader_EXT) {
-    log("GL: - glAttachShader_EXT - NOT present");
+    log("DesktopOpenGL: - glAttachShader_EXT - NOT present");
   } else {
-    log("GL: - glAttachShader_EXT - present");
+    log("DesktopOpenGL: - glAttachShader_EXT - present");
   }
 
   glDetachShader_EXT = (__typeof__(glDetachShader_EXT)) (void *) wglGetProcAddress("glDetachShader");
   if (! glDetachShader_EXT) {
-    log("GL: - glDetachShader_EXT - NOT present");
+    log("DesktopOpenGL: - glDetachShader_EXT - NOT present");
   } else {
-    log("GL: - glDetachShader_EXT - present");
+    log("DesktopOpenGL: - glDetachShader_EXT - present");
   }
 
   glGetAttachedShaders_EXT = (__typeof__(glGetAttachedShaders_EXT)) (void *) wglGetProcAddress("glGetAttachedShaders");
   if (! glGetAttachedShaders_EXT) {
-    log("GL: - glGetAttachedShaders_EXT - NOT present");
+    log("DesktopOpenGL: - glGetAttachedShaders_EXT - NOT present");
   } else {
-    log("GL: - glGetAttachedShaders_EXT - present");
+    log("DesktopOpenGL: - glGetAttachedShaders_EXT - present");
   }
 
   glLinkProgram_EXT = (__typeof__(glLinkProgram_EXT)) (void *) wglGetProcAddress("glLinkProgram");
   if (! glLinkProgram_EXT) {
-    log("GL: - glLinkProgram_EXT - NOT present");
+    log("DesktopOpenGL: - glLinkProgram_EXT - NOT present");
   } else {
-    log("GL: - glLinkProgram_EXT - present");
+    log("DesktopOpenGL: - glLinkProgram_EXT - present");
   }
 
   glUseProgram_EXT = (__typeof__(glUseProgram_EXT)) (void *) wglGetProcAddress("glUseProgram");
   if (! glUseProgram_EXT) {
-    log("GL: - glUseProgram_EXT - NOT present");
+    log("DesktopOpenGL: - glUseProgram_EXT - NOT present");
   } else {
-    log("GL: - glUseProgram_EXT - present");
+    log("DesktopOpenGL: - glUseProgram_EXT - present");
   }
 
   glGetShaderInfoLog_EXT = (__typeof__(glGetShaderInfoLog_EXT)) (void *) wglGetProcAddress("glGetShaderInfoLog");
   if (! glGetShaderInfoLog_EXT) {
-    log("GL: - glGetShaderInfoLog_EXT - NOT present");
+    log("DesktopOpenGL: - glGetShaderInfoLog_EXT - NOT present");
   } else {
-    log("GL: - glGetShaderInfoLog_EXT - present");
+    log("DesktopOpenGL: - glGetShaderInfoLog_EXT - present");
   }
 
   glGetProgramInfoLog_EXT = (__typeof__(glGetProgramInfoLog_EXT)) (void *) wglGetProcAddress("glGetProgramInfoLog");
   if (! glGetProgramInfoLog_EXT) {
-    log("GL: - glGetProgramInfoLog_EXT - NOT present");
+    log("DesktopOpenGL: - glGetProgramInfoLog_EXT - NOT present");
   } else {
-    log("GL: - glGetProgramInfoLog_EXT - present");
+    log("DesktopOpenGL: - glGetProgramInfoLog_EXT - present");
   }
 
   glGetUniformLocation_EXT = (__typeof__(glGetUniformLocation_EXT)) (void *) wglGetProcAddress("glGetUniformLocation");
   if (! glGetUniformLocation_EXT) {
-    log("GL: - glGetUniformLocation_EXT - NOT present");
+    log("DesktopOpenGL: - glGetUniformLocation_EXT - NOT present");
   } else {
-    log("GL: - glGetUniformLocation_EXT - present");
+    log("DesktopOpenGL: - glGetUniformLocation_EXT - present");
   }
 
   glUniform1f_EXT = (__typeof__(glUniform1f_EXT)) (void *) wglGetProcAddress("glUniform1f");
   if (! glUniform1f_EXT) {
-    log("GL: - glUniform1f_EXT - NOT present");
+    log("DesktopOpenGL: - glUniform1f_EXT - NOT present");
   } else {
-    log("GL: - glUniform1f_EXT - present");
+    log("DesktopOpenGL: - glUniform1f_EXT - present");
   }
 
   glUniform1i_EXT = (__typeof__(glUniform1i_EXT)) (void *) wglGetProcAddress("glUniform1i");
   if (! glUniform1i_EXT) {
-    log("GL: - glUniform1i_EXT - NOT present");
+    log("DesktopOpenGL: - glUniform1i_EXT - NOT present");
   } else {
-    log("GL: - glUniform1i_EXT - present");
+    log("DesktopOpenGL: - glUniform1i_EXT - present");
   }
 
   glUniform2fv_EXT = (__typeof__(glUniform2fv_EXT)) (void *) wglGetProcAddress("glUniform2fv");
   if (! glUniform2fv_EXT) {
-    log("GL: - glUniform2fv_EXT - NOT present");
+    log("DesktopOpenGL: - glUniform2fv_EXT - NOT present");
   } else {
-    log("GL: - glUniform2fv_EXT - present");
+    log("DesktopOpenGL: - glUniform2fv_EXT - present");
   }
 
   glUniform3fv_EXT = (__typeof__(glUniform3fv_EXT)) (void *) wglGetProcAddress("glUniform3fv");
   if (! glUniform3fv_EXT) {
-    log("GL: - glUniform3fv_EXT - NOT present");
+    log("DesktopOpenGL: - glUniform3fv_EXT - NOT present");
   } else {
-    log("GL: - glUniform3fv_EXT - present");
+    log("DesktopOpenGL: - glUniform3fv_EXT - present");
   }
 
   glGenerateMipmap_EXT = (__typeof__(glGenerateMipmap_EXT)) (void *) wglGetProcAddress("glGenerateMipmap");
   if (! glGenerateMipmap_EXT) {
-    log("GL: - glGenerateMipmap_EXT - NOT present");
+    log("DesktopOpenGL: - glGenerateMipmap_EXT - NOT present");
   } else {
-    log("GL: - glGenerateMipmap_EXT - present");
+    log("DesktopOpenGL: - glGenerateMipmap_EXT - present");
   }
 
   glGenFramebuffers_EXT = (__typeof__(glGenFramebuffers_EXT)) (void *) wglGetProcAddress("glGenFramebuffers");
   if (! glGenFramebuffers_EXT) {
-    log("GL: - glGenFramebuffers_EXT - NOT present");
+    log("DesktopOpenGL: - glGenFramebuffers_EXT - NOT present");
   } else {
-    log("GL: - glGenFramebuffers_EXT - present");
+    log("DesktopOpenGL: - glGenFramebuffers_EXT - present");
   }
 
   glDeleteFramebuffers_EXT = (__typeof__(glDeleteFramebuffers_EXT)) (void *) wglGetProcAddress("glDeleteFramebuffers");
   if (! glDeleteFramebuffers_EXT) {
-    log("GL: - glDeleteFramebuffers_EXT - NOT present");
+    log("DesktopOpenGL: - glDeleteFramebuffers_EXT - NOT present");
   } else {
-    log("GL: - glDeleteFramebuffers_EXT - present");
+    log("DesktopOpenGL: - glDeleteFramebuffers_EXT - present");
   }
 
   glBindFramebuffer_EXT = (__typeof__(glBindFramebuffer_EXT)) (void *) wglGetProcAddress("glBindFramebuffer");
   if (! glBindFramebuffer_EXT) {
-    log("GL: - glBindFramebuffer_EXT - NOT present");
+    log("DesktopOpenGL: - glBindFramebuffer_EXT - NOT present");
   } else {
-    log("GL: - glBindFramebuffer_EXT - present");
+    log("DesktopOpenGL: - glBindFramebuffer_EXT - present");
   }
 
   glGenRenderbuffers_EXT = (__typeof__(glGenRenderbuffers_EXT)) (void *) wglGetProcAddress("glGenRenderbuffers");
   if (! glGenRenderbuffers_EXT) {
-    log("GL: - glGenRenderbuffers_EXT - NOT present");
+    log("DesktopOpenGL: - glGenRenderbuffers_EXT - NOT present");
   } else {
-    log("GL: - glGenRenderbuffers_EXT - present");
+    log("DesktopOpenGL: - glGenRenderbuffers_EXT - present");
   }
 
   glDeleteRenderbuffers_EXT = (__typeof__(glDeleteRenderbuffers_EXT)) (void *) wglGetProcAddress("glDeleteRenderbuffers");
   if (! glDeleteRenderbuffers_EXT) {
-    log("GL: - glDeleteRenderbuffers_EXT - NOT present");
+    log("DesktopOpenGL: - glDeleteRenderbuffers_EXT - NOT present");
   } else {
-    log("GL: - glDeleteRenderbuffers_EXT - present");
+    log("DesktopOpenGL: - glDeleteRenderbuffers_EXT - present");
   }
 
   glBindRenderbuffer_EXT = (__typeof__(glBindRenderbuffer_EXT)) (void *) wglGetProcAddress("glBindRenderbuffer");
   if (! glBindRenderbuffer_EXT) {
-    log("GL: - glBindRenderbuffer_EXT - NOT present");
+    log("DesktopOpenGL: - glBindRenderbuffer_EXT - NOT present");
   } else {
-    log("GL: - glBindRenderbuffer_EXT - present");
+    log("DesktopOpenGL: - glBindRenderbuffer_EXT - present");
   }
 
   glRenderbufferStorage_EXT = (__typeof__(glRenderbufferStorage_EXT)) (void *) wglGetProcAddress("glRenderbufferStorage");
   if (! glRenderbufferStorage_EXT) {
-    log("GL: - glRenderbufferStorage_EXT - NOT present");
+    log("DesktopOpenGL: - glRenderbufferStorage_EXT - NOT present");
   } else {
-    log("GL: - glRenderbufferStorage_EXT - present");
+    log("DesktopOpenGL: - glRenderbufferStorage_EXT - present");
   }
 
   glFramebufferRenderbuffer_EXT = (__typeof__(glFramebufferRenderbuffer_EXT)) (void *) wglGetProcAddress("glFramebufferRenderbuffer");
   if (! glFramebufferRenderbuffer_EXT) {
-    log("GL: - glFramebufferRenderbuffer_EXT - NOT present");
+    log("DesktopOpenGL: - glFramebufferRenderbuffer_EXT - NOT present");
   } else {
-    log("GL: - glFramebufferRenderbuffer_EXT - present");
+    log("DesktopOpenGL: - glFramebufferRenderbuffer_EXT - present");
   }
 
   glCheckFramebufferStatus_EXT = (__typeof__(glCheckFramebufferStatus_EXT)) (void *) wglGetProcAddress("glCheckFramebufferStatus");
   if (! glCheckFramebufferStatus_EXT) {
-    log("GL: - glCheckFramebufferStatus_EXT - NOT present");
+    log("DesktopOpenGL: - glCheckFramebufferStatus_EXT - NOT present");
   } else {
-    log("GL: - glCheckFramebufferStatus_EXT - present");
+    log("DesktopOpenGL: - glCheckFramebufferStatus_EXT - present");
   }
 
   glFramebufferTexture2D_EXT = (__typeof__(glFramebufferTexture2D_EXT)) (void *) wglGetProcAddress("glFramebufferTexture2D");
   if (! glFramebufferTexture2D_EXT) {
-    log("GL: - glFramebufferTexture2D_EXT - NOT present");
+    log("DesktopOpenGL: - glFramebufferTexture2D_EXT - NOT present");
   } else {
-    log("GL: - glFramebufferTexture2D_EXT - present");
+    log("DesktopOpenGL: - glFramebufferTexture2D_EXT - present");
   }
 
   glGenBuffersARB_EXT = (__typeof__(glGenBuffersARB_EXT)) (void *) wglGetProcAddress("glGenBuffersARB");
   if (! glGenBuffersARB_EXT) {
-    log("GL: - glGenBuffersARB_EXT - NOT present");
+    log("DesktopOpenGL: - glGenBuffersARB_EXT - NOT present");
   } else {
-    log("GL: - glGenBuffersARB_EXT - present");
+    log("DesktopOpenGL: - glGenBuffersARB_EXT - present");
   }
 
   glBindBufferARB_EXT = (__typeof__(glBindBufferARB_EXT)) (void *) wglGetProcAddress("glBindBufferARB");
   if (! glBindBufferARB_EXT) {
-    log("GL: - glBindBufferARB_EXT - NOT present");
+    log("DesktopOpenGL: - glBindBufferARB_EXT - NOT present");
   } else {
-    log("GL: - glBindBufferARB_EXT - present");
+    log("DesktopOpenGL: - glBindBufferARB_EXT - present");
   }
 
   glDeleteBuffersARB_EXT = (__typeof__(glDeleteBuffersARB_EXT)) (void *) wglGetProcAddress("glDeleteBuffersARB");
   if (! glDeleteBuffersARB_EXT) {
-    log("GL: - glDeleteBuffersARB_EXT - NOT present");
+    log("DesktopOpenGL: - glDeleteBuffersARB_EXT - NOT present");
   } else {
-    log("GL: - glDeleteBuffersARB_EXT - present");
+    log("DesktopOpenGL: - glDeleteBuffersARB_EXT - present");
   }
 
   glDeleteBuffersARB_EXT = (__typeof__(glDeleteBuffersARB_EXT)) (void *) wglGetProcAddress("glDeleteBuffersARB");
   if (! glDeleteBuffersARB_EXT) {
-    log("GL: - glDeleteBuffersARB_EXT - NOT present");
+    log("DesktopOpenGL: - glDeleteBuffersARB_EXT - NOT present");
   } else {
-    log("GL: - glDeleteBuffersARB_EXT - present");
+    log("DesktopOpenGL: - glDeleteBuffersARB_EXT - present");
   }
 }
 
@@ -1362,9 +1116,9 @@ void gl_ext_init(void)
   WNDCLASSEX wc;
   HWND       hwnd;
 
-  log("GL: extensions");
+  log("DesktopOpenGL: extensions");
 
-  DBG("GL: - GetModuleHandle");
+  DBG("DesktopOpenGL: - GetModuleHandle");
   HINSTANCE hInstance = GetModuleHandle(0);
 
   wc.cbSize        = SIZEOF(WNDCLASSEX);
@@ -1380,13 +1134,13 @@ void gl_ext_init(void)
   wc.lpszClassName = g_szClassName;
   wc.hIconSm       = LoadIcon(nullptr, IDI_APPLICATION);
 
-  DBG("GL: - RegisterClassEx");
+  DBG("DesktopOpenGL: - RegisterClassEx");
   if (! RegisterClassEx(&wc)) {
     MessageBox(nullptr, "Window Registration Failed!", "Error!", MB_ICONEXCLAMATION | MB_OK);
     return;
   }
 
-  DBG("GL: - CreateWindowEx");
+  DBG("DesktopOpenGL: - CreateWindowEx");
   hwnd = CreateWindowEx(WS_EX_CLIENTEDGE, g_szClassName, "sacrecant startup", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 240, 120,
                         nullptr, nullptr, hInstance, nullptr);
 
@@ -1424,272 +1178,4 @@ void gl_ext_init(void)
 void gl_ext_init() { TRACE(); }
 #endif
 
-void gl_error(GLenum errCode)
-{
-  TRACE();
-
-  if (errCode == GL_INVALID_ENUM) {
-    log("GL: error, GL_INVALID_ENUM");
-  } else if (errCode == GL_INVALID_VALUE) {
-    log("GL: error, GL_INVALID_VALUE");
-  } else if (errCode == GL_INVALID_OPERATION) {
-    log("GL: error, GL_INVALID_OPERATION");
-  } else if (errCode == GL_STACK_OVERFLOW) {
-    log("GL: error, GL_STACK_OVERFLOW");
-  } else if (errCode == GL_STACK_UNDERFLOW) {
-    log("GL: error, GL_STACK_UNDERFLOW");
-  } else if (errCode == GL_OUT_OF_MEMORY) {
-    log("GL: error, GL_OUT_OF_MEMORY");
-  } else if (errCode == GL_INVALID_FRAMEBUFFER_OPERATION) {
-    log("GL: error, GL_INVALID_FRAMEBUFFER_OPERATION");
-  } else {
-    log("GL: unknown error, %d", errCode);
-  }
-}
-
-static void gl_push(float **P, const float *p_end, bool first_vertex, float tex_left, float tex_top, float tex_right, float tex_bottom,
-                    spoint tl, spoint tr, spoint bl, spoint br, uint8_t r1, uint8_t g1, uint8_t b1, uint8_t a1, uint8_t r2, uint8_t g2,
-                    uint8_t b2, uint8_t a2, uint8_t r3, uint8_t g3, uint8_t b3, uint8_t a3, uint8_t r4, uint8_t g4, uint8_t b4, uint8_t a4)
-{
-  TRACE_DEBUG();
-
-  float *p = *P;
-
-  if ((p >= p_end)) [[unlikely]] {
-    log("overflow on gl bug %s", __FUNCTION__);
-    return;
-  }
-
-  [[likely]] if ((! first_vertex)) {
-    //
-    // If there is a break in the triangle strip then make a degenerate triangle.
-    //
-    if ((glapi_last_right != bl.x) || (glapi_last_bottom != bl.y)) {
-      GL_PUSH_TEXCOORD(p, glapi_last_tex_right, glapi_last_tex_bottom);
-      GL_PUSH_VERTEX(p, glapi_last_right, glapi_last_bottom);
-      GL_PUSH_RGBA(p, r4, g4, b4, a4);
-
-      GL_PUSH_TEXCOORD(p, tex_left, tex_top);
-      GL_PUSH_VERTEX(p, tl.x, tl.y);
-      GL_PUSH_RGBA(p, r1, g1, b1, a1);
-    }
-  }
-
-  GL_PUSH_TEXCOORD(p, tex_left, tex_top);
-  GL_PUSH_VERTEX(p, tl.x, tl.y);
-  GL_PUSH_RGBA(p, r1, g1, b1, a1);
-
-  GL_PUSH_TEXCOORD(p, tex_left, tex_bottom);
-  GL_PUSH_VERTEX(p, bl.x, bl.y);
-  GL_PUSH_RGBA(p, r2, g2, b2, a2);
-
-  GL_PUSH_TEXCOORD(p, tex_right, tex_top);
-  GL_PUSH_VERTEX(p, tr.x, tr.y);
-  GL_PUSH_RGBA(p, r3, g3, b3, a3);
-
-  GL_PUSH_TEXCOORD(p, tex_right, tex_bottom);
-  GL_PUSH_VERTEX(p, br.x, br.y);
-  GL_PUSH_RGBA(p, r4, g4, b4, a4);
-
-  glapi_last_tex_right  = tex_right;
-  glapi_last_tex_bottom = tex_bottom;
-  glapi_last_right      = br.x;
-  glapi_last_bottom     = br.y;
-  *P                    = p;
-}
-
-static void gl_push(float **P, float *p_end, bool first_vertex, float tex_left, float tex_top, float tex_right, float tex_bottom, GLshort left,
-                    GLshort top, GLshort right, GLshort bottom, uint8_t r1, uint8_t g1, uint8_t b1, uint8_t a1, uint8_t r2, uint8_t g2,
-                    uint8_t b2, uint8_t a2, uint8_t r3, uint8_t g3, uint8_t b3, uint8_t a3, uint8_t r4, uint8_t g4, uint8_t b4, uint8_t a4)
-{
-  TRACE_DEBUG();
-
-  spoint const tl(left, top);
-  spoint const tr(right, top);
-  spoint const bl(left, bottom);
-  spoint const br(right, bottom);
-
-  gl_push(P, p_end, first_vertex, tex_left, tex_top, tex_right, tex_bottom, tl, tr, bl, br, r1, g1, b1, a1, r2, g2, b2, a2, r3, g3, b3, a3, r4,
-          g4, b4, a4);
-}
-
-static bool first_vertex;
-
-void blit(int tex, float texMinX, float texMinY, float texMaxX, float texMaxY, GLshort left, GLshort top, GLshort right, GLshort bottom,
-          const color &c)
-{
-  TRACE_DEBUG();
-
-  if (buf_tex == 0) [[unlikely]] {
-    blit_init();
-    first_vertex = true;
-  } else if (buf_tex != tex) [[unlikely]] {
-    blit_flush();
-    first_vertex = true;
-  } else {
-    first_vertex = false;
-  }
-
-  buf_tex = tex;
-
-  uint8_t const r = c.r;
-  uint8_t const g = c.g;
-  uint8_t const b = c.b;
-  uint8_t const a = c.a;
-
-  gl_push(&bufp, bufp_end, first_vertex, texMinX, texMinY, texMaxX, texMaxY, left, top, right, bottom, r, g, b, a, r, g, b, a, r, g, b, a, r, g,
-          b, a);
-}
-
-void blit(int tex, float texMinX, float texMinY, float texMaxX, float texMaxY, GLshort pixMinX, GLshort pixMinY, GLshort pixMaxX,
-          GLshort pixMaxY, const color &c, LightPixels *light_pixels, bool blit_flush_per_line)
-{
-  TRACE_DEBUG();
-
-  if (buf_tex == 0) [[unlikely]] {
-    blit_init();
-    first_vertex = true;
-  } else if (buf_tex != tex) [[unlikely]] {
-    blit_flush();
-    first_vertex = true;
-  } else {
-    first_vertex = false;
-  }
-
-  buf_tex = tex;
-
-  const float texDiffX = (texMaxX - texMinX) / static_cast< float > LIGHT_PIXEL;
-  const float texDiffY = (texMinY - texMaxY) / static_cast< float > LIGHT_PIXEL;
-  const float pixDiffX = (static_cast< float >(pixMaxX) - static_cast< float >(pixMinX)) / static_cast< float > LIGHT_PIXEL;
-  const float pixDiffY = (static_cast< float >(pixMinY) - static_cast< float >(pixMaxY)) / static_cast< float > LIGHT_PIXEL;
-  const uint8_t                                                                                                 a = 255;
-
-  const float cr = static_cast< float >(c.r) / 255.0F;
-  const float cg = static_cast< float >(c.g) / 255.0F;
-  const float cb = static_cast< float >(c.b) / 255.0F;
-
-  //
-  // Fewer triangle breaks doing y rows first
-  //
-  for (auto y = 0; y < LIGHT_PIXEL; y++) {
-
-    const float texMaxY2 = texMaxY + (y * texDiffY);
-    const float texMinY2 = texMaxY + ((y + 1) * texDiffY);
-    const auto  pixMaxY2 = static_cast< GLshort >(static_cast< float >(pixMaxY) + (static_cast< float >(y) * pixDiffY));
-    const auto  pixMinY2 = static_cast< GLshort >(static_cast< float >(pixMaxY) + (static_cast< float >(y + 1) * pixDiffY));
-
-    for (auto x = 0; x < LIGHT_PIXEL; x++) {
-
-      auto *const   pixel = &light_pixels->pixel[ x ][ y ];
-      const uint8_t r     = static_cast< int >(std::max(pixel->r, pixel->player_r) * cr);
-      const uint8_t g     = static_cast< int >(std::max(pixel->g, pixel->player_g) * cg);
-      const uint8_t b     = static_cast< int >(std::max(pixel->b, pixel->player_b) * cb);
-
-      float const texMinX2 = texMinX + (x * texDiffX);
-      float const texMaxX2 = texMinX + ((x + 1) * texDiffX);
-      auto        pixMinX2 = static_cast< GLshort >(static_cast< float >(pixMinX) + (static_cast< float >(x) * pixDiffX));
-      auto        pixMaxX2 = static_cast< GLshort >(static_cast< float >(pixMinX) + (static_cast< float >(x + 1) * pixDiffX));
-
-      gl_push(&bufp, bufp_end, first_vertex, texMinX2, texMinY2, texMaxX2, texMaxY2, pixMinX2, pixMinY2, pixMaxX2, pixMaxY2, r, g, b, a, r, g, b,
-              a, r, g, b, a, r, g, b, a);
-    }
-
-    //
-    // If we have alpha values in the texture, the end of one triangle line and the start of another creates
-    // a visible strip
-    //
-    if (blit_flush_per_line) {
-      buf_tex = tex;
-      blit_flush();
-    }
-  }
-}
-
-void blit(int tex, float texMinX, float texMinY, float texMaxX, float texMaxY, GLshort pixMinX, GLshort pixMinY, GLshort pixMaxX,
-          GLshort pixMaxY, LightPixels *light_pixels, bool blit_flush_per_line)
-{
-  TRACE_DEBUG();
-
-  if (buf_tex == 0) [[unlikely]] {
-    blit_init();
-    first_vertex = true;
-  } else if (buf_tex != tex) [[unlikely]] {
-    blit_flush();
-    first_vertex = true;
-  } else {
-    first_vertex = false;
-  }
-
-  buf_tex = tex;
-
-  const float texDiffX = (texMaxX - texMinX) / static_cast< float > LIGHT_PIXEL;
-  const float texDiffY = (texMinY - texMaxY) / static_cast< float > LIGHT_PIXEL;
-  const float pixDiffX = (static_cast< float >(pixMaxX) - static_cast< float >(pixMinX)) / static_cast< float > LIGHT_PIXEL;
-  const float pixDiffY = (static_cast< float >(pixMinY) - static_cast< float >(pixMaxY)) / static_cast< float > LIGHT_PIXEL;
-  const uint8_t                                                                                                 a = 255;
-
-  //
-  // Fewer triangle breaks doing y rows first
-  //
-  for (auto y = 0; y < LIGHT_PIXEL; y++) {
-
-    const float texMaxY2 = texMaxY + (y * texDiffY);
-    const float texMinY2 = texMaxY + ((y + 1) * texDiffY);
-    const auto  pixMaxY2 = static_cast< GLshort >(static_cast< float >(pixMaxY) + (static_cast< float >(y) * pixDiffY));
-    const auto  pixMinY2 = static_cast< GLshort >(static_cast< float >(pixMaxY) + (static_cast< float >(y + 1) * pixDiffY));
-
-    for (auto x = 0; x < LIGHT_PIXEL; x++) {
-
-      auto *const   pixel = &light_pixels->pixel[ x ][ y ];
-      uint8_t const r     = std::max(pixel->r, pixel->player_r);
-      uint8_t const g     = std::max(pixel->g, pixel->player_g);
-      uint8_t const b     = std::max(pixel->b, pixel->player_b);
-
-      float const texMinX2 = texMinX + (x * texDiffX);
-      float const texMaxX2 = texMinX + ((x + 1) * texDiffX);
-      auto        pixMinX2 = static_cast< GLshort >(static_cast< float >(pixMinX) + (static_cast< float >(x) * pixDiffX));
-      auto        pixMaxX2 = static_cast< GLshort >(static_cast< float >(pixMinX) + (static_cast< float >(x + 1) * pixDiffX));
-
-      gl_push(&bufp, bufp_end, first_vertex, texMinX2, texMinY2, texMaxX2, texMaxY2, pixMinX2, pixMinY2, pixMaxX2, pixMaxY2, r, g, b, a, r, g, b,
-              a, r, g, b, a, r, g, b, a);
-    }
-
-    //
-    // If we have alpha values in the texture, the end of one triangle line and the start of another creates
-    // a visible strip
-    //
-    if (blit_flush_per_line) {
-      buf_tex = tex;
-      blit_flush();
-    }
-  }
-}
-
-void blit(int tex, float texMinX, float texMinY, float texMaxX, float texMaxY, GLshort left, GLshort top, GLshort right, GLshort bottom,
-          const color &color_bl, const color &color_br, const color &color_tl, const color &color_tr)
-{
-  TRACE_DEBUG();
-
-  if (buf_tex == 0) [[unlikely]] {
-    blit_init();
-    first_vertex = true;
-  } else if (buf_tex != tex) [[unlikely]] {
-    blit_flush();
-    first_vertex = true;
-  } else {
-    first_vertex = false;
-  }
-
-  buf_tex = tex;
-
-  gl_push(&bufp, bufp_end, first_vertex, texMinX, texMinY, texMaxX, texMaxY, left, top, right, bottom, color_tl.r, color_tl.g, color_tl.b,
-          color_tl.a, color_bl.r, color_bl.g, color_bl.b, color_bl.a, color_tr.r, color_tr.g, color_tr.b, color_tr.a, color_br.r, color_br.g,
-          color_br.b, color_br.a);
-}
-
-void blit(int tex, GLshort left, GLshort top, GLshort right, GLshort bottom, const color &c)
-{
-  TRACE_DEBUG();
-
-  blit(tex, 0.0, 1.0, 1.0, 0.0, left, top, right, bottom, c);
-}
+#endif

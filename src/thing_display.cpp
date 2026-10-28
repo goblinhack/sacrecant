@@ -416,14 +416,14 @@ static void thing_display_falling(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp t
 
   auto mid = (tl + br) / static_cast< short >(2);
   blit_flush();
-  glPushMatrix();
-  glTranslatef(mid.x, mid.y, 0);
+  gl_matrix_push();
+  gl_matrix_translate(mid.x, mid.y, 0);
   float const ang = dh * 10;
-  glRotatef(ang, 0.0F, 0.0F, 1.0F);
-  glTranslatef(-mid.x, -mid.y, 0);
+  gl_matrix_rotate(ang, 0.0F, 0.0F, 1.0F);
+  gl_matrix_translate(-mid.x, -mid.y, 0);
   thing_display_blit(g, v, l, tp, t, tl, br, tile, x1, x2, y1, y2, fbo, fg);
   blit_flush();
-  glPopMatrix();
+  gl_matrix_pop();
 }
 
 //
@@ -436,14 +436,14 @@ static void thing_display_rotated(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp t
 
   auto mid = (tl + br) / static_cast< short >(2);
   blit_flush();
-  glPushMatrix();
-  glTranslatef(mid.x, mid.y, 0);
+  gl_matrix_push();
+  gl_matrix_translate(mid.x, mid.y, 0);
   float const ang = t->angle * (180.0F / std::numbers::pi_v< float >);
-  glRotatef(ang, 0.0F, 0.0F, 1.0F);
-  glTranslatef(-mid.x, -mid.y, 0);
+  gl_matrix_rotate(ang, 0.0F, 0.0F, 1.0F);
+  gl_matrix_translate(-mid.x, -mid.y, 0);
   thing_display_blit(g, v, l, tp, t, tl, br, tile, x1, x2, y1, y2, fbo, fg);
   blit_flush();
-  glPopMatrix();
+  gl_matrix_pop();
 }
 
 //

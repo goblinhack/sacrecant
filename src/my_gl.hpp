@@ -5,6 +5,27 @@
 #ifndef MY_GLAPI_HPP
 #define MY_GLAPI_HPP
 
+#include "my_enum.hpp"
+#include "my_game_defs.hpp"
+#include "my_size.hpp"
+#include "my_spoint.hpp"
+
+#include <array>
+
+#ifdef WEB_BUILD
+//
+// OpenGL ES 3.0 is used on all platforms. The legacy desktop OpenGL fixed function
+// pipeline (matrix stacks, client arrays, glColor etc...) does not exist in ES, so
+// see gl.cpp for the small shader based replacements: gl_matrix_*, gl_color_*.
+//
+// On Linux this comes from libgles-dev (-lGLESv2). On Windows and macOS an ES 3.0
+// implementation such as ANGLE is needed.
+//
+#include <GLES3/gl3.h>
+#else
+//
+// Desktop OpenGL
+//
 #define GL_GLEXT_PROTOTYPES
 
 #include "my_enum.hpp"
@@ -30,6 +51,8 @@
 // linux
 #include "GL/gl.h"
 #include "GL/glext.h"
+#endif
+
 #endif
 
 #include "my_color.hpp"
@@ -67,37 +90,15 @@
     (p)    = (GLfloat *) c;                                                                                                                     \
   }
 
-#define Vertex2(x, y)                                                                                                                           \
+#define GL_PUSH_VERTEX_SIMPLE(x, y)                                                                                                                           \
   *xyp++ = x;                                                                                                                                   \
   *xyp++ = y;
-
-//
-// GL_PUSH_TRIANGLE
-//
-#define GL_PUSH_TRIANGLE_COLORED(p, p_end, x1, y1, x2, y2, x3, y3, r1, g1, b1, a1, r2, g2, b2, a2, r3, g3, b3, a3)                              \
-  {                                                                                                                                             \
-    GL_PUSH_VERTEX(p, x1, y1);                                                                                                                  \
-    GL_PUSH_RGBA(p, r1, g1, b1, a1);                                                                                                            \
-    GL_PUSH_VERTEX(p, x2, y2);                                                                                                                  \
-    GL_PUSH_RGBA(p, r2, g2, b2, a2);                                                                                                            \
-    GL_PUSH_VERTEX(p, x3, y3);                                                                                                                  \
-    GL_PUSH_RGBA(p, r2, g3, b3, a3);                                                                                                            \
-  }
-
-#define GL_PUSH_COLORED_POINT(p, p_end, x1, y1, r1, g1, b1, a1)                                                                                 \
-  {                                                                                                                                             \
-    GL_PUSH_VERTEX(p, x1, y1);                                                                                                                  \
-    GL_PUSH_RGBA(p, r1, g1, b1, a1);                                                                                                            \
-  }
 
 #define GL_PUSH_POINT(p, p_end, x1, y1)                                                                                                         \
   {                                                                                                                                             \
     GL_PUSH_VERTEX(p, x1, y1);                                                                                                                  \
   }
 
-//
-// GL_PUSH_TEX_POINT
-//
 #define GL_PUSH_TEX_POINT(p, p_end, tx, ty, x1, y1, r1, g1, b1, a1)                                                                             \
   {                                                                                                                                             \
     GL_PUSH_TEXCOORD(p, tx, ty);                                                                                                                \
@@ -105,39 +106,134 @@
     GL_PUSH_RGBA(p, r1, g1, b1, a1);                                                                                                            \
   }
 
-#define TRIANGLE_COLORED(x1, y1, x2, y2, x3, y3, r1, g1, b1, a1, r2, g2, b2, a2, r3, g3, b3, a3)                                                \
-  {                                                                                                                                             \
-    GL_PUSH_TRIANGLE_COLORED(bufp, bufp_end, x1, y1, x2, y2, x3, y3, r1, g1, b1, a1, r2, g2, b2, a2, r3, g3, b3, a3);                           \
-  }
-
-#define PUSH_COLORED_POINT(x1, y1, r1, g1, b1, a1)                                                                                              \
-  {                                                                                                                                             \
-    GL_PUSH_COLORED_POINT(bufp, bufp_end, x1, y1, r1, g1, b1, a1);                                                                              \
-  }
-
 #define PUSH_POINT(x1, y1)                                                                                                                      \
   {                                                                                                                                             \
     GL_PUSH_POINT(bufp, bufp_end, x1, y1);                                                                                                      \
   }
 
-#define PUSH_TEX_POINT(tx, ty, x1, y1, r1, g1, b1, a1)                                                                                          \
-  {                                                                                                                                             \
-    GL_PUSH_TEX_POINT(bufp, bufp_end, tx, ty, x1, y1, r1, g1, b1, a1);                                                                          \
-  }
-
 //
-// GL_PUSH_TRIANGLE
+// Frame buffer objects
 //
-#define GL_PUSH_TRIANGLE(p, p_end, x1, y1, x2, y2, x3, y3)                                                                                      \
-  {                                                                                                                                             \
-    GL_PUSH_VERTEX(p, x1, y1);                                                                                                                  \
-    GL_PUSH_VERTEX(p, x2, y2);                                                                                                                  \
-    GL_PUSH_VERTEX(p, x3, y3);                                                                                                                  \
-  }
+#define FBO_ENUM(list_macro)                                                                                                                    \
+  list_macro(FBO_MAP_BG_PREVIOUSLY_SEEN_TILES, "FBO_MAP_BG_PREVIOUSLY_SEEN_TILES"),               /* newline */                                 \
+      list_macro(FBO_MAP_BG_FLOOR_WATER_LAVA, "FBO_MAP_BG_FLOOR_WATER_LAVA"),                     /* newline */                                 \
+      list_macro(FBO_MAP_LAVA_OVERLAY, "FBO_MAP_LAVA_OVERLAY"),                                   /* newline */                                 \
+      list_macro(FBO_MAP_FG, "FBO_MAP_FG"),                                                       /* newline */                                 \
+      list_macro(FBO_MAP_FG_OVERLAY, "FBO_MAP_FG_OVERLAY"),                                       /* newline */                                 \
+      list_macro(FBO_MAP_LIGHT, "FBO_MAP_LIGHT"),                                                 /* newline */                                 \
+      list_macro(FBO_FULL_SCREEN_PREVIOUSLY_SEEN_TILES, "FBO_FULL_SCREEN_PREVIOUSLY_SEEN_TILES"), /* newline */                                 \
+      list_macro(FBO_FULL_SCREEN_VISIBLE_TILES, "FBO_FULL_SCREEN_VISIBLE_TILES"),                 /* newline */                                 \
+      list_macro(FBO_FULL_SCREEN_LEVEL_CURR, "FBO_FULL_SCREEN_LEVEL_CURR"),                       /* newline */                                 \
+      list_macro(FBO_FULL_SCREEN_LEVEL_BELOW, "FBO_FULL_SCREEN_LEVEL_BELOW"),                     /* newline */                                 \
+      list_macro(FBO_FULL_SCREEN_LEVEL_MERGED, "FBO_FULL_SCREEN_LEVEL_MERGED"),                   /* newline */                                 \
+      list_macro(FBO_MINIMAP_LEVEL, "FBO_MINIMAP_LEVEL"),                                         /* newline */                                 \
+      list_macro(FBO_FULL_SCREEN_WID, "FBO_FULL_SCREEN_WID"),                                     /* newline */                                 \
+      list_macro(FBO_SPRITE1, "FBO_SPRITE1"),                                                     /* newline */                                 \
+      list_macro(FBO_FLAMES, "FBO_FLAMES"),                                                       /* newline */                                 \
+      list_macro(FBO_SKULLS, "FBO_SKULLS"),                                                       /* newline */                                 \
+      list_macro(FBO_FULL_SCREEN_FINAL, "FBO_FULL_SCREEN_FINAL"),                                 /* newline */
 
-#define triangle(x1, y1, x2, y2, x3, y3)                                                                                                        \
+ENUM_DEF_H(FBO_ENUM, FboEnum);
+
+#define FBO_ENUM_FIRST ((FboEnum) 0)
+#define FBO_NONE       ((FboEnum) (FBO_ENUM_MAX))
+
+#define FOR_ALL_FBO(_iter_)                                                                                                                     \
+  for (FboEnum _iter_ = FBO_ENUM_FIRST; /* newline */                                                                                           \
+       (_iter_) < FBO_ENUM_MAX;         /* newline */                                                                                           \
+       (_iter_) = static_cast< FboEnum >(static_cast< int >(_iter_) + 1))
+
+extern GLuint  g_fbo_id[ FBO_ENUM_MAX ];
+extern GLuint  g_fbo_tex_id[ FBO_ENUM_MAX ];
+extern GLuint  g_render_buf_id[ FBO_ENUM_MAX ];
+extern isize   g_fbo_size[ FBO_ENUM_MAX ];
+extern FboEnum fbo_locked;
+extern FboEnum fbo_last;
+
+extern std::array< GLubyte, 4 > gl_current_color;
+
+struct LightPixels;
+
+auto blit(int tex, GLshort left, GLshort top, GLshort right, GLshort bottom, const color &c) -> void;
+void blit(int tex, float texMinX, float texMinY, float texMaxX, float texMaxY, GLshort left, GLshort top, GLshort right, GLshort bottom,
+          const color &c);
+void blit(int tex, float texMinX, float texMinY, float texMaxX, float texMaxY, GLshort left, GLshort top, GLshort right, GLshort bottom,
+          const color &color_bl, const color &color_br, const color &color_tl, const color &color_tr);
+void blit(int tex, float texMinX, float texMinY, float texMaxX, float texMaxY, GLshort pixMinX, GLshort pixMinY, GLshort pixMaxX,
+          GLshort pixMaxY, const color &c, struct LightPixels * /*light_pixels*/, bool is_blit_flush_per_line);
+void blit(int tex, float texMinX, float texMinY, float texMaxX, float texMaxY, GLshort pixMinX, GLshort pixMinY, GLshort pixMaxX,
+          GLshort pixMaxY, struct LightPixels * /*light_pixels*/, bool is_blit_flush_per_line);
+auto blit_fbo(Gamep g, FboEnum fbo, color c) -> void;
+auto blit_fbo(Gamep g, FboEnum fbo, int tl_x, int tl_y, int br_x, int br_y, color c) -> void;
+auto blit_fbo_push(FboEnum fbo) -> void;
+auto blit_fbo_pop() -> void;
+auto blit_fbo_bind(FboEnum fbo) -> void;
+auto blit_fbo_bind_locked(FboEnum fbo) -> void;
+auto blit_fbo_unbind() -> void;
+auto blit_fbo_unbind_locked() -> void;
+auto blit_fini() -> void;
+auto blit_flush() -> void;
+auto blit_flush_colored_triangle_fan(float *begin, const float *end) -> void;
+auto blit_flush_colored_triangle_fan() -> void;
+auto blit_flush_triangle_fan(float *begin, const float *end) -> void;
+auto blit_flush_triangle_fan() -> void;
+auto blit_init() -> void;
+auto fbo_get_size(Gamep g, FboEnum fbo, int &w, int &h) -> void;
+auto fbo_get_curr_size(Gamep g, int &w, int &h) -> void;
+
+auto gl_blitline(GLshort left, GLshort top, GLshort right, GLshort bottom) -> void;
+auto gl_blitquad(spoint tl, spoint tr, spoint bl, spoint br) -> void;
+auto gl_blitquad(GLshort left, GLshort top, GLshort right, GLshort bottom) -> void;
+auto gl_blitsquare(GLshort left, GLshort top, GLshort right, GLshort bottom) -> void;
+auto gl_enter_2_5d_mode(Gamep) -> void;
+auto gl_enter_2d_mode(Gamep g, int w, int h) -> void;
+auto gl_enter_2d_mode(Gamep g) -> void;
+auto gl_error(GLenum err) -> void;
+auto gl_ext_init() -> void;
+auto gl_fini_2d_mode(Gamep g) -> void;
+auto gl_fini_fbo(Gamep g) -> void;
+auto gl_init_2d_mode(Gamep g) -> void;
+void gl_init_fbo_(FboEnum fbo, GLuint *render_buf_id, GLuint *fbo_id, GLuint *fbo_tex_id, GLuint tex_width, GLuint tex_height);
+void gl_fini_fbo_(GLuint *render_buf_id, GLuint *fbo_id, GLuint *fbo_tex_id, GLuint tex_width, GLuint tex_height);
+auto gl_init_fbo(Gamep g, FboEnum fbo = FBO_NONE) -> void;
+auto gl_leave_2d_mode(Gamep g) -> void;
+auto gl_clear() -> void;
+void gl_clear_fbo_all();
+
+#ifdef WEB_BUILD
+//
+// Replacements for the legacy fixed function state that no longer exists in OpenGL ES.
+//
+enum {
+  GL_MATRIX_PROJECTION,
+  GL_MATRIX_MODELVIEW,
+};
+#else
+enum {
+  GL_MATRIX_PROJECTION = GL_PROJECTION,
+  GL_MATRIX_MODELVIEW  = GL_MODELVIEW,
+};
+#endif
+
+auto gl_matrix_mode(int mode) -> void;
+auto gl_matrix_push() -> void;
+auto gl_matrix_pop() -> void;
+auto gl_matrix_identity() -> void;
+auto gl_matrix_ortho(float left, float right, float bottom, float top, float near_val, float far_val) -> void;
+auto gl_matrix_translate(float x, float y, float z) -> void;
+auto gl_matrix_rotate(float angle_degrees, float x, float y, float z) -> void;
+auto gl_color_set(GLubyte r, GLubyte g, GLubyte b, GLubyte a) -> void;
+auto gl_shader_init() -> void;
+auto gl_shader_fini() -> void;
+
+#define GL_ERROR_CHECK()                                                                                                                        \
   {                                                                                                                                             \
-    GL_PUSH_TRIANGLE(bufp, bufp_end, x1, y1, x2, y2, x3, y3);                                                                                   \
+    auto errCode = glGetError();                                                                                                                \
+    [[likely]] if ((errCode == GL_NO_ERROR)) { /* log("GL: ok at %s:%s line %u", SRC_FILE_NAME, SRC_FUNC_NAME, SRC_LINE_NUM); */                \
+    } else {                                                                                                                                    \
+      log("GL: error at %s:%s line %u", SRC_FILE_NAME, SRC_FUNC_NAME, SRC_LINE_NUM);                                                            \
+      gl_error(errCode);                                                                                                                        \
+    }                                                                                                                                           \
   }
 
 #ifdef _WIN32
@@ -250,38 +346,6 @@ extern PFNGLDEBUGMESSAGECALLBACKPROC    glDebugMessageCallback_EXT;
 #define glDeleteBuffersARB_EXT        glDeleteBuffersARBEXT
 #endif
 
-//
-// Frame buffer objects
-//
-#define FBO_ENUM(list_macro)                                                                                                                    \
-  list_macro(FBO_MAP_BG_PREVIOUSLY_SEEN_TILES, "FBO_MAP_BG_PREVIOUSLY_SEEN_TILES"),               /* newline */                                 \
-      list_macro(FBO_MAP_BG_FLOOR_WATER_LAVA, "FBO_MAP_BG_FLOOR_WATER_LAVA"),                     /* newline */                                 \
-      list_macro(FBO_MAP_LAVA_OVERLAY, "FBO_MAP_LAVA_OVERLAY"),                                   /* newline */                                 \
-      list_macro(FBO_MAP_FG, "FBO_MAP_FG"),                                                       /* newline */                                 \
-      list_macro(FBO_MAP_FG_OVERLAY, "FBO_MAP_FG_OVERLAY"),                                       /* newline */                                 \
-      list_macro(FBO_MAP_LIGHT, "FBO_MAP_LIGHT"),                                                 /* newline */                                 \
-      list_macro(FBO_FULL_SCREEN_PREVIOUSLY_SEEN_TILES, "FBO_FULL_SCREEN_PREVIOUSLY_SEEN_TILES"), /* newline */                                 \
-      list_macro(FBO_FULL_SCREEN_VISIBLE_TILES, "FBO_FULL_SCREEN_VISIBLE_TILES"),                 /* newline */                                 \
-      list_macro(FBO_FULL_SCREEN_LEVEL_CURR, "FBO_FULL_SCREEN_LEVEL_CURR"),                       /* newline */                                 \
-      list_macro(FBO_FULL_SCREEN_LEVEL_BELOW, "FBO_FULL_SCREEN_LEVEL_BELOW"),                     /* newline */                                 \
-      list_macro(FBO_FULL_SCREEN_LEVEL_MERGED, "FBO_FULL_SCREEN_LEVEL_MERGED"),                   /* newline */                                 \
-      list_macro(FBO_MINIMAP_LEVEL, "FBO_MINIMAP_LEVEL"),                                         /* newline */                                 \
-      list_macro(FBO_FULL_SCREEN_WID, "FBO_FULL_SCREEN_WID"),                                     /* newline */                                 \
-      list_macro(FBO_SPRITE1, "FBO_SPRITE1"),                                                     /* newline */                                 \
-      list_macro(FBO_FLAMES, "FBO_FLAMES"),                                                       /* newline */                                 \
-      list_macro(FBO_SKULLS, "FBO_SKULLS"),                                                       /* newline */                                 \
-      list_macro(FBO_FULL_SCREEN_FINAL, "FBO_FULL_SCREEN_FINAL"),                                 /* newline */
-
-ENUM_DEF_H(FBO_ENUM, FboEnum);
-
-#define FBO_ENUM_FIRST ((FboEnum) 0)
-#define FBO_NONE       ((FboEnum) (FBO_ENUM_MAX))
-
-#define FOR_ALL_FBO(_iter_)                                                                                                                     \
-  for (FboEnum _iter_ = FBO_ENUM_FIRST; /* newline */                                                                                           \
-       (_iter_) < FBO_ENUM_MAX;         /* newline */                                                                                           \
-       (_iter_) = static_cast< FboEnum >(static_cast< int >(_iter_) + 1))
-
 extern uint32_t NUMBER_BYTES_PER_VERTEX_2D;
 
 extern GLfloat *bufp;
@@ -296,64 +360,14 @@ extern float  glapi_last_tex_right;
 
 extern int buf_tex;
 
-extern GLuint g_fbo_id[ FBO_ENUM_MAX ];
-extern GLuint g_fbo_tex_id[ FBO_ENUM_MAX ];
-extern GLuint g_render_buf_id[ FBO_ENUM_MAX ];
+//
+// x and y per element.
+//
+#define NUMBER_DIMENSIONS_PER_COORD_2D 2
 
-struct LightPixels;
-
-auto blit(int tex, GLshort left, GLshort top, GLshort right, GLshort bottom, const color &c) -> void;
-void blit(int tex, float texMinX, float texMinY, float texMaxX, float texMaxY, GLshort left, GLshort top, GLshort right, GLshort bottom,
-          const color &c);
-void blit(int tex, float texMinX, float texMinY, float texMaxX, float texMaxY, GLshort left, GLshort top, GLshort right, GLshort bottom,
-          const color &color_bl, const color &color_br, const color &color_tl, const color &color_tr);
-void blit(int tex, float texMinX, float texMinY, float texMaxX, float texMaxY, GLshort pixMinX, GLshort pixMinY, GLshort pixMaxX,
-          GLshort pixMaxY, const color &c, struct LightPixels * /*light_pixels*/, bool is_blit_flush_per_line);
-void blit(int tex, float texMinX, float texMinY, float texMaxX, float texMaxY, GLshort pixMinX, GLshort pixMinY, GLshort pixMaxX,
-          GLshort pixMaxY, struct LightPixels * /*light_pixels*/, bool is_blit_flush_per_line);
-auto blit_fbo(Gamep g, FboEnum fbo, color c) -> void;
-auto blit_fbo(Gamep g, FboEnum fbo, int tl_x, int tl_y, int br_x, int br_y, color c) -> void;
-auto blit_fbo_push(FboEnum fbo) -> void;
-auto blit_fbo_pop() -> void;
-auto blit_fbo_bind(FboEnum fbo) -> void;
-auto blit_fbo_bind_locked(FboEnum fbo) -> void;
-auto blit_fbo_unbind() -> void;
-auto blit_fbo_unbind_locked() -> void;
-auto blit_fini() -> void;
-auto blit_flush() -> void;
-auto blit_flush_colored_triangle_fan(float *begin, const float *end) -> void;
-auto blit_flush_colored_triangle_fan() -> void;
-auto blit_flush_triangle_fan(float *begin, const float *end) -> void;
-auto blit_flush_triangle_fan() -> void;
-auto blit_init() -> void;
-auto fbo_get_size(Gamep g, FboEnum fbo, int &w, int &h) -> void;
-auto fbo_get_curr_size(Gamep g, int &w, int &h) -> void;
-
-auto gl_blitline(GLshort left, GLshort top, GLshort right, GLshort bottom) -> void;
-auto gl_blitquad(spoint tl, spoint tr, spoint bl, spoint br) -> void;
-auto gl_blitquad(GLshort left, GLshort top, GLshort right, GLshort bottom) -> void;
-auto gl_blitsquare(GLshort left, GLshort top, GLshort right, GLshort bottom) -> void;
-auto gl_enter_2_5d_mode(Gamep) -> void;
-auto gl_enter_2d_mode(Gamep g, int w, int h) -> void;
-auto gl_enter_2d_mode(Gamep g) -> void;
-auto gl_error(GLenum err) -> void;
-auto gl_ext_init() -> void;
-auto gl_fini_2d_mode(Gamep g) -> void;
-auto gl_fini_fbo(Gamep g) -> void;
-auto gl_init_2d_mode(Gamep g) -> void;
-auto gl_init_fbo(Gamep g, FboEnum fbo = FBO_NONE) -> void;
-auto gl_leave_2d_mode(Gamep g) -> void;
-auto gl_clear() -> void;
-void gl_clear_fbo_all();
-
-#define GL_ERROR_CHECK()                                                                                                                        \
-  {                                                                                                                                             \
-    auto errCode = glGetError();                                                                                                                \
-    [[likely]] if ((errCode == GL_NO_ERROR)) { /* log("GL: ok at %s:%s line %u", SRC_FILE_NAME, SRC_FUNC_NAME, SRC_LINE_NUM); */                \
-    } else {                                                                                                                                    \
-      log("GL: error at %s:%s line %u", SRC_FILE_NAME, SRC_FUNC_NAME, SRC_LINE_NUM);                                                            \
-      gl_error(errCode);                                                                                                                        \
-    }                                                                                                                                           \
-  }
+//
+// r,g,b,a per element
+//
+#define NUMBER_COMPONENTS_PER_COLOR 4
 
 #endif

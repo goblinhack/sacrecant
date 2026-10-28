@@ -22,6 +22,7 @@ RUN apt-get install -y libfreetype6-dev
 RUN apt-get install -y libgl1
 RUN apt-get install -y libglvnd0
 RUN apt-get install -y libglx0
+RUN apt-get install -y libgles-dev
 RUN apt-get install -y libmikmod-dev
 RUN apt-get install -y liboggz2-dev
 RUN apt-get install -y libsdl2-2.0-0

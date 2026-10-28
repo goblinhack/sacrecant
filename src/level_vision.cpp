@@ -37,7 +37,9 @@ void level_vision_calculate_all(Gamep g, Levelsp v, Levelp l)
     return;
   }
 
+#ifndef WEB_BUILD
   std::vector< std::thread > threads;
+#endif
 
   //
   // Calculate all lit tiles for non player things
@@ -53,19 +55,25 @@ void level_vision_calculate_all(Gamep g, Levelsp v, Levelp l)
       continue;
     }
 
+#ifdef WEB_BUILD
+    thing_vision_calculate(g, v, l, t);
+#else
     if (g_opt_debug2) {
       thing_vision_calculate(g, v, l, t);
     } else {
       threads.emplace_back(thing_vision_calculate, g, v, l, t);
     }
+#endif
   }
 
   //
   // Wait on threads
   //
+#ifndef WEB_BUILD
   for (auto &i : threads) {
     i.join();
   }
+#endif
 }
 
 //

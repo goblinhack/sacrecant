@@ -43,7 +43,7 @@ static inline auto color_neq(const color &col1, const color &col2) -> bool
   return col1.r != col2.r || col1.g != col2.g || col1.b != col2.b || col1.a != col2.a;
 }
 
-#define GLCOLOR(_c_) glColor4ub((_c_).r, (_c_).g, (_c_).b, (_c_).a)
+#define GLCOLOR(_c_) gl_color_set((_c_).r, (_c_).g, (_c_).b, (_c_).a)
 
 extern bool color_init_done;
 

@@ -93,6 +93,7 @@ help_full()
         log_warn "  sudo apt-get install -y libgl1"
         log_warn "  sudo apt-get install -y libglvnd0"
         log_warn "  sudo apt-get install -y libglx0"
+        log_warn "  sudo apt-get install -y libgles-dev"
         log_warn "  sudo apt-get install -y libmikmod-dev"
         log_warn "  sudo apt-get install -y liboggz2-dev"
         log_warn "  sudo apt-get install -y libsdl2-2.0-0"
@@ -124,6 +125,7 @@ help_full()
                      libgl1 \
                      libglvnd0 \
                      libglx0 \
+                     libgles-dev \
                      libmikmod-dev \
                      liboggz2-dev \
                      libsdl2-2.0-0 \
@@ -472,7 +474,13 @@ if [[ $OPT_WEB_BUILD = "" ]]; then
         LDLIBS+=" -funwind-tables"
         LDLIBS+=" -lstdc++"
         LDLIBS+=" -lstdc++exp"
-        LDLIBS+=" -lopengl32"
+
+        if [[ $OPT_WEB_BUILD = "" ]]; then
+          LDLIBS+=" -lopengl32"
+        else
+          LDLIBS+=" -lGLESv2"
+        fi
+
         LDLIBS+=" -lpthread"
         LDLIBS+=" /${MSYS_PATH}/lib/libSDL2_mixer.a"
         LDLIBS+=" -L/${MSYS_PATH}/lib/binutils -lbfd -lintl -ldbghelp -liberty"
@@ -520,7 +528,13 @@ if [[ $OPT_WEB_BUILD = "" ]]; then
     *Darwin*)
         EXE=""
         LDLIBS+=" -funwind-tables"
-        LDLIBS+=" -Wl,-framework,Opengl"
+
+        if [[ $OPT_WEB_BUILD = "" ]]; then
+          LDLIBS+=" -Wl,-framework,Opengl"
+        else
+          LDLIBS+=" -lGLESv2"
+        fi
+
         #
         # Run in the background as it is slow and is only needed for debugging
         #
@@ -546,7 +560,11 @@ if [[ $OPT_WEB_BUILD = "" ]]; then
         ;;
     *inux*)
         EXE=""
-        LDLIBS+=" -lGL"
+        if [[ $OPT_WEB_BUILD = "" ]]; then
+          LDLIBS+=" -lGL"
+        else
+          LDLIBS+=" -lGLESv2"
+        fi
 
         if [[ $OPT_SANITY_BUILD != "" ]]; then
             CFLAGS+="$EXTRA_CHECKS"
@@ -674,7 +692,7 @@ log_info "Have llvm                  : $LLVM_PATH/bin"
 
 if [[ $OPT_WEB_BUILD != "" ]]; then
   CFLAGS+=" -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='[\"tga\"]'"
-  LDFLAGS+=" -s USE_WEBGL2=1 -s STACK_SIZE=655360 -s ALLOW_MEMORY_GROWTH -s GL_UNSAFE_OPTS -s GL_FFP_ONLY -s LEGACY_GL_EMULATION=1 -s WASM=1 -s USE_SDL_MIXER=2 -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='[\"tga\"]'"
+  LDFLAGS+=" --profiling-funcs -s ASSERTIONS=2 -s USE_WEBGL2=1 -s STACK_SIZE=655360 -s ALLOW_MEMORY_GROWTH -s GL_UNSAFE_OPTS -s GL_FFP_ONLY -s LEGACY_GL_EMULATION=1 -s WASM=1 -s USE_SDL_MIXER=2 -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='[\"tga\"]'"
 fi
 
 #

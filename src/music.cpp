@@ -183,7 +183,7 @@ void music_update_volume(Gamep g)
 
   music_update_volume(g);
 
-  log("playing %s volume %d", m->name.c_str(), game_music_volume_get(g));
+  DBG("playing %s volume %d", m->name.c_str(), game_music_volume_get(g));
 
   return true;
 }

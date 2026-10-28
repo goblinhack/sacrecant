@@ -548,44 +548,24 @@ void tex_load_sprites(Texp *tex, Texp *tex_monochrome, Texp *tex_mask, // newlin
   DBG2("Texture: '%s', %dx%d", file.c_str(), surface->w, surface->h);
 
   //
-  // Get the number of channels in the SDL surface
-  //
-  int const channels      = surface->format->BytesPerPixel;
-  int       textureFormat = 0;
-
-  if (channels == 4) {
-    //
-    // Contains alpha channel
-    //
-    if (surface->format->Rmask == 0x000000ff) {
-      textureFormat = GL_RGBA;
-    } else {
-      textureFormat = GL_BGRA;
-    }
-  } else if (channels == 3) {
-    //
-    // Contains no alpha channel
-    //
-    if (surface->format->Rmask == 0x000000ff) {
-      textureFormat = GL_RGB;
-    } else {
-#ifdef GL_BGR
-      textureFormat = GL_BGR;
-#else
-      ERR("'%s' need support for GL_BGR", file);
-#endif
-    }
-  } else {
-    ERR("'%s' is not truecolor, need %d bytes per pixel", file.c_str(), channels);
-  }
-
-  //
   // Create the tex
   //
   GLuint gl_surface_binding = 0;
 
   if (! g_opt_tests && ! g_opt_do_level_gen) {
-    glEnable(GL_TEXTURE_2D); // Apparently needed for ATI drivers
+    //
+    // OpenGL ES only supports uploading RGBA byte order data; there is no GL_BGRA or GL_BGR.
+    // So convert anything else to RGBA32 (which is RGBA byte order regardless of endianness).
+    // We keep the original surface as it is also used for CPU side pixel access.
+    //
+    SDL_Surface *upload = surface;
+    if (surface->format->format != SDL_PIXELFORMAT_RGBA32) {
+      upload = SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_RGBA32, 0);
+      if (upload == nullptr) {
+        ERR("'%s' could not convert to RGBA32: %s", file.c_str(), SDL_GetError());
+        return nullptr;
+      }
+    }
 
     glGenTextures(1, &gl_surface_binding);
 
@@ -595,14 +575,15 @@ void tex_load_sprites(Texp *tex, Texp *tex_monochrome, Texp *tex_mask, // newlin
     glBindTexture(GL_TEXTURE_2D, gl_surface_binding);
 
     //
-    // Generate the tex
+    // Generate the tex. The surface pitch may include padding.
     //
-#ifdef WEB_BUILD
-    textureFormat = GL_DEPTH_COMPONENT;
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, surface->w, surface->h, 0, textureFormat, GL_UNSIGNED_INT, surface->pixels);
-#else
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, surface->w, surface->h, 0, textureFormat, GL_UNSIGNED_BYTE, surface->pixels);
-#endif
+    glPixelStorei(GL_UNPACK_ROW_LENGTH, upload->pitch / 4);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, upload->w, upload->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, upload->pixels);
+    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+
+    if (upload != surface) {
+      SDL_FreeSurface(upload);
+    }
 
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);

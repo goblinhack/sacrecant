@@ -118,7 +118,7 @@ Usage: $0 [options]
   [--prof]   Enable gprof
   [--gcc]    Prefer g++ over clang
   [--github] CI/CD build (turns off modification of README)
-  [--web]    Enable web asm output
+  [--web]    Enable web asm output (builds for GLES3 but gfx don't seem to work fully)
              (compiles but does not work, emscripten opengl3.0 is partial)
 %%
 }

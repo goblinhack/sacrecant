@@ -1142,7 +1142,7 @@ static void room_dump(class Room *r)
   TRACE();
 
   level_gen_mutex.lock();
-  log("LEVELGEN: room %d @ %s:%d", r->id, r->file, r->line);
+  DBG("LEVELGEN: room %d @ %s:%d", r->id, r->file, r->line);
   TRACE_INDENT();
 
   for (int y = 0; y < r->height; y++) {
@@ -1150,10 +1150,10 @@ static void room_dump(class Room *r)
     for (int x = 0; x < r->width; x++) {
       tmp += r->data[ (y * r->width) + x ];
     }
-    log("[%s]", tmp.c_str());
+    DBG("[%s]", tmp.c_str());
   }
 
-  log("-");
+  DBG("-");
   level_gen_mutex.unlock();
 }
 
@@ -1306,7 +1306,7 @@ static void room_place_at(class LevelGenAll *lga, LevelGen *lg, class Room *r, b
 
   if (lg->debug) [[unlikely]] {
     if (r->file != nullptr) {
-      log("LEVELGEN: place room %s:%d", r->file, r->line);
+      DBG("LEVELGEN: place room %s:%d", r->file, r->line);
     }
   }
 
@@ -1723,7 +1723,7 @@ static void fragment_alt_dump(class FragmentAlt *f)
   TRACE();
 
   level_gen_mutex.lock();
-  log("LEVELGEN: FragmentAlt %d @ %s:%d", f->id, f->file, f->line);
+  DBG("LEVELGEN: FragmentAlt %d @ %s:%d", f->id, f->file, f->line);
   TRACE_INDENT();
 
   for (int y = 0; y < f->height; y++) {
@@ -1731,10 +1731,10 @@ static void fragment_alt_dump(class FragmentAlt *f)
     for (int x = 0; x < f->width; x++) {
       tmp += f->data[ (y * f->width) + x ];
     }
-    log("[%s]", tmp.c_str());
+    DBG("[%s]", tmp.c_str());
   }
 
-  log("-");
+  DBG("-");
   level_gen_mutex.unlock();
 }
 
@@ -2032,7 +2032,7 @@ static void fragment_dump(class Fragment *f)
   TRACE();
 
   level_gen_mutex.lock();
-  log("LEVELGEN: fragment %d @ %s:%d", f->id, f->file, f->line);
+  DBG("LEVELGEN: fragment %d @ %s:%d", f->id, f->file, f->line);
   TRACE_INDENT();
 
   for (int y = 0; y < f->height; y++) {
@@ -2040,10 +2040,10 @@ static void fragment_dump(class Fragment *f)
     for (int x = 0; x < f->width; x++) {
       tmp += f->data[ (y * f->width) + x ];
     }
-    log("[%s]", tmp.c_str());
+    DBG("[%s]", tmp.c_str());
   }
 
-  log("-");
+  DBG("-");
   level_gen_mutex.unlock();
 }
 
@@ -2533,23 +2533,23 @@ static void level_gen_dump(class LevelGenAll *lga, LevelGen *lg, const char *msg
 
   level_gen_mutex.lock();
   if (msg != nullptr) {
-    log("LEVELGEN: level: idx: %u num: %u (%s)", lg->level_arr_idx, lg->level_arr_idx + 1, msg);
+    DBG("LEVELGEN: level: idx: %u num: %u (%s)", lg->level_arr_idx, lg->level_arr_idx + 1, msg);
   } else {
-    log("LEVELGEN: level: idx: %u num: %u", lg->level_arr_idx, lg->level_arr_idx + 1);
+    DBG("LEVELGEN: level: idx: %u num: %u", lg->level_arr_idx, lg->level_arr_idx + 1);
   }
-  log("--------------");
+  DBG("--------------");
   TRACE();
 
-  log("LEVELGEN: seed base         : %u", lg->info.seed_base);
-  log("LEVELGEN: seed level        : %u", lg->info.seed_num);
-  log("LEVELGEN: room count        : %d", lg->info.room_count);
-  log("LEVELGEN: fragment count    : %d", lg->info.fragment_count);
-  log("LEVELGEN: treasure count    : %d", lg->info.treasure_count);
-  log("LEVELGEN: monst count       : %d (group1:%d group2:%d)", lg->info.monst_count, lg->info.monst1_count, lg->info.monst2_count);
-  log("LEVELGEN: mob count         : %d (group1:%d group2:%d)", lg->info.mob_count, lg->info.mob1_count, lg->info.mob2_count);
-  log("LEVELGEN: teleport count    : %d", lg->info.teleport_count);
-  log("LEVELGEN: locked door count : %d", lg->info.door_locked_count);
-  log("LEVELGEN: key count         : %d", lg->info.key_count);
+  DBG("LEVELGEN: seed base         : %u", lg->info.seed_base);
+  DBG("LEVELGEN: seed level        : %u", lg->info.seed_num);
+  DBG("LEVELGEN: room count        : %d", lg->info.room_count);
+  DBG("LEVELGEN: fragment count    : %d", lg->info.fragment_count);
+  DBG("LEVELGEN: treasure count    : %d", lg->info.treasure_count);
+  DBG("LEVELGEN: monst count       : %d (group1:%d group2:%d)", lg->info.monst_count, lg->info.monst1_count, lg->info.monst2_count);
+  DBG("LEVELGEN: mob count         : %d (group1:%d group2:%d)", lg->info.mob_count, lg->info.mob1_count, lg->info.mob2_count);
+  DBG("LEVELGEN: teleport count    : %d", lg->info.teleport_count);
+  DBG("LEVELGEN: locked door count : %d", lg->info.door_locked_count);
+  DBG("LEVELGEN: key count         : %d", lg->info.key_count);
 
   for (int y = 0; y < lg->map_height; y++) {
     std::string tmp;
@@ -2557,10 +2557,10 @@ static void level_gen_dump(class LevelGenAll *lga, LevelGen *lg, const char *msg
       auto c = lg->data[ x ][ y ].c;
       tmp += c;
     }
-    log("LEVELGEN: [%s]", tmp.c_str());
+    DBG("LEVELGEN: [%s]", tmp.c_str());
   }
 
-  log("LEVELGEN: -");
+  DBG("LEVELGEN: -");
 
   //
   // Sometimes useful to see walkable paths
@@ -2612,10 +2612,10 @@ static void level_gen_dump(class LevelGenAll *lga, LevelGen *lg, const char *msg
 
         tmp += c;
       }
-      log("LEVELGEN: [%s]", tmp.c_str());
+      DBG("LEVELGEN: [%s]", tmp.c_str());
     }
 
-    log("LEVELGEN: -");
+    DBG("LEVELGEN: -");
 
     for (int y = 0; y < lg->map_height; y++) {
       std::string tmp;
@@ -2631,9 +2631,9 @@ static void level_gen_dump(class LevelGenAll *lga, LevelGen *lg, const char *msg
 
         tmp += c;
       }
-      log("LEVELGEN: [%s]", tmp.c_str());
+      DBG("LEVELGEN: [%s]", tmp.c_str());
     }
-    log("LEVELGEN: -");
+    DBG("LEVELGEN: -");
   }
 
   level_gen_mutex.unlock();
@@ -2664,14 +2664,14 @@ void level_gen_stats_dump(Gamep g, LevelGenAll *lga)
 {
   TRACE();
 
-  log("LEVELGEN: level generation errors:");
-  log("LEVELGEN: - create level fail:               %d", lga->level_create_fail);
-  log("LEVELGEN: - place first room fail:           %d", lga->level_place_first_room_fail);
-  log("LEVELGEN: - place subsequent room fail:      %d", lga->level_place_subsequent_room_fail);
-  log("LEVELGEN: - find door to place room fail:    %d", lga->level_find_door_fail_count);
-  log("LEVELGEN: - tried to place a duplicate room: %d", lga->level_tried_to_place_existing_room_fail);
-  log("LEVELGEN: - not enough rooms generated:      %d", lga->level_not_enough_rooms);
-  log("LEVELGEN: - no exit room generated:          %d", lga->level_no_exit_room);
+  DBG("LEVELGEN: level generation errors:");
+  DBG("LEVELGEN: - create level fail:               %d", lga->level_create_fail);
+  DBG("LEVELGEN: - place first room fail:           %d", lga->level_place_first_room_fail);
+  DBG("LEVELGEN: - place subsequent room fail:      %d", lga->level_place_subsequent_room_fail);
+  DBG("LEVELGEN: - find door to place room fail:    %d", lga->level_find_door_fail_count);
+  DBG("LEVELGEN: - tried to place a duplicate room: %d", lga->level_tried_to_place_existing_room_fail);
+  DBG("LEVELGEN: - not enough rooms generated:      %d", lga->level_not_enough_rooms);
+  DBG("LEVELGEN: - no exit room generated:          %d", lga->level_no_exit_room);
 }
 
 //
@@ -2716,7 +2716,7 @@ void level_gen_stats_dump(Gamep g, LevelGenAll *lga)
   //
   if (lg->doors_not_explored.empty()) {
     if (lg->debug) [[unlikely]] {
-      log("LEVELGEN: no more doors");
+      DBG("LEVELGEN: no more doors");
     }
     return false;
   }
@@ -2898,7 +2898,7 @@ static void level_gen_create_remaining_rooms(LevelGenAll *lga, LevelGen *lg)
   //
   while (std::cmp_less(lg->rooms_placed.size(), lg->max_room_count)) {
     if (lg->debug) [[unlikely]] {
-      log("LEVELGEN: rooms placed %d (max %d) attempts %d doors-tried %d doors-not-tried %d", static_cast< int >(lg->rooms_placed.size()),
+      DBG("LEVELGEN: rooms placed %d (max %d) attempts %d doors-tried %d doors-not-tried %d", static_cast< int >(lg->rooms_placed.size()),
           lg->max_room_count, attempts, static_cast< int >(lg->doors_walked.size()), static_cast< int >(lg->doors_not_explored.size()));
     }
 
@@ -2907,7 +2907,7 @@ static void level_gen_create_remaining_rooms(LevelGenAll *lga, LevelGen *lg)
     //
     if (attempts++ > MAX_LEVEL_GEN_TRIES_CREATE_ROOM) {
       if (lg->debug) [[unlikely]] {
-        log("LEVELGEN: have tried enough times to place a room");
+        DBG("LEVELGEN: have tried enough times to place a room");
       }
       break;
     }
@@ -2918,7 +2918,7 @@ static void level_gen_create_remaining_rooms(LevelGenAll *lga, LevelGen *lg)
     if ((static_cast< int >(lg->doors_walked.size())) != 0) {
       if (lg->doors_not_explored.empty()) {
         if (lg->debug) [[unlikely]] {
-          log("LEVELGEN: have tried all doors");
+          DBG("LEVELGEN: have tried all doors");
         }
         break;
       }
@@ -3030,9 +3030,11 @@ static void level_gen_create_remaining_rooms(LevelGenAll *lga, LevelGen *lg)
 
   if (! room_can_place_at(lga, lg, r, at)) {
     if (lg->level_arr_idx == 0U) {
-      log("LEVELGEN: failed to place first room at %d,%d", at.x, at.y);
-      level_gen_dump(lga, lg, "failed to place first room");
-      room_dump(r);
+      if (lg->debug) [[unlikely]] {
+        DBG("LEVELGEN: failed to place first room at %d,%d", at.x, at.y);
+        level_gen_dump(lga, lg, "failed to place first room");
+        room_dump(r);
+      }
     }
     return false;
   }
@@ -3391,7 +3393,9 @@ static auto level_proc_gen_create_rooms(Gamep g, LevelGenAll *lga, LevelArrIdx l
     }
     if (! first_room_placed) {
       lga->level_place_first_room_fail++;
-      log("LEVELGEN: failed to create room with seed: %s, no first room", game_seed_name_get(g));
+      if (lg->debug) [[unlikely]] {
+        DBG("LEVELGEN: failed to create room with seed: %s, no first room", game_seed_name_get(g));
+      }
       continue;
     }
 
@@ -3405,7 +3409,9 @@ static auto level_proc_gen_create_rooms(Gamep g, LevelGenAll *lga, LevelArrIdx l
     //
     if (std::cmp_less(lg->rooms_placed.size(), lg->min_room_count)) {
       lga->level_not_enough_rooms++;
-      log("LEVELGEN: failed to create room with seed: %s, not enough rooms", game_seed_name_get(g));
+      if (lg->debug) [[unlikely]] {
+        DBG("LEVELGEN: failed to create room with seed: %s, not enough rooms", game_seed_name_get(g));
+      }
       continue;
     }
 
@@ -3413,7 +3419,9 @@ static auto level_proc_gen_create_rooms(Gamep g, LevelGenAll *lga, LevelArrIdx l
     // Check we have an exit room
     //
     if (! lg->has_placed_ROOM_TYPE_EXIT) {
-      log("LEVELGEN: failed to create room with seed: %s, no exit", game_seed_name_get(g));
+      if (lg->debug) [[unlikely]] {
+        DBG("LEVELGEN: failed to create room with seed: %s, no exit", game_seed_name_get(g));
+      }
       lga->level_no_exit_room++;
       continue;
     }
@@ -3436,7 +3444,7 @@ static auto level_proc_gen_create_rooms(Gamep g, LevelGenAll *lga, LevelArrIdx l
   lga->level_create_fail++;
 
   if (lg->debug) [[unlikely]] {
-    log("LEVELGEN: failed to create room with seed: %s", game_seed_name_get(g));
+    DBG("LEVELGEN: failed to create room with seed: %s", game_seed_name_get(g));
   }
 
   return nullptr;
@@ -4925,9 +4933,9 @@ static void level_gen_add_missing_teleports(class LevelGenAll *lga, class LevelG
   }
 
   if (lg->debug) [[unlikely]] {
-    log("LEVELGEN: teleport count:      %d", lg->info.teleport_count);
-    log("LEVELGEN: reachable teleports: %d", reachable_teleports);
-    log("LEVELGEN: teleport cands:      %d", static_cast< int >(cands.size()));
+    DBG("LEVELGEN: teleport count:      %d", lg->info.teleport_count);
+    DBG("LEVELGEN: reachable teleports: %d", reachable_teleports);
+    DBG("LEVELGEN: teleport cands:      %d", static_cast< int >(cands.size()));
   }
 
   //
@@ -4938,7 +4946,7 @@ static void level_gen_add_missing_teleports(class LevelGenAll *lga, class LevelG
     while (tries-- > 0) {
       if (level_gen_add_missing_teleport_do(lga, lg, cands)) {
         if (lg->debug) [[unlikely]] {
-          log("LEVELGEN: added missing reachable teleport");
+          DBG("LEVELGEN: added missing reachable teleport");
         }
         return;
       }
@@ -4949,7 +4957,7 @@ static void level_gen_add_missing_teleports(class LevelGenAll *lga, class LevelG
   while (tries-- > 0) {
     if (level_gen_add_missing_teleport_do(lga, lg, cands)) {
       if (lg->debug) [[unlikely]] {
-        log("LEVELGEN: added additional teleport");
+        DBG("LEVELGEN: added additional teleport");
       }
       return;
     }
@@ -5706,18 +5714,22 @@ static void level_gen_create_fixed_or_proc_gen_level(Gamep g, LevelGenAll *lga, 
   //
   // Per thread stdout name
   //
+#ifndef WEB_BUILD
   g_thread_id = level_arr_idx + 1;
+#endif
 
   if (level_arr_idx >= LEVEL_ARR_IDX_LEVEL_SELECT) {
     CROAK("this will exceed the number of level bits");
   }
 
-  //
-  // We need to create the log files now, even if empty, as if we get a crash we will
-  // not be able to call fopen during the segv signal
-  //
+//
+// We need to create the log files now, even if empty, as if we get a crash we will
+// not be able to call fopen during the segv signal
+//
+#ifndef WEB_BUILD
   (void) redirect_stdout();
   (void) redirect_stderr();
+#endif
 
   do {
     auto *v = game_levels_get(g);
@@ -5785,8 +5797,10 @@ static void level_gen_create_fixed_or_proc_gen_level(Gamep g, LevelGenAll *lga, 
     }
   } while (false);
 
+#ifndef WEB_BUILD
   close_stdout();
   close_stderr();
+#endif
 }
 
 //
@@ -5820,9 +5834,16 @@ void level_gen_create_levels(Gamep g, Levelsp v)
   // We keep one level free for the grid level
   //
   auto start = user_visible_time_ms();
-  log("LEVELGEN: level generation (max %u)", s->level_count);
+  DBG("LEVELGEN: level generation (max %u)", s->level_count);
   TRACE_INDENT();
 
+#ifdef WEB_BUILD
+  v->is_generating_levels = true;
+  for (auto level_arr_idx = 0; level_arr_idx < max_threads; level_arr_idx++) {
+    level_gen_create_fixed_or_proc_gen_level(g, lga, level_arr_idx);
+  }
+  v->is_generating_levels = false;
+#else
   std::vector< std::thread > threads;
 
   threads.reserve(max_threads);
@@ -5835,6 +5856,7 @@ void level_gen_create_levels(Gamep g, Levelsp v)
     threads[ level_arr_idx ].join();
   }
   v->is_generating_levels = false;
+#endif
 
   for (auto level_arr_idx = 0; level_arr_idx < max_threads; level_arr_idx++) {
     auto *lg = lga->levels_generated[ level_arr_idx ];
@@ -5845,7 +5867,7 @@ void level_gen_create_levels(Gamep g, Levelsp v)
   }
 
   s->create_time = user_visible_time_ms() - start;
-  log("LEVELGEN: level generation completed, took %u ms", s->create_time);
+  DBG("LEVELGEN: level generation completed, took %u ms", s->create_time);
   TRACE_INDENT();
 
   level_gen_stats_dump(g, lga);
@@ -5883,7 +5905,7 @@ void level_gen_test(Gamep g)
     game_debug_info(g);
 
     con("Created %u levels for dungeon seed %u (took %u ms)", s->level_count, seed, s->create_time);
-    log("------------------------------------------------------");
+    con("------------------------------------------------------");
     TRACE_INDENT();
 
     //

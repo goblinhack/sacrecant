@@ -181,17 +181,17 @@ static void game_display_skulls_do()
 
     auto mid = (tl + br) / static_cast< short >(2);
 
-    glPushMatrix();
-    glTranslatef(mid.x, mid.y, 0);
+    gl_matrix_push();
+    gl_matrix_translate(mid.x, mid.y, 0);
     static float ang;
     ang += skull_rotate[ i ];
-    glRotatef(ang, 0.0F, 0.0F, 1.0F);
-    glTranslatef(-mid.x, -mid.y, 0);
+    gl_matrix_rotate(ang, 0.0F, 0.0F, 1.0F);
+    gl_matrix_translate(-mid.x, -mid.y, 0);
 
     tile_blit(tile, tl, br, WHITE);
 
     blit_flush();
-    glPopMatrix();
+    gl_matrix_pop();
 
     at->y += skull_speed[ i ];
 
