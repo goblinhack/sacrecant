@@ -859,8 +859,12 @@ void level_select_mouse_motion(Gamep g, Levelsp v, Levelp l)
 static auto level_select_next(Gamep g, Levelsp v, Levelp l, Levelp level_over) -> bool
 {
   TRACE();
-  level_con(g, v, l, "over");
-  level_con(g, v, level_over, "over");
+
+  LEVEL_DBG(g, v, l, "hovering over");
+
+  if (l != level_over) {
+    LEVEL_DBG(g, v, level_over, "hovering over");
+  }
 
   auto  *player       = thing_player(g);
   Levelp player_level = thing_player_level(g);
