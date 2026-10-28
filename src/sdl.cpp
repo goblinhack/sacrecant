@@ -177,9 +177,9 @@ static void sdl_init_joystick()
     return 0;
   }
 
-  int       x      = 0;
-  int       y      = 0;
-  int const button = SDL_GetMouseState(&x, &y);
+  int x      = 0;
+  int y      = 0;
+  int button = sdl_get_mouse_state(&x, &y);
 
   if ((x == 0) && (y == 0)) {
     return button;
@@ -221,8 +221,7 @@ void sdl_mouse_warp(Gamep g, int x, int y)
     y = game_window_pix_height_get(g) - border;
   }
 
-  SDL_WarpMouseInWindow(sdl.window, x, y);
-
+  sdl_warp_mouse(x, y);
   sdl.mouse_x = x;
   sdl.mouse_y = y;
 }

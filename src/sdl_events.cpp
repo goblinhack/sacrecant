@@ -31,6 +31,81 @@
 
 static struct SDL_Keysym last_key_pressed;
 
+int sdl_get_mouse_state(int *x, int *y)
+{
+  TRACE();
+
+  float fx {};
+  float fy {};
+
+  int mx {};
+  int my {};
+
+  *x          = 0;
+  *y          = 0;
+  auto button = SDL_GetMouseState(&mx, &my);
+
+  fx = mx;
+  fy = my;
+
+  int w1 {};
+  int h1 {};
+  int w2 {};
+  int h2 {};
+
+  SDL_GL_GetDrawableSize(sdl.window, &w1, &h1);
+  if (! w1 || ! h1) {
+    return button;
+  }
+
+  SDL_GetWindowSize(sdl.window, &w2, &h2);
+  if (! w2 || ! h2) {
+    return button;
+  }
+
+  fx *= (float) w1 / (float) w2;
+  fy *= (float) h1 / (float) h2;
+
+  *x = (int) fx;
+  *y = (int) fy;
+
+  return button;
+}
+
+void sdl_warp_mouse(int x, int y)
+{
+  TRACE();
+
+  float fx {};
+  float fy {};
+
+  fx = x;
+  fy = y;
+
+  int w1 {};
+  int h1 {};
+  int w2 {};
+  int h2 {};
+
+  SDL_GL_GetDrawableSize(sdl.window, &w1, &h1);
+  if (! w1 || ! h1) {
+    return;
+  }
+
+  SDL_GetWindowSize(sdl.window, &w2, &h2);
+  if (! w2 || ! h2) {
+    return;
+  }
+
+  fx /= (float) w1 / (float) w2;
+  fy /= (float) h1 / (float) h2;
+
+  x = (int) fx;
+  y = (int) fy;
+
+  SDL_WarpMouseInWindow(sdl.window, x, y);
+}
+
 [[nodiscard]] auto sdl_filter_events(void * /*userdata*/, SDL_Event *event) -> int
 {
   TRACE_DEBUG();
@@ -195,7 +270,7 @@ static void __attribute__((noinline)) sdl_event_mousemotion(Gamep g, SDL_Event *
   //
   // Catch up with the latest mouse position; and dampen identical events.
   //
-  SDL_GetMouseState(&mx, &my);
+  sdl_get_mouse_state(&mx, &my);
   if ((mx == last_mx) && (my == last_my)) {
     return;
   }

@@ -276,6 +276,10 @@ void sdl_loop(Gamep g)
   log("SDL: main loop");
   TRACE_INDENT();
 
+  warn("OpenGL: Vendor   : %s", glGetString(GL_VENDOR));
+  warn("OpenGL: Renderer : %s", glGetString(GL_RENDERER));
+  warn("OpenGL: Version  : %s", glGetString(GL_VERSION));
+
   sdl_mouse_center(g);
 
   SDL_SetEventFilter(sdl_filter_events, nullptr);

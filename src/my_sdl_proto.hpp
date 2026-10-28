@@ -36,26 +36,29 @@
 class Tokens;
 [[nodiscard]] auto sdl_user_exit(Gamep g, class Tokens *tokens, void *context) -> uint8_t;
 
-auto               config_game_gfx_update(Gamep g) -> void;
-auto               config_gfx_vsync_update(Gamep g) -> void;
-auto               sdl_config_update_all(Gamep g) -> void;
 [[nodiscard]] auto sdl_display_init(Gamep g) -> bool;
-auto               sdl_display(Gamep g) -> void;
-auto               sdl_display_reset(Gamep g) -> void;
-auto               sdl_event(Gamep g, SDL_Event *event, bool &processed_mouse_motion_event) -> void;
-auto               sdl_prepare_to_exit(Gamep g) -> void;
-auto               sdl_fbo_dump(Gamep g, FboEnum fbo, const std::string &name) -> void;
-auto               sdl_fbo_load(Gamep g, FboEnum fbo, const std::vector< uint8_t > &pixels) -> void;
-auto               sdl_fini(Gamep g) -> void;
-auto               sdl_display_fini(Gamep g) -> void;
-auto               sdl_flush_display(Gamep g, bool force = false) -> void;
-auto               sdl_joy_rumble(float strength, uint32_t ms) -> void;
-auto               sdl_key_repeat_events(Gamep g) -> void;
-auto               sdl_loop(Gamep g) -> void;
-auto               sdl_mouse_center(Gamep g) -> void;
-auto               sdl_mouse_warp(Gamep g, int x, int y) -> void;
-auto               sdl_screenshot_do(Gamep g) -> void;
-auto               sdl_screenshot(Gamep g) -> void;
-auto               sdl_tick(Gamep g) -> void;
+
+auto config_game_gfx_update(Gamep g) -> void;
+auto config_gfx_vsync_update(Gamep g) -> void;
+auto sdl_config_update_all(Gamep g) -> void;
+auto sdl_display(Gamep g) -> void;
+auto sdl_display_reset(Gamep g) -> void;
+auto sdl_event(Gamep g, SDL_Event *event, bool &processed_mouse_motion_event) -> void;
+int  sdl_get_mouse_state(int *x, int *y);
+void sdl_warp_mouse(int x, int y);
+auto sdl_prepare_to_exit(Gamep g) -> void;
+auto sdl_fbo_dump(Gamep g, FboEnum fbo, const std::string &name) -> void;
+auto sdl_fbo_load(Gamep g, FboEnum fbo, const std::vector< uint8_t > &pixels) -> void;
+auto sdl_fini(Gamep g) -> void;
+auto sdl_display_fini(Gamep g) -> void;
+auto sdl_flush_display(Gamep g, bool force = false) -> void;
+auto sdl_joy_rumble(float strength, uint32_t ms) -> void;
+auto sdl_key_repeat_events(Gamep g) -> void;
+auto sdl_loop(Gamep g) -> void;
+auto sdl_mouse_center(Gamep g) -> void;
+auto sdl_mouse_warp(Gamep g, int x, int y) -> void;
+auto sdl_screenshot_do(Gamep g) -> void;
+auto sdl_screenshot(Gamep g) -> void;
+auto sdl_tick(Gamep g) -> void;
 
 #endif

@@ -222,8 +222,6 @@ static void wid_cfg_display_destroy()
   SDL_DisplayMode const mode = pending_mode;
   pending_mode_set           = false;
 
-  game_window_pix_width_set(g, mode.w);
-  game_window_pix_height_set(g, mode.h);
   game_config_pix_width_set(g, mode.w);
   game_config_pix_height_set(g, mode.h);
   SDL_SetWindowSize(sdl.window, mode.w, mode.h);
@@ -240,8 +238,10 @@ static auto wid_cfg_display_find_closest_resolution(Gamep g) -> std::string
 {
   TRACE();
 
-  auto w           = game_window_pix_width_get(g);
-  auto h           = game_window_pix_height_get(g);
+  int w {};
+  int h {};
+  SDL_GetWindowSize(sdl.window, &w, &h);
+
   auto current_res = std::to_string(w) + "x" + std::to_string(h);
   log("find closest resolution to %s:", current_res.c_str());
 
@@ -513,17 +513,50 @@ void wid_cfg_display_select(Gamep g, bool menu_was_created_due_to_game_restartin
   // resolution
   /////////////////////////////////////////////////////////////////////////
   y_at += 4;
+
+  if (pending_mode_set) {
+    {
+      TRACE();
+      auto *p = wid_cfg_display_window->wid_text_area->wid_text_area;
+      auto *w = wid_new_square_button(g, p, "Resolution");
+
+      spoint const tl(1, y_at);
+      spoint const br(12, y_at);
+      wid_set_shape_none(w);
+      wid_set_pos(w, tl, br);
+      wid_set_text_lhs(w, 1u);
+      wid_set_text(w, "Requested");
+    }
+    {
+      TRACE();
+      auto *p = wid_cfg_display_window->wid_text_area->wid_text_area;
+      auto *w = wid_new_square_button(g, p, "Resolution value");
+
+      spoint const tl(width / 2, y_at);
+      spoint const br((width / 2) + 10, y_at + 0);
+      wid_set_shape_none(w);
+      wid_set_pos(w, tl, br);
+
+      auto res = std::to_string(pending_mode.w) + "x" + std::to_string(pending_mode.h);
+
+      wid_set_text(w, res);
+      wid_set_text_lhs(w, 1u);
+    }
+
+    y_at++;
+  }
+
   {
     TRACE();
     auto *p = wid_cfg_display_window->wid_text_area->wid_text_area;
     auto *w = wid_new_square_button(g, p, "Resolution");
 
     spoint const tl(1, y_at);
-    spoint const br(width / 2, y_at);
+    spoint const br(12, y_at);
     wid_set_shape_none(w);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w, 1u);
-    wid_set_text(w, "Resolution");
+    wid_set_text(w, "Display");
   }
   {
     TRACE();
@@ -531,17 +564,44 @@ void wid_cfg_display_select(Gamep g, bool menu_was_created_due_to_game_restartin
     auto *w = wid_new_square_button(g, p, "Resolution value");
 
     spoint const tl(width / 2, y_at);
-    spoint const br((width / 2) + 10, y_at + 2);
+    spoint const br((width / 2) + 10, y_at + 0);
     wid_set_shape_none(w);
     wid_set_pos(w, tl, br);
 
     auto res = std::to_string(game_window_pix_width_get(g)) + "x" + std::to_string(game_window_pix_height_get(g));
-    if (pending_mode_set) {
-      res = std::to_string(pending_mode.w) + "x" + std::to_string(pending_mode.h);
-    }
 
     wid_set_text(w, res);
     wid_set_text_lhs(w, 1u);
+  }
+
+  if (game_window_pix_width_get(g) != game_config_pix_width_get(g)) {
+    {
+      TRACE();
+      auto *p = wid_cfg_display_window->wid_text_area->wid_text_area;
+      auto *w = wid_new_square_button(g, p, "Game resolution");
+
+      spoint const tl(1, y_at + 1);
+      spoint const br(15, y_at + 1);
+      wid_set_shape_none(w);
+      wid_set_pos(w, tl, br);
+      wid_set_text_lhs(w, 1u);
+      wid_set_text(w, "Game");
+    }
+    {
+      TRACE();
+      auto *p = wid_cfg_display_window->wid_text_area->wid_text_area;
+      auto *w = wid_new_square_button(g, p, "Resolution value");
+
+      spoint const tl(width / 2, y_at);
+      spoint const br((width / 2) + 10, y_at + 1);
+      wid_set_shape_none(w);
+      wid_set_pos(w, tl, br);
+
+      auto res = std::to_string(game_config_pix_width_get(g)) + "x" + std::to_string(game_config_pix_height_get(g));
+
+      wid_set_text(w, res);
+      wid_set_text_lhs(w, 1u);
+    }
   }
 
   if (! game_gfx_fullscreen_desktop_get(g)) {

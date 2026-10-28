@@ -190,6 +190,9 @@ static inline void sdl_list_video_size()
   log("SDL: Set SDL_WINDOW_OPENGL");
   video_flags = SDL_WINDOW_OPENGL;
 
+  log("SDL: Set SDL_WINDOW_OPENGL");
+  video_flags |= SDL_WINDOW_ALLOW_HIGHDPI;
+
   if (AN_ERROR_OCCURRED()) {
     //
     // Safe mode
@@ -247,11 +250,18 @@ static inline void sdl_list_video_size()
 
   int w = 0;
   int h = 0;
+
   SDL_GetWindowSize(sdl.window, &w, &h);
   log("SDL: Created window size %ux%u", w, h);
 
   game_config_pix_width_set(g, w);
   game_config_pix_height_set(g, h);
+
+  if (video_flags & SDL_WINDOW_ALLOW_HIGHDPI) {
+    SDL_GL_GetDrawableSize(sdl.window, &w, &h);
+    log("SDL: Created window drawable size %ux%u", w, h);
+  }
+
   game_window_pix_width_set(g, w);
   game_window_pix_height_set(g, h);
 
@@ -293,9 +303,9 @@ static inline void sdl_list_video_size()
   //
   SDL_RaiseWindow(sdl.window);
 
-  log("SDL: OpenGL Vendor   : %s", glGetString(GL_VENDOR));
-  log("SDL: OpenGL Renderer : %s", glGetString(GL_RENDERER));
-  log("SDL: OpenGL Version  : %s", glGetString(GL_VERSION));
+  con("SDL: OpenGL Vendor   : %s", glGetString(GL_VENDOR));
+  con("SDL: OpenGL Renderer : %s", glGetString(GL_RENDERER));
+  con("SDL: OpenGL Version  : %s", glGetString(GL_VERSION));
 
   //
   // Do we really need to do this? it takes a small bit of time.

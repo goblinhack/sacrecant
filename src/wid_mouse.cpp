@@ -281,7 +281,7 @@ void wid_set_on_mouse_over_end(Widp w, on_mouse_over_end_t fn)
   int dx = 0;
   int dy = 0;
 
-  bool const left = SDL_BUTTON(SDL_BUTTON_LEFT) & SDL_GetMouseState(nullptr, nullptr);
+  bool const left = SDL_BUTTON(SDL_BUTTON_LEFT) & sdl_get_mouse_state(nullptr, nullptr);
   if (left || (wheely != 0) || (wheelx != 0)) {
     dy = (rely != 0) ? rely : -wheely;
     dx = (relx != 0) ? relx : -wheelx;
@@ -338,7 +338,7 @@ void wid_update_mouse(Gamep g)
   int x = 0;
   int y = 0;
 
-  SDL_GetMouseState(&x, &y);
+  sdl_get_mouse_state(&x, &y);
 
   wid_mouse_motion(g, x, y, 0, 0, 0, 0);
 }
@@ -769,7 +769,7 @@ void wid_mouse_motion(Gamep g, int x, int y, int relx, int rely, int wheelx, int
   //
   // To avoid lag, just grab the current mouse position.
   //
-  SDL_GetMouseState(&x, &y);
+  sdl_get_mouse_state(&x, &y);
 
   //
   // Map to ascii
