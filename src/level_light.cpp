@@ -25,7 +25,7 @@ static float light_fade[ MAP_WIDTH ];
 
 void level_light_precalculate(Gamep g)
 {
-  static const char light_fade_map[ MAP_WIDTH * MAP_HEIGHT + 1 ]
+  static const char light_fade_map[ (MAP_WIDTH * MAP_HEIGHT) + 1 ]
       = "x                                               " // light strength
         " x                                              " //       |
         "  x                                             " //       |

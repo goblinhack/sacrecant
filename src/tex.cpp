@@ -17,6 +17,7 @@
 #include "my_ui.hpp"
 
 #include <SDL_endian.h>
+#include <SDL_error.h>
 #include <SDL_pixels.h>
 #include <SDL_surface.h>
 #include <cstdint>

@@ -358,11 +358,11 @@ extern int buf_tex;
 //
 // x and y per element.
 //
-#define NUMBER_DIMENSIONS_PER_COORD_2D 2
+enum { NUMBER_DIMENSIONS_PER_COORD_2D = 2 };
 
 //
 // r,g,b,a per element
 //
-#define NUMBER_COMPONENTS_PER_COLOR 4
+enum { NUMBER_COMPONENTS_PER_COLOR = 4 };
 
 #endif

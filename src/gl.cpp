@@ -4,24 +4,14 @@
 
 #ifndef WEB_BUILD
 #include "my_callstack.hpp"
-#include "my_color.hpp"
-#include "my_color_defs.hpp"
-#include "my_enum.hpp"
 #include "my_game.hpp"
-#include "my_game_defs.hpp"
 #include "my_gl.hpp"
-#include "my_level.hpp"
 #include "my_main.hpp"
-#include "my_ptrcheck.hpp"
 #include "my_size.hpp"
-#include "my_spoint.hpp"
-#include "my_tile.hpp"
 #include "my_types.hpp"
 
-#include <algorithm>
 #include <cmath>
 #include <cstddef>
-#include <cstdint>
 #include <cstring>
 
 static bool in_2d_mode;

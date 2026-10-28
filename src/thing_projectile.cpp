@@ -17,7 +17,7 @@
 
 [[nodiscard]] auto thing_proj_launch_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what, const fpoint target, const fpoint fire_offset) -> bool
 {
-  THING_DBG(g, v, l, me, "fire proj at @%f,%f offset %f,%f", (float) target.x, (float) target.y, (float) fire_offset.x, (float) fire_offset.y);
+  THING_DBG(g, v, l, me, "fire proj at @%f,%f offset %f,%f", target.x, target.y, fire_offset.x, fire_offset.y);
   TRACE_INDENT();
 
   //

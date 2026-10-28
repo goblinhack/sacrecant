@@ -1033,7 +1033,7 @@ static auto player_move_delta(Gamep g, Levelsp v, Levelp l, int dx, int dy) -> b
   return success;
 }
 
-[[nodiscard]] auto player_fire(Gamep g, Levelsp v, Levelp l, int dx, int dy, Tpp fire_what, bpoint target) -> bool
+[[nodiscard]] auto player_fire(Gamep g, Levelsp v, Levelp l, int /*dx*/, int /*dy*/, Tpp fire_what, bpoint target) -> bool
 {
   Thingp item = nullptr;
 

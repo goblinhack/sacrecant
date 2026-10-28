@@ -94,7 +94,7 @@ static float player_light_fade[ MAP_WIDTH ];
 
 static void level_raycast_precalculate()
 {
-  static const char player_light_fade_map[ MAP_WIDTH * MAP_HEIGHT + 1 ]
+  static const char player_light_fade_map[ (MAP_WIDTH * MAP_HEIGHT) + 1 ]
       = "xx                                              " // light strength
         "  xx                                            " //       |
         "    x                                           " //       |

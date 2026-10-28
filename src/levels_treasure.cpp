@@ -841,7 +841,7 @@ void levels_treasure(Gamep g)
   }
 
   {
-    Overrides overrides;
+    Overrides const overrides;
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE2, "treasure2.1", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -880,7 +880,7 @@ void levels_treasure(Gamep g)
   }
 
   {
-    Overrides overrides;
+    Overrides const overrides;
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE3, "treasure3.1", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -919,7 +919,7 @@ void levels_treasure(Gamep g)
   }
 
   {
-    Overrides overrides;
+    Overrides const overrides;
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE4, "treasure4.1", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -958,7 +958,7 @@ void levels_treasure(Gamep g)
   }
 
   {
-    Overrides overrides;
+    Overrides const overrides;
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE5, "treasure5.1", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",

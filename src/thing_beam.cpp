@@ -11,6 +11,7 @@
 #include "my_main.hpp"
 #include "my_math.hpp"
 #include "my_thing.hpp"
+#include "my_thing_callbacks.hpp"
 #include "my_thing_inlines.hpp"
 #include "my_tp.hpp"
 #include "my_types.hpp"
@@ -41,7 +42,7 @@ static auto thing_beam_weapon_truncate(const fpoint &from, fpoint &to) -> float
 
 auto thing_beam_weapon_fire_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what, const fpoint target, const fpoint offset) -> bool
 {
-  THING_DBG(g, v, l, me, "fire beam weapon at @%f,%f offset %f,%f", (float) target.x, (float) target.y, (float) offset.x, (float) offset.y);
+  THING_DBG(g, v, l, me, "fire beam weapon at @%f,%f offset %f,%f", target.x, target.y, offset.x, offset.y);
   TRACE_INDENT();
 
   //
@@ -104,7 +105,7 @@ auto thing_beam_weapon_fire_at(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what
     }
 
     if (step == 0) {
-      (void) thing_on_use_weapon(g, v, l, beam_weapon, me, target);
+      thing_on_use_weapon(g, v, l, beam_weapon, me, target);
     }
 
     beam_weapon->angle = static_cast< f16 >(angle);

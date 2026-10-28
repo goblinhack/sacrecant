@@ -838,6 +838,7 @@ fi
 # Create the makefile
 #
 cat >>$MAKEFILE <<%%
+TARGET=$TARGET
 CHOSEN_COMPILER=$CHOSEN_COMPILER
 CORES=$CORES
 CPP_STANDARD=-std=c++26

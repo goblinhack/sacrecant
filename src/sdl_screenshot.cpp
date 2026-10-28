@@ -15,6 +15,7 @@
 #include "my_types.hpp"
 
 #include <algorithm>
+#include <cstddef>
 #include <cstdint>
 #include <string>
 #include <vector>

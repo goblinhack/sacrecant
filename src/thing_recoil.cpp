@@ -18,7 +18,7 @@ static float recoil_amount[ MAP_WIDTH ];
 
 void level_recoil_precalculate(Gamep g)
 {
-  static const char recoil_map[ MAP_WIDTH * MAP_HEIGHT + 1 ]
+  static const char recoil_map[ (MAP_WIDTH * MAP_HEIGHT) + 1 ]
       // recoil distance ------------------------------->
       = "x                                               " //
         "       x                                        " //

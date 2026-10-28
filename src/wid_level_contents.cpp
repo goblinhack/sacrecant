@@ -3,16 +3,19 @@
 //
 
 #include "my_callstack.hpp"
+#include "my_color_defs.hpp"
 #include "my_level.hpp"
 #include "my_main.hpp" // NOLINT
+#include "my_spoint.hpp"
 #include "my_thing.hpp"
 #include "my_thing_inlines.hpp"
+#include "my_tile.hpp"
 #include "my_tp.hpp"
 #include "my_types.hpp"
 #include "my_ui.hpp"
+#include "my_wid.hpp"
 #include "my_wid_popup.hpp"
 #include "my_wid_text_box.hpp"
-#include "my_wids.hpp"
 
 #include <cstdint>
 #include <cstring>
@@ -184,8 +187,8 @@ void wid_level_show_contents(Gamep g, Levelsp v, Levelp l, WidPopup *parent)
     parent->log_empty_line(g);
     parent->log(g, "Minimap:");
 
-    auto w = parent->log_empty_line(g);
-    if (w) {
+    auto *w = parent->log_empty_line(g);
+    if (w != nullptr) {
       auto         tly = wid_get_tl_y(w);
       auto        *w2  = wid_new_square_button(g, parent->wid_popup_container, "level map");
       spoint const minimap_tl(1, tly);

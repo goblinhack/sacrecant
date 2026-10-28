@@ -7,7 +7,6 @@
 #include "my_fpoint.hpp"
 #include "my_level.hpp"
 #include "my_level_inlines.hpp"
-#include "my_main.hpp"
 #include "my_spoint.hpp"
 #include "my_thing.hpp"
 #include "my_thing_callbacks.hpp"
@@ -258,7 +257,7 @@ void thing_move_finish(Gamep g, Levelsp v, Levelp l, Thingp me)
   if (thing_is_moving(me)) {
     thing_interpolate(g, v, l, me, 1.0);
   }
-  me->thing_dt = (f16) 0.0;
+  me->thing_dt = static_cast< f16 >(0.0);
 
   auto at = thing_at(g, v, l, me);
   thing_moving_from_set(me, at);
@@ -412,14 +411,10 @@ void thing_moving_from_set(Thingp t, const bpoint &val)
     }
   }
 
-  if (player_or_monst) {
+  if (player_or_monst != nullptr) {
     if (thing_is_player(player_or_monst)) {
       if (thing_is_magic_wall(me)) {
-        if (thing_keys_carried(g, v, l, player_or_monst) == 0) {
-          return true;
-        } else {
-          return false;
-        }
+        return thing_keys_carried(g, v, l, player_or_monst) == 0;
       }
     }
 

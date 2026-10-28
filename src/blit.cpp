@@ -4,15 +4,9 @@
 
 #include "my_callstack.hpp"
 #include "my_color.hpp"
-#include "my_color_defs.hpp"
-#include "my_enum.hpp"
-#include "my_game.hpp"
-#include "my_game_defs.hpp"
 #include "my_gl.hpp"
 #include "my_level.hpp"
-#include "my_main.hpp"
 #include "my_ptrcheck.hpp"
-#include "my_size.hpp"
 #include "my_spoint.hpp"
 #include "my_tile.hpp"
 #include "my_types.hpp"
@@ -27,16 +21,6 @@ float   glapi_last_tex_right;
 float   glapi_last_tex_bottom;
 GLshort glapi_last_right;
 GLshort glapi_last_bottom;
-
-//
-// x and y per element.
-//
-#define NUMBER_DIMENSIONS_PER_COORD_2D 2
-
-//
-// r,g,b,a per element
-//
-#define NUMBER_COMPONENTS_PER_COLOR 4
 
 uint32_t NUMBER_BYTES_PER_VERTEX_2D = (SIZEOF(GLfloat) * NUMBER_DIMENSIONS_PER_COORD_2D) + (SIZEOF(GLshort) * NUMBER_DIMENSIONS_PER_COORD_2D)
                                     + (SIZEOF(GLubyte) * NUMBER_COMPONENTS_PER_COLOR);
@@ -373,4 +357,3 @@ void blit_flush_colored_triangle_fan()
 
   blit_flush_colored_triangle_fan(gl_array_buf, bufp);
 }
-

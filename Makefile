@@ -54,10 +54,16 @@ tidy:
 	$(foreach var,$(DIRS), $(MAKE) -C $(var) $(CORES) $@; )
 
 clean_files:
-	/bin/rm -rf data/sounds/
-	/bin/rm -rf data/gfx/
-	/bin/rm -rf appdata/
-	/bin/rm -f build.log
+	@rm -rf data/sounds/
+	@rm -rf data/gfx/
+	@rm -rf appdata/
+	@rm -f build.log
+	@rm -f $(TARGET)
+	@rm -f $(TARGET).html
+	@rm -f $(TARGET).js
+	@rm -f $(TARGET).wasm
+	@rm -rf $(TARGET).dsym
+	@rm -f $(TARGET).exe
 
 clean: clean_files
 	$(foreach var,$(DIRS), $(MAKE) -C $(var) $@; )

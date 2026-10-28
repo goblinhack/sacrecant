@@ -191,14 +191,15 @@ static void thing_dir_set_br(Thingp me)
 //
 // Set tile direction from delta
 //
-ThingDirType thing_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp me, int dx, int dy)
+auto thing_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp /*me*/, int dx, int dy) -> ThingDirType
 {
   TRACE();
 
   if (dx < 0) {
     if (dy > 0) {
       return THING_DIR_BL;
-    } else if (dy < 0) {
+    }
+    if (dy < 0) {
       return THING_DIR_TL;
     } else {
       return THING_DIR_LEFT;
@@ -208,7 +209,8 @@ ThingDirType thing_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp me, int d
   if (dx > 0) {
     if (dy > 0) {
       return THING_DIR_BR;
-    } else if (dy < 0) {
+    }
+    if (dy < 0) {
       return THING_DIR_TR;
     } else {
       return THING_DIR_RIGHT;
@@ -218,7 +220,8 @@ ThingDirType thing_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp me, int d
   if (dy > 0) {
     if (dx > 0) {
       return THING_DIR_BR;
-    } else if (dx < 0) {
+    }
+    if (dx < 0) {
       return THING_DIR_BL;
     } else {
       return THING_DIR_DOWN;
@@ -228,7 +231,8 @@ ThingDirType thing_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp me, int d
   if (dy < 0) {
     if (dx > 0) {
       return THING_DIR_TR;
-    } else if (dx < 0) {
+    }
+    if (dx < 0) {
       return THING_DIR_TL;
     } else {
       return THING_DIR_UP;
@@ -240,7 +244,7 @@ ThingDirType thing_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp me, int d
 //
 // Set tile direction from delta
 //
-ThingDirType thing_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &to)
+auto thing_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &to) -> ThingDirType
 {
   TRACE();
   auto delta = to - thing_at(g, v, l, me);
@@ -250,11 +254,11 @@ ThingDirType thing_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp me, const
 //
 // Set tile direction from delta
 //
-ThingDirType thing_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp me, const fpoint &to)
+auto thing_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp me, const fpoint &to) -> ThingDirType
 {
   TRACE();
   auto delta = to - thing_real_at(g, v, l, me);
-  return thing_dir_from_delta(g, v, l, me, (int) delta.x, (int) delta.y);
+  return thing_dir_from_delta(g, v, l, me, static_cast< int >(delta.x), static_cast< int >(delta.y));
 }
 
 //
@@ -364,8 +368,8 @@ void thing_set_dir_from_target(Gamep g, Levelsp v, Levelp l, Thingp me, const bp
     fpoint dir = thing_missile_get_direction(g, v, l, me);
     bpoint dir_out;
 
-    dir.x = static_cast< int >(std::round((float) dir.x));
-    dir.y = static_cast< int >(std::round((float) dir.y));
+    dir.x = static_cast< int >(std::round(dir.x));
+    dir.y = static_cast< int >(std::round(dir.y));
 
     if (dir.x > 0) {
       dir_out.x = 1;

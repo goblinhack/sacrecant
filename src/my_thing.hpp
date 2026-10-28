@@ -821,8 +821,8 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_damage_this_tick(Thingp t) -> int;
 [[nodiscard]] auto thing_damage_types(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::vector< ThingEventType >;
 [[nodiscard]] auto thing_debug(Gamep g, Levelsp v, Levelp l, Thingp t, uint32_t iter_index) -> bool;
-[[nodiscard]] auto thing_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &delta) -> ThingDirType;
-[[nodiscard]] auto thing_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp me, const fpoint &delta) -> ThingDirType;
+[[nodiscard]] auto thing_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &to) -> ThingDirType;
+[[nodiscard]] auto thing_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp me, const fpoint &to) -> ThingDirType;
 [[nodiscard]] auto thing_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp me, int dx, int dy) -> ThingDirType;
 [[nodiscard]] auto thing_distance_avoid_target_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
 [[nodiscard]] auto thing_distance_avoid_target_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
@@ -920,7 +920,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_able_to_jump_land_then_pounce(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_able_to_jump(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_able_to_lunge(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_able_to_move_diagonally(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_able_to_move_diagonally(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_able_to_move(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_open_things(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_recoil(Thingp t) -> bool;
@@ -1120,10 +1120,10 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_monst2(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_multi_tile(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_myopic(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
-[[nodiscard]] auto thing_is_needs_move_confirm(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_needs_move_confirm(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_noisy(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_obs_to_beam(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_obs_to_cursor_path(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp other = nullptr) -> bool;
+[[nodiscard]] auto thing_is_obs_to_cursor_path(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst = nullptr) -> bool;
 [[nodiscard]] auto thing_is_obs_to_ethereal(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_obs_to_explosion(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_obs_to_falling_onto(Thingp me) -> bool;
@@ -1133,8 +1133,8 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_obs_to_jumping_onto(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_obs_to_jumping_out_of(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_obs_to_jumping_over(Thingp me) -> bool;
-[[nodiscard]] auto thing_is_obs_to_movement(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp other = nullptr) -> bool;
-[[nodiscard]] auto thing_is_obs_to_paths(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp other = nullptr) -> bool;
+[[nodiscard]] auto thing_is_obs_to_movement(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst = nullptr) -> bool;
+[[nodiscard]] auto thing_is_obs_to_paths(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst = nullptr) -> bool;
 [[nodiscard]] auto thing_is_obs_to_spawning(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_obs_to_teleporting_onto(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_obs_to_throwing_onto(Thingp t) -> bool;
@@ -1331,8 +1331,8 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_worn_try_unset(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp owner) -> bool;
 [[nodiscard]] auto thing_is_worn(Thingp t) -> bool;
 [[nodiscard]] auto thing_jump_attack_pct_chance(Thingp me) -> int;
+[[nodiscard]] auto thing_jump_to(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint orig_target, bpoint to, bool warn = true) -> bool;
 [[nodiscard]] auto thing_jump_to(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to, bool warn = true) -> bool;
-[[nodiscard]] auto thing_jump_to(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to, bpoint intermediate, bool warn = true) -> bool;
 [[nodiscard]] auto thing_keys_carried_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
 [[nodiscard]] auto thing_keys_carried_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
 [[nodiscard]] auto thing_keys_carried_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int;

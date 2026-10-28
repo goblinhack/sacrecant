@@ -12,6 +12,7 @@
 #include "my_globals.hpp"
 #include "my_level.hpp"
 #include "my_level_inlines.hpp"
+#include "my_main.hpp"
 #include "my_sdl_proto.hpp" // NOLINT
 #include "my_tex.hpp"
 #include "my_thing.hpp"
