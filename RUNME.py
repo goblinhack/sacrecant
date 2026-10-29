@@ -309,6 +309,19 @@ def capture(cmd: Sequence[str | os.PathLike[str]], *, cwd: Path | None = None) -
     try:
         cmd = [str(c) for c in cmd]
         log.info(f"cmd {cmd}")
+        log.info(f"cwd {cwd}")
+
+        done = subprocess.run(
+            [str(c) for c in cmd], stdin=subprocess.DEVNULL, capture_output=True, text=True, errors="replace", check=False, shell=True
+        )
+        log.info(f"subprocess.run (no cwd, shell) {done}")
+        echo(f"subprocess.run (no cwd, shell) {done}")
+
+        done = subprocess.run(
+            [str(c) for c in cmd], stdin=subprocess.DEVNULL, capture_output=True, text=True, errors="replace", check=False
+        )
+        log.info(f"subprocess.run (no cwd) {done}")
+        echo(f"subprocess.run (no cwd) {done}")
 
         done = subprocess.run(
             [str(c) for c in cmd], cwd=cwd, stdin=subprocess.DEVNULL, capture_output=True, text=True, errors="replace", check=False
@@ -319,6 +332,7 @@ def capture(cmd: Sequence[str | os.PathLike[str]], *, cwd: Path | None = None) -
             [str(c) for c in cmd], cwd=cwd, stdin=subprocess.DEVNULL, capture_output=True, text=True, errors="replace", check=False, shell=True
         )
         log.info(f"subprocess.run            {done}")
+        echo(f"subprocess.run            {done}")
     except OSError:
         return None
     if done.returncode != 0:
