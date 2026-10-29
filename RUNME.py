@@ -454,18 +454,18 @@ def detect_host() -> Host:
     msystem = os.environ.get("MSYSTEM", "").lower()
 
     if system.startswith("MSYS"):
-        kind = Platform.MSYS
+        platform_cand = Platform.MSYS
     elif system.startswith("MINGW") or msystem:
-        kind = Platform.MINGW
+        platform_cand = Platform.MINGW
     elif system == "Darwin":
-        kind = Platform.MACOS
+        platform_cand = Platform.MACOS
     elif system == "Linux":
-        kind = Platform.LINUX
+        platform_cand = Platform.LINUX
     else:
-        kind = Platform.OTHER
+        platform_cand = Platform.OTHER
 
     distro = system.lower()
-    if kind is Platform.LINUX:
+    if platform_cand is Platform.LINUX:
         try:
             release = platform.freedesktop_os_release()
             distro = release.get("ID", distro).lower()
@@ -483,13 +483,13 @@ def detect_host() -> Host:
 
     uname = os.uname().sysname if hasattr(os, "uname") else system
 
-    log.info(f"Release                    : {kind}")
+    log.info(f"Platform                   : {platform_cand}")
     log.info(f"Distro                     : {distro}")
     log.info(f"uname                      : {uname}")
     log.info(f"MSYS prefix                : {msys_prefix}")
     log.info(f"MSYS pkg type              : {msys_pkg_type}")
 
-    return Host(kind, distro, uname, msys_prefix, msys_pkg_type)
+    return Host(platform_cand, distro, uname, msys_prefix, msys_pkg_type)
 
 
 # --------------------------------------------------------------------------------------------------
@@ -649,10 +649,19 @@ class Sdl:
 
 def find_sdl2_config(host: Host) -> Path | None:
     candidates: list[str | None] = [shutil.which("sdl2-config")]
-    if host.platform is Platform.MINGW:
-        candidates.append(str(host.msys_prefix / "bin" / "sdl2-config"))
-    else:
-        candidates += ["/opt/local/bin/sdl2-config", "/usr/bin/sdl2-config"]
+    log.info(f"candidates {candidates}")
+
+    candidates.append(str(host.msys_prefix / "bin" / "sdl2-config"))
+    log.info(f"candidates for mingw {candidates}")
+
+    candidates += ["/opt/local/bin/sdl2-config", "/usr/bin/sdl2-config"]
+
+    log.info(f"candidates final {candidates}")
+
+    for c in candidates:
+        ok = os.access(c, os.X_OK)
+        log.info(f"c {c} ok {ok}")
+
     return next((Path(c) for c in candidates if c and os.access(c, os.X_OK)), None)
 
 
@@ -1331,7 +1340,7 @@ def build(opts: Options, host: Host) -> None:
 # Tech support
 # --------------------------------------------------------------------------------------------------
 
-SECRET_ENV_RE = re.compile(r"KEY|TOKEN|SECRET|PASSW|PASSPHRASE|CREDENTIAL|AUTH", re.IGNORECASE)
+DO_NOT_COLLECT = re.compile(r"SSH|SHA|GIT|KEY|TOKEN|SECRET|PASSW|PASSPHRASE|CREDENTIAL|AUTH", re.IGNORECASE)
 
 
 def tech_support(host: Host) -> None:
@@ -1359,7 +1368,7 @@ def tech_support(host: Host) -> None:
     log.info("DEBUG: Environment:")
     section("Environment")
     for key, value in sorted(os.environ.items()):
-        echo(f"{key}={'<removed>' if SECRET_ENV_RE.search(key) else value}")
+        echo(f"{key}={'<removed>' if DO_NOT_COLLECT.search(key) else value}")
     echo()
 
     log.info("DEBUG: Installed packages:")
@@ -1416,10 +1425,15 @@ def main(argv: Sequence[str] | None = None) -> int:
     except BuildError as err:
         log.error(str(err))
         log.error("Build failed.")
-        log.info(f"Gathering tech support info to {LOG_FILE.name}")
-        tech_support(host)
-        log.error(f"Could you send {LOG_FILE.name} to {MAINTAINER}?")
-        log.error(f"Or file an issue at {ISSUES_URL}")
+        #
+        # It's too much
+        #
+        # log.info(f"Gathering tech support info to {LOG_FILE.name}")
+        # tech_support(host)
+        # log.error(f"Could you send {LOG_FILE.name} to {MAINTAINER}?")
+        # log.error(f"Or file an issue at {ISSUES_URL}")
+        #
+        log.error(f"Please file an issue at {ISSUES_URL}")
         close_log(remove=False)
         return 1
     except KeyboardInterrupt:
