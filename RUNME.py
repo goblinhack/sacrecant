@@ -479,10 +479,18 @@ def detect_host() -> Host:
         msystem = DEFAULT_MSYSTEM
 
     msys_prefix = Path(f"/{msystem}")
+    msys_bin_prefix = Path(f"/{msystem}/bin")
     msys_pkg_type = MSYS_PACKAGE_TYPES[msystem]
+
+    #
+    # Add msys path
+    #
+    os.environ["PATH"] = f"{msys_bin_prefix}{os.pathsep}{os.environ.get('PATH', '')}"
 
     uname = os.uname().sysname if hasattr(os, "uname") else system
 
+    path = os.environ["PATH"]
+    log.info(f"PATH                       : {path}")
     log.info(f"Platform                   : {platform_cand}")
     log.info(f"Distro                     : {distro}")
     log.info(f"uname                      : {uname}")
@@ -666,9 +674,6 @@ def find_sdl2_config(host: Host) -> Path | None:
         exists = os.path.exists(cand)
         if ok:
             return Path(cand)
-
-    if host.platform is Platform.MINGW:
-            return Path(str(host.msys_prefix / "bin" / "sdl2-config"))
 
     return None
 
