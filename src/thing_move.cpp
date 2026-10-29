@@ -88,6 +88,15 @@
     thing_mob_move_minions_offset(g, v, l, me, delta);
   }
 
+  //
+  // Move all followers
+  //
+  if (thing_is_leader(me)) {
+    thing_leader_move_followers_offset(g, v, l, me, delta);
+  }
+
+  FOR_ALL_HOOKS(g, v, l, me, buff) { thing_at_set(g, v, l, buff, to); }
+
   return true;
 }
 
@@ -234,6 +243,15 @@
     thing_mob_warp_minions_to(g, v, old_level, new_level, me, at, to);
   }
 
+  //
+  // Move all followers
+  //
+  if (thing_is_leader(me)) {
+    thing_leader_warp_followers_to(g, v, old_level, new_level, me, at, to);
+  }
+
+  FOR_ALL_HOOKS(g, v, new_level, me, buff) { thing_at_set(g, v, new_level, buff, to); }
+
   return true;
 }
 
@@ -294,6 +312,14 @@ void thing_move_finish(Gamep g, Levelsp v, Levelp l, Thingp me)
     if (mob != nullptr) {
       thing_mob_minions_kill_if_too_far(g, v, l, me);
     }
+  }
+
+  //
+  // Check followers have not strayed too far
+  //
+  auto *leader = thing_follower_leader_get(g, v, l, me);
+  if (leader != nullptr) {
+    thing_leader_followers_kill_if_too_far(g, v, l, me);
   }
 }
 

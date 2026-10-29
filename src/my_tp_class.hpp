@@ -151,6 +151,11 @@ public:
   int distance_minion_from_mob_max {0};
 
   //
+  // Distance from leader in tiles
+  //
+  int distance_follower_from_leader_max {0};
+
+  //
   // How much light penetrates an object
   //
   int distance_light_penetration_pixels {0};
@@ -201,6 +206,11 @@ public:
   // Max number of minions the thing can spawn
   //
   int minion_max {0};
+
+  //
+  // Max number of followers the thing can spawn
+  //
+  int follower_max {0};
 
   //
   // Max number of projectiles the thing can fire

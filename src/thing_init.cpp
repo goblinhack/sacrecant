@@ -78,11 +78,13 @@
   (void) thing_distance_avoid_target_set(g, v, l, t, tp_distance_avoid_target_get(tp));
   (void) thing_distance_jump_set(g, v, l, t, tp_distance_jump_get(tp));
   (void) thing_distance_minion_from_mob_max_set(g, v, l, t, tp_distance_minion_from_mob_max_get(tp));
+  (void) thing_distance_follower_from_leader_max_set(g, v, l, t, tp_distance_follower_from_leader_max_get(tp));
   (void) thing_distance_throw_set(g, v, l, t, tp_distance_throw_get(tp));
   (void) thing_distance_vision_set(g, v, l, t, tp_distance_vision_get(tp));
   (void) thing_health_max_set(g, v, l, t, thing_health_set(g, v, l, t, tp_health_max_get(tp)));
   (void) thing_hearing_threshold_set(g, v, l, t, tp_hearing_threshold_get(tp));
   (void) thing_minion_max_set(g, v, l, t, tp_minion_max_get(tp));
+  (void) thing_follower_max_set(g, v, l, t, tp_follower_max_get(tp));
   (void) thing_missile_count_max_set(g, v, l, t, tp_missile_count_max_get(tp));
   (void) thing_priority_set(g, v, l, t, tp_priority_get(tp));
   (void) thing_score_value_set(g, v, l, t, tp_score_value_get(tp));

@@ -644,6 +644,21 @@ void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   }
 
   //
+  // If the leader dies, unleash or kill followers
+  //
+  if (thing_is_leader(me)) {
+    thing_leader_dead(g, v, l, me, e);
+  }
+
+  //
+  // Unleash followers from leaders
+  //
+  if (thing_is_follower(me)) {
+    TRACE_INDENT();
+    (void) thing_follower_detach_me_from_leader(g, v, l, me);
+  }
+
+  //
   // Not sure if we kill or just detach projectiles
   //
   if (thing_is_able_to_fire_weapons(me)) {

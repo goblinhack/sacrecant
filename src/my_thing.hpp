@@ -52,6 +52,7 @@ using ThingIdPacked = union {
 #define THING_INVENTORY_MAX 26
 #define THING_SPELLBOOK_MAX 20
 #define THING_MINION_MAX    10
+#define THING_FOLLOWER_MAX  10
 
 /* begin shell marker1 */
 /* shell printf "#define THING_HOOK_MAX " */
@@ -186,6 +187,21 @@ using ThingMinions = struct ThingMinions {
 };
 
 //
+// Followers
+//
+using ThingFollower = struct ThingFollower {
+  ThingId follower_id;
+};
+
+//
+// Per leader followers
+//
+using ThingFollowers = struct ThingFollowers {
+  ThingFollower follower[ THING_FOLLOWER_MAX ];
+  int8_t        count;
+};
+
+//
 // Buffs
 //
 using ThingHook = struct ThingHook {
@@ -288,6 +304,10 @@ using ThingExt = struct ThingExt {
   //
   int8_t _distance_minion_from_mob_max;
   //
+  // Distance from leader
+  //
+  int8_t _distance_follower_from_leader_max;
+  //
   // Jump distance in tiles.
   //
   int8_t _distance_jump;
@@ -307,6 +327,10 @@ using ThingExt = struct ThingExt {
   // How many minions this mob can spawn
   //
   uint8_t _minion_max;
+  //
+  // How many followers this leader can spawn
+  //
+  uint8_t _follower_max;
   //
   // Spell related
   //
@@ -350,6 +374,10 @@ using ThingExt = struct ThingExt {
   // All minions for this mob
   //
   ThingMinions minions;
+  //
+  // All minions for this mob
+  //
+  ThingFollowers followers;
   //
   // All projectiles currently en-route
   //
@@ -427,6 +455,10 @@ using ThingExt = struct ThingExt {
   // If a mob spawned me, whom
   //
   ThingId mob_id;
+  //
+  // If a follower spawned me, whom
+  //
+  ThingId leader_id;
   //
   // If fired, by whom
   //
@@ -749,6 +781,10 @@ using Thing = struct Thing {
   uint8_t _is_thrown            : 1;
   uint8_t _is_thrown_processing : 1;
   //
+  // Can be dynamically set when attached
+  //
+  uint8_t _is_follower : 1;
+  //
   // The type of wall
   //
   uint8_t _variant : 5;
@@ -828,6 +864,8 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_distance_avoid_target_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
 [[nodiscard]] auto thing_distance_avoid_target_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int;
 [[nodiscard]] auto thing_distance_avoid_target(Gamep g, Levelsp v, Levelp l, Thingp me) -> int;
+[[nodiscard]] auto thing_distance_follower_from_leader_max_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int;
+[[nodiscard]] auto thing_distance_follower_from_leader_max(Gamep g, Levelsp v, Levelp l, Thingp me) -> int;
 [[nodiscard]] auto thing_distance_jump_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
 [[nodiscard]] auto thing_distance_jump_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
 [[nodiscard]] auto thing_distance_jump_max(Gamep g, Levelsp v, Levelp l, Thingp me) -> int;
@@ -860,6 +898,19 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_ensnarer(Gamep g, Levelsp v, Levelp l, Thingp me) -> Thingp;
 [[nodiscard]] auto thing_find_non_inline(Gamep g, Levelsp v, ThingId id) -> Thingp;
 [[nodiscard]] auto thing_fire_at(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp item, Tpp fire_what, const bpoint &target) -> bool;
+[[nodiscard]] auto thing_follower_can_move_to_possible(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &to) -> bool;
+[[nodiscard]] auto thing_follower_choose_target_near_leader(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
+[[nodiscard]] auto thing_follower_choose_target_near_mob(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
+[[nodiscard]] auto thing_follower_detach_me_from_leader(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
+[[nodiscard]] auto thing_follower_detach_me_from_mob(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
+[[nodiscard]] auto thing_follower_get_leader_dmap(Gamep g, Levelsp v, Levelp l, Thingp me) -> Dmap *;
+[[nodiscard]] auto thing_follower_get_mob_dmap(Gamep g, Levelsp v, Levelp l, Thingp me) -> Dmap *;
+[[nodiscard]] auto thing_follower_leader_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> Thingp;
+[[nodiscard]] auto thing_follower_max_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
+[[nodiscard]] auto thing_follower_max_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
+[[nodiscard]] auto thing_follower_max_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int;
+[[nodiscard]] auto thing_follower_max(Gamep g, Levelsp v, Levelp l, Thingp me) -> int;
+[[nodiscard]] auto thing_follower_mob_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> Thingp;
 [[nodiscard]] auto thing_fumble_roll(Gamep g, Levelsp v, Levelp l, Thingp me) -> int;
 [[nodiscard]] auto thing_get_at_safe(Gamep g, Levelsp v, Levelp l, const bpoint &p, int slot) -> Thingp;
 [[nodiscard]] auto thing_get_attacker(Gamep g, Levelsp v, Levelp l, ThingEvent &e) -> Thingp;
@@ -1040,6 +1091,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_effect_blood(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_effect_explosion1(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_effect_explosion2(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_effect_protection(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_effect_ripple(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_effect_sparks(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_effect_teleport(Thingp t) -> bool;
@@ -1063,6 +1115,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_flesh_eater(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_flesh(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_flying(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
+[[nodiscard]] auto thing_is_follower(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_fungus(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_game_over(Thingp player) -> bool;
 [[nodiscard]] auto thing_is_gas_death(Thingp t) -> bool;
@@ -1091,6 +1144,9 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_key(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_kobalos(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_lava_bg(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_leader_kill_followers_on_death(Thingp me) -> bool;
+[[nodiscard]] auto thing_is_leader_kill_followers_on_death(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_leader(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_leather(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_level_boss_icon(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_level_closed_icon(Thingp t) -> bool;
@@ -1207,11 +1263,8 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unlucky(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused1(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused10(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused100(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused101(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused11(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused12(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused124(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused13(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused14(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused15(Thingp t) -> bool;
@@ -1307,7 +1360,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused96(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused97(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused98(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused99(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_upgradable(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade u) -> bool;
 [[nodiscard]] auto thing_is_upgradable(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_usable(Thingp t) -> bool;
@@ -1337,6 +1389,12 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_keys_carried_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
 [[nodiscard]] auto thing_keys_carried_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int;
 [[nodiscard]] auto thing_keys_carried(Gamep g, Levelsp v, Levelp l, Thingp me) -> int;
+[[nodiscard]] auto thing_leader_detach_all_followers(Gamep g, Levelsp v, Levelp l, Thingp leader) -> bool;
+[[nodiscard]] auto thing_leader_detach_follower(Gamep g, Levelsp v, Levelp l, Thingp leader, Thingp follower) -> bool;
+[[nodiscard]] auto thing_leader_follower_count_get(Gamep g, Levelsp v, Levelp l, Thingp leader) -> int;
+[[nodiscard]] auto thing_leader_kill_all_followers(Gamep g, Levelsp v, Levelp l, Thingp leader, ThingEvent &e) -> bool;
+[[nodiscard]] auto thing_leader_spawn_a_follower_at(Gamep g, Levelsp v, Levelp l, Thingp leader, Tpp tp_follower, const bpoint &at) -> Thingp;
+[[nodiscard]] auto thing_leader_spawn_a_follower(Gamep g, Levelsp v, Levelp l, Thingp leader, Tpp tp_follower) -> Thingp;
 [[nodiscard]] auto thing_level(Gamep g, Levelsp v, Thingp t) -> Levelp;
 [[nodiscard]] auto thing_levitate(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_lifespan_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
@@ -1669,6 +1727,7 @@ auto thing_is_thrown_set(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp throw
 auto thing_is_thrown_unset(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp thrower) -> void;
 auto thing_is_unlocked_set(Gamep g, Levelsp v, Levelp l, Thingp t, bool val = true) -> void;
 auto thing_is_unlocked_unset(Gamep g, Levelsp v, Levelp l, Thingp t) -> void;
+auto thing_leader_dump_followers(Gamep g, Levelsp v, Levelp l, Thingp mob) -> void;
 auto thing_level_warp_to_entrance(Gamep g, Levelsp v, Levelp new_level, Thingp t) -> void;
 auto thing_level_warp_to_exit(Gamep g, Levelsp v, Levelp new_level, Thingp t) -> void;
 auto thing_lunge_end_check(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
@@ -1736,6 +1795,11 @@ void thing_con(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) CHE
 void thing_croak(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 5, 6);
 void thing_dbg(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 5, 6);
 void thing_err(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 5, 6);
+void thing_is_follower_set(Thingp me);
+void thing_leader_dead(Gamep g, Levelsp v, Levelp l, Thingp mob, ThingEvent &e);
+void thing_leader_followers_kill_if_too_far(Gamep g, Levelsp v, Levelp l, Thingp me);
+void thing_leader_move_followers_offset(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint offset);
+void thing_leader_warp_followers_to(Gamep g, Levelsp v, Levelp old_level, Levelp new_level, Thingp me, bpoint from, bpoint to);
 void thing_log(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 5, 6);
 void thing_mob_dead(Gamep g, Levelsp v, Levelp l, Thingp mob, ThingEvent &e);
 void thing_mob_minions_kill_if_too_far(Gamep g, Levelsp v, Levelp l, Thingp me);
@@ -1769,6 +1833,24 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
       for (auto _minion_n_ = 0; _minion_n_ < THING_MINION_MAX; _minion_n_++)                                                                    \
         if (AUTO(_minion_slot_) = &_minion_ext_->minions.minion[ _minion_n_ ])                                                                  \
           if (AUTO(_minion_) = thing_find_optional(g, v, _minion_slot_->minion_id))
+
+//
+// NOTE: break will not work
+//
+#define FOR_ALL_FOLLOWER_SLOTS_NO_BREAK(_g_, _v_, _l_, _mob_, _follower_slot_, _follower_)                                                      \
+  if ((_g_) && (_v_) && (_l_))                                                                                                                  \
+    if (AUTO(_follower_ext_) = thing_ext_struct(_g_, _v_, _mob_))                                                                               \
+      for (auto _follower_n_ = 0; _follower_n_ < THING_FOLLOWER_MAX; _follower_n_++)                                                            \
+        for (AUTO(_follower_slot_) = &_follower_ext_->followers.follower[ _follower_n_ ]; _follower_slot_; (_follower_slot_) = nullptr)         \
+          for (AUTO(_follower_) = thing_find_optional(g, v, (_follower_slot_)->follower_id), loop2 = (Thingp) 1; loop2 == (Thingp) 1;           \
+               loop2 = (Thingp) 0)
+
+#define FOR_ALL_FOLLOWERS(_g_, _v_, _l_, _mob_, _follower_)                                                                                     \
+  if ((_g_) && (_v_) && (_l_))                                                                                                                  \
+    if (AUTO(_follower_ext_) = thing_ext_struct(_g_, _v_, _mob_))                                                                               \
+      for (auto _follower_n_ = 0; _follower_n_ < THING_FOLLOWER_MAX; _follower_n_++)                                                            \
+        if (AUTO(_follower_slot_) = &_follower_ext_->followers.follower[ _follower_n_ ])                                                        \
+          if (AUTO(_follower_) = thing_find_optional(g, v, _follower_slot_->follower_id))
 
 //
 // NOTE: break will not work

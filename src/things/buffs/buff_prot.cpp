@@ -47,6 +47,13 @@ static bool tp_buff_prot_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
   return true; // allow the damage to be applied
 }
 
+void tp_buff_prot_on_hook_attached(Gamep g, Levelsp v, Levelp l, Thingp me)
+{
+  TRACE();
+
+  (void) thing_leader_spawn_a_follower_at(g, v, l, me, tp_random(g, v, l, is_effect_protection), thing_at(g, v, l, me));
+}
+
 [[nodiscard]] auto tp_load_buff_prot() -> bool
 {
   TRACE();
@@ -57,13 +64,17 @@ static bool tp_buff_prot_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
   // begin sort marker1 {
   thing_detail_set(tp, tp_buff_prot_detail_get);
   thing_on_damage_set(tp, tp_buff_prot_on_damage);
+  thing_on_hook_attached_set(tp, tp_buff_prot_on_hook_attached);
   tp_flag_set(tp, is_buff);
   tp_flag_set(tp, is_hook);
+  tp_flag_set(tp, is_leader_kill_followers_on_death);
+  tp_flag_set(tp, is_leader);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_tick_on_use);
   tp_flag_set(tp, is_tickable);
   tp_lifespan_set(tp, "1d100+100");
+  tp_follower_max_set(tp, 1);
   tp_name_short_set(tp, "protection");
   // end sort marker1 }
 

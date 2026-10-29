@@ -1459,22 +1459,22 @@
   return tp_flag(tp, is_unused98) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused99(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_leader_kill_followers_on_death(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused99) != 0;
+  return tp_flag(tp, is_leader_kill_followers_on_death) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused100(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_follower(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused100) != 0;
+  return tp_flag(tp, is_follower) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused101(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_leader(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused101) != 0;
+  return tp_flag(tp, is_leader) != 0;
 }
 
 [[nodiscard]] auto tp_is_effect_teleport(Tpp tp) -> bool
@@ -1609,10 +1609,10 @@
   return tp_flag(tp, is_blit_hit_solid_white) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused124(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_effect_protection(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused124) != 0;
+  return tp_flag(tp, is_effect_protection) != 0;
 }
 
 [[nodiscard]] auto tp_is_multi_tile(Tpp tp) -> bool

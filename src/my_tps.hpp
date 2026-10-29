@@ -63,6 +63,7 @@ auto tp_load_effect_attack() -> bool;
 auto tp_load_effect_blood() -> bool;
 auto tp_load_effect_explosion1() -> bool;
 auto tp_load_effect_explosion2() -> bool;
+auto tp_load_effect_protection() -> bool;
 auto tp_load_effect_ripple() -> bool;
 auto tp_load_effect_sparks1() -> bool;
 auto tp_load_effect_sparks2() -> bool;

@@ -269,8 +269,8 @@
       list_macro(is_always_hit, "is_always_hit"),                                           /* newline */                                       \
       list_macro(is_unused1, "is_unused1"),                                                 /* newline */                                       \
       list_macro(is_unused10, "is_unused10"),                                               /* newline */                                       \
-      list_macro(is_unused100, "is_unused100"),                                             /* newline */                                       \
-      list_macro(is_unused101, "is_unused101"),                                             /* newline */                                       \
+      list_macro(is_follower, "is_follower"),                                               /* newline */                                       \
+      list_macro(is_leader, "is_leader"),                                                   /* newline */                                       \
       list_macro(is_effect_teleport, "is_effect_teleport"),                                 /* newline */                                       \
       list_macro(is_able_to_recoil, "is_able_to_recoil"),                                   /* newline */                                       \
       list_macro(is_effect_sparks, "is_effect_sparks"),                                     /* newline */                                       \
@@ -295,7 +295,7 @@
       list_macro(is_dumb_ai, "is_dumb_ai"),                                                 /* newline */                                       \
       list_macro(is_exit_closed, "is_exit_closed"),                                         /* newline */                                       \
       list_macro(is_blit_hit_solid_white, "is_blit_hit_solid_white"),                       /* newline */                                       \
-      list_macro(is_unused124, "is_unused124"),                                             /* newline */                                       \
+      list_macro(is_effect_protection, "is_effect_protection"),                             /* newline */                                       \
       list_macro(is_multi_tile, "is_multi_tile"),                                           /* newline */                                       \
       list_macro(is_boss1, "is_boss1"),                                                     /* newline */                                       \
       list_macro(is_boss, "is_boss"),                                                       /* newline */                                       \
@@ -411,7 +411,7 @@
       list_macro(is_unused96, "is_unused96"),                                               /* newline */                                       \
       list_macro(is_unused97, "is_unused97"),                                               /* newline */                                       \
       list_macro(is_unused98, "is_unused98"),                                               /* newline */                                       \
-      list_macro(is_unused99, "is_unused99"),                                               /* newline */                                       \
+      list_macro(is_leader_kill_followers_on_death, "is_leader_kill_followers_on_death"),   /* newline */                                       \
       list_macro(is_usable, "is_usable"),                                                   /* newline */                                       \
       list_macro(is_vault, "is_vault"),                                                     /* newline */                                       \
       list_macro(is_venomous, "is_venomous"),                                               /* newline */                                       \
@@ -849,6 +849,7 @@ class Tp;
 [[nodiscard]] auto tp_damage(Tpp tp, ThingEventType val) -> int;
 [[nodiscard]] auto tp_difficulty_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_distance_avoid_target_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_distance_follower_from_leader_max_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_distance_jump_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_distance_light_penetration_pixels_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_distance_minion_from_mob_max_get(Tpp tp) -> int;
@@ -860,6 +861,7 @@ class Tp;
 [[nodiscard]] auto tp_find_opt(const std::string &val) -> Tpp;
 [[nodiscard]] auto tp_first_tile(class Tp *tp, ThingAnimType val) -> Tilep;
 [[nodiscard]] auto tp_first(ThingFlagType f) -> Tpp;
+[[nodiscard]] auto tp_follower_max_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_fumble_roll_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_health_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_health_max_get(Tpp tp) -> int;
@@ -1003,6 +1005,7 @@ class Tp;
 [[nodiscard]] auto tp_is_effect_blood(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_effect_explosion1(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_effect_explosion2(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_effect_protection(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_effect_ripple(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_effect_sparks(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_effect_teleport(Tpp tp) -> bool;
@@ -1025,6 +1028,7 @@ class Tp;
 [[nodiscard]] auto tp_is_floor(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_flying(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_foliage(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_follower(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_fungus(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_gas_death(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_gas_explosive(Tpp tp) -> bool;
@@ -1050,6 +1054,8 @@ class Tp;
 [[nodiscard]] auto tp_is_kobalos(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_lava_bg(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_lava(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_leader_kill_followers_on_death(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_leader(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_leather(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_level_boss_icon(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_level_closed_icon(Tpp tp) -> bool;
@@ -1161,11 +1167,8 @@ class Tp;
 [[nodiscard]] auto tp_is_unlucky(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused1(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused10(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused100(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused101(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused11(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused12(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused124(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused13(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused14(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused15(Tpp tp) -> bool;
@@ -1261,7 +1264,6 @@ class Tp;
 [[nodiscard]] auto tp_is_unused96(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused97(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused98(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused99(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_usable(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_vault(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_venomous(Tpp tp) -> bool;
@@ -1356,6 +1358,7 @@ void tp_die_(Tpp tp, const char *fmt, va_list args); // compile error without
 void tp_die(Tpp tp, const char *fmt, ...) CHECK_FORMAT_STR(printf, 2, 3);
 void tp_difficulty_set(Tpp tp, int val);
 void tp_distance_avoid_target_set(Tpp tp, int val);
+void tp_distance_follower_from_leader_max_set(Tpp tp, int val);
 void tp_distance_jump_set(Tpp tp, int val);
 void tp_distance_light_penetration_pixels_set(Tpp tp, int val);
 void tp_distance_minion_from_mob_max_set(Tpp tp, int val);
@@ -1366,6 +1369,7 @@ void tp_err_(Tpp tp, const char *fmt, va_list args); // compile error without
 void tp_err(Tpp tp, const char *fmt, ...) CHECK_FORMAT_STR(printf, 2, 3);
 void tp_fini();
 void tp_flag_set(Tpp tp, ThingFlagType f, int val = 1);
+void tp_follower_max_set(Tpp tp, int val);
 void tp_fumble_roll_set(Tpp tp, int val);
 void tp_get_id(const char *, int *id);
 void tp_health_set(Tpp tp, const std::string &val);

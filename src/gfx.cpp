@@ -7348,22 +7348,8 @@ static void gfx_init_tiles_32x32()
   TRACE();
   const char *tiles[] = {
       // ##############################################################################
-      "effect_teleport.idle.0",
-      "effect_teleport.idle.1",
-      "effect_teleport.idle.2",
-      "effect_teleport.idle.3",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
+      "effect_teleport.idle.0",   "effect_teleport.idle.1",   "effect_teleport.idle.2",   "effect_teleport.idle.3",   "", "", "", "",
+      "effect_protection.idle.0", "effect_protection.idle.1", "effect_protection.idle.2", "effect_protection.idle.3", "", "", "", "",
       // ##############################################################################
   };
   tile_load_arr_sprites("data/gfx/tiles_32x32.tga", "tiles_32x32", 32, 32, ARRAY_SIZE(tiles), tiles);

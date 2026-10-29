@@ -175,6 +175,7 @@ static std::initializer_list< std::string > tps = {
     "effect_blood",
     "effect_explosion1",
     "effect_explosion2",
+    "effect_protection",
     "effect_ripple",
     "effect_sparks1",
     "effect_sparks2",
@@ -2136,6 +2137,31 @@ void tp_minion_max_set(Tpp tp, int val)
   return tp->minion_max;
 }
 
+void tp_follower_max_set(Tpp tp, int val)
+{
+  TRACE_DEBUG();
+  if (tp == nullptr) [[unlikely]] {
+    no_tp_pointer();
+    return;
+  }
+  if (val > THING_FOLLOWER_MAX) {
+    tp_err(tp, "follower max too high: %d", val);
+    return;
+  }
+
+  tp->follower_max = val;
+}
+
+[[nodiscard]] auto tp_follower_max_get(Tpp tp) -> int
+{
+  TRACE_DEBUG();
+  if (tp == nullptr) [[unlikely]] {
+    no_tp_pointer();
+    return 0;
+  }
+  return tp->follower_max;
+}
+
 void tp_missile_count_max_set(Tpp tp, int val)
 {
   TRACE_DEBUG();
@@ -2179,6 +2205,26 @@ void tp_distance_minion_from_mob_max_set(Tpp tp, int val)
     return 0;
   }
   return tp->distance_minion_from_mob_max;
+}
+
+void tp_distance_follower_from_leader_max_set(Tpp tp, int val)
+{
+  TRACE_DEBUG();
+  if (tp == nullptr) [[unlikely]] {
+    no_tp_pointer();
+    return;
+  }
+  tp->distance_follower_from_leader_max = val;
+}
+
+[[nodiscard]] auto tp_distance_follower_from_leader_max_get(Tpp tp) -> int
+{
+  TRACE_DEBUG();
+  if (tp == nullptr) [[unlikely]] {
+    no_tp_pointer();
+    return 0;
+  }
+  return tp->distance_follower_from_leader_max;
 }
 
 void tp_distance_light_penetration_pixels_set(Tpp tp, int val)

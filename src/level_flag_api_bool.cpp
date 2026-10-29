@@ -1497,22 +1497,22 @@
   return level_flag(g, v, l, is_unused98, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused99_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_leader_kill_followers_on_death_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused99, p, me) != nullptr;
+  return level_flag(g, v, l, is_leader_kill_followers_on_death, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused100_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_follower_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused100, p, me) != nullptr;
+  return level_flag(g, v, l, is_follower, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused101_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_leader_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused101, p, me) != nullptr;
+  return level_flag(g, v, l, is_leader, p, me) != nullptr;
 }
 
 [[nodiscard]] auto level_is_effect_teleport_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
@@ -1647,10 +1647,10 @@
   return level_flag(g, v, l, is_blit_hit_solid_white, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused124_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_effect_protection_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused124, p, me) != nullptr;
+  return level_flag(g, v, l, is_effect_protection, p, me) != nullptr;
 }
 
 [[nodiscard]] auto level_is_multi_tile_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool

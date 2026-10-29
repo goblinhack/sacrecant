@@ -40,6 +40,7 @@ void tp_player1_on_spawned(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent *
 
   static std::initializer_list< std::string > items = {
       "wand_fire", //
+      "pot_prot",  //
                    // "staff_fire", //
   };
 

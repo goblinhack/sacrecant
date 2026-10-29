@@ -1599,7 +1599,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   return tp_flag(thing_tp(t), is_unused98) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused99(Thingp t) -> bool
+[[nodiscard]] auto thing_is_leader_kill_followers_on_death(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1607,29 +1607,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     no_thing_pointer();
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused99) != 0;
-}
-
-[[nodiscard]] auto thing_is_unused100(Thingp t) -> bool
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    no_thing_pointer();
-    return false;
-  }
-  return tp_flag(thing_tp(t), is_unused100) != 0;
-}
-
-[[nodiscard]] auto thing_is_unused101(Thingp t) -> bool
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    no_thing_pointer();
-    return false;
-  }
-  return tp_flag(thing_tp(t), is_unused101) != 0;
+  return tp_flag(thing_tp(t), is_leader_kill_followers_on_death) != 0;
 }
 
 [[nodiscard]] auto thing_is_effect_teleport(Thingp t) -> bool
@@ -1863,7 +1841,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   return tp_flag(thing_tp(t), is_blit_hit_solid_white) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused124(Thingp t) -> bool
+[[nodiscard]] auto thing_is_effect_protection(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1871,7 +1849,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     no_thing_pointer();
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused124) != 0;
+  return tp_flag(thing_tp(t), is_effect_protection) != 0;
 }
 
 [[nodiscard]] auto thing_is_multi_tile(Thingp t) -> bool

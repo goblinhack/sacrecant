@@ -1460,22 +1460,22 @@
   return level_alive(g, v, l, is_unused98, p);
 }
 
-[[nodiscard]] auto level_alive_is_unused99(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+[[nodiscard]] auto level_alive_is_leader_kill_followers_on_death(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_alive(g, v, l, is_unused99, p);
+  return level_alive(g, v, l, is_leader_kill_followers_on_death, p);
 }
 
-[[nodiscard]] auto level_alive_is_unused100(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+[[nodiscard]] auto level_alive_is_follower(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_alive(g, v, l, is_unused100, p);
+  return level_alive(g, v, l, is_follower, p);
 }
 
-[[nodiscard]] auto level_alive_is_unused101(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+[[nodiscard]] auto level_alive_is_leader(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_alive(g, v, l, is_unused101, p);
+  return level_alive(g, v, l, is_leader, p);
 }
 
 [[nodiscard]] auto level_alive_is_effect_teleport(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
@@ -1610,10 +1610,10 @@
   return level_alive(g, v, l, is_blit_hit_solid_white, p);
 }
 
-[[nodiscard]] auto level_alive_is_unused124(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+[[nodiscard]] auto level_alive_is_effect_protection(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_alive(g, v, l, is_unused124, p);
+  return level_alive(g, v, l, is_effect_protection, p);
 }
 
 [[nodiscard]] auto level_alive_is_multi_tile(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp

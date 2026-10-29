@@ -1497,22 +1497,22 @@
   return level_flag_cached(g, v, l, is_unused98, p);
 }
 
-[[nodiscard]] auto level_is_unused99_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_leader_kill_followers_on_death_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused99, p);
+  return level_flag_cached(g, v, l, is_leader_kill_followers_on_death, p);
 }
 
-[[nodiscard]] auto level_is_unused100_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_follower_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused100, p);
+  return level_flag_cached(g, v, l, is_follower, p);
 }
 
-[[nodiscard]] auto level_is_unused101_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_leader_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused101, p);
+  return level_flag_cached(g, v, l, is_leader, p);
 }
 
 [[nodiscard]] auto level_is_effect_teleport_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
@@ -1647,10 +1647,10 @@
   return level_flag_cached(g, v, l, is_blit_hit_solid_white, p);
 }
 
-[[nodiscard]] auto level_is_unused124_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_effect_protection_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused124, p);
+  return level_flag_cached(g, v, l, is_effect_protection, p);
 }
 
 [[nodiscard]] auto level_is_multi_tile_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
