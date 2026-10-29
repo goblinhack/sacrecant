@@ -19,14 +19,14 @@ void no_thing_pointer()
 {
   TRACE();
 
-  warn("no thing pointer");
+  err("no thing pointer");
 }
 
 void no_thing_ext_pointer()
 {
   TRACE();
 
-  warn("no thing ext pointer");
+  err("no thing ext pointer");
 }
 
 [[nodiscard]] auto thing_get(Gamep g, Levelsp v, Levelp l, const bpoint &p, int slot) -> Thingp

@@ -23,6 +23,8 @@
   tp_flag_set(tp, is_blit_centered);
   tp_flag_set(tp, is_blit_shown_in_chasms);
   tp_flag_set(tp, is_memory_ext);
+  tp_flag_set(tp, is_able_to_move_diagonally);
+  tp_flag_set(tp, is_able_to_move);
   tp_flag_set(tp, is_effect_protection);
   tp_flag_set(tp, is_effect);
   tp_flag_set(tp, is_removable_on_err);
@@ -36,10 +38,6 @@
     auto *tile = tile_find_mand(name + std::string(".idle.") + std::to_string(frame));
     tile_delay_ms_set(tile, delay);
     tp_tiles_push_back(tp, THING_ANIM_IDLE, tile);
-
-    if (frame == 3) {
-      tile_is_cleanup_on_end_of_anim_set(tile);
-    }
   }
 
   return true;
