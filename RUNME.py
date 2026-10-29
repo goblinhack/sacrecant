@@ -675,6 +675,9 @@ def find_sdl2_config(host: Host) -> Path | None:
         if ok:
             return Path(cand)
 
+    if host.platform is Platform.MINGW:
+        return Path(str(host.msys_prefix / "bin" / "sdl2-config"))
+
     return None
 
 
@@ -682,6 +685,10 @@ def configure_sdl2(host: Host, opts: Options) -> Sdl:
     config = find_sdl2_config(host)
 
     def config_output(*args: str) -> str:
+        log.info(f"capture config {config}")
+        log.info(f"capture args   {args}")
+        out = (capture([config, *args]) or "") if config else ""
+        log.info(f"capture out    {out}")
         return (capture([config, *args]) or "") if config else ""
 
     cflags = config_output("--cflags").split()
@@ -1299,6 +1306,7 @@ def build(opts: Options, host: Host) -> None:
     toolchain = Toolchain(settings.cc, settings.chosen)
     exe = ROOT / f"{TARGET}{settings.exe}"
 
+    return True
     write_config_files(version, render_makefile(settings, host, opts))
 
     info("CFLAGS", " ".join(settings.cflags))
