@@ -311,9 +311,14 @@ def capture(cmd: Sequence[str | os.PathLike[str]], *, cwd: Path | None = None) -
         log.info(f"cmd {cmd}")
 
         done = subprocess.run(
+            [str(c) for c in cmd], cwd=cwd, stdin=subprocess.DEVNULL, capture_output=True, text=True, errors="replace", check=False
+        )
+        log.info(f"subprocess.run (no shell) {done}")
+
+        done = subprocess.run(
             [str(c) for c in cmd], cwd=cwd, stdin=subprocess.DEVNULL, capture_output=True, text=True, errors="replace", check=False, shell=True
         )
-        log.info(f"done {done}")
+        log.info(f"subprocess.run            {done}")
     except OSError:
         return None
     if done.returncode != 0:
@@ -670,6 +675,7 @@ def find_sdl2_config(host: Host) -> Path | None:
 
     log.info(f"candidates final {candidates}")
 
+    return Path("sdl2-config")
     for cand in candidates:
         if cand is None:
             continue
@@ -679,10 +685,7 @@ def find_sdl2_config(host: Host) -> Path | None:
         if ok:
             return Path(cand)
 
-    if host.platform is Platform.MINGW:
-        return Path(str(host.msys_prefix / "bin" / "sdl2-config"))
-
-    return None
+    return Path("sdl2-config")
 
 
 def configure_sdl2(host: Host, opts: Options) -> Sdl:
