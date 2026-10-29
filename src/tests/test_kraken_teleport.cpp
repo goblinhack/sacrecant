@@ -55,7 +55,7 @@
         "XWWWWWWWWWWWWX" //
         "XWWWmmmmWWWWWX" //
         "XWWWWW@WWWWWWX" //
-        "XWWWWmWWWWWWWX" //
+        "XWWWWWWWmWWWWX" //
         "XXXXXXXXXXXXXX";
 
   //

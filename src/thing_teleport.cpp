@@ -64,14 +64,38 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   std::vector< Thingp > teleports;
 
-  FOR_ALL_THINGS_ON_LEVEL_NO_BREAK(g, v, l, me)
-  {
-    if (thing_at(g, v, l, me) == in) {
-      continue;
-    }
+  //
+  // Look for adjoining teleports first
+  //
+  const std::initializer_list< bpoint > deltas = {
+      bpoint(2, 0),
+      bpoint(-2, 0),
+      bpoint(0, 2),
+      bpoint(0, -2),
+  };
 
-    if (thing_is_teleport(me)) {
-      teleports.push_back(me);
+  std::vector< bpoint > cands;
+
+  for (auto delta : deltas) {
+    auto at = in;
+    FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, at + delta)
+    {
+      if (thing_is_teleport(it)) {
+        teleports.push_back(it);
+      }
+    }
+  }
+
+  if (teleports.empty()) {
+    FOR_ALL_THINGS_ON_LEVEL_NO_BREAK(g, v, l, me)
+    {
+      if (thing_at(g, v, l, me) == in) {
+        continue;
+      }
+
+      if (thing_is_teleport(me)) {
+        teleports.push_back(me);
+      }
     }
   }
 
