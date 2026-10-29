@@ -22,7 +22,6 @@
 // implementation such as ANGLE is needed.
 //
 #include <GLES3/gl3.h>
-#include <SDL_opengles2.h>
 #else
 //
 // Desktop OpenGL
