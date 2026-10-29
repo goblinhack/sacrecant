@@ -255,11 +255,7 @@ static inline void sdl_list_video_size()
   game_config_pix_height_set(g, h);
 
   if (video_flags & SDL_WINDOW_ALLOW_HIGHDPI) {
-#ifdef USE_SDL3
-    SDL_GetWindowSizeInPixels(sdl.window, &w, &h);
-#else
-    SDL_GL_GetDrawableSize(sdl.window, &w, &h);
-#endif
+    sdl_get_drawable_size(&w, &h);
     log("SDL: Created window drawable size %ux%u", w, h);
   }
 

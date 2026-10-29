@@ -26,6 +26,27 @@
 
 static struct SDL_Keysym last_key_pressed;
 
+void sdl_get_drawable_size(int *x, int *y)
+{
+  TRACE();
+
+  *x = 0;
+  *y = 0;
+
+#ifdef USE_SDL3
+  auto renderer = SDL_GetRenderer(sdl.window);
+  if (renderer) {
+    if (SDL_GetRenderOutputSize(renderer, x, y) || SDL_GetCurrentRenderOutputSize(renderer, x, y)) {
+      return;
+    }
+  }
+
+  SDL_GetWindowSizeInPixels(sdl.window, x, y);
+#else
+  SDL_GL_GetDrawableSize(sdl.window, x, y);
+#endif
+}
+
 int sdl_get_mouse_state(int *x, int *y)
 {
   TRACE();
@@ -48,11 +69,7 @@ int sdl_get_mouse_state(int *x, int *y)
   int w2 {};
   int h2 {};
 
-#ifdef USE_SDL3
-  SDL_GetWindowSizeInPixels(sdl.window, &w1, &h1);
-#else
-  SDL_GL_GetDrawableSize(sdl.window, &w1, &h1);
-#endif
+  sdl_get_drawable_size(&w1, &h1);
   if (! w1 || ! h1) {
     return button;
   }
@@ -86,11 +103,7 @@ void sdl_warp_mouse(int x, int y)
   int w2 {};
   int h2 {};
 
-#ifdef USE_SDL3
-  SDL_GetWindowSizeInPixels(sdl.window, &w1, &h1);
-#else
-  SDL_GL_GetDrawableSize(sdl.window, &w1, &h1);
-#endif
+  sdl_get_drawable_size(&w1, &h1);
   if (! w1 || ! h1) {
     return;
   }

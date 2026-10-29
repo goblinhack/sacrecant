@@ -1298,19 +1298,21 @@ void wid_set_text_max_len(Widp w, size_t max_len)
   w->max_len = max_len;
 }
 
-void wid_set_text(Widp w, const std::string &text)
+bool wid_set_text(Widp w, const std::string &text)
 {
   TRACE();
 
+  bool ret = true;
+
   if (! wid_safe()) {
-    return;
+    return false;
   }
 
   if (text.empty()) {
     w->text = "";
   } else {
     if (text == w->text) {
-      return;
+      return true;
     }
 
     w->text = text;
@@ -1319,16 +1321,18 @@ void wid_set_text(Widp w, const std::string &text)
   if (static_cast< bool >(w->max_len)) {
     if (w->text.size() > w->max_len) {
       w->text.resize(w->max_len);
+      ret = false;
     }
   }
 
   w->cursor = std::min(w->cursor, static_cast< uint16_t >(w->text.size()));
+  return ret;
 }
 
-void wid_set_text(Widp w, int v)
+bool wid_set_text(Widp w, int v)
 {
   TRACE();
-  wid_set_text(w, std::to_string(v));
+  return wid_set_text(w, std::to_string(v));
 }
 
 [[nodiscard]] auto wid_get_received_input(Widp w) -> bool
@@ -3981,7 +3985,9 @@ void wid_scroll_with_input(Gamep g, Widp w, const std::string &str)
 
               w->cursor++;
 
-              wid_set_text(w, updatedtext);
+              if (! wid_set_text(w, updatedtext)) {
+                (void) sound_play(g, "error");
+              }
             }
           }
       }

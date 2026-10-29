@@ -55,6 +55,7 @@ auto sdl_flush_display(Gamep g, bool force = false) -> void;
 auto sdl_joy_rumble(float strength, uint32_t ms) -> void;
 auto sdl_key_repeat_events(Gamep g) -> void;
 auto sdl_loop(Gamep g) -> void;
+void sdl_get_drawable_size(int *x, int *y);
 auto sdl_mouse_center(Gamep g) -> void;
 auto sdl_mouse_warp(Gamep g, int x, int y) -> void;
 auto sdl_screenshot_do(Gamep g) -> void;
