@@ -86,6 +86,9 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
     }
   }
 
+  //
+  // Look for any other teleport
+  //
   if (teleports.empty()) {
     FOR_ALL_THINGS_ON_LEVEL_NO_BREAK(g, v, l, me)
     {
