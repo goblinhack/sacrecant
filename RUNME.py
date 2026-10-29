@@ -689,7 +689,6 @@ def find_sdl2_config(host: Host) -> Path | None:
 
     log.info(f"candidates final {candidates}")
 
-    return Path("sdl2-config")
     for cand in candidates:
         if cand is None:
             continue
@@ -699,7 +698,7 @@ def find_sdl2_config(host: Host) -> Path | None:
         if ok:
             return Path(cand)
 
-    return Path("sdl2-config")
+    return None
 
 
 def configure_sdl2(host: Host, opts: Options) -> Sdl:
