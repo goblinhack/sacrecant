@@ -91,7 +91,7 @@ static void robot_push_event(SDL_Event *e, const SDL_Keysym *key)
 //
 static void robot_mode_handler_playing(Gamep g, Robot *robot)
 {
-  SDL_Event   e   = {};
+  SDL_Event e = {};
 #ifdef USE_SDL3
   SDL_Keysym  keysym {}; // SDL3 has no keysym in the event; it is copied in when we push
   SDL_Keysym *key = &keysym;
@@ -433,7 +433,7 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
       SDL_WarpMouseInWindow(sdl.window, pixel.x, pixel.y);
       e.type = SDL_MOUSEMOTION;
       robot_push_event(&e, key);
-      e = {};
+      e    = {};
       *key = {};
 
       if (v->cursor_at != goal.at) {
@@ -476,7 +476,7 @@ void robot_mode_handler(Gamep g)
     return;
   }
 
-  SDL_Event   e   = {};
+  SDL_Event e = {};
 #ifdef USE_SDL3
   SDL_Keysym  keysym {}; // SDL3 has no keysym in the event; it is copied in when we push
   SDL_Keysym *key = &keysym;

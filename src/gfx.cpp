@@ -6399,7 +6399,7 @@ static void gfx_init_tiles_water_lava_misc()
   tile_size_set(tile, TILE_WIDTH, TILE_HEIGHT);
 }
 
-static void gfx_init_tiles()
+static void gfx_init_tiles_14x14()
 {
   TRACE();
   const char *tiles[] = {
@@ -6829,7 +6829,6 @@ static void gfx_init_tiles()
       "steam.idle.14",
       "steam.idle.15",
       // ##############################################################################
-      "",
       "teleport.idle.0",
       "teleport.idle.1",
       "teleport.idle.2",
@@ -6837,6 +6836,7 @@ static void gfx_init_tiles()
       "teleport.idle.4",
       "teleport.idle.5",
       "teleport.idle.6",
+      "",
       "",
       "",
       "",
@@ -7340,7 +7340,33 @@ static void gfx_init_tiles()
       "",
       // ##############################################################################
   };
-  tile_load_arr_sprites("data/gfx/tiles.tga", "tiles", OUTLINE_TILE_WIDTH, OUTLINE_TILE_HEIGHT, ARRAY_SIZE(tiles), tiles);
+  tile_load_arr_sprites("data/gfx/tiles_14x14.tga", "tiles", OUTLINE_TILE_WIDTH, OUTLINE_TILE_HEIGHT, ARRAY_SIZE(tiles), tiles);
+}
+
+static void gfx_init_tiles_32x32()
+{
+  TRACE();
+  const char *tiles[] = {
+      // ##############################################################################
+      "effect_teleport.idle.0",
+      "effect_teleport.idle.1",
+      "effect_teleport.idle.2",
+      "effect_teleport.idle.3",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      // ##############################################################################
+  };
+  tile_load_arr_sprites("data/gfx/tiles_32x32.tga", "tiles_32x32", 32, 32, ARRAY_SIZE(tiles), tiles);
 }
 
 static void gfx_init_tiles_14x28()
@@ -7631,9 +7657,10 @@ void gfx_init()
   // ##############################################################################
   gfx_init_tiles_beam_of_fire();
   gfx_init_tiles_beam_of_energy();
-  gfx_init_tiles();
+  gfx_init_tiles_14x14();
   gfx_init_tiles_14x28();
   gfx_init_tiles_20x20();
+  gfx_init_tiles_32x32();
   gfx_init_tiles_96x96();
   gfx_init_tiles_60x60();
   gfx_init_tiles_walls_and_floors();

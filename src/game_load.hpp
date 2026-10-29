@@ -23,6 +23,7 @@
 #include "my_sdl_proto.hpp"
 #include "my_serialize.hpp"
 #include "my_sound.hpp"
+#include "my_sprintf.hpp"
 #include "my_ui.hpp"
 #include "my_wid_popup.hpp"
 #include "my_wids.hpp"
@@ -71,7 +72,8 @@ auto operator>>(std::istream &in, Bits< Config & > my) -> std::istream &
   log("GAME: read config: serialized_size        = %d", my.t.serialized_size);
 
   if (my.t.serialized_size != sizeof(Config)) {
-    game_load_error = "bad save file header version";
+    game_load_error = string_sprintf("bad save file header size: found %d, expected %d bytes", //
+                                     my.t.serialized_size, (int) sizeof(Config));
     return in;
   }
 

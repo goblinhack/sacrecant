@@ -70,6 +70,7 @@
   if (!tp_load_effect_sparks2()) { return false; }
   if (!tp_load_effect_sparks3()) { return false; }
   if (!tp_load_effect_sparks4()) { return false; }
+  if (!tp_load_effect_teleport()) { return false; }
   if (!tp_load_entrance()) { return false; }
   if (!tp_load_exit_closed()) { return false; }
   if (!tp_load_exit()) { return false; }

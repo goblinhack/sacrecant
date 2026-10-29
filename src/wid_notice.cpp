@@ -4,12 +4,12 @@
 
 #include "my_ascii.hpp"
 #include "my_callstack.hpp"
+#include "my_sdl_compat.hpp"
 #include "my_spoint.hpp"
 #include "my_types.hpp"
 #include "my_wid.hpp"
 #include "my_wid_popup.hpp"
 #include "my_wids.hpp"
-#include "my_sdl_compat.hpp"
 #include <cstdint>
 #include <string>
 

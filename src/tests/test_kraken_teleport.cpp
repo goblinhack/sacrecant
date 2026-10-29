@@ -39,23 +39,23 @@
         "XWWWWWWWWWWWWX"
         "XXXXXXXXXXXXXX";
   std::string const expect
-      = "XXXXXXXXXXXXXX"
-        "XWWWWWWWWWWWWX"
-        "XWWWWWWWWWWWWX"
-        "XWWWWWWWWWWWWX"
-        "XWWWWWWWWWWWWX"
-        "XWWWWWWWWWWWWX"
-        "XWWWWWWWWWWWWX"
-        "XWWWWWWWWWWWWX"
-        "XWWWWWWWWWWWWX"
-        "XWTTTTTTTTTTWX"
-        "XWWWWWWWWWWWWX"
-        "XWWWWWWWWWWWWX"
-        "XWWWWWWWWWWWWX"
-        "XWWWWWWWWWWWWX"
-        "XWWWmmmmWWWWWX"
-        "XWWWWW@WWWWWWX"
-        "XWWWWWWWWWWWWX"
+      = "XXXXXXXXXXXXXX" //
+        "XWWWWWWWWWWWWX" //
+        "XWWWWWWWWWWWWX" //
+        "XWWWWWWWWWWWWX" //
+        "XWWWWWWWWWWWWX" //
+        "XWWWWWWWWWWWWX" //
+        "XWWWWWWWWWWWWX" //
+        "XWWWWWWWWWWWWX" //
+        "XWWWWWWWWWWWWX" //
+        "XWTTTTTTTTTTWX" //
+        "XWWWWWWWWWWWWX" //
+        "XWWWWWWWWWWWWX" //
+        "XWWWWWWWWWWWWX" //
+        "XWWWWWWWWWWWWX" //
+        "XWWWmmmmWWWWWX" //
+        "XWWWWW@WWWWWWX" //
+        "XWWWWmWWWWWWWX" //
         "XXXXXXXXXXXXXX";
 
   //

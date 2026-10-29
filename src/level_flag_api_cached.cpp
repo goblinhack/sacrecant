@@ -1515,10 +1515,10 @@
   return level_flag_cached(g, v, l, is_unused101, p);
 }
 
-[[nodiscard]] auto level_is_unused102_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_effect_teleport_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused102, p);
+  return level_flag_cached(g, v, l, is_effect_teleport, p);
 }
 
 [[nodiscard]] auto level_is_able_to_recoil_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

@@ -333,6 +333,8 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
     return false;
   }
 
+  (void) thing_spawn(g, v, l, tp_first(is_effect_teleport), me);
+
   if (! thing_warp_to(g, v, l, me, to)) {
     THING_DBG(g, v, l, me, "pre teleport, warp to (%d,%d) failed", to.x, to.y);
     return false;
@@ -348,6 +350,8 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
   TRACE_INDENT();
 
   thing_sound_play(g, v, l, me, "teleport");
+
+  (void) thing_spawn(g, v, l, tp_first(is_effect_teleport), me);
 
   me->tick_event = v->tick;
 

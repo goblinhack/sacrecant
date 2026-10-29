@@ -271,7 +271,7 @@
       list_macro(is_unused10, "is_unused10"),                                               /* newline */                                       \
       list_macro(is_unused100, "is_unused100"),                                             /* newline */                                       \
       list_macro(is_unused101, "is_unused101"),                                             /* newline */                                       \
-      list_macro(is_unused102, "is_unused102"),                                             /* newline */                                       \
+      list_macro(is_effect_teleport, "is_effect_teleport"),                                 /* newline */                                       \
       list_macro(is_able_to_recoil, "is_able_to_recoil"),                                   /* newline */                                       \
       list_macro(is_effect_sparks, "is_effect_sparks"),                                     /* newline */                                       \
       list_macro(is_level_boss_icon, "is_level_boss_icon"),                                 /* newline */                                       \
@@ -1005,6 +1005,7 @@ class Tp;
 [[nodiscard]] auto tp_is_effect_explosion2(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_effect_ripple(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_effect_sparks(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_effect_teleport(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_effect(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_entrance(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_ethereal(Tpp tp) -> bool;
@@ -1162,7 +1163,6 @@ class Tp;
 [[nodiscard]] auto tp_is_unused10(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused100(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused101(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused102(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused11(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused12(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused124(Tpp tp) -> bool;

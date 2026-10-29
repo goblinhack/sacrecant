@@ -2,12 +2,12 @@
 // Copyright goblinhack@gmail.com
 //
 
+#include "my_audio.hpp"
 #include "my_callstack.hpp"
 #include "my_cpp_template.hpp"
 #include "my_file.hpp"
 #include "my_game.hpp"
 #include "my_globals.hpp"
-#include "my_audio.hpp"
 #include "my_main.hpp"
 #include "my_music.hpp"
 #include "my_ptrcheck.hpp"
@@ -45,15 +45,15 @@ public:
 
   std::string name_alias;
   std::string name;
-  SDL_RWops  *rw   = {};
+  SDL_RWops  *rw = {};
 #ifdef USE_SDL3
   MIX_Audio *m = {};
 #else
-  Mix_Music  *m    = {};
+  Mix_Music *m = {};
 #endif
-  uint8_t    *data = {};
-  int         len  = {};
-  uint32_t    rate = 44100;
+  uint8_t *data = {};
+  int      len  = {};
+  uint32_t rate = 44100;
 };
 
 static std::multimap< std::string, class Music * > all;

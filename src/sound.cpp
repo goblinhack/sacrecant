@@ -2,12 +2,12 @@
 // Copyright goblinhack@gmail.com
 //
 
+#include "my_audio.hpp"
 #include "my_callstack.hpp"
 #include "my_cpp_template.hpp"
 #include "my_file.hpp"
 #include "my_game.hpp"
 #include "my_globals.hpp"
-#include "my_audio.hpp"
 #include "my_main.hpp"
 #include "my_ptrcheck.hpp"
 #include "my_sound.hpp"
@@ -55,15 +55,15 @@ public:
 
   std::string name_alias;
   std::string name;
-  SDL_RWops  *rw    = {};
+  SDL_RWops  *rw = {};
 #ifdef USE_SDL3
   MIX_Audio *chunk = {};
 #else
-  Mix_Chunk  *chunk = {};
+  Mix_Chunk *chunk = {};
 #endif
-  uint8_t    *data  = {};
-  int         len   = {};
-  float       volume {};
+  uint8_t *data = {};
+  int      len  = {};
+  float    volume {};
 };
 
 static std::multimap< std::string, class Sound * > all;
@@ -98,7 +98,10 @@ static void sound_finished(int channel)
 }
 
 #ifdef USE_SDL3
-static void sound_track_stopped(void *userdata, MIX_Track * /*track*/) { sound_finished(static_cast< int >(reinterpret_cast< intptr_t >(userdata))); }
+static void sound_track_stopped(void *userdata, MIX_Track * /*track*/)
+{
+  sound_finished(static_cast< int >(reinterpret_cast< intptr_t >(userdata)));
+}
 #endif
 
 [[nodiscard]] auto sound_init() -> bool
@@ -169,7 +172,6 @@ void sound_fini()
     }
   }
   all.clear();
-
 }
 
 static auto find_one(const std::string &name_alias) -> Sound *
@@ -282,7 +284,7 @@ static auto find_one(const std::string &name_alias) -> Sound *
   }
 
   if (chan != -1) {
-    auto *track = tracks[ chan ];
+    auto            *track = tracks[ chan ];
     SDL_PropertiesID props = SDL_CreateProperties();
     SDL_SetNumberProperty(props, MIX_PROP_PLAY_LOOPS_NUMBER, loops);
     if (! MIX_SetTrackAudio(track, m->chunk) || ! MIX_SetTrackGain(track, volume / static_cast< float >(MIX_MAX_VOLUME))

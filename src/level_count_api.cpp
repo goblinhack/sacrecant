@@ -1479,10 +1479,10 @@
   return level_count(g, v, l, is_unused101, p);
 }
 
-[[nodiscard]] auto level_count_is_unused102(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_effect_teleport(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused102, p);
+  return level_count(g, v, l, is_effect_teleport, p);
 }
 
 [[nodiscard]] auto level_count_is_able_to_recoil(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t

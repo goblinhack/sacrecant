@@ -1478,10 +1478,10 @@
   return level_open(g, v, l, is_unused101, p);
 }
 
-[[nodiscard]] auto level_open_is_unused102(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+[[nodiscard]] auto level_open_is_effect_teleport(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_open(g, v, l, is_unused102, p);
+  return level_open(g, v, l, is_effect_teleport, p);
 }
 
 [[nodiscard]] auto level_open_is_able_to_recoil(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp

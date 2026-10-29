@@ -68,6 +68,7 @@ auto tp_load_effect_sparks1() -> bool;
 auto tp_load_effect_sparks2() -> bool;
 auto tp_load_effect_sparks3() -> bool;
 auto tp_load_effect_sparks4() -> bool;
+auto tp_load_effect_teleport() -> bool;
 auto tp_load_entrance() -> bool;
 auto tp_load_exit_closed() -> bool;
 auto tp_load_exit() -> bool;
