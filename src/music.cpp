@@ -7,14 +7,13 @@
 #include "my_file.hpp"
 #include "my_game.hpp"
 #include "my_globals.hpp"
+#include "my_audio.hpp"
 #include "my_main.hpp"
 #include "my_music.hpp"
 #include "my_ptrcheck.hpp"
 #include "my_types.hpp"
 
-#include <SDL_error.h>
-#include <SDL_mixer.h>
-#include <SDL_rwops.h>
+#include "my_sdl_compat.hpp"
 #include <cmath>
 #include <cstdint>
 #include <map>
@@ -29,9 +28,15 @@ public:
 
   ~Music()
   {
+#ifdef USE_SDL3
+    if (m != nullptr) {
+      MIX_DestroyAudio(m);
+    }
+#else
     if (m != nullptr) {
       Mix_FreeMusic(m);
     }
+#endif
     if (rw != nullptr) {
       SDL_RWclose(rw);
     }
@@ -41,7 +46,11 @@ public:
   std::string name_alias;
   std::string name;
   SDL_RWops  *rw   = {};
+#ifdef USE_SDL3
+  MIX_Audio *m = {};
+#else
   Mix_Music  *m    = {};
+#endif
   uint8_t    *data = {};
   int         len  = {};
   uint32_t    rate = 44100;
@@ -53,10 +62,27 @@ static std::string music_current;
 
 static bool music_init_done;
 
+#ifdef USE_SDL3
+//
+// SDL3_mixer plays everything on tracks. We have one for the music.
+//
+static MIX_Track *music_track;
+#endif
+
 [[nodiscard]] auto music_init() -> bool
 {
   TRACE();
 
+#ifdef USE_SDL3
+  //
+  // MIX_Init was done in audio_init and the decoders are built in.
+  //
+  log("SDL: Load mixer");
+  music_track = MIX_CreateTrack(audio_mixer_get());
+  if (music_track == nullptr) {
+    CROAK("MIX_CreateTrack: Failed to create the music track: %s", SDL_GetError());
+  }
+#else
   //
   // MP3 is a pain to use, use OGG instead
   // int flags = MIX_INIT_OGG|MIX_INIT_MP3;
@@ -67,6 +93,7 @@ static bool music_init_done;
   if ((initted & flags) != flags) {
     CROAK("Mix_Init: Failed to init required music support");
   }
+#endif
 
   music_init_done = true;
   return true;
@@ -80,6 +107,16 @@ void music_fini()
   if (music_init_done) {
     music_init_done = false;
 
+#ifdef USE_SDL3
+    //
+    // Stop and release the track before the music it may be playing.
+    //
+    if (music_track != nullptr) {
+      MIX_DestroyTrack(music_track);
+      music_track = nullptr;
+    }
+#endif
+
     for (;;) {
       auto iter = all.begin();
       if (iter == all.end()) {
@@ -89,8 +126,10 @@ void music_fini()
       iter = all.erase(iter);
     }
 
+#ifndef USE_SDL3
     Mix_Quit();
     log("SDL: Mix_Quit");
+#endif
   }
   all.clear();
 }
@@ -134,7 +173,11 @@ static auto find_one(const std::string &alias) -> Music *
     return false;
   }
 
+#ifdef USE_SDL3
+  m->m = MIX_LoadAudio_IO(audio_mixer_get(), m->rw, false /* stream it */, false /* we close the stream */);
+#else
   m->m = Mix_LoadMUS_RW(m->rw, 0);
+#endif
   if (m->m == nullptr) {
     CROAK("Mix_LoadMUS_RW fail [%s]: %s %s", file, Mix_GetError(), SDL_GetError());
     SDL_ClearError();
@@ -150,7 +193,13 @@ static auto find_one(const std::string &alias) -> Music *
 void music_update_volume(Gamep g)
 {
   TRACE();
+#ifdef USE_SDL3
+  if (music_track != nullptr) {
+    MIX_SetTrackGain(music_track, static_cast< float >(game_music_volume_get(g)) / static_cast< float >(MIX_MAX_VOLUME));
+  }
+#else
   Mix_VolumeMusic(game_music_volume_get(g));
+#endif
   SDL_ClearError();
 }
 
@@ -175,7 +224,22 @@ void music_update_volume(Gamep g)
     return true;
   }
 
-  if (Mix_FadeInMusicPos(m->m, -1, 2000, 0) == -1) {
+#ifdef USE_SDL3
+  //
+  // Loop forever, fading in over 2 seconds.
+  //
+  bool play_failed = true;
+  if ((music_track != nullptr) && MIX_SetTrackAudio(music_track, m->m)) {
+    SDL_PropertiesID props = SDL_CreateProperties();
+    SDL_SetNumberProperty(props, MIX_PROP_PLAY_LOOPS_NUMBER, -1);
+    SDL_SetNumberProperty(props, MIX_PROP_PLAY_FADE_IN_MILLISECONDS_NUMBER, 2000);
+    play_failed = ! MIX_PlayTrack(music_track, props);
+    SDL_DestroyProperties(props);
+  }
+#else
+  bool const play_failed = Mix_FadeInMusicPos(m->m, -1, 2000, 0) == -1;
+#endif
+  if (play_failed) {
     ERR("cannot play music %s: %s", name.c_str(), Mix_GetError());
     SDL_ClearError();
     return false;
@@ -193,7 +257,13 @@ void music_update_volume(Gamep g)
   TRACE();
   music_current = "";
 
+#ifdef USE_SDL3
+  if (music_track != nullptr) {
+    MIX_StopTrack(music_track, MIX_TrackMSToFrames(music_track, 1500));
+  }
+#else
   Mix_FadeOutMusic(1500);
+#endif
   return true;
 }
 

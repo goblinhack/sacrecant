@@ -15,7 +15,7 @@
 #include "my_tp.hpp"
 #include "my_types.hpp"
 
-#include <SDL_timer.h>
+#include "my_sdl_compat.hpp"
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
@@ -433,7 +433,7 @@ void tests_run(Gamep g)
     g_opt_test_repeat = 1;
   }
 
-  auto started_tests = SDL_GetTicks();
+  auto started_tests = sdl_compat_get_ticks();
 
   tp_fini();
   for (auto repeat = 0; repeat < g_opt_test_repeat; repeat++) {
@@ -494,7 +494,7 @@ void tests_run(Gamep g)
       //
       // Run the test
       //
-      auto started = SDL_GetTicks();
+      auto started = sdl_compat_get_ticks();
 
       //
       // Some tests modify the Tps so we need to init and reset them each test
@@ -505,7 +505,7 @@ void tests_run(Gamep g)
       }
       tp_fini();
 
-      auto elapsed  = SDL_GetTicks() - started;
+      auto elapsed  = sdl_compat_get_ticks() - started;
       auto how_long = std::format("(took {:.2f} secs, {} ms)", static_cast< float >(elapsed) / 1000.0, elapsed);
 
       //
@@ -586,7 +586,7 @@ void tests_run(Gamep g)
     term_log("%%fg=red$Some tests failed%%fg=reset$\n");
     exit(1);
   } else {
-    auto elapsed = SDL_GetTicks() - started_tests;
+    auto elapsed = sdl_compat_get_ticks() - started_tests;
     con("Results: %d tests passed, took %.2f secs %u ms", passed, static_cast< float >(elapsed) / 1000.0, elapsed);
     term_log("%%fg=green$All tests passed%%fg=reset$\n");
     DIE_CLEAN("done");

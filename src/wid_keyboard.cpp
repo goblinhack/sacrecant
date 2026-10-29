@@ -18,8 +18,7 @@
 #include "my_wid_keyboard.hpp"
 #include "my_wids.hpp"
 
-#include <SDL_keyboard.h>
-#include <SDL_keycode.h>
+#include "my_sdl_compat.hpp"
 #include <cstddef>
 #include <cstdint>
 #include <string>
@@ -258,7 +257,7 @@ static void wid_keyboard_event(Gamep g, Widp w, int focusx, int focusy, const SD
     for (x = 0; x < WID_KEYBOARD_ACROSS; x++) {
       for (y = 0; y < WID_KEYBOARD_DOWN; y++) {
         char const c = key_char[ y ][ x ];
-        if (c == key_in->sym) {
+        if (c == (char) key_in->sym) {
           focusx = x;
           focusy = y;
           break;

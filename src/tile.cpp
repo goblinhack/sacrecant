@@ -370,7 +370,7 @@ void tile_load_arr_sprites(const char *file, const char *alias, uint32_t tile_wi
   bmask = 0x00ff0000;
   amask = 0xff000000;
 #endif
-  auto tmp = SDL_CreateRGBSurface(0, tex_get_width(tex) * 2, tex_get_height(tex) * 2, 32, rmask, gmask, bmask, amask);
+  auto tmp = sdl_compat_create_rgb_surface(tex_get_width(tex) * 2, tex_get_height(tex) * 2, 32, rmask, gmask, bmask, amask);
 #endif
 
   isize pixel_size;

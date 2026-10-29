@@ -6,11 +6,63 @@
 #include "my_callstack.hpp"
 #include "my_main.hpp"
 
-#include <SDL_error.h>
-#include <SDL_mixer.h>
+#include "my_sdl_compat.hpp"
 #include <cmath>
 
 static bool audio_init_done;
+
+#ifdef USE_SDL3
+
+//
+// SDL3_mixer has a different model to SDL2_mixer; a mixer on an audio device, onto which we attach tracks.
+//
+static MIX_Mixer *g_mixer;
+
+[[nodiscard]] auto audio_mixer_get() -> MIX_Mixer * { return g_mixer; }
+
+void audio_fini()
+{
+  log("FINI: audio fini");
+  TRACE_INDENT();
+
+  if (g_mixer != nullptr) {
+    MIX_DestroyMixer(g_mixer);
+    g_mixer = nullptr;
+  }
+  MIX_Quit();
+  audio_init_done = false;
+}
+
+[[nodiscard]] auto audio_init() -> bool
+{
+  TRACE();
+
+  if (! audio_init_done) {
+    if (! MIX_Init()) {
+      ERR("MIX_Init fail: %s", SDL_GetError());
+      SDL_ClearError();
+      return false;
+    }
+
+    SDL_AudioSpec spec {};
+    spec.format   = SDL_AUDIO_S16;
+    spec.channels = 2;
+    spec.freq     = 44100;
+
+    g_mixer = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &spec);
+    if (g_mixer == nullptr) {
+      ERR("MIX_CreateMixerDevice fail: %s", SDL_GetError());
+      SDL_ClearError();
+      return false;
+    }
+
+    audio_init_done = true;
+  }
+
+  return true;
+}
+
+#else // SDL2
 
 void audio_fini()
 {
@@ -63,3 +115,5 @@ void audio_fini()
 
   return true;
 }
+
+#endif // USE_SDL3

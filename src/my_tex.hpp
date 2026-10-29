@@ -8,7 +8,7 @@
 #include "my_gl.hpp"
 #include "my_types.hpp"
 
-#include <SDL.h>
+#include "my_sdl_compat.hpp"
 #include <string>
 
 [[nodiscard]] auto tex_get_gl_binding(Texp tex) -> int;

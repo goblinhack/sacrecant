@@ -8,7 +8,7 @@
 #include "c_plus_plus_serializer.hpp"
 #include "my_hiscore.hpp"
 
-#include <SDL.h>
+#include "my_sdl_compat.hpp"
 
 auto operator<<(std::ostream &out, Bits< const HiScore & > my) -> std::ostream &;  // save
 auto operator>>(std::istream &in, Bits< HiScore & > my) -> std::istream &;         // load

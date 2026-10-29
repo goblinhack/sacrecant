@@ -17,7 +17,7 @@
 #include "my_wid_text_box.hpp"
 #include "my_wids.hpp"
 
-#include <SDL_keyboard.h>
+#include "my_sdl_compat.hpp"
 #include <cmath>
 #include <cstdint>
 #include <cstring>

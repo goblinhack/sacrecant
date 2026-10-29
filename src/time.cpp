@@ -7,7 +7,7 @@
 #include "my_time.hpp"
 #include "my_types.hpp"
 
-#include <SDL_timer.h>
+#include "my_sdl_compat.hpp"
 #include <cstdio>
 #include <ctime>
 #include <string>
@@ -24,7 +24,7 @@ static char buf_[ MAXSHORTSTR ];
 
 [[nodiscard]] auto user_visible_time_ms() -> ts_t
 {
-  user_visible_time_now = SDL_GetTicks();
+  user_visible_time_now = sdl_compat_get_ticks();
 
   return user_visible_time_now;
 }

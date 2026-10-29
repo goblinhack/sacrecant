@@ -17,7 +17,7 @@
 #include "my_wid.hpp"
 #include "my_wids.hpp"
 
-#include <SDL_keyboard.h>
+#include "my_sdl_compat.hpp"
 #include <cstdint>
 
 static Widp wid_intro1_window;

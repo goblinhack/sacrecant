@@ -86,9 +86,18 @@ void cleanup()
   tile_fini();
   blit_fini();
   color_fini();
+#ifdef USE_SDL3
+  //
+  // The mixer owns the tracks, so it has to go last.
+  //
+  music_fini();
+  sound_fini();
+  audio_fini();
+#else
   audio_fini();
   music_fini();
   sound_fini();
+#endif
   sdl_fini(g);
   rooms_fini(g);
   levels_fini(g);

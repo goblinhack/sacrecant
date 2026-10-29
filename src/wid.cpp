@@ -33,10 +33,7 @@
 #include "my_wid_class.hpp"
 #include "my_wids.hpp"
 
-#include <SDL_keyboard.h>
-#include <SDL_keycode.h>
-#include <SDL_mouse.h>
-#include <SDL_version.h>
+#include "my_sdl_compat.hpp"
 #include <array>
 #include <cstdarg>
 #include <cstddef>

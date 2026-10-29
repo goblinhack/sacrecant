@@ -22,8 +22,7 @@
 #include "my_wid_text_box.hpp"
 #include "my_wids.hpp"
 
-#include <SDL_mixer.h>
-#include <SDL_timer.h>
+#include "my_sdl_compat.hpp"
 #include <algorithm>
 #include <cstdint>
 

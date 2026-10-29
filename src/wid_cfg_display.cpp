@@ -18,10 +18,7 @@
 #include "my_wid_popup.hpp"
 #include "my_wids.hpp"
 
-#include <SDL_keyboard.h>
-#include <SDL_keycode.h>
-#include <SDL_stdinc.h>
-#include <SDL_video.h>
+#include "my_sdl_compat.hpp"
 #include <climits>
 #include <cmath>
 #include <cstdint>
@@ -143,11 +140,11 @@ static void wid_cfg_display_destroy()
   }
 
   if (game_gfx_fullscreen_get(g)) {
-    SDL_SetWindowFullscreen(sdl.window, SDL_WINDOW_FULLSCREEN);
+    sdl_compat_set_window_fullscreen(sdl.window, SDL_WINDOW_FULLSCREEN);
   } else if (game_gfx_fullscreen_desktop_get(g)) {
-    SDL_SetWindowFullscreen(sdl.window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+    sdl_compat_set_window_fullscreen(sdl.window, SDL_WINDOW_FULLSCREEN_DESKTOP);
   } else {
-    SDL_SetWindowFullscreen(sdl.window, 0);
+    sdl_compat_set_window_fullscreen(sdl.window, 0);
   }
 
   (void) wid_cfg_display_save(g, 0, 0);
@@ -170,11 +167,11 @@ static void wid_cfg_display_destroy()
   }
 
   if (game_gfx_fullscreen_get(g)) {
-    SDL_SetWindowFullscreen(sdl.window, SDL_WINDOW_FULLSCREEN);
+    sdl_compat_set_window_fullscreen(sdl.window, SDL_WINDOW_FULLSCREEN);
   } else if (game_gfx_fullscreen_desktop_get(g)) {
-    SDL_SetWindowFullscreen(sdl.window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+    sdl_compat_set_window_fullscreen(sdl.window, SDL_WINDOW_FULLSCREEN_DESKTOP);
   } else {
-    SDL_SetWindowFullscreen(sdl.window, 0);
+    sdl_compat_set_window_fullscreen(sdl.window, 0);
   }
 
   (void) wid_cfg_display_save(g, 0, 0);
@@ -252,10 +249,10 @@ static auto wid_cfg_display_find_closest_resolution(Gamep g) -> std::string
   int         best_dist = INT_MAX;
   std::string best_cand;
 
-  auto n = SDL_GetNumDisplayModes(0);
+  auto n = sdl_compat_num_display_modes();
   for (int i = 0; i < n; ++i) {
     SDL_DisplayMode mode;
-    SDL_GetDisplayMode(0, i, &mode);
+    sdl_compat_get_display_mode(i, &mode);
 
     auto cand_res = std::to_string(mode.w) + "x" + std::to_string(mode.h);
     dist          = abs(((w - mode.w) * 10000) + (h - mode.h));
@@ -278,7 +275,7 @@ static auto wid_cfg_display_find_closest_resolution(Gamep g) -> std::string
   if (best_cand.empty()) {
     for (int i = 0; i < n; ++i) {
       SDL_DisplayMode mode;
-      SDL_GetDisplayMode(0, i, &mode);
+      sdl_compat_get_display_mode(i, &mode);
       best_cand = std::to_string(mode.w) + "x" + std::to_string(mode.h);
       break;
     }
@@ -307,13 +304,13 @@ static auto wid_cfg_display_find_closest_resolution(Gamep g) -> std::string
     con("Increment resolution (current %s)", current_res.c_str());
   }
 
-  auto                                     n = SDL_GetNumDisplayModes(0);
+  auto                                     n = sdl_compat_num_display_modes();
   std::string                              chosen;
   std::vector< std::string >               cands;
   std::map< std::string, SDL_DisplayMode > modes;
   for (int i = 0; i < n; ++i) {
     SDL_DisplayMode mode;
-    SDL_GetDisplayMode(0, i, &mode);
+    sdl_compat_get_display_mode(i, &mode);
     auto cand = std::to_string(mode.w) + "x" + std::to_string(mode.h);
     push_back_if_unique(cands, cand);
     modes[ cand ] = mode;
@@ -364,13 +361,13 @@ static auto wid_cfg_display_find_closest_resolution(Gamep g) -> std::string
     con("Decrement resolution (current %s)", current_res.c_str());
   }
 
-  auto                                     n = SDL_GetNumDisplayModes(0);
+  auto                                     n = sdl_compat_num_display_modes();
   std::string                              chosen;
   std::vector< std::string >               cands;
   std::map< std::string, SDL_DisplayMode > modes;
   for (int i = 0; i < n; ++i) {
     SDL_DisplayMode mode;
-    SDL_GetDisplayMode(0, i, &mode);
+    sdl_compat_get_display_mode(i, &mode);
     auto cand = std::to_string(mode.w) + "x" + std::to_string(mode.h);
     push_back_if_unique(cands, cand);
     modes[ cand ] = mode;

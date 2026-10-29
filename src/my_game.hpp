@@ -9,7 +9,7 @@
 #include "my_spoint.hpp"
 #include "my_types.hpp"
 
-#include <SDL.h>
+#include "my_sdl_compat.hpp"
 #include <string>
 #include <vector>
 

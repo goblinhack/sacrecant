@@ -19,14 +19,7 @@
 #include "my_wid.hpp"
 #include "my_wids.hpp"
 
-#include <SDL.h>
-#include <SDL_error.h>
-#include <SDL_gamecontroller.h>
-#include <SDL_haptic.h>
-#include <SDL_joystick.h>
-#include <SDL_mouse.h>
-#include <SDL_version.h>
-#include <SDL_video.h>
+#include "my_sdl_compat.hpp"
 #include <algorithm>
 #include <cmath>
 #include <cstdint>
@@ -56,7 +49,11 @@ void sdl_joy_rumble(float strength, uint32_t ms)
     return;
   }
 
+#ifdef USE_SDL3
+  SDL_PlayHapticRumble(sdl.haptic, strength, ms);
+#else
   SDL_HapticRumblePlay(sdl.haptic, strength, ms);
+#endif
 }
 
 static void sdl_init_rumble()
@@ -64,6 +61,28 @@ static void sdl_init_rumble()
   log("SDL: Init rumble:");
   TRACE();
 
+#ifdef USE_SDL3
+  if (sdl.haptic == nullptr) {
+    sdl.haptic = SDL_OpenHapticFromJoystick(sdl.joy);
+    if (sdl.haptic == nullptr) {
+      log("- Couldn't initialize SDL rumble: %s", SDL_GetError());
+      SDL_ClearError();
+      return;
+    }
+  }
+
+  if (! SDL_HapticRumbleSupported(sdl.haptic)) {
+    log("- No SDL rumble support: %s", SDL_GetError());
+    SDL_ClearError();
+    return;
+  }
+
+  if (! SDL_InitHapticRumble(sdl.haptic)) {
+    log("- SDL rumble nit failed: %s", SDL_GetError());
+    SDL_ClearError();
+    return;
+  }
+#else
   if (sdl.haptic == nullptr) {
     sdl.haptic = SDL_HapticOpenFromJoystick(sdl.joy);
     if (sdl.haptic == nullptr) {
@@ -85,6 +104,8 @@ static void sdl_init_rumble()
     return;
   }
 
+#endif
+
   log("- Opened Haptic for joy index %d", sdl.joy_index);
 }
 
@@ -93,6 +114,64 @@ static void sdl_init_joystick()
   log("SDL: Init input:");
   TRACE();
 
+#ifdef USE_SDL3
+  //
+  // SDL3 identifies joysticks by an instance id and not an index.
+  //
+  SDL_Gamepad const *controller = nullptr;
+
+  log("- Init game controleer");
+  SDL_InitSubSystem(SDL_INIT_GAMEPAD);
+
+  log("- Init haptic");
+  SDL_InitSubSystem(SDL_INIT_HAPTIC);
+
+  log("- Init joystick");
+  SDL_InitSubSystem(SDL_INIT_JOYSTICK);
+
+  int            njoysticks = 0;
+  SDL_JoystickID *joysticks = SDL_GetJoysticks(&njoysticks);
+  if (joysticks == nullptr) {
+    log("- No found gamecontroller");
+    return;
+  }
+
+  sdl.joy_index = 0;
+  for (sdl.joy_index = 0; sdl.joy_index < njoysticks; ++sdl.joy_index) {
+    if (SDL_IsGamepad(joysticks[ sdl.joy_index ])) {
+      controller = SDL_OpenGamepad(joysticks[ sdl.joy_index ]);
+      if (controller != nullptr) {
+        log("- Found gamecontroller");
+        break;
+      }
+      warn("could not open gamecontroller %i: %s", sdl.joy_index, SDL_GetError());
+      SDL_ClearError();
+    }
+  }
+
+  if (controller == nullptr) {
+    log("- No found gamecontroller");
+    SDL_free(joysticks);
+    return;
+  }
+
+  sdl.joy = SDL_OpenJoystick(joysticks[ sdl.joy_index ]);
+  if (sdl.joy != nullptr) {
+    log("- Opened Joystick  : %d", sdl.joy_index);
+    log("- Name             : %s", SDL_GetJoystickNameForID(joysticks[ sdl.joy_index ]));
+    log("- Number of Axes   : %d", SDL_GetNumJoystickAxes(sdl.joy));
+    log("- Number of Buttons: %d", SDL_GetNumJoystickButtons(sdl.joy));
+    log("- Number of Balls  : %d", SDL_GetNumJoystickBalls(sdl.joy));
+
+    sdl.joy_naxes    = SDL_GetNumJoystickAxes(sdl.joy);
+    sdl.joy_nbuttons = SDL_GetNumJoystickButtons(sdl.joy);
+    sdl.joy_balls    = SDL_GetNumJoystickBalls(sdl.joy);
+  } else {
+    warn("Couldn't open Joystick 0");
+  }
+
+  SDL_free(joysticks);
+#else
   SDL_GameController const *controller = nullptr;
 
   log("- Init game controleer");
@@ -137,6 +216,7 @@ static void sdl_init_joystick()
   } else {
     warn("Couldn't open Joystick 0");
   }
+#endif
 }
 
 [[nodiscard]] auto sdl_init() -> bool
@@ -147,16 +227,21 @@ static void sdl_init_joystick()
   TRACE();
 
   log("SDL: Init audio and video");
-  if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
+  if (sdl_compat_init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
     CROAK("SDL_Init failed %s", SDL_GetError());
     return false;
   }
 
+#ifndef USE_SDL3
+  //
+  // SDL3 has no SDL_VideoInit; SDL_Init(SDL_INIT_VIDEO) above is enough.
+  //
   log("SDL: Init video");
   if (SDL_VideoInit(nullptr) != 0) {
     CROAK("SDL_VideoInit failed %s", SDL_GetError());
     return false;
   }
+#endif
 
   //
   // Unused for now
@@ -354,7 +439,7 @@ void sdl_prepare_to_exit(Gamep g)
   TRACE();
 
 #ifdef ENABLE_UI_ASCII_MOUSE
-  SDL_ShowCursor(1);
+  sdl_compat_show_cursor(true);
 #endif
 
   g_main_loop_running = false;

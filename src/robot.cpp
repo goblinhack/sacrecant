@@ -18,10 +18,7 @@
 #include "my_types.hpp"
 #include "my_wids.hpp"
 
-#include <SDL_events.h>
-#include <SDL_keyboard.h>
-#include <SDL_keycode.h>
-#include <SDL_mouse.h>
+#include "my_sdl_compat.hpp"
 #include <cmath>
 #include <initializer_list>
 #include <set>
@@ -75,12 +72,32 @@ static auto operator<(const class Goal &lhs, const class Goal &rhs) -> bool
 static Robot *g_robot;
 
 //
+// SDL2 has the key in the event, so there is nothing to copy. SDL3 has no SDL_Keysym so copy it into the event.
+//
+static void robot_push_event(SDL_Event *e, const SDL_Keysym *key)
+{
+#ifdef USE_SDL3
+  if ((e->type == SDL_KEYDOWN) || (e->type == SDL_KEYUP)) {
+    sdl_compat_event_set_keysym(e, key);
+  }
+#else
+  (void) key;
+#endif
+  SDL_PushEvent(e);
+}
+
+//
 // Main loop
 //
 static void robot_mode_handler_playing(Gamep g, Robot *robot)
 {
   SDL_Event   e   = {};
+#ifdef USE_SDL3
+  SDL_Keysym  keysym {}; // SDL3 has no keysym in the event; it is copied in when we push
+  SDL_Keysym *key = &keysym;
+#else
   SDL_Keysym *key = &e.key.keysym;
+#endif
 
   TRACE();
 
@@ -415,8 +432,9 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
 
       SDL_WarpMouseInWindow(sdl.window, pixel.x, pixel.y);
       e.type = SDL_MOUSEMOTION;
-      SDL_PushEvent(&e);
+      robot_push_event(&e, key);
       e = {};
+      *key = {};
 
       if (v->cursor_at != goal.at) {
         if (compiler_unused) {
@@ -428,13 +446,13 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
       if (thing_is_monst(goal.what_it)) {
         e.type = SDL_KEYDOWN;
         *key   = game_key_fire_get(g);
-        SDL_PushEvent(&e);
+        robot_push_event(&e, key);
         log("Robot: fire!");
         return;
       }
       e.type          = SDL_MOUSEBUTTONDOWN;
       e.button.button = 0;
-      SDL_PushEvent(&e);
+      robot_push_event(&e, key);
       log("Robot: mouse down");
       return;
     }
@@ -459,7 +477,12 @@ void robot_mode_handler(Gamep g)
   }
 
   SDL_Event   e   = {};
+#ifdef USE_SDL3
+  SDL_Keysym  keysym {}; // SDL3 has no keysym in the event; it is copied in when we push
+  SDL_Keysym *key = &keysym;
+#else
   SDL_Keysym *key = &e.key.keysym;
+#endif
 
   switch (game_state(g)) {
     case STATE_INIT : break;
@@ -470,7 +493,7 @@ void robot_mode_handler(Gamep g)
         g_robot  = new Robot();
         e.type   = SDL_KEYDOWN;
         key->sym = SDLK_SPACE;
-        SDL_PushEvent(&e);
+        robot_push_event(&e, key);
       }
       break;
     case STATE_PLAYER_SELECT_MENU :
@@ -478,8 +501,8 @@ void robot_mode_handler(Gamep g)
         con("Robot: player select menu: send SPACE key x 2");
         e.type   = SDL_KEYDOWN;
         key->sym = SDLK_SPACE;
-        SDL_PushEvent(&e);
-        SDL_PushEvent(&e);
+        robot_push_event(&e, key);
+        robot_push_event(&e, key);
       }
       break;
     case STATE_LEVEL_SELECT_MENU :
@@ -491,7 +514,7 @@ void robot_mode_handler(Gamep g)
         } else {
           e.type   = SDL_KEYDOWN;
           key->sym = SDLK_SPACE;
-          SDL_PushEvent(&e);
+          robot_push_event(&e, key);
         }
       }
       break;
@@ -515,7 +538,7 @@ void robot_mode_handler(Gamep g)
         con("Robot: player statistic menu: send ESCAPE key");
         e.type   = SDL_KEYDOWN;
         key->sym = SDLK_ESCAPE;
-        SDL_PushEvent(&e);
+        robot_push_event(&e, key);
       }
       break;
     case STATE_DEAD_MENU :
@@ -523,7 +546,7 @@ void robot_mode_handler(Gamep g)
         con("Robot: player dead menu: send ESCAPE key");
         e.type   = SDL_KEYDOWN;
         key->sym = SDLK_ESCAPE;
-        SDL_PushEvent(&e);
+        robot_push_event(&e, key);
 
         //
         // New seed
@@ -539,7 +562,7 @@ void robot_mode_handler(Gamep g)
         con("Robot: warning menu, send 'y'");
         e.type   = SDL_KEYDOWN;
         key->sym = SDLK_y;
-        SDL_PushEvent(&e);
+        robot_push_event(&e, key);
       }
       break;
     case STATE_COLLECT_MENU :
@@ -547,7 +570,7 @@ void robot_mode_handler(Gamep g)
         con("Robot: collect menu, send 'a'");
         e.type   = SDL_KEYDOWN;
         key->sym = SDLK_a;
-        SDL_PushEvent(&e);
+        robot_push_event(&e, key);
       }
       break;
     case STATE_KEYBOARD_MENU :    break;

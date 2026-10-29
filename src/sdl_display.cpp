@@ -9,15 +9,12 @@
 #include "my_globals.hpp"
 #include "my_level.hpp"
 #include "my_main.hpp"
+#include "my_sdl_compat.hpp"
 #include "my_sdl_event.hpp"
 #include "my_sdl_proto.hpp"
 #include "my_types.hpp"
 #include "my_wid.hpp"
 #include "my_wids.hpp"
-#include <SDL_error.h>
-#include <SDL_events.h>
-#include <SDL_timer.h>
-#include <SDL_video.h>
 #include <cmath>
 #include <cstdint>
 #include <cstring>
@@ -123,9 +120,9 @@ static inline void sdl_list_video_size()
 
   IF_NODEBUG { return; }
 
-  for (i = 0; i < SDL_GetNumDisplayModes(0); ++i) {
+  for (i = 0; i < sdl_compat_num_display_modes(); ++i) {
     SDL_DisplayMode mode;
-    SDL_GetDisplayMode(0, i, &mode);
+    sdl_compat_get_display_mode(i, &mode);
     DBG("+ SDL video            : %dx%d available, ratio %f", mode.w, mode.h, (static_cast< float >(mode.w)) / (static_cast< float >(mode.h)));
   }
 }
@@ -154,7 +151,7 @@ static inline void sdl_list_video_size()
     memset(&mode, 0, SIZEOF(mode));
 
     log("SDL: Init display");
-    if (SDL_GetCurrentDisplayMode(0, &mode) < 0) {
+    if (sdl_compat_get_current_display_mode(&mode) < 0) {
       CROAK("SDL_GetCurrentDisplayMode couldn't set windowed display: '%s'", SDL_GetError());
       return false;
     }
@@ -185,7 +182,7 @@ static inline void sdl_list_video_size()
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 #endif
 
-  uint32_t video_flags = 0;
+  uint64_t video_flags = 0; // 64 bits in SDL3
 
   log("SDL: Set SDL_WINDOW_OPENGL");
   video_flags = SDL_WINDOW_OPENGL;
@@ -239,7 +236,7 @@ static inline void sdl_list_video_size()
     log("SDL: Create window size %ux%u", video_width, video_height);
   }
 
-  sdl.window = SDL_CreateWindow("sacrecant", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, video_width, video_height, video_flags);
+  sdl.window = sdl_compat_create_window("sacrecant", video_width, video_height, video_flags);
 
   if (sdl.window == nullptr) {
     ERR("SDL_CreateWindow couldn't set windowed display %ux%u: '%s'", video_width, video_height, SDL_GetError());
@@ -258,7 +255,11 @@ static inline void sdl_list_video_size()
   game_config_pix_height_set(g, h);
 
   if (video_flags & SDL_WINDOW_ALLOW_HIGHDPI) {
+#ifdef USE_SDL3
+    SDL_GetWindowSizeInPixels(sdl.window, &w, &h);
+#else
     SDL_GL_GetDrawableSize(sdl.window, &w, &h);
+#endif
     log("SDL: Created window drawable size %ux%u", w, h);
   }
 
@@ -273,8 +274,8 @@ static inline void sdl_list_video_size()
     return false;
   }
 
-  log("SDL: Call SDL_GL_MakeCurrent()");
-  if (SDL_GL_MakeCurrent(sdl.window, sdl.context) < 0) {
+  log("SDL: Call sdl_compat_gl_make_current()");
+  if (sdl_compat_gl_make_current(sdl.window, sdl.context) < 0) {
     SDL_ClearError();
     ERR("SDL_GL_MakeCurrent failed %s", SDL_GetError());
     return false;
@@ -288,7 +289,9 @@ static inline void sdl_list_video_size()
     SDL_SetWindowTitle(sdl.window, "sacrecant");
   }
 
+#ifndef USE_SDL3
   SDL_SetWindowInputFocus(sdl.window);
+#endif
 
 #if __APPLE__
   SDL_Event evt;
@@ -338,12 +341,14 @@ void sdl_display_fini(Gamep g)
   gl_fini_2d_mode(g);
 
 #ifdef ENABLE_UI_ASCII_MOUSE
-  SDL_ShowCursor(0);
-  SDL_ShowCursor(1);
+  sdl_compat_show_cursor(false);
+  sdl_compat_show_cursor(true);
 #endif
 
+#ifndef USE_SDL3
   log("SDL: Video quit");
   SDL_VideoQuit();
+#endif
 
   log("SDL: Delete GL context");
   SDL_GL_DeleteContext(sdl.context);

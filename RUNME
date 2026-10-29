@@ -118,6 +118,7 @@ Usage: $0 [options]
   [--prof]   Enable gprof
   [--gcc]    Prefer g++ over clang
   [--github] CI/CD build (turns off modification of README)
+  [--sdl3]   Build against SDL3 and SDL3_mixer instead of SDL2
   [--web]    Enable emscripten build
   [--gles]   Enable GLES build
 %%
@@ -130,6 +131,7 @@ OPT_GLES_BUILD=
 OPT_SANITY_BUILD=
 OPT_PROFILE_BUILD=
 OPT_GCC=
+OPT_SDL3=
 OPT_GITHUB_BUILD=
 
 read_opts()
@@ -170,6 +172,10 @@ read_opts()
                 OPT_GLES_BUILD="yes"
                 shift
                 ;;
+            -*sdl3)
+                OPT_SDL3="yes"
+                shift
+                ;;
             -*gcc)
                 OPT_GCC="yes"
                 shift
@@ -200,6 +206,7 @@ export OPT_RELEASE_BUILD
 export OPT_GITHUB_BUILD
 export OPT_PROFILE_BUILD
 export OPT_GCC
+export OPT_SDL3
 
 read_opts "$@"
 

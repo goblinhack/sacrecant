@@ -21,7 +21,7 @@
 #include <emscripten.h>
 #endif
 
-#include <SDL_events.h>
+#include "my_sdl_compat.hpp"
 #include <cmath>
 #include <cstdint>
 
@@ -276,9 +276,12 @@ void sdl_loop(Gamep g)
   log("SDL: main loop");
   TRACE_INDENT();
 
+  warn("GFX info");
+  warn("========");
   warn("OpenGL: Vendor   : %s", glGetString(GL_VENDOR));
   warn("OpenGL: Renderer : %s", glGetString(GL_RENDERER));
   warn("OpenGL: Version  : %s", glGetString(GL_VERSION));
+  warn("SDL:    Version  : %u.%u", SDL_MAJOR_VERSION, SDL_MINOR_VERSION);
 
   sdl_mouse_center(g);
 
@@ -287,7 +290,7 @@ void sdl_loop(Gamep g)
   g_main_loop_running = true;
 
 #ifdef ENABLE_UI_ASCII_MOUSE
-  SDL_ShowCursor(0);
+  sdl_compat_show_cursor(false);
 #endif
 
   //
@@ -312,6 +315,6 @@ void sdl_loop(Gamep g)
   gl_leave_2d_mode(g);
 
 #ifdef ENABLE_UI_ASCII_MOUSE
-  SDL_ShowCursor(1);
+  sdl_compat_show_cursor(true);
 #endif
 }

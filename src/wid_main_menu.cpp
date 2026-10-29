@@ -22,8 +22,7 @@
 #include "my_wid_popup.hpp"
 #include "my_wids.hpp"
 
-#include <SDL_events.h>
-#include <SDL_keyboard.h>
+#include "my_sdl_compat.hpp"
 #include <algorithm>
 #include <cmath>
 #include <cstdint>

@@ -15,6 +15,8 @@
 #include "my_tp_class.hpp"
 #include "my_tp_inlines.hpp"
 
+#include <inttypes.h>
+
 [[nodiscard]] static inline auto tp_flag(Tpp tp, ThingFlagType f) -> int
 {
 #ifdef DEBUG_BUILD

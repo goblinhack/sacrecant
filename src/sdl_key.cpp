@@ -6,9 +6,7 @@
 #include "my_main.hpp"
 #include "my_sdl_proto.hpp"
 
-#include <SDL_keyboard.h>
-#include <SDL_keycode.h>
-#include <SDL_scancode.h>
+#include "my_sdl_compat.hpp"
 #include <string>
 
 [[nodiscard]] auto to_string_ignoring_mods(const SDL_Keysym &k) -> std::string
@@ -168,26 +166,6 @@
     return "<Application>";
   }
 
-  if ((k.scancode == SDL_SCANCODE_AUDIOMUTE) || (k.sym == SDLK_AUDIOMUTE)) {
-    return "<AudioMute>";
-  }
-
-  if ((k.scancode == SDL_SCANCODE_AUDIONEXT) || (k.sym == SDLK_AUDIONEXT)) {
-    return "<AudioNext>";
-  }
-
-  if ((k.scancode == SDL_SCANCODE_AUDIOPLAY) || (k.sym == SDLK_AUDIOPLAY)) {
-    return "<AudioPlay>";
-  }
-
-  if ((k.scancode == SDL_SCANCODE_AUDIOPREV) || (k.sym == SDLK_AUDIOPREV)) {
-    return "<AudioPrev>";
-  }
-
-  if ((k.scancode == SDL_SCANCODE_AUDIOSTOP) || (k.sym == SDLK_AUDIOSTOP)) {
-    return "<AudioStop>";
-  }
-
   if ((k.scancode == SDL_SCANCODE_B) || (k.sym == SDLK_b)) {
     return "b";
   }
@@ -200,24 +178,8 @@
     return "<Backspace>";
   }
 
-  if ((k.scancode == SDL_SCANCODE_BRIGHTNESSDOWN) || (k.sym == SDLK_BRIGHTNESSDOWN)) {
-    return "<BrightnessDown>";
-  }
-
-  if ((k.scancode == SDL_SCANCODE_BRIGHTNESSUP) || (k.sym == SDLK_BRIGHTNESSUP)) {
-    return "<BrightnessUp>";
-  }
-
   if ((k.scancode == SDL_SCANCODE_C) || (k.sym == SDLK_c)) {
     return "c";
-  }
-
-  if ((k.scancode == SDL_SCANCODE_CALCULATOR) || (k.sym == SDLK_CALCULATOR)) {
-    return "<Calculator>";
-  }
-
-  if ((k.scancode == SDL_SCANCODE_CANCEL) || (k.sym == SDLK_CANCEL)) {
-    return "<Cancel>";
   }
 
   if ((k.scancode == SDL_SCANCODE_CAPSLOCK) || (k.sym == SDLK_CAPSLOCK)) {
@@ -234,10 +196,6 @@
 
   if ((k.scancode == SDL_SCANCODE_COMMA) || (k.sym == SDLK_COMMA)) {
     return ",";
-  }
-
-  if ((k.scancode == SDL_SCANCODE_COMPUTER) || (k.sym == SDLK_COMPUTER)) {
-    return "<Computer>";
   }
 
   if ((k.scancode == SDL_SCANCODE_COPY) || (k.sym == SDLK_COPY)) {
@@ -272,20 +230,12 @@
     return "<Delete>";
   }
 
-  if ((k.scancode == SDL_SCANCODE_DISPLAYSWITCH) || (k.sym == SDLK_DISPLAYSWITCH)) {
-    return "<DisplaySwitch>";
-  }
-
   if ((k.scancode == SDL_SCANCODE_DOWN) || (k.sym == SDLK_DOWN)) {
     return "<Down>";
   }
 
   if ((k.scancode == SDL_SCANCODE_E) || (k.sym == SDLK_e)) {
     return "e";
-  }
-
-  if ((k.scancode == SDL_SCANCODE_EJECT) || (k.sym == SDLK_EJECT)) {
-    return "<Eject>";
   }
 
   if ((k.scancode == SDL_SCANCODE_END) || (k.sym == SDLK_END)) {
@@ -446,18 +396,6 @@
 
   if ((k.scancode == SDL_SCANCODE_K) || (k.sym == SDLK_k)) {
     return "k";
-  }
-
-  if ((k.scancode == SDL_SCANCODE_KBDILLUMDOWN) || (k.sym == SDLK_KBDILLUMDOWN)) {
-    return "<KBDIllumDown>";
-  }
-
-  if ((k.scancode == SDL_SCANCODE_KBDILLUMTOGGLE) || (k.sym == SDLK_KBDILLUMTOGGLE)) {
-    return "<KBDIllumToggle>";
-  }
-
-  if ((k.scancode == SDL_SCANCODE_KBDILLUMUP) || (k.sym == SDLK_KBDILLUMUP)) {
-    return "<KBDIllumUp>";
   }
 
   if ((k.scancode == SDL_SCANCODE_KP_0) || (k.sym == SDLK_KP_0)) {
@@ -708,18 +646,6 @@
     return "m";
   }
 
-  if ((k.scancode == SDL_SCANCODE_MAIL) || (k.sym == SDLK_MAIL)) {
-    return "<Mail>";
-  }
-
-  if ((k.scancode == SDL_SCANCODE_MEDIASELECT) || (k.sym == SDLK_MEDIASELECT)) {
-    return "<MediaSelect>";
-  }
-
-  if ((k.scancode == SDL_SCANCODE_MENU) || (k.sym == SDLK_MENU)) {
-    return "<Menu>";
-  }
-
   if ((k.scancode == SDL_SCANCODE_MINUS) || (k.sym == SDLK_MINUS)) {
     return "-";
   }
@@ -886,10 +812,6 @@
 
   if ((k.scancode == SDL_SCANCODE_W) || (k.sym == SDLK_w)) {
     return "w";
-  }
-
-  if ((k.scancode == SDL_SCANCODE_WWW) || (k.sym == SDLK_WWW)) {
-    return "<WWW>";
   }
 
   if ((k.scancode == SDL_SCANCODE_X) || (k.sym == SDLK_x)) {
@@ -1230,26 +1152,6 @@
     return true;
   }
 
-  if ((k.scancode == s) || ((s == SDL_SCANCODE_AUDIOMUTE) && (k.sym == SDLK_AUDIOMUTE))) {
-    return true;
-  }
-
-  if ((k.scancode == s) || ((s == SDL_SCANCODE_AUDIONEXT) && (k.sym == SDLK_AUDIONEXT))) {
-    return true;
-  }
-
-  if ((k.scancode == s) || ((s == SDL_SCANCODE_AUDIOPLAY) && (k.sym == SDLK_AUDIOPLAY))) {
-    return true;
-  }
-
-  if ((k.scancode == s) || ((s == SDL_SCANCODE_AUDIOPREV) && (k.sym == SDLK_AUDIOPREV))) {
-    return true;
-  }
-
-  if ((k.scancode == s) || ((s == SDL_SCANCODE_AUDIOSTOP) && (k.sym == SDLK_AUDIOSTOP))) {
-    return true;
-  }
-
   if ((k.scancode == s) || ((s == SDL_SCANCODE_B) && (k.sym == SDLK_b))) {
     return true;
   }
@@ -1262,23 +1164,7 @@
     return true;
   }
 
-  if ((k.scancode == s) || ((s == SDL_SCANCODE_BRIGHTNESSDOWN) && (k.sym == SDLK_BRIGHTNESSDOWN))) {
-    return true;
-  }
-
-  if ((k.scancode == s) || ((s == SDL_SCANCODE_BRIGHTNESSUP) && (k.sym == SDLK_BRIGHTNESSUP))) {
-    return true;
-  }
-
   if ((k.scancode == s) || ((s == SDL_SCANCODE_C) && (k.sym == SDLK_c))) {
-    return true;
-  }
-
-  if ((k.scancode == s) || ((s == SDL_SCANCODE_CALCULATOR) && (k.sym == SDLK_CALCULATOR))) {
-    return true;
-  }
-
-  if ((k.scancode == s) || ((s == SDL_SCANCODE_CANCEL) && (k.sym == SDLK_CANCEL))) {
     return true;
   }
 
@@ -1295,10 +1181,6 @@
   }
 
   if ((k.scancode == s) || ((s == SDL_SCANCODE_COMMA) && (k.sym == SDLK_COMMA))) {
-    return true;
-  }
-
-  if ((k.scancode == s) || ((s == SDL_SCANCODE_COMPUTER) && (k.sym == SDLK_COMPUTER))) {
     return true;
   }
 
@@ -1334,19 +1216,11 @@
     return true;
   }
 
-  if ((k.scancode == s) || ((s == SDL_SCANCODE_DISPLAYSWITCH) && (k.sym == SDLK_DISPLAYSWITCH))) {
-    return true;
-  }
-
   if ((k.scancode == s) || ((s == SDL_SCANCODE_DOWN) && (k.sym == SDLK_DOWN))) {
     return true;
   }
 
   if ((k.scancode == s) || ((s == SDL_SCANCODE_E) && (k.sym == SDLK_e))) {
-    return true;
-  }
-
-  if ((k.scancode == s) || ((s == SDL_SCANCODE_EJECT) && (k.sym == SDLK_EJECT))) {
     return true;
   }
 
@@ -1507,18 +1381,6 @@
   }
 
   if ((k.scancode == s) || ((s == SDL_SCANCODE_K) && (k.sym == SDLK_k))) {
-    return true;
-  }
-
-  if ((k.scancode == s) || ((s == SDL_SCANCODE_KBDILLUMDOWN) && (k.sym == SDLK_KBDILLUMDOWN))) {
-    return true;
-  }
-
-  if ((k.scancode == s) || ((s == SDL_SCANCODE_KBDILLUMTOGGLE) && (k.sym == SDLK_KBDILLUMTOGGLE))) {
-    return true;
-  }
-
-  if ((k.scancode == s) || ((s == SDL_SCANCODE_KBDILLUMUP) && (k.sym == SDLK_KBDILLUMUP))) {
     return true;
   }
 
@@ -1790,14 +1652,6 @@
     return true;
   }
 
-  if ((k.scancode == s) || ((s == SDL_SCANCODE_MAIL) && (k.sym == SDLK_MAIL))) {
-    return true;
-  }
-
-  if ((k.scancode == s) || ((s == SDL_SCANCODE_MEDIASELECT) && (k.sym == SDLK_MEDIASELECT))) {
-    return true;
-  }
-
   if ((k.scancode == s) || ((s == SDL_SCANCODE_MENU) && (k.sym == SDLK_MENU))) {
     return true;
   }
@@ -1990,10 +1844,6 @@
     return true;
   }
 
-  if ((k.scancode == s) || ((s == SDL_SCANCODE_WWW) && (k.sym == SDLK_WWW))) {
-    return true;
-  }
-
   if ((k.scancode == s) || ((s == SDL_SCANCODE_X) && (k.sym == SDLK_x))) {
     return true;
   }
@@ -2103,26 +1953,6 @@
     return SDL_SCANCODE_APPLICATION;
   }
 
-  if (k.sym == SDLK_AUDIOMUTE) {
-    return SDL_SCANCODE_AUDIOMUTE;
-  }
-
-  if (k.sym == SDLK_AUDIONEXT) {
-    return SDL_SCANCODE_AUDIONEXT;
-  }
-
-  if (k.sym == SDLK_AUDIOPLAY) {
-    return SDL_SCANCODE_AUDIOPLAY;
-  }
-
-  if (k.sym == SDLK_AUDIOPREV) {
-    return SDL_SCANCODE_AUDIOPREV;
-  }
-
-  if (k.sym == SDLK_AUDIOSTOP) {
-    return SDL_SCANCODE_AUDIOSTOP;
-  }
-
   if (k.sym == SDLK_b) {
     return SDL_SCANCODE_B;
   }
@@ -2135,20 +1965,8 @@
     return SDL_SCANCODE_BACKSPACE;
   }
 
-  if (k.sym == SDLK_BRIGHTNESSDOWN) {
-    return SDL_SCANCODE_BRIGHTNESSDOWN;
-  }
-
-  if (k.sym == SDLK_BRIGHTNESSUP) {
-    return SDL_SCANCODE_BRIGHTNESSUP;
-  }
-
   if (k.sym == SDLK_c) {
     return SDL_SCANCODE_C;
-  }
-
-  if (k.sym == SDLK_CALCULATOR) {
-    return SDL_SCANCODE_CALCULATOR;
   }
 
   if (k.sym == SDLK_CANCEL) {
@@ -2169,10 +1987,6 @@
 
   if (k.sym == SDLK_COMMA) {
     return SDL_SCANCODE_COMMA;
-  }
-
-  if (k.sym == SDLK_COMPUTER) {
-    return SDL_SCANCODE_COMPUTER;
   }
 
   if (k.sym == SDLK_COPY) {
@@ -2207,20 +2021,12 @@
     return SDL_SCANCODE_DELETE;
   }
 
-  if (k.sym == SDLK_DISPLAYSWITCH) {
-    return SDL_SCANCODE_DISPLAYSWITCH;
-  }
-
   if (k.sym == SDLK_DOWN) {
     return SDL_SCANCODE_DOWN;
   }
 
   if (k.sym == SDLK_e) {
     return SDL_SCANCODE_E;
-  }
-
-  if (k.sym == SDLK_EJECT) {
-    return SDL_SCANCODE_EJECT;
   }
 
   if (k.sym == SDLK_END) {
@@ -2381,18 +2187,6 @@
 
   if (k.sym == SDLK_k) {
     return SDL_SCANCODE_K;
-  }
-
-  if (k.sym == SDLK_KBDILLUMDOWN) {
-    return SDL_SCANCODE_KBDILLUMDOWN;
-  }
-
-  if (k.sym == SDLK_KBDILLUMTOGGLE) {
-    return SDL_SCANCODE_KBDILLUMTOGGLE;
-  }
-
-  if (k.sym == SDLK_KBDILLUMUP) {
-    return SDL_SCANCODE_KBDILLUMUP;
   }
 
   if (k.sym == SDLK_KP_0) {
@@ -2663,18 +2457,6 @@
     return SDL_SCANCODE_M;
   }
 
-  if (k.sym == SDLK_MAIL) {
-    return SDL_SCANCODE_MAIL;
-  }
-
-  if (k.sym == SDLK_MEDIASELECT) {
-    return SDL_SCANCODE_MEDIASELECT;
-  }
-
-  if (k.sym == SDLK_MENU) {
-    return SDL_SCANCODE_MENU;
-  }
-
   if (k.sym == SDLK_MINUS) {
     return SDL_SCANCODE_MINUS;
   }
@@ -2861,10 +2643,6 @@
 
   if (k.sym == SDLK_w) {
     return SDL_SCANCODE_W;
-  }
-
-  if (k.sym == SDLK_WWW) {
-    return SDL_SCANCODE_WWW;
   }
 
   if (k.sym == SDLK_x) {

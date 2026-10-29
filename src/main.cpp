@@ -30,8 +30,7 @@
 #include "my_wid_tiles.hpp"
 #include "my_wids.hpp"
 
-#include <SDL_events.h>
-#include <SDL_video.h>
+#include "my_sdl_compat.hpp"
 #include <chrono>
 #include <cmath>
 #include <csignal>

@@ -5,7 +5,7 @@
 #ifndef MY_SDL_EVENT_HPP
 #define MY_SDL_EVENT_HPP
 
-#include <SDL.h>
+#include "my_sdl_compat.hpp"
 #include <array>
 
 #include "my_time.hpp"

@@ -16,10 +16,8 @@
 #include "my_types.hpp"
 #include "my_ui.hpp"
 
-#include <SDL_endian.h>
-#include <SDL_error.h>
-#include <SDL_pixels.h>
-#include <SDL_surface.h>
+#include "my_sdl_compat.hpp"
+
 #include <cstdint>
 #include <cstring>
 #include <string>
@@ -173,13 +171,13 @@ static auto load_image(const std::string &filename) -> SDL_Surface *
 #endif
 
   if (comp == 4) {
-    surf = SDL_CreateRGBSurface(0, x, y, 32, rmask, gmask, bmask, amask);
+    surf = sdl_compat_create_rgb_surface(x, y, 32, rmask, gmask, bmask, amask);
     NEWPTR(MTYPE_SDL, surf, "SDL_CreateRGBSurface1");
   } else if (comp == 3) {
-    surf = SDL_CreateRGBSurface(0, x, y, 24, rmask, gmask, bmask, 0);
+    surf = sdl_compat_create_rgb_surface(x, y, 24, rmask, gmask, bmask, 0);
     NEWPTR(MTYPE_SDL, surf, "SDL_CreateRGBSurface2");
   } else if (comp == 2) {
-    surf = SDL_CreateRGBSurface(0, x, y, 32, 0, 0, 0, 0);
+    surf = sdl_compat_create_rgb_surface(x, y, 32, 0, 0, 0, 0);
     NEWPTR(MTYPE_SDL, surf, "SDL_CreateRGBSurface3");
   } else {
     ERR("could not handle image with %d components", comp);
@@ -192,7 +190,7 @@ static auto load_image(const std::string &filename) -> SDL_Surface *
   if ((comp == 2) || (comp == 3)) {
     SDL_Surface *old_surf = surf;
     DBG2("- SDL_ConvertSurfaceFormat");
-    surf = SDL_ConvertSurfaceFormat(old_surf, SDL_PIXELFORMAT_RGBA8888, 0);
+    surf = sdl_compat_convert_surface(old_surf, SDL_PIXELFORMAT_RGBA8888);
     NEWPTR(MTYPE_SDL, surf, "SDL_CreateRGBSurface4");
     OLDPTR(MTYPE_SDL, old_surf);
     SDL_FreeSurface(old_surf);
@@ -236,21 +234,21 @@ static void load_images(SDL_Surface **surf1_out, const std::string &filename)
 #endif
 
   if (comp == 4) {
-    surf1 = SDL_CreateRGBSurface(0, x, y, 32, rmask, gmask, bmask, amask);
+    surf1 = sdl_compat_create_rgb_surface(x, y, 32, rmask, gmask, bmask, amask);
     if (surf1 == nullptr) {
       ERR("could not create surface");
       return;
     }
     NEWPTR(MTYPE_SDL, surf1, "SDL_CreateRGBSurface5");
   } else if (comp == 3) {
-    surf1 = SDL_CreateRGBSurface(0, x, y, 24, rmask, gmask, bmask, 0);
+    surf1 = sdl_compat_create_rgb_surface(x, y, 24, rmask, gmask, bmask, 0);
     if (surf1 == nullptr) {
       ERR("could not create surface");
       return;
     }
     NEWPTR(MTYPE_SDL, surf1, "SDL_CreateRGBSurface6");
   } else if (comp == 2) {
-    surf1 = SDL_CreateRGBSurface(0, x, y, 32, 0, 0, 0, 0);
+    surf1 = sdl_compat_create_rgb_surface(x, y, 32, 0, 0, 0, 0);
     if (surf1 == nullptr) {
       ERR("could not create surface");
       return;
@@ -266,7 +264,7 @@ static void load_images(SDL_Surface **surf1_out, const std::string &filename)
   if ((comp == 2) || (comp == 3)) {
     SDL_Surface *old_surf = surf1;
     DBG2("- SDL_ConvertSurfaceFormat");
-    surf1 = SDL_ConvertSurfaceFormat(old_surf, SDL_PIXELFORMAT_RGBA8888, 0);
+    surf1 = sdl_compat_convert_surface(old_surf, SDL_PIXELFORMAT_RGBA8888);
     if (surf1 == nullptr) {
       ERR("could not convert surface");
       return;
@@ -363,16 +361,16 @@ static auto tex_create_masks_from_surface(SDL_Surface *src, const std::string &f
   uint32_t       src_x      = 0;
   uint32_t       src_y      = 0;
 
-  SDL_Surface *dst_monochrome = SDL_CreateRGBSurface(0, src_width, src_height, 32, rmask, gmask, bmask, amask);
+  SDL_Surface *dst_monochrome = sdl_compat_create_rgb_surface(src_width, src_height, 32, rmask, gmask, bmask, amask);
   NEWPTR(MTYPE_SDL, dst_monochrome, "SDL_CreateRGBSurface17");
 
-  SDL_Surface *dst_mask = SDL_CreateRGBSurface(0, src_width, src_height, 32, rmask, gmask, bmask, amask);
+  SDL_Surface *dst_mask = sdl_compat_create_rgb_surface(src_width, src_height, 32, rmask, gmask, bmask, amask);
   NEWPTR(MTYPE_SDL, dst_mask, "SDL_CreateRGBSurface18");
 
-  SDL_Surface *dst_outline_w_black_inside = SDL_CreateRGBSurface(0, src_width, src_height, 32, rmask, gmask, bmask, amask);
+  SDL_Surface *dst_outline_w_black_inside = sdl_compat_create_rgb_surface(src_width, src_height, 32, rmask, gmask, bmask, amask);
   NEWPTR(MTYPE_SDL, dst_outline_w_black_inside, "SDL_CreateRGBSurface19");
 
-  SDL_Surface *dst_outline_w_invis_inside = SDL_CreateRGBSurface(0, src_width, src_height, 32, rmask, gmask, bmask, amask);
+  SDL_Surface *dst_outline_w_invis_inside = sdl_compat_create_rgb_surface(src_width, src_height, 32, rmask, gmask, bmask, amask);
   NEWPTR(MTYPE_SDL, dst_outline_w_invis_inside, "SDL_CreateRGBSurface19");
 
   color const col_white(255, 255, 255, 255);
@@ -560,8 +558,8 @@ void tex_load_sprites(Texp *tex, Texp *tex_monochrome, Texp *tex_mask, // newlin
     // We keep the original surface as it is also used for CPU side pixel access.
     //
     SDL_Surface *upload = surface;
-    if (surface->format->format != SDL_PIXELFORMAT_RGBA32) {
-      upload = SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_RGBA32, 0);
+    if (SDL_SURFACE_FORMAT(surface) != SDL_PIXELFORMAT_RGBA32) {
+      upload = sdl_compat_convert_surface(surface, SDL_PIXELFORMAT_RGBA32);
       if (upload == nullptr) {
         ERR("'%s' could not convert to RGBA32: %s", file.c_str(), SDL_GetError());
         return nullptr;

@@ -2,9 +2,7 @@
 // Copyright goblinhack@gmail.com
 //
 
-#include <SDL_keyboard.h>
-#include <SDL_keycode.h>
-#include <SDL_mixer.h>
+#include "my_sdl_compat.hpp"
 #include <cstdint>
 #include <string>
 

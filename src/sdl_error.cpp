@@ -6,10 +6,7 @@
 #include "my_main.hpp"
 #include "my_string.hpp"
 
-#include <SDL_log.h>
-#include <SDL_messagebox.h>
-#include <SDL_version.h>
-#include <SDL_video.h>
+#include "my_sdl_compat.hpp"
 #include <cmath>
 #include <cstdarg>
 #include <cstdio>
@@ -37,8 +34,14 @@ static void sdl_msgerr_(const char *fmt, va_list args)
   //
   log("show SDL message box");
 
-  auto *window = SDL_CreateWindow("sacrecant error", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 100, 100,
-                                  SDL_WINDOW_SHOWN | SDL_WINDOW_ALWAYS_ON_TOP);
+#ifdef USE_SDL3
+  //
+  // SDL_WINDOW_SHOWN no longer exists; windows are shown by default.
+  //
+  auto *window = sdl_compat_create_window("sacrecant error", 100, 100, SDL_WINDOW_ALWAYS_ON_TOP);
+#else
+  auto *window = sdl_compat_create_window("sacrecant error", 100, 100, SDL_WINDOW_SHOWN | SDL_WINDOW_ALWAYS_ON_TOP);
+#endif
   SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Sacrecant", buf, window);
   log("launched SDL message box");
   SDL_DestroyWindow(window);

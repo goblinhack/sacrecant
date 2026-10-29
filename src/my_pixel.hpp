@@ -9,9 +9,9 @@
 #include "my_globals.hpp"
 #include "my_main.hpp"
 
-#include <SDL.h>
+#include "my_sdl_compat.hpp"
 
-#define pixel_ANYw(s, y)              ((y) * ((s)->pitch / (s)->format->BytesPerPixel))
+#define pixel_ANYw(s, y)              ((y) * ((s)->pitch / SDL_SURFACE_BYTES_PER_PIXEL(s)))
 #define pixel_32bpp(s, x, y)          ((uint32_t *) (s)->pixels + (x) + pixel_ANYw(s, y))
 #define PUT_PIXEL_32bpp(s, x, y, rgb) *pixel_32bpp(s, x, y) = rgb
 #define GET_PIXEL_32bpp(s, x, y, rgb) *(rgb) = *pixel_32bpp(s, x, y)

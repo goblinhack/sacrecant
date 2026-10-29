@@ -2,7 +2,7 @@
 // Copyright goblinhack@gmail.com
 //
 
-#include <SDL_mouse.h>
+#include "my_sdl_compat.hpp"
 #include <cstdint>
 #include <ranges>
 #include <vector>

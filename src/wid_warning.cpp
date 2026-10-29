@@ -15,8 +15,7 @@
 #include "my_wid_popup.hpp"
 #include "my_wid_warning.hpp"
 #include "my_wids.hpp"
-#include <SDL_keyboard.h>
-#include <SDL_keycode.h>
+#include "my_sdl_compat.hpp"
 #include <cstdint>
 
 WidPopup *wid_warning_window;

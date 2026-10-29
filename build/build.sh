@@ -265,6 +265,7 @@ help_full()
     *Darwin*)
       log_warn "For MAC ports install:"
       log_warn "  sudo port install libsdl2 libsdl2_mixer"
+      log_warn "  sudo port install SDL3 SDL3_mixer"
       log_warn "For homebrew install:"
       log_warn "  brew install make llvm automake sdl2 sdl2_mixer"
       ;;
@@ -391,6 +392,32 @@ gcc_help()
     exit 1
 }
 
+if [[ $OPT_SDL3 != "" ]]; then
+    #
+    # Build against SDL3 and SDL3_mixer instead of SDL2. This defines USE_SDL3 for the sources.
+    #
+    if [[ $OPT_WEB_BUILD != "" ]]; then
+        log_err "The web build does not support SDL3 yet; drop --sdl3 or --web"
+        exit 1
+    fi
+
+    if ! pkg-config --exists sdl3 sdl3-mixer 2>/dev/null; then
+        log_err "I need SDL3 and SDL3 mixer installed (pkg-config must find sdl3 and sdl3-mixer)"
+        help_full
+        exit 1
+    fi
+
+    SDL2_INC_PATH=$(pkg-config --variable=includedir sdl3)
+
+    log_info "SDL3 version               : "$(pkg-config --modversion sdl3)
+    log_info "SDL3 mixer version         : "$(pkg-config --modversion sdl3-mixer)
+    log_info "SDL3 CFLAGS                : "$(pkg-config --cflags sdl3 sdl3-mixer)
+    log_info "SDL3 libs                  : "$(pkg-config --libs sdl3 sdl3-mixer)
+
+    CFLAGS+=" "$(pkg-config --cflags sdl3 sdl3-mixer | sed 's/ \-D_REENTRANT//g')
+    CFLAGS+=" -DUSE_SDL3"
+    LDLIBS=$(pkg-config --libs sdl3 sdl3-mixer)
+else
 SDL2_SCORE=0
 
 if [ "$SDL2_CONFIG" != "" ]; then
@@ -445,6 +472,7 @@ if [[ $OPT_WEB_BUILD = "" ]]; then
   #
   LDLIBS="$SDL_LIBS"
   LDLIBS+=" -lSDL2_mixer"
+fi
 fi
 
 #

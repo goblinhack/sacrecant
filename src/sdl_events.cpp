@@ -2,12 +2,7 @@
 // Copyright goblinhack@gmail.com
 //
 
-#include <SDL_events.h>
-#include <SDL_joystick.h>
-#include <SDL_keyboard.h>
-#include <SDL_keycode.h>
-#include <SDL_mouse.h>
-#include <SDL_scancode.h>
+#include "my_sdl_compat.hpp"
 #include <algorithm>
 #include <cinttypes>
 #include <cstdint>
@@ -43,7 +38,7 @@ int sdl_get_mouse_state(int *x, int *y)
 
   *x          = 0;
   *y          = 0;
-  auto button = SDL_GetMouseState(&mx, &my);
+  auto button = sdl_compat_get_mouse_state(&mx, &my);
 
   fx = mx;
   fy = my;
@@ -53,7 +48,11 @@ int sdl_get_mouse_state(int *x, int *y)
   int w2 {};
   int h2 {};
 
+#ifdef USE_SDL3
+  SDL_GetWindowSizeInPixels(sdl.window, &w1, &h1);
+#else
   SDL_GL_GetDrawableSize(sdl.window, &w1, &h1);
+#endif
   if (! w1 || ! h1) {
     return button;
   }
@@ -87,7 +86,11 @@ void sdl_warp_mouse(int x, int y)
   int w2 {};
   int h2 {};
 
+#ifdef USE_SDL3
+  SDL_GetWindowSizeInPixels(sdl.window, &w1, &h1);
+#else
   SDL_GL_GetDrawableSize(sdl.window, &w1, &h1);
+#endif
   if (! w1 || ! h1) {
     return;
   }
@@ -106,7 +109,7 @@ void sdl_warp_mouse(int x, int y)
   SDL_WarpMouseInWindow(sdl.window, x, y);
 }
 
-[[nodiscard]] auto sdl_filter_events(void * /*userdata*/, SDL_Event *event) -> int
+[[nodiscard]] auto sdl_filter_events(void * /*userdata*/, SDL_Event *event) -> sdl_compat_event_filter_ret_t
 {
   TRACE_DEBUG();
 
@@ -207,7 +210,7 @@ static void __attribute__((noinline)) sdl_event_keydown(Gamep g, SDL_Keysym *key
 
   sdl.event_count++;
 
-  DBG("SDL: Keyboard: Key pressed keycode 0x%08" PRIX32 " = %s %d", event->key.keysym.sym, to_string(event->key.keysym).c_str(), key->mod);
+  DBG("SDL: Keyboard: Key pressed keycode 0x%08" PRIX32 " = %s %d", key->sym, to_string(*key).c_str(), key->mod);
 
   //
   // SDL2 has no auto repeat.
@@ -230,11 +233,10 @@ static void __attribute__((noinline)) sdl_event_keyup(Gamep g, SDL_Keysym *key, 
 
   sdl.event_count++;
   if (g_grab_next_key) {
-    DBG("SDL: Keyboard: Grabbed 0x%08" PRIX32 " = %s / %s", event->key.keysym.sym, to_string(event->key.keysym).c_str(),
-        SDL_GetScancodeName(event->key.keysym.scancode));
+    DBG("SDL: Keyboard: Grabbed 0x%08" PRIX32 " = %s / %s", key->sym, to_string(*key).c_str(), SDL_GetScancodeName(key->scancode));
 
     g_grab_next_key = false;
-    sdl.grabbed_key = sdlk_normalize(event->key.keysym);
+    sdl.grabbed_key = sdlk_normalize(*key);
     if (sdl.on_sdl_key_grab != nullptr) {
       ((void) sound_play(g, "keypress"));
       (*sdl.on_sdl_key_grab)(g, sdl.grabbed_key);
@@ -247,9 +249,7 @@ static void __attribute__((noinline)) sdl_event_keyup(Gamep g, SDL_Keysym *key, 
 
   memset(&last_key_pressed, 0, SIZEOF(last_key_pressed));
 
-  DBG("SDL: Keyboard: Key released keycode 0x%08" PRIX32 " = %s", event->key.keysym.sym, to_string(event->key.keysym).c_str());
-
-  key = &event->key.keysym;
+  DBG("SDL: Keyboard: Key released keycode 0x%08" PRIX32 " = %s", key->sym, to_string(*key).c_str());
 
   wid_key_up(g, key, sdl.mouse_x, sdl.mouse_y);
 
@@ -278,13 +278,14 @@ static void __attribute__((noinline)) sdl_event_mousemotion(Gamep g, SDL_Event *
   last_mx = mx;
   last_my = my;
 
-  DBG2("SDL: Mouse: Moved to (%d,%d) (rel %d,%d) state %d (actually at (%d,%d))", event->motion.x, event->motion.y, event->motion.xrel,
-       event->motion.yrel, sdl.mouse_down, mx, my);
+  DBG2("SDL: Mouse: Moved to (%d,%d) (rel %d,%d) state %d (actually at (%d,%d))", static_cast< int >(event->motion.x),
+       static_cast< int >(event->motion.y), static_cast< int >(event->motion.xrel), static_cast< int >(event->motion.yrel), sdl.mouse_down, mx,
+       my);
 
   wid_mouse_visible = true;
   sdl.mouse_tick++;
   if (! processed_mouse_motion_event) {
-    wid_mouse_motion(g, mx, my, event->motion.xrel, event->motion.yrel, 0, 0);
+    wid_mouse_motion(g, mx, my, static_cast< int >(event->motion.xrel), static_cast< int >(event->motion.yrel), 0, 0);
     processed_mouse_motion_event = true;
   }
 }
@@ -299,7 +300,8 @@ static void __attribute__((noinline)) sdl_event_mousedown(Gamep g, SDL_Event *ev
   sdl.held_mouse_x              = sdl.mouse_x;
   sdl.held_mouse_y              = sdl.mouse_y;
 
-  DBG("SDL: Mouse DOWN: button %d pressed at (%d,%d) state %X", event->button.button, event->button.x, event->button.y, sdl.mouse_down);
+  DBG("SDL: Mouse DOWN: button %d pressed at (%d,%d) state %X", event->button.button, static_cast< int >(event->button.x),
+      static_cast< int >(event->button.y), sdl.mouse_down);
 
   auto now             = game_time_ms();
   wid_mouse_visible    = true;
@@ -319,7 +321,8 @@ static void __attribute__((noinline)) sdl_event_mouseup(Gamep g, SDL_Event *even
   sdl.held_mouse_x              = 0;
   sdl.held_mouse_y              = 0;
 
-  DBG("SDL: Mouse UP: button %d released at (%d,%d) state %d", event->button.button, event->button.x, event->button.y, sdl.mouse_down);
+  DBG("SDL: Mouse UP: button %d released at (%d,%d) state %d", event->button.button, static_cast< int >(event->button.x),
+      static_cast< int >(event->button.y), sdl.mouse_down);
 
   wid_mouse_up(g, event->button.button, sdl.mouse_x, sdl.mouse_y);
 }
@@ -328,7 +331,18 @@ void sdl_event(Gamep g, SDL_Event *event, bool &processed_mouse_motion_event)
 {
   TRACE_DEBUG();
 
+#ifdef USE_SDL3
+  //
+  // SDL3 has no keysym in the event, so make one.
+  //
+  SDL_Keysym keysym {};
+  if ((event->type == SDL_KEYDOWN) || (event->type == SDL_KEYUP)) {
+    keysym = sdl_compat_keysym_from_event(event);
+  }
+  SDL_Keysym *key = &keysym;
+#else
   SDL_Keysym *key = &event->key.keysym;
+#endif
 
   wid_mouse_two_clicks = false;
 
@@ -358,13 +372,14 @@ void sdl_event(Gamep g, SDL_Event *event, bool &processed_mouse_motion_event)
     case SDL_TEXTINPUT :
       {
         sdl.event_count++;
-        DBG("SDL: Keyboard: Text input \"%s\" in window %d", event->text.text, event->text.windowID);
+        DBG("SDL: Keyboard: Text input \"%s\" in window %d", event->text.text, static_cast< int >(event->text.windowID));
         break;
       }
     case SDL_MOUSEWHEEL :
       {
         sdl.event_count++;
-        DBG("SDL: Mouse: Wheel scrolled %d in x and %d in y in window %d", event->wheel.x, event->wheel.y, event->wheel.windowID);
+        DBG("SDL: Mouse: Wheel scrolled %d in x and %d in y in window %d", static_cast< int >(event->wheel.x),
+            static_cast< int >(event->wheel.y), static_cast< int >(event->wheel.windowID));
 
         (void) sdl_mouse_read_position();
 
@@ -396,8 +411,8 @@ void sdl_event(Gamep g, SDL_Event *event, bool &processed_mouse_motion_event)
           ts = game_time_ms();
         }
 
-        sdl.wheel_x = event->wheel.x;
-        sdl.wheel_y = event->wheel.y;
+        sdl.wheel_x = static_cast< int >(event->wheel.x);
+        sdl.wheel_y = static_cast< int >(event->wheel.y);
 
         //
         // Handle "natural" scrolling direction.
@@ -554,7 +569,7 @@ void sdl_event(Gamep g, SDL_Event *event, bool &processed_mouse_motion_event)
     case SDL_QUIT :
       {
 #ifdef ENABLE_UI_ASCII_MOUSE
-        SDL_ShowCursor(1);
+        sdl_compat_show_cursor(true);
 #endif
         DIE_CLEAN("Quit requested");
         break;
@@ -596,7 +611,7 @@ void sdl_key_repeat_events(Gamep g)
     return;
   }
 
-  const uint8_t *state = SDL_GetKeyboardState(nullptr);
+  const uint8_t *state = sdl_compat_keyboard_state();
 
   static bool fire_held_prev;
   static bool up_held_prev;

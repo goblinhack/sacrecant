@@ -25,8 +25,7 @@
 #include "my_wid_text_box.hpp"
 #include "my_wids.hpp"
 
-#include <SDL_keyboard.h>
-#include <SDL_keycode.h>
+#include "my_sdl_compat.hpp"
 #include <algorithm>
 #include <cstdint>
 #include <cstring>

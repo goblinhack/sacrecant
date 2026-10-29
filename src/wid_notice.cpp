@@ -9,7 +9,7 @@
 #include "my_wid.hpp"
 #include "my_wid_popup.hpp"
 #include "my_wids.hpp"
-#include <SDL_keyboard.h>
+#include "my_sdl_compat.hpp"
 #include <cstdint>
 #include <string>
 

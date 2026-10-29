@@ -8,14 +8,14 @@
 #include "my_gl.hpp"
 #include "my_types.hpp"
 
-#include <SDL.h>
+#include "my_sdl_compat.hpp"
 #include <string>
 #include <vector>
 
 [[nodiscard]] auto sdlk_eq(const SDL_Keysym &a, const SDL_Keysym &b) -> bool;
 [[nodiscard]] auto sdlk_eq(const SDL_Scancode &s, const SDL_Keysym &k) -> bool;
 
-[[nodiscard]] auto sdl_filter_events(void *userdata, SDL_Event *event) -> int;
+[[nodiscard]] auto sdl_filter_events(void *userdata, SDL_Event *event) -> sdl_compat_event_filter_ret_t;
 [[nodiscard]] auto sdl_mouse_read_position() -> int;
 
 [[nodiscard]] auto sdlk_normalize(SDL_Keysym k) -> SDL_Keysym;
