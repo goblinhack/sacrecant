@@ -477,10 +477,19 @@ def detect_host() -> Host:
 
     if msystem not in MSYS_PACKAGE_TYPES:
         msystem = DEFAULT_MSYSTEM
-    prefix = Path(os.environ.get("MSYSTEM_PREFIX", f"/{msystem}"))
+
+    msys_prefix = Path(f"/{msystem}")
+    msys_pkg_type = MSYS_PACKAGE_TYPES[msystem]
 
     uname = os.uname().sysname if hasattr(os, "uname") else system
-    return Host(kind, distro, uname, prefix, MSYS_PACKAGE_TYPES[msystem])
+
+    log.info(f"Release                    : {kind}")
+    log.info(f"Distro                     : {distro}")
+    log.info(f"uname                      : {uname}")
+    log.info(f"MSYS prefix                : {msys_prefix}")
+    log.info(f"MSYS pkg type              : {msys_pkg_type}")
+
+    return Host(kind, distro, uname, msys_prefix, msys_pkg_type)
 
 
 # --------------------------------------------------------------------------------------------------
@@ -1401,7 +1410,6 @@ def main(argv: Sequence[str] | None = None) -> int:
         os.environ["PATH"] = f"{GNU_BIN_DIR}{os.pathsep}{os.environ.get('PATH', '')}"
 
     host = detect_host()
-    info("Distro/os", host.distro)
 
     try:
         build(opts, host)
