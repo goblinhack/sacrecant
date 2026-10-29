@@ -85,20 +85,6 @@ DEFAULT_LLVM_PATH = Path("/Applications/Xcode.app/Contents/Developer")
 CLANG_EMBED_MIN_VERSION = 21
 RAMDISK_ASM_FILES = 10
 
-BANNER = r"""
-   ██████  ▄▄▄       ▄████▄   ██▀███  ▓█████  ▄████▄   █▄▄       ███▄    █ ▄▄██████▓
- ▒██    ▒ ▒████▄    ▒██▀ ▀█  ▓██ ▒ ██▒▓█   ▀ ▒██▀ ▀█  ▒████▄     ██ ▀█   █ ▓  ██▒ █▒
- ░ ▓██▄   ▒██  ▀█▄  ▒██    ▄ ▓██ ░▄█ ▒▒███   ▒██    ▄ ▒██  ▀█▄  ▓██  ▀█ ██▒▒ ▓██░ ▒░
-   ▒   ██▒░██▄▄▄▄██ ▒▓█▄ ▄██▒▒██▀▀█▄  ▒██  ▄ ▒▓█▄ ▄██▒░██▄▄▄▄██ ▓██▒  ▐▌██▒░ ▓██▓ ░ 
- ▒██████▒▒ ▓█   ▓██▒▒ ▓███▀ ░░██▓ ▒██▒░▒████▒▒ ▓███▀ ░ ▓█   ▓██▒▒██░   ▓██░  ▒███ ░ 
- ▒ █▓▒█▒ ░ ▒▒   ▓▒█░░ ░█ ▒  ░░ ▒▓ ░▒█░░░ ▒░ ░░ ░▒█▒  ░ ▒▒   ▓▒█░░ █░   ▒█▒   ▒ ░█   
- ░ █▒  ░ ░  ▒   ▒▒█░  ░  ▒     ░▒ ░ ▒░ ░ ░  ░  ░ █▒     ▒   ▒▒ ░░ █░   ░ ▒░    ░█   
- ░  ░  ░    ░   ▒   ░          ░░   ░    ░   ░          ░   ▒      ░   ░ ░   ░      
-       ░        ░  ░░ ░         ░        ░  ░░ ░            ░  ░         ░          
-                    ░                        ░                                      
- 
-"""
-
 #
 # The warning flags section of the generated makefile; @@STACK@@ is replaced by the stack check flags.
 #
@@ -1409,7 +1395,6 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     os.chdir(ROOT)
     ansi = setup_logging()
-    echo(f"{ansi.red}{BANNER}{ansi.reset}")
 
     if GNU_BIN_DIR.is_dir():
         # Prefer gnu over freebsd coreutils
