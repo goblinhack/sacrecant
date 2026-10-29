@@ -16,7 +16,7 @@
 [[nodiscard]] auto sdlk_eq(const SDL_Scancode &s, const SDL_Keysym &k) -> bool;
 
 [[nodiscard]] auto sdl_filter_events(void *userdata, SDL_Event *event) -> sdl_compat_event_filter_ret_t;
-[[nodiscard]] auto sdl_mouse_read_position() -> int;
+[[nodiscard]] auto sdl_mouse_read_position(Gamep g) -> int;
 
 [[nodiscard]] auto sdlk_normalize(SDL_Keysym k) -> SDL_Keysym;
 [[nodiscard]] auto sdlk_to_scancode(const SDL_Keysym &k) -> SDL_Scancode;
@@ -44,7 +44,7 @@ auto sdl_config_update_all(Gamep g) -> void;
 auto sdl_display(Gamep g) -> void;
 auto sdl_display_reset(Gamep g) -> void;
 auto sdl_event(Gamep g, SDL_Event *event, bool &processed_mouse_motion_event) -> void;
-int  sdl_get_mouse_state(int *x, int *y);
+int  sdl_get_mouse_state(Gamep g, int *x, int *y);
 void sdl_warp_mouse(int x, int y);
 auto sdl_prepare_to_exit(Gamep g) -> void;
 auto sdl_fbo_dump(Gamep g, FboEnum fbo, const std::string &name) -> void;

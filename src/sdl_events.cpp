@@ -47,7 +47,7 @@ void sdl_get_drawable_size(int *x, int *y)
 #endif
 }
 
-int sdl_get_mouse_state(int *x, int *y)
+int sdl_get_mouse_state(Gamep g, int *x, int *y)
 {
   TRACE();
 
@@ -57,9 +57,29 @@ int sdl_get_mouse_state(int *x, int *y)
   int mx {};
   int my {};
 
-  *x          = 0;
-  *y          = 0;
+  if (x) {
+    *x = 0;
+  }
+
+  if (y) {
+    *y = 0;
+  }
+
   auto button = sdl_compat_get_mouse_state(&mx, &my);
+  if (! x || ! y) {
+    return button;
+  }
+
+  //
+  // Account for window position
+  //
+  if (game_gfx_fullscreen_get(g) || game_gfx_fullscreen_desktop_get(g)) {
+    int px {};
+    int py {};
+    SDL_GetWindowPosition(sdl.window, &px, &py);
+    mx += px;
+    my += py;
+  }
 
   fx = mx;
   fy = my;
@@ -274,7 +294,7 @@ static void __attribute__((noinline)) sdl_event_mousemotion(Gamep g, SDL_Event *
   TRACE_DEBUG();
 
   sdl.event_count++;
-  sdl.mouse_down = sdl_mouse_read_position();
+  sdl.mouse_down = sdl_mouse_read_position(g);
   int        mx  = 0;
   int        my  = 0;
   static int last_mx;
@@ -283,7 +303,7 @@ static void __attribute__((noinline)) sdl_event_mousemotion(Gamep g, SDL_Event *
   //
   // Catch up with the latest mouse position; and dampen identical events.
   //
-  sdl_get_mouse_state(&mx, &my);
+  sdl_get_mouse_state(g, &mx, &my);
   if ((mx == last_mx) && (my == last_my)) {
     return;
   }
@@ -308,7 +328,7 @@ static void __attribute__((noinline)) sdl_event_mousedown(Gamep g, SDL_Event *ev
   TRACE_DEBUG();
 
   sdl.event_count++;
-  sdl.mouse_down                = sdl_mouse_read_position();
+  sdl.mouse_down                = sdl_mouse_read_position(g);
   sdl.last_mouse_held_down_when = game_time_ms();
   sdl.held_mouse_x              = sdl.mouse_x;
   sdl.held_mouse_y              = sdl.mouse_y;
@@ -329,7 +349,7 @@ static void __attribute__((noinline)) sdl_event_mouseup(Gamep g, SDL_Event *even
   TRACE_DEBUG();
 
   sdl.event_count++;
-  sdl.mouse_down                = sdl_mouse_read_position();
+  sdl.mouse_down                = sdl_mouse_read_position(g);
   sdl.last_mouse_held_down_when = 0;
   sdl.held_mouse_x              = 0;
   sdl.held_mouse_y              = 0;
@@ -394,7 +414,7 @@ void sdl_event(Gamep g, SDL_Event *event, bool &processed_mouse_motion_event)
         DBG("SDL: Mouse: Wheel scrolled %d in x and %d in y in window %d", static_cast< int >(event->wheel.x),
             static_cast< int >(event->wheel.y), static_cast< int >(event->wheel.windowID));
 
-        (void) sdl_mouse_read_position();
+        (void) sdl_mouse_read_position(g);
 
         static double accel = 1.0;
 
@@ -483,7 +503,7 @@ void sdl_event(Gamep g, SDL_Event *event, bool &processed_mouse_motion_event)
         }
 
         if ((sdl.right_fire != 0) || (sdl.left_fire != 0)) {
-          (void) sdl_mouse_read_position();
+          (void) sdl_mouse_read_position(g);
           wid_joy_button(g, sdl.mouse_x, sdl.mouse_y);
         }
 
@@ -563,7 +583,7 @@ void sdl_event(Gamep g, SDL_Event *event, bool &processed_mouse_motion_event)
         sdl.event_count++;
         DBG("SDL: Joystick %d: Button %d pressed", event->jbutton.which, event->jbutton.button);
         sdl.joy_buttons[ event->jbutton.button ] = 1U;
-        (void) sdl_mouse_read_position();
+        (void) sdl_mouse_read_position(g);
         wid_joy_button(g, sdl.mouse_x, sdl.mouse_y);
         break;
       }

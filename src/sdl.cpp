@@ -129,8 +129,8 @@ static void sdl_init_joystick()
   log("- Init joystick");
   SDL_InitSubSystem(SDL_INIT_JOYSTICK);
 
-  int            njoysticks = 0;
-  SDL_JoystickID *joysticks = SDL_GetJoysticks(&njoysticks);
+  int             njoysticks = 0;
+  SDL_JoystickID *joysticks  = SDL_GetJoysticks(&njoysticks);
   if (joysticks == nullptr) {
     log("- No found gamecontroller");
     return;
@@ -254,7 +254,7 @@ static void sdl_init_joystick()
   return true;
 }
 
-[[nodiscard]] auto sdl_mouse_read_position() -> int
+[[nodiscard]] auto sdl_mouse_read_position(Gamep g) -> int
 {
   TRACE();
 
@@ -264,7 +264,7 @@ static void sdl_init_joystick()
 
   int x      = 0;
   int y      = 0;
-  int button = sdl_get_mouse_state(&x, &y);
+  int button = sdl_get_mouse_state(g, &x, &y);
 
   if ((x == 0) && (y == 0)) {
     return button;
@@ -327,7 +327,7 @@ void sdl_tick(Gamep g)
   sdl.joy2_down  = 0;
   sdl.joy2_up    = 0;
 
-  (void) sdl_mouse_read_position();
+  (void) sdl_mouse_read_position(g);
 
   //
   // Right stick
