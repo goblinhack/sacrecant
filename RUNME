@@ -34,7 +34,4 @@ echo "                    ░                        ░                        
 echo " "
 echo ${RESET}
 
-find /ucrt64 -name sdl2-config
-which sdl2-config
-
 python RUNME.py $*

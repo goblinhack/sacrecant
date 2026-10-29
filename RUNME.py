@@ -307,9 +307,13 @@ def run(cmd: Sequence[str | os.PathLike[str]], *, cwd: Path | None = None, env: 
 def capture(cmd: Sequence[str | os.PathLike[str]], *, cwd: Path | None = None) -> str | None:
     """Run a command and return its output (stdout and stderr), or None if it is missing or fails."""
     try:
+        cmd = [str(c) for c in cmd]
+        log.info(f"cmd {cmd}")
+
         done = subprocess.run(
-            [str(c) for c in cmd], cwd=cwd, stdin=subprocess.DEVNULL, capture_output=True, text=True, errors="replace", check=False
+            [str(c) for c in cmd], cwd=cwd, stdin=subprocess.DEVNULL, capture_output=True, text=True, errors="replace", check=False, shell=True
         )
+        log.info(f"done {done}")
     except OSError:
         return None
     if done.returncode != 0:
@@ -682,16 +686,16 @@ def find_sdl2_config(host: Host) -> Path | None:
 
 
 def configure_sdl2(host: Host, opts: Options) -> Sdl:
-    config = find_sdl2_config(host)
+    sdl2_config = find_sdl2_config(host)
 
-    def config_output(*args: str) -> str:
-        log.info(f"capture config {config}")
+    def capture_output(*args: str) -> str:
+        log.info(f"capture config {sdl2_config}")
         log.info(f"capture args   {args}")
-        out = (capture([config, *args]) or "") if config else ""
+        out = (capture([sdl2_config, *args]) or "") if sdl2_config else ""
         log.info(f"capture out    {out}")
-        return (capture([config, *args]) or "") if config else ""
+        return (capture([sdl2_config, *args]) or "") if sdl2_config else ""
 
-    cflags = config_output("--cflags").split()
+    cflags = capture_output("--cflags").split()
     include_dirs = [c[2:] for c in cflags if c.startswith("-I") and len(c) > 2]
     include_path = include_dirs[-1] if include_dirs else ""
 
@@ -699,24 +703,24 @@ def configure_sdl2(host: Host, opts: Options) -> Sdl:
     if include_path and Path(include_path).is_dir():
         mixer_header = next(Path(include_path).rglob("SDL_mixer.h"), None)
 
-    info("SDL2 config", config or "")
-    info("SDL2 version", config_output("--version"))
-    info("SDL2 libs", config_output("--libs"))
-    info("SDL2 static libs", config_output("--static-libs"))
+    info("SDL2 config", sdl2_config or "")
+    info("SDL2 version", capture_output("--version"))
+    info("SDL2 libs", capture_output("--libs"))
+    info("SDL2 static libs", capture_output("--static-libs"))
     info("SDL2 CFLAGS", " ".join(cflags))
-    info("SDL2 prefix", config_output("--prefix"))
-    info("SDL2 exec-prefix", config_output("--exec-prefix"))
+    info("SDL2 prefix", capture_output("--prefix"))
+    info("SDL2 exec-prefix", capture_output("--exec-prefix"))
     info("SDL2 include path", include_path)
     info("SDL2 mixer.h", mixer_header or "")
 
-    if config is None or mixer_header is None:
+    if sdl2_config is None or mixer_header is None:
         log.error("I need SDL2 and SDL2 mixer installed")
         show_install_help(host)
         raise BuildError("SDL2 and SDL2 mixer not found")
 
-    libs = config_output("--libs").split()
+    libs = capture_output("--libs").split()
     if not libs or not cflags:
-        raise BuildError(f"{config} did not tell us how to compile and link")
+        raise BuildError(f"{sdl2_config} did not tell us how to compile and link")
 
     if opts.web:
         # Emscripten brings its own SDL; we only needed the include path
