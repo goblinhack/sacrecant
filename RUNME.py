@@ -658,11 +658,24 @@ def find_sdl2_config(host: Host) -> Path | None:
 
     log.info(f"candidates final {candidates}")
 
-    for c in candidates:
-        ok = os.access(c, os.X_OK)
-        log.info(f"c {c} ok {ok}")
+    for cand in candidates:
+        if cand is None:
+            continue
 
-    return next((Path(c) for c in candidates if c and os.access(c, os.X_OK)), None)
+        ok = os.access(cand, os.X_OK)
+        exists = os.path.exists(cand)
+        log.info(f"cand {cand} xok {ok} exists {exists}")
+
+    for cand in candidates:
+        if cand is None:
+            continue
+
+        ok = os.access(cand, os.X_OK)
+        exists = os.path.exists(cand)
+        if ok:
+            return Path(cand)
+
+    return None
 
 
 def configure_sdl2(host: Host, opts: Options) -> Sdl:
