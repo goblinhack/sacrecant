@@ -664,16 +664,11 @@ def find_sdl2_config(host: Host) -> Path | None:
 
         ok = os.access(cand, os.X_OK)
         exists = os.path.exists(cand)
-        log.info(f"cand {cand} xok {ok} exists {exists}")
-
-    for cand in candidates:
-        if cand is None:
-            continue
-
-        ok = os.access(cand, os.X_OK)
-        exists = os.path.exists(cand)
         if ok:
             return Path(cand)
+
+    if host.platform is Platform.MINGW:
+            return Path(str(host.msys_prefix / "bin" / "sdl2-config"))
 
     return None
 
