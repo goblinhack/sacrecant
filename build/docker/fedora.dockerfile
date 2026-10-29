@@ -16,6 +16,7 @@ RUN dnf install -y SDL2_ttf-devel SDL2_ttf
 RUN dnf install -y SDL2 SDL2-devel
 RUN dnf install -y SDL2_image SDL2_image-devel
 RUN dnf install -y git
+RUN dnf install -y python3
 RUN dnf install -y make automake gcc-c++
 RUN dnf install -y vim
 RUN dnf install -y libmikmod-devel
@@ -51,5 +52,5 @@ RUN mkdir -p $HOME/.ssh/                                                      &&
     git clone git@github.com:goblinhack/sacrecant.git                           && \
     rm -rf $HOME/.ssh/
 
-RUN cd sacrecant && sh ./RUNME && ./sacrecant
+RUN cd sacrecant && python3 ./RUNME.py && ./sacrecant
 RUN bash

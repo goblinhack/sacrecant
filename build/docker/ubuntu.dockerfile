@@ -16,6 +16,7 @@ RUN apt-get -qq --no-install-recommends -y upgrade
 RUN apt-get install -y build-essential
 RUN apt-get install -y g++
 RUN apt-get install -y git
+RUN apt-get install -y python3
 RUN apt-get install -y libegl1
 RUN apt-get install -y libfishsound1-dev
 RUN apt-get install -y libflac-dev
@@ -55,5 +56,5 @@ RUN mkdir -p $HOME/.ssh/                                                      &&
     git clone git@github.com:goblinhack/sacrecant.git                           && \
     rm -rf $HOME/.ssh/
 
-RUN cd sacrecant && sh ./RUNME && ./sacrecant
+RUN cd sacrecant && python3 ./RUNME.py && ./sacrecant
 RUN bash
