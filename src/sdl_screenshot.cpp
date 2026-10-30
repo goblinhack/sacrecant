@@ -11,6 +11,7 @@
 #include "my_ptrcheck.hpp"
 #include "my_sdl_event.hpp"
 #include "my_sdl_proto.hpp"
+#include "my_sprintf.hpp"
 #include "my_string.hpp"
 #include "my_types.hpp"
 
@@ -73,11 +74,10 @@ void sdl_screenshot_do(Gamep g)
 
   int const components = 3;
 
-  char *png = dynprintf("screenshot.%d.png", count);
-  stbi_write_png(png, w, h, components, pixels.data(), 3 * w);
+  auto png = string_sprintf("screenshot.%d.png", count);
+  stbi_write_png(png.c_str(), w, h, components, pixels.data(), 3 * w);
   GL_ERROR_CHECK();
-  topcon("Screenshot: %s", png);
-  MYFREE(png);
+  topcon("Screenshot: %s", png.c_str());
   blit_fbo_unbind();
   GL_ERROR_CHECK();
 
@@ -210,9 +210,8 @@ void sdl_fbo_dump(Gamep g, FboEnum fbo, const std::string &name)
 
   static int count      = 0;
   int const  components = 4;
-  char      *png        = dynprintf("screenshot.%s.%03d.png", name.c_str(), count);
-  stbi_write_png(png, w, h, components, pixels.data(), 4 * w);
-  con("Screenshot: %s", png);
-  MYFREE(png);
+  auto       png        = string_sprintf("screenshot.%s.%03d.png", name.c_str(), count);
+  stbi_write_png(png.c_str(), w, h, components, pixels.data(), 4 * w);
+  con("Screenshot: %s", png.c_str());
   count++;
 }

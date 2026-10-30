@@ -25,7 +25,6 @@ static void find_executable()
 {
   TRACE();
 
-  char       *parent_dir = nullptr;
   std::string exec_name;
   char       *path = nullptr;
   char       *tmp  = nullptr;
@@ -42,10 +41,8 @@ static void find_executable()
   //
   // Get the parent directory, ending in a single /
   //
-  parent_dir = dynprintf("%s" DIR_SEP, dir_dotdot(dir_dot()));
-  tmp        = STRSUB(parent_dir, DIR_SEP DIR_SEP, DIR_SEP, "parent_dir");
-  MYFREE(parent_dir);
-  parent_dir = tmp;
+  std::string parent_dir = string_sprintf("%s" DIR_SEP, dir_dotdot(dir_dot()));
+  replace(parent_dir, DIR_SEP DIR_SEP, DIR_SEP);
 
   //
   // Get rid of ../ from the program name and replace with the path.
@@ -79,7 +76,7 @@ static void find_executable()
   //
   // Try the parent dir.
   //
-  g_exec_full_path_and_name = string_sprintf("%s%s", parent_dir, exec_name.c_str());
+  g_exec_full_path_and_name = string_sprintf("%s%s", parent_dir.c_str(), exec_name.c_str());
   if (static_cast< bool >(file_exists(g_exec_full_path_and_name.c_str()))) {
     g_exec_dir = std::string(parent_dir);
     goto cleanup;
@@ -97,7 +94,7 @@ static void find_executable()
     for (dir = strtok(path, PATHSEP); dir != nullptr; dir = strtok(nullptr, PATHSEP)) {
       g_exec_full_path_and_name = string_sprintf("%s" DIR_SEP "%s", dir, exec_name.c_str());
       if (static_cast< bool >(file_exists(g_exec_full_path_and_name.c_str()))) {
-        g_exec_dir = dynprintf("%s" DIR_SEP, dir);
+        g_exec_dir = string_sprintf("%s" DIR_SEP, dir);
         goto cleanup;
       }
     }
@@ -110,20 +107,15 @@ static void find_executable()
   g_exec_dir                = std::string(exec_expanded_name);
 
 cleanup:
-  auto *new_g_exec_dir = STRSUB(g_exec_dir.c_str(), "/", DIR_SEP, "g_exec_dir");
-  g_exec_dir           = std::string(new_g_exec_dir);
+  replace(g_exec_dir, "/", DIR_SEP);
 
   DBG2("g_exec_dir set to %s", g_exec_dir.c_str());
-  DBG2("Parent dir  : \"%s\"", parent_dir);
+  DBG2("Parent dir  : \"%s\"", parent_dir.c_str());
   DBG2("Curr dir    : \"%s\"", curr_dir.c_str());
   DBG2("Full name   : \"%s\"", exec_expanded_name.c_str());
 
   if (path != nullptr) {
     MYFREE(path);
-  }
-
-  if (parent_dir != nullptr) {
-    MYFREE(parent_dir);
   }
 }
 

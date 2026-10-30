@@ -127,13 +127,6 @@ static auto file_io_read(const char *filename, int *len) -> uint8_t *;
     }
   }
 
-  /*
-   * Fail. Caller should whinge.
-  char *popup_str = dynprintf("Filename was not found on ramdisk or "
-                "on the local disk, %s", filename);
-
-  MYFREE(popup_str);
-   */
   log("file not found \"%s\"", filename);
 
   return nullptr;
@@ -261,33 +254,6 @@ static auto file_io_read(const char *filename, int *len) -> uint8_t *;
 [[nodiscard]] auto file_io_read_if_exists(const char *filename, int *out_len) -> uint8_t *
 {
   TRACE();
-
-#if 0
-  uint8_t *ret;
-  char *mz_filename;
-
-  if (!filename) {
-    return 0;
-  }
-
-  if (strstr(filename, ".mz")) {
-    ret = mzip_file_read(filename, out_len);
-    return ret;
-  }
-
-  mz_filename = strappend(filename, ".mz");
-  if (!mz_filename) {
-    return 0;
-  }
-
-  if (file_exists(mz_filename)) {
-    ret = mzip_file_read(mz_filename, out_len);
-    MYFREE(mz_filename);
-    return ret;
-  }
-
-  MYFREE(mz_filename);
-#endif
 
   if (static_cast< bool >(file_exists(filename))) {
     return file_io_read(filename, out_len);
