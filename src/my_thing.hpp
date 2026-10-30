@@ -1145,7 +1145,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_kobalos(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_lava_bg(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_leader_kill_followers_on_death(Thingp me) -> bool;
-[[nodiscard]] auto thing_is_leader_kill_followers_on_death(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_leader(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_leather(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_level_boss_icon(Thingp t) -> bool;

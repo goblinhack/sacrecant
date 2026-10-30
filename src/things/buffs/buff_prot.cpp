@@ -73,8 +73,8 @@ void tp_buff_prot_on_hook_attached(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_tick_on_use);
   tp_flag_set(tp, is_tickable);
-  tp_lifespan_set(tp, "1d100+100");
   tp_follower_max_set(tp, 1);
+  tp_lifespan_set(tp, "1d100+100");
   tp_name_short_set(tp, "protection");
   // end sort marker1 }
 

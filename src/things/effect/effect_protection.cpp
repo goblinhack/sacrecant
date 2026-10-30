@@ -18,15 +18,15 @@
   auto  name = tp_name(tp);
 
   // begin sort marker1 {
+  tp_flag_set(tp, is_able_to_move_diagonally);
+  tp_flag_set(tp, is_able_to_move);
   tp_flag_set(tp, is_animated_can_hflip);
   tp_flag_set(tp, is_animated);
   tp_flag_set(tp, is_blit_centered);
   tp_flag_set(tp, is_blit_shown_in_chasms);
-  tp_flag_set(tp, is_memory_ext);
-  tp_flag_set(tp, is_able_to_move_diagonally);
-  tp_flag_set(tp, is_able_to_move);
   tp_flag_set(tp, is_effect_protection);
   tp_flag_set(tp, is_effect);
+  tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_removable_on_err);
   tp_flag_set(tp, is_wait_on_dead_anim);
   tp_z_depth_set(tp, MAP_Z_DEPTH_EFFECT);
