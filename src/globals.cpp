@@ -39,11 +39,10 @@ int g_intro_done;       // Have we shown the intro text yet?
 int g_err_count;        // How many ERRs
 int g_memory_allocated; // We've allocated something
 
-char *g_data_path;
-char *g_exec_dir;
-char *g_exec_full_path_and_name;
-char *g_gfx_path;
-char *g_ttf_path;
+std::string g_data_path;
+std::string g_exec_dir;
+std::string g_exec_full_path_and_name;
+std::string g_gfx_path;
 
 std::string g_need_restart_with_given_arguments; // Need to restart game
 std::string g_opt_seed_name;

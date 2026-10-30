@@ -8,6 +8,7 @@
 #include "my_globals.hpp"
 #include "my_main.hpp"
 #include "my_ptrcheck.hpp"
+#include "my_sprintf.hpp"
 #include "my_string.hpp"
 #include "my_types.hpp"
 
@@ -25,11 +26,9 @@ static void find_executable()
   TRACE();
 
   char       *parent_dir = nullptr;
-  char       *curr_dir   = nullptr;
   std::string exec_name;
-  char       *exec_expanded_name = nullptr;
-  char       *path               = nullptr;
-  char       *tmp                = nullptr;
+  char       *path = nullptr;
+  char       *tmp  = nullptr;
 
   exec_name = mybasename(g_argv[ 0 ], __FUNCTION__);
   log("INIT: will use EXEC_NAME as '%s'", exec_name.c_str());
@@ -37,10 +36,8 @@ static void find_executable()
   //
   // Get the current directory, ending in a single /
   //
-  curr_dir = dynprintf("%s" DIR_SEP, dir_dot());
-  tmp      = STRSUB(curr_dir, DIR_SEP DIR_SEP, DIR_SEP, "curr_dir");
-  MYFREE(curr_dir);
-  curr_dir = tmp;
+  std::string curr_dir = string_sprintf("%s" DIR_SEP, dir_dot());
+  replace(curr_dir, DIR_SEP DIR_SEP, DIR_SEP);
 
   //
   // Get the parent directory, ending in a single /
@@ -53,52 +50,40 @@ static void find_executable()
   //
   // Get rid of ../ from the program name and replace with the path.
   //
-  exec_expanded_name = MYDUPSTR(g_argv[ 0 ], __FUNCTION__);
-  if (*exec_expanded_name == '.') {
-    tmp = STRSUB(exec_expanded_name, ".." DIR_SEP, parent_dir, "exec_expanded_name");
-    MYFREE(exec_expanded_name);
-    exec_expanded_name = tmp;
+  std::string exec_expanded_name = std::string(g_argv[ 0 ]);
+  if (exec_expanded_name[ 0 ] == '.') {
+    replace(exec_expanded_name, ".." DIR_SEP, parent_dir);
   }
 
   //
   // Get rid of ./ from the program name.
   //
-  if (*exec_expanded_name == '.') {
-    tmp = STRSUB(exec_expanded_name, "." DIR_SEP, "", "exec_expanded_name2");
-    MYFREE(exec_expanded_name);
-    exec_expanded_name = tmp;
+  if (exec_expanded_name[ 0 ] == '.') {
+    replace(exec_expanded_name, "." DIR_SEP, "");
   }
 
   //
   // Get rid of any // from the path
   //
-  tmp = STRSUB(exec_expanded_name, DIR_SEP DIR_SEP, DIR_SEP, "exec_expanded_name3");
-  MYFREE(exec_expanded_name);
-  exec_expanded_name = tmp;
+  replace(exec_expanded_name, DIR_SEP DIR_SEP, DIR_SEP);
 
   //
   // Look in the simplest case first.
   //
-  g_exec_full_path_and_name = dynprintf("%s%s", curr_dir, exec_name.c_str());
-  if (static_cast< bool >(file_exists(g_exec_full_path_and_name))) {
-    g_exec_dir = MYDUPSTR(curr_dir, "exec dir 1");
+  g_exec_full_path_and_name = string_sprintf("%s%s", curr_dir.c_str(), exec_name.c_str());
+  if (static_cast< bool >(file_exists(g_exec_full_path_and_name.c_str()))) {
+    g_exec_dir = std::string(curr_dir);
     goto cleanup;
   }
-
-  MYFREE(g_exec_full_path_and_name);
-  g_exec_full_path_and_name = nullptr;
 
   //
   // Try the parent dir.
   //
-  g_exec_full_path_and_name = dynprintf("%s%s", parent_dir, exec_name.c_str());
-  if (static_cast< bool >(file_exists(g_exec_full_path_and_name))) {
-    g_exec_dir = MYDUPSTR(parent_dir, "exec dir 2");
+  g_exec_full_path_and_name = string_sprintf("%s%s", parent_dir, exec_name.c_str());
+  if (static_cast< bool >(file_exists(g_exec_full_path_and_name.c_str()))) {
+    g_exec_dir = std::string(parent_dir);
     goto cleanup;
   }
-
-  MYFREE(g_exec_full_path_and_name);
-  g_exec_full_path_and_name = nullptr;
 
   //
   // Try the PATH.
@@ -110,47 +95,35 @@ static void find_executable()
     path = MYDUPSTR(path, "path");
 
     for (dir = strtok(path, PATHSEP); dir != nullptr; dir = strtok(nullptr, PATHSEP)) {
-      g_exec_full_path_and_name = dynprintf("%s" DIR_SEP "%s", dir, exec_name.c_str());
-      if (static_cast< bool >(file_exists(g_exec_full_path_and_name))) {
+      g_exec_full_path_and_name = string_sprintf("%s" DIR_SEP "%s", dir, exec_name.c_str());
+      if (static_cast< bool >(file_exists(g_exec_full_path_and_name.c_str()))) {
         g_exec_dir = dynprintf("%s" DIR_SEP, dir);
         goto cleanup;
       }
-
-      MYFREE(g_exec_full_path_and_name);
-      g_exec_full_path_and_name = nullptr;
     }
 
     MYFREE(path);
     path = nullptr;
   }
 
-  g_exec_full_path_and_name = MYDUPSTR(exec_expanded_name, "full path");
-  g_exec_dir                = MYDUPSTR(dirname(exec_expanded_name), "exec dir");
+  g_exec_full_path_and_name = std::string(exec_expanded_name);
+  g_exec_dir                = std::string(exec_expanded_name);
 
 cleanup:
-  auto *new_g_exec_dir = STRSUB(g_exec_dir, "/", DIR_SEP, "g_exec_dir");
-  MYFREE(g_exec_dir);
-  g_exec_dir = new_g_exec_dir;
+  auto *new_g_exec_dir = STRSUB(g_exec_dir.c_str(), "/", DIR_SEP, "g_exec_dir");
+  g_exec_dir           = std::string(new_g_exec_dir);
 
-  DBG2("g_exec_dir set to %s", g_exec_dir);
+  DBG2("g_exec_dir set to %s", g_exec_dir.c_str());
   DBG2("Parent dir  : \"%s\"", parent_dir);
-  DBG2("Curr dir    : \"%s\"", curr_dir);
-  DBG2("Full name   : \"%s\"", exec_expanded_name);
+  DBG2("Curr dir    : \"%s\"", curr_dir.c_str());
+  DBG2("Full name   : \"%s\"", exec_expanded_name.c_str());
 
   if (path != nullptr) {
     MYFREE(path);
   }
 
-  if (exec_expanded_name != nullptr) {
-    MYFREE(exec_expanded_name);
-  }
-
   if (parent_dir != nullptr) {
     MYFREE(parent_dir);
-  }
-
-  if (curr_dir != nullptr) {
-    MYFREE(curr_dir);
   }
 }
 
@@ -166,21 +139,11 @@ static void find_exec_dir()
   //
   // Make sure the exec dir ends in a /
   //
-  auto *tmp  = dynprintf("%s" DIR_SEP, g_exec_dir);
-  auto *tmp2 = STRSUB(tmp, "//", DIR_SEP, "g_exec_dir");
-  auto *tmp3 = STRSUB(tmp2, "\\\\", DIR_SEP, "g_exec_dir");
-  auto *tmp4 = STRSUB(tmp3, "/", DIR_SEP, "g_exec_dir");
-  auto *tmp5 = STRSUB(tmp4, "\\", DIR_SEP, "g_exec_dir");
-  MYFREE(tmp);
-  MYFREE(tmp2);
-  MYFREE(tmp3);
-  MYFREE(tmp4);
-  if (g_exec_dir != nullptr) {
-    MYFREE(g_exec_dir);
-  }
-  g_exec_dir = tmp5;
-
-  log("INIT: will use g_exec_dir as '%s'", g_exec_dir);
+  g_exec_dir = string_sprintf("%s" DIR_SEP, g_exec_dir.c_str());
+  replace(g_exec_dir, "//", DIR_SEP);
+  replace(g_exec_dir, "\\\\", DIR_SEP);
+  replace(g_exec_dir, "/", DIR_SEP);
+  replace(g_exec_dir, "\\", DIR_SEP);
 }
 
 //
@@ -190,41 +153,17 @@ static void find_data_dir()
 {
   TRACE();
 
-  g_data_path = dynprintf("%sdata" DIR_SEP, g_exec_dir);
-  if (dir_exists(g_data_path)) {
+  g_data_path = string_sprintf("%sdata" DIR_SEP, g_exec_dir.c_str());
+  if (dir_exists(g_data_path.c_str())) {
     return;
   }
-  MYFREE(g_data_path);
 
-  g_data_path = dynprintf(".." DIR_SEP "data");
-  if (dir_exists(g_data_path)) {
+  g_data_path = string_sprintf(".." DIR_SEP "data");
+  if (dir_exists(g_data_path.c_str())) {
     return;
   }
-  MYFREE(g_data_path);
 
-  g_data_path = MYDUPSTR(g_exec_dir, __FUNCTION__);
-}
-
-//
-// Hunt down the fonts/ dir.
-//
-static void find_ttf_dir()
-{
-  TRACE();
-
-  g_ttf_path = dynprintf("%sdata" DIR_SEP "ttf" DIR_SEP, g_exec_dir);
-  if (dir_exists(g_ttf_path)) {
-    return;
-  }
-  MYFREE(g_ttf_path);
-
-  g_ttf_path = dynprintf(".." DIR_SEP "data" DIR_SEP "ttf" DIR_SEP);
-  if (dir_exists(g_ttf_path)) {
-    return;
-  }
-  MYFREE(g_ttf_path);
-
-  g_ttf_path = MYDUPSTR(g_exec_dir, __FUNCTION__);
+  g_data_path = g_exec_dir;
 }
 
 //
@@ -234,19 +173,17 @@ static void find_gfx_dir()
 {
   TRACE();
 
-  g_gfx_path = dynprintf("%sdata" DIR_SEP "gfx" DIR_SEP, g_exec_dir);
-  if (dir_exists(g_gfx_path)) {
+  g_gfx_path = string_sprintf("%sdata" DIR_SEP "gfx" DIR_SEP, g_exec_dir.c_str());
+  if (dir_exists(g_gfx_path.c_str())) {
     return;
   }
-  MYFREE(g_gfx_path);
 
-  g_gfx_path = dynprintf(".." DIR_SEP "gfx" DIR_SEP);
-  if (dir_exists(g_gfx_path)) {
+  g_gfx_path = string_sprintf(".." DIR_SEP "gfx" DIR_SEP);
+  if (dir_exists(g_gfx_path.c_str())) {
     return;
   }
-  MYFREE(g_gfx_path);
 
-  g_gfx_path = MYDUPSTR(g_exec_dir, __FUNCTION__);
+  g_gfx_path = g_exec_dir;
 }
 
 //
@@ -258,9 +195,9 @@ void find_file_locations()
 
   find_exec_dir();
   find_data_dir();
-  find_ttf_dir();
   find_gfx_dir();
 
-  log("INIT: gfx path    : \"%s\"", g_gfx_path);
-  log("INIT: font path   : \"%s\"", g_ttf_path);
+  log("INIT: exec path   : \"%s\"", g_exec_dir.c_str());
+  log("INIT: data path   : \"%s\"", g_data_path.c_str());
+  log("INIT: gfx path    : \"%s\"", g_gfx_path.c_str());
 }

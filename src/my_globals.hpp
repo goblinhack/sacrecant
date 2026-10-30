@@ -33,11 +33,10 @@ extern bool g_ptrcheck_inited;           // Ptrcheck is active
 extern bool g_quitting;                  // Exiting the game
 extern bool g_skip_audio_and_gfx;        // For tests
 
-extern char *g_data_path;
-extern char *g_exec_dir;
-extern char *g_exec_full_path_and_name;
-extern char *g_gfx_path;
-extern char *g_ttf_path;
+extern std::string g_data_path;
+extern std::string g_exec_dir;
+extern std::string g_exec_full_path_and_name;
+extern std::string g_gfx_path;
 
 extern int g_intro_done;       // Have we shown the intro text yet?
 extern int g_err_count;        // How many ERRs

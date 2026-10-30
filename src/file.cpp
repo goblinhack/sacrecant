@@ -31,10 +31,8 @@ static auto file_io_read(const char *filename, int *len) -> uint8_t *;
 {
   TRACE();
 
-  uint8_t *out          = nullptr; // NOLINT
-  char    *alt_filename = nullptr;
-
-  alt_filename = nullptr;
+  uint8_t    *out = nullptr; // NOLINT
+  std::string alt_filename;
 
   /*
    * If the file is on disk and is newer than the program, use that in
@@ -42,7 +40,7 @@ static auto file_io_read(const char *filename, int *len) -> uint8_t *;
    */
   if (static_cast< bool >(file_exists(filename))) {
     if (strstr(filename, "data/") != nullptr) {
-      if (static_cast< bool >(file_exists_and_is_newer_than(filename, g_exec_full_path_and_name))) {
+      if (static_cast< bool >(file_exists_and_is_newer_than(filename, g_exec_full_path_and_name.c_str()))) {
         out = file_io_read_if_exists(filename, outlen);
         if (out != nullptr) {
           file_log("READ: read file %s (newer than exec)", filename);
@@ -74,36 +72,27 @@ static auto file_io_read(const char *filename, int *len) -> uint8_t *;
     }
   }
 
-  if (g_exec_dir != nullptr) {
-    alt_filename = strprepend(filename, g_exec_dir);
+  if (! g_exec_dir.empty()) {
+    alt_filename = g_exec_dir + filename;
 
-    if (static_cast< bool >(file_exists(alt_filename))) {
-      if (static_cast< bool >(file_exists_and_is_newer_than(alt_filename, g_exec_full_path_and_name))) {
-        out = file_io_read_if_exists(alt_filename, outlen);
+    if (static_cast< bool >(file_exists(alt_filename.c_str()))) {
+      if (static_cast< bool >(file_exists_and_is_newer_than(alt_filename.c_str(), g_exec_full_path_and_name.c_str()))) {
+        out = file_io_read_if_exists(alt_filename.c_str(), outlen);
         if (out != nullptr) {
-          MYFREE(alt_filename);
-          alt_filename = nullptr;
-
           return out;
         }
       }
 
-      if (static_cast< bool >(file_exists_and_is_newer_than(alt_filename, ".o/file.o"))) {
-        out = file_io_read_if_exists(alt_filename, outlen);
+      if (static_cast< bool >(file_exists_and_is_newer_than(alt_filename.c_str(), ".o/file.o"))) {
+        out = file_io_read_if_exists(alt_filename.c_str(), outlen);
         if (out != nullptr) {
-          MYFREE(alt_filename);
-          alt_filename = nullptr;
-
           return out;
         }
       }
 
-      if (static_cast< bool >(file_exists_and_is_newer_than(alt_filename, "src/.o/file.o"))) {
-        out = file_io_read_if_exists(alt_filename, outlen);
+      if (static_cast< bool >(file_exists_and_is_newer_than(alt_filename.c_str(), "src/.o/file.o"))) {
+        out = file_io_read_if_exists(alt_filename.c_str(), outlen);
         if (out != nullptr) {
-          MYFREE(alt_filename);
-          alt_filename = nullptr;
-
           return out;
         }
       }
@@ -113,12 +102,6 @@ static auto file_io_read(const char *filename, int *len) -> uint8_t *;
   auto *r = ramdisk_load(filename, outlen);
   if (r != nullptr) {
     file_log("READ: read (ramdisk) %s, %d Mb, %d bytes", filename, *outlen / (1024 * 1024), *outlen);
-
-    if (alt_filename != nullptr) {
-      MYFREE(alt_filename);
-      alt_filename = nullptr;
-    }
-
     return r;
   }
 
@@ -127,27 +110,12 @@ static auto file_io_read(const char *filename, int *len) -> uint8_t *;
    */
   out = file_io_read_if_exists(filename, outlen);
   if (out != nullptr) {
-    if (alt_filename != nullptr) {
-      MYFREE(alt_filename);
-      alt_filename = nullptr;
-    }
-
     return out;
   }
 
-  out = file_io_read_if_exists(alt_filename, outlen);
+  out = file_io_read_if_exists(alt_filename.c_str(), outlen);
   if (out != nullptr) {
-    if (alt_filename != nullptr) {
-      MYFREE(alt_filename);
-      alt_filename = nullptr;
-    }
-
     return out;
-  }
-
-  if (alt_filename != nullptr) {
-    MYFREE(alt_filename);
-    alt_filename = nullptr;
   }
 
   {
