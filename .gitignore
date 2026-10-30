@@ -59,3 +59,7 @@ src/ramdisk_data.cpp
 sacrecant.html
 sacrecant.js
 sacrecant.wasm
+sacrecant-create-release.sh
+sacrecant.pdb
+sacrecant.sh
+

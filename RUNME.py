@@ -307,34 +307,34 @@ def run(cmd: Sequence[str | os.PathLike[str]], *, cwd: Path | None = None, env: 
 def capture(cmd: Sequence[str | os.PathLike[str]], *, cwd: Path | None = None) -> str | None:
     """Run a command and return its output (stdout and stderr), or None if it is missing or fails."""
     try:
-        cmd = [str(c) for c in cmd]
-        log.info(f"cmd {cmd}")
-        log.info(f"cwd {cwd}")
+        for c in cmd:
+          args.append(str(c))
 
         done = subprocess.run(
-            [str(c) for c in cmd], stdin=subprocess.DEVNULL, capture_output=True, text=True, errors="replace", check=False, shell=True
-        )
-        log.info(f"subprocess.run (no cwd, shell) {done}")
-        echo(f"subprocess.run (no cwd, shell) {done}")
+            args, env={'PATH': os.getenv('PATH')}, cwd=cwd, stdin=subprocess.DEVNULL, capture_output=True, text=True, errors="replace", check=False, shell=True)
+    except:
+        try:
+          #
+          # On windows, sdl2-config is a bash script, so wrap this in bash and try again
+          #
+          args = [ "bash" ]
+          first = True
+          for c in cmd:
+            if first:
+              args.append(os.path.basename(c))
+              first = False
+            else:
+              args.append(c)
 
-        done = subprocess.run(
-            [str(c) for c in cmd], stdin=subprocess.DEVNULL, capture_output=True, text=True, errors="replace", check=False
-        )
-        log.info(f"subprocess.run (no cwd) {done}")
-        echo(f"subprocess.run (no cwd) {done}")
+          done = subprocess.run(
+              args, env={'PATH': os.getenv('PATH')}, cwd=cwd, stdin=subprocess.DEVNULL, capture_output=True, text=True, errors="replace", check=False, shell=True)
+        except:
+          return None
 
-        done = subprocess.run(
-            [str(c) for c in cmd], cwd=cwd, stdin=subprocess.DEVNULL, capture_output=True, text=True, errors="replace", check=False
-        )
-        log.info(f"subprocess.run (no shell) {done}")
+        if done.returncode != 0:
+            return None
+        return (done.stdout + done.stderr).strip()
 
-        done = subprocess.run(
-            [str(c) for c in cmd], cwd=cwd, stdin=subprocess.DEVNULL, capture_output=True, text=True, errors="replace", check=False, shell=True
-        )
-        log.info(f"subprocess.run            {done}")
-        echo(f"subprocess.run            {done}")
-    except OSError:
-        return None
     if done.returncode != 0:
         return None
     return (done.stdout + done.stderr).strip()
@@ -450,7 +450,9 @@ class Host:
     distro: str
     uname: str  # what "uname" would say, as it ends up in the makefile
     msys_prefix: Path  # where mingw is installed; only meaningful for MINGW
+    msys_bin_prefix: Path  # where mingw is installed; only meaningful for MINGW
     msys_pkg_type: str
+    msystem: str
 
     @property
     def exe_suffix(self) -> str:
@@ -501,14 +503,9 @@ def detect_host() -> Host:
     if msystem not in MSYS_PACKAGE_TYPES:
         msystem = DEFAULT_MSYSTEM
 
-    msys_prefix = Path(f"/{msystem}")
-    msys_bin_prefix = Path(f"/{msystem}/bin")
+    msys_prefix = Path(f"/msys64/{msystem}")
+    msys_bin_prefix = Path(f"{msystem}/bin")
     msys_pkg_type = MSYS_PACKAGE_TYPES[msystem]
-
-    #
-    # Add msys path
-    #
-    os.environ["PATH"] = f"{msys_bin_prefix}{os.pathsep}{os.environ.get('PATH', '')}"
 
     uname = os.uname().sysname if hasattr(os, "uname") else system
 
@@ -518,9 +515,10 @@ def detect_host() -> Host:
     log.info(f"Distro                     : {distro}")
     log.info(f"uname                      : {uname}")
     log.info(f"MSYS prefix                : {msys_prefix}")
+    log.info(f"MSYS bin prefix            : {msys_bin_prefix}")
     log.info(f"MSYS pkg type              : {msys_pkg_type}")
 
-    return Host(platform_cand, distro, uname, msys_prefix, msys_pkg_type)
+    return Host(platform_cand, distro, uname, msys_prefix, msys_bin_prefix, msys_pkg_type, msystem)
 
 
 # --------------------------------------------------------------------------------------------------
@@ -680,14 +678,8 @@ class Sdl:
 
 def find_sdl2_config(host: Host) -> Path | None:
     candidates: list[str | None] = [shutil.which("sdl2-config")]
-    log.info(f"candidates {candidates}")
-
     candidates.append(str(host.msys_prefix / "bin" / "sdl2-config"))
-    log.info(f"candidates for mingw {candidates}")
-
     candidates += ["/opt/local/bin/sdl2-config", "/usr/bin/sdl2-config"]
-
-    log.info(f"candidates final {candidates}")
 
     for cand in candidates:
         if cand is None:
@@ -703,40 +695,44 @@ def find_sdl2_config(host: Host) -> Path | None:
 
 def configure_sdl2(host: Host, opts: Options) -> Sdl:
     sdl2_config = find_sdl2_config(host)
-
     def capture_output(*args: str) -> str:
-        log.info(f"capture config {sdl2_config}")
-        log.info(f"capture args   {args}")
-        out = (capture([sdl2_config, *args]) or "") if sdl2_config else ""
-        log.info(f"capture out    {out}")
         return (capture([sdl2_config, *args]) or "") if sdl2_config else ""
 
-    cflags = capture_output("--cflags").split()
+    if host.platform is Platform.MINGW:
+        cflags = capture_output("--exec-prefix=/" + str(host.msystem),
+                                "--prefix=/" + str(host.msystem),
+                                "--cflags").split()
+    else:
+        cflags = capture_output("--cflags").split()
+
+    if host.platform is Platform.MINGW:
+        libs = capture_output("--exec-prefix=/" + str(host.msystem),
+                                "--prefix=/" + str(host.msystem),
+                                "--libs").split()
+    else:
+        libs = capture_output("--libs").split()
+
+    if host.platform is Platform.MINGW:
+        static_libs = capture_output("--exec-prefix=/" + str(host.msystem),
+                                "--prefix=/" + str(host.msystem),
+                                "--static-libs").split()
+    else:
+        static_libs = capture_output("--static-libs").split()
+
     include_dirs = [c[2:] for c in cflags if c.startswith("-I") and len(c) > 2]
     include_path = include_dirs[-1] if include_dirs else ""
 
-    mixer_header: Path | None = None
-    if include_path and Path(include_path).is_dir():
-        mixer_header = next(Path(include_path).rglob("SDL_mixer.h"), None)
-
     info("SDL2 config", sdl2_config or "")
     info("SDL2 version", capture_output("--version"))
-    info("SDL2 libs", capture_output("--libs"))
-    info("SDL2 static libs", capture_output("--static-libs"))
-    info("SDL2 CFLAGS", " ".join(cflags))
-    info("SDL2 prefix", capture_output("--prefix"))
-    info("SDL2 exec-prefix", capture_output("--exec-prefix"))
+    info("SDL2 cflags", " ".join(cflags))
+    info("SDL2 libs", " ".join(libs))
+    info("SDL2 static libs", " ".join(libs))
     info("SDL2 include path", include_path)
-    info("SDL2 mixer.h", mixer_header or "")
 
-    if sdl2_config is None or mixer_header is None:
+    if sdl2_config is None:
         log.error("I need SDL2 and SDL2 mixer installed")
         show_install_help(host)
         raise BuildError("SDL2 and SDL2 mixer not found")
-
-    libs = capture_output("--libs").split()
-    if not libs or not cflags:
-        raise BuildError(f"{sdl2_config} did not tell us how to compile and link")
 
     if opts.web:
         # Emscripten brings its own SDL; we only needed the include path
@@ -801,7 +797,7 @@ def choose_toolchain(host: Host, opts: Options) -> Toolchain:
         order.reverse()
     for cc, chosen in order:
         if exists(cc):
-            return Toolchain(cc, chosen)
+            return Toolchain(os.path.basename(cc), chosen)
 
     log.error("No g++ or clang compiler found")
     show_install_help(host)
@@ -898,8 +894,8 @@ def configure_settings(host: Host, opts: Options, sdl: Sdl) -> Settings:
                 s.ldlibs.append(gl_libs if opts.gles else "-lopengl32")
                 s.ldlibs.append("-lpthread")
                 if not opts.sdl3:
-                    s.ldlibs.append(str(host.msys_prefix / "lib" / "libSDL2_mixer.a"))
-                s.ldlibs.append(f"-L{host.msys_prefix / 'lib' / 'binutils'} -lbfd -lintl -ldbghelp -liberty")
+                    s.ldlibs.append("/" + str(Path(host.msystem) / "lib" / "libSDL2_mixer.a"))
+                s.ldlibs.append(f"-L/{Path(host.msystem) / 'lib' / 'binutils'} -lbfd -lintl -ldbghelp -liberty")
 
                 if have_libunwind(host):
                     s.ldlibs.append("-lunwind")
@@ -1016,8 +1012,8 @@ def configure_settings(host: Host, opts: Options, sdl: Sdl) -> Settings:
         # To resolve WinMain, add these at the end again
         s.ldlibs.append("-lmingw32 -mwindows")
         if not opts.sdl3:
-            lib = host.msys_prefix / "lib"
-            s.ldlibs.append(f"{lib / 'libSDL2main.a'} -L{lib} -lSDL2main -lSDL2")
+            lib = Path(host.msystem) / "lib"
+            s.ldlibs.append(f"/{lib / 'libSDL2main.a'} -L{lib} -lSDL2main -lSDL2")
 
     if opts.web:
         s.ldlibs = []
@@ -1326,7 +1322,6 @@ def build(opts: Options, host: Host) -> None:
     toolchain = Toolchain(settings.cc, settings.chosen)
     exe = ROOT / f"{TARGET}{settings.exe}"
 
-    return True
     write_config_files(version, render_makefile(settings, host, opts))
 
     info("CFLAGS", " ".join(settings.cflags))
