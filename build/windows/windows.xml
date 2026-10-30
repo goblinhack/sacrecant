@@ -1,9 +1,9 @@
 <project>
     <shortName>Sacrecant</shortName>
-    <fullName>Sacrecant</fullName>
+    <fullName>Zorbash</fullName>
     <version>0.2.4</version>
     <installerFilename></installerFilename>
-    <licenseFile>C:/msys64/home/neila/sacrecant/src/LICENSE</licenseFile>
+    <licenseFile>C:/msys64/home/neila/sacrecant/LICENSE</licenseFile>
     <logoImage>C:/msys64/home/neila/sacrecant/build/windows/sacrecant-logo.png</logoImage>
     <componentList>
         <component>
@@ -68,9 +68,6 @@
                             <origin>C:/msys64/ucrt64/bin/SDL2.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>C:/msys64/ucrt64/bin/SDL2_ttf.dll</origin>
-                        </distributionFile>
-                        <distributionFile>
                             <origin>C:/msys64/ucrt64/bin/SDL2_mixer.dll</origin>
                         </distributionFile>
                         <distributionFile>
@@ -119,9 +116,6 @@
                             <origin>C:/msys64/ucrt64/bin/libspeex-1.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>C:/msys64/ucrt64/bin/libfreetype-6.dll</origin>
-                        </distributionFile>
-                        <distributionFile>
                             <origin>C:/msys64/ucrt64/bin/libvorbisenc-2.dll</origin>
                         </distributionFile>
                         <distributionFile>
@@ -132,12 +126,6 @@
                         </distributionFile>
                         <distributionFile>
                             <origin>C:/msys64/ucrt64/bin/liblzma-5.dll</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>C:/msys64/ucrt64/bin/libharfbuzz-0.dll</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>C:/msys64/ucrt64/bin/libgraphite2.dll</origin>
                         </distributionFile>
                         <distributionFile>
                             <origin>C:/msys64/ucrt64/bin/libpcre-1.dll</origin>
