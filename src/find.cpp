@@ -25,9 +25,8 @@ static void find_executable()
 {
   TRACE();
 
-  std::string exec_name;
   char       *path = nullptr;
-  char       *tmp  = nullptr;
+  std::string exec_name;
 
   exec_name = mybasename(g_argv[ 0 ], __FUNCTION__);
   log("INIT: will use EXEC_NAME as '%s'", exec_name.c_str());
@@ -85,22 +84,24 @@ static void find_executable()
   //
   // Try the PATH.
   //
-  path = getenv("PATH");
-  if (path != nullptr) {
-    char const *dir = nullptr;
+  if (compiler_unused) {
+    path = getenv("PATH");
+    if (path != nullptr) {
+      char const *dir = nullptr;
 
-    path = MYDUPSTR(path, "path");
+      path = MYDUPSTR(path, "path");
 
-    for (dir = strtok(path, PATHSEP); dir != nullptr; dir = strtok(nullptr, PATHSEP)) {
-      g_exec_full_path_and_name = string_sprintf("%s" DIR_SEP "%s", dir, exec_name.c_str());
-      if (static_cast< bool >(file_exists(g_exec_full_path_and_name.c_str()))) {
-        g_exec_dir = string_sprintf("%s" DIR_SEP, dir);
-        goto cleanup;
+      for (dir = strtok(path, PATHSEP); dir != nullptr; dir = strtok(nullptr, PATHSEP)) {
+        g_exec_full_path_and_name = string_sprintf("%s" DIR_SEP "%s", dir, exec_name.c_str());
+        if (static_cast< bool >(file_exists(g_exec_full_path_and_name.c_str()))) {
+          g_exec_dir = string_sprintf("%s" DIR_SEP, dir);
+          goto cleanup;
+        }
       }
-    }
 
-    MYFREE(path);
-    path = nullptr;
+      MYFREE(path);
+      path = nullptr;
+    }
   }
 
   g_exec_full_path_and_name = std::string(exec_expanded_name);
