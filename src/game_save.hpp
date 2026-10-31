@@ -13,6 +13,7 @@
 #include "3rdparty/minilzo.hpp"
 #endif
 #include "my_callstack.hpp"
+#include "my_hexdump.hpp"
 #include "my_ptrcheck.hpp"
 #include "my_sdl_proto.hpp"
 #include "my_serialize.hpp"
@@ -641,13 +642,13 @@ auto Game::save(const std::string &file_to_save) -> bool
     src = (void *) data.c_str();
   }
 
-#if 0
-  IF_DEBUG3 { //
-
-    std::cout << "before compression ";
-    (void) hexdump((const uint8_t*)src, src_size);
+  if (compiler_unused) {
+    IF_DEBUG3
+    { //
+      std::cout << "before compression ";
+      (void) hexdump((const uint8_t *) src, src_size);
+    }
   }
-#endif
 
 #ifndef USE_LZ4
   if (lzo_init() != LZO_E_OK) {
@@ -702,12 +703,13 @@ auto Game::save(const std::string &file_to_save) -> bool
   //
   // Dump the post compress buffer
   //
-#if 0
-  IF_DEBUG3 { //
-    std::cout << "after compression ";
-    (void) hexdump((const uint8_t *)dst, dst_size);
+  if (compiler_unused) {
+    IF_DEBUG3
+    { //
+      std::cout << "after compression ";
+      (void) hexdump((const uint8_t *) dst, dst_size);
+    }
   }
-#endif
 
   if (! game_headers_only) {
     wid_progress_bar(this, "Writing...", 0.9F);

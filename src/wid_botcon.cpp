@@ -131,7 +131,7 @@ static void wid_botcon_log_(const std::string &s)
 
   auto curr_msg = wid_get_text(wid_get_head(wid_botcon_input_line));
 
-  if (! curr_msg.empty() && length_without_format(curr_msg) + length_without_format(s) + 1 < UI_BOTCON_WIDTH) {
+  if (! curr_msg.empty() && string_length_without_format(curr_msg) + string_length_without_format(s) + 1 < UI_BOTCON_WIDTH) {
     curr_msg = curr_msg + " " + s;
     wid_botcon_replace(wid_botcon_input_line, curr_msg);
     last_msg = "";
@@ -185,7 +185,7 @@ void wid_botcon_log(const std::string &s)
     return;
   }
 
-  auto d = split(s, chars_per_line);
+  auto d = string_split(s, chars_per_line);
 
   for (const auto &c : d) {
     wid_botcon_log_(c);

@@ -28,7 +28,7 @@
    * msys is crap and unless you remove the / from the end of the name
    * will not think it is a dir.
    */
-  remove_trailing(tmp, DIR_SEP_CHAR);
+  string_remove_trailing_chars(tmp, DIR_SEP_CHAR);
 
   auto rc = 0;
   if (stat(tmp.c_str(), &buf) >= 0) {

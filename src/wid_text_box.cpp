@@ -208,13 +208,13 @@ WidTextBox::WidTextBox(Gamep g, spoint vtl, spoint vbr, Widp vparent, bool horiz
   int const chars_per_line = wid_get_width(wid_text_area);
   Widp      w              = nullptr;
 
-  auto d = split(s, chars_per_line);
+  auto d = string_split(s, chars_per_line);
 
   for (const auto &c : d) {
     //
     // Handles %%fg=...$ with no text due to a split
     //
-    if (length_without_format(c) != 0) {
+    if (string_length_without_format(c) != 0) {
       w = log_internal(g, c, format, col);
     }
   }

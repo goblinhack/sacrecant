@@ -77,7 +77,7 @@ static void thing_attack_missed_player(Gamep g, Levelsp v, Levelp l, Thingp atta
     by_the_thing = thing_name_long_the(g, v, l, attacker);
   }
 
-  topcon(UI_WARN_FMT_STR "%s misses." UI_RESET_FMT, capitalize_first(by_the_thing).c_str());
+  topcon(UI_WARN_FMT_STR "%s misses." UI_RESET_FMT, string_capitalize_first(by_the_thing).c_str());
 }
 
 //
@@ -93,7 +93,7 @@ static void thing_attack_player_missed(Gamep g, Levelsp v, Levelp l, Thingp atta
   }
 
   auto the_thing_name_long = thing_name_long_the(g, v, l, it);
-  auto The_thing_name_long = capitalize_first(the_thing_name_long);
+  auto The_thing_name_long = string_capitalize_first(the_thing_name_long);
   auto by_player           = thing_name_long(g, v, l, attacker_player);
 
   topcon("You miss %s.", the_thing_name_long.c_str());

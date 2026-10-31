@@ -58,7 +58,7 @@
 
   std::string name_str;
   name_str = tp_name_long(me);
-  name_str = capitalize_first(name_str);
+  name_str = string_capitalize_first(name_str);
 
   parent->log(g, UI_INFO_FMT_STR + name_str + UI_RESET_FMT);
 
@@ -132,12 +132,12 @@
 
     if (title_allowed) {
       auto line = string_sprintf("- %-*s%*s",                                                  //
-                                 space, capitalize_first(ThingEventType_to_string(e)).c_str(), //
+                                 space, string_capitalize_first(ThingEventType_to_string(e)).c_str(), //
                                  space, damage_str.c_str());
       parent->log(g, line, TEXT_FORMAT_RHS);
     } else {
       auto line = string_sprintf("%-*s%*s",                                                    //
-                                 space, capitalize_first(ThingEventType_to_string(e)).c_str(), //
+                                 space, string_capitalize_first(ThingEventType_to_string(e)).c_str(), //
                                  space, damage_str.c_str());
       parent->log(g, line, TEXT_FORMAT_RHS);
     }
@@ -172,7 +172,7 @@
 
     auto space = (width - 4) / 2;
     auto line  = string_sprintf("- %-*s%*s",                               //
-                                space, capitalize_first(val.name).c_str(), //
+                                space, string_capitalize_first(val.name).c_str(), //
                                 space, damage_str.c_str());
     parent->log(g, line, TEXT_FORMAT_LHS);
 
@@ -221,7 +221,7 @@
     auto val = d.second;
 
     auto space = (width - 4) / 2;
-    auto line  = string_sprintf("- %-*s", space, capitalize_first(val.name).c_str());
+    auto line  = string_sprintf("- %-*s", space, string_capitalize_first(val.name).c_str());
     parent->log(g, UI_INFO2_FMT_STR + line, TEXT_FORMAT_LHS);
 
     printed_something = true;
@@ -252,7 +252,7 @@
     auto val = d.second;
 
     auto space = (width - 4) / 2;
-    auto line  = string_sprintf("- %-*s", space, capitalize_first(val.name).c_str());
+    auto line  = string_sprintf("- %-*s", space, string_capitalize_first(val.name).c_str());
     parent->log(g, UI_INFO2_FMT_STR + line, TEXT_FORMAT_LHS);
 
     printed_something = true;
@@ -331,7 +331,7 @@
       continue;
     }
 
-    out = string_append_with_comma(out, capitalize_first(ThingEventType_to_string(e)));
+    out = string_append_with_comma(out, string_capitalize_first(ThingEventType_to_string(e)));
   }
 
   if (out.empty()) {
@@ -400,7 +400,7 @@
       continue;
     }
 
-    out = string_append_with_comma(out, capitalize_first(ThingEventType_to_string(e)));
+    out = string_append_with_comma(out, string_capitalize_first(ThingEventType_to_string(e)));
   }
 
   if (out.empty()) {

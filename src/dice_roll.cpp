@@ -24,8 +24,8 @@ Dice::Dice(const std::string &s)
   //
   // 1d6+1
   //
-  for (const auto &x : split_tokens(s, '+')) {
-    auto sp = split_tokens(x, 'd');
+  for (const auto &x : string_split_tokens(s, '+')) {
+    auto sp = string_split_tokens(x, 'd');
     if (sp.size() == 2) {
       //
       // 1d6

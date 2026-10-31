@@ -147,7 +147,7 @@ void wid_console_log(const std::string &s)
     chars_per_line = 80;
   }
 
-  auto d = split(s, chars_per_line);
+  auto d = string_split(s, chars_per_line);
 
   for (const auto &c : d) {
     wid_console_log_(g, c);

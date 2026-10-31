@@ -229,7 +229,7 @@ static void thing_killed_by_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
     return;
   }
 
-  auto the_thing = capitalize_first(thing_name_long_the(g, v, l, me));
+  auto the_thing = string_capitalize_first(thing_name_long_the(g, v, l, me));
 
   std::string by_player;
   auto       *fired_by = thing_missile_fired_by_get(g, v, l, player);
@@ -344,7 +344,7 @@ static void thing_killed_by_other(Gamep g, Levelsp v, Levelp l, Thingp me, Thing
     return;
   }
 
-  auto the_thing = capitalize_first(thing_name_long_the(g, v, l, me));
+  auto the_thing = string_capitalize_first(thing_name_long_the(g, v, l, me));
 
   std::string by_attacker;
   if (e.source != nullptr) {

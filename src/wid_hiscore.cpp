@@ -145,7 +145,7 @@ void wid_hiscores_show(Gamep g)
 
       snprintf(tmp, SIZEOF(tmp) - 1, "%%%%fg=%s$%7s %-*s %-*s %-*s %*s", //
                col, "Score",                                             //
-               name_field_len, capitalize(name).c_str(),                 //
+               name_field_len, string_capitalize_all(name).c_str(),                 //
                when_field_len, when,                                     //
                completed_field_len, completed,                           //
                reason_field_len, reason);
@@ -162,7 +162,7 @@ void wid_hiscores_show(Gamep g)
       when_val = "-";
     }
 
-    std::string reason_val = capitalize_first(h->reason);
+    std::string reason_val = string_capitalize_first(h->reason);
     if (std::cmp_greater(reason_val.length(), reason_field_len)) {
       reason_val[ reason_field_len ] = '\0';
     }

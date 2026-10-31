@@ -137,7 +137,7 @@ static void wid_topcon_log_(std::string s)
     s = last_msg + " (x" + std::to_string(last_msg_count + 2) + ")";
     last_msg_count++;
     wid_topcon_replace(wid_topcon_input_line, s);
-  } else if (! curr_msg.empty() && length_without_format(curr_msg) + length_without_format(s) + 1 < UI_TOPCON_WIDTH) {
+  } else if (! curr_msg.empty() && string_length_without_format(curr_msg) + string_length_without_format(s) + 1 < UI_TOPCON_WIDTH) {
     curr_msg = curr_msg + " " + s;
     wid_topcon_replace(wid_topcon_input_line, curr_msg);
     last_msg       = "";
@@ -194,7 +194,7 @@ void wid_topcon_log(const std::string &s)
     return;
   }
 
-  auto d = split(s, chars_per_line);
+  auto d = string_split(s, chars_per_line);
 
   for (const auto &c : d) {
     wid_topcon_log_(c);

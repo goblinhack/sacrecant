@@ -30,40 +30,40 @@ static void find_executable()
   char       *path = nullptr;
   std::string exec_name;
 
-  exec_name = mybasename(g_argv[ 0 ]);
+  exec_name = string_basename(g_argv[ 0 ]);
   log("INIT: will use EXEC_NAME as '%s'", exec_name.c_str());
 
   //
   // Get the current directory, ending in a single /
   //
   std::string curr_dir = string_sprintf("%s" DIR_SEP, dir_dot());
-  replace(curr_dir, DIR_SEP DIR_SEP, DIR_SEP);
+  string_replace(curr_dir, DIR_SEP DIR_SEP, DIR_SEP);
 
   //
   // Get the parent directory, ending in a single /
   //
   std::string parent_dir = string_sprintf("%s" DIR_SEP, dir_dotdot(dir_dot()));
-  replace(parent_dir, DIR_SEP DIR_SEP, DIR_SEP);
+  string_replace(parent_dir, DIR_SEP DIR_SEP, DIR_SEP);
 
   //
   // Get rid of ../ from the program name and replace with the path.
   //
   std::string exec_expanded_name = std::string(g_argv[ 0 ]);
   if (exec_expanded_name[ 0 ] == '.') {
-    replace(exec_expanded_name, ".." DIR_SEP, parent_dir);
+    string_replace(exec_expanded_name, ".." DIR_SEP, parent_dir);
   }
 
   //
   // Get rid of ./ from the program name.
   //
   if (exec_expanded_name[ 0 ] == '.') {
-    replace(exec_expanded_name, "." DIR_SEP, "");
+    string_replace(exec_expanded_name, "." DIR_SEP, "");
   }
 
   //
   // Get rid of any // from the path
   //
-  replace(exec_expanded_name, DIR_SEP DIR_SEP, DIR_SEP);
+  string_replace(exec_expanded_name, DIR_SEP DIR_SEP, DIR_SEP);
 
   //
   // Look in the simplest case first.
@@ -103,7 +103,7 @@ static void find_executable()
   g_exec_dir                = std::string(exec_expanded_name);
 
 cleanup:
-  replace(g_exec_dir, "/", DIR_SEP);
+  string_replace(g_exec_dir, "/", DIR_SEP);
 
   DBG2("g_exec_dir set to %s", g_exec_dir.c_str());
   DBG2("Parent dir  : \"%s\"", parent_dir.c_str());
@@ -124,10 +124,10 @@ static void find_exec_dir()
   // Make sure the exec dir ends in a /
   //
   g_exec_dir = string_sprintf("%s" DIR_SEP, g_exec_dir.c_str());
-  replace(g_exec_dir, "//", DIR_SEP);
-  replace(g_exec_dir, "\\\\", DIR_SEP);
-  replace(g_exec_dir, "/", DIR_SEP);
-  replace(g_exec_dir, "\\", DIR_SEP);
+  string_replace(g_exec_dir, "//", DIR_SEP);
+  string_replace(g_exec_dir, "\\\\", DIR_SEP);
+  string_replace(g_exec_dir, "/", DIR_SEP);
+  string_replace(g_exec_dir, "\\", DIR_SEP);
 }
 
 //

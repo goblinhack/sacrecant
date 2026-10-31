@@ -15,11 +15,7 @@
 //
 // Max long string size
 //
-enum {
-  MAXLONGSTR  = (1024 * 16), // Needs to be big for long tracebacks
-  MAXSTR      = 1024,
-  MAXSHORTSTR = 128
-};
+enum { MAXLONGSTR = 1024, MAXSTR = 512, MAXSHORTSTR = 128 };
 
 //
 // Bounds checked copy into a fixed size buffer. The destination size comes from the
@@ -28,36 +24,18 @@ enum {
 // pointer, be explicit: str_copy(std::span< char >(ptr, size), src)
 //
 void str_copy(std::span< char > dst, std::string_view src);
+void string_remove_trailing_chars(std::string &str, const char charToRemove);
+void string_remove_leading_chars(std::string &str, const char charToRemove);
+auto string_replace(std::string &input, const std::string &pattern, const std::string &replace_with) -> void;
 
-//
-// Old C APIs
-//
-[[nodiscard]] auto strcommon(const char *a, const char *b) -> uint32_t;
-[[nodiscard]] auto strisregexp(const char *in) -> int;
-
-void               remove_trailing(std::string &str, const char charToRemove);
-void               remove_leading(std::string &str, const char charToRemove);
-[[nodiscard]] auto mybasename(const std::string &in) -> std::string;
-[[nodiscard]] auto capitalize_first(const std::string &in) -> std::string;
-[[nodiscard]] auto capitalize(std::string in) -> std::string;
-[[nodiscard]] auto length_without_format(const std::string &text) -> int;
-[[nodiscard]] auto ltrim_ws(const std::string &s) -> std::string;
-[[nodiscard]] auto ltrim(std::string &s) -> std::string &;
-[[nodiscard]] auto rtrim_ws(const std::string &s) -> std::string;
-[[nodiscard]] auto rtrim(std::string &s) -> std::string &;
-[[nodiscard]] auto split(const std::string &text, int max_line_len) -> std::vector< std::string >;
-[[nodiscard]] auto strerror_to_string(int err) -> std::string;
-[[nodiscard]] auto trim_ws(const std::string &s) -> std::string;
-[[nodiscard]] auto trim(std::string &s) -> std::string &;
-[[nodiscard]] auto split_tokens(const std::string &s, char delimiter) -> std::vector< std::string >;
-[[nodiscard]] auto truncate(std::string str, size_t width, bool show_ellipsis = true) -> std::string;
-
-auto hexdump(const uint8_t *addr, size_t len) -> void;
-auto hexdump(std::vector< uint8_t > &v) -> void;
-auto replace(std::string &input, const std::string &pattern, const std::string &replace_with) -> void;
-
-#ifdef _WIN32
-#define strerror_r(_errno_, _buf_, _len_) strerror_s(_buf_, _len_, _errno_)
-#endif
+[[nodiscard]] auto string_common_matching_len(std::string_view a, std::string_view b) -> size_t;
+[[nodiscard]] auto string_is_regexp(std::string_view in) -> bool;
+[[nodiscard]] auto string_basename(const std::string &in) -> std::string;
+[[nodiscard]] auto string_capitalize_first(const std::string &in) -> std::string;
+[[nodiscard]] auto string_capitalize_all(std::string in) -> std::string;
+[[nodiscard]] auto string_length_without_format(const std::string &text) -> int;
+[[nodiscard]] auto string_trim_trailing_whitespace(std::string &s) -> std::string &;
+[[nodiscard]] auto string_split(const std::string &text, int max_line_len) -> std::vector< std::string >;
+[[nodiscard]] auto string_split_tokens(const std::string &s, char delimiter) -> std::vector< std::string >;
 
 #endif

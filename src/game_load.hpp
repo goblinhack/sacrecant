@@ -17,6 +17,7 @@
 #include "my_callstack.hpp"
 #include "my_color_defs.hpp"
 #include "my_globals.hpp"
+#include "my_hexdump.hpp"
 #include "my_main.hpp"
 #include "my_ptrcheck.hpp"
 #include "my_sdl_event.hpp"
@@ -30,6 +31,7 @@
 
 #include <array>
 #include <format>
+#include <iostream>
 #include <utility>
 
 static WidPopup *wid_load;
@@ -1374,12 +1376,13 @@ auto Game::load(const std::string &file_to_load, class Game &target) -> bool
     wid_progress_bar(this, "Reading...", 0.75);
   }
 
-#if 0
-  IF_DEBUG3 {
-    std::cout << "decompressed as ";
-    hexdump((const uint8_t *)dst, dst_size);
+  if (compiler_unused) {
+    IF_DEBUG3
+    {
+      std::cout << "decompressed as ";
+      hexdump((const uint8_t *) dst, dst_size);
+    }
   }
-#endif
 
   std::string const  s(static_cast< const char * >(dst), static_cast< size_t >(dst_size));
   std::istringstream in(s);

@@ -335,7 +335,7 @@ void thing_on_cast_do_set(Tpp tp, thing_on_cast_do_t callback)
 
   if (avail < cost) {
     if (thing_is_player(user)) {
-      topcon(UI_WARN_FMT_STR "You don'me have enough Mana for casting spell %s." UI_RESET_FMT, capitalize(name).c_str());
+      topcon(UI_WARN_FMT_STR "You don'me have enough Mana for casting spell %s." UI_RESET_FMT, string_capitalize_all(name).c_str());
       game_state_reset(g, "failed to cast spell");
     }
     return false;
@@ -349,14 +349,14 @@ void thing_on_cast_do_set(Tpp tp, thing_on_cast_do_t callback)
   }
 
   if (! tp->on_cast_do(g, v, l, spell, user, e)) {
-    topcon(UI_WARN_FMT_STR "You fail to cast spell %s." UI_RESET_FMT, capitalize(name).c_str());
+    topcon(UI_WARN_FMT_STR "You fail to cast spell %s." UI_RESET_FMT, string_capitalize_all(name).c_str());
     (void) level_tick_begin_requested(g, v, l, "player cast a spell");
     return false;
   }
 
   (void) thing_mana_decr(g, v, l, user, cost);
   if (thing_is_player(user)) {
-    topcon("You spent %d Mana on casting spell %s.", cost, capitalize(name).c_str());
+    topcon("You spent %d Mana on casting spell %s.", cost, string_capitalize_all(name).c_str());
     (void) level_tick_begin_requested(g, v, l, "player cast a spell");
   }
 

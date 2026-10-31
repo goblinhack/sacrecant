@@ -940,7 +940,7 @@ void wid_player_select(Gamep g)
       //
       std::string line;
 
-      line = capitalize(tp_name_long(tp));
+      line = string_capitalize_all(tp_name_long(tp));
 
       auto sac_points = tp_sac_points_get(tp);
       if (sac_points > 0) {
@@ -1073,7 +1073,7 @@ void wid_player_select(Gamep g)
       //
       std::string line;
 
-      line = capitalize_first(tp_name_long(tp));
+      line = string_capitalize_first(tp_name_long(tp));
 
       auto sac_points = tp_sac_points_get(tp);
       if (sac_points > 0) {
@@ -1210,7 +1210,7 @@ void wid_player_select(Gamep g)
         //
         std::string line;
 
-        line = capitalize_first(tp_name_long(tp));
+        line = string_capitalize_first(tp_name_long(tp));
 
         auto sac_points = tp_sac_points_get(tp);
         if (sac_points > 0) {

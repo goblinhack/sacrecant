@@ -436,12 +436,12 @@ static auto ptrcheck_verify_pointer(int mtype, const void *ptr, const char *func
     pc = e->pc;
 
     if (dont_store != 0) {
-#if 0
+      if (compiler_unused) {
 #ifdef ENABLE_DEBUG_PTRCHECK
-      std::cerr << std::format("PTRCHECK: {} verified at \"{}\" ({} bytes) at {}:{} line {} (do not store)\n", ptr,
-                                  pc->what, pc->size, file, func, line);
+        std::cerr << std::format("PTRCHECK: {} verified at \"{}\" ({} bytes) at {}:{} line {} (do not store)\n", ptr, pc->what, pc->size, file,
+                                 func, line);
 #endif
-#endif
+      }
       return pc;
     }
 

@@ -3881,7 +3881,7 @@ void wid_scroll_with_input(Gamep g, Widp w, const std::string &str)
               return true;
             }
 
-            updatedtext = trim(updatedtext);
+            updatedtext = string_trim_trailing_whitespace(updatedtext);
 
             if (! updatedtext.empty()) {
               wid_set_text(w, updatedtext);

@@ -47,9 +47,9 @@ MyIter::MyIter(Gamep g, Levelsp _v, Levelp _l, int *out_iter, const char *_func,
     l->iter[ iter ]++;
   }
 
-#if 0
-  fprintf(stderr, "ITER %u %s:%u {\n", iter, func, line);
-#endif
+  if (compiler_unused) {
+    fprintf(stderr, "ITER %u %s:%u {\n", iter, func, line);
+  }
 }
 
 MyIter::~MyIter()
@@ -69,7 +69,7 @@ MyIter::~MyIter()
     CROAK("%s:%u underflow for number of iterators", func, line);
   }
 
-#if 0
-  fprintf(stderr, "ITER %u %s:%u }\n", iter, func, line);
-#endif
+  if (compiler_unused) {
+    fprintf(stderr, "ITER %u %s:%u }\n", iter, func, line);
+  }
 }

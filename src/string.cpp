@@ -34,76 +34,28 @@
 /*
  * Return the common matching length of two strings.
  */
-[[nodiscard]] auto strcommon(const char *a, const char *b) -> uint32_t
+[[nodiscard]] auto string_common_matching_len(std::string_view a, std::string_view b) -> size_t
 {
   TRACE();
-  const char *o = nullptr;
-
-  o = a;
-
-  while ((*a == *b) && (*a != 0)) {
-    a++;
-    b++;
-  }
-
-  return static_cast< uint32_t >(a - o);
+  return static_cast< size_t >(std::ranges::mismatch(a, b).in1 - a.begin());
 }
 
-void remove_trailing(std::string &str, const char charToRemove)
+void string_remove_trailing_chars(std::string &str, const char charToRemove)
 {
   TRACE();
   str.erase(str.find_last_not_of(charToRemove) + 1, std::string::npos);
 }
 
-void remove_leading(std::string &str, const char charToRemove)
+void string_remove_leading_chars(std::string &str, const char charToRemove)
 {
   TRACE();
   str.erase(0, std::min(str.find_first_not_of(charToRemove), str.size() - 1));
 }
 
-/*
- * Removes trailing characters.
- */
-void strchopc(char *s, char c)
+[[nodiscard]] auto string_is_regexp(std::string_view in) -> bool
 {
   TRACE();
-  uint32_t size = 0;
-  char    *end  = nullptr;
-
-  size = static_cast< uint32_t >(strlen(s));
-  if (! static_cast< bool >(size)) {
-    return;
-  }
-
-  end = s + size - 1;
-  while ((end >= s) && (*end == c)) {
-    end--;
-  }
-
-  *(end + 1) = '\0';
-}
-
-[[nodiscard]] auto strisregexp(const char *in) -> int
-{
-  TRACE();
-  const char *a = in;
-  char        c = 0;
-
-  while ((c = *a++) != 0) {
-    switch (c) {
-      case '[' : return 1;
-      case ']' : return 1;
-      case '{' : return 1;
-      case '}' : return 1;
-      case '+' : return 1;
-      case '$' : return 1;
-      case '^' : return 1;
-      case '-' : return 1;
-      case '*' : return 1;
-    }
-  }
-
-  return 0;
+  return in.find_first_of("[]{}+$^-*") != std::string_view::npos;
 }
 
 void str_copy(std::span< char > dst, std::string_view src)
@@ -120,14 +72,14 @@ void str_copy(std::span< char > dst, std::string_view src)
 //
 // A safe wrapper for basename to avoid modifications to the input string.
 //
-[[nodiscard]] auto mybasename(const std::string &in) -> std::string
+[[nodiscard]] auto string_basename(const std::string &in) -> std::string
 {
   TRACE();
   std::string out = std::string(in);
   return in.substr(out.find_last_of("/\\") + 1);
 }
 
-[[nodiscard]] auto split(const std::string &text, int max_line_len) -> std::vector< std::string >
+[[nodiscard]] auto string_split(const std::string &text, int max_line_len) -> std::vector< std::string >
 {
   TRACE();
   bool found_format_string = false;
@@ -335,7 +287,7 @@ void str_copy(std::span< char > dst, std::string_view src)
   return result;
 }
 
-[[nodiscard]] auto length_without_format(const std::string &text) -> int
+[[nodiscard]] auto string_length_without_format(const std::string &text) -> int
 {
   TRACE();
   bool found_format_string = false;
@@ -432,7 +384,7 @@ void str_copy(std::span< char > dst, std::string_view src)
   return line_len;
 }
 
-[[nodiscard]] auto split_tokens(const std::string &s, const char delimiter) -> std::vector< std::string >
+[[nodiscard]] auto string_split_tokens(const std::string &s, const char delimiter) -> std::vector< std::string >
 {
   std::string                token;
   std::istringstream         s_stream(s);
@@ -443,74 +395,10 @@ void str_copy(std::span< char > dst, std::string_view src)
   return tokens;
 }
 
-// https://www.techiedelight.com/trim-string-cpp-remove-leading-trailing-spaces/
-[[nodiscard]] auto ltrim(std::string &s) -> std::string &
-{
-  auto it = std::ranges::find_if(s, [](char c) -> bool { return ! std::isspace< char >(c, std::locale::classic()); });
-  s.erase(s.begin(), it);
-  return s;
-}
-
-[[nodiscard]] auto rtrim(std::string &s) -> std::string &
-{
-  auto it = std::ranges::find_if(std::ranges::reverse_view(s), [](char c) -> bool { return ! std::isspace< char >(c, std::locale::classic()); });
-  s.erase(it.base(), s.end());
-  return s;
-}
-
-[[nodiscard]] auto trim(std::string &s) -> std::string & { return ltrim(rtrim(s)); }
-
-const std::string WHITESPACE = " \n\r\t\f\v";
-
-[[nodiscard]] auto ltrim_ws(const std::string &s) -> std::string
-{
-  size_t const start = s.find_first_not_of(WHITESPACE);
-  return (start == std::string::npos) ? "" : s.substr(start);
-}
-
-[[nodiscard]] auto rtrim_ws(const std::string &s) -> std::string
-{
-  size_t const end = s.find_last_not_of(WHITESPACE);
-  return (end == std::string::npos) ? "" : s.substr(0, end + 1);
-}
-
-[[nodiscard]] auto trim_ws(const std::string &s) -> std::string { return rtrim_ws(ltrim_ws(s)); }
-
-//
-// Concert errno to a std::string
-//
-[[nodiscard]] auto strerror_to_string(const int err) -> std::string
-{
-  static const auto MAX_ERRNO_BUF_SIZE = 1024U;
-  char              err_out[ MAX_ERRNO_BUF_SIZE ];
-  err_out[ 0 ] = '\0';
-
-  //
-  // Choose the correct strerror
-  //
-#if defined(__GLIBC__) && (_GNU_SOURCE || (_POSIX_C_SOURCE < 200112L && _XOPEN_SOURCE < 600))
-  //
-  // GNU version returns a string pointer
-  //
-  const char *str = strerror_r(errno, err_out, MAX_ERRNO_BUF_SIZE);
-  if (str) {
-    return std::string(str);
-  }
-#else
-  //
-  // XSI version returns 0 on success
-  //
-  if (strerror_r(err, err_out, SIZEOF(err_out)) == 0) {
-    return {err_out};
-  }
-#endif
-  return "could not decode errno: " + std::to_string(err) + " strerror_r errno=" + std::to_string(errno);
-}
-
 //
 // foo bar -> Foo Bar
 //
-[[nodiscard]] auto capitalize(std::string in) -> std::string
+[[nodiscard]] auto string_capitalize_all(std::string in) -> std::string
 {
   TRACE();
   std::string out = std::move(in);
@@ -538,7 +426,7 @@ const std::string WHITESPACE = " \n\r\t\f\v";
 //
 // foo bar -> Foo bar
 //
-[[nodiscard]] auto capitalize_first(const std::string &in) -> std::string
+[[nodiscard]] auto string_capitalize_first(const std::string &in) -> std::string
 {
   TRACE();
   std::string out = in;
@@ -564,7 +452,7 @@ const std::string WHITESPACE = " \n\r\t\f\v";
 //
 // Modify the input string with and change "pattern" to "replace_with" repeatedly.
 //
-void replace(std::string &input, const std::string &pattern, const std::string &replace_with)
+void string_replace(std::string &input, const std::string &pattern, const std::string &replace_with)
 {
   size_t pos = 0;
   for (;;) {
@@ -613,20 +501,19 @@ void replace(std::string &input, const std::string &pattern, const std::string &
   return tp;
 }
 
-//
-// Borrowed from
-//
-// https://stackoverflow.com/questions/19580877/how-to-truncate-a-string-formating-c#19590797
-//
-auto truncate(std::string str, size_t width, bool show_ellipsis) -> std::string
+// https://www.techiedelight.com/trim-string-cpp-remove-leading-trailing-spaces/
+[[nodiscard]] auto ltrim(std::string &s) -> std::string &
 {
-  if (str.length() > width) {
-    if (show_ellipsis) {
-      str.resize(width);
-      return str.append("...");
-    }
-    str.resize(width);
-    return str;
-  }
-  return str;
+  auto it = std::ranges::find_if(s, [](char c) -> bool { return ! std::isspace< char >(c, std::locale::classic()); });
+  s.erase(s.begin(), it);
+  return s;
 }
+
+[[nodiscard]] auto rtrim(std::string &s) -> std::string &
+{
+  auto it = std::ranges::find_if(std::ranges::reverse_view(s), [](char c) -> bool { return ! std::isspace< char >(c, std::locale::classic()); });
+  s.erase(it.base(), s.end());
+  return s;
+}
+
+[[nodiscard]] auto string_trim_trailing_whitespace(std::string &s) -> std::string & { return ltrim(rtrim(s)); }

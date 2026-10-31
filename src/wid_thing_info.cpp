@@ -616,13 +616,13 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   } else {
     name_str = thing_name_long(g, v, l, me);
   }
-  name_str = capitalize(name_str);
+  name_str = string_capitalize_all(name_str);
 
   parent->log(g, UI_INFO_FMT_STR + name_str + UI_RESET_FMT);
 
   if (thing_is_player(me)) {
     name_str = tp_name_long(thing_tp(me));
-    name_str = capitalize(name_str);
+    name_str = string_capitalize_all(name_str);
     parent->log(g, UI_INFO_FMT_STR + name_str + UI_RESET_FMT);
   }
 
@@ -1059,7 +1059,7 @@ static void wid_thing_info_overlay(std::string &line, size_t pos, std::string_vi
       continue;
     }
 
-    out = string_append_with_comma(out, capitalize_first(ThingEventType_to_string(e)));
+    out = string_append_with_comma(out, string_capitalize_first(ThingEventType_to_string(e)));
   }
 
   if (out.empty()) {
@@ -1819,7 +1819,7 @@ static void wid_thing_info_overlay(std::string &line, size_t pos, std::string_vi
       continue;
     }
 
-    out = string_append_with_comma(out, capitalize_first(ThingEventType_to_string(e)));
+    out = string_append_with_comma(out, string_capitalize_first(ThingEventType_to_string(e)));
   }
 
   if (out.empty()) {
@@ -1888,7 +1888,7 @@ static void wid_thing_info_overlay(std::string &line, size_t pos, std::string_vi
       continue;
     }
 
-    out = string_append_with_comma(out, capitalize_first(ThingEventType_to_string(e)));
+    out = string_append_with_comma(out, string_capitalize_first(ThingEventType_to_string(e)));
   }
 
   if (out.empty()) {
@@ -2055,7 +2055,7 @@ static void wid_thing_info_overlay(std::string &line, size_t pos, std::string_vi
     }
 
     switch (thing_assess_tp(g, v, l, it, me)) {
-      case THING_ENVIRON_HATES :    out = string_append_with_comma(out, capitalize_first(tp_name_long(it))); break;
+      case THING_ENVIRON_HATES :    out = string_append_with_comma(out, string_capitalize_first(tp_name_long(it))); break;
       case THING_ENVIRON_DISLIKES : break;
       case THING_ENVIRON_NEUTRAL :  break;
       case THING_ENVIRON_LIKES :    break;
@@ -2067,7 +2067,7 @@ static void wid_thing_info_overlay(std::string &line, size_t pos, std::string_vi
     return false;
   }
 
-  replace(out, "Deep water, Shallow water", "All water");
+  string_replace(out, "Deep water, Shallow water", "All water");
 
   parent->log(g, UI_INFO_FMT_STR "Hates:", TEXT_FORMAT_LHS);
   parent->log(g, "- " + out, TEXT_FORMAT_LHS);
@@ -2093,7 +2093,7 @@ static void wid_thing_info_overlay(std::string &line, size_t pos, std::string_vi
 
     switch (thing_assess_tp(g, v, l, it, me)) {
       case THING_ENVIRON_HATES :    break;
-      case THING_ENVIRON_DISLIKES : out = string_append_with_comma(out, capitalize_first(tp_name_long(it))); break;
+      case THING_ENVIRON_DISLIKES : out = string_append_with_comma(out, string_capitalize_first(tp_name_long(it))); break;
       case THING_ENVIRON_NEUTRAL :  break;
       case THING_ENVIRON_LIKES :    break;
       case THING_ENVIRON_ENUM_MAX : break;
@@ -2104,7 +2104,7 @@ static void wid_thing_info_overlay(std::string &line, size_t pos, std::string_vi
     return false;
   }
 
-  replace(out, "Deep water, Shallow water", "All water");
+  string_replace(out, "Deep water, Shallow water", "All water");
 
   parent->log(g, UI_INFO_FMT_STR "Dislikes:", TEXT_FORMAT_LHS);
   parent->log(g, "- " + out, TEXT_FORMAT_LHS);
@@ -2346,7 +2346,7 @@ static void wid_thing_info_overlay(std::string &line, size_t pos, std::string_vi
     line += tp_name(item_tp);
     line += "$";
     line += " ";
-    line += capitalize_first(thing_name_long(g, v, l, item));
+    line += string_capitalize_first(thing_name_long(g, v, l, item));
 
     if (slot->count > 1) {
       line += " x";
@@ -2411,7 +2411,7 @@ static void wid_thing_info_overlay(std::string &line, size_t pos, std::string_vi
 
     std::string line = "- ";
 
-    line += capitalize_first(thing_name_long(g, v, l, spell));
+    line += string_capitalize_first(thing_name_long(g, v, l, spell));
 
     line += " ";
 
@@ -2444,7 +2444,7 @@ static void wid_thing_info_overlay(std::string &line, size_t pos, std::string_vi
 
     std::string line = "- ";
 
-    line += capitalize_first(thing_name_long(g, v, l, sacrifice));
+    line += string_capitalize_first(thing_name_long(g, v, l, sacrifice));
 
     Widp wid = parent->log(g, line, TEXT_FORMAT_LHS);
     if (wid != nullptr) {
@@ -2475,7 +2475,7 @@ static void wid_thing_info_overlay(std::string &line, size_t pos, std::string_vi
 
     std::string line = "- ";
 
-    line += capitalize_first(thing_name_long(g, v, l, boost));
+    line += string_capitalize_first(thing_name_long(g, v, l, boost));
 
     Widp wid = parent->log(g, line, TEXT_FORMAT_LHS);
     if (wid != nullptr) {

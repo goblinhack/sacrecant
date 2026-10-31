@@ -171,7 +171,6 @@ static auto command_matches(Gamep g, const char *input, char *output, uint8_t sh
   char         match[ MAXSTR ];
   char         match2[ MAXSTR ];
   int          longest_match = 0;
-  int          common_len    = 0;
   int          matches       = 0;
   int          cnt           = 0;
   int          t             = 0;
@@ -305,7 +304,7 @@ static auto command_matches(Gamep g, const char *input, char *output, uint8_t sh
           cand_expand_to.clear();
 
           for (t = 0; t < longest_match; t++) {
-            if (strisregexp(command->tokens.args[ t ]) != 0) {
+            if (string_is_regexp(command->tokens.args[ t ]) != 0) {
               cand_expand_to += input_tokens.args[ t ];
               cand_expand_to += ' ';
               continue;
@@ -316,8 +315,7 @@ static auto command_matches(Gamep g, const char *input, char *output, uint8_t sh
           }
 
           if (! expands_to.empty()) {
-            common_len = static_cast< int >(strcommon(expands_to.c_str(), cand_expand_to.c_str()));
-            expands_to.resize(static_cast< size_t >(common_len));
+            expands_to.resize(string_common_matching_len(expands_to, cand_expand_to));
           } else {
             expands_to = cand_expand_to;
           }

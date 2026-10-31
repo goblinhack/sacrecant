@@ -525,7 +525,7 @@ static void thing_damage_by_player(Gamep g, Levelsp v, Levelp l, Thingp it, Thin
 
   if ((the_player != nullptr) && thing_is_loggable(it)) {
     auto the_thing_name_long = thing_name_long_the(g, v, l, it);
-    auto The_thing_name_long = capitalize_first(the_thing_name_long);
+    auto The_thing_name_long = string_capitalize_first(the_thing_name_long);
     auto by_player           = thing_name_long(g, v, l, the_player);
 
     switch (e.event_type) {
@@ -648,7 +648,7 @@ static void thing_damage_by_other(Gamep g, Levelsp v, Levelp l, Thingp me, Thing
     return;
   }
 
-  auto the_thing = capitalize_first(thing_name_long_the(g, v, l, me));
+  auto the_thing = string_capitalize_first(thing_name_long_the(g, v, l, me));
 
   std::string by_attacker;
   if (e.source != nullptr) {

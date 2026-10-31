@@ -22,12 +22,12 @@
 //
 [[nodiscard]] auto redirect_stdout() -> FILE *
 {
-#if 0
-  //
-  // Useful if github tests fail
-  //
-  g_log_stdout = stdout;
-#endif
+  if (compiler_unused) {
+    //
+    // Useful if github tests fail
+    //
+    g_log_stdout = stdout;
+  }
 
   [[likely]] if ((g_log_stdout != nullptr)) {
     return g_log_stdout;
@@ -81,12 +81,12 @@
 //
 [[nodiscard]] auto redirect_stderr() -> FILE *
 {
-#if 0
-  //
-  // Useful if github tests fail
-  //
-  g_log_stderr = stderr;
-#endif
+  if (compiler_unused) {
+    //
+    // Useful if github tests fail
+    //
+    g_log_stderr = stderr;
+  }
 
   [[likely]] if ((g_log_stderr != nullptr)) {
     return g_log_stderr;

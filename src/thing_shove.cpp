@@ -40,7 +40,7 @@ static void thing_shoved_by_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
   auto *it = e.source;
 
   if ((it != nullptr) && thing_is_loggable(me)) {
-    auto the_thing = capitalize_first(thing_name_long_the(g, v, l, me));
+    auto the_thing = string_capitalize_first(thing_name_long_the(g, v, l, me));
     auto by_player = thing_name_long(g, v, l, it);
 
     topcon("%s is shoved by %s.", the_thing.c_str(), by_player.c_str());

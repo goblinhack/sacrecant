@@ -182,7 +182,7 @@ static void wid_player_update_spell_selections(Gamep g, Levelsp v, Levelp l, Thi
     //
     // Add spell name
     //
-    s += capitalize_first(string_sprintf("%-21s", tp_name_long(tp).c_str()));
+    s += string_capitalize_first(string_sprintf("%-21s", tp_name_long(tp).c_str()));
     s += "%%fg=reset$";
 
     //
@@ -199,7 +199,7 @@ static void wid_player_update_spell_selections(Gamep g, Levelsp v, Levelp l, Thi
       default :                      tmp = "-    "; break;
     }
 
-    s += capitalize_first(string_sprintf("%-22s", tmp.c_str()));
+    s += string_capitalize_first(string_sprintf("%-22s", tmp.c_str()));
     s += string_sprintf("        %2d", spell_mana_cost);
 
     wid_set_text(w, s);
