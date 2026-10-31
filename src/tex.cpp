@@ -430,32 +430,6 @@ static auto tex_create_masks_from_surface(SDL_Surface *src, const std::string &f
     }
   }
 
-#if 0
-  //
-  // Unused
-  //
-  auto tiles_across = src_width / tile_width;
-  auto tiles_down   = src_height / tile_height;
-
-  for (uint32_t tile_x = 0; tile_x < tiles_across; tile_x++) {
-    for (uint32_t tile_y = 0; tile_y < tiles_down; tile_y++) {
-      for (uint32_t ox = 0; ox < tile_width; ox++) {
-        for (uint32_t oy = 0; oy < tile_height; oy++) {
-          auto px = tile_x * tile_width + ox;
-          auto py = tile_y * tile_height + oy;
-
-          color col_orig;
-          GET_PIXEL(src, px, py, col_orig);
-
-          if ((col_orig.a == 255) && (col_orig.r == 0) && (col_orig.g == 0) && (col_orig.b == 0)) {
-            PUT_PIXEL(dst_outline, px + 0, py - 0, col_white);
-          }
-        }
-      }
-    }
-  }
-#endif
-
   tex_dst_monochrome             = tex_from_surface(dst_monochrome, file, name_monochrome, mode);
   tex_dst_mask                   = tex_from_surface(dst_mask, file, name_mask, mode);
   tex_dst_outline_w_black_inside = tex_from_surface(dst_outline_w_black_inside, file, name_outline_w_black_inside, mode);

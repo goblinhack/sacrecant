@@ -410,27 +410,6 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
 
   auto level_arr_idx = l->level_arr_idx;
 
-#if 0
-  //
-  // The level select level doesn't have a dedicated bit slot so just use a level that
-  // is not initialized
-  //
-  // Is this true? I don't think so.
-  //
-  if (level_arr_idx == LEVEL_ARR_IDX_LEVEL_SELECT) {
-    if (v->is_generating_levels) {
-      CROAK("cannot allocate level selection things while mutexes are off");
-    }
-
-    for (auto i = 0; i < LEVEL_ARR_IDX_MAX; i++) {
-      if (! v->level[ i ].is_initialized) {
-        level_arr_idx = i;
-        break;
-      }
-    }
-  }
-#endif
-
   //
   // Sequentially try to allocate an ID from the last ID allocated.
   // Use the level_arr_idx as scoping so that we do not need to use a mutex as different

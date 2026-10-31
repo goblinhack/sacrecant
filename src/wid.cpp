@@ -5100,33 +5100,6 @@ void wid_get_abs_coords(Widp w, int *tlx, int *tly, int *brx, int *bry)
     p = p->parent;
   }
 
-#if 0
-  int ptlx;
-  int ptly;
-  int pbrx;
-  int pbry;
-
-  if (w->parent) {
-    wid_get_abs_coords(w->parent, &ptlx, &ptly, &pbrx, &pbry);
-
-    if (ptlx > *tlx) {
-      *tlx = ptlx;
-    }
-
-    if (ptly > *tly) {
-      *tly = ptly;
-    }
-
-    if (pbrx < *brx) {
-      *brx = pbrx;
-    }
-
-    if (pbry < *bry) {
-      *bry = pbry;
-    }
-  }
-#endif
-
   w->abs_tl.x = *tlx;
   w->abs_tl.y = *tly;
   w->abs_br.x = *brx;
@@ -5187,15 +5160,6 @@ static void wid_display(Gamep g, Widp w, uint8_t disable_scissor, uint8_t *updat
   int     tly           = 0;
   int     brx           = 0;
   int     bry           = 0;
-#if 0
-  Widp p {};
-#endif
-
-#if 0
-  if (!w->parent) {
-    wid_dump(w, 0);
-  }
-#endif
 
   //
   // Bounding box for drawing the wid. Coordinates are negative as we
@@ -5247,16 +5211,6 @@ static void wid_display(Gamep g, Widp w, uint8_t disable_scissor, uint8_t *updat
   obry = wid_get_br_y(w);
 
   wid_get_abs_coords(w, &otlx, &otly, &obrx, &obry);
-#if 0
-  p = w->parent;
-  while (p) {
-    otlx += p->offset.x;
-    otly += p->offset.y;
-    obrx += p->offset.x;
-    obry += p->offset.y;
-    p = p->parent;
-  }
-#endif
 
   //
   // Inclusive width
@@ -5294,12 +5248,6 @@ static void wid_display(Gamep g, Widp w, uint8_t disable_scissor, uint8_t *updat
   // or are not the top level wid.
   //
   if (! static_cast< bool >(disable_scissor)) {
-#if 0
-  //
-  // Why would we not always want scissors on?
-  //
-  if (!w->children_display_sorted.empty() || !w->parent || w->show_cursor) {
-#endif
     //
     // Tell the parent we are doing scissors so they can re-do
     // their own scissors.
@@ -5307,27 +5255,6 @@ static void wid_display(Gamep g, Widp w, uint8_t disable_scissor, uint8_t *updat
     if (updated_scissors != nullptr) {
       *updated_scissors = 1U;
     }
-#if 0
-
-  if (w->parent) {
-
-    if (ptlx > *tlx) {
-      *tlx = ptlx;
-    }
-
-    if (ptly > *tly) {
-      *tly = ptly;
-    }
-
-    if (pbrx < *brx) {
-      *brx = pbrx;
-    }
-
-    if (pbry < *bry) {
-      *bry = pbry;
-    }
-  }
-#endif
 
     auto sciss_tlx = tlx;
     auto sciss_tly = tly;
@@ -5351,9 +5278,6 @@ static void wid_display(Gamep g, Widp w, uint8_t disable_scissor, uint8_t *updat
     }
 
     wid_set_scissors(sciss_tlx, sciss_tly, sciss_brx, sciss_bry);
-#if 0
-    }
-#endif
   }
 
   auto wid_width  = wid_get_width(w);
@@ -5724,6 +5648,7 @@ void wid_display_all(Gamep g)
       continue;
     }
 
+    if (compiler_unused) {}
 #if 0
 auto last = wid_total_count;
 #endif
@@ -5740,19 +5665,6 @@ printf("========================================= %d\n", wid_total_count);
   if (wid_total_count > 5000) {
     topcon("too many widgets %d", wid_total_count);
   }
-
-#if 0
-  for (auto y = 0; y < TERM_HEIGHT; y++) {
-    for (auto x = 0; x < TERM_WIDTH; x++) {
-      if (wid_on_screen_at[x][y)] {
-        putchar('W');
-      } else {
-        putchar(' ');
-      }
-    }
-    putchar('\n');
-  }
-#endif
 
   ascii_clear_scissors();
 

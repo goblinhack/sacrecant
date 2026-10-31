@@ -565,15 +565,13 @@ static auto dmap_solve_(const Dmap *D, const bpoint start, const std::vector< bp
   return out;
 }
 
-#if 0
-static auto dmap_solve_allow_diagonal(const Dmap *D, const bpoint start) -> std::vector< bpoint >
+auto dmap_solve_allow_diagonal(const Dmap *D, const bpoint start) -> std::vector< bpoint >
 {
   static const std::vector< bpoint > all_deltas = {
       bpoint(-1, -1), bpoint(1, -1), bpoint(-1, 1), bpoint(1, 1), bpoint(0, -1), bpoint(-1, 0), bpoint(1, 0), bpoint(0, 1),
   };
   return dmap_solve_(D, start, all_deltas, true);
 }
-#endif
 
 static auto dmap_solve_manhattan(const Dmap *D, const bpoint start) -> std::vector< bpoint >
 {

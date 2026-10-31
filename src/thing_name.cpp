@@ -152,16 +152,6 @@
 
   std::string out;
 
-#if 0
-  //
-  // Tamed?
-  //
-  auto l = leader();
-  if (l && (l == level->player)) {
-    out = "your ";
-  }
-
-#endif
   //
   // "the kobalos's short sword" for example
   //
