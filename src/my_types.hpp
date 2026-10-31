@@ -179,10 +179,12 @@ typedef unsigned long int uint64_t;
 //
 #ifdef _WIN32
 #define PATHSEP      ";"
+#define PATHSEP_CHAR ';'
 #define DIR_SEP      "\\"
 #define DIR_SEP_CHAR '\\'
 #else
 #define PATHSEP      ":"
+#define PATHSEP_CHAR ':'
 #define DIR_SEP      "/"
 #define DIR_SEP_CHAR '/'
 #endif

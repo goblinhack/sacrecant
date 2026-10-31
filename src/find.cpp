@@ -15,7 +15,9 @@
 #include <cmath>
 #include <cstdlib>
 #include <cstring>
+#include <iostream>
 #include <libgen.h>
+#include <sstream>
 #include <string>
 
 //
@@ -28,7 +30,7 @@ static void find_executable()
   char       *path = nullptr;
   std::string exec_name;
 
-  exec_name = mybasename(g_argv[ 0 ], __FUNCTION__);
+  exec_name = mybasename(g_argv[ 0 ]);
   log("INIT: will use EXEC_NAME as '%s'", exec_name.c_str());
 
   //
@@ -84,23 +86,18 @@ static void find_executable()
   //
   // Try the PATH.
   //
-  if (compiler_unused) {
-    path = getenv("PATH");
-    if (path != nullptr) {
-      char const *dir = nullptr;
+  path = getenv("PATH");
+  if (path != nullptr) {
+    char const *dir = nullptr;
 
-      path = MYDUPSTR(path, "path");
-
-      for (dir = strtok(path, PATHSEP); dir != nullptr; dir = strtok(nullptr, PATHSEP)) {
-        g_exec_full_path_and_name = string_sprintf("%s" DIR_SEP "%s", dir, exec_name.c_str());
-        if (static_cast< bool >(file_exists(g_exec_full_path_and_name.c_str()))) {
-          g_exec_dir = string_sprintf("%s" DIR_SEP, dir);
-          goto cleanup;
-        }
+    std::istringstream iss(path);
+    std::string        token;
+    while (std::getline(iss, token, PATHSEP_CHAR)) {
+      g_exec_full_path_and_name = string_sprintf("%s" DIR_SEP "%s", dir, exec_name.c_str());
+      if (static_cast< bool >(file_exists(g_exec_full_path_and_name.c_str()))) {
+        g_exec_dir = string_sprintf("%s" DIR_SEP, dir);
+        goto cleanup;
       }
-
-      MYFREE(path);
-      path = nullptr;
     }
   }
 
@@ -114,10 +111,6 @@ cleanup:
   DBG2("Parent dir  : \"%s\"", parent_dir.c_str());
   DBG2("Curr dir    : \"%s\"", curr_dir.c_str());
   DBG2("Full name   : \"%s\"", exec_expanded_name.c_str());
-
-  if (path != nullptr) {
-    MYFREE(path);
-  }
 }
 
 //

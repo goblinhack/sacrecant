@@ -119,7 +119,7 @@ static auto file_io_read(const char *filename, int *len) -> uint8_t *;
   }
 
   {
-    std::string const base_alt_filename = mybasename(filename, "strip dir");
+    std::string const base_alt_filename = mybasename(filename);
 
     out = file_io_read_if_exists(base_alt_filename.c_str(), outlen);
     if (out != nullptr) {

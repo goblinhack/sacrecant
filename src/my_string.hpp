@@ -26,9 +26,10 @@ enum {
 [[nodiscard]] auto my_strlcat(char *dst, const char *src, size_t max_len) -> size_t;
 [[nodiscard]] auto strcommon(const char *a, const char *b) -> uint32_t;
 [[nodiscard]] auto strisregexp(const char *in) -> int;
-[[nodiscard]] auto mybasename(const char *in, const char *who) -> std::string;
-auto               strchopc(char *s, char c) -> void;
 
+void               remove_trailing(std::string &str, const char charToRemove);
+void               remove_leading(std::string &str, const char charToRemove);
+[[nodiscard]] auto mybasename(const std::string &in) -> std::string;
 [[nodiscard]] auto capitalize_first(const std::string &in) -> std::string;
 [[nodiscard]] auto capitalize(std::string in) -> std::string;
 [[nodiscard]] auto length_without_format(const std::string &text) -> int;

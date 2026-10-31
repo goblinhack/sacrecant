@@ -13,19 +13,11 @@
 auto ptrcheck_fini() -> void;
 auto MYZALLOC_(int size, const char *what, const char *file, const char *func, int line) -> void *;
 auto MYMALLOC_(int size, const char *what, const char *file, const char *func, int line) -> void *;
-auto MYREALLOC_(void *ptr, int size, const char *what, const char *file, const char *func, int line) -> void *;
 auto MYFREE_(void *ptr, const char *file, const char *func, int line) -> void;
-auto MYDUPSTR_(const char *in, const char *what, const char *file, const char *func, int line) -> char *;
 
 #define MYZALLOC(__size__, __what__) MYZALLOC_((__size__), (__what__), PTRCHECK_AT)
-
 #define MYMALLOC(__size__, __what__) MYMALLOC_((__size__), (__what__), PTRCHECK_AT)
-
-#define MYREALLOC(__ptr__, __size__, __what__) MYREALLOC_((__ptr__), (__size__), (__what__), PTRCHECK_AT)
-
-#define MYFREE(__ptr__) MYFREE_((__ptr__), PTRCHECK_AT)
-
-#define MYDUPSTR(__ptr__, __what__) MYDUPSTR_((__ptr__), (__what__), PTRCHECK_AT)
+#define MYFREE(__ptr__)              MYFREE_((__ptr__), PTRCHECK_AT)
 
 auto ptrcheck_alloc(int mtype, const void *ptr, const char *what, int size, const char *func, const char *file, int line) -> void *;
 auto ptrcheck_verify(int mtype, const void *ptr, const char *func, const char *file, int line) -> int;

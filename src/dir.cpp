@@ -17,27 +17,23 @@
 /*
  * Does the requested dir exist?
  */
-[[nodiscard]] auto dir_exists(const char *indir) -> bool
+[[nodiscard]] auto dir_exists(const std::string &in) -> bool
 {
   TRACE();
 
+  std::string tmp = std::string(in);
   struct stat buf {};
-  char       *dir = nullptr;
-  uint8_t     rc  = 0;
 
   /*
    * msys is crap and unless you remove the / from the end of the name
    * will not think it is a dir.
    */
-  dir = MYDUPSTR(indir, "dir");
-  strchopc(dir, DIR_SEP_CHAR);
+  remove_trailing(tmp, DIR_SEP_CHAR);
 
-  rc = 0;
-  if (stat(dir, &buf) >= 0) {
+  auto rc = 0;
+  if (stat(tmp.c_str(), &buf) >= 0) {
     rc = S_ISDIR(buf.st_mode);
   }
-
-  MYFREE(dir);
 
   return static_cast< bool >(rc);
 }

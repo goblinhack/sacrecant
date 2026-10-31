@@ -52,30 +52,6 @@
   return ptr;
 }
 
-[[nodiscard]] auto MYREALLOC_(void *ptr, int size, const char *what, const char *file, const char *func, int line) -> void *
-{
-  TRACE();
-  IF_DEBUG3
-  { //
-    (void) ptrcheck_free(MTYPE_MISC, ptr, file, func, line);
-  }
-
-  ptr = realloc(ptr, size);
-  if (ptr == nullptr) [[unlikely]] {
-    CROAK("no memory, %s:%s:%u", file, func, line);
-  }
-
-  IF_DEBUG3
-  { //
-    (void) ptrcheck_alloc(MTYPE_MISC, ptr, what, size, file, func, line);
-  }
-
-  // callstack_dump();
-  g_memory_allocated++;
-
-  return ptr;
-}
-
 void MYFREE_(void *ptr, const char *file, const char *func, int line)
 {
   TRACE();
@@ -91,29 +67,3 @@ void MYFREE_(void *ptr, const char *file, const char *func, int line)
   free(ptr);
 }
 
-[[nodiscard]] auto MYDUPSTR_(const char *in, const char *what, const char *file, const char *func, int line) -> char *
-{
-  TRACE();
-
-  if (in == nullptr) [[unlikely]] {
-    ERR("no string to duplicate");
-    return nullptr;
-  }
-
-  char *ptr = strdup(in); // NOLINT
-  if (ptr == nullptr) [[unlikely]] {
-    CROAK("no memory, %s:%s:%u", file, func, line);
-  }
-
-  IF_DEBUG3
-  {
-    auto const size = strlen(in);
-
-    (void) ptrcheck_alloc(MTYPE_MISC, ptr, what, size, file, func, line);
-  }
-
-  // callstack_dump();
-  g_memory_allocated++;
-
-  return ptr;
-}

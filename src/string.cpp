@@ -49,6 +49,18 @@
   return static_cast< uint32_t >(a - o);
 }
 
+void remove_trailing(std::string &str, const char charToRemove)
+{
+  TRACE();
+  str.erase(str.find_last_not_of(charToRemove) + 1, std::string::npos);
+}
+
+void remove_leading(std::string &str, const char charToRemove)
+{
+  TRACE();
+  str.erase(0, std::min(str.find_first_not_of(charToRemove), str.size() - 1));
+}
+
 /*
  * Removes trailing characters.
  */
@@ -117,19 +129,14 @@ void strchopc(char *s, char c)
   return (dstlen + srclen);
 }
 
-/*
- * mybasename
- *
- * A safe wrapper for basename to avoid modifications to the input string.
- */
-[[nodiscard]] auto mybasename(const char *in, const char *who) -> std::string
+//
+// A safe wrapper for basename to avoid modifications to the input string.
+//
+[[nodiscard]] auto mybasename(const std::string &in) -> std::string
 {
   TRACE();
-  char       *tmp = MYDUPSTR(in, who);
-  std::string tmp2(basename(tmp));
-  MYFREE(tmp);
-
-  return (tmp2);
+  std::string out = std::string(in);
+  return in.substr(out.find_last_of("/\\") + 1);
 }
 
 [[nodiscard]] auto split(const std::string &text, int max_line_len) -> std::vector< std::string >
