@@ -1,12 +1,12 @@
 <license>
-    <issueDate>2020-01-28</issueDate>
-    <licenseSchemaVersion>1.2</licenseSchemaVersion>
-    <licenseType>standard</licenseType>
-    <majorVersion>19</majorVersion>
-    <minorVersion>12</minorVersion>
-    <organization>Neil McGill - Open Source License</organization>
-    <patchVersion>0</patchVersion>
-    <product>BitRock InstallBuilder Multiplatform Enterprise</product>
-    <project>Sacrecant</project>
-    <signature>f70a9f81d7bba6749d6b590150b0a1d2</signature>
+  <issueDate>2026-10-31</issueDate>
+  <licenseSchemaVersion>1.2</licenseSchemaVersion>
+  <licenseType>opensource</licenseType>
+  <majorVersion>22</majorVersion>
+  <minorVersion>3</minorVersion>
+  <patchVersion>0</patchVersion>
+  <organization>Neil - goblinhack - Sacrecant</organization>
+  <project>Sacrecant</project>
+  <signature>01a2911cb3e088ed2baee71a7506b9f7</signature>
+  <product>InstallBuilder Multiplatform Professional</product>
 </license>
