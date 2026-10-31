@@ -23,8 +23,10 @@ static auto tp_spell_wildfire_storm_get(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
 
-  auto        tp_damage  = tp_find_mand("fire_magical");
-  auto        space      = (UI_RIGHTBAR_WIDTH - 4) / 2;
+  auto tp_damage = tp_find_mand("fire_magical");
+#ifndef GITHUB_BUILD
+  auto space = (UI_RIGHTBAR_WIDTH - 4) / 2;
+#endif
   auto        damage_str = tp_damage_dice_roll_string(tp_damage, THING_EVENT_EXPLOSION_DAMAGE);
   auto        damage_mod = thing_stat_mod(g, v, l, me, THING_STAT_DMG);
   std::string line;
