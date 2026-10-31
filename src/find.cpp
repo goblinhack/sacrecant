@@ -88,14 +88,12 @@ static void find_executable()
   //
   path = getenv("PATH");
   if (path != nullptr) {
-    char const *dir = nullptr;
-
     std::istringstream iss(path);
-    std::string        token;
-    while (std::getline(iss, token, PATHSEP_CHAR)) {
-      g_exec_full_path_and_name = string_sprintf("%s" DIR_SEP "%s", dir, exec_name.c_str());
+    std::string        path_element;
+    while (std::getline(iss, path_element, PATHSEP_CHAR)) {
+      g_exec_full_path_and_name = string_sprintf("%s" DIR_SEP "%s", path_element.c_str(), exec_name.c_str());
       if (static_cast< bool >(file_exists(g_exec_full_path_and_name.c_str()))) {
-        g_exec_dir = string_sprintf("%s" DIR_SEP, dir);
+        g_exec_dir = string_sprintf("%s" DIR_SEP, path_element.c_str());
         goto cleanup;
       }
     }
