@@ -18,6 +18,7 @@
 #include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <format>
 #include <string>
 #include <vector>
 
@@ -74,7 +75,7 @@ void sdl_screenshot_do(Gamep g)
 
   int const components = 3;
 
-  auto png = string_sprintf("screenshot.%d.png", count);
+  auto png = std::format("screenshot.{}.png", count);
   stbi_write_png(png.c_str(), w, h, components, pixels.data(), 3 * w);
   GL_ERROR_CHECK();
   topcon("Screenshot: %s", png.c_str());
@@ -210,7 +211,7 @@ void sdl_fbo_dump(Gamep g, FboEnum fbo, const std::string &name)
 
   static int count      = 0;
   int const  components = 4;
-  auto       png        = string_sprintf("screenshot.%s.%03d.png", name.c_str(), count);
+  auto       png        = std::format("screenshot.{}.{:03}.png", name, count);
   stbi_write_png(png.c_str(), w, h, components, pixels.data(), 4 * w);
   con("Screenshot: %s", png.c_str());
   count++;

@@ -33,6 +33,7 @@
 #include <algorithm>
 #include <cstdint>
 #include <cstring>
+#include <format>
 #include <string>
 #include <vector>
 
@@ -281,7 +282,7 @@ static void wid_player_update_selections(Gamep g)
 
   {
     auto total_sac_points = wid_player_total_sac_points(g);
-    auto line             = string_sprintf("Sacrificial points (SPs) for spell casting       %d", total_sac_points);
+    auto line             = std::format("Sacrificial points (SPs) for spell casting       {}", total_sac_points);
     wid_set_text_lhs(wid_total, 1u);
     wid_set_text(wid_total, line);
     wid_update(g, wid_total);
@@ -944,11 +945,11 @@ void wid_player_select(Gamep g)
 
       auto sac_points = tp_sac_points_get(tp);
       if (sac_points > 0) {
-        line = string_sprintf("%-41s +%d", line.c_str(), sac_points);
+        line = std::format("{:<41} +{}", line, sac_points);
       } else if (sac_points < 0) {
-        line = string_sprintf("%-41s %d", line.c_str(), sac_points);
+        line = std::format("{:<41} {}", line, sac_points);
       } else {
-        line = string_sprintf("%-41s -", line.c_str());
+        line = std::format("{:<41} -", line);
       }
 
       auto *w = wid_new_bar_button(g, wid_player_select_window, "Sacrecant");
@@ -1077,11 +1078,11 @@ void wid_player_select(Gamep g)
 
       auto sac_points = tp_sac_points_get(tp);
       if (sac_points > 0) {
-        line = string_sprintf("%-41s +%d", line.c_str(), sac_points);
+        line = std::format("{:<41} +{}", line, sac_points);
       } else if (sac_points < 0) {
-        line = string_sprintf("%-41s %d", line.c_str(), sac_points);
+        line = std::format("{:<41} {}", line, sac_points);
       } else {
-        line = string_sprintf("%-41s -", line.c_str());
+        line = std::format("{:<41} -", line);
       }
 
       TRACE();
@@ -1214,11 +1215,11 @@ void wid_player_select(Gamep g)
 
         auto sac_points = tp_sac_points_get(tp);
         if (sac_points > 0) {
-          line = string_sprintf("%-41s +%d", line.c_str(), sac_points);
+          line = std::format("{:<41} +{}", line, sac_points);
         } else if (sac_points < 0) {
-          line = string_sprintf("%-41s %d", line.c_str(), sac_points);
+          line = std::format("{:<41} {}", line, sac_points);
         } else {
-          line = string_sprintf("%-41s -", line.c_str());
+          line = std::format("{:<41} -", line);
         }
 
         TRACE();

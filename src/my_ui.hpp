@@ -40,30 +40,54 @@ enum { UI_FONT_2_WIDTH = 60, UI_FONT_2_HEIGHT = 80 };
 enum { UI_TYPE_PIXELART = 0, UI_TYPES_MAX = 1 };
 
 //
-// Format strings
+// Text markup, as understood by the text renderer. Use these with std::format or plain string concatenation.
 //
-#define UI_FMT_STR           "%%fg=" UI_TEXT_COLOR_STR "$"
-#define UI_INFO1_FMT_STR     "%%fg=gray90$"
-#define UI_INFO2_FMT_STR     "%%fg=grayblue$"
-#define UI_INFO3_FMT_STR     "%%fg=gray90$"
-#define UI_INFO4_FMT_STR     "%%fg=grayblue$"
-#define UI_INFO5_FMT_STR     "%%fg=gray90$"
-#define UI_INFO6_FMT_STR     "%%fg=grayblue$"
-#define UI_INFO7_FMT_STR     "%%fg=gray90$"
-#define UI_INFO8_FMT_STR     "%%fg=grayblue$"
-#define UI_GOOD_FMT_STR      "%%fg=gold$"
-#define UI_GREEN_FMT_STR     "%%fg=green$"
-#define UI_HIGHLIGHT_FMT_STR "%%fg=white$"
-#define UI_IMPORTANT_FMT_STR "%%fg=red$"
-#define UI_INFO_FMT_STR      "%%fg=green$"
-#define UI_YELLOW_FMT_STR    "%%fg=yellow$"
-#define UI_ORANGE_FMT_STR    "%%fg=orange$"
-#define UI_RED_FMT_STR       "%%fg=red$"
-#define UI_RESET_FMT         "%%fg=reset$"
-#define UI_SHORTCUT_FMT_STR  "%%fg=orange$"
-#define UI_WARN_FMT_STR      "%%fg=yellow$"
-#define UI_WHITE_FMT_STR     "%%fg=white$"
-#define UI_YELLOW_FMT_STR    "%%fg=yellow$"
+#define UI_MARKUP             "%fg=" UI_TEXT_COLOR_STR "$"
+#define UI_INFO1_MARKUP       "%fg=gray90$"
+#define UI_INFO2_MARKUP       "%fg=grayblue$"
+#define UI_INFO3_MARKUP       "%fg=gray90$"
+#define UI_INFO4_MARKUP       "%fg=grayblue$"
+#define UI_INFO5_MARKUP       "%fg=gray90$"
+#define UI_INFO6_MARKUP       "%fg=grayblue$"
+#define UI_INFO7_MARKUP       "%fg=gray90$"
+#define UI_INFO8_MARKUP       "%fg=grayblue$"
+#define UI_GOOD_MARKUP        "%fg=gold$"
+#define UI_GREEN_MARKUP       "%fg=green$"
+#define UI_HIGHLIGHT_MARKUP   "%fg=white$"
+#define UI_IMPORTANT_MARKUP   "%fg=red$"
+#define UI_INFO_MARKUP        "%fg=green$"
+#define UI_YELLOW_MARKUP      "%fg=yellow$"
+#define UI_ORANGE_MARKUP      "%fg=orange$"
+#define UI_RED_MARKUP         "%fg=red$"
+#define UI_RESET_MARKUP       "%fg=reset$"
+#define UI_SHORTCUT_MARKUP    "%fg=orange$"
+#define UI_WARN_MARKUP        "%fg=yellow$"
+#define UI_WHITE_MARKUP       "%fg=white$"
+
+//
+// The same markup for printf style format strings, where the percent needs to be escaped.
+//
+#define UI_FMT_STR            "%" UI_MARKUP
+#define UI_INFO1_FMT_STR      "%" UI_INFO1_MARKUP
+#define UI_INFO2_FMT_STR      "%" UI_INFO2_MARKUP
+#define UI_INFO3_FMT_STR      "%" UI_INFO3_MARKUP
+#define UI_INFO4_FMT_STR      "%" UI_INFO4_MARKUP
+#define UI_INFO5_FMT_STR      "%" UI_INFO5_MARKUP
+#define UI_INFO6_FMT_STR      "%" UI_INFO6_MARKUP
+#define UI_INFO7_FMT_STR      "%" UI_INFO7_MARKUP
+#define UI_INFO8_FMT_STR      "%" UI_INFO8_MARKUP
+#define UI_GOOD_FMT_STR       "%" UI_GOOD_MARKUP
+#define UI_GREEN_FMT_STR      "%" UI_GREEN_MARKUP
+#define UI_HIGHLIGHT_FMT_STR  "%" UI_HIGHLIGHT_MARKUP
+#define UI_IMPORTANT_FMT_STR  "%" UI_IMPORTANT_MARKUP
+#define UI_INFO_FMT_STR       "%" UI_INFO_MARKUP
+#define UI_YELLOW_FMT_STR     "%" UI_YELLOW_MARKUP
+#define UI_ORANGE_FMT_STR     "%" UI_ORANGE_MARKUP
+#define UI_RED_FMT_STR        "%" UI_RED_MARKUP
+#define UI_RESET_FMT          "%" UI_RESET_MARKUP
+#define UI_SHORTCUT_FMT_STR   "%" UI_SHORTCUT_MARKUP
+#define UI_WARN_FMT_STR       "%" UI_WARN_MARKUP
+#define UI_WHITE_FMT_STR      "%" UI_WHITE_MARKUP
 
 //
 // Character sizes for text in the UI

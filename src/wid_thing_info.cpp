@@ -698,23 +698,9 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   auto hiscore    = game_hiscore_get(g);
   auto maxscore   = std::max(score, hiscore);
 
-  auto score_str = string_sprintf(UI_INFO1_FMT_STR "SPs "
-                                  // newline
-                                  UI_INFO2_FMT_STR "%03u "
-                                  // newline
-                                  UI_INFO1_FMT_STR "Score "
-                                  // newline
-                                  UI_INFO2_FMT_STR "%06u "
-                                  // newline
-                                  UI_INFO3_FMT_STR "Hi "
-                                  // newline
-                                  UI_INFO4_FMT_STR "%06u",
-                                  // newline
-                                  sac_points,
-                                  // newline
-                                  score,
-                                  // newline
-                                  maxscore);
+  auto score_str = std::format(UI_INFO1_MARKUP "SPs " UI_INFO2_MARKUP "{:03} " UI_INFO1_MARKUP "Score " UI_INFO2_MARKUP "{:06} "
+                               UI_INFO3_MARKUP "Hi " UI_INFO4_MARKUP "{:06}",
+                               sac_points, score, maxscore);
 
   auto *w = parent->log(g, score_str);
   if (w == nullptr) {
@@ -1472,7 +1458,7 @@ static void wid_thing_info_overlay(std::string &line, size_t pos, std::string_vi
       case THING_STAT_ARCANA_GEO :
         {
           auto opposing_arcana = stat_to_opposing_stat(stat);
-          auto line            = string_sprintf("%s arcana: %s", stat_to_name_long(stat).c_str(), stat_to_mod_string(total_stat).c_str());
+          auto line            = std::format("{} arcana: {}", stat_to_name_long(stat), stat_to_mod_string(total_stat));
 
           TRACE();
           parent->log(g, UI_INFO_FMT_STR + line, TEXT_FORMAT_LHS);
@@ -1482,31 +1468,31 @@ static void wid_thing_info_overlay(std::string &line, size_t pos, std::string_vi
           if (stat_to_opposing_stat(stat) != THING_STAT_ENUM_MAX) {
             switch (thing_stat_mod(g, v, l, me, stat)) {
               case 9 :
-                line = string_sprintf("- +3 SP cost for %s spells", stat_to_name_long(opposing_arcana).c_str());
+                line = std::format("- +3 SP cost for {} spells", stat_to_name_long(opposing_arcana));
                 parent->log(g, line, TEXT_FORMAT_LHS);
                 break;
               case 8 :
-                line = string_sprintf("- +2 SP cost for %s spells", stat_to_name_long(opposing_arcana).c_str());
+                line = std::format("- +2 SP cost for {} spells", stat_to_name_long(opposing_arcana));
                 parent->log(g, line, TEXT_FORMAT_LHS);
                 break;
               case 7 :
-                line = string_sprintf("- +2 SP cost for %s spells", stat_to_name_long(opposing_arcana).c_str());
+                line = std::format("- +2 SP cost for {} spells", stat_to_name_long(opposing_arcana));
                 parent->log(g, line, TEXT_FORMAT_LHS);
                 break;
               case 6 :
-                line = string_sprintf("- +2 SP cost for %s spells", stat_to_name_long(opposing_arcana).c_str());
+                line = std::format("- +2 SP cost for {} spells", stat_to_name_long(opposing_arcana));
                 parent->log(g, line, TEXT_FORMAT_LHS);
                 break;
               case 5 :
-                line = string_sprintf("- +1 SP cost for %s spells", stat_to_name_long(opposing_arcana).c_str());
+                line = std::format("- +1 SP cost for {} spells", stat_to_name_long(opposing_arcana));
                 parent->log(g, line, TEXT_FORMAT_LHS);
                 break;
               case 4 :
-                line = string_sprintf("- +1 SP cost for %s spells", stat_to_name_long(opposing_arcana).c_str());
+                line = std::format("- +1 SP cost for {} spells", stat_to_name_long(opposing_arcana));
                 parent->log(g, line, TEXT_FORMAT_LHS);
                 break;
               case 3 :
-                line = string_sprintf("- +1 SP cost for %s spells", stat_to_name_long(opposing_arcana).c_str());
+                line = std::format("- +1 SP cost for {} spells", stat_to_name_long(opposing_arcana));
                 parent->log(g, line, TEXT_FORMAT_LHS);
                 break;
               case 2 : break;
@@ -1518,31 +1504,31 @@ static void wid_thing_info_overlay(std::string &line, size_t pos, std::string_vi
           TRACE();
           switch (thing_stat_mod(g, v, l, me, stat)) {
             case -9 :
-              line = string_sprintf("- +3 SP cost for %s spells", stat_to_name_long(stat).c_str());
+              line = std::format("- +3 SP cost for {} spells", stat_to_name_long(stat));
               parent->log(g, line, TEXT_FORMAT_LHS);
               break;
             case -8 :
-              line = string_sprintf("- +2 SP cost for %s spells", stat_to_name_long(stat).c_str());
+              line = std::format("- +2 SP cost for {} spells", stat_to_name_long(stat));
               parent->log(g, line, TEXT_FORMAT_LHS);
               break;
             case -7 :
-              line = string_sprintf("- +2 SP cost for %s spells", stat_to_name_long(stat).c_str());
+              line = std::format("- +2 SP cost for {} spells", stat_to_name_long(stat));
               parent->log(g, line, TEXT_FORMAT_LHS);
               break;
             case -6 :
-              line = string_sprintf("- +2 SP cost for %s spells", stat_to_name_long(stat).c_str());
+              line = std::format("- +2 SP cost for {} spells", stat_to_name_long(stat));
               parent->log(g, line, TEXT_FORMAT_LHS);
               break;
             case -5 :
-              line = string_sprintf("- +1 SP cost for %s spells", stat_to_name_long(stat).c_str());
+              line = std::format("- +1 SP cost for {} spells", stat_to_name_long(stat));
               parent->log(g, line, TEXT_FORMAT_LHS);
               break;
             case -4 :
-              line = string_sprintf("- +1 SP cost for %s spells", stat_to_name_long(stat).c_str());
+              line = std::format("- +1 SP cost for {} spells", stat_to_name_long(stat));
               parent->log(g, line, TEXT_FORMAT_LHS);
               break;
             case -3 :
-              line = string_sprintf("- +1 SP cost for %s spells", stat_to_name_long(stat).c_str());
+              line = std::format("- +1 SP cost for {} spells", stat_to_name_long(stat));
               parent->log(g, line, TEXT_FORMAT_LHS);
               break;
             case -2 : break;
@@ -1551,31 +1537,31 @@ static void wid_thing_info_overlay(std::string &line, size_t pos, std::string_vi
             case 1 :  break;
             case 2 :  break;
             case 3 :
-              line = string_sprintf("- -1 SP cost for %s spells", stat_to_name_long(stat).c_str());
+              line = std::format("- -1 SP cost for {} spells", stat_to_name_long(stat));
               parent->log(g, line, TEXT_FORMAT_LHS);
               break;
             case 4 :
-              line = string_sprintf("- -1 SP cost for %s spells", stat_to_name_long(stat).c_str());
+              line = std::format("- -1 SP cost for {} spells", stat_to_name_long(stat));
               parent->log(g, line, TEXT_FORMAT_LHS);
               break;
             case 5 :
-              line = string_sprintf("- -1 SP cost for %s spells", stat_to_name_long(stat).c_str());
+              line = std::format("- -1 SP cost for {} spells", stat_to_name_long(stat));
               parent->log(g, line, TEXT_FORMAT_LHS);
               break;
             case 6 :
-              line = string_sprintf("- -2 SP cost for %s spells", stat_to_name_long(stat).c_str());
+              line = std::format("- -2 SP cost for {} spells", stat_to_name_long(stat));
               parent->log(g, line, TEXT_FORMAT_LHS);
               break;
             case 7 :
-              line = string_sprintf("- -2 SP cost for %s spells", stat_to_name_long(stat).c_str());
+              line = std::format("- -2 SP cost for {} spells", stat_to_name_long(stat));
               parent->log(g, line, TEXT_FORMAT_LHS);
               break;
             case 8 :
-              line = string_sprintf("- -2 SP cost for %s spells", stat_to_name_long(stat).c_str());
+              line = std::format("- -2 SP cost for {} spells", stat_to_name_long(stat));
               parent->log(g, line, TEXT_FORMAT_LHS);
               break;
             case 9 :
-              line = string_sprintf("- -3 SP cost for %s spells", stat_to_name_long(stat).c_str());
+              line = std::format("- -3 SP cost for {} spells", stat_to_name_long(stat));
               parent->log(g, line, TEXT_FORMAT_LHS);
               break;
           }
@@ -1628,20 +1614,14 @@ static void wid_thing_info_overlay(std::string &line, size_t pos, std::string_vi
     // Discount?
     //
     auto space = (width - 4) / 2;
-    auto line  = string_sprintf("- %-*s%*d",        //
-                                space, "Retail SP", //
-                                space, thing_spell_cost(g, v, l, me));
+    auto line  = std::format("- {:<{}}{:{}}", "Retail SP", space, thing_spell_cost(g, v, l, me), space);
     parent->log(g, line, TEXT_FORMAT_RHS);
 
-    line = string_sprintf("- %-*s%*d",     //
-                          space, "To you", //
-                          space, thing_spell_cost_for(g, v, l, me, player));
+    line = std::format("- {:<{}}{:{}}", "To you", space, thing_spell_cost_for(g, v, l, me, player), space);
     parent->log(g, UI_IMPORTANT_FMT_STR + line, TEXT_FORMAT_RHS);
   } else {
     auto space = (width - 4) / 2;
-    auto line  = string_sprintf("- %-*s%*d",         //
-                                space, "Spell cost", //
-                                space, thing_spell_cost(g, v, l, me));
+    auto line  = std::format("- {:<{}}{:{}}", "Spell cost", space, thing_spell_cost(g, v, l, me), space);
     parent->log(g, line, TEXT_FORMAT_RHS);
   }
 
@@ -1650,20 +1630,14 @@ static void wid_thing_info_overlay(std::string &line, size_t pos, std::string_vi
     // Discount?
     //
     auto space = (width - 4) / 2;
-    auto line  = string_sprintf("- %-*s%*d",          //
-                                space, "Retail Mana", //
-                                space, thing_spell_mana_cost(g, v, l, me));
+    auto line  = std::format("- {:<{}}{:{}}", "Retail Mana", space, thing_spell_mana_cost(g, v, l, me), space);
     parent->log(g, line, TEXT_FORMAT_RHS);
 
-    line = string_sprintf("- %-*s%*d",     //
-                          space, "To you", //
-                          space, thing_spell_mana_cost_for(g, v, l, me, player));
+    line = std::format("- {:<{}}{:{}}", "To you", space, thing_spell_mana_cost_for(g, v, l, me, player), space);
     parent->log(g, UI_IMPORTANT_FMT_STR + line, TEXT_FORMAT_RHS);
   } else {
     auto space = (width - 4) / 2;
-    auto line  = string_sprintf("- %-*s%*d",        //
-                                space, "Mana cost", //
-                                space, thing_spell_mana_cost(g, v, l, me));
+    auto line  = std::format("- {:<{}}{:{}}", "Mana cost", space, thing_spell_mana_cost(g, v, l, me), space);
     parent->log(g, line, TEXT_FORMAT_RHS);
   }
 
@@ -1685,33 +1659,25 @@ static void wid_thing_info_overlay(std::string &line, size_t pos, std::string_vi
 
   if (thing_spell_range(g, v, l, me) != 0) {
     auto space = (width - 4) / 2;
-    auto line  = string_sprintf("- %-*s%*d",          //
-                                space, "Spell range", //
-                                space, thing_spell_range(g, v, l, me));
+    auto line  = std::format("- {:<{}}{:{}}", "Spell range", space, thing_spell_range(g, v, l, me), space);
     parent->log(g, line, TEXT_FORMAT_RHS);
   }
 
   if (thing_spell_range_max(g, v, l, me) != 0) {
     auto space = (width - 4) / 2;
-    auto line  = string_sprintf("- %-*s%*d",            //
-                                space, "  Upgrade max", //
-                                space, thing_spell_range_max(g, v, l, me));
+    auto line  = std::format("- {:<{}}{:{}}", "  Upgrade max", space, thing_spell_range_max(g, v, l, me), space);
     parent->log(g, UI_INFO2_FMT_STR + line, TEXT_FORMAT_RHS);
   }
 
   if (thing_spell_radius(g, v, l, me) != 0) {
     auto space = (width - 4) / 2;
-    auto line  = string_sprintf("- %-*s%*d",           //
-                                space, "Spell radius", //
-                                space, thing_spell_radius(g, v, l, me));
+    auto line  = std::format("- {:<{}}{:{}}", "Spell radius", space, thing_spell_radius(g, v, l, me), space);
     parent->log(g, line, TEXT_FORMAT_RHS);
   }
 
   if (thing_spell_radius_max(g, v, l, me) != 0) {
     auto space = (width - 4) / 2;
-    auto line  = string_sprintf("- %-*s%*d",            //
-                                space, "  Upgrade max", //
-                                space, thing_spell_radius_max(g, v, l, me));
+    auto line  = std::format("- {:<{}}{:{}}", "  Upgrade max", space, thing_spell_radius_max(g, v, l, me), space);
     parent->log(g, UI_INFO2_FMT_STR + line, TEXT_FORMAT_RHS);
   }
 
@@ -1920,9 +1886,9 @@ static void wid_thing_info_overlay(std::string &line, size_t pos, std::string_vi
       auto pct = static_cast< int >((thing_speed(g, v, l, me) / player_speed) * 100.0);
 
       if (thing_speed(g, v, l, me) > player_speed) {
-        out = string_sprintf_append_with_comma(out, "Faster(%u%%%%%%)", pct);
+        out = string_append_with_comma(out, std::format("Faster({}%%%)", pct));
       } else if (thing_speed(g, v, l, me) < player_speed) {
-        out = string_sprintf_append_with_comma(out, "Slower(%u%%%%%%)", pct);
+        out = string_append_with_comma(out, std::format("Slower({}%%%)", pct));
       }
     }
   }
@@ -2025,7 +1991,7 @@ static void wid_thing_info_overlay(std::string &line, size_t pos, std::string_vi
     out = string_append_with_comma(out, "Jump-pounce");
   }
   if (tp_attack_count_max_per_tick_get(tp) > 1) {
-    out = string_sprintf_append_with_comma(out, "Multi-attack(%u)", tp_attack_count_max_per_tick_get(tp));
+    out = string_append_with_comma(out, std::format("Multi-attack({})", tp_attack_count_max_per_tick_get(tp)));
   }
 
   if (out.empty()) {
@@ -2133,7 +2099,7 @@ static void wid_thing_info_overlay(std::string &line, size_t pos, std::string_vi
     switch (w) {
       case WORN_TYPE_WEAPON :
         {
-          line = string_sprintf("Wielded(%s):", thing_name_long(g, v, l, item).c_str());
+          line = std::format("Wielded({}):", thing_name_long(g, v, l, item));
           worn = true;
           break;
         }
@@ -2141,7 +2107,7 @@ static void wid_thing_info_overlay(std::string &line, size_t pos, std::string_vi
       case WORN_TYPE_RING1 : [[fallthrough]];
       case WORN_TYPE_RING2 :
         {
-          line = string_sprintf("Worn(%s):", thing_name_long(g, v, l, item).c_str());
+          line = std::format("Worn({}):", thing_name_long(g, v, l, item));
           worn = true;
           break;
         }
@@ -2837,7 +2803,7 @@ void wid_thing_info(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, i
     for (auto *fire_what_tp : thing_get_weapon_list(g, v, l, me)) {
       auto charge_count = thing_charge_count(g, v, l, me);
       if (charge_count > 0) {
-        auto tmp = string_sprintf(" (x%d charges):", charge_count);
+        auto tmp = std::format(" (x{} charges):", charge_count);
         parent->log(g, UI_INFO_FMT_STR "Fires" + tmp, TEXT_FORMAT_LHS);
       } else {
         parent->log(g, UI_INFO_FMT_STR "Fires:", TEXT_FORMAT_LHS);

@@ -15,6 +15,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <cstring>
+#include <format>
 #include <iostream>
 #include <libgen.h>
 #include <sstream>
@@ -36,13 +37,13 @@ static void find_executable()
   //
   // Get the current directory, ending in a single /
   //
-  std::string curr_dir = string_sprintf("%s" DIR_SEP, dir_dot());
+  std::string curr_dir = std::format("{}" DIR_SEP, dir_dot());
   string_replace(curr_dir, DIR_SEP DIR_SEP, DIR_SEP);
 
   //
   // Get the parent directory, ending in a single /
   //
-  std::string parent_dir = string_sprintf("%s" DIR_SEP, dir_dotdot(dir_dot()));
+  std::string parent_dir = std::format("{}" DIR_SEP, dir_dotdot(dir_dot()));
   string_replace(parent_dir, DIR_SEP DIR_SEP, DIR_SEP);
 
   //
@@ -68,7 +69,7 @@ static void find_executable()
   //
   // Look in the simplest case first.
   //
-  g_exec_full_path_and_name = string_sprintf("%s%s", curr_dir.c_str(), exec_name.c_str());
+  g_exec_full_path_and_name = std::format("{}{}", curr_dir, exec_name);
   if (static_cast< bool >(file_exists(g_exec_full_path_and_name.c_str()))) {
     g_exec_dir = std::string(curr_dir);
     goto cleanup;
@@ -77,7 +78,7 @@ static void find_executable()
   //
   // Try the parent dir.
   //
-  g_exec_full_path_and_name = string_sprintf("%s%s", parent_dir.c_str(), exec_name.c_str());
+  g_exec_full_path_and_name = std::format("{}{}", parent_dir, exec_name);
   if (static_cast< bool >(file_exists(g_exec_full_path_and_name.c_str()))) {
     g_exec_dir = std::string(parent_dir);
     goto cleanup;
@@ -91,9 +92,9 @@ static void find_executable()
     std::istringstream iss(path);
     std::string        path_element;
     while (std::getline(iss, path_element, PATHSEP_CHAR)) {
-      g_exec_full_path_and_name = string_sprintf("%s" DIR_SEP "%s", path_element.c_str(), exec_name.c_str());
+      g_exec_full_path_and_name = std::format("{}" DIR_SEP "{}", path_element, exec_name);
       if (static_cast< bool >(file_exists(g_exec_full_path_and_name.c_str()))) {
-        g_exec_dir = string_sprintf("%s" DIR_SEP, path_element.c_str());
+        g_exec_dir = std::format("{}" DIR_SEP, path_element);
         goto cleanup;
       }
     }
@@ -123,7 +124,7 @@ static void find_exec_dir()
   //
   // Make sure the exec dir ends in a /
   //
-  g_exec_dir = string_sprintf("%s" DIR_SEP, g_exec_dir.c_str());
+  g_exec_dir = std::format("{}" DIR_SEP, g_exec_dir);
   string_replace(g_exec_dir, "//", DIR_SEP);
   string_replace(g_exec_dir, "\\\\", DIR_SEP);
   string_replace(g_exec_dir, "/", DIR_SEP);
@@ -137,12 +138,12 @@ static void find_data_dir()
 {
   TRACE();
 
-  g_data_path = string_sprintf("%sdata" DIR_SEP, g_exec_dir.c_str());
+  g_data_path = std::format("{}data" DIR_SEP, g_exec_dir);
   if (dir_exists(g_data_path.c_str())) {
     return;
   }
 
-  g_data_path = string_sprintf(".." DIR_SEP "data");
+  g_data_path = std::string(".." DIR_SEP "data");
   if (dir_exists(g_data_path.c_str())) {
     return;
   }
@@ -157,12 +158,12 @@ static void find_gfx_dir()
 {
   TRACE();
 
-  g_gfx_path = string_sprintf("%sdata" DIR_SEP "gfx" DIR_SEP, g_exec_dir.c_str());
+  g_gfx_path = std::format("{}data" DIR_SEP "gfx" DIR_SEP, g_exec_dir);
   if (dir_exists(g_gfx_path.c_str())) {
     return;
   }
 
-  g_gfx_path = string_sprintf(".." DIR_SEP "gfx" DIR_SEP);
+  g_gfx_path = std::string(".." DIR_SEP "gfx" DIR_SEP);
   if (dir_exists(g_gfx_path.c_str())) {
     return;
   }

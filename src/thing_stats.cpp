@@ -14,6 +14,7 @@
 
 #include <algorithm>
 #include <cstdint>
+#include <format>
 #include <string>
 
 [[nodiscard]] static auto thing_stat_dbg_string(Gamep g, Levelsp v, Levelp l, Thingp me, ThingStatType stat) -> std::string;
@@ -231,15 +232,15 @@
   std::string       stat_str;
 
   if (mod < -5) {
-    stat_str = string_sprintf(UI_INFO_FMT_STR "%s" UI_IMPORTANT_FMT_STR " %-2s", stat_name.c_str(), mod_str.c_str());
+    stat_str = std::format(UI_INFO_MARKUP "{}" UI_IMPORTANT_MARKUP " {:<2}", stat_name, mod_str);
   } else if (mod < -3) {
-    stat_str = string_sprintf(UI_INFO_FMT_STR "%s" UI_WARN_FMT_STR " %-2s", stat_name.c_str(), mod_str.c_str());
+    stat_str = std::format(UI_INFO_MARKUP "{}" UI_WARN_MARKUP " {:<2}", stat_name, mod_str);
   } else if (mod > 0) {
-    stat_str = string_sprintf(UI_INFO_FMT_STR "%s" UI_GOOD_FMT_STR " %-2s", stat_name.c_str(), mod_str.c_str());
+    stat_str = std::format(UI_INFO_MARKUP "{}" UI_GOOD_MARKUP " {:<2}", stat_name, mod_str);
   } else if (mod == 0) {
-    stat_str = string_sprintf(UI_INFO_FMT_STR "%s" UI_RESET_FMT " --", stat_name.c_str());
+    stat_str = std::format(UI_INFO_MARKUP "{}" UI_RESET_MARKUP " --", stat_name);
   } else {
-    stat_str = string_sprintf(UI_INFO_FMT_STR "%s" UI_RESET_FMT " %-2s", stat_name.c_str(), mod_str.c_str());
+    stat_str = std::format(UI_INFO_MARKUP "{}" UI_RESET_MARKUP " {:<2}", stat_name, mod_str);
   }
 
   return stat_str;
@@ -259,8 +260,8 @@
   std::string       stat_str;
 
   switch (stat) {
-    case THING_STAT_ATT :  return string_sprintf("%s %2d", stat_name.c_str(), val);
-    case THING_STAT_DEF :  return string_sprintf("%s %2d", stat_name.c_str(), val);
+    case THING_STAT_ATT :  return std::format("{} {:2}", stat_name, val);
+    case THING_STAT_DEF :  return std::format("{} {:2}", stat_name, val);
     case THING_STAT_STR :  break;
     case THING_STAT_CON :  break;
     case THING_STAT_DEX :  break;
@@ -271,13 +272,13 @@
   }
 
   if (mod < -5) {
-    stat_str = string_sprintf("%s%2d/%-2s", stat_name.c_str(), val, mod_str.c_str());
+    stat_str = std::format("{}{:2}/{:<2}", stat_name, val, mod_str);
   } else if (mod < -3) {
-    stat_str = string_sprintf("%s%2d/%-2s", stat_name.c_str(), val, mod_str.c_str());
+    stat_str = std::format("{}{:2}/{:<2}", stat_name, val, mod_str);
   } else if (mod > 0) {
-    stat_str = string_sprintf("%s%2d/%-2s", stat_name.c_str(), val, mod_str.c_str());
+    stat_str = std::format("{}{:2}/{:<2}", stat_name, val, mod_str);
   } else {
-    stat_str = string_sprintf("%s%2d/%-2s", stat_name.c_str(), val, mod_str.c_str());
+    stat_str = std::format("{}{:2}/{:<2}", stat_name, val, mod_str);
   }
 
   return stat_str;
@@ -300,13 +301,13 @@
     case THING_STAT_ATT : [[fallthrough]];
     case THING_STAT_DEF :
       if (mod < -5) {
-        return string_sprintf(UI_INFO_FMT_STR "%s" UI_RESET_FMT UI_IMPORTANT_FMT_STR " %2d", stat_name.c_str(), val);
+        return std::format(UI_INFO_MARKUP "{}" UI_RESET_MARKUP UI_IMPORTANT_MARKUP " {:2}", stat_name, val);
       } else if (mod < -3) {
-        return string_sprintf(UI_INFO_FMT_STR "%s" UI_RESET_FMT UI_WARN_FMT_STR " %2d", stat_name.c_str(), val);
+        return std::format(UI_INFO_MARKUP "{}" UI_RESET_MARKUP UI_WARN_MARKUP " {:2}", stat_name, val);
       } else if (mod > 0) {
-        return string_sprintf(UI_INFO_FMT_STR "%s" UI_RESET_FMT UI_GOOD_FMT_STR " %2d", stat_name.c_str(), val);
+        return std::format(UI_INFO_MARKUP "{}" UI_RESET_MARKUP UI_GOOD_MARKUP " {:2}", stat_name, val);
       } else {
-        return string_sprintf(UI_INFO_FMT_STR "%s" UI_RESET_FMT " %2d", stat_name.c_str(), val);
+        return std::format(UI_INFO_MARKUP "{}" UI_RESET_MARKUP " {:2}", stat_name, val);
       }
 
     case THING_STAT_STR :  break;
@@ -319,13 +320,13 @@
   }
 
   if (mod < -5) {
-    stat_str = string_sprintf(UI_INFO_FMT_STR "%s" UI_IMPORTANT_FMT_STR "%2d/%-2s", stat_name.c_str(), val, mod_str.c_str());
+    stat_str = std::format(UI_INFO_MARKUP "{}" UI_IMPORTANT_MARKUP "{:2}/{:<2}", stat_name, val, mod_str);
   } else if (mod < -3) {
-    stat_str = string_sprintf(UI_INFO_FMT_STR "%s" UI_WARN_FMT_STR "%2d/%-2s", stat_name.c_str(), val, mod_str.c_str());
+    stat_str = std::format(UI_INFO_MARKUP "{}" UI_WARN_MARKUP "{:2}/{:<2}", stat_name, val, mod_str);
   } else if (mod > 0) {
-    stat_str = string_sprintf(UI_INFO_FMT_STR "%s" UI_GOOD_FMT_STR "%2d/%-2s", stat_name.c_str(), val, mod_str.c_str());
+    stat_str = std::format(UI_INFO_MARKUP "{}" UI_GOOD_MARKUP "{:2}/{:<2}", stat_name, val, mod_str);
   } else {
-    stat_str = string_sprintf(UI_INFO_FMT_STR "%s" UI_RESET_FMT "%2d/%-2s", stat_name.c_str(), val, mod_str.c_str());
+    stat_str = std::format(UI_INFO_MARKUP "{}" UI_RESET_MARKUP "{:2}/{:<2}", stat_name, val, mod_str);
   }
 
   return stat_str;
@@ -348,13 +349,13 @@
     case THING_STAT_ATT : [[fallthrough]];
     case THING_STAT_DEF :
       if (mod < -5) {
-        return string_sprintf(UI_INFO_FMT_STR "%s " UI_RESET_FMT UI_IMPORTANT_FMT_STR " %2d", stat_name.c_str(), val);
+        return std::format(UI_INFO_MARKUP "{} " UI_RESET_MARKUP UI_IMPORTANT_MARKUP " {:2}", stat_name, val);
       } else if (mod < -3) {
-        return string_sprintf(UI_INFO_FMT_STR "%s " UI_RESET_FMT UI_WARN_FMT_STR " %2d", stat_name.c_str(), val);
+        return std::format(UI_INFO_MARKUP "{} " UI_RESET_MARKUP UI_WARN_MARKUP " {:2}", stat_name, val);
       } else if (mod > 0) {
-        return string_sprintf(UI_INFO_FMT_STR "%s " UI_RESET_FMT UI_GOOD_FMT_STR " %2d", stat_name.c_str(), val);
+        return std::format(UI_INFO_MARKUP "{} " UI_RESET_MARKUP UI_GOOD_MARKUP " {:2}", stat_name, val);
       } else {
-        return string_sprintf(UI_INFO_FMT_STR "%s " UI_RESET_FMT " %2d", stat_name.c_str(), val);
+        return std::format(UI_INFO_MARKUP "{} " UI_RESET_MARKUP " {:2}", stat_name, val);
       }
 
     case THING_STAT_STR :  break;
@@ -367,13 +368,13 @@
   }
 
   if (mod < -5) {
-    stat_str = string_sprintf(UI_INFO_FMT_STR "%s " UI_IMPORTANT_FMT_STR "%2d/%-2s", stat_name.c_str(), val, mod_str.c_str());
+    stat_str = std::format(UI_INFO_MARKUP "{} " UI_IMPORTANT_MARKUP "{:2}/{:<2}", stat_name, val, mod_str);
   } else if (mod < -3) {
-    stat_str = string_sprintf(UI_INFO_FMT_STR "%s " UI_WARN_FMT_STR "%2d/%-2s", stat_name.c_str(), val, mod_str.c_str());
+    stat_str = std::format(UI_INFO_MARKUP "{} " UI_WARN_MARKUP "{:2}/{:<2}", stat_name, val, mod_str);
   } else if (mod > 0) {
-    stat_str = string_sprintf(UI_INFO_FMT_STR "%s " UI_GOOD_FMT_STR "%2d/%-2s", stat_name.c_str(), val, mod_str.c_str());
+    stat_str = std::format(UI_INFO_MARKUP "{} " UI_GOOD_MARKUP "{:2}/{:<2}", stat_name, val, mod_str);
   } else {
-    stat_str = string_sprintf(UI_INFO_FMT_STR "%s " UI_RESET_FMT "%2d/%-2s", stat_name.c_str(), val, mod_str.c_str());
+    stat_str = std::format(UI_INFO_MARKUP "{} " UI_RESET_MARKUP "{:2}/{:<2}", stat_name, val, mod_str);
   }
 
   return stat_str;

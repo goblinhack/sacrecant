@@ -14,6 +14,8 @@
 #include "../../my_ui.hpp"
 #include "my_spell_common.hpp"
 
+#include <format>
+
 static const std::string upgrade_1_increase_radius = "increase radius and range";
 static const std::string upgrade_2_increase_damage = "increase damage";
 
@@ -28,14 +30,10 @@ static auto tp_spell_hellish_onslaught_get(Gamep g, Levelsp v, Levelp l, Thingp 
   std::string line;
 
   if (damage_mod) {
-    auto damage_total_str = string_sprintf("%s (+%d)", damage_str.c_str(), damage_mod);
-    line                  = string_sprintf("- %-*s%*s\n",            //
-                                           space, "Damage per tile", //
-                                           space, damage_total_str.c_str());
+    auto damage_total_str = std::format("{} (+{})", damage_str, damage_mod);
+    line                  = std::format("- {:<{}}{:>{}}\n", "Damage per tile", space, damage_total_str, space);
   } else {
-    line = string_sprintf("- %-*s%*s\n",            //
-                          space, "Damage per tile", //
-                          space, damage_str.c_str());
+    line = std::format("- {:<{}}{:>{}}\n", "Damage per tile", space, damage_str, space);
   }
 
   return                                                                                                    //

@@ -40,6 +40,7 @@
 #include <cstdint>
 #include <cstdio>
 #include <cstring>
+#include <format>
 #include <string>
 #include <strings.h>
 #include <utility>
@@ -1270,12 +1271,13 @@ void wid_set_name(Widp w, const std::string &name)
 #ifdef ENABLE_DEBUG_UI
 #ifdef ENABLE_DEBUG_UI2
   if (w->parent) {
-    w->to_string = string_sprintf("%s[%p] (parent %s[%p])", name.c_str(), w, w->parent->to_string.c_str(), w->parent);
+    w->to_string = std::format("{}[{}] (parent {}[{}])",
+                               name, static_cast< const void * >(w), w->parent->to_string, static_cast< const void * >(w->parent));
   } else {
-    w->to_string = string_sprintf("%s[%p]", name.c_str(), w);
+    w->to_string = std::format("{}[{}]", name, static_cast< const void * >(w));
   }
 #else
-  w->to_string = string_sprintf("%s[%p]", name.c_str(), w);
+  w->to_string = std::format("{}[{}]", name, static_cast< const void * >(w));
 #endif
 #endif
 }
@@ -2479,9 +2481,10 @@ void wid_destroy_in(Gamep g, Widp w, uint32_t ms)
 
 #ifdef ENABLE_DEBUG_UI
 #ifdef ENABLE_DEBUG_UI2
-  w->to_string = string_sprintf("%s[%p] (parent %s[%p])", name.c_str(), w, parent->to_string.c_str(), parent);
+  w->to_string = std::format("{}[{}] (parent {}[{}])",
+                             name, static_cast< const void * >(w), parent->to_string, static_cast< const void * >(parent));
 #else
-  w->to_string = string_sprintf("%s[%p]", name.c_str(), w);
+  w->to_string = std::format("{}[{}]", name, static_cast< const void * >(w));
 #endif
 #endif
 
@@ -2516,7 +2519,7 @@ void wid_destroy_in(Gamep g, Widp w, uint32_t ms)
 
   Widp w = wid_new();
 
-  w->to_string = string_sprintf("%s[%p]", name.c_str(), (void *) w);
+  w->to_string = std::format("{}[{}]", name, static_cast< const void * >(w));
 
   wid_dbg(w, "%s", __FUNCTION__);
 
@@ -2552,9 +2555,10 @@ void wid_destroy_in(Gamep g, Widp w, uint32_t ms)
 
 #ifdef ENABLE_DEBUG_UI
 #ifdef ENABLE_DEBUG_UI2
-  w->to_string = string_sprintf("%s[%p] (parent %s[%p])", name.c_str(), w, parent->to_string.c_str(), (void *) parent);
+  w->to_string = std::format("{}[{}] (parent {}[{}])",
+                             name, static_cast< const void * >(w), parent->to_string, static_cast< const void * >(parent));
 #else
-  w->to_string = string_sprintf("%s[%p]", name.c_str(), (void *) w);
+  w->to_string = std::format("{}[{}]", name, static_cast< const void * >(w));
 #endif
 #endif
 
@@ -2597,9 +2601,10 @@ void wid_destroy_in(Gamep g, Widp w, uint32_t ms)
 
 #ifdef ENABLE_DEBUG_UI
 #ifdef ENABLE_DEBUG_UI2
-  w->to_string = string_sprintf("%s[%p] (parent %s[%p])", name.c_str(), w, parent->to_string.c_str(), parent);
+  w->to_string = std::format("{}[{}] (parent {}[{}])",
+                             name, static_cast< const void * >(w), parent->to_string, static_cast< const void * >(parent));
 #else
-  w->to_string = string_sprintf("%s[%p]", name.c_str(), w);
+  w->to_string = std::format("{}[{}]", name, static_cast< const void * >(w));
 #endif
 #endif
 
@@ -2641,7 +2646,8 @@ static auto wid_new_scroll_pit(Widp parent) -> Widp
 
   Widp w = wid_new(parent);
 
-  w->to_string = string_sprintf("[%p] scroll pit (parent %s[%p])", (void *) w, parent->to_string.c_str(), (void *) parent);
+  w->to_string = std::format("[{}] scroll pit (parent {}[{}])",
+                             static_cast< const void * >(w), parent->to_string, static_cast< const void * >(parent));
 
   wid_dbg(w, "%s", __FUNCTION__);
 
@@ -2687,9 +2693,9 @@ static auto wid_new_scroll_bar(Gamep g, Widp parent, const std::string &name, Wi
   Widp w = wid_new(parent);
 
   if (vertical) {
-    w->to_string = string_sprintf("%s, %s[%p]", name.c_str(), "vert scroll bar", (void *) w);
+    w->to_string = std::format("{}, {}[{}]", name, "vert scroll bar", static_cast< const void * >(w));
   } else {
-    w->to_string = string_sprintf("%s, %s[%p]", name.c_str(), "horiz scroll bar", (void *) w);
+    w->to_string = std::format("{}, {}[{}]", name, "horiz scroll bar", static_cast< const void * >(w));
   }
 
   wid_dbg(w, "%s", __FUNCTION__);

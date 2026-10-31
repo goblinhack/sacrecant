@@ -74,8 +74,7 @@ auto operator>>(std::istream &in, Bits< Config & > my) -> std::istream &
   log("GAME: read config: serialized_size        = %d", my.t.serialized_size);
 
   if (my.t.serialized_size != sizeof(Config)) {
-    game_load_error = string_sprintf("bad save file header size: found %d, expected %d bytes", //
-                                     my.t.serialized_size, (int) sizeof(Config));
+    game_load_error = std::format("bad save file header size: found {}, expected {} bytes", my.t.serialized_size, (int) sizeof(Config));
     return in;
   }
 

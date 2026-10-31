@@ -20,6 +20,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <format>
 #include <print>
 #include <string>
 #include <sys/stat.h>
@@ -45,7 +46,7 @@ extern Game *game;
   mkdir(appdata, 0700);
 #endif
 
-  auto dir = string_sprintf("%s%s%s", appdata, DIR_SEP, "sacrecant");
+  auto dir = std::format("{}{}{}", appdata, DIR_SEP, "sacrecant");
 #ifdef _WIN32
   mkdir(dir.c_str());
 #else

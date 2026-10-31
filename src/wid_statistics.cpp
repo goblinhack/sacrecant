@@ -24,6 +24,7 @@
 
 #include "my_sdl_compat.hpp"
 #include <cstdint>
+#include <format>
 
 static WidPopup *wid_statistics_popup;
 
@@ -154,9 +155,9 @@ static void wid_statistics_show_defeated(Gamep g, Levelp l, Thingp player)
     s += tp_name(it);
     s += "$ ";
     auto n   = tp_name_short(it);
-    auto cnt = string_sprintf("%dx ", player_struct->defeated[ i ]);
-    s += string_sprintf("%-5s%*s", cnt.c_str(), UI_MAX_THING_NAME_SHORT, n.c_str());
-    line += string_sprintf("%*s", COLUMN_WIDTH, s.c_str());
+    auto cnt = std::format("{}x ", player_struct->defeated[ i ]);
+    s += std::format("{:<5}{:>{}}", cnt, n, static_cast< int >(UI_MAX_THING_NAME_SHORT));
+    line += std::format("{:>{}}", s, COLUMN_WIDTH);
 
     if (++column_count >= 4) {
       column_count = 0;
@@ -208,9 +209,9 @@ static void wid_statistics_show_items(Gamep g, Levelsp v, Levelp l, Thingp playe
     s += "$ ";
 
     auto n   = tp_name_short(it);
-    auto cnt = string_sprintf("%dx ", slot->count);
-    s += string_sprintf("%-5s%*s", cnt.c_str(), UI_MAX_THING_NAME_SHORT, n.c_str());
-    line += string_sprintf("%*s", COLUMN_WIDTH, s.c_str());
+    auto cnt = std::format("{}x ", slot->count);
+    s += std::format("{:<5}{:>{}}", cnt, n, static_cast< int >(UI_MAX_THING_NAME_SHORT));
+    line += std::format("{:>{}}", s, COLUMN_WIDTH);
 
     if (++column_count >= 4) {
       column_count = 0;

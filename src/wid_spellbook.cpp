@@ -29,6 +29,7 @@
 #include <algorithm>
 #include <cstdint>
 #include <cstring>
+#include <format>
 #include <string>
 #include <vector>
 
@@ -102,9 +103,9 @@ static void wid_player_update_spending(Gamep g, Levelsp v, Levelp l, Thingp play
   TRACE();
 
   auto avail = wid_player_avail_points(g, v, l, player);
-  auto a     = string_sprintf("Mana available for spell casting");
-  auto b     = string_sprintf("%d", avail);
-  auto line  = string_sprintf("%-46s%10s", a.c_str(), b.c_str());
+  auto a     = std::string("Mana available for spell casting");
+  auto b     = std::format("{}", avail);
+  auto line  = std::format("{:<46}{:>10}", a, b);
 
   wid_set_text_lhs(wid_available_mana, 1u);
   wid_set_text(wid_available_mana, line);
@@ -182,7 +183,7 @@ static void wid_player_update_spell_selections(Gamep g, Levelsp v, Levelp l, Thi
     //
     // Add spell name
     //
-    s += string_capitalize_first(string_sprintf("%-21s", tp_name_long(tp).c_str()));
+    s += string_capitalize_first(std::format("{:<21}", tp_name_long(tp)));
     s += "%%fg=reset$";
 
     //
@@ -199,8 +200,8 @@ static void wid_player_update_spell_selections(Gamep g, Levelsp v, Levelp l, Thi
       default :                      tmp = "-    "; break;
     }
 
-    s += string_capitalize_first(string_sprintf("%-22s", tmp.c_str()));
-    s += string_sprintf("        %2d", spell_mana_cost);
+    s += string_capitalize_first(std::format("{:<22}", tmp));
+    s += std::format("        {:2}", spell_mana_cost);
 
     wid_set_text(w, s);
     wid_apply_bar_button(g, w);
