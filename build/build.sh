@@ -967,7 +967,7 @@ log_info "LDLIBS                     : $LDLIBS"
 # Cleanup pre-build
 #
 log_info "Cleaning"
-make clobber | sed 's/^/  /g'
+(cd .. ; make clobber) | sed 's/^/  /g'
 
 log_info "OS version                 :"
 cat /etc/*-release 2>/dev/null

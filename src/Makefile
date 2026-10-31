@@ -150,16 +150,14 @@ tidy:
 .PHONY: format tidy
 
 clean:
-	rm -f $(TARGET_GAME) ../stdout.txt ../stderr.txt
-	@# safer delete of build dir instead of just 'rm -rf $(BUILD_DIR)'
-	rm -f $(BUILD_DIR)/*.[od]
-	rm -f $(BUILD_DIR)/*.[od].*
-	rm -f $(BUILD_DIR)/test-tmp-file
-	# rm -f $(wildcard $(BUILD_DIR)/*)
+	@rm -f $(TARGET_GAME) ../stdout.txt ../stderr.txt
+	@rm -f $(BUILD_DIR)/*.[od]
+	@rm -f $(BUILD_DIR)/*.[od].*
+	@rm -f $(BUILD_DIR)/test-tmp-file
 	@([ -d "$(BUILD_DIR)" ] && rmdir $(BUILD_DIR) 2>/dev/null) || true
 
 clobber: clean
-	rm -f ramdisk_data.cpp $(wildcard ramdisk_data*.S) $(wildcard *.gch)
+	@rm -f ramdisk_data.cpp $(wildcard ramdisk_data*.S) $(wildcard *.gch)
 
 # delete corresponding object file if dependency file needs regeneration
 $(BUILD_DIR)/%.d: ; @rm -f "$(@:.d=.o)"
