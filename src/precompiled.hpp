@@ -33,6 +33,7 @@
 #include <ranges>
 #include <set>
 #include <source_location>
+#include <span>
 #include <sstream>
 #include <stdarg.h>
 #include <stdint.h>

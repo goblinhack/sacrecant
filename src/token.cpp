@@ -13,6 +13,8 @@
 #include <cstdint>
 #include <cstring>
 #include <print>
+#include <span>
+#include <string>
 
 static auto tokens_parse(const char *input, class Tokens *tokens) -> class Tokens *
 {
@@ -169,18 +171,17 @@ void tokens_print(class Tokens *tokens)
 void tokens_print_to(class Tokens *tokens, char *output, int output_size)
 {
   TRACE();
-  uint32_t cnt = 0;
+  std::string joined;
 
-  cnt     = 0;
-  *output = '\0';
-
-  while (cnt < tokens->cnt) {
-    (void) my_strlcat(output, tokens->args[ cnt ], output_size);
-    cnt++;
-
-    if (cnt < tokens->cnt) {
-      (void) my_strlcat(output, " ", output_size);
+  for (uint32_t cnt = 0; cnt < tokens->cnt; cnt++) {
+    if (cnt != 0) {
+      joined += ' ';
     }
+    joined += tokens->args[ cnt ];
+  }
+
+  if (output_size > 0) {
+    str_copy(std::span< char >(output, static_cast< size_t >(output_size)), joined);
   }
 }
 

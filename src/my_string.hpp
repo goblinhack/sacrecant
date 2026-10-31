@@ -32,7 +32,6 @@ void str_copy(std::span< char > dst, std::string_view src);
 //
 // Old C APIs
 //
-[[nodiscard]] auto my_strlcat(char *dst, const char *src, size_t max_len) -> size_t;
 [[nodiscard]] auto strcommon(const char *a, const char *b) -> uint32_t;
 [[nodiscard]] auto strisregexp(const char *in) -> int;
 

@@ -117,17 +117,6 @@ void str_copy(std::span< char > dst, std::string_view src)
   dst[ len ] = '\0';
 }
 
-[[nodiscard]] auto my_strlcat(char *dst, const char *src, size_t max_len) -> size_t
-{
-  TRACE();
-  uint32_t const dstlen = strlen(dst);
-  uint32_t const srclen = strlen(src);
-  if (dstlen < max_len) {
-    str_copy(std::span< char >(dst + dstlen, max_len - dstlen), src);
-  }
-  return (dstlen + srclen);
-}
-
 //
 // A safe wrapper for basename to avoid modifications to the input string.
 //

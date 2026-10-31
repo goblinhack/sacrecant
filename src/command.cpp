@@ -14,6 +14,7 @@
 #include <algorithm>
 #include <cstdint>
 #include <cstring>
+#include <span>
 #include <string>
 #include <strings.h>
 #include <unordered_map>
@@ -162,10 +163,10 @@ static auto command_matches(Gamep g, const char *input, char *output, uint8_t sh
 {
   TRACE();
 
-  char         cand_expand_to[ MAXSTR ];
+  std::string  cand_expand_to;
   commandp     matched_command = nullptr;
-  char         completes_to[ MAXSTR ];
-  char         expands_to[ MAXSTR ];
+  std::string  completes_to;
+  std::string  expands_to;
   class Tokens input_tokens {};
   char         match[ MAXSTR ];
   char         match2[ MAXSTR ];
@@ -248,11 +249,11 @@ static auto command_matches(Gamep g, const char *input, char *output, uint8_t sh
       matched_command = command;
 
       if (static_cast< bool >(show_complete)) {
-        completes_to[ 0 ] = '\0';
+        completes_to.clear();
 
         for (t = 0; t < longest_match; t++) {
-          (void) my_strlcat(completes_to, command->tokens.args[ t ], SIZEOF(completes_to));
-          (void) my_strlcat(completes_to, " ", SIZEOF(completes_to));
+          completes_to += command->tokens.args[ t ];
+          completes_to += ' ';
         }
 
         if (output != nullptr) {
@@ -276,7 +277,7 @@ static auto command_matches(Gamep g, const char *input, char *output, uint8_t sh
    * Repeat and complete the command to any full matches.
    */
   {
-    expands_to[ 0 ] = '\0';
+    expands_to.clear();
 
     {
       for (const auto &iter : commands_map) {
@@ -301,24 +302,24 @@ static auto command_matches(Gamep g, const char *input, char *output, uint8_t sh
         }
 
         if (t == longest_match) {
-          cand_expand_to[ 0 ] = '\0';
+          cand_expand_to.clear();
 
           for (t = 0; t < longest_match; t++) {
             if (strisregexp(command->tokens.args[ t ]) != 0) {
-              (void) my_strlcat(cand_expand_to, input_tokens.args[ t ], SIZEOF(cand_expand_to));
-              (void) my_strlcat(cand_expand_to, " ", SIZEOF(cand_expand_to));
+              cand_expand_to += input_tokens.args[ t ];
+              cand_expand_to += ' ';
               continue;
             }
 
-            (void) my_strlcat(cand_expand_to, command->tokens.args[ t ], SIZEOF(cand_expand_to));
-            (void) my_strlcat(cand_expand_to, " ", SIZEOF(cand_expand_to));
+            cand_expand_to += command->tokens.args[ t ];
+            cand_expand_to += ' ';
           }
 
-          if (expands_to[ 0 ] != '\0') {
-            common_len               = strcommon(expands_to, cand_expand_to);
-            expands_to[ common_len ] = '\0';
+          if (! expands_to.empty()) {
+            common_len = static_cast< int >(strcommon(expands_to.c_str(), cand_expand_to.c_str()));
+            expands_to.resize(static_cast< size_t >(common_len));
           } else {
-            str_copy(expands_to, cand_expand_to);
+            expands_to = cand_expand_to;
           }
         }
       }
