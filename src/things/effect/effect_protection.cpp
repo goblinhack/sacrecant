@@ -21,6 +21,7 @@
   tp_flag_set(tp, is_able_to_move_diagonally);
   tp_flag_set(tp, is_able_to_move);
   tp_flag_set(tp, is_animated_can_hflip);
+  tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_animated);
   tp_flag_set(tp, is_blit_centered);
   tp_flag_set(tp, is_blit_shown_in_chasms);

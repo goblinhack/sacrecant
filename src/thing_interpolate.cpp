@@ -20,6 +20,7 @@ void thing_interpolate(Gamep g, Levelsp v, Levelp l, Thingp me, float dt)
   auto at          = thing_at(g, v, l, me);
   auto moving_from = thing_moving_from(me);
 
+  THING_DBG(g, v, l, me, "interpolate from (%d,%d) to (%d,%d) dt %f", moving_from.x, moving_from.y, at.x, at.y, dt);
   if (compiler_unused) {
     THING_DBG(g, v, l, me, "interpolate from (%d,%d) to (%d,%d) dt %f", moving_from.x, moving_from.y, at.x, at.y, dt);
   }
@@ -52,6 +53,8 @@ void thing_interpolate(Gamep g, Levelsp v, Levelp l, Thingp me, float dt)
 
   FOR_ALL_HOOKS(g, v, l, me, buff)
   {
+    thing_interpolate(g, v, l, buff, dt);
+
     FOR_ALL_FOLLOWERS(g, v, l, buff, follower) { thing_interpolate(g, v, l, follower, dt); }
   }
 }

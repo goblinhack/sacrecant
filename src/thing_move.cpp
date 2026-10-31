@@ -22,6 +22,7 @@
 {
   TRACE();
 
+  THING_DBG(g, v, l, me, "mov to (%d,%d)", to.x, to.y);
   if (is_oob_or_border(to)) [[unlikely]] {
     return false;
   }
@@ -95,7 +96,12 @@
     thing_leader_move_followers_offset(g, v, l, me, delta);
   }
 
-  FOR_ALL_HOOKS(g, v, l, me, buff) { thing_at_set(g, v, l, buff, to); }
+  FOR_ALL_HOOKS(g, v, l, me, buff)
+  {
+    (void) thing_move_to(g, v, l, buff, to);
+
+    FOR_ALL_FOLLOWERS(g, v, l, buff, follower) { (void) thing_move_to(g, v, l, follower, to); }
+  }
 
   return true;
 }
@@ -250,7 +256,12 @@
     thing_leader_warp_followers_to(g, v, old_level, new_level, me, at, to);
   }
 
-  FOR_ALL_HOOKS(g, v, new_level, me, buff) { thing_at_set(g, v, new_level, buff, to); }
+  FOR_ALL_HOOKS(g, v, new_level, me, buff)
+  {
+    (void) thing_warp_to(g, v, new_level, buff, to);
+
+    FOR_ALL_FOLLOWERS(g, v, new_level, buff, follower) { (void) thing_warp_to(g, v, new_level, follower, to); }
+  }
 
   return true;
 }
