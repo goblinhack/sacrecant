@@ -1265,7 +1265,7 @@ void rooms_dump(Gamep g)
 //
 // Can we place a room here on the level?
 //
-[[nodiscard]] static auto room_can_place_at(class LevelGenAll *lga, class LevelGen *lg, class Room *r, bpoint at) -> bool
+[[nodiscard]] static auto room_can_place_at(class LevelGen *lg, class Room *r, bpoint at) -> bool
 {
   TRACE_DEBUG();
 
@@ -2792,7 +2792,7 @@ static void level_gen_stats_dump(LevelGenAll *lga)
       // ...   ...
       //
       bpoint const door_intersection_at = door_other - d;
-      if (! room_can_place_at(lga, lg, r, door_intersection_at)) {
+      if (! room_can_place_at(lg, r, door_intersection_at)) {
         continue;
       }
 
@@ -3028,7 +3028,7 @@ static void level_gen_create_remaining_rooms(LevelGenAll *lga, LevelGen *lg)
   at.x -= r->width / 2;
   at.y -= r->height / 2;
 
-  if (! room_can_place_at(lga, lg, r, at)) {
+  if (! room_can_place_at(lg, r, at)) {
     if (lg->level_arr_idx == 0U) {
       if (lg->debug) [[unlikely]] {
         DBG("LEVELGEN: failed to place first room at %d,%d", at.x, at.y);

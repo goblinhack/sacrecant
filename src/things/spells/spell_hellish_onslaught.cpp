@@ -36,7 +36,9 @@ static auto tp_spell_hellish_onslaught_get(Gamep g, Levelsp v, Levelp l, Thingp 
     line                  = std::format("- {:<{}}{:>{}}\n", "Damage per tile", space, damage_total_str, space);
 #endif
   } else {
+#ifndef GITHUB_BUILD
     line = std::format("- {:<{}}{:>{}}\n", "Damage per tile", space, damage_str, space);
+#endif
   }
 
   return                                                                                                    //

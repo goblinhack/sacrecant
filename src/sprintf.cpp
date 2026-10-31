@@ -14,7 +14,7 @@
 //
 [[nodiscard]] auto string_sprintf(const char *format, va_list args) -> std::string
 {
-  va_list args_copy = nullptr;
+  va_list args_copy = {}; // NOLINT
   va_copy(args_copy, args);
   const int len = vsnprintf(nullptr, 0, format, args_copy);
   va_end(args_copy);

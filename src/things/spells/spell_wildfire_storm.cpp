@@ -36,7 +36,9 @@ static auto tp_spell_wildfire_storm_get(Gamep g, Levelsp v, Levelp l, Thingp me)
     line                  = std::format("- {:<{}}{:>{}}\n", "Damage per tile", space, damage_total_str, space);
 #endif
   } else {
+#ifndef GITHUB_BUILD
     line = std::format("- {:<{}}{:>{}}\n", "Damage per tile", space, damage_str, space);
+#endif
   }
 
   return                                                                                                                                     //

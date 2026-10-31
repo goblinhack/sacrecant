@@ -258,7 +258,7 @@ static inline void sdl_list_video_size()
   game_config_pix_width_set(g, w);
   game_config_pix_height_set(g, h);
 
-  if ((video_flags & SDL_WINDOW_ALLOW_HIGHDPI) != 0u) {
+  if ((video_flags & SDL_WINDOW_ALLOW_HIGHDPI) != 0U) {
     sdl_get_drawable_size(&w, &h);
     log("SDL: Created window drawable size %ux%u", w, h);
   }
