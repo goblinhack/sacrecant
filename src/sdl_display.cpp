@@ -306,6 +306,7 @@ static inline void sdl_list_video_size()
   //
   SDL_RaiseWindow(sdl.window);
 
+  con("SDL: Version         : %u.%u", SDL_MAJOR_VERSION, SDL_MINOR_VERSION);
   con("SDL: OpenGL Vendor   : %s", glGetString(GL_VENDOR));
   con("SDL: OpenGL Renderer : %s", glGetString(GL_RENDERER));
   con("SDL: OpenGL Version  : %s", glGetString(GL_VERSION));

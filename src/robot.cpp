@@ -13,6 +13,7 @@
 #include "my_random_name.hpp"
 #include "my_robot.hpp"
 #include "my_sdl_event.hpp"
+#include "my_sdl_proto.hpp"
 #include "my_thing.hpp"
 #include "my_thing_inlines.hpp"
 #include "my_types.hpp"
@@ -433,7 +434,7 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
         thing_topcon(g, v, l, player, "goal: @%d,%d, pix %d,%d %s", goal.at.x, goal.at.y, pixel.x, pixel.y, goal.what.c_str());
       }
 
-      SDL_WarpMouseInWindow(sdl.window, pixel.x, pixel.y);
+      sdl_warp_mouse(pixel.x, pixel.y);
       e.type = SDL_MOUSEMOTION;
       robot_push_event(&e, key);
       e    = {};
