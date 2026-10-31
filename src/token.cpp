@@ -181,7 +181,7 @@ void tokens_print_to(class Tokens *tokens, char *output, int output_size)
   }
 
   if (output_size > 0) {
-    str_copy(std::span< char >(output, static_cast< size_t >(output_size)), joined);
+    string_copy(std::span< char >(output, static_cast< size_t >(output_size)), joined);
   }
 }
 

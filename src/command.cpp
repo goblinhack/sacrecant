@@ -256,7 +256,7 @@ static auto command_matches(Gamep g, const char *input, char *output, uint8_t sh
         }
 
         if (output != nullptr) {
-          str_copy(std::span< char >(output, MAXSTR), completes_to);
+          string_copy(std::span< char >(output, MAXSTR), completes_to);
         }
       }
 
@@ -326,7 +326,7 @@ static auto command_matches(Gamep g, const char *input, char *output, uint8_t sh
        * Expands to:
        */
       if (output != nullptr) {
-        str_copy(std::span< char >(output, MAXSTR), expands_to);
+        string_copy(std::span< char >(output, MAXSTR), expands_to);
       }
     }
   }

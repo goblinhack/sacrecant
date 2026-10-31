@@ -5441,7 +5441,7 @@ static void level_gen_extend_bridges(Gamep g, class LevelGenAll *lga, class Leve
   //
   if (fixed_level != nullptr) {
     level->is_fixed_level = true;
-    str_copy(level->info.name, fixed_level->alias);
+    string_copy(level->info.name, fixed_level->alias);
   }
 
   //

@@ -21,9 +21,9 @@ enum { MAXLONGSTR = 1024, MAXSTR = 512, MAXSHORTSTR = 128 };
 // Bounds checked copy into a fixed size buffer. The destination size comes from the
 // span, so it cannot be passed wrongly. The result is truncated if needed and is always
 // NUL terminated (unless dst is empty). Arrays convert to a span implicitly. For a raw
-// pointer, be explicit: str_copy(std::span< char >(ptr, size), src)
+// pointer, be explicit: string_copy(std::span< char >(ptr, size), src)
 //
-void str_copy(std::span< char > dst, std::string_view src);
+void string_copy(std::span< char > dst, std::string_view src);
 void string_remove_trailing_chars(std::string &str, const char charToRemove);
 void string_remove_leading_chars(std::string &str, const char charToRemove);
 auto string_replace(std::string &input, const std::string &pattern, const std::string &replace_with) -> void;

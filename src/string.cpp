@@ -31,9 +31,9 @@
 #include <utility>
 #include <vector>
 
-/*
- * Return the common matching length of two strings.
- */
+//
+// Return the common matching length of two strings.
+//
 [[nodiscard]] auto string_common_matching_len(std::string_view a, std::string_view b) -> size_t
 {
   TRACE();
@@ -58,8 +58,9 @@ void string_remove_leading_chars(std::string &str, const char charToRemove)
   return in.find_first_of("[]{}+$^-*") != std::string_view::npos;
 }
 
-void str_copy(std::span< char > dst, std::string_view src)
+void string_copy(std::span< char > dst, std::string_view src)
 {
+  TRACE();
   if (dst.empty()) {
     return;
   }
@@ -386,6 +387,7 @@ void str_copy(std::span< char > dst, std::string_view src)
 
 [[nodiscard]] auto string_split_tokens(const std::string &s, const char delimiter) -> std::vector< std::string >
 {
+  TRACE();
   std::string                token;
   std::istringstream         s_stream(s);
   std::vector< std::string > tokens;
@@ -454,6 +456,7 @@ void str_copy(std::span< char > dst, std::string_view src)
 //
 void string_replace(std::string &input, const std::string &pattern, const std::string &replace_with)
 {
+  TRACE();
   size_t pos = 0;
   for (;;) {
     pos = input.find(pattern, pos);
@@ -504,6 +507,7 @@ void string_replace(std::string &input, const std::string &pattern, const std::s
 // https://www.techiedelight.com/trim-string-cpp-remove-leading-trailing-spaces/
 [[nodiscard]] auto ltrim(std::string &s) -> std::string &
 {
+  TRACE();
   auto it = std::ranges::find_if(s, [](char c) -> bool { return ! std::isspace< char >(c, std::locale::classic()); });
   s.erase(s.begin(), it);
   return s;
@@ -511,9 +515,14 @@ void string_replace(std::string &input, const std::string &pattern, const std::s
 
 [[nodiscard]] auto rtrim(std::string &s) -> std::string &
 {
+  TRACE();
   auto it = std::ranges::find_if(std::ranges::reverse_view(s), [](char c) -> bool { return ! std::isspace< char >(c, std::locale::classic()); });
   s.erase(it.base(), s.end());
   return s;
 }
 
-[[nodiscard]] auto string_trim_trailing_whitespace(std::string &s) -> std::string & { return ltrim(rtrim(s)); }
+[[nodiscard]] auto string_trim_trailing_whitespace(std::string &s) -> std::string &
+{
+  TRACE();
+  return ltrim(rtrim(s));
+}
