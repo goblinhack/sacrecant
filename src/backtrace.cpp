@@ -11,6 +11,7 @@
 #include <cstdlib>
 #include <format>
 #include <string>
+#include <string_view>
 
 #ifdef _WIN32
 // clang-format off
@@ -63,12 +64,8 @@ static std::recursive_mutex backtrace_mutex;
 [[nodiscard]] static auto is_plausible_posix_prefix(char *s) -> bool
 {
   // POSIX symbols start with 1-4 underscores followed by Z.
-  // strnstr() is BSD, so use a small local buffer and strstr().
-  const int N = 5; // == strlen("____Z")
-  char      prefix[ N + 1 ];
-  (void) my_strlcpy(prefix, s, N);
-  prefix[ N ] = '\0';
-  return strstr(prefix, "_Z") != nullptr;
+  const size_t N = 5; // == strlen("____Z")
+  return std::string_view(s).substr(0, N).find("_Z") != std::string_view::npos;
 }
 
 //

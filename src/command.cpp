@@ -256,7 +256,7 @@ static auto command_matches(Gamep g, const char *input, char *output, uint8_t sh
         }
 
         if (output != nullptr) {
-          (void) my_strlcpy(output, completes_to, MAXSTR);
+          str_copy(std::span< char >(output, MAXSTR), completes_to);
         }
       }
 
@@ -318,7 +318,7 @@ static auto command_matches(Gamep g, const char *input, char *output, uint8_t sh
             common_len               = strcommon(expands_to, cand_expand_to);
             expands_to[ common_len ] = '\0';
           } else {
-            (void) my_strlcpy(expands_to, cand_expand_to, SIZEOF(expands_to));
+            str_copy(expands_to, cand_expand_to);
           }
         }
       }
@@ -327,7 +327,7 @@ static auto command_matches(Gamep g, const char *input, char *output, uint8_t sh
        * Expands to:
        */
       if (output != nullptr) {
-        (void) my_strlcpy(output, expands_to, MAXSTR);
+        str_copy(std::span< char >(output, MAXSTR), expands_to);
       }
     }
   }

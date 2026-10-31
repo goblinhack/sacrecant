@@ -29,6 +29,7 @@
 #include <cstring>
 #include <format>
 #include <string>
+#include <string_view>
 
 static WidPopup *wid_over_stats;
 
@@ -727,6 +728,27 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
 }
 
 //
+// Create a space filled stat bar line, "width - 3" characters wide (clamped to a sane maximum).
+//
+[[nodiscard]] static auto wid_thing_info_line_bar(int width) -> std::string
+{
+  return std::string(static_cast< size_t >(std::clamp(width - 3, 0, static_cast< int >(MAXSHORTSTR) - 1)), ' ');
+}
+
+//
+// Overwrite part of a line with the given text. The text is clipped to fit; the line is never resized.
+//
+static void wid_thing_info_overlay(std::string &line, size_t pos, std::string_view text)
+{
+  if (pos >= line.size()) {
+    return;
+  }
+
+  const auto len = std::min(text.size(), line.size() - pos);
+  line.replace(pos, len, text.substr(0, len));
+}
+
+//
 // Health bar
 //
 [[nodiscard]] static auto wid_thing_info_health_bar(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent, int width) -> bool
@@ -737,18 +759,16 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     return false;
   }
 
-  char line_bar[ MAXSHORTSTR ];
+  auto line_bar = wid_thing_info_line_bar(width);
 
   //
   // "Health            "
   //
-  memset(line_bar, 0, sizeof(line_bar));
-  memset(line_bar, ' ', sizeof(line_bar) - 1);
 
   if (thing_is_dead(me)) {
-    (void) my_strlcpy(line_bar + 1, "Dead", sizeof("Dead "));
+    wid_thing_info_overlay(line_bar, 1, "Dead");
   } else {
-    (void) my_strlcpy(line_bar + 1, "Health", sizeof("Health "));
+    wid_thing_info_overlay(line_bar, 1, "Health");
   }
 
   //
@@ -763,8 +783,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   h      = std::max(h, 0);
 
   std::string const health_str = std::to_string(h) + "/" + std::to_string(health_max);
-  (void) my_strlcpy(line_bar + width - health_str.size() - 3, health_str.c_str(), width - health_str.size());
-  line_bar[ strlen(line_bar) ] = ' ';
+  wid_thing_info_overlay(line_bar, static_cast< size_t >(std::max(width - static_cast< int >(health_str.size()) - 3, 0)), health_str);
 
   //
   // "Health         a/b"
@@ -802,15 +821,13 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
 {
   TRACE();
 
-  char line_bar[ MAXSHORTSTR ];
+  auto line_bar = wid_thing_info_line_bar(width);
 
   //
   // "Mana            "
   //
-  memset(line_bar, 0, sizeof(line_bar));
-  memset(line_bar, ' ', sizeof(line_bar) - 1);
 
-  (void) my_strlcpy(line_bar + 1, "Mana", sizeof("Mana"));
+  wid_thing_info_overlay(line_bar, 1, "Mana");
 
   //
   // "Mana         a/b"
@@ -824,8 +841,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   h      = std::max(h, 0);
 
   std::string const mana_str = std::to_string(h) + "/" + std::to_string(mana_max);
-  (void) my_strlcpy(line_bar + width - mana_str.size() - 3, mana_str.c_str(), width - mana_str.size());
-  line_bar[ strlen(line_bar) ] = ' ';
+  wid_thing_info_overlay(line_bar, static_cast< size_t >(std::max(width - static_cast< int >(mana_str.size()) - 3, 0)), mana_str);
 
   //
   // "Mana         a/b"
@@ -871,18 +887,16 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     return false;
   }
 
-  char line_bar[ MAXSHORTSTR ];
+  auto line_bar = wid_thing_info_line_bar(width);
 
   //
   // "Stamina           "
   //
-  memset(line_bar, 0, sizeof(line_bar));
-  memset(line_bar, ' ', sizeof(line_bar) - 1);
 
   if (thing_distance_jump(g, v, l, me) != thing_distance_jump_max(g, v, l, me)) {
-    (void) my_strlcpy(line_bar + 1, "Jumping impacted", sizeof("Jumping impacted "));
+    wid_thing_info_overlay(line_bar, 1, "Jumping impacted");
   } else {
-    (void) my_strlcpy(line_bar + 1, "Stamina", sizeof("Stamina "));
+    wid_thing_info_overlay(line_bar, 1, "Stamina");
   }
 
   //
@@ -897,8 +911,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   stamina      = std::max(stamina, 0);
 
   std::string const stamina_str = std::to_string(stamina) + "/" + std::to_string(stamina_max);
-  (void) my_strlcpy(line_bar + width - stamina_str.size() - 3, stamina_str.c_str(), width - stamina_str.size());
-  line_bar[ strlen(line_bar) ] = ' ';
+  wid_thing_info_overlay(line_bar, static_cast< size_t >(std::max(width - static_cast< int >(stamina_str.size()) - 3, 0)), stamina_str);
 
   //
   // "Stamina        a/b"
@@ -944,14 +957,12 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
     return false;
   }
 
-  char line_bar[ MAXSHORTSTR ];
+  auto line_bar = wid_thing_info_line_bar(width);
 
   //
   // "Stealth           "
   //
-  memset(line_bar, 0, sizeof(line_bar));
-  memset(line_bar, ' ', sizeof(line_bar) - 1);
-  (void) my_strlcpy(line_bar + 1, "Stealth", sizeof("Stealth "));
+  wid_thing_info_overlay(line_bar, 1, "Stealth");
 
   //
   // "Stealth        a/b"
@@ -961,8 +972,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   stealth          = std::max(stealth, 0);
 
   std::string const stealth_str = std::to_string(stealth) + "/" + std::to_string(stealth_max);
-  (void) my_strlcpy(line_bar + width - stealth_str.size() - 3, stealth_str.c_str(), width - stealth_str.size());
-  line_bar[ strlen(line_bar) ] = ' ';
+  wid_thing_info_overlay(line_bar, static_cast< size_t >(std::max(width - static_cast< int >(stealth_str.size()) - 3, 0)), stealth_str);
 
   //
   // "Stealth        a/b"
@@ -2517,17 +2527,11 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
       }
     }
 
-    char line_bar[ MAXSHORTSTR ];
-
-    memset(line_bar, 0, sizeof(line_bar));
-    memset(line_bar, ' ', sizeof(line_bar) - 1);
-
     auto lifespan_max = thing_lifespan_initial(buff);
     auto h            = thing_lifespan(g, v, l, buff);
     h                 = std::max(h, 0);
 
-    (void) my_strlcpy(line_bar, line.c_str(), line.size() + 1);
-    auto *w = parent->log(g, std::string(line_bar));
+    auto *w = parent->log(g, line);
     if (w != nullptr) {
       int lifespan_how_much = static_cast< int >((static_cast< float >(thing_lifespan(g, v, l, buff)) / static_cast< float >(lifespan_max))
                                                  * (static_cast< float > UI_STAT_BAR_STEPS - 1));
@@ -2589,17 +2593,11 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
       }
     }
 
-    char line_bar[ MAXSHORTSTR ];
-
-    memset(line_bar, 0, sizeof(line_bar));
-    memset(line_bar, ' ', sizeof(line_bar) - 1);
-
     auto lifespan_max = thing_lifespan_initial(buff);
     auto h            = thing_lifespan(g, v, l, buff);
     h                 = std::max(h, 0);
 
-    (void) my_strlcpy(line_bar, line.c_str(), line.size() + 1);
-    auto *w = parent->log(g, std::string(line_bar));
+    auto *w = parent->log(g, line);
     if (w != nullptr) {
       int lifespan_how_much = static_cast< int >((static_cast< float >(thing_lifespan(g, v, l, buff)) / static_cast< float >(lifespan_max))
                                                  * (static_cast< float > UI_STAT_BAR_STEPS - 1));

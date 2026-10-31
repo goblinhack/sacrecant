@@ -106,16 +106,15 @@ void strchopc(char *s, char c)
   return 0;
 }
 
-[[nodiscard]] auto my_strlcpy(char *dst, const char *src, size_t max_len) -> size_t
+void str_copy(std::span< char > dst, std::string_view src)
 {
-  TRACE();
-  size_t const srclen = strlen(src);
-  if (max_len > 0) {
-    uint32_t const len = std::min(srclen, max_len - 1);
-    memcpy(dst, src, len);
-    dst[ len ] = '\0';
+  if (dst.empty()) {
+    return;
   }
-  return srclen;
+
+  const auto len = std::min(src.size(), dst.size() - 1);
+  std::copy_n(src.begin(), len, dst.begin());
+  dst[ len ] = '\0';
 }
 
 [[nodiscard]] auto my_strlcat(char *dst, const char *src, size_t max_len) -> size_t
@@ -124,7 +123,7 @@ void strchopc(char *s, char c)
   uint32_t const dstlen = strlen(dst);
   uint32_t const srclen = strlen(src);
   if (dstlen < max_len) {
-    (void) my_strlcpy(dst + dstlen, src, max_len - dstlen);
+    str_copy(std::span< char >(dst + dstlen, max_len - dstlen), src);
   }
   return (dstlen + srclen);
 }

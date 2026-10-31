@@ -7,7 +7,9 @@
 
 #include "my_types.hpp"
 
+#include <span>
 #include <string>
+#include <string_view>
 #include <vector>
 
 //
@@ -20,9 +22,16 @@ enum {
 };
 
 //
+// Bounds checked copy into a fixed size buffer. The destination size comes from the
+// span, so it cannot be passed wrongly. The result is truncated if needed and is always
+// NUL terminated (unless dst is empty). Arrays convert to a span implicitly. For a raw
+// pointer, be explicit: str_copy(std::span< char >(ptr, size), src)
+//
+void str_copy(std::span< char > dst, std::string_view src);
+
+//
 // Old C APIs
 //
-[[nodiscard]] auto my_strlcpy(char *dst, const char *src, size_t max_len) -> size_t;
 [[nodiscard]] auto my_strlcat(char *dst, const char *src, size_t max_len) -> size_t;
 [[nodiscard]] auto strcommon(const char *a, const char *b) -> uint32_t;
 [[nodiscard]] auto strisregexp(const char *in) -> int;
