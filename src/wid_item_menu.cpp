@@ -8,7 +8,6 @@
 #include "my_game_inlines.hpp"
 #include "my_level.hpp"
 #include "my_main.hpp"
-#include "my_sdl_compat.hpp"
 #include "my_sdl_proto.hpp"
 #include "my_sound.hpp"
 #include "my_spoint.hpp"
@@ -19,6 +18,8 @@
 #include "my_wid.hpp"
 #include "my_wid_popup.hpp"
 #include "my_wids.hpp"
+#include <SDL_keyboard.h>
+#include <SDL_keycode.h>
 #include <cmath>
 #include <cstdint>
 

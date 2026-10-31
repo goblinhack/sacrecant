@@ -6,7 +6,7 @@
 #include "my_main.hpp"
 #include "my_spoint.hpp"
 #include "my_thing.hpp"
-#include "my_thing_inlines.hpp"
+#include "my_thing_inlines.hpp" // NOLINT
 #include "my_tile.hpp"
 #include "my_types.hpp"
 
@@ -20,12 +20,12 @@ void thing_interpolate(Gamep g, Levelsp v, Levelp l, Thingp me, float dt)
   auto at          = thing_at(g, v, l, me);
   auto moving_from = thing_moving_from(me);
 
-  if (1 || compiler_unused) {
+  if (compiler_unused) {
     THING_DBG(g, v, l, me, "interpolate from (%d,%d) to (%d,%d) dt %f", moving_from.x, moving_from.y, at.x, at.y, dt);
   }
 
   if (moving_from == at) {
-    if (1 || compiler_unused) {
+    if (compiler_unused) {
       THING_DBG(g, v, l, me, "already at destination");
     }
     return;

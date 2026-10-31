@@ -16,7 +16,8 @@
 #include "my_wid_text_box.hpp"
 #include "my_wids.hpp"
 
-#include "my_sdl_compat.hpp"
+#include <SDL_keyboard.h>
+#include <SDL_keycode.h>
 
 static WidPopup *wid_error_window;
 

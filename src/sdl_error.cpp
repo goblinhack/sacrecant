@@ -7,6 +7,10 @@
 #include "my_string.hpp"
 
 #include "my_sdl_compat.hpp"
+#include <SDL_log.h>
+#include <SDL_messagebox.h>
+#include <SDL_version.h>
+#include <SDL_video.h>
 #include <cmath>
 #include <cstdarg>
 #include <cstdio>

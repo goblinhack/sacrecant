@@ -4,13 +4,13 @@
 
 #include <cstdint>
 #include <cstring>
+#include <string>
 #include <sys/param.h>
 #include <sys/stat.h>
 #include <unistd.h>
 
 #include "my_callstack.hpp"
 #include "my_dir.hpp"
-#include "my_ptrcheck.hpp"
 #include "my_string.hpp"
 #include "my_types.hpp"
 

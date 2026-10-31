@@ -31,7 +31,9 @@
 #include "my_wid.hpp"
 #include "my_wids.hpp"
 
-#include "my_sdl_compat.hpp"
+#include <SDL_keyboard.h>
+#include <SDL_keycode.h>
+#include <SDL_mixer.h>
 #include <algorithm>
 #include <array>
 #include <cmath>

@@ -3,6 +3,13 @@
 //
 
 #include "my_sdl_compat.hpp"
+#include <SDL_events.h>
+#include <SDL_joystick.h>
+#include <SDL_keyboard.h>
+#include <SDL_keycode.h>
+#include <SDL_mouse.h>
+#include <SDL_scancode.h>
+#include <SDL_video.h>
 #include <algorithm>
 #include <cinttypes>
 #include <cstdint>
@@ -47,7 +54,7 @@ void sdl_get_drawable_size(int *x, int *y)
 #endif
 }
 
-int sdl_get_mouse_state(Gamep g, int *x, int *y)
+auto sdl_get_mouse_state(Gamep g, int *x, int *y) -> int
 {
   TRACE();
 
@@ -57,16 +64,16 @@ int sdl_get_mouse_state(Gamep g, int *x, int *y)
   int mx {};
   int my {};
 
-  if (x) {
+  if (x != nullptr) {
     *x = 0;
   }
 
-  if (y) {
+  if (y != nullptr) {
     *y = 0;
   }
 
   auto button = sdl_compat_get_mouse_state(&mx, &my);
-  if (! x || ! y) {
+  if ((x == nullptr) || (y == nullptr)) {
     return button;
   }
 
@@ -90,20 +97,20 @@ int sdl_get_mouse_state(Gamep g, int *x, int *y)
   int h2 {};
 
   sdl_get_drawable_size(&w1, &h1);
-  if (! w1 || ! h1) {
+  if ((w1 == 0) || (h1 == 0)) {
     return button;
   }
 
   SDL_GetWindowSize(sdl.window, &w2, &h2);
-  if (! w2 || ! h2) {
+  if ((w2 == 0) || (h2 == 0)) {
     return button;
   }
 
-  fx *= (float) w1 / (float) w2;
-  fy *= (float) h1 / (float) h2;
+  fx *= static_cast< float >(w1) / static_cast< float >(w2);
+  fy *= static_cast< float >(h1) / static_cast< float >(h2);
 
-  *x = (int) fx;
-  *y = (int) fy;
+  *x = static_cast< int >(fx);
+  *y = static_cast< int >(fy);
 
   return button;
 }
@@ -124,20 +131,20 @@ void sdl_warp_mouse(int x, int y)
   int h2 {};
 
   sdl_get_drawable_size(&w1, &h1);
-  if (! w1 || ! h1) {
+  if ((w1 == 0) || (h1 == 0)) {
     return;
   }
 
   SDL_GetWindowSize(sdl.window, &w2, &h2);
-  if (! w2 || ! h2) {
+  if ((w2 == 0) || (h2 == 0)) {
     return;
   }
 
-  fx /= (float) w1 / (float) w2;
-  fy /= (float) h1 / (float) h2;
+  fx /= static_cast< float >(w1) / static_cast< float >(w2);
+  fy /= static_cast< float >(h1) / static_cast< float >(h2);
 
-  x = (int) fx;
-  y = (int) fy;
+  x = static_cast< int >(fx);
+  y = static_cast< int >(fy);
 
   SDL_WarpMouseInWindow(sdl.window, x, y);
 }
@@ -260,7 +267,7 @@ static void __attribute__((noinline)) sdl_event_keydown(Gamep g, SDL_Keysym *key
   sdl_event_keydown_handler(g, key);
 }
 
-static void __attribute__((noinline)) sdl_event_keyup(Gamep g, SDL_Keysym *key, SDL_Event *event)
+static void __attribute__((noinline)) sdl_event_keyup(Gamep g, SDL_Keysym *key)
 {
   TRACE_DEBUG();
 
@@ -386,7 +393,7 @@ void sdl_event(Gamep g, SDL_Event *event, bool &processed_mouse_motion_event)
       break;
     case SDL_KEYUP :
       DBG("SDL: Event key up");
-      sdl_event_keyup(g, key, event);
+      sdl_event_keyup(g, key);
       break;
     case SDL_MOUSEMOTION :
       if (compiler_unused) {

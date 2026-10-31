@@ -8,11 +8,8 @@
 #include "my_gl.hpp"
 #include "my_globals.hpp"
 #include "my_main.hpp"
-#include "my_ptrcheck.hpp"
 #include "my_sdl_event.hpp"
 #include "my_sdl_proto.hpp"
-#include "my_sprintf.hpp"
-#include "my_string.hpp"
 #include "my_types.hpp"
 
 #include <algorithm>

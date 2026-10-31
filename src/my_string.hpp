@@ -24,8 +24,8 @@ enum { MAXLONGSTR = 1024, MAXSTR = 512, MAXSHORTSTR = 128 };
 // pointer, be explicit: string_copy(std::span< char >(ptr, size), src)
 //
 void string_copy(std::span< char > dst, std::string_view src);
-void string_remove_trailing_chars(std::string &str, const char charToRemove);
-void string_remove_leading_chars(std::string &str, const char charToRemove);
+void string_remove_trailing_chars(std::string &str, char charToRemove);
+void string_remove_leading_chars(std::string &str, char charToRemove);
 auto string_replace(std::string &input, const std::string &pattern, const std::string &replace_with) -> void;
 
 [[nodiscard]] auto string_common_matching_len(std::string_view a, std::string_view b) -> size_t;

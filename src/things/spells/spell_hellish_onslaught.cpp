@@ -30,8 +30,11 @@ static auto tp_spell_hellish_onslaught_get(Gamep g, Levelsp v, Levelp l, Thingp 
   std::string line;
 
   if (damage_mod) {
+#ifndef GITHUB_BUILD
+    // clang compiler fail
     auto damage_total_str = std::format("{} (+{})", damage_str, damage_mod);
     line                  = std::format("- {:<{}}{:>{}}\n", "Damage per tile", space, damage_total_str, space);
+#endif
   } else {
     line = std::format("- {:<{}}{:>{}}\n", "Damage per tile", space, damage_str, space);
   }

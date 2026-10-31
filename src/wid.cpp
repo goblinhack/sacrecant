@@ -21,7 +21,6 @@
 #include "my_sdl_event.hpp"
 #include "my_sdl_proto.hpp"
 #include "my_sound.hpp"
-#include "my_sprintf.hpp"
 #include "my_string.hpp"
 #include "my_thing.hpp"
 #include "my_thing_inlines.hpp"
@@ -33,7 +32,10 @@
 #include "my_wid_class.hpp"
 #include "my_wids.hpp"
 
-#include "my_sdl_compat.hpp"
+#include <SDL_keyboard.h>
+#include <SDL_keycode.h>
+#include <SDL_mouse.h>
+#include <SDL_version.h>
 #include <array>
 #include <cstdarg>
 #include <cstddef>
@@ -1271,8 +1273,8 @@ void wid_set_name(Widp w, const std::string &name)
 #ifdef ENABLE_DEBUG_UI
 #ifdef ENABLE_DEBUG_UI2
   if (w->parent) {
-    w->to_string = std::format("{}[{}] (parent {}[{}])",
-                               name, static_cast< const void * >(w), w->parent->to_string, static_cast< const void * >(w->parent));
+    w->to_string = std::format("{}[{}] (parent {}[{}])", name, static_cast< const void * >(w), w->parent->to_string,
+                               static_cast< const void * >(w->parent));
   } else {
     w->to_string = std::format("{}[{}]", name, static_cast< const void * >(w));
   }
@@ -1300,7 +1302,7 @@ void wid_set_text_max_len(Widp w, size_t max_len)
   w->max_len = max_len;
 }
 
-bool wid_set_text(Widp w, const std::string &text)
+auto wid_set_text(Widp w, const std::string &text) -> bool
 {
   TRACE();
 
@@ -1331,7 +1333,7 @@ bool wid_set_text(Widp w, const std::string &text)
   return ret;
 }
 
-bool wid_set_text(Widp w, int v)
+auto wid_set_text(Widp w, int v) -> bool
 {
   TRACE();
   return wid_set_text(w, std::to_string(v));
@@ -2481,8 +2483,8 @@ void wid_destroy_in(Gamep g, Widp w, uint32_t ms)
 
 #ifdef ENABLE_DEBUG_UI
 #ifdef ENABLE_DEBUG_UI2
-  w->to_string = std::format("{}[{}] (parent {}[{}])",
-                             name, static_cast< const void * >(w), parent->to_string, static_cast< const void * >(parent));
+  w->to_string
+      = std::format("{}[{}] (parent {}[{}])", name, static_cast< const void * >(w), parent->to_string, static_cast< const void * >(parent));
 #else
   w->to_string = std::format("{}[{}]", name, static_cast< const void * >(w));
 #endif
@@ -2555,8 +2557,8 @@ void wid_destroy_in(Gamep g, Widp w, uint32_t ms)
 
 #ifdef ENABLE_DEBUG_UI
 #ifdef ENABLE_DEBUG_UI2
-  w->to_string = std::format("{}[{}] (parent {}[{}])",
-                             name, static_cast< const void * >(w), parent->to_string, static_cast< const void * >(parent));
+  w->to_string
+      = std::format("{}[{}] (parent {}[{}])", name, static_cast< const void * >(w), parent->to_string, static_cast< const void * >(parent));
 #else
   w->to_string = std::format("{}[{}]", name, static_cast< const void * >(w));
 #endif
@@ -2601,8 +2603,8 @@ void wid_destroy_in(Gamep g, Widp w, uint32_t ms)
 
 #ifdef ENABLE_DEBUG_UI
 #ifdef ENABLE_DEBUG_UI2
-  w->to_string = std::format("{}[{}] (parent {}[{}])",
-                             name, static_cast< const void * >(w), parent->to_string, static_cast< const void * >(parent));
+  w->to_string
+      = std::format("{}[{}] (parent {}[{}])", name, static_cast< const void * >(w), parent->to_string, static_cast< const void * >(parent));
 #else
   w->to_string = std::format("{}[{}]", name, static_cast< const void * >(w));
 #endif
@@ -2646,8 +2648,8 @@ static auto wid_new_scroll_pit(Widp parent) -> Widp
 
   Widp w = wid_new(parent);
 
-  w->to_string = std::format("[{}] scroll pit (parent {}[{}])",
-                             static_cast< const void * >(w), parent->to_string, static_cast< const void * >(parent));
+  w->to_string
+      = std::format("[{}] scroll pit (parent {}[{}])", static_cast< const void * >(w), parent->to_string, static_cast< const void * >(parent));
 
   wid_dbg(w, "%s", __FUNCTION__);
 

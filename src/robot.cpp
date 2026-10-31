@@ -18,7 +18,10 @@
 #include "my_types.hpp"
 #include "my_wids.hpp"
 
-#include "my_sdl_compat.hpp"
+#include <SDL_events.h>
+#include <SDL_keyboard.h>
+#include <SDL_keycode.h>
+#include <SDL_mouse.h>
 #include <cmath>
 #include <initializer_list>
 #include <set>

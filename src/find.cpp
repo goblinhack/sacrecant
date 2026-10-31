@@ -7,8 +7,6 @@
 #include "my_file.hpp"
 #include "my_globals.hpp"
 #include "my_main.hpp"
-#include "my_ptrcheck.hpp"
-#include "my_sprintf.hpp"
 #include "my_string.hpp"
 #include "my_types.hpp"
 
@@ -16,8 +14,6 @@
 #include <cstdlib>
 #include <cstring>
 #include <format>
-#include <iostream>
-#include <libgen.h>
 #include <sstream>
 #include <string>
 
@@ -28,7 +24,7 @@ static void find_executable()
 {
   TRACE();
 
-  char       *path = nullptr;
+  char const *path = nullptr;
   std::string exec_name;
 
   exec_name = string_basename(g_argv[ 0 ]);
@@ -139,12 +135,12 @@ static void find_data_dir()
   TRACE();
 
   g_data_path = std::format("{}data" DIR_SEP, g_exec_dir);
-  if (dir_exists(g_data_path.c_str())) {
+  if (dir_exists(g_data_path)) {
     return;
   }
 
   g_data_path = std::string(".." DIR_SEP "data");
-  if (dir_exists(g_data_path.c_str())) {
+  if (dir_exists(g_data_path)) {
     return;
   }
 
@@ -159,12 +155,12 @@ static void find_gfx_dir()
   TRACE();
 
   g_gfx_path = std::format("{}data" DIR_SEP "gfx" DIR_SEP, g_exec_dir);
-  if (dir_exists(g_gfx_path.c_str())) {
+  if (dir_exists(g_gfx_path)) {
     return;
   }
 
   g_gfx_path = std::string(".." DIR_SEP "gfx" DIR_SEP);
-  if (dir_exists(g_gfx_path.c_str())) {
+  if (dir_exists(g_gfx_path)) {
     return;
   }
 

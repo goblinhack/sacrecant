@@ -15,7 +15,6 @@
 #include "my_sdl_proto.hpp"
 #include "my_sound.hpp"
 #include "my_spoint.hpp"
-#include "my_sprintf.hpp"
 #include "my_string.hpp"
 #include "my_thing.hpp"
 #include "my_thing_callbacks.hpp"
@@ -28,7 +27,8 @@
 #include "my_wid_text_box.hpp"
 #include "my_wids.hpp"
 
-#include "my_sdl_compat.hpp"
+#include <SDL_keyboard.h>
+#include <SDL_keycode.h>
 #include <algorithm>
 #include <cstdint>
 #include <cstring>

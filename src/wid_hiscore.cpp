@@ -18,7 +18,8 @@
 #include "my_wid_popup.hpp"
 #include "my_wids.hpp"
 
-#include "my_sdl_compat.hpp"
+#include <SDL_keyboard.h>
+#include <SDL_keycode.h>
 #include <cstdint>
 #include <cstdio>
 #include <utility>
@@ -145,7 +146,7 @@ void wid_hiscores_show(Gamep g)
 
       snprintf(tmp, SIZEOF(tmp) - 1, "%%%%fg=%s$%7s %-*s %-*s %-*s %*s", //
                col, "Score",                                             //
-               name_field_len, string_capitalize_all(name).c_str(),                 //
+               name_field_len, string_capitalize_all(name).c_str(),      //
                when_field_len, when,                                     //
                completed_field_len, completed,                           //
                reason_field_len, reason);

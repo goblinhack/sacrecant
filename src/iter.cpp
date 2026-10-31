@@ -9,6 +9,8 @@
 #include "my_types.hpp"
 
 #include <cstdint>
+#include <cstdio>
+#include <print>
 
 static int g_iter;
 
@@ -48,7 +50,7 @@ MyIter::MyIter(Gamep g, Levelsp _v, Levelp _l, int *out_iter, const char *_func,
   }
 
   if (compiler_unused) {
-    fprintf(stderr, "ITER %u %s:%u {\n", iter, func, line);
+    std::println(stderr, "ITER {} {}:{} {{", iter, func, line);
   }
 }
 
@@ -70,6 +72,6 @@ MyIter::~MyIter()
   }
 
   if (compiler_unused) {
-    fprintf(stderr, "ITER %u %s:%u }\n", iter, func, line);
+    std::println(stderr, "ITER {} {}:{} }}", iter, func, line);
   }
 }

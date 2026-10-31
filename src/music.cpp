@@ -2,7 +2,6 @@
 // Copyright goblinhack@gmail.com
 //
 
-#include "my_audio.hpp"
 #include "my_callstack.hpp"
 #include "my_cpp_template.hpp"
 #include "my_file.hpp"
@@ -13,7 +12,9 @@
 #include "my_ptrcheck.hpp"
 #include "my_types.hpp"
 
-#include "my_sdl_compat.hpp"
+#include <SDL_error.h>
+#include <SDL_mixer.h>
+#include <SDL_rwops.h>
 #include <cmath>
 #include <cstdint>
 #include <map>

@@ -74,7 +74,7 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
       bpoint(0, -2),
   };
 
-  std::vector< bpoint > cands;
+  std::vector< bpoint > const cands;
 
   for (auto delta : deltas) {
     auto at = in;

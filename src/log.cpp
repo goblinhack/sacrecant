@@ -9,7 +9,6 @@
 #include "my_globals.hpp"
 #include "my_log.hpp"
 #include "my_main.hpp"
-#include "my_sprintf.hpp"
 #include "my_string.hpp"
 #include "my_time.hpp"
 #include "my_types.hpp"

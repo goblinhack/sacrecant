@@ -6,7 +6,8 @@
 #include "my_callstack.hpp"
 #include "my_main.hpp"
 
-#include "my_sdl_compat.hpp"
+#include <SDL_error.h>
+#include <SDL_mixer.h>
 #include <cmath>
 
 static bool audio_init_done;

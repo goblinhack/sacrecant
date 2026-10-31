@@ -6,7 +6,9 @@
 #include "my_main.hpp"
 #include "my_sdl_proto.hpp"
 
-#include "my_sdl_compat.hpp"
+#include <SDL_keyboard.h>
+#include <SDL_keycode.h>
+#include <SDL_scancode.h>
 #include <string>
 
 [[nodiscard]] auto to_string_ignoring_mods(const SDL_Keysym &k) -> std::string

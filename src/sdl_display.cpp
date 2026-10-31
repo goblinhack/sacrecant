@@ -15,6 +15,10 @@
 #include "my_types.hpp"
 #include "my_wid.hpp"
 #include "my_wids.hpp"
+#include <SDL_error.h>
+#include <SDL_events.h>
+#include <SDL_timer.h>
+#include <SDL_video.h>
 #include <cmath>
 #include <cstdint>
 #include <cstring>
@@ -254,7 +258,7 @@ static inline void sdl_list_video_size()
   game_config_pix_width_set(g, w);
   game_config_pix_height_set(g, h);
 
-  if (video_flags & SDL_WINDOW_ALLOW_HIGHDPI) {
+  if ((video_flags & SDL_WINDOW_ALLOW_HIGHDPI) != 0u) {
     sdl_get_drawable_size(&w, &h);
     log("SDL: Created window drawable size %ux%u", w, h);
   }

@@ -44,7 +44,7 @@ auto sdl_config_update_all(Gamep g) -> void;
 auto sdl_display(Gamep g) -> void;
 auto sdl_display_reset(Gamep g) -> void;
 auto sdl_event(Gamep g, SDL_Event *event, bool &processed_mouse_motion_event) -> void;
-int  sdl_get_mouse_state(Gamep g, int *x, int *y);
+auto sdl_get_mouse_state(Gamep g, int *x, int *y) -> int;
 void sdl_warp_mouse(int x, int y);
 auto sdl_prepare_to_exit(Gamep g) -> void;
 auto sdl_fbo_dump(Gamep g, FboEnum fbo, const std::string &name) -> void;

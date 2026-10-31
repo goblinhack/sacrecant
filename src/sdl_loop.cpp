@@ -16,12 +16,13 @@
 #include "my_ui.hpp"
 #include "my_wid.hpp"
 #include "my_wids.hpp"
+#include <SDL_events.h>
+#include <SDL_version.h>
 
 #ifdef WEB_BUILD
 #include <emscripten.h>
 #endif
 
-#include "my_sdl_compat.hpp"
 #include <cmath>
 #include <cstdint>
 

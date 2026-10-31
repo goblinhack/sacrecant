@@ -74,7 +74,8 @@ auto operator>>(std::istream &in, Bits< Config & > my) -> std::istream &
   log("GAME: read config: serialized_size        = %d", my.t.serialized_size);
 
   if (my.t.serialized_size != sizeof(Config)) {
-    game_load_error = std::format("bad save file header size: found {}, expected {} bytes", my.t.serialized_size, (int) sizeof(Config));
+    game_load_error
+        = std::format("bad save file header size: found {}, expected {} bytes", my.t.serialized_size, static_cast< int >(sizeof(Config)));
     return in;
   }
 
@@ -1379,7 +1380,7 @@ auto Game::load(const std::string &file_to_load, class Game &target) -> bool
     IF_DEBUG3
     {
       std::cout << "decompressed as ";
-      hexdump((const uint8_t *) dst, dst_size);
+      hexdump(static_cast< const uint8_t * >(dst), dst_size);
     }
   }
 

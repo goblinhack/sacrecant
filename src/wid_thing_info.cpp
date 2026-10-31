@@ -698,8 +698,8 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   auto hiscore    = game_hiscore_get(g);
   auto maxscore   = std::max(score, hiscore);
 
-  auto score_str = std::format(UI_INFO1_MARKUP "SPs " UI_INFO2_MARKUP "{:03} " UI_INFO1_MARKUP "Score " UI_INFO2_MARKUP "{:06} "
-                               UI_INFO3_MARKUP "Hi " UI_INFO4_MARKUP "{:06}",
+  auto score_str = std::format(UI_INFO1_MARKUP "SPs " UI_INFO2_MARKUP "{:03} " UI_INFO1_MARKUP "Score " UI_INFO2_MARKUP "{:06} " UI_INFO3_MARKUP
+                                               "Hi " UI_INFO4_MARKUP "{:06}",
                                sac_points, score, maxscore);
 
   auto *w = parent->log(g, score_str);
@@ -718,7 +718,7 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
 //
 [[nodiscard]] static auto wid_thing_info_line_bar(int width) -> std::string
 {
-  return std::string(static_cast< size_t >(std::clamp(width - 3, 0, static_cast< int >(MAXSHORTSTR) - 1)), ' ');
+  return std::string(static_cast< size_t >(std::clamp(width - 3, 0, static_cast< int >(MAXSHORTSTR) - 1)), ' '); // NOLINT
 }
 
 //

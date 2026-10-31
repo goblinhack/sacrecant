@@ -5,7 +5,6 @@
 #include "my_callstack.hpp"
 #include "my_color.hpp"
 #include "my_main.hpp"
-#include "my_ptrcheck.hpp"
 #include "my_string.hpp"
 #include "my_tex.hpp"
 #include "my_tile.hpp"
@@ -17,17 +16,15 @@
 #include <cerrno>
 #include <cstdarg>
 #include <cstddef>
-#include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <libgen.h>
 #include <locale>
 #include <ranges>
+#include <span>
 #include <sstream>
-#include <string.h>
 #include <string>
-#include <strings.h>
+#include <string_view>
 #include <utility>
 #include <vector>
 
@@ -76,7 +73,7 @@ void string_copy(std::span< char > dst, std::string_view src)
 [[nodiscard]] auto string_basename(const std::string &in) -> std::string
 {
   TRACE();
-  std::string out = std::string(in);
+  std::string const out = std::string(in);
   return in.substr(out.find_last_of("/\\") + 1);
 }
 
@@ -505,7 +502,7 @@ void string_replace(std::string &input, const std::string &pattern, const std::s
 }
 
 // https://www.techiedelight.com/trim-string-cpp-remove-leading-trailing-spaces/
-[[nodiscard]] auto ltrim(std::string &s) -> std::string &
+[[nodiscard]] static auto ltrim(std::string &s) -> std::string &
 {
   TRACE();
   auto it = std::ranges::find_if(s, [](char c) -> bool { return ! std::isspace< char >(c, std::locale::classic()); });
@@ -513,7 +510,7 @@ void string_replace(std::string &input, const std::string &pattern, const std::s
   return s;
 }
 
-[[nodiscard]] auto rtrim(std::string &s) -> std::string &
+[[nodiscard]] static auto rtrim(std::string &s) -> std::string &
 {
   TRACE();
   auto it = std::ranges::find_if(std::ranges::reverse_view(s), [](char c) -> bool { return ! std::isspace< char >(c, std::locale::classic()); });

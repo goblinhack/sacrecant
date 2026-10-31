@@ -1115,7 +1115,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_flesh_eater(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_flesh(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_flying(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
-[[nodiscard]] auto thing_is_follower(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_follower(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_fungus(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_game_over(Thingp player) -> bool;
 [[nodiscard]] auto thing_is_gas_death(Thingp t) -> bool;
@@ -1144,7 +1144,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_key(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_kobalos(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_lava_bg(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_leader_kill_followers_on_death(Thingp me) -> bool;
+[[nodiscard]] auto thing_is_leader_kill_followers_on_death(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_leader(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_leather(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_level_boss_icon(Thingp t) -> bool;
@@ -1689,7 +1689,7 @@ auto thing_has_seen_dump(Gamep g, Levelsp v, Levelp l, Thingp t) -> void;
 auto thing_hidden_time_step(Gamep g, Levelsp v, Levelp l, Thingp me, int time_step) -> void;
 auto thing_hit_time_step(Gamep g, Levelsp v, Levelp l, Thingp t, int time_step) -> void;
 auto thing_hot_time_step(Gamep g, Levelsp v, Levelp l, Thingp me, int time_step) -> void;
-auto thing_interpolate(Gamep g, Levelsp v, Levelp l, Thingp t, float dt) -> void;
+auto thing_interpolate(Gamep g, Levelsp v, Levelp l, Thingp me, float dt) -> void;
 auto thing_inventory_dump(Gamep g, Levelsp v, Levelp l, Thingp owner) -> void;
 auto thing_is_burning_set(Gamep g, Levelsp v, Levelp l, Thingp t, bool val = true) -> void;
 auto thing_is_burning_unset(Gamep g, Levelsp v, Levelp l, Thingp t) -> void;
@@ -1726,7 +1726,7 @@ auto thing_is_thrown_set(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp throw
 auto thing_is_thrown_unset(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp thrower) -> void;
 auto thing_is_unlocked_set(Gamep g, Levelsp v, Levelp l, Thingp t, bool val = true) -> void;
 auto thing_is_unlocked_unset(Gamep g, Levelsp v, Levelp l, Thingp t) -> void;
-auto thing_leader_dump_followers(Gamep g, Levelsp v, Levelp l, Thingp mob) -> void;
+auto thing_leader_dump_followers(Gamep g, Levelsp v, Levelp l, Thingp leader) -> void;
 auto thing_level_warp_to_entrance(Gamep g, Levelsp v, Levelp new_level, Thingp t) -> void;
 auto thing_level_warp_to_exit(Gamep g, Levelsp v, Levelp new_level, Thingp t) -> void;
 auto thing_lunge_end_check(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
@@ -1795,7 +1795,7 @@ void thing_croak(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) C
 void thing_dbg(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 5, 6);
 void thing_err(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 5, 6);
 void thing_is_follower_set(Thingp me);
-void thing_leader_dead(Gamep g, Levelsp v, Levelp l, Thingp mob, ThingEvent &e);
+void thing_leader_dead(Gamep g, Levelsp v, Levelp l, Thingp leader, ThingEvent &e);
 void thing_leader_followers_kill_if_too_far(Gamep g, Levelsp v, Levelp l, Thingp me);
 void thing_leader_move_followers_offset(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint offset);
 void thing_leader_warp_followers_to(Gamep g, Levelsp v, Levelp old_level, Levelp new_level, Thingp me, bpoint from, bpoint to);

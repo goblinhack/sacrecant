@@ -304,7 +304,7 @@ static auto command_matches(Gamep g, const char *input, char *output, uint8_t sh
           cand_expand_to.clear();
 
           for (t = 0; t < longest_match; t++) {
-            if (string_is_regexp(command->tokens.args[ t ]) != 0) {
+            if (static_cast< int >(string_is_regexp(command->tokens.args[ t ])) != 0) {
               cand_expand_to += input_tokens.args[ t ];
               cand_expand_to += ' ';
               continue;

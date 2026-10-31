@@ -1176,7 +1176,7 @@ void rooms_dump(Gamep g)
 //
 // Can we place a room here on the level?
 //
-[[nodiscard]] static auto room_can_place_char_at(class LevelGenAll *lga, LevelGen *lg, class Room *r, bpoint at, int rx, int ry) -> bool
+[[nodiscard]] static auto room_can_place_char_at(LevelGen *lg, class Room *r, bpoint at, int rx, int ry) -> bool
 {
   //
   // Check we have something to place here.
@@ -1273,7 +1273,7 @@ void rooms_dump(Gamep g)
   // Optimization, check edge tiles first
   //
   for (auto p : r->door_adjacent_tile) {
-    if (! room_can_place_char_at(lga, lg, r, at, p.x, p.y)) {
+    if (! room_can_place_char_at(lg, r, at, p.x, p.y)) {
       return false;
     }
   }
@@ -1285,7 +1285,7 @@ void rooms_dump(Gamep g)
   //
   for (int ry = 0; ry < r->height; ry++) {
     for (int rx = 0; rx < r->width; rx++) {
-      if (! room_can_place_char_at(lga, lg, r, at, rx, ry)) {
+      if (! room_can_place_char_at(lg, r, at, rx, ry)) {
         return false;
       }
     }
@@ -2660,7 +2660,7 @@ static auto level_gen_string(class LevelGen *lg) -> std::string
 //
 // Level stats
 //
-static void level_gen_stats_dump(Gamep g, LevelGenAll *lga)
+static void level_gen_stats_dump(LevelGenAll *lga)
 {
   TRACE();
 
@@ -3087,7 +3087,7 @@ static void cave_dump(class LevelGen *lg)
 //
 // Place a single large pool of water/lava/chasm on the level
 //
-static void level_gen_single_large_blob_in_center(Gamep g, class LevelGenAll *lga, class LevelGen *lg, char c)
+static void level_gen_single_large_blob_in_center(Gamep g, class LevelGen *lg, char c)
 {
   uint8_t        x               = 0;
   uint8_t        y               = 0;
@@ -3195,7 +3195,7 @@ static void level_gen_single_large_blob_in_center(Gamep g, class LevelGenAll *lg
 //
 // Add grass or other blobby things
 //
-static void level_gen_blob(Gamep g, class LevelGenAll *lga, LevelGen *lg, char c)
+static void level_gen_blob(Gamep g, LevelGen *lg, char c)
 {
   uint8_t        x               = 0;
   uint8_t        y               = 0;
@@ -3378,7 +3378,7 @@ static auto level_proc_gen_create_rooms(Gamep g, LevelGenAll *lga, LevelArrIdx l
         blob_type = CHARMAP_WATER;
       }
 
-      level_gen_single_large_blob_in_center(g, lga, lg, blob_type);
+      level_gen_single_large_blob_in_center(g, lg, blob_type);
     }
 
     //
@@ -3429,8 +3429,8 @@ static auto level_proc_gen_create_rooms(Gamep g, LevelGenAll *lga, LevelArrIdx l
     //
     // Add grass or other blobby features
     //
-    level_gen_blob(g, lga, lg, CHARMAP_GRASS);
-    level_gen_blob(g, lga, lg, CHARMAP_FOLIAGE);
+    level_gen_blob(g, lg, CHARMAP_GRASS);
+    level_gen_blob(g, lg, CHARMAP_FOLIAGE);
 
     //
     // Success
@@ -3453,7 +3453,7 @@ static auto level_proc_gen_create_rooms(Gamep g, LevelGenAll *lga, LevelArrIdx l
 //
 // Get rid of tiles that go nowhere
 //
-[[nodiscard]] static auto level_gen_trim_dead_tiles(class LevelGenAll *lga, class LevelGen *lg) -> bool
+[[nodiscard]] static auto level_gen_trim_dead_tiles(class LevelGen *lg) -> bool
 {
   TRACE();
 
@@ -3714,7 +3714,7 @@ static void level_gen_connect_adjacent_rooms_with_distance_and_chance(class Leve
 // Add corridors between rooms that are not connected
 // Shortest distance is 2, which is ". ."
 //
-static void level_gen_connect_adjacent_rooms(class LevelGenAll *lga, class LevelGen *lg)
+static void level_gen_connect_adjacent_rooms(class LevelGen *lg)
 {
   TRACE();
 
@@ -3976,7 +3976,7 @@ static void level_gen_add_islands(class LevelGen *lg)
 //
 // Make bridges dramatic by adding chasms around them
 //
-static void level_gen_add_walls_around_rooms(class LevelGenAll *lga, class LevelGen *lg)
+static void level_gen_add_walls_around_rooms(class LevelGen *lg)
 {
   TRACE();
 
@@ -4705,7 +4705,7 @@ static void level_gen_add_missing_keys(class LevelGen *lg)
 //
 // For secret doors, need to add a corresponding key
 //
-static void level_gen_remove_additional_keys(class LevelGenAll *lga, class LevelGen *lg)
+static void level_gen_remove_additional_keys(class LevelGen *lg)
 {
   TRACE();
 
@@ -4720,7 +4720,7 @@ static void level_gen_remove_additional_keys(class LevelGenAll *lga, class Level
 //
 // Too many monsters?
 //
-static void level_gen_remove_additional_monsts(class LevelGenAll *lga, class LevelGen *lg)
+static void level_gen_remove_additional_monsts(class LevelGen *lg)
 {
   TRACE();
 
@@ -4744,7 +4744,7 @@ static void level_gen_remove_additional_monsts(class LevelGenAll *lga, class Lev
 //
 // Too many mobs?
 //
-static void level_gen_remove_additional_mobs(class LevelGenAll *lga, class LevelGen *lg)
+static void level_gen_remove_additional_mobs(class LevelGen *lg)
 {
   TRACE();
 
@@ -4768,7 +4768,7 @@ static void level_gen_remove_additional_mobs(class LevelGenAll *lga, class Level
 //
 // Try to add some more content
 //
-static void level_gen_add_missing_monsts_and_treasure(class LevelGenAll *lga, class LevelGen *lg)
+static void level_gen_add_missing_monsts_and_treasure(class LevelGen *lg)
 {
   TRACE();
 
@@ -4820,7 +4820,7 @@ static void level_gen_add_missing_monsts_and_treasure(class LevelGenAll *lga, cl
 //
 // Try to add some additional teleports if needed
 //
-static void level_gen_add_missing_teleports(class LevelGenAll *lga, class LevelGen *lg)
+static void level_gen_add_missing_teleports(class LevelGen *lg)
 {
   TRACE();
 
@@ -5519,7 +5519,7 @@ static auto level_gen_create_proc_gen_level(Gamep g, class LevelGenAll *lga, Lev
   //
   // Get rid of tiles that go nowhere
   //
-  while (level_gen_trim_dead_tiles(lga, lg)) {}
+  while (level_gen_trim_dead_tiles(lg)) {}
 
   //
   // Keep track of which room is connected to another via a door
@@ -5529,7 +5529,7 @@ static auto level_gen_create_proc_gen_level(Gamep g, class LevelGenAll *lga, Lev
   //
   // Add corridors between rooms that are not connected
   //
-  level_gen_connect_adjacent_rooms(lga, lg);
+  level_gen_connect_adjacent_rooms(lg);
 
   //
   // Make bridges dramatic by adding chasms around them
@@ -5587,7 +5587,7 @@ static auto level_gen_create_proc_gen_level(Gamep g, class LevelGenAll *lga, Lev
   //
   // Add walls
   //
-  level_gen_add_walls_around_rooms(lga, lg);
+  level_gen_add_walls_around_rooms(lg);
   if (lg->debug) [[unlikely]] {
     level_gen_dump(lg, "add walls around rooms");
   }
@@ -5600,7 +5600,7 @@ static auto level_gen_create_proc_gen_level(Gamep g, class LevelGenAll *lga, Lev
   //
   // Add walls again in case a fragment extended the room
   //
-  level_gen_add_walls_around_rooms(lga, lg);
+  level_gen_add_walls_around_rooms(lg);
 
   //
   // Remove tiles that do not go together, like water next to lava
@@ -5630,7 +5630,7 @@ static auto level_gen_create_proc_gen_level(Gamep g, class LevelGenAll *lga, Lev
   //
   // If not enough monsters, add some randomly
   //
-  level_gen_add_missing_monsts_and_treasure(lga, lg);
+  level_gen_add_missing_monsts_and_treasure(lg);
   if (lg->debug) [[unlikely]] {
     level_gen_dump(lg, "added missing monst and treasure");
   }
@@ -5646,7 +5646,7 @@ static auto level_gen_create_proc_gen_level(Gamep g, class LevelGenAll *lga, Lev
   //
   // If not enough teleports
   //
-  level_gen_add_missing_teleports(lga, lg);
+  level_gen_add_missing_teleports(lg);
   if (lg->debug) [[unlikely]] {
     level_gen_dump(lg, "added missing teleports");
   }
@@ -5659,7 +5659,7 @@ static auto level_gen_create_proc_gen_level(Gamep g, class LevelGenAll *lga, Lev
   //
   // If too many keys, remove some
   //
-  level_gen_remove_additional_keys(lga, lg);
+  level_gen_remove_additional_keys(lg);
   if (lg->debug) [[unlikely]] {
     level_gen_dump(lg, "remove additional keys");
   }
@@ -5667,12 +5667,12 @@ static auto level_gen_create_proc_gen_level(Gamep g, class LevelGenAll *lga, Lev
   //
   // If too many monsters, remove some
   //
-  level_gen_remove_additional_monsts(lga, lg);
+  level_gen_remove_additional_monsts(lg);
   if (lg->debug) [[unlikely]] {
     level_gen_dump(lg, "remove additional monsts");
   }
 
-  level_gen_remove_additional_mobs(lga, lg);
+  level_gen_remove_additional_mobs(lg);
   if (lg->debug) [[unlikely]] {
     level_gen_dump(lg, "remove additional mobs");
   }
@@ -5861,7 +5861,7 @@ void level_gen_create_levels(Gamep g, Levelsp v)
   DBG("LEVELGEN: level generation completed, took %u ms", s->create_time);
   TRACE_INDENT();
 
-  level_gen_stats_dump(g, lga);
+  level_gen_stats_dump(lga);
 
   delete lga;
 }

@@ -20,6 +20,13 @@
 #include "my_wids.hpp"
 
 #include "my_sdl_compat.hpp"
+#include <SDL.h>
+#include <SDL_error.h>
+#include <SDL_gamecontroller.h>
+#include <SDL_haptic.h>
+#include <SDL_joystick.h>
+#include <SDL_version.h>
+#include <SDL_video.h>
 #include <algorithm>
 #include <cmath>
 #include <cstdint>
@@ -262,9 +269,9 @@ static void sdl_init_joystick()
     return 0;
   }
 
-  int x      = 0;
-  int y      = 0;
-  int button = sdl_get_mouse_state(g, &x, &y);
+  int       x      = 0;
+  int       y      = 0;
+  int const button = sdl_get_mouse_state(g, &x, &y);
 
   if ((x == 0) && (y == 0)) {
     return button;

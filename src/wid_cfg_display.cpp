@@ -19,6 +19,10 @@
 #include "my_wids.hpp"
 
 #include "my_sdl_compat.hpp"
+#include <SDL_keyboard.h>
+#include <SDL_keycode.h>
+#include <SDL_stdinc.h>
+#include <SDL_video.h>
 #include <climits>
 #include <cmath>
 #include <cstdint>
@@ -231,7 +235,7 @@ static void wid_cfg_display_destroy()
 // The mac menu bar can mean the current requested resolution is slightly
 // different from what we can request. Find the closest match.
 //
-static auto wid_cfg_display_find_closest_resolution(Gamep g) -> std::string
+static auto wid_cfg_display_find_closest_resolution() -> std::string
 {
   TRACE();
 
@@ -300,7 +304,7 @@ static auto wid_cfg_display_find_closest_resolution(Gamep g) -> std::string
     current_res = std::to_string(pending_mode.w) + "x" + std::to_string(pending_mode.h);
     con("Increment resolution (pending %s)", current_res.c_str());
   } else {
-    current_res = wid_cfg_display_find_closest_resolution(g);
+    current_res = wid_cfg_display_find_closest_resolution();
     con("Increment resolution (current %s)", current_res.c_str());
   }
 
@@ -357,7 +361,7 @@ static auto wid_cfg_display_find_closest_resolution(Gamep g) -> std::string
     current_res = std::to_string(pending_mode.w) + "x" + std::to_string(pending_mode.h);
     con("Decrement resolution (pending %s)", current_res.c_str());
   } else {
-    current_res = wid_cfg_display_find_closest_resolution(g);
+    current_res = wid_cfg_display_find_closest_resolution();
     con("Decrement resolution (current %s)", current_res.c_str());
   }
 

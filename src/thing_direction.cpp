@@ -201,9 +201,8 @@ auto thing_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp /*me*/, int dx, i
     }
     if (dy < 0) {
       return THING_DIR_TL;
-    } else {
-      return THING_DIR_LEFT;
     }
+    return THING_DIR_LEFT;
   }
 
   if (dx > 0) {
@@ -212,9 +211,8 @@ auto thing_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp /*me*/, int dx, i
     }
     if (dy < 0) {
       return THING_DIR_TR;
-    } else {
-      return THING_DIR_RIGHT;
     }
+    return THING_DIR_RIGHT;
   }
 
   if (dy > 0) {
@@ -223,9 +221,8 @@ auto thing_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp /*me*/, int dx, i
     }
     if (dx < 0) {
       return THING_DIR_BL;
-    } else {
-      return THING_DIR_DOWN;
     }
+    return THING_DIR_DOWN;
   }
 
   if (dy < 0) {
@@ -234,9 +231,8 @@ auto thing_dir_from_delta(Gamep g, Levelsp v, Levelp l, Thingp /*me*/, int dx, i
     }
     if (dx < 0) {
       return THING_DIR_TL;
-    } else {
-      return THING_DIR_UP;
     }
+    return THING_DIR_UP;
   }
   return THING_DIR_NONE;
 }
