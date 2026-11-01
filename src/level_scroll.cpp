@@ -67,10 +67,12 @@ void level_scroll_to_focus(Gamep g, Levelsp v, Levelp l)
   //
   // Where are we as a percentage on that map.
   //
-  int const    zoom = game_map_zoom_get(g, v, l);
-  spoint const pix_at(thing_pix_at(target));
-  float const  x = ((pix_at.x * zoom) - v->pixel_map_at.x) / static_cast< float >(w);
-  float const  y = ((pix_at.y * zoom) - v->pixel_map_at.y) / static_cast< float >(h);
+  int const zoom = game_map_zoom_get(g, v, l);
+
+  auto pix_at = thing_pix_at(target) + spoint(TILE_WIDTH / 2, TILE_HEIGHT / 2);
+
+  float const x = ((pix_at.x * zoom) - v->pixel_map_at.x) / static_cast< float >(w);
+  float const y = ((pix_at.y * zoom) - v->pixel_map_at.y) / static_cast< float >(h);
 
   if (v->scroll_speed == 0U) {
     v->scroll_speed = MAP_SCROLL_SPEED;
@@ -163,19 +165,24 @@ void level_scroll_to_focus(Gamep g, Levelsp v, Levelp l)
     max_pixel_scroll_outer = 10 * MAP_SCROLL_EDGE_OUTER_PIXEL;
   }
 
+  if (compiler_unused) {
+    topcon("%f..%f..%f..%f", scroll_outer, scroll_inner, 1.0 - scroll_inner, 1.0 - scroll_outer);
+  }
   if (x > 1.0 - scroll_outer) {
-    dx = static_cast< int >((x - scroll_outer) * v->scroll_speed);
+    max_pixel_scroll_outer *= 2;
+    dx = static_cast< int >((x - (1.0 - scroll_outer)) * v->scroll_speed * 2);
     dx = std::min(dx, max_pixel_scroll_outer);
     dx = std::max(dx, max_pixel_scroll_inner * 2);
     v->pixel_map_at.x += dx;
   } else if (x > 1.0 - scroll_inner) {
-    dx = static_cast< int >((x - scroll_inner) * v->scroll_speed);
+    dx = static_cast< int >((x - (1.0 - scroll_inner)) * v->scroll_speed);
     dx = std::min(dx, max_pixel_scroll_inner);
     v->pixel_map_at.x += dx;
   }
 
   if (x < scroll_outer) {
-    dx = static_cast< int >((scroll_outer - x) * v->scroll_speed);
+    max_pixel_scroll_outer *= 2;
+    dx = static_cast< int >((scroll_outer - x) * v->scroll_speed * 2);
     dx = std::min(dx, max_pixel_scroll_outer);
     dx = std::max(dx, max_pixel_scroll_inner * 2);
     v->pixel_map_at.x -= dx;
@@ -186,18 +193,20 @@ void level_scroll_to_focus(Gamep g, Levelsp v, Levelp l)
   }
 
   if (y > 1.0 - scroll_outer) {
-    dy = static_cast< int >((y - scroll_outer) * v->scroll_speed);
+    max_pixel_scroll_outer *= 2;
+    dy = static_cast< int >((y - (1.0 - scroll_outer)) * v->scroll_speed * 2);
     dy = std::min(dy, max_pixel_scroll_outer);
     dy = std::max(dy, max_pixel_scroll_inner * 2);
     v->pixel_map_at.y += dy;
   } else if (y > 1.0 - scroll_inner) {
-    dy = static_cast< int >((y - scroll_inner) * v->scroll_speed);
+    dy = static_cast< int >((y - (1.0 - scroll_inner)) * v->scroll_speed);
     dy = std::min(dy, max_pixel_scroll_inner);
     v->pixel_map_at.y += dy;
   }
 
   if (y < scroll_outer) {
-    dy = static_cast< int >((scroll_outer - y) * v->scroll_speed);
+    max_pixel_scroll_outer *= 2;
+    dy = static_cast< int >((scroll_outer - y) * v->scroll_speed * 2);
     dy = std::min(dy, max_pixel_scroll_outer);
     dy = std::max(dy, max_pixel_scroll_inner * 2);
     v->pixel_map_at.y -= dy;
@@ -232,12 +241,14 @@ void level_scroll_to_focus(Gamep g, Levelsp v, Levelp l)
       if (game_time_have_x_tenths_passed_since(5, v->requested_forced_auto_scroll)) {
         v->requested_forced_auto_scroll = 0;
         v->scroll_speed                 = MAP_SCROLL_SPEED;
+        topcon("fixed scroll speed");
       }
     }
   } else if (v->requested_forced_auto_scroll != 0U) {
     if (game_time_have_x_secs_passed_since(1, v->requested_forced_auto_scroll)) {
       v->requested_forced_auto_scroll = 0;
       v->scroll_speed                 = MAP_SCROLL_SPEED;
+      topcon("fixed scroll speed");
     }
   }
 

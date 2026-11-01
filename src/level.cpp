@@ -855,7 +855,6 @@ void level_bounds_set(Gamep g, Levelsp v, Levelp l)
   // Overflow?
   //
   v->pixel_map_at.x = std::min(v->pixel_map_at.x, v->pixel_max.x);
-
   v->pixel_map_at.y = std::min(v->pixel_map_at.y, v->pixel_max.y);
 
   //

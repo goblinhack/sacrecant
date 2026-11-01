@@ -674,7 +674,8 @@ using Thing = struct Thing {
   //
   bpoint last_pushed_at;
   //
-  // Interpolated coordinates in pixels
+  // Interpolated coordinates in pixels. This is measured in terms of TILE_WIDTH, TILE_HEIGHT,
+  // not literal in screen pixels.
   //
   spoint _curr_pix_at;
   //
