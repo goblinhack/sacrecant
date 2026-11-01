@@ -133,6 +133,48 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
 }
 
 //
+// Handles jumps that cannot fail. This can be used for effects attached to a thing that jumps.
+//
+[[nodiscard]] static auto thing_jump_to_do(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool
+{
+  THING_DBG(g, v, l, me, "jump to final (%d,%d)", to.x, to.y);
+  TRACE_INDENT();
+
+  if (is_oob_or_border(to)) [[unlikely]] {
+    return false;
+  }
+
+  auto at = thing_at(g, v, l, me);
+  if (to == at) {
+    return false;
+  }
+
+  (void) thing_pop(g, v, me);
+
+  spoint pix_at;
+  pix_at.x = at.x * TILE_WIDTH;
+  pix_at.y = at.y * TILE_HEIGHT;
+
+  thing_pix_at_set(g, v, l, me, pix_at);
+  thing_moving_from_set(me, at);
+  thing_at_set(g, v, l, me, to);
+  (void) thing_push(g, v, l, me);
+
+  thing_is_jumping_set(g, v, l, me);
+
+  //
+  // Look in the direction of jumping
+  //
+  auto dx = to.x - at.x;
+  auto dy = to.y - at.y;
+  thing_set_dir_from_delta(g, v, l, me, dx, dy);
+
+  THING_DBG(g, v, l, me, "jump begin delta %d,%d", dx, dy);
+
+  return true;
+}
+
+//
 // Handles player and monster jumps
 //
 [[nodiscard]] auto thing_jump_to(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint orig_target, bpoint to, bool warn) -> bool
@@ -320,26 +362,6 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
     }
   }
 
-  (void) thing_pop(g, v, me);
-
-  spoint pix_at;
-  pix_at.x = at.x * TILE_WIDTH;
-  pix_at.y = at.y * TILE_HEIGHT;
-
-  thing_pix_at_set(g, v, l, me, pix_at);
-  thing_moving_from_set(me, at);
-  thing_at_set(g, v, l, me, to);
-  (void) thing_push(g, v, l, me);
-
-  thing_is_jumping_set(g, v, l, me);
-
-  //
-  // Look in the direction of jumping
-  //
-  auto dx = to.x - at.x;
-  auto dy = to.y - at.y;
-  thing_set_dir_from_delta(g, v, l, me, dx, dy);
-
   //
   // Halve stamina for successful jumps
   //
@@ -350,7 +372,7 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
     (void) thing_stamina_set(g, v, l, me, stamina);
   }
 
-  THING_DBG(g, v, l, me, "jump begin delta %d,%d", dx, dy);
+  (void) thing_jump_to_do(g, v, l, me, to);
 
   //
   // Drag the engulfed for the jump
@@ -361,12 +383,22 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
       if (thing_is_engulfed(it)) {
         THING_DBG(g, v, l, it, "is engulfed and needs to follow the engulfer");
 
-        if (! thing_warp_to(g, v, l, it, to)) {
+        if (! thing_jump_to_do(g, v, l, it, to)) {
           THING_DBG(g, v, l, it, "is engulfed but could not be moved");
           (void) thing_is_engulfed_try_unset(g, v, l, it);
         }
       }
     }
+  }
+
+  //
+  // Move all hooks and effects
+  //
+  FOR_ALL_HOOKS(g, v, l, me, buff)
+  {
+    (void) thing_jump_to_do(g, v, l, buff, to);
+
+    FOR_ALL_FOLLOWERS(g, v, l, buff, follower) { (void) thing_jump_to_do(g, v, l, follower, to); }
   }
 
   return true;

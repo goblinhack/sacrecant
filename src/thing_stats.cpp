@@ -527,8 +527,8 @@
     return true;
   }
 
-  THING_DBG(g, v, l, me, "roll: %s d20:%d mod:%d tot:%d vs:%d => fail", thing_stat_dbg_string(g, v, l, me, stat).c_str(), roll, mod, roll + mod,
-            target_roll);
+  THING_DBG(g, v, l, me, "roll: %s d20:%d mod:%d tot:%d vs:%d => not success", thing_stat_dbg_string(g, v, l, me, stat).c_str(), roll, mod,
+            roll + mod, target_roll);
   return false;
 }
 

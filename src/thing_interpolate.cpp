@@ -20,7 +20,6 @@ void thing_interpolate(Gamep g, Levelsp v, Levelp l, Thingp me, float dt)
   auto at          = thing_at(g, v, l, me);
   auto moving_from = thing_moving_from(me);
 
-  THING_DBG(g, v, l, me, "interpolate from (%d,%d) to (%d,%d) dt %f", moving_from.x, moving_from.y, at.x, at.y, dt);
   if (compiler_unused) {
     THING_DBG(g, v, l, me, "interpolate from (%d,%d) to (%d,%d) dt %f", moving_from.x, moving_from.y, at.x, at.y, dt);
   }
@@ -51,6 +50,9 @@ void thing_interpolate(Gamep g, Levelsp v, Levelp l, Thingp me, float dt)
     THING_DBG(g, v, l, me, "from (%d,%d) to (%d,%d) dt %f pix_at (%d,%d)", moving_from.x, moving_from.y, at.x, at.y, dt, pix_at.x, pix_at.y);
   }
 
+  //
+  // Move all hooks and effects
+  //
   FOR_ALL_HOOKS(g, v, l, me, buff)
   {
     thing_interpolate(g, v, l, buff, dt);

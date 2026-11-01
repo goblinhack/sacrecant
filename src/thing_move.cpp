@@ -21,8 +21,10 @@
 [[nodiscard]] auto thing_move_to(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool
 {
   TRACE();
+  if (compiler_unused) {
+    THING_DBG(g, v, l, me, "move to (%d,%d)", to.x, to.y);
+  }
 
-  THING_DBG(g, v, l, me, "mov to (%d,%d)", to.x, to.y);
   if (is_oob_or_border(to)) [[unlikely]] {
     return false;
   }

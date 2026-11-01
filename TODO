@@ -1,5 +1,7 @@
 bugs
 ----
+flicker at edge of scroll
+on an empty level can outplace scrolling
 
 todo
 ----

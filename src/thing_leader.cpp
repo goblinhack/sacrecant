@@ -324,7 +324,7 @@ void thing_leader_followers_kill_if_too_far(Gamep g, Levelsp v, Levelp l, Thingp
       //
       // Try to hold onto the tentacle, but if not, then it's done
       //
-      if (! thing_warp_to(g, v, l, follower, leader_at)) {
+      if (! thing_move_to(g, v, l, follower, leader_at)) {
         ThingEvent e {
             .reason     = "by moving",                  //
             .event_type = THING_EVENT_LIFESPAN_EXPIRED, //

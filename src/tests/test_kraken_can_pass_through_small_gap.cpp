@@ -42,10 +42,10 @@
         "XWWWWWWWWWWWWX"
         "XWWWWWWWWWWWWX"
         "XWWWWWWWWWWWWX"
-        "XWWmWmWWWWWWWX"
-        "XxxxmWWWWxxxxX"
+        "XWWWWWWWWWWWWX"
+        "XxxxWmWWWxxxxX"
         "XWWWmmmmWWWWWX"
-        "XWWWWWmWWWWWWX"
+        "XWWWWmmmWWWWWX"
         "XWWWWW@WWWWWWX"
         "XWWWWWWWWWWWWX"
         "XXXXXXXXXXXXXX";
