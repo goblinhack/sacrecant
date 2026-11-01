@@ -18,6 +18,7 @@
 #include <SDL_error.h>
 #include <SDL_events.h>
 #include <SDL_timer.h>
+#include <SDL_version.h>
 #include <SDL_video.h>
 #include <cmath>
 #include <cstdint>

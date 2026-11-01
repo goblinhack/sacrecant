@@ -8,10 +8,12 @@
 #include "my_game_inlines.hpp"
 #include "my_gl.hpp"
 #include "my_level.hpp"
+#include "my_main.hpp"
 #include "my_ptrcheck.hpp"
 #include "my_spoint.hpp"
 #include "my_thing.hpp"
 #include "my_thing_inlines.hpp"
+#include "my_tile.hpp"
 #include "my_time.hpp"
 #include "my_types.hpp"
 

@@ -2990,7 +2990,7 @@ static void level_gen_create_remaining_rooms(LevelGenAll *lga, LevelGen *lg)
 //
 // Place the first room
 //
-[[nodiscard]] static auto level_gen_create_first_room(LevelGenAll *lga, LevelGen *lg) -> bool
+[[nodiscard]] static auto level_gen_create_first_room(LevelGen *lg) -> bool
 {
   TRACE();
 
@@ -3386,7 +3386,7 @@ static auto level_proc_gen_create_rooms(Gamep g, LevelGenAll *lga, LevelArrIdx l
     //
     bool first_room_placed = false;
     for (auto attempts = 0; attempts < MAX_LEVEL_GEN_TRIES_CREATE_FIRST_ROOM; attempts++) {
-      if (level_gen_create_first_room(lga, lg)) {
+      if (level_gen_create_first_room(lg)) {
         first_room_placed = true;
         break;
       }

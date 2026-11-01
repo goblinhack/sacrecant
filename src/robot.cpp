@@ -12,7 +12,6 @@
 #include "my_main.hpp"
 #include "my_random_name.hpp"
 #include "my_robot.hpp"
-#include "my_sdl_event.hpp"
 #include "my_sdl_proto.hpp"
 #include "my_thing.hpp"
 #include "my_thing_inlines.hpp"
@@ -22,7 +21,6 @@
 #include <SDL_events.h>
 #include <SDL_keyboard.h>
 #include <SDL_keycode.h>
-#include <SDL_mouse.h>
 #include <cmath>
 #include <initializer_list>
 #include <set>
