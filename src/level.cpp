@@ -198,7 +198,7 @@ void level_is_completed_by_player_exiting(Gamep g, Levelsp v, Levelp l)
   }
 }
 
-void level_is_completed_by_player_falling(Gamep g, Levelsp v, Levelp l)
+void level_is_completed_by_player_falling(Gamep /*g*/, Levelsp /*v*/, Levelp l)
 {
   l->player_fell_out_of_level = true;
 
@@ -336,7 +336,7 @@ void level_destroy(Gamep g, Levelsp v, Levelp l)
   memset(l, 0, SIZEOF(*l));
 }
 
-[[nodiscard]] auto level_populate_thing_id_at(Gamep g, Levelsp v, Levelp l, const bpoint &p, int slot, ThingId id) -> bool
+[[nodiscard]] auto level_populate_thing_id_at(Gamep /*g*/, Levelsp /*v*/, Levelp l, const bpoint &p, int slot, ThingId id) -> bool
 {
   TRACE();
 
@@ -348,7 +348,7 @@ void level_destroy(Gamep g, Levelsp v, Levelp l)
   return true;
 }
 
-[[nodiscard]] auto level_get_thing_id_at(Gamep g, Levelsp v, Levelp l, const bpoint &p, int slot) -> ThingId
+[[nodiscard]] auto level_get_thing_id_at(Gamep /*g*/, Levelsp /*v*/, Levelp l, const bpoint &p, int slot) -> ThingId
 {
   TRACE();
 
@@ -584,7 +584,7 @@ void level_update_flags(Gamep g, Levelsp v, Levelp l)
   }
 }
 
-[[nodiscard]] auto level_flag_cached(Gamep g, Levelsp v, Levelp l, ThingFlagType f, bpoint p) -> bool
+[[nodiscard]] auto level_flag_cached(Gamep /*g*/, Levelsp /*v*/, Levelp l, ThingFlagType f, bpoint p) -> bool
 {
   TRACE_DEBUG();
 
@@ -834,7 +834,13 @@ void level_bounds_set(Gamep g, Levelsp v, Levelp l)
   //
   // The number of tiles additionally to draw to avoid clipping
   //
-  auto clipping_border = 5; // Need more for large bosses
+  auto clipping_border = 0; // Need more for large bosses
+
+  if (level_is_boss_level(g, v, l)) {
+    clipping_border = 6; // Need more for large bosses
+  } else {
+    clipping_border = 3; // Enough for large effects
+  }
 
   //
   // Set the scroll bounds
@@ -858,7 +864,7 @@ void level_bounds_set(Gamep g, Levelsp v, Levelp l)
   int tmp_minx = v->pixel_map_at.x / dw;
   int tmp_miny = v->pixel_map_at.y / dh;
   tmp_minx -= clipping_border;
-  tmp_minx -= clipping_border;
+  tmp_miny -= clipping_border;
 
   tmp_minx = std::max(tmp_minx, 0);
   tmp_miny = std::max(tmp_miny, 0);
@@ -895,7 +901,7 @@ void level_bounds_set(Gamep g, Levelsp v, Levelp l)
   return true;
 }
 
-[[nodiscard]] auto level_get_random_coord(Gamep g, Levelsp v, Levelp l) -> bpoint
+[[nodiscard]] auto level_get_random_coord(Gamep /*g*/, Levelsp /*v*/, Levelp /*l*/) -> bpoint
 {
   TRACE_DEBUG();
 
