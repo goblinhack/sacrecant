@@ -5352,7 +5352,7 @@ static void level_gen_extend_bridges(Gamep g, class LevelGenAll *lga, class Leve
   std::string level_string;
   LevelFixed *fixed_level = nullptr;
   Overrides   overrides   = no_overrides;
-  auto        lt          = level_type(lg->level_arr_idx);
+  auto        level_type  = level_type_from_arr_idx(lg->level_arr_idx);
 
   if (! g_level_opt.level_name.empty()) {
     //
@@ -5367,22 +5367,24 @@ static void level_gen_extend_bridges(Gamep g, class LevelGenAll *lga, class Leve
       return false;
     }
 
+    level_type     = fixed_level->level_type;
     lg->map_width  = fixed_level->width;
     lg->map_height = fixed_level->height;
 
     level_string = level_gen_string(lg, fixed_level);
     overrides    = fixed_level->overrides;
 
-  } else if (lt != LEVEL_TYPE_NORMAL) {
+  } else if (level_type != LEVEL_TYPE_NORMAL) {
     //
     // Boss level
     //
-    fixed_level = level_random_get(lt);
+    fixed_level = level_random_get(level_type);
     if (fixed_level == nullptr) {
-      ERR("no fixed boss level \"%s\" level %u created", LevelType_to_string(lt).c_str(), lg->level_arr_idx);
+      ERR("no fixed boss level \"%s\" level %u created", LevelType_to_string(level_type).c_str(), lg->level_arr_idx);
       return false;
     }
 
+    level_type     = fixed_level->level_type;
     lg->map_width  = fixed_level->width;
     lg->map_height = fixed_level->height;
 
@@ -5393,23 +5395,24 @@ static void level_gen_extend_bridges(Gamep g, class LevelGenAll *lga, class Leve
     // Treasure level
     //
     switch (level_to_biome(g, lg->level_arr_idx)) {
-      case BIOME_DUNGEON :    lt = LEVEL_TYPE_TREASURE1; break;
-      case BIOME_BOGLAND :    lt = LEVEL_TYPE_TREASURE2; break;
-      case BIOME_NETHERVOID : lt = LEVEL_TYPE_TREASURE3; break;
-      case BIOME_GRAVEYARD :  lt = LEVEL_TYPE_TREASURE4; break;
-      case BIOME_UNDERHELL :  lt = LEVEL_TYPE_TREASURE5; break;
+      case BIOME_DUNGEON :    level_type = LEVEL_TYPE_TREASURE1; break;
+      case BIOME_BOGLAND :    level_type = LEVEL_TYPE_TREASURE2; break;
+      case BIOME_NETHERVOID : level_type = LEVEL_TYPE_TREASURE3; break;
+      case BIOME_GRAVEYARD :  level_type = LEVEL_TYPE_TREASURE4; break;
+      case BIOME_UNDERHELL :  level_type = LEVEL_TYPE_TREASURE5; break;
       case BIOME_NONE :       [[fallthrough]];
-      case BIOME_ENUM_MAX :   lt = LEVEL_TYPE_TREASURE1; break;
+      case BIOME_ENUM_MAX :   level_type = LEVEL_TYPE_TREASURE1; break;
     }
 
     auto which = lg->info.seed_base + lga->treasure_level_idx[ lg->level_arr_idx ];
 
-    fixed_level = level_n_get(lt, which);
+    fixed_level = level_n_get(level_type, which);
     if (fixed_level == nullptr) {
-      ERR("no treasure boss level \"%s\" level %u created", LevelType_to_string(lt).c_str(), lg->level_arr_idx);
+      ERR("no treasure boss level \"%s\" level %u created", LevelType_to_string(level_type).c_str(), lg->level_arr_idx);
       return false;
     }
 
+    level_type     = fixed_level->level_type;
     lg->map_width  = fixed_level->width;
     lg->map_height = fixed_level->height;
 
@@ -5420,6 +5423,7 @@ static void level_gen_extend_bridges(Gamep g, class LevelGenAll *lga, class Leve
     // Procedurally generated level
     //
     level_string = level_gen_string(lg);
+    level_type   = LEVEL_TYPE_NORMAL;
   }
 
   if (level_string.empty()) {
@@ -5448,6 +5452,7 @@ static void level_gen_extend_bridges(Gamep g, class LevelGenAll *lga, class Leve
   // Keep track if this is a treasure level
   //
   level->is_treasure_level = lga->is_treasure_level[ lg->level_arr_idx ];
+  level->level_type        = level_type;
 
   //
   // Create things

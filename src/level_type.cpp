@@ -8,7 +8,7 @@
 #include "my_tp.hpp"
 #include "my_types.hpp"
 
-[[nodiscard]] auto level_type(LevelArrIdx level_arr_idx) -> LevelType
+[[nodiscard]] auto level_type_from_arr_idx(LevelArrIdx level_arr_idx) -> LevelType
 {
   TRACE();
 

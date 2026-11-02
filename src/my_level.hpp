@@ -166,6 +166,10 @@ using Level = struct Level {
   //
   LevelArrIdx level_arr_idx;
   //
+  // Boss ? treasure lvel?
+  //
+  LevelType level_type;
+  //
   // The biome for this level
   //
   BiomeType biome;
@@ -767,7 +771,7 @@ enum {
 [[nodiscard]] auto level_to_biome(Gamep g, LevelArrIdx level_arr_idx) -> BiomeType;
 [[nodiscard]] auto level_to_biome(Gamep g, Levelsp v, Levelp l) -> BiomeType;
 [[nodiscard]] auto level_type_is_boss_level(LevelArrIdx level_arr_idx) -> bool;
-[[nodiscard]] auto level_type(LevelArrIdx level_arr_idx) -> LevelType;
+[[nodiscard]] auto level_type_from_arr_idx(LevelArrIdx level_arr_idx) -> LevelType;
 [[nodiscard]] auto levels_memory_alloc(Gamep g) -> Levelsp;
 [[nodiscard]] auto levels_thing_count(Gamep g, Levelsp v) -> int;
 [[nodiscard]] auto levels_thing_dmap_count(Gamep g, Levelsp v) -> int;
