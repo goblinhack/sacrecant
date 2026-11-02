@@ -125,7 +125,7 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
 [[nodiscard]] static auto teleport_find_viable_landing_spot(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint &out, int attempt) -> bool
 {
   auto   outf  = make_fpoint(out);
-  fpoint delta = thing_real_at(g, v, l, me) - make_fpoint(thing_old_at(me));
+  fpoint delta = thing_real_at(g, v, l, me) - make_fpoint(thing_moving_from(me));
   fpoint tof   = outf + delta;
   bpoint to    = make_bpoint(tof);
 

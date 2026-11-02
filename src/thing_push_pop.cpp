@@ -314,8 +314,7 @@
       continue;
     }
 
-    thing_at_set(g, v, l, t, new_at); // INTENTIONAL
-    thing_at_set(g, v, l, t, new_at); // INTENTIONAL Doing it twice sets old_at too
+    thing_at_set(g, v, l, t, new_at);
     thing_moving_from_set(t, new_at);
 
     if (thing_push_internal(g, v, l, t)) {

@@ -31,8 +31,7 @@
     t->_is_player = true;
   }
 
-  thing_at_set(g, v, l, t, real_at); // INTENTIONAL
-  thing_at_set(g, v, l, t, real_at); // INTENTIONAL Doing it twice sets old_at too
+  thing_at_set(g, v, l, t, real_at);
   thing_moving_from_set(t, at);
 
   t->level_arr_idx = l->level_arr_idx;

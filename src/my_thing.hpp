@@ -687,10 +687,6 @@ using Thing = struct Thing {
   //
   f16 angle;
   //
-  // Previous map coordinates. Does not change when the move finishes.
-  //
-  fpoint _old_at;
-  //
   // Map coordinates. This is the slot the thing is at when rounded.
   //
   // However some things like missiles can be at fractional positions.
@@ -1474,7 +1470,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_noise_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
 [[nodiscard]] auto thing_noise_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int;
 [[nodiscard]] auto thing_noise(Gamep g, Levelsp v, Levelp l, Thingp me) -> int;
-[[nodiscard]] auto thing_old_at(Thingp me) -> bpoint;
 [[nodiscard]] auto thing_on_same_level_as_player(Gamep g, Levelsp v, Thingp t) -> bool;
 [[nodiscard]] auto thing_open(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp opener) -> bool;
 [[nodiscard]] auto thing_owner_of(Gamep g, Levelsp v, Levelp l, Thingp t) -> Thingp;

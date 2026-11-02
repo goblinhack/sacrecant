@@ -439,8 +439,6 @@ auto operator<<(std::ostream &out, Bits< const class Game & > const my) -> std::
     out << bits(tmp);                                    // all we're saving here is offsets for validation later
     tmp = offsetof(Thing, angle);                        // all we're saving here is offsets for validation later
     out << bits(tmp);                                    // all we're saving here is offsets for validation later
-    tmp = offsetof(Thing, _old_at);                      // all we're saving here is offsets for validation later
-    out << bits(tmp);                                    // all we're saving here is offsets for validation later
     tmp = offsetof(Thing, _at);                          // all we're saving here is offsets for validation later
     out << bits(tmp);                                    // all we're saving here is offsets for validation later
 

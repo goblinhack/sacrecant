@@ -104,8 +104,8 @@ void wid_hiscores_show(Gamep g)
   const auto *when           = "Date of Demise";
   int const   when_field_len = 25;
 
-  const auto *completed           = "Completed";
-  int const   completed_field_len = 9;
+  const auto *completed           = "level";
+  int const   completed_field_len = 5;
 
   const auto *reason           = "Reason of Unfair Demise";
   int const   reason_field_len = 52;

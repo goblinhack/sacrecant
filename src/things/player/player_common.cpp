@@ -122,7 +122,7 @@ void tp_player_on_moved(Gamep g, Levelsp v, Levelp l, Thingp me)
     //
     if (d100() < 50) {
       if (thing_noise_incr(g, v, l, me, THING_NOISE_SPLASH)) {
-        auto was_at = thing_old_at(me);
+        auto was_at = thing_moving_from(me);
 
         if (! level_is_water_shallow_bool(g, v, l, was_at)) {
           was_at = thing_at(g, v, l, me);

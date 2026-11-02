@@ -67,8 +67,7 @@ void thing_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &val)
     }
   }
 
-  me->_old_at = me->_at;
-  me->_at     = valf;
+  me->_at = valf;
 }
 
 [[nodiscard]] auto thing_real_at(Gamep g, Levelsp v, Levelp l, Thingp me) -> fpoint
@@ -102,19 +101,7 @@ void thing_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, const fpoint &val)
     }
   }
 
-  me->_old_at = me->_at;
-  me->_at     = val;
-}
-
-[[nodiscard]] auto thing_old_at(Thingp me) -> bpoint
-{
-  TRACE_DEBUG();
-
-  if (me == nullptr) {
-    no_thing_pointer();
-    return bpoint(0, 0);
-  }
-  return make_bpoint(me->_old_at);
+  me->_at = val;
 }
 
 void thing_pix_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, const spoint &val)
