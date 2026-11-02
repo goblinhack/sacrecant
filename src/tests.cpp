@@ -99,6 +99,7 @@
   if (!test_load_monst_maze()) { return false; }
   if (!test_load_monst_mob_dumb_leash()) { return false; }
   if (!test_load_monst_mob_leash()) { return false; }
+  if (!test_load_monst_mob_spawn_diagonal()) { return false; }
   if (!test_load_monst_mobbing()) { return false; }
   if (!test_load_monst_move_diagonal_barrel()) { return false; }
   if (!test_load_monst_move_diagonal_border()) { return false; }

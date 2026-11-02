@@ -4,9 +4,11 @@
 
 #include "my_bpoint.hpp"
 #include "my_callstack.hpp"
+#include "my_cpp_template.hpp"
 #include "my_level.hpp"
 #include "my_level_inlines.hpp" // NOLINT
 #include "my_main.hpp"
+#include "my_random.hpp"
 #include "my_thing.hpp"
 #include "my_thing_inlines.hpp" // NOLINT
 #include "my_tp.hpp"
@@ -73,6 +75,10 @@ void thing_mob_dead(Gamep g, Levelsp v, Levelp l, Thingp mob, ThingEvent &e)
 
   if (tp_minion == nullptr) {
     thing_err(g, v, l, mob, "no minion to spawn");
+    return nullptr;
+  }
+
+  if (is_oob(at)) {
     return nullptr;
   }
 
@@ -158,6 +164,41 @@ void thing_mob_dead(Gamep g, Levelsp v, Levelp l, Thingp mob, ThingEvent &e)
 [[nodiscard]] auto thing_mob_spawn_a_minion(Gamep g, Levelsp v, Levelp l, Thingp mob, Tpp tp_minion) -> Thingp
 {
   TRACE();
+
+  auto at = thing_at(g, v, l, mob);
+
+  //
+  // If monsts will get stuck due to this configuration
+  //
+  //  x
+  // xgx
+  //  x
+  //
+  // then allow spawning in diagonal tiles
+  //
+  if (level_is_obs_to_spawning_bool(g, v, l, at - bpoint(1, 0)) &&  //
+      level_is_obs_to_spawning_bool(g, v, l, at - bpoint(-1, 0)) && //
+      level_is_obs_to_spawning_bool(g, v, l, at - bpoint(0, -1)) && //
+      level_is_obs_to_spawning_bool(g, v, l, at - bpoint(0, 1))) {
+
+    const std::initializer_list< bpoint > init = {
+        bpoint(-1, -1),
+        bpoint(1, 1),
+        bpoint(-1, 1),
+        bpoint(1, -1),
+    };
+
+    std::vector deltas(init);
+
+    for (auto tries = 0; tries < 16; tries++) {
+      auto delta = pcg_rand_one_of(deltas);
+
+      auto minion = thing_mob_spawn_a_minion_at(g, v, l, mob, tp_minion, at + delta);
+      if (minion) {
+        return minion;
+      }
+    }
+  }
 
   return thing_mob_spawn_a_minion_at(g, v, l, mob, tp_minion, thing_at(g, v, l, mob));
 }

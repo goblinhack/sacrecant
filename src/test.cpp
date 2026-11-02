@@ -117,6 +117,7 @@ static std::initializer_list< std::string > tests = {
     "monst_maze",
     "monst_mob_dumb_leash",
     "monst_mob_leash",
+    "monst_mob_spawn_diagonal",
     "monst_mobbing",
     "monst_move_diagonal_barrel",
     "monst_move_diagonal_border",
