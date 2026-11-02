@@ -269,7 +269,7 @@ enum {
 // xxxxxxxxxxxxxxxxxxxxxxxxxxxx
 //
 #define MAP_SCROLL_EDGE_INNER 0.45f // slower scroll when far from edge
-#define MAP_SCROLL_EDGE_OUTER 0.35f // faster scroll as closer to edge
+#define MAP_SCROLL_EDGE_OUTER 0.40f // faster scroll as closer to edge
 
 enum {
   MAP_SCROLL_EDGE_INNER_PIXEL = 1, // max pixels to scroll jump
