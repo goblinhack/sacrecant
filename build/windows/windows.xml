@@ -4,10 +4,11 @@
     <version>0.0.1</version>
     <installerFilename></installerFilename>
     <licenseFile>C:/msys64/home/neila/sacrecant/LICENSE</licenseFile>
-    <logoImage>C:/msys64/home/neila/sacrecant/build/windows/sacrecant-logo.png</logoImage>
+    <leftImage>C:\msys64\home\neila\sacrecant\data\web\itch_background.png</leftImage>
+    <logoImage>C:\msys64\home\neila\sacrecant\build\windows\sacrecant-logo.png</logoImage>
+    <splashImage>C:\msys64\home\neila\sacrecant\build\windows\sacrecant-splash.png</splashImage>
     <componentList>
-        <component>
-            <name>default</name>
+        <component name="default">
             <description>Default Component</description>
             <canBeEdited>1</canBeEdited>
             <selected>1</selected>
@@ -30,10 +31,8 @@
                 </shortcut>
             </desktopShortcutList>
             <folderList>
-                <folder>
+                <folder destination="${installdir}/sacrecant/" name="programfiles">
                     <description>Program Files</description>
-                    <destination>${installdir}/sacrecant/</destination>
-                    <name>programfiles</name>
                     <platforms>windows-x64</platforms>
                     <shortcutList>
                         <shortcut>
@@ -52,89 +51,61 @@
                         </shortcut>
                     </shortcutList>
                 </folder>
-                <folder>
+                <folder destination="${installdir}/sacrecant/" name="programfileslinux">
                     <description>Program Files</description>
-                    <destination>${installdir}/sacrecant/</destination>
-                    <name>programfileslinux</name>
                     <platforms>linux</platforms>
                 </folder>
-                <folder>
+                <folder destination="${installdir}/sacrecant/" name="programfileswindows">
                     <description>Program Files</description>
-                    <destination>${installdir}/sacrecant/</destination>
-                    <name>programfileswindows</name>
                     <platforms>windows-x64</platforms>
                     <distributionFileList>
                         <distributionFile>
-                            <origin>C:/msys64/ucrt64/bin/SDL2.dll</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>C:/msys64/ucrt64/bin/SDL2_mixer.dll</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>C:/msys64/ucrt64/bin/libwinpthread-1.dll</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>C:/msys64/ucrt64/bin/libFLAC.dll</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>C:/msys64/ucrt64/bin/libfluidsynth-3.dll</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>C:/msys64/ucrt64/bin/libmad-0.dll</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>C:/msys64/ucrt64/bin/libmodplug-1.dll</origin>
+                            <origin>C:/msys64/ucrt64/bin/libopus-0.dll</origin>
                         </distributionFile>
                         <distributionFile>
                             <origin>C:/msys64/ucrt64/bin/libvorbisfile-3.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>C:/msys64/ucrt64/bin/libogg-0.dll</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>C:/msys64/ucrt64/bin/libstdc++-6.dll</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>C:/msys64/ucrt64/bin/libglib-2.0-0.dll</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>C:/msys64/ucrt64/bin/libportaudio.dll</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>C:/msys64/ucrt64/bin/libsndfile-1.dll</origin>
+                            <origin>C:/msys64/ucrt64/bin/libwavpack-1.dll</origin>
                         </distributionFile>
                         <distributionFile>
                             <origin>C:/msys64/ucrt64/bin/libgcc_s_seh-1.dll</origin>
                         </distributionFile>
                         <distributionFile>
+                            <origin>C:/msys64/ucrt64/bin/libmpg123-0.dll</origin>
+                        </distributionFile>
+                        <distributionFile>
                             <origin>C:/msys64/ucrt64/bin/libvorbis-0.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>C:/msys64/ucrt64/bin/libintl-8.dll</origin>
+                            <origin>C:/msys64/ucrt64/bin/libxmp.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>C:/msys64/ucrt64/bin/libspeex-1.dll</origin>
+                            <origin>C:/msys64/ucrt64/bin/libopusfile-0.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>C:/msys64/ucrt64/bin/libvorbisenc-2.dll</origin>
+                            <origin>C:/msys64/ucrt64/bin/SDL2.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>C:/msys64/ucrt64/bin/libiconv-2.dll</origin>
+                            <origin>C:/msys64/ucrt64/bin/libstdc++-6.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>C:/msys64/ucrt64/bin/libbz2-1.dll</origin>
+                            <origin>C:/msys64/ucrt64/bin/libwinpthread-1.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>C:/msys64/ucrt64/bin/liblzma-5.dll</origin>
+                            <origin>C:/msys64/ucrt64/bin/SDL2_mixer.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>C:/msys64/ucrt64/bin/libpcre-1.dll</origin>
+                            <origin>C:/msys64/ucrt64/bin/libunwind.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>C:/msys64/ucrt64/bin/libpng16-16.dll</origin>
+                            <origin>C:/msys64/ucrt64/bin/liblz4.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>C:/msys64/ucrt64/bin/zlib1.dll</origin>
+                            <origin>C:/msys64/ucrt64/bin/libogg-0.dll</origin>
+                        </distributionFile>
+                        <distributionFile>
+                            <origin>C:/msys64/ucrt64/bin/libFLAC.dll</origin>
                         </distributionFile>
                         <distributionFile>
                             <origin>C:/msys64/home/neila/sacrecant/sacrecant.exe</origin>
@@ -143,35 +114,12 @@
                             <origin>C:/msys64/home/neila/sacrecant/sacrecant.pdb</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>C:/msys64/home/neila/sacrecant/data</origin>
-                        </distributionFile>
-                        <distributionFile>
                             <origin>C:/msys64/home/neila/sacrecant/build/windows/sacrecant.ico</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>C:/msys64/ucrt64/bin/libunwind.dll</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>C:/msys64/ucrt64/bin/libmpg123-0.dll</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>C:/msys64/ucrt64/bin/libopusfile-0.dll</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>C:/msys64/ucrt64/bin/libopusurl-0.dll</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>C:/msys64/ucrt64/bin/libopus-0.dll</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>C:/msys64/ucrt64/bin/libopusfile-0.dll</origin>
                         </distributionFile>
                     </distributionFileList>
                 </folder>
-                <folder>
+                <folder destination="${installdir}/sacrecant/" name="sacrecant">
                     <description>sacrecant</description>
-                    <destination>${installdir}/sacrecant/</destination>
-                    <name>sacrecant</name>
                     <platforms>all</platforms>
                 </folder>
             </folderList>
@@ -200,10 +148,11 @@
         </component>
     </componentList>
     <preInstallationActionList>
-      <deleteFile>
-        <path>${installdir}/sacrecant/</path>
-      </deleteFile>
+        <deleteFile>
+            <path>${installdir}/sacrecant/</path>
+        </deleteFile>
     </preInstallationActionList>
+    <addQtMode>1</addQtMode>
     <enableRollback>1</enableRollback>
     <enableTimestamp>1</enableTimestamp>
     <vendor>goblinhack</vendor>
@@ -223,3 +172,4 @@
         </directoryParameter>
     </parameterList>
 </project>
+

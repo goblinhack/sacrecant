@@ -1016,7 +1016,8 @@ case "$MY_OS_NAME" in
 #
 # Clean up the old installs
 #
-rm ${TARGET}.*installer.exe
+rm *installer.exe
+strip ${TARGET}.exe
 
 #
 # Update the version

@@ -28,19 +28,11 @@ import os.path
 import argparse
 import shutil
 
-# The mingw path matches where Fedora 21 installs mingw32; this is the default
-# fallback if no other search path is specified in $MINGW_BUNDLEDLLS_SEARCH_PATH
-DEFAULT_PATH_PREFIXES = [
-    "", "/usr/bin", "/usr/i686-w64-mingw32/sys-root/mingw/bin", "/mingw64/bin",
-    "/usr/i686-w64-mingw32/sys-root/mingw/lib",
-    "C:\\msys64\\mingw64\\bin"
+path_prefixes = [
+    "", "/usr/bin", 
+    "/msys64/ucrt64/bin",
+    "/msys64/ucrt64/lib",
 ]
-
-env_path_prefixes = os.environ.get('MINGW_BUNDLEDLLS_SEARCH_PATH', None)
-if env_path_prefixes is not None:
-    path_prefixes = [path for path in env_path_prefixes.split(os.pathsep) if path]
-else:
-    path_prefixes = DEFAULT_PATH_PREFIXES
 
 # This blacklist may need extending
 blacklist = [
@@ -68,11 +60,8 @@ def find_full_path(filename, path_prefixes):
             return path_low
 
     else:
-        raise RuntimeError(
-            "Can't find " + filename + ". If it is an inbuilt Windows DLL, "
-            "please add it to the blacklist variable in the script and send "
-            "a pull request!"
-        )
+        print("Can't find " + filename)
+        return None
 
 
 def gather_deps(path, path_prefixes, seen):
@@ -93,6 +82,8 @@ def gather_deps(path, path_prefixes, seen):
             continue
 
         dep_path = find_full_path(dep, path_prefixes)
+        if not dep_path:
+            continue
         seen.add(ldep)
         subdeps = gather_deps(dep_path, path_prefixes, seen)
         ret.extend(subdeps)
