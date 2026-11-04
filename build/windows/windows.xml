@@ -1,7 +1,7 @@
 <project>
     <shortName>Sacrecant</shortName>
-    <fullName>Zorbash</fullName>
-    <version>0.2.4</version>
+    <fullName>Sacrecant</fullName>
+    <version>0.0.1</version>
     <installerFilename></installerFilename>
     <licenseFile>C:/msys64/home/neila/sacrecant/LICENSE</licenseFile>
     <logoImage>C:/msys64/home/neila/sacrecant/build/windows/sacrecant-logo.png</logoImage>
