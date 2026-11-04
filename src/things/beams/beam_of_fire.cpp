@@ -38,7 +38,7 @@ static auto tp_load_beam_of_fire_use_weapon(Gamep g, Levelsp v, Levelp l, Thingp
 {
   TRACE();
 
-  (void) thing_spawn(g, v, l, tp_random(g, v, l, is_effect_sparks), target);
+  (void) thing_spawn(g, v, l, tp_find_random(g, v, l, is_effect_sparks), target);
 }
 
 [[nodiscard]] auto tp_load_beam_of_fire() -> bool

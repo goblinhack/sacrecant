@@ -25,7 +25,7 @@ static void tp_spiderweb_on_spawned(Gamep g, Levelsp v, Levelp l, Thingp me, Thi
   TRACE();
 
   if (! g_opt_tests && ! g_level_opt.is_set) {
-    (void) thing_spawn(g, v, l, tp_random(g, v, l, is_spider_giant), thing_at(g, v, l, me));
+    (void) thing_spawn(g, v, l, tp_find_random(g, v, l, is_spider_giant), thing_at(g, v, l, me));
   }
 }
 

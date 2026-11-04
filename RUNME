@@ -210,4 +210,5 @@ else
     # For quick re-makes
     #
     log "Built successfully"
+    rm $LOG
 fi

@@ -51,7 +51,7 @@ void tp_buff_prot_on_hook_attached(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
 
-  (void) thing_leader_spawn_a_follower_at(g, v, l, me, tp_random(g, v, l, is_effect_protection), thing_at(g, v, l, me));
+  (void) thing_leader_spawn_a_follower_at(g, v, l, me, tp_find_random(g, v, l, is_effect_protection), thing_at(g, v, l, me));
 }
 
 [[nodiscard]] auto tp_load_buff_prot() -> bool

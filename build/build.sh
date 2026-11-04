@@ -699,10 +699,10 @@ fi
 LLVM_PATH=$(clang++ -v 2>&1 | grep InstalledDir | sed 's/^.* //g' | sed 's/\(^.*\)\/.*/\1/g')
 LLVM_PATH=/Applications/Xcode.app/Contents/Developer/
 
-if [[ $(which xxxx_mold) ]]; then # binary seems to hang when using mold
+if [[ $(which xxxx_mold 2>/dev/null) ]]; then # binary seems to hang when using mold
   LDFLAGS+=" -fuse-ld=mold"
   log_info "Have mold                  : Yes"
-elif [[ $(which xxxx_ld64.lld-mp-21) ]]; then # binary seems to hang when using mold
+elif [[ $(which xxxx_ld64.lld-mp-21 2>/dev/null) ]]; then
   # Need in path first /opt/local/bin/
   LDFLAGS+=" -fuse-ld=lld"
   log_info "Have lld                   : Yes"

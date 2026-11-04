@@ -25,7 +25,7 @@ static void tp_proj_energy_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, Thi
 
   thing_sound_play(g, v, l, me, "explosion");
 
-  (void) thing_spawn(g, v, l, tp_random(g, v, l, is_effect_sparks), me);
+  (void) thing_spawn(g, v, l, tp_find_random(g, v, l, is_effect_sparks), me);
 }
 
 static void tp_proj_energy_on_moved(Gamep g, Levelsp v, Levelp l, Thingp me)

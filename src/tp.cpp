@@ -523,7 +523,7 @@ static void tp_fixup()
   return tp->tiles[ val ][ 0 ];
 }
 
-static auto tp_random_select_with_rarity(TpVec &m) -> Tpp
+static auto tp_find_random_select_with_rarity(TpVec &m) -> Tpp
 {
   TRACE_DEBUG();
 
@@ -565,7 +565,7 @@ static auto tp_random_select_with_rarity(TpVec &m) -> Tpp
   return nullptr;
 }
 
-static auto tp_random(Gamep g, Levelsp v, Levelp l, TpVec &m) -> Tpp
+static auto tp_find_random(Gamep g, Levelsp v, Levelp l, TpVec &m) -> Tpp
 {
   TRACE_DEBUG();
 
@@ -576,7 +576,7 @@ static auto tp_random(Gamep g, Levelsp v, Levelp l, TpVec &m) -> Tpp
 
   int tries = 100;
   while (tries-- > 0) {
-    auto *tp = tp_random_select_with_rarity(m);
+    auto *tp = tp_find_random_select_with_rarity(m);
     if (tp == nullptr) [[unlikely]] {
       break;
     }
@@ -643,7 +643,7 @@ static auto tp_random(Gamep g, Levelsp v, Levelp l, TpVec &m) -> Tpp
   //
   tries = 100;
   while (tries-- > 0) {
-    auto *tp = tp_random_select_with_rarity(m);
+    auto *tp = tp_find_random_select_with_rarity(m);
     if (tp == nullptr) [[unlikely]] {
       break;
     }
@@ -670,29 +670,87 @@ static auto tp_random(Gamep g, Levelsp v, Levelp l, TpVec &m) -> Tpp
   return tp;
 }
 
-[[nodiscard]] auto tp_random_monst(Gamep g, Levelsp v, Levelp l, int c) -> Tpp
+auto tp_find_random(ThingFlagType f) -> Tpp
+{
+  TRACE_DEBUG();
+
+  auto v     = tp_flag_vec[ f ];
+  int  tries = 100;
+  while (tries-- > 0) {
+    auto *tp = tp_find_random_select_with_rarity(v);
+    if (tp == nullptr) [[unlikely]] {
+      break;
+    }
+
+    //
+    // If this thing has a limited chance of appearing, roll the dice.
+    //
+    auto chance = tp->chance_d1000_appearing;
+    if (chance != 0) {
+      auto roll = d1000();
+      if (roll < chance) {
+        return tp;
+      }
+    } else {
+      return tp;
+    }
+  }
+
+  //
+  // Try again, but without the biome filter
+  //
+  tries = 100;
+  while (tries-- > 0) {
+    auto *tp = tp_find_random_select_with_rarity(v);
+    if (tp == nullptr) [[unlikely]] {
+      break;
+    }
+
+    //
+    // If this thing has a limited chance of appearing, roll the dice.
+    //
+    auto chance = tp->chance_d1000_appearing;
+    if (chance != 0) {
+      auto roll = d1000();
+      if (roll < chance) {
+        return tp;
+      }
+    } else {
+      return tp;
+    }
+  }
+
+  //
+  // Give in and return the first we find.
+  //
+  auto  index = PCG_RAND() % v.size();
+  auto *tp    = v[ index ];
+  return tp;
+}
+
+[[nodiscard]] auto tp_find_random_monst(Gamep g, Levelsp v, Levelp l, int c) -> Tpp
 {
   TRACE_DEBUG();
 
   if (c >= MONST_GROUP_ENUM_MAX) {
-    ERR("tp_random_monst: monst bad rating %d", c);
+    ERR("tp_find_random_monst: monst bad rating %d", c);
     return nullptr;
   }
 
   if ((tp_monst_vec[ c ].empty())) [[unlikely]] {
-    ERR("tp_random_monst: no rating %d monsters found", c);
+    ERR("tp_find_random_monst: no rating %d monsters found", c);
     return nullptr;
   }
 
-  return tp_random(g, v, l, tp_monst_vec[ c ]);
+  return tp_find_random(g, v, l, tp_monst_vec[ c ]);
 }
 
-[[nodiscard]] auto tp_random(Gamep g, Levelsp v, Levelp l, ThingFlagType f) -> Tpp
+[[nodiscard]] auto tp_find_random(Gamep g, Levelsp v, Levelp l, ThingFlagType f) -> Tpp
 {
   TRACE_DEBUG();
 
   if ((tp_flag_vec[ f ].empty())) [[unlikely]] {
-    ERR("tp_random: no tp found for ThingFlagType %d/%s", f, ThingFlagType_to_c_str(f));
+    ERR("tp_find_random: no tp found for ThingFlagType %d/%s", f, ThingFlagType_to_c_str(f));
     return nullptr;
   }
 
@@ -706,7 +764,7 @@ static auto tp_random(Gamep g, Levelsp v, Levelp l, TpVec &m) -> Tpp
     }
   }
 
-  return tp_random(g, v, l, tp_flag_vec[ f ]);
+  return tp_find_random(g, v, l, tp_flag_vec[ f ]);
 }
 
 [[nodiscard]] auto tp_variant(ThingFlagType f, int variant) -> Tpp

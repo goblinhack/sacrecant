@@ -151,7 +151,7 @@ static auto level_populate_biome_dungeon(Gamep g, Levelsp v, Levelp l, class Lev
       break;
     case CHARMAP_TREASURE :
       lp.need_floor = true;
-      tp            = tp_random(g, v, l, is_treasure);
+      tp            = tp_find_random(g, v, l, is_treasure);
       break;
     case CHARMAP_TELEPORT :
       lp.need_floor = true;
@@ -192,7 +192,7 @@ static auto level_populate_biome_dungeon(Gamep g, Levelsp v, Levelp l, class Lev
       break;
     case CHARMAP_TRAP :
       lp.need_floor = true;
-      tp            = tp_random(g, v, l, is_trap);
+      tp            = tp_find_random(g, v, l, is_trap);
       break;
     case CHARMAP_LAVA :
       lp.need_dirt = true;
@@ -204,14 +204,14 @@ static auto level_populate_biome_dungeon(Gamep g, Levelsp v, Levelp l, class Lev
       break;
     case CHARMAP_DOOR_UNLOCKED :
       lp.need_floor = true;
-      tp            = tp_random(g, v, l, is_door_unlocked);
+      tp            = tp_find_random(g, v, l, is_door_unlocked);
       break;
     case CHARMAP_DOOR_LOCKED :
       lp.need_floor = true;
       if (lp.is_test_level) {
-        tp = tp_random(g, v, l, is_door_locked);
+        tp = tp_find_random(g, v, l, is_door_locked);
       } else if (l->info.key_count != 0) {
-        tp = tp_random(g, v, l, is_door_locked);
+        tp = tp_find_random(g, v, l, is_door_locked);
       } else {
         tp = tp_variant(is_door_secret, lp.wall_variant);
       }
@@ -231,38 +231,38 @@ static auto level_populate_biome_dungeon(Gamep g, Levelsp v, Levelp l, class Lev
     case CHARMAP_MONST1 :
       lp.need_floor = true;
       if (! lp.is_room_entrance) {
-        tp = tp_random_monst(g, v, l, MONST_GROUP1);
+        tp = tp_find_random_monst(g, v, l, MONST_GROUP1);
       }
       break;
     case CHARMAP_MONST2 :
       lp.need_floor = true;
       if (! lp.is_room_entrance) {
-        tp = tp_random_monst(g, v, l, MONST_GROUP2);
+        tp = tp_find_random_monst(g, v, l, MONST_GROUP2);
       }
       break;
     case CHARMAP_MOB1 :
       lp.need_floor = true;
       if (! lp.is_room_entrance) {
-        tp = tp_random_monst(g, v, l, MOB_GROUP1);
+        tp = tp_find_random_monst(g, v, l, MOB_GROUP1);
       }
       break;
     case CHARMAP_MOB2 :
       lp.need_floor = true;
       if (! lp.is_room_entrance) {
-        tp = tp_random_monst(g, v, l, MOB_GROUP2);
+        tp = tp_find_random_monst(g, v, l, MOB_GROUP2);
       }
       break;
     case CHARMAP_FIRE :
       lp.need_floor = true;
-      tp            = tp_random(g, v, l, is_fire);
+      tp            = tp_find_random(g, v, l, is_fire);
       break;
     case CHARMAP_STEAM :
       lp.need_floor = true;
-      tp            = tp_random(g, v, l, is_steam);
+      tp            = tp_find_random(g, v, l, is_steam);
       break;
     case CHARMAP_SMOKE :
       lp.need_floor = true;
-      tp            = tp_random(g, v, l, is_smoke);
+      tp            = tp_find_random(g, v, l, is_smoke);
       break;
     case CHARMAP_ENTRANCE :
       lp.need_floor = true;
@@ -309,7 +309,7 @@ static auto level_populate_biome_dungeon(Gamep g, Levelsp v, Levelp l, class Lev
       break;
     case CHARMAP_KEY :
       lp.need_floor = true;
-      tp            = tp_random(g, v, l, is_key);
+      tp            = tp_find_random(g, v, l, is_key);
       break;
     case CHARMAP_GAS :
       lp.need_dirt = true;
@@ -772,26 +772,26 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
   lp.biome         = level_to_biome(g, v, l);
   lp.tp_border     = tp_first(is_border);
   lp.tp_gas        = tp_first(is_gas_death);
-  lp.tp_wall       = tp_random(g, v, l, is_wall);
-  lp.tp_magic_wall = tp_random(g, v, l, is_magic_wall);
-  lp.tp_rock       = tp_random(g, v, l, is_rock);
-  lp.tp_water      = tp_random(g, v, l, is_water_shallow);
-  lp.tp_lava       = tp_random(g, v, l, is_lava);
-  lp.tp_bridge     = tp_random(g, v, l, is_bridge);
-  lp.tp_chasm      = tp_random(g, v, l, is_chasm);
-  lp.tp_water_deep = tp_random(g, v, l, is_water_deep);
-  lp.tp_brazier    = tp_random(g, v, l, is_brazier);
-  lp.tp_pillar     = tp_random(g, v, l, is_pillar);
-  lp.tp_rubble     = tp_random(g, v, l, is_rubble);
-  lp.tp_spiderweb  = tp_random(g, v, l, is_spiderweb);
-  lp.tp_barrel     = tp_random(g, v, l, is_barrel);
-  lp.tp_teleport   = tp_random(g, v, l, is_teleport);
-  lp.tp_foliage    = tp_random(g, v, l, is_foliage);
-  lp.tp_fungus     = tp_random(g, v, l, is_fungus);
-  lp.tp_reeds      = tp_random(g, v, l, is_reeds);
-  lp.tp_corridor   = tp_random(g, v, l, is_corridor);
-  lp.tp_grass      = tp_random(g, v, l, is_grass);
-  lp.tp_floor      = tp_random(g, v, l, is_floor);
+  lp.tp_wall       = tp_find_random(g, v, l, is_wall);
+  lp.tp_magic_wall = tp_find_random(g, v, l, is_magic_wall);
+  lp.tp_rock       = tp_find_random(g, v, l, is_rock);
+  lp.tp_water      = tp_find_random(g, v, l, is_water_shallow);
+  lp.tp_lava       = tp_find_random(g, v, l, is_lava);
+  lp.tp_bridge     = tp_find_random(g, v, l, is_bridge);
+  lp.tp_chasm      = tp_find_random(g, v, l, is_chasm);
+  lp.tp_water_deep = tp_find_random(g, v, l, is_water_deep);
+  lp.tp_brazier    = tp_find_random(g, v, l, is_brazier);
+  lp.tp_pillar     = tp_find_random(g, v, l, is_pillar);
+  lp.tp_rubble     = tp_find_random(g, v, l, is_rubble);
+  lp.tp_spiderweb  = tp_find_random(g, v, l, is_spiderweb);
+  lp.tp_barrel     = tp_find_random(g, v, l, is_barrel);
+  lp.tp_teleport   = tp_find_random(g, v, l, is_teleport);
+  lp.tp_foliage    = tp_find_random(g, v, l, is_foliage);
+  lp.tp_fungus     = tp_find_random(g, v, l, is_fungus);
+  lp.tp_reeds      = tp_find_random(g, v, l, is_reeds);
+  lp.tp_corridor   = tp_find_random(g, v, l, is_corridor);
+  lp.tp_grass      = tp_find_random(g, v, l, is_grass);
+  lp.tp_floor      = tp_find_random(g, v, l, is_floor);
   lp.tp_dirt       = tp_find_mand("dirt");
   lp.tp_exit       = tp_find_mand("exit");
   lp.tp_entrance   = tp_find_mand("entrance");
@@ -817,7 +817,7 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
   //
   // Same with vaults
   //
-  lp.tp_vault = tp_random(g, v, l, is_vault);
+  lp.tp_vault = tp_find_random(g, v, l, is_vault);
 
   lp.is_test_level         = g_opt_tests || l->is_fixed_level;
   lp.is_decoration_allowed = ! lp.is_test_level;
@@ -968,9 +968,9 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
             auto monst_chance = d100();
 
             if (monst_chance < 3) {
-              tp_add = tp_random(g, v, l, is_fish);
+              tp_add = tp_find_random(g, v, l, is_fish);
             } else if (monst_chance < 5) {
-              tp_add = tp_random(g, v, l, is_amphibious);
+              tp_add = tp_find_random(g, v, l, is_amphibious);
             }
 
             if (tp_add != nullptr) {
@@ -991,7 +991,7 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
             return false;
           }
           if (compiler_unused) {
-            if (thing_spawn(g, v, l, tp_random(g, v, l, is_exit), lp.spawn_at + bpoint(1, 0)) == nullptr) {
+            if (thing_spawn(g, v, l, tp_find_random(g, v, l, is_exit), lp.spawn_at + bpoint(1, 0)) == nullptr) {
               return false;
             }
           }
@@ -1009,7 +1009,7 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
         if (compiler_unused) {
           if (tp == lp.tp_player) {
             {
-              if (thing_spawn(g, v, l, tp_random(g, v, l, is_trap), lp.spawn_at + bpoint(1, 0)) == nullptr) {
+              if (thing_spawn(g, v, l, tp_find_random(g, v, l, is_trap), lp.spawn_at + bpoint(1, 0)) == nullptr) {
                 return false;
               }
             }
@@ -1024,25 +1024,25 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
       for (auto y = -1; y <= h; y++) {
         auto x      = -1;
         lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
-        (void) thing_spawn(g, v, l, tp_random(g, v, l, is_border), lp.spawn_at);
+        (void) thing_spawn(g, v, l, tp_find_random(g, v, l, is_border), lp.spawn_at);
         x           = w;
         lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
-        (void) thing_spawn(g, v, l, tp_random(g, v, l, is_border), lp.spawn_at);
+        (void) thing_spawn(g, v, l, tp_find_random(g, v, l, is_border), lp.spawn_at);
       }
       for (auto x = -1; x <= w; x++) {
         auto y      = -1;
         lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
-        (void) thing_spawn(g, v, l, tp_random(g, v, l, is_border), lp.spawn_at);
+        (void) thing_spawn(g, v, l, tp_find_random(g, v, l, is_border), lp.spawn_at);
         y           = h;
         lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
-        (void) thing_spawn(g, v, l, tp_random(g, v, l, is_border), lp.spawn_at);
+        (void) thing_spawn(g, v, l, tp_find_random(g, v, l, is_border), lp.spawn_at);
       }
     }
   }
 
   if (compiler_unused) {
     if (l->entrance.x > 0) {
-      if (thing_spawn(g, v, l, tp_random(g, v, l, is_exit), l->entrance + bpoint(1, 1)) == nullptr) {
+      if (thing_spawn(g, v, l, tp_find_random(g, v, l, is_exit), l->entrance + bpoint(1, 1)) == nullptr) {
         return false;
       }
     }

@@ -143,22 +143,22 @@
   TEST_PROGRESS(t);
 
   for (auto slot = 0; slot < MAP_SLOTS * 10; slot++) {
-    if (thing_spawn(g, v, l, tp_random(g, v, l, is_smoke), thing_at(g, v, l, player)) == nullptr) {
+    if (thing_spawn(g, v, l, tp_find_random(g, v, l, is_smoke), thing_at(g, v, l, player)) == nullptr) {
       TEST_FAILED(t, "failed to spawn thing");
       break;
     }
 
-    if (thing_spawn(g, v, l, tp_random(g, v, l, is_fire_normal), thing_at(g, v, l, player)) == nullptr) {
+    if (thing_spawn(g, v, l, tp_find_random(g, v, l, is_fire_normal), thing_at(g, v, l, player)) == nullptr) {
       TEST_FAILED(t, "failed to spawn thing");
       break;
     }
 
-    if (thing_spawn(g, v, l, tp_random(g, v, l, is_steam), thing_at(g, v, l, player)) == nullptr) {
+    if (thing_spawn(g, v, l, tp_find_random(g, v, l, is_steam), thing_at(g, v, l, player)) == nullptr) {
       TEST_FAILED(t, "failed to spawn thing");
       break;
     }
 
-    auto *m = thing_spawn(g, v, l, tp_random(g, v, l, is_monst), thing_at(g, v, l, player));
+    auto *m = thing_spawn(g, v, l, tp_find_random(g, v, l, is_monst), thing_at(g, v, l, player));
     if (m == nullptr) {
       TEST_FAILED(t, "failed to spawn thing");
       break;

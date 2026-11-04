@@ -36,7 +36,7 @@ static bool tp_fungus_death_spore(Gamep g, Levelsp v, Levelp l, Thingp me, Thing
 
   if (! level_is_gas(g, v, l, at)) {
     THING_DBG(g, v, l, me, "spawn gas");
-    auto gas = thing_spawn(g, v, l, tp_random(g, v, l, is_gas_death), at);
+    auto gas = thing_spawn(g, v, l, tp_find_random(g, v, l, is_gas_death), at);
     if (gas) {
       THING_DBG(g, v, l, gas, "spawn gas, lifespan %u", thing_lifespan(g, v, l, gas));
     } else {
