@@ -30,6 +30,12 @@ static void level_minimap_levels_update(Gamep g, Levelsp v, Levelp l, const bool
     return;
   }
 
+  if (level_select) {
+    if (! l->is_treasure_level) {
+      //            return;
+    }
+  }
+
   const FboEnum fbo = FBO_MINIMAP_LEVEL;
   const auto    dx  = 1;
   const auto    dy  = 1;
@@ -52,31 +58,26 @@ static void level_minimap_levels_update(Gamep g, Levelsp v, Levelp l, const bool
         bpoint const p(x, y);
 
         if (level_select) {
-          if (! l->is_treasure_level) {
+        } else if (! g_opt_debug1) {
+          if (! level_has_seen_cached(g, v, l, p)) {
             continue;
-          }
-        } else {
-          if (! g_opt_debug1) {
-            if (! level_has_seen_cached(g, v, l, p)) {
-              continue;
-            }
           }
         }
 
+        if (level_is_border(g, v, l, p)) {
+          c = GRAY50;
+        }
         if (level_is_dirt_bool(g, v, l, p)) {
           c = GRAY10;
         }
         if (level_is_floor_bool(g, v, l, p)) {
-          c = GRAY30;
+          c = GRAY20;
         }
         if (level_is_corridor_bool(g, v, l, p)) {
-          c = GRAY30;
+          c = GRAY20;
         }
         if (level_is_wall_bool(g, v, l, p)) {
           c = GRAY90;
-        }
-        if (level_is_rock_bool(g, v, l, p)) {
-          c = BROWN4;
         }
         if (level_is_bridge_bool(g, v, l, p)) {
           c = BROWN;
@@ -94,7 +95,7 @@ static void level_minimap_levels_update(Gamep g, Levelsp v, Levelp l, const bool
           if (level_open_is_door_locked(g, v, l, p) != nullptr) {
             // ignore
           } else {
-            c = BROWN;
+            c = GRAY40;
           }
         }
         if (level_is_door_secret_bool(g, v, l, p)) {
@@ -108,11 +109,10 @@ static void level_minimap_levels_update(Gamep g, Levelsp v, Levelp l, const bool
           c = ORANGE;
         }
         if (level_is_teleport_bool(g, v, l, p)) {
-          // ignore
-          c = RED;
+          c = PURPLE;
         }
         if (level_is_entrance_bool(g, v, l, p)) {
-          c = PINK;
+          c = WHITE;
         }
         if (level_is_exit_bool(g, v, l, p)) {
           c = YELLOW;
@@ -121,9 +121,12 @@ static void level_minimap_levels_update(Gamep g, Levelsp v, Levelp l, const bool
           c = ORANGE2;
         }
         if (level_is_player_bool(g, v, l, p)) {
-          c = CYAN;
+          c = PINK;
         }
         if (level_is_monst_bool(g, v, l, p)) {
+          c = RED;
+        }
+        if (level_is_mob_bool(g, v, l, p)) {
           c = RED;
         }
         if (level_is_proj_bool(g, v, l, p)) {

@@ -2214,8 +2214,8 @@ void fragments_fini(Gamep g)
 //
 // Add a level
 //
-void level_fixed_add(Gamep g, int chance, LevelType level_type, const std::string &alias, const char *file, int line, const LevelGenOverrides &overrides,
-                     int dummy, ...)
+void level_fixed_add(Gamep g, int chance, LevelType level_type, const std::string &alias, const char *file, int line,
+                     const LevelGenOverrides &overrides, int dummy, ...)
 {
   TRACE();
 
@@ -3296,8 +3296,20 @@ static auto level_gen_new_class(Gamep g, LevelArrIdx level_arr_idx, uint32_t att
   uint32_t const seed = (lg->info.seed_base * 1001) + ((level_arr_idx + 1) * LEVEL_ARR_IDX_MAX) + attempt;
   PCG_SRAND(seed);
 
-  lg->info.seed_num  = seed;
-  lg->level_arr_idx  = level_arr_idx;
+  lg->info.seed_num = seed;
+  lg->level_arr_idx = level_arr_idx;
+
+  if (d100() < 90) {
+    lg->map_width  = MAP_SMALL_WIDTH;
+    lg->map_height = MAP_SMALL_HEIGHT;
+  } else if (d100() < 90) {
+    lg->map_width  = MAP_MED_WIDTH;
+    lg->map_height = MAP_MED_HEIGHT;
+  } else {
+    lg->map_width  = MAP_WIDTH;
+    lg->map_height = MAP_HEIGHT;
+  }
+
   lg->min_room_count = MIN_LEVEL_ROOM_COUNT + (level_arr_idx / 10);
   lg->max_room_count = lg->min_room_count + 20;
   lg->debug          = DEBUG2;
@@ -5349,10 +5361,10 @@ static void level_gen_extend_bridges(Gamep g, class LevelGenAll *lga, class Leve
   //
   // Create a string holding all the level chars
   //
-  std::string level_string;
-  LevelFixed *fixed_level = nullptr;
-  LevelGenOverrides   overrides   = no_overrides;
-  auto        level_type  = level_type_from_arr_idx(lg->level_arr_idx);
+  std::string       level_string;
+  LevelFixed       *fixed_level = nullptr;
+  LevelGenOverrides overrides   = no_overrides;
+  auto              level_type  = level_type_from_arr_idx(lg->level_arr_idx);
 
   if (! g_level_opt.level_name.empty()) {
     //

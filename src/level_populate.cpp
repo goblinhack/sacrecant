@@ -1035,23 +1035,21 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
   }
 
   if ((lp.biome != BIOME_NETHERVOID) && ! lp.is_test_level) {
-    if (w == MAP_SMALL_WIDTH) {
-      for (auto y = -1; y <= h; y++) {
-        auto x      = -1;
-        lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
-        (void) thing_spawn(g, v, l, tp_find_random(g, v, l, is_border), lp.spawn_at);
-        x           = w;
-        lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
-        (void) thing_spawn(g, v, l, tp_find_random(g, v, l, is_border), lp.spawn_at);
-      }
-      for (auto x = -1; x <= w; x++) {
-        auto y      = -1;
-        lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
-        (void) thing_spawn(g, v, l, tp_find_random(g, v, l, is_border), lp.spawn_at);
-        y           = h;
-        lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
-        (void) thing_spawn(g, v, l, tp_find_random(g, v, l, is_border), lp.spawn_at);
-      }
+    for (auto y = -1; y <= h; y++) {
+      auto x      = -1;
+      lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
+      (void) thing_spawn(g, v, l, tp_find_random(g, v, l, is_border), lp.spawn_at);
+      x           = w;
+      lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
+      (void) thing_spawn(g, v, l, tp_find_random(g, v, l, is_border), lp.spawn_at);
+    }
+    for (auto x = -1; x <= w; x++) {
+      auto y      = -1;
+      lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
+      (void) thing_spawn(g, v, l, tp_find_random(g, v, l, is_border), lp.spawn_at);
+      y           = h;
+      lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
+      (void) thing_spawn(g, v, l, tp_find_random(g, v, l, is_border), lp.spawn_at);
     }
   }
 

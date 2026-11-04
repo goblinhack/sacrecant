@@ -179,13 +179,13 @@ void wid_level_show_contents(Gamep g, Levelsp v, Levelp l, WidPopup *parent)
     parent->log(g, UI_INFO_FMT_STR "This level appears empty...", TEXT_FORMAT_LHS);
   }
 
-  if (l->is_treasure_level) {
-    static auto minimap_size = 14;
+  if (1 || l->is_treasure_level) {
+    static auto minimap_size = UI_RIGHTBAR_WIDTH / 2;
 
     level_minimaps_update(g, v, l);
 
-    parent->log_empty_line(g);
-    parent->log(g, "Minimap:");
+    //    parent->log_empty_line(g);
+    //    parent->log(g, "Minimap:");
 
     auto *w = parent->log_empty_line(g);
     if (w != nullptr) {

@@ -13,6 +13,8 @@ enum {
   MAP_WIDTH        = 48,
   MAP_SMALL_HEIGHT = 32,
   MAP_SMALL_WIDTH  = 32,
+  MAP_MED_HEIGHT   = 40,
+  MAP_MED_WIDTH    = 40,
   MAP_BORDER       = 1,
   MAP_SLOTS        = 14,
 
