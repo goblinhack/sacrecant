@@ -410,7 +410,7 @@
       list_macro(is_unused95, "is_unused95"),                                               /* newline */                                       \
       list_macro(is_unused96, "is_unused96"),                                               /* newline */                                       \
       list_macro(is_unused97, "is_unused97"),                                               /* newline */                                       \
-      list_macro(is_unused98, "is_unused98"),                                               /* newline */                                       \
+      list_macro(is_water_dweller, "is_water_dweller"),                                     /* newline */                                       \
       list_macro(is_leader_kill_followers_on_death, "is_leader_kill_followers_on_death"),   /* newline */                                       \
       list_macro(is_usable, "is_usable"),                                                   /* newline */                                       \
       list_macro(is_vault, "is_vault"),                                                     /* newline */                                       \
@@ -859,6 +859,14 @@ class Tp;
 [[nodiscard]] auto tp_dormant_max_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_find_mand(const std::string &val) -> Tpp;
 [[nodiscard]] auto tp_find_opt(const std::string &val) -> Tpp;
+[[nodiscard]] auto tp_find_random_dungeon_entrance() -> Tpp;
+[[nodiscard]] auto tp_find_random_exit() -> Tpp;
+[[nodiscard]] auto tp_find_random_key() -> Tpp;
+[[nodiscard]] auto tp_find_random_monst(Gamep g, Levelsp v, Levelp l, int c) -> Tpp;
+[[nodiscard]] auto tp_find_random_player() -> Tpp;
+[[nodiscard]] auto tp_find_random_wall() -> Tpp;
+[[nodiscard]] auto tp_find_random(Gamep g, Levelsp v, Levelp l, ThingFlagType f) -> Tpp;
+[[nodiscard]] auto tp_find_random(ThingFlagType) -> Tpp;
 [[nodiscard]] auto tp_first_tile(class Tp *tp, ThingAnimType val) -> Tilep;
 [[nodiscard]] auto tp_first(ThingFlagType f) -> Tpp;
 [[nodiscard]] auto tp_follower_max_get(Tpp tp) -> int;
@@ -1263,7 +1271,6 @@ class Tp;
 [[nodiscard]] auto tp_is_unused95(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused96(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused97(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused98(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_usable(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_vault(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_venomous(Tpp tp) -> bool;
@@ -1277,6 +1284,7 @@ class Tp;
 [[nodiscard]] auto tp_is_wand(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_water_bound(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_water_deep(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_water_dweller(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_water_shallow(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_weapon(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_weaponless_on_spawn(Tpp tp) -> bool;
@@ -1302,14 +1310,6 @@ class Tp;
 [[nodiscard]] auto tp_name_short(Tpp tp) -> std::string;
 [[nodiscard]] auto tp_name(Tpp tp) -> std::string;
 [[nodiscard]] auto tp_priority_get(Tpp tp) -> ThingPriorityType;
-[[nodiscard]] auto tp_find_random_dungeon_entrance() -> Tpp;
-[[nodiscard]] auto tp_find_random(ThingFlagType) -> Tpp;
-[[nodiscard]] auto tp_find_random_exit() -> Tpp;
-[[nodiscard]] auto tp_find_random_key() -> Tpp;
-[[nodiscard]] auto tp_find_random_monst(Gamep g, Levelsp v, Levelp l, int c) -> Tpp;
-[[nodiscard]] auto tp_find_random_player() -> Tpp;
-[[nodiscard]] auto tp_find_random_wall() -> Tpp;
-[[nodiscard]] auto tp_find_random(Gamep g, Levelsp v, Levelp l, ThingFlagType f) -> Tpp;
 [[nodiscard]] auto tp_rarity_get(Tpp tp) -> ThingRarityType;
 [[nodiscard]] auto tp_sac_points_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_sac_points_max_get(Tpp tp) -> int;

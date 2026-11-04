@@ -746,7 +746,8 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
   return tp;
 }
 
-[[nodiscard]] auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, int w, int h, const char *in, const Overrides &o_in) -> bool
+[[nodiscard]] auto level_populate(Gamep g, Levelsp v, Levelp l, class LevelGen *lg, int w, int h, const char *in, const Overrides &overrides_in)
+    -> bool
 {
   TRACE();
 
@@ -847,15 +848,18 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
       lp.need_fungus   = false;
       lp.need_reeds    = false;
 
-      auto o = o_in.find(lp.c);
-      if (o != o_in.end()) {
+      auto override = overrides_in.find(lp.c);
+      if (override != overrides_in.end()) {
         //
         // Allow some characters to be overridden e.g. to place a specific monster
         //
-        tp = (o->second)(lp.c, lp.at);
+        tp = (override->second)(lp.c, lp.at);
         if (tp == nullptr) [[unlikely]] {
           level_err(g, v, l, "could not find a template for override char %c", lp.c);
           return false;
+        }
+        if (tp_is_water_dweller(tp)) {
+          // TODO
         }
         lp.need_floor = true;
       } else if (lp.is_test_level || lp.is_room_exit || lp.is_room_locked || lp.is_room_secret) {

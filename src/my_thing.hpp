@@ -1355,7 +1355,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused95(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused96(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused97(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused98(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_upgradable(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade u) -> bool;
 [[nodiscard]] auto thing_is_upgradable(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_usable(Thingp t) -> bool;
@@ -1370,6 +1369,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_wand(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_water_bound(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_water_deep(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_water_dweller(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_weapon(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_weaponless_on_spawn(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_wearable(Thingp t) -> bool;

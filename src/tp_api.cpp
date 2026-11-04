@@ -1453,10 +1453,10 @@
   return tp_flag(tp, is_unused97) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused98(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_water_dweller(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused98) != 0;
+  return tp_flag(tp, is_water_dweller) != 0;
 }
 
 [[nodiscard]] auto tp_is_leader_kill_followers_on_death(Tpp tp) -> bool

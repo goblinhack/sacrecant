@@ -1491,10 +1491,10 @@
   return level_flag(g, v, l, is_unused97, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused98_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_water_dweller_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused98, p, me) != nullptr;
+  return level_flag(g, v, l, is_water_dweller, p, me) != nullptr;
 }
 
 [[nodiscard]] auto level_is_leader_kill_followers_on_death_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool

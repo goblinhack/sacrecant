@@ -1455,10 +1455,10 @@
   return level_count(g, v, l, is_unused97, p);
 }
 
-[[nodiscard]] auto level_count_is_unused98(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_water_dweller(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused98, p);
+  return level_count(g, v, l, is_water_dweller, p);
 }
 
 [[nodiscard]] auto level_count_is_leader_kill_followers_on_death(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t

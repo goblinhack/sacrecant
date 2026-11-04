@@ -207,6 +207,7 @@ static bool tp_coil_eel_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker
   tp_flag_set(tp, is_tickable);
   tp_flag_set(tp, is_venomous);
   tp_flag_set(tp, is_vision_360_degrees);
+  tp_flag_set(tp, is_water_dweller);
   tp_health_set(tp, "2d8");
   tp_hearing_threshold_set(tp, 3); // smaller values => better hearing
   tp_is_immune_to_add(tp, THING_EVENT_WATER_DAMAGE);
