@@ -982,7 +982,7 @@ auto player_move_to(Gamep g, Levelsp v, Levelp l, bpoint to) -> bool
   TRACE_INDENT();
 
   //
-  // Override any mouse request with the key move.
+  // LevelGenOverride any mouse request with the key move.
   //
   level_cursor_path_reset(g, v, l);
 

@@ -41,9 +41,9 @@
   //
   // Create the level and start playing
   //
-  Overrides overrides;
-  overrides[ 'k' ]           = [](char c, bpoint p) -> Tpp { return tp_find_mand("kobalos"); };
-  overrides[ 'm' ]           = [](char c, bpoint p) -> Tpp { return tp_find_mand("spider_giant"); };
+  LevelGenOverrides overrides;
+  overrides.o[ 'k' ].get_tp =  [](char c, bpoint p) -> Tpp { return tp_find_mand("kobalos"); };
+  overrides.o[ 'm' ].get_tp =  [](char c, bpoint p) -> Tpp { return tp_find_mand("spider_giant"); };
   Levelp  l                  = nullptr;
   Levelsp v                  = game_test_init(g, &l, level_num, w, h, start.c_str(), overrides);
   int     dead_kobalos       = 0;

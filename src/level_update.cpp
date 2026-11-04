@@ -31,7 +31,6 @@ void level_update_paths_set(Gamep g, Levelsp v, Levelp l, const bpoint &p)
 //
 // Update dmaps to things like mobs, player etc...
 //
-
 void level_update_paths(Gamep g, Levelsp v, Levelp l)
 {
   TRACE();

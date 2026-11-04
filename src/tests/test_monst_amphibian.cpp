@@ -39,8 +39,8 @@
   //
   // Create the level and start playing
   //
-  Overrides overrides;
-  overrides[ 'm' ] = [](char c, bpoint p) -> Tpp { return tp_find_mand("pale_eel"); };
+  LevelGenOverrides overrides;
+  overrides.o[ 'm' ].get_tp =  [](char c, bpoint p) -> Tpp { return tp_find_mand("pale_eel"); };
   Levelp  l        = nullptr;
   Levelsp v        = game_test_init(g, &l, level_num, w, h, start.c_str(), overrides);
 

@@ -61,9 +61,9 @@
         "x.........................x"
         "xxxxxxxxxxxxxxxxxxxxxxxxxxx";
 
-  Overrides overrides;
-  overrides[ 'm' ] = [](char c, bpoint p) -> Tpp { return tp_find_mand("kobalos"); };
-  overrides[ 'G' ] = [](char c, bpoint p) -> Tpp { return tp_find_mand("kobalos_mob"); };
+  LevelGenOverrides overrides;
+  overrides.o[ 'm' ].get_tp =  [](char c, bpoint p) -> Tpp { return tp_find_mand("kobalos"); };
+  overrides.o[ 'G' ].get_tp =  [](char c, bpoint p) -> Tpp { return tp_find_mand("kobalos_mob"); };
   Levelp  l1       = nullptr;
   Levelp  l2       = nullptr;
   Levelsp v        = game_test_init(g, &l1, level_num, w, h, level1.c_str(), overrides);

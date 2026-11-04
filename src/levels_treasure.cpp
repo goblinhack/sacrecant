@@ -17,10 +17,10 @@ void levels_treasure(Gamep g)
   TRACE();
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'p' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt"); };
-    overrides[ 'g' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
+    overrides.o[ 'p' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt"); };
+    overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE1, "treasure1.1", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -59,11 +59,11 @@ void levels_treasure(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'm' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("mantisman"); };
-    overrides[ 'p' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt"); };
-    overrides[ 'g' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
+    overrides.o[ 'm' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("mantisman"); };
+    overrides.o[ 'p' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt"); };
+    overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE1, "treasure1.2", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -102,10 +102,10 @@ void levels_treasure(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'p' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt"); };
-    overrides[ 'g' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
+    overrides.o[ 'p' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt"); };
+    overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE1, "treasure1.3", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -144,9 +144,9 @@ void levels_treasure(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'g' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
+    overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE1, "treasure1.4", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -185,9 +185,9 @@ void levels_treasure(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'g' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
+    overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE1, "treasure1.5", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -226,9 +226,9 @@ void levels_treasure(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'g' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
+    overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE1, "treasure1.6", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -267,9 +267,9 @@ void levels_treasure(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'g' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
+    overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE1, "treasure1.7", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -308,9 +308,9 @@ void levels_treasure(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'g' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
+    overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE1, "treasure1.8", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -349,9 +349,9 @@ void levels_treasure(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'g' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
+    overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE1, "treasure1.9", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -390,9 +390,9 @@ void levels_treasure(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'g' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
+    overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE1, "treasure1.10", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -431,9 +431,9 @@ void levels_treasure(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'g' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
+    overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE2, "treasure1.11", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -472,9 +472,9 @@ void levels_treasure(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'g' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
+    overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE1, "treasure1.12", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -513,9 +513,9 @@ void levels_treasure(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'g' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
+    overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE1, "treasure1.13", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -554,9 +554,9 @@ void levels_treasure(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'g' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
+    overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE1, "treasure1.14", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -595,9 +595,9 @@ void levels_treasure(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'g' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
+    overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE1, "treasure1.15", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -636,9 +636,9 @@ void levels_treasure(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'g' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
+    overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE1, "treasure1.16", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -670,9 +670,9 @@ void levels_treasure(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'g' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
+    overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE1, "treasure1.17", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -711,9 +711,9 @@ void levels_treasure(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'g' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
+    overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE1, "treasure1.18", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -752,9 +752,9 @@ void levels_treasure(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'g' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
+    overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE1, "treasure1.19", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -790,9 +790,9 @@ void levels_treasure(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'g' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
+    overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE1, "treasure1.20", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -831,50 +831,55 @@ void levels_treasure(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'e' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_random(is_amphibious); };
+    overrides.o[ 'e' ].do_thing_spawn = [](Gamep g, Levelsp v, Levelp l, const bpoint &at, ThingEvent *e) -> Thingp {
+      (void) thing_spawn(g, v, l, tp_find_random(is_water_dweller), at, e);
+      (void) thing_spawn(g, v, l, tp_first(is_water_deep), at, e);
+      (void) thing_spawn(g, v, l, tp_first(is_water_shallow), at, e);
+      return thing_spawn(g, v, l, tp_first(is_dirt), at, e);
+    };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE2, "treasure2.1", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
-                    /* line */ (const char *) "R$,WWWWWWRWWWWWWWWWWWWWWRWWWW,$R",
-                    /* line */ (const char *) "R,,WWWWWWWWWWWWWWWWWWWWWWWWWW,,R",
-                    /* line */ (const char *) "RWWWWWeWWWWWWWWeWWWWWWWRWWWWWWWR",
-                    /* line */ (const char *) "RRWWWWWWWWWWWRWWWWWWWWWWWWWWWWWR",
-                    /* line */ (const char *) "RWWWRWWWWWWWWWWWWRWWWWWWWWWWWWRR",
-                    /* line */ (const char *) "RWWeWWWWWWWRWWWWWWWWWWWWWWWWWWWR",
-                    /* line */ (const char *) "RRWWWWWWWWWWWWWWWWWWWeWWWWWWWWRR",
-                    /* line */ (const char *) "RWWWWWWWWeWWWWWWWWWRWWWWWWWWWWWR",
-                    /* line */ (const char *) "RWWWWRWWWWWWWWWWWWWWWWWWWWWWWW.R",
-                    /* line */ (const char *) "RWWWWWWWWWWWWWWWWRWWWWWWWWWWW..R",
-                    /* line */ (const char *) "RWWWWWWWWWWWWWWWWWWWWWWWWWWW...R",
-                    /* line */ (const char *) "RWWWWWWWWWWWWWWWWWWWWWWWWWW....R",
-                    /* line */ (const char *) "RWW@WWWWWWWWWWRWWWWWWeWWWW...E.R",
-                    /* line */ (const char *) "RWWWWWWWWWWWRWWWWWWWWWWWWWW....R",
-                    /* line */ (const char *) "RWWWWWWWWWWWWWeWWWWWWWWWWWWW...R",
-                    /* line */ (const char *) "RWWWRWWWWWWWWWWWWWWWWWWWWWWWW..R",
-                    /* line */ (const char *) "RWWWWWWWeWWWWWWWWWWWWWWRWWWWWW.R",
-                    /* line */ (const char *) "RWWWWWWWWWWWWWWWWWRWWWWWWWRWWWWR",
-                    /* line */ (const char *) "RRWeWWWWWWWWWWWWWRWWWWWWWWeWWWWR",
-                    /* line */ (const char *) "RWWWWWWWWWWWRWWWWWeWWWWWWWWWWWRR",
-                    /* line */ (const char *) "RWWWWWWWWWWWWWRWWWWWWeWWWWWWWWWR",
-                    /* line */ (const char *) "RWWWWWWWWeWWWWWWWWWWWWWWWWRWWWWR",
+                    /* line */ (const char *) "R$,WWWWWWRWWRWWWWWWRWWWWRWWWW,$R",
+                    /* line */ (const char *) "R,,WWWWWWWWWWWWWWWWRWWWWWWWWW,,R",
+                    /* line */ (const char *) "RWWWWWeRWWWWRWWeWWRWWWWRWWWWWWWR",
+                    /* line */ (const char *) "RRWWWWWWRWWWWRWWWWWWeWWRWWWWWWWR",
+                    /* line */ (const char *) "RWWWRWWWWWWRWWWWWRWWWWWWRWWeWWRR",
+                    /* line */ (const char *) "RWWeWWWWWWWRWWWWWWWWWWWWWRWWWWWR",
+                    /* line */ (const char *) "RRWWWWWWWWRWWWWWWWWWWeWWWWWWWWRR",
+                    /* line */ (const char *) "RWWWWWWWWRWWWWWRWWWRWWWWWWeWWRWR",
+                    /* line */ (const char *) "RWWWWRWWRWWWRWWWWWWWWWWWRWWRWW.R",
+                    /* line */ (const char *) "RWWWWWWRWWWWWRWWWRWWWWWRWWWWW..R",
+                    /* line */ (const char *) "RWWWWWWWWWWWWWWWWWWWWWRWWWWR...R",
+                    /* line */ (const char *) "RWWWWWRWWWWWWWWWWWWRWWWWWWR....R",
+                    /* line */ (const char *) "RWW@WWWRWWWWWWRWWWWWReWWWR...E.R",
+                    /* line */ (const char *) "RWWWWWWWRWWWRWWWWWWWWRWWWWR....R",
+                    /* line */ (const char *) "RWWWWWWWWRWWRWeWWWRWWWRWeWWR...R",
+                    /* line */ (const char *) "RWWWRRWWWWRRRWWWWRWWWWWRWWWWR..R",
+                    /* line */ (const char *) "RWWWWWRWeWWWWWWWWRWWWWWRWWeWWR.R",
+                    /* line */ (const char *) "RWWWWWRWWWWRWWRWWWRWWWWWWWRWWRWR",
+                    /* line */ (const char *) "RRWeWRWRWWWWRRRRRRWWWWWWWReWWWWR",
+                    /* line */ (const char *) "RWWWWRWWRWWWRWWWWWRWWWWWRWWWWWRR",
+                    /* line */ (const char *) "RWWWWWWWWWWWRWRWWWWWWeWRWWeWWWWR",
+                    /* line */ (const char *) "RWWWWWWWWeWRWWWWWWWWWWWWWWRWeWWR",
                     /* line */ (const char *) "RWWWRWWWWWWWWWWWWWWWRWWWWWWWWWRR",
-                    /* line */ (const char *) "RWWWWWWWWeWWWWWWWWWWWWWWWWWWWWWR",
-                    /* line */ (const char *) "RWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWR",
-                    /* line */ (const char *) "RWWWeWWWWWRWWWWWWWWWWWWWWWWWWWWR",
-                    /* line */ (const char *) "RWWWWWWWWWWWWWWWWeWWWWWWWWeWWWWR",
-                    /* line */ (const char *) "RWWWWWWWRWWWWWWWWWWWWWWWWWWWWWWR",
-                    /* line */ (const char *) "R,,WWWRWWWWWWWWWWWWWWWWeWWRWW,,R",
+                    /* line */ (const char *) "RWWRWWRWWeWWWWWWWWRRWWWWRWWWeWWR",
+                    /* line */ (const char *) "RWRWWWWRWWWRWWWWWRWWWWWRWWWWWeWR",
+                    /* line */ (const char *) "RRWWeWWWWWRWRWWWWWWWWWRWRWWWWWWR",
+                    /* line */ (const char *) "RWWWWWWWWWWWWRWWWeRWWRWWRWeWWWWR",
+                    /* line */ (const char *) "RWWWWWWWRWWWWWRWWWWWWWWWWWWWWWWR",
+                    /* line */ (const char *) "R,,WWWRWWWWWWWWRWWWWWWWeWWRWW,,R",
                     /* line */ (const char *) "R,,WWWWWWWWWWWRWWWWWWWWRWWWWW,$R",
                     /* line */ (const char *) "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
                     /* end */ nullptr);
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'e' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_random(is_amphibious); };
+    overrides.o[ 'e' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_random(is_amphibious); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE3, "treasure3.1", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -913,7 +918,7 @@ void levels_treasure(Gamep g)
   }
 
   {
-    Overrides const overrides;
+    LevelGenOverrides const overrides;
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE4, "treasure4.1", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -952,7 +957,7 @@ void levels_treasure(Gamep g)
   }
 
   {
-    Overrides const overrides;
+    LevelGenOverrides const overrides;
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE5, "treasure5.1", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",

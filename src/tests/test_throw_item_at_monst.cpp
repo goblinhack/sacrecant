@@ -38,8 +38,8 @@
         "x.........................x"
         "xxxxxxxxxxxxxxxxxxxxxxxxxxx";
 
-  Overrides overrides;
-  overrides[ 'G' ] = [](char c, bpoint p) -> Tpp { return tp_find_mand("mantisman"); };
+  LevelGenOverrides overrides;
+  overrides.o[ 'G' ].get_tp =  [](char c, bpoint p) -> Tpp { return tp_find_mand("mantisman"); };
   Levelp  l        = nullptr;
   Levelsp v        = game_test_init(g, &l, level_num, w, h, start.c_str(), overrides);
   bool    result   = true;

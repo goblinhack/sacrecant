@@ -82,12 +82,12 @@ auto test_init() -> void;
 auto test_fini() -> void;
 
 [[nodiscard]] auto game_test_init(Gamep g, Levelp *out, LevelArrIdx level_arr_idx, int w, int h, const char *contents,
-                                  const Overrides &overrides = no_overrides) -> Levelsp;
+                                  const LevelGenOverrides &overrides = no_overrides) -> Levelsp;
 
 void game_test_init_level(Gamep g, Levelsp v, Levelp *out, LevelArrIdx level_arr_idx, int w, int h, const char *contents,
-                          const Overrides &overrides = no_overrides);
+                          const LevelGenOverrides &overrides = no_overrides);
 
 void game_test_init_level(Gamep g, Levelsp v, Levelp *out, LevelArrIdx level_arr_idx, bpoint level_at, int w, int h, const char *contents,
-                          const Overrides &overrides = no_overrides);
+                          const LevelGenOverrides &overrides = no_overrides);
 
 #endif // MY_TEST_HPP

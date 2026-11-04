@@ -9,7 +9,7 @@
 #include "my_tp.hpp"
 #include "my_types.hpp"
 
-Overrides no_overrides;
+LevelGenOverrides no_overrides;
 
 //
 // Create all test levels
@@ -33,9 +33,9 @@ void levels_test(Gamep g)
                   /* end */ nullptr);
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'g' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("boss2"); };
+    overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("boss2"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "boss", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxxxxx",
@@ -57,9 +57,9 @@ void levels_test(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'g' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("phantom_mob"); };
+    overrides.o[ 'g' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("phantom_mob"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "mob", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxxxxx",
@@ -77,9 +77,9 @@ void levels_test(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ '$' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("pot_incin"); };
+    overrides.o[ '$' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("pot_incin"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "chain_reaction", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxx",
@@ -97,10 +97,10 @@ void levels_test(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ '$' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("pot_invis"); };
-    overrides[ 'm' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("kobalos"); };
+    overrides.o[ '$' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("pot_invis"); };
+    overrides.o[ 'm' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("kobalos"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "invisibility", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxx",
@@ -120,7 +120,7 @@ void levels_test(Gamep g)
   }
 
   {
-    Overrides const overrides;
+    LevelGenOverrides const overrides;
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "treasure", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxx",
@@ -135,11 +135,11 @@ void levels_test(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'a' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("trap_chasm"); };
-    overrides[ 'b' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("trap_gas_death"); };
-    overrides[ 'c' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("trap_gas_explosive"); };
+    overrides.o[ 'a' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("trap_chasm"); };
+    overrides.o[ 'b' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("trap_gas_death"); };
+    overrides.o[ 'c' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("trap_gas_explosive"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "traps", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxx",
@@ -154,13 +154,13 @@ void levels_test(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'a' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("chocolate_frog"); };
-    overrides[ 'b' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("clown_meat"); };
-    overrides[ 'c' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("minotorte"); };
-    overrides[ 'd' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("eyes_in_a_jar"); };
-    overrides[ 'e' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("fairy_cake"); };
+    overrides.o[ 'a' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("chocolate_frog"); };
+    overrides.o[ 'b' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("clown_meat"); };
+    overrides.o[ 'c' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("minotorte"); };
+    overrides.o[ 'd' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("eyes_in_a_jar"); };
+    overrides.o[ 'e' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("fairy_cake"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "food", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxx",
@@ -175,7 +175,7 @@ void levels_test(Gamep g)
   }
 
   {
-    Overrides const overrides;
+    LevelGenOverrides const overrides;
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "generator", __FUNCTION__, __LINE__, no_overrides, 0,
                     /* line */ (const char *) "XXXXXXXXXXXXXX",
@@ -196,9 +196,9 @@ void levels_test(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'M' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("cleaner"); };
+    overrides.o[ 'M' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("cleaner"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "cleaner", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "XXXXXXXXXXXXXX",
@@ -219,9 +219,9 @@ void levels_test(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'M' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("voider"); };
+    overrides.o[ 'M' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("voider"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "rubble", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "XXXXXXXXXXXXXX",
@@ -235,10 +235,10 @@ void levels_test(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'M' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("spiderweb"); };
-    //    overrides[ '$' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("boots_spider"); };
+    overrides.o[ 'M' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("spiderweb"); };
+    //    overrides.o[ '$' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("boots_spider"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "spiderweb", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "XXXXXXXXXXXXXX",
@@ -250,9 +250,9 @@ void levels_test(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'M' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("spider_giant"); };
+    overrides.o[ 'M' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("spider_giant"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "spider", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "XXXXXXXXXXXXXX",
@@ -264,10 +264,10 @@ void levels_test(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'm' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("kobalos"); };
-    overrides[ '$' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("pot_levit"); };
+    overrides.o[ 'm' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("kobalos"); };
+    overrides.o[ '$' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("pot_levit"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "test1", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "XXXXXXXXXXXXXXXXXXXXXXXXXX",
@@ -283,10 +283,10 @@ void levels_test(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'm' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("kobalos"); };
-    overrides[ '$' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("pot_stealth"); };
+    overrides.o[ 'm' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("kobalos"); };
+    overrides.o[ '$' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("pot_stealth"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "foliage", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "XXXXXXX",
@@ -303,9 +303,9 @@ void levels_test(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'm' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt"); };
+    overrides.o[ 'm' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "wall-walker", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "XXXXXXX",
@@ -319,9 +319,9 @@ void levels_test(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'm' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("mantisman"); };
+    overrides.o[ 'm' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("mantisman"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "test2", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "XXXXXXX",
@@ -335,9 +335,9 @@ void levels_test(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'm' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("mantisman"); };
+    overrides.o[ 'm' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("mantisman"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "test2b", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "XXXXXXX",
@@ -350,10 +350,10 @@ void levels_test(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'm' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("spider_giant"); };
-    overrides[ 'k' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("kobalos"); };
+    overrides.o[ 'm' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("spider_giant"); };
+    overrides.o[ 'k' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("kobalos"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "avoid-water", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "XXXXXXXXXXXXXXX",
@@ -367,9 +367,9 @@ void levels_test(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'm' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt"); };
+    overrides.o[ 'm' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "avoid-chasm", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "XXXXXXXXXXXXXXX",
@@ -383,9 +383,9 @@ void levels_test(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'm' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("mantisman"); };
+    overrides.o[ 'm' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("mantisman"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "avoid-lava", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "XXXXXXXXXXXXXXX",
@@ -399,9 +399,9 @@ void levels_test(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'm' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("mantisman"); };
+    overrides.o[ 'm' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("mantisman"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "test4", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "XXXXXXX",
@@ -415,9 +415,9 @@ void levels_test(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'm' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("mantisman"); };
+    overrides.o[ 'm' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("mantisman"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "test5", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "XXXXXXX",
@@ -431,9 +431,9 @@ void levels_test(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'm' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("argusul"); };
+    overrides.o[ 'm' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("argusul"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "argusul", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "XXXXXXX",
@@ -447,9 +447,9 @@ void levels_test(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'm' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("kobalos"); };
+    overrides.o[ 'm' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("kobalos"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "monst.1", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -513,9 +513,9 @@ void levels_test(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ '$' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("boots_fire"); };
+    overrides.o[ '$' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("boots_fire"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "lava", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxx",
@@ -561,10 +561,10 @@ void levels_test(Gamep g)
                   /* end */ nullptr);
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'm' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("skeleton"); };
-    overrides[ 'M' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("mummy"); };
+    overrides.o[ 'm' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("skeleton"); };
+    overrides.o[ 'M' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("mummy"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "chasm.1", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxCCCCCCCCCCCCCCCCCCCCCCCCCC",
@@ -632,12 +632,12 @@ void levels_test(Gamep g)
                   /* end */ nullptr);
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'm' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("mantisman"); };
-    overrides[ 'k' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("kobalos"); };
-    overrides[ '!' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("fire_magical"); };
-    overrides[ 's' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("spider_giant"); };
+    overrides.o[ 'm' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("mantisman"); };
+    overrides.o[ 'k' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("kobalos"); };
+    overrides.o[ '!' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("fire_magical"); };
+    overrides.o[ 's' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("spider_giant"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "fire", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxx",
@@ -843,7 +843,7 @@ void levels_test(Gamep g)
                   /* end */ nullptr);
 
   {
-    Overrides const overrides;
+    LevelGenOverrides const overrides;
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "teleport", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "                   ",
@@ -939,9 +939,9 @@ void levels_test(Gamep g)
                   /* end */ nullptr);
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'm' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("coil_eel"); };
+    overrides.o[ 'm' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("coil_eel"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "water", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -969,9 +969,9 @@ void levels_test(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ '&' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("gas_explosive"); };
+    overrides.o[ '&' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("gas_explosive"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "gas", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",

@@ -416,7 +416,7 @@ public:
   const char *file = {};
   int         line = {};
 
-  Overrides overrides;
+  LevelGenOverrides overrides;
 
   //
   // User alias for level. Must be unique.
@@ -2214,7 +2214,7 @@ void fragments_fini(Gamep g)
 //
 // Add a level
 //
-void level_fixed_add(Gamep g, int chance, LevelType level_type, const std::string &alias, const char *file, int line, const Overrides &overrides,
+void level_fixed_add(Gamep g, int chance, LevelType level_type, const std::string &alias, const char *file, int line, const LevelGenOverrides &overrides,
                      int dummy, ...)
 {
   TRACE();
@@ -2319,7 +2319,7 @@ void level_fixed_add(Gamep g, int chance, LevelType level_type, const std::strin
           }
           break;
         default :
-          if (! overrides.contains(c)) {
+          if (! overrides.o.contains(c)) {
             CROAK("level has unknown char [%c] in level @ %s:%d", level_line[ i ], file, line);
             return;
           }
@@ -5351,7 +5351,7 @@ static void level_gen_extend_bridges(Gamep g, class LevelGenAll *lga, class Leve
   //
   std::string level_string;
   LevelFixed *fixed_level = nullptr;
-  Overrides   overrides   = no_overrides;
+  LevelGenOverrides   overrides   = no_overrides;
   auto        level_type  = level_type_from_arr_idx(lg->level_arr_idx);
 
   if (! g_level_opt.level_name.empty()) {

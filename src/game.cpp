@@ -585,7 +585,7 @@ void game_init(Gamep g) { g->init(); }
 // Create a level with the given contents and start the game into playing state
 //
 [[nodiscard]] auto game_test_init(Gamep g, Levelp *l_out, LevelArrIdx level_arr_idx, int w, int h, const char *contents,
-                                  const Overrides &overrides) -> Levelsp
+                                  const LevelGenOverrides &overrides) -> Levelsp
 {
   log("GAME: test init");
   TRACE_INDENT();
@@ -623,7 +623,7 @@ void game_init(Gamep g) { g->init(); }
 // Create an additional level with the given contents and start the game into playing state
 //
 void game_test_init_level(Gamep g, Levelsp v, Levelp *l_out, LevelArrIdx level_arr_idx, bpoint level_at, int w, int h, const char *contents,
-                          const Overrides &overrides)
+                          const LevelGenOverrides &overrides)
 {
   log("GAME: test init level");
   TRACE_INDENT();
@@ -668,7 +668,7 @@ void game_test_init_level(Gamep g, Levelsp v, Levelp *l_out, LevelArrIdx level_a
 }
 
 void game_test_init_level(Gamep g, Levelsp v, Levelp *l_out, LevelArrIdx level_arr_idx, int w, int h, const char *contents,
-                          const Overrides &overrides)
+                          const LevelGenOverrides &overrides)
 {
   game_test_init_level(g, v, l_out, level_arr_idx, bpoint(0, level_arr_idx), w, h, contents, overrides);
 }

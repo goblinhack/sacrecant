@@ -36,7 +36,7 @@
         "x...............x"
         "xxxxxxxxxxxxxxxxx";
 
-  Overrides overrides;
+  LevelGenOverrides overrides;
   Levelp    l = nullptr;
   Levelsp   v = game_test_init(g, &l, level_num, w, h, start.c_str());
   //

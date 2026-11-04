@@ -65,8 +65,8 @@
   //
   // Create the level and start playing
   //
-  Overrides overrides;
-  overrides[ 'm' ] = [](char c, bpoint p) -> Tpp { return tp_find_mand("cleaner"); };
+  LevelGenOverrides overrides;
+  overrides.o[ 'm' ].get_tp =  [](char c, bpoint p) -> Tpp { return tp_find_mand("cleaner"); };
   Thingp  monst    = nullptr;
   Levelp  l1       = nullptr;
   Levelp  l2       = nullptr;

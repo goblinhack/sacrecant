@@ -17,11 +17,11 @@ void levels_fixed(Gamep g)
   TRACE();
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'a' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("argusul"); };
-    overrides[ 'B' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("boss1"); };
-    overrides[ 'E' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("exit_closed"); };
+    overrides.o[ 'a' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("argusul"); };
+    overrides.o[ 'B' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("boss1"); };
+    overrides.o[ 'E' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("exit_closed"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_BOSS1, "boss1.1", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
@@ -60,10 +60,10 @@ void levels_fixed(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'B' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("boss2"); };
-    overrides[ 'E' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("exit_closed"); };
+    overrides.o[ 'B' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("boss2"); };
+    overrides.o[ 'E' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("exit_closed"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_BOSS2, "boss2.1", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
@@ -102,11 +102,11 @@ void levels_fixed(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'm' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("skullferno"); };
-    overrides[ 'B' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("boss3"); };
-    overrides[ 'E' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("exit_closed"); };
+    overrides.o[ 'm' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("skullferno"); };
+    overrides.o[ 'B' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("boss3"); };
+    overrides.o[ 'E' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("exit_closed"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_BOSS3, "boss3.1", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
@@ -145,10 +145,10 @@ void levels_fixed(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'B' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("boss4"); };
-    overrides[ 'E' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("exit_closed"); };
+    overrides.o[ 'B' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("boss4"); };
+    overrides.o[ 'E' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("exit_closed"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_BOSS4, "boss4.1", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
@@ -187,11 +187,11 @@ void levels_fixed(Gamep g)
   }
 
   {
-    Overrides overrides;
+    LevelGenOverrides overrides;
 
-    overrides[ 'B' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("boss5"); };
-    overrides[ 'E' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("exit_closed"); };
-    overrides[ 'm' ] = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("ogrik"); };
+    overrides.o[ 'B' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("boss5"); };
+    overrides.o[ 'E' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("exit_closed"); };
+    overrides.o[ 'm' ].get_tp =  [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("ogrik"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_BOSS5, "boss5.1", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
