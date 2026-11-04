@@ -853,9 +853,9 @@ void levels_treasure(Gamep g)
                     /* line */ (const char *) "RWWWWRWWRWWWRWWWWWWWWWWWRWWRWW.R",
                     /* line */ (const char *) "RWWWWWWRWWWWWRWWWRWWWWWRWWWWW..R",
                     /* line */ (const char *) "RWWWWWWWWWWWWWWWWWWWWWRWWWWR...R",
-                    /* line */ (const char *) "RWWWWWRWWWWWWWWWWWWRWWWWWWR....R",
+                    /* line */ (const char *) "R$WWWWRWWWWWWWWWWWWRWWWWWWR....R",
                     /* line */ (const char *) "RWW@WWWRWWWWWWRWWWWWReWWWR...E.R",
-                    /* line */ (const char *) "RWWWWWWWRWWWRWWWWWWWWRWWWWR....R",
+                    /* line */ (const char *) "R$WWWWWWRWWWRWWWWWWWWRWWWWR....R",
                     /* line */ (const char *) "RWWWWWWWWRWWRWeWWWRWWWRWeWWR...R",
                     /* line */ (const char *) "RWWWRRWWWWRRRWWWWRWWWWWRWWWWR..R",
                     /* line */ (const char *) "RWWWWWRWeWWWWWWWWRWWWWWRWWeWWR.R",
@@ -873,6 +873,778 @@ void levels_treasure(Gamep g)
                     /* line */ (const char *) "R,,WWWRWWWWWWWWRWWWWWWWeWWRWW,,R",
                     /* line */ (const char *) "R,,WWWWWWWWWWWRWWWWWWWWRWWWWW,$R",
                     /* line */ (const char *) "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
+                    /* end */ nullptr);
+  }
+
+  {
+    LevelGenOverrides overrides;
+
+    overrides.o[ 'e' ].do_thing_spawn = [](Gamep g, Levelsp v, Levelp l, const bpoint &at, ThingEvent *e) -> Thingp {
+      (void) thing_spawn(g, v, l, tp_find_random(is_water_dweller), at, e);
+      (void) thing_spawn(g, v, l, tp_first(is_water_deep), at, e);
+      (void) thing_spawn(g, v, l, tp_first(is_water_shallow), at, e);
+      return thing_spawn(g, v, l, tp_first(is_dirt), at, e);
+    };
+
+    level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE2, "treasure2.2", __FUNCTION__, __LINE__, overrides, 0,
+                    /* line */ (const char *) "vvvvRRRRRRRRRRRRRRRRRRRRRRRRvvvv",
+                    /* line */ (const char *) "v$,vWWWWW,WWRWWWWWWRWWWWRWWWv,$R",
+                    /* line */ (const char *) "v,,vWWWWW,WWWWWWWWWRWWWWWWWWv,,R",
+                    /* line */ (const char *) "vv+vWWeRW,WWRWWeWWRWWWWRWWWWv+vv",
+                    /* line */ (const char *) "RR,,,,W,,,,,,,,,,,,,,,,,,,,,,,WR",
+                    /* line */ (const char *) "RWWWRWWWW,WRWWWWWRWWWWWWRWWeWWRR",
+                    /* line */ (const char *) "RWWeWWvvv+vvvWWWWWWWWWWWWRWWWWWR",
+                    /* line */ (const char *) "RRWWWWvg,,,,vWWWWWWWWeWWWWWWWWRR",
+                    /* line */ (const char *) "RWWWWWv,,,,,vWWRWWWRWWWWWWeWWRWR",
+                    /* line */ (const char *) "RWWWWRv$,,,$vWWWWWWWWWWWRW_____R",
+                    /* line */ (const char *) "RWWWWWvvvvvvvRWWWRWWWWWRWW_,,,gR",
+                    /* line */ (const char *) "R,WWWWWWWWWWWWWWWWWWWWRWWW_,,,,R",
+                    /* line */ (const char *) "R,,,WWRWWWWWWWWWWWWRWWWWWW_,,,,R",
+                    /* line */ (const char *) "R,,@WWWRWWWWWWRWWWWWReWWWR_,,E,R",
+                    /* line */ (const char *) "R,,,WWWWRWWWRWWWWWWWWRWWWW_,,,,R",
+                    /* line */ (const char *) "R,WWWWWWWRWWRWeWWvvvvvRWeW_,,,,R",
+                    /* line */ (const char *) "RWWWRRWWWWRRRWWWWv$,gvWRWW_,,,gR",
+                    /* line */ (const char *) "RWWWWWRWeWRWWWWWWv,,,vWRWW____,R",
+                    /* line */ (const char *) "RWWWWWRWWWWRWWRWWv,,,+,,,,,RRRWR",
+                    /* line */ (const char *) "RRWeWRWRWWWWRRRRRv,,,vWWWReWWRWR",
+                    /* line */ (const char *) "RWWWWRWWRWWWRWWWWv$,gvWWRWWWWRWR",
+                    /* line */ (const char *) "RWWWWWWWWWWWRWRWWvvvvvWRWWeWWRWR",
+                    /* line */ (const char *) "RWWWWWWWWeWRWWWWWWWWWWWWWWRWeRWR",
+                    /* line */ (const char *) "RWWWRWWWWWWWWWWWWWWWRWWWWWWRRWWR",
+                    /* line */ (const char *) "RWWRWWRWWeWWWWWWWWRRWWWWRWWWeWWR",
+                    /* line */ (const char *) "RWRWWWWRvvvvvvvWWRWWWWWRWWWWWeWR",
+                    /* line */ (const char *) "RRWWeWWWv$g,g$vWWWWWWWRWRWWWWWWR",
+                    /* line */ (const char *) "RWWWWWWWv,,,,,vWWeRWWRWWRWeWWWWR",
+                    /* line */ (const char *) "vvvvWWWWv,,,,,vWWWWWWWWWWWWWvvvv",
+                    /* line */ (const char *) "v,,vWWRWvvv+vvvRWWWWWWWeWWRWv,,v",
+                    /* line */ (const char *) "v,,+,,,,,,,,,,,,,,,,,,,,,,,,+,$v",
+                    /* line */ (const char *) "vvvvRRRRRRRRRRRRRRRRRRRRRRRRvvvv",
+                    /* end */ nullptr);
+  }
+
+  {
+    LevelGenOverrides overrides;
+
+    overrides.o[ 'p' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt"); };
+
+    level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE2, "treasure2.3", __FUNCTION__, __LINE__, overrides, 0,
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* line */ (const char *) "x$..$_ppppppC.....C....$C$....Ex",
+                    /* line */ (const char *) "x...._ppppppC..g..C..g..C......x",
+                    /* line */ (const char *) "x...._ppppppC.....C.....C......x",
+                    /* line */ (const char *) "x...._ppppppC.....C.....C......x",
+                    /* line */ (const char *) "x.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* line */ (const char *) "x....C......C.....C.....C......x",
+                    /* line */ (const char *) "x....C..g...C.....C.....C......x",
+                    /* line */ (const char *) "x....C......C.....C..g..C......x",
+                    /* line */ (const char *) "x....C......C.....C.....C......x",
+                    /* line */ (const char *) "x....C......C..g..C.....C......x",
+                    /* line */ (const char *) "x....C......C.....C.....C......x",
+                    /* line */ (const char *) "x....C......C.....C.....C......x",
+                    /* line */ (const char *) "x....C......C.....C.....C......x",
+                    /* line */ (const char *) "x....C......C.....C.....C......x",
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxgx",
+                    /* line */ (const char *) "x$...C......C.....C.....C......x",
+                    /* line */ (const char *) "x....C......C.....C.....C......x",
+                    /* line */ (const char *) "x....C......C.....C.....C......x",
+                    /* line */ (const char *) "x....C......C.....C.....C......x",
+                    /* line */ (const char *) "x....C......C.....C.....C......x",
+                    /* line */ (const char *) "x....C......C.....C.....C......x",
+                    /* line */ (const char *) "x....C......C.....C.....C......x",
+                    /* line */ (const char *) "x....C......C.....C.....C......x",
+                    /* line */ (const char *) "x....C......C.....C.....C......x",
+                    /* line */ (const char *) "x....C......C.....C.....C......x",
+                    /* line */ (const char *) "x....C......C.....C.....C......x",
+                    /* line */ (const char *) "x....C$.....C....$C.....C$.....x",
+                    /* line */ (const char *) "x....C............C.....C......x",
+                    /* line */ (const char *) "x.@..C...g.....g..C.....C..g...x",
+                    /* line */ (const char *) "x....x............C.....C......x",
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* end */ nullptr);
+  }
+
+  {
+    LevelGenOverrides overrides;
+
+    overrides.o[ 'p' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt"); };
+
+    level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE2, "treasure2.4", __FUNCTION__, __LINE__, overrides, 0,
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* line */ (const char *) "x$....k........................x",
+                    /* line */ (const char *) "x........@.....................x",
+                    /* line */ (const char *) "x..........................g...x",
+                    /* line */ (const char *) "x$__________________________...x",
+                    /* line */ (const char *) "x.........................._...x",
+                    /* line */ (const char *) "x.........................._...x",
+                    /* line */ (const char *) "x.......g.................._...x",
+                    /* line */ (const char *) "x...____________________..._...x",
+                    /* line */ (const char *) "x..._............g....._..._...x",
+                    /* line */ (const char *) "x..._.................._g.._..gx",
+                    /* line */ (const char *) "x..g_......g..........._..._...x",
+                    /* line */ (const char *) "x..._...____________..._..._...x",
+                    /* line */ (const char *) "x..._..._pppppppppp_..._..._...x",
+                    /* line */ (const char *) "x..._..g_pppppppppp_g.._..._...x",
+                    /* line */ (const char *) "x..._..._pppppppppp_..._..._...x",
+                    /* line */ (const char *) "x..._..._ppp________..._..._...x",
+                    /* line */ (const char *) "x..._..._ppp_CCCCCC_..._..._...x",
+                    /* line */ (const char *) "x..._..._ppp_...CCC_..._..._g..x",
+                    /* line */ (const char *) "x..._..._ppp_$$.CCE_..g_..._...x",
+                    /* line */ (const char *) "x..._g..____________..._..g_...x",
+                    /* line */ (const char *) "x..._...xg............._..._...x",
+                    /* line */ (const char *) "x..._..._$g...........k_..._...x",
+                    /* line */ (const char *) "xg.._...________________..._...x",
+                    /* line */ (const char *) "x..._......................_...x",
+                    /* line */ (const char *) "x..._g....................._...x",
+                    /* line */ (const char *) "x..._$g...................._...x",
+                    /* line */ (const char *) "x...________________________...x",
+                    /* line */ (const char *) "x..............................x",
+                    /* line */ (const char *) "xg.............................x",
+                    /* line */ (const char *) "x$g...........................$x",
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* end */ nullptr);
+  }
+
+  {
+    LevelGenOverrides overrides;
+
+    level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE2, "treasure2.5", __FUNCTION__, __LINE__, overrides, 0,
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* line */ (const char *) "x.............................$x",
+                    /* line */ (const char *) "x..@.....................xg....x",
+                    /* line */ (const char *) "x........................xx....x",
+                    /* line */ (const char *) "x......x.........x.............x",
+                    /* line */ (const char *) "x.....xx.......................x",
+                    /* line */ (const char *) "x......................$.......x",
+                    /* line */ (const char *) "x..............................x",
+                    /* line */ (const char *) "x...................gxk........x",
+                    /* line */ (const char *) "x...................xxx........x",
+                    /* line */ (const char *) "x.....g.......x......xg........x",
+                    /* line */ (const char *) "x..........................x...x",
+                    /* line */ (const char *) "x..............................x",
+                    /* line */ (const char *) "x........x.....................x",
+                    /* line */ (const char *) "x$.............................x",
+                    /* line */ (const char *) "x..............................x",
+                    /* line */ (const char *) "x....x..................xg.....x",
+                    /* line */ (const char *) "x.......................xx.....x",
+                    /* line */ (const char *) "x...........xx.................x",
+                    /* line */ (const char *) "x...........x$..............$..x",
+                    /* line */ (const char *) "x..............................x",
+                    /* line */ (const char *) "x..............................x",
+                    /* line */ (const char *) "x..g...................x.......x",
+                    /* line */ (const char *) "x..............................x",
+                    /* line */ (const char *) "x................x.............x",
+                    /* line */ (const char *) "x..............................x",
+                    /* line */ (const char *) "x.............................$x",
+                    /* line */ (const char *) "x......x..................xxxxxx",
+                    /* line */ (const char *) "x........................._....x",
+                    /* line */ (const char *) "x........................._..x.x",
+                    /* line */ (const char *) "x$........................_.gxEx",
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* end */ nullptr);
+  }
+
+  {
+    LevelGenOverrides overrides;
+
+    overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
+
+    level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE2, "treasure2.6", __FUNCTION__, __LINE__, overrides, 0,
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* line */ (const char *) "x..............................x",
+                    /* line */ (const char *) "x..@...........................x",
+                    /* line */ (const char *) "x..........................g...x",
+                    /* line */ (const char *) "x...xxxxxxxxxxxxxxxxxxxxxxxx...x",
+                    /* line */ (const char *) "x...xg.....................x...x",
+                    /* line */ (const char *) "x...x$g....................x...x",
+                    /* line */ (const char *) "x...x$$g...................x...x",
+                    /* line */ (const char *) "x...xxxxxxxxxxxxxxxxxxxx...x...x",
+                    /* line */ (const char *) "x...x............g.....x...x...x",
+                    /* line */ (const char *) "x...x..................xg..x..gx",
+                    /* line */ (const char *) "x..gx......g...........x...x...x",
+                    /* line */ (const char *) "x...x...xxxxxxxxxxxx...x...x...x",
+                    /* line */ (const char *) "x...x...xg........gx...x...x...x",
+                    /* line */ (const char *) "x...x..gx..........xg..x...x...x",
+                    /* line */ (const char *) "x...x...x..........x...x...x...x",
+                    /* line */ (const char *) "x...x...x..........x...x...x...x",
+                    /* line */ (const char *) "x...x...x..........x...x...x...x",
+                    /* line */ (const char *) "x...x...x..........x...x...x...x",
+                    /* line */ (const char *) "x...x...x...g$$...Ex..gx...x...x",
+                    /* line */ (const char *) "x...xg..x___xxxxxxxx...x..gsg..x",
+                    /* line */ (const char *) "x...x...xg.............x...x...x",
+                    /* line */ (const char *) "x...x...x$g............x...x...x",
+                    /* line */ (const char *) "xg..x...xxxxxxxxxxxxxxxx...x...x",
+                    /* line */ (const char *) "x...x...x$g............x...x...x",
+                    /* line */ (const char *) "x...x...x$g............x...x...x",
+                    /* line */ (const char *) "x...x...x$g............sg..x...x",
+                    /* line */ (const char *) "x...x...xxxxxxxxxxxxxxxxxxxx...x",
+                    /* line */ (const char *) "x...x..........................x",
+                    /* line */ (const char *) "x...x..........................x",
+                    /* line */ (const char *) "xE$$x..........................x",
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* end */ nullptr);
+  }
+
+  {
+    LevelGenOverrides overrides;
+
+    overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
+
+    level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE2, "treasure2.7", __FUNCTION__, __LINE__, overrides, 0,
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* line */ (const char *) "x$....$x........TxT.....x......x",
+                    /* line */ (const char *) "x..@...x.....g...x......x...g..x",
+                    /* line */ (const char *) "x......x.........x.....TxT.....x",
+                    /* line */ (const char *) "x..T...x..T......x......x....T.x",
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxx......xxxxxxxx",
+                    /* line */ (const char *) "x..T...x..Tx.....x..T...x....T.x",
+                    /* line */ (const char *) "x......x...x.....xxxxxxxx......x",
+                    /* line */ (const char *) "x.....TxT..x..g..x..T...x...g..x",
+                    /* line */ (const char *) "x.T....x...x.....x......x......x",
+                    /* line */ (const char *) "xxxxxxxxxxxx.....x.....TxT.....x",
+                    /* line */ (const char *) "x.T........x.....x..g...x......x",
+                    /* line */ (const char *) "x.........TxT....x......x......x",
+                    /* line */ (const char *) "x....g.....x.....xxxxxxxx......x",
+                    /* line */ (const char *) "x..........x.....x......x...T..x",
+                    /* line */ (const char *) "xxxxxxxxxxxx....TxT.....xxxxxxxx",
+                    /* line */ (const char *) "x..........x.....x......x...T..x",
+                    /* line */ (const char *) "x.....g....xxxxxxx......x......x",
+                    /* line */ (const char *) "x...g...g..x..$$$xT....TxT.....x",
+                    /* line */ (const char *) "x.........TxT.$$$xxxxxxxx......x",
+                    /* line */ (const char *) "x.....T....x..$$$xT.....x...g..x",
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxx......x......x",
+                    /* line */ (const char *) "x.....T..........x.....TxT.....x",
+                    /* line */ (const char *) "x...............TxT.....x......x",
+                    /* line */ (const char *) "x..g.............x......x......x",
+                    /* line */ (const char *) "x........T.......x......x...T..x",
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* line */ (const char *) "x....x.......x........x.....T..x",
+                    /* line */ (const char *) "x...TxT......x..g....TxT.......x",
+                    /* line */ (const char *) "x....x...g..TxT.......x...g....x",
+                    /* line */ (const char *) "xE...x.......x........x........x",
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* end */ nullptr);
+  }
+
+  {
+    LevelGenOverrides overrides;
+
+    overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
+
+    level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE2, "treasure2.8", __FUNCTION__, __LINE__, overrides, 0,
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* line */ (const char *) "x$......xg.....................x",
+                    /* line */ (const char *) "x..@.....x$.............gx.....x",
+                    /* line */ (const char *) "x.........x.............xg.....x",
+                    /* line */ (const char *) "x..........x...........x.......x",
+                    /* line */ (const char *) "x...x.......x.........x........x",
+                    /* line */ (const char *) "x....x.......x.......x.........x",
+                    /* line */ (const char *) "x.....x.......x.....x....xxxxx.x",
+                    /* line */ (const char *) "xx.....x.......x...x.....xg....x",
+                    /* line */ (const char *) "x.x.....x.......xgx......x.....x",
+                    /* line */ (const char *) "x..x.....xxxxxx..x.......x.....x",
+                    /* line */ (const char *) "x.......x................x.....x",
+                    /* line */ (const char *) "x.....gx...........xxxxxxx.....x",
+                    /* line */ (const char *) "x....gxg..........xx$....xxxx..x",
+                    /* line */ (const char *) "x....xgx.........x..x..E.x.....x",
+                    /* line */ (const char *) "x...x...x.......x....x...x.....x",
+                    /* line */ (const char *) "x..x.....x.....x......x..x.....x",
+                    /* line */ (const char *) "x..x......x...x....x.....x..xxxx",
+                    /* line */ (const char *) "x..x.......x$x.x....x....x.....x",
+                    /* line */ (const char *) "x..x........x...x....x...x.....x",
+                    /* line */ (const char *) "x..x.............x....x..x.....x",
+                    /* line */ (const char *) "x..x..............x....xxxxxxx.x",
+                    /* line */ (const char *) "x..x.....xg........x...........x",
+                    /* line */ (const char *) "x..xg....gx.........x....x.....x",
+                    /* line */ (const char *) "x..gx......x.........x...x.....x",
+                    /* line */ (const char *) "x....x......x.........x$$x.....x",
+                    /* line */ (const char *) "x.....x......x.........x$x.....x",
+                    /* line */ (const char *) "x......x......x.........xx.....x",
+                    /* line */ (const char *) "x.......x......x.........x.....x",
+                    /* line */ (const char *) "x........x......xg............$x",
+                    /* line */ (const char *) "x$..............gx...........$gx",
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* end */ nullptr);
+  }
+
+  {
+    LevelGenOverrides overrides;
+
+    overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
+
+    level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE2, "treasure2.9", __FUNCTION__, __LINE__, overrides, 0,
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* line */ (const char *) "x.............x......x........Ex",
+                    /* line */ (const char *) "x..@..........x.......x....x...x",
+                    /* line */ (const char *) "x.............x...x....x....x..x",
+                    /* line */ (const char *) "x....xxxxxxx.xx....x....x....x.x",
+                    /* line */ (const char *) "x....x.........x....x....x...x.x",
+                    /* line */ (const char *) "x....x..........x....x.......xgx",
+                    /* line */ (const char *) "x...xx...........x....x...xxxxsx",
+                    /* line */ (const char *) "x...gx............x....x..x$$$$x",
+                    /* line */ (const char *) "x...xx.............xxx.xxxxxxxxx",
+                    /* line */ (const char *) "x....x....................x....x",
+                    /* line */ (const char *) "x....x....................x....x",
+                    /* line */ (const char *) "x....x.........................x",
+                    /* line */ (const char *) "x....x.......xx.xxx.......x....x",
+                    /* line */ (const char *) "x....x.......xg..gx.......x....x",
+                    /* line */ (const char *) "x....x............x.......x....x",
+                    /* line */ (const char *) "x............x............x....x",
+                    /* line */ (const char *) "x....x.......xg..gx.......x....x",
+                    /* line */ (const char *) "x....x.......xxxxxx.......x....x",
+                    /* line */ (const char *) "x....x....................x....x",
+                    /* line */ (const char *) "x....x....................x....x",
+                    /* line */ (const char *) "xx...x....................x....x",
+                    /* line */ (const char *) "xg...xxx..................x....x",
+                    /* line */ (const char *) "xx...x....................x....x",
+                    /* line */ (const char *) "x....x....................x....x",
+                    /* line */ (const char *) "x....x....................x....x",
+                    /* line */ (const char *) "x....xg..................gx....x",
+                    /* line */ (const char *) "x....gxxxxxxxxxx..xxxxxxxxg....x",
+                    /* line */ (const char *) "x.x........x.........x......x..x",
+                    /* line */ (const char *) "x...x......x.........x....x....x",
+                    /* line */ (const char *) "x.........$x$.......$x$........x",
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* end */ nullptr);
+  }
+
+  {
+    LevelGenOverrides overrides;
+
+    overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
+
+    level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE2, "treasure2.10", __FUNCTION__, __LINE__, overrides, 0,
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* line */ (const char *) "x..........................g.xEx",
+                    /* line */ (const char *) "x..........................g.x.x",
+                    /* line */ (const char *) "x.xxxxxxxxxxxxxxxxxxxxxxxxxx.x.x",
+                    /* line */ (const char *) "x.x.g........................x.x",
+                    /* line */ (const char *) "x.x.xxxxxxxxxxxxxxxxxxxxxxxxxx.x",
+                    /* line */ (const char *) "x.x............................x",
+                    /* line */ (const char *) "x.xxxxxxxxxxxxxxxxxxxxxxxxxxxx.x",
+                    /* line */ (const char *) "x.x.........................$x.x",
+                    /* line */ (const char *) "x.g..............xxxxxxxxxxxxx.x",
+                    /* line */ (const char *) "x.x..............x.....x.....x.x",
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxx.x.....x.....xgx",
+                    /* line */ (const char *) "x..............x.x..x..x.....x$x",
+                    /* line */ (const char *) "x.x............x.x..x........xxx",
+                    /* line */ (const char *) "x.x............x.x$gx..........x",
+                    /* line */ (const char *) "x.x............xgxxxxgxxxxx.x..x",
+                    /* line */ (const char *) "x.x.......................x.x..x",
+                    /* line */ (const char *) "x.xxx.xxx..x.........x....x.x..x",
+                    /* line */ (const char *) "xgx.....x...g........x....x.x..x",
+                    /* line */ (const char *) "x.x.....x....x.......x$..gx.x..x",
+                    /* line */ (const char *) "x.x.....x.....x.....xxxxxxx.x..x",
+                    /* line */ (const char *) "xgxxx...x......x.....x......x..x",
+                    /* line */ (const char *) "x...x...x.......g....x......x..x",
+                    /* line */ (const char *) "x...x...x........x...x......x..x",
+                    /* line */ (const char *) "x...x...x.........x.........x..x",
+                    /* line */ (const char *) "x...x...x..........x........x..x",
+                    /* line */ (const char *) "x...x...x...........g.......x..x",
+                    /* line */ (const char *) "x...x...x............x.........x",
+                    /* line */ (const char *) "x...x...x$..................x..x",
+                    /* line */ (const char *) "x.@.x....xxxxxxxxxxxxxxxxxxxx..x",
+                    /* line */ (const char *) "x...x..........................x",
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* end */ nullptr);
+  }
+
+  {
+    LevelGenOverrides overrides;
+
+    overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
+
+    level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE2, "treasure2.11", __FUNCTION__, __LINE__, overrides, 0,
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* line */ (const char *) "x.............................$x",
+                    /* line */ (const char *) "x..@...........................x",
+                    /* line */ (const char *) "x..............................x",
+                    /* line */ (const char *) "x.......................x......x",
+                    /* line */ (const char *) "x......................xxx.....x",
+                    /* line */ (const char *) "x.....x.................x......x",
+                    /* line */ (const char *) "x....xxx.......................x",
+                    /* line */ (const char *) "x.....x........................x",
+                    /* line */ (const char *) "x.........g.........g..........x",
+                    /* line */ (const char *) "x..........x.......x...........x",
+                    /* line */ (const char *) "x...........x.....x............x",
+                    /* line */ (const char *) "x............x...x.............x",
+                    /* line */ (const char *) "x.............x.x..............x",
+                    /* line */ (const char *) "x..............g...............x",
+                    /* line */ (const char *) "x.............x.x..............x",
+                    /* line */ (const char *) "x............x...x.............x",
+                    /* line */ (const char *) "x...........x.....x............x",
+                    /* line */ (const char *) "x..........x.......x...........x",
+                    /* line */ (const char *) "x.........g.........g..........x",
+                    /* line */ (const char *) "x..............................x",
+                    /* line */ (const char *) "x..............................x",
+                    /* line */ (const char *) "x.....x........................x",
+                    /* line */ (const char *) "x....xxx.......................x",
+                    /* line */ (const char *) "x.....x................x.......x",
+                    /* line */ (const char *) "x.....................xxx......x",
+                    /* line */ (const char *) "x......................x.......x",
+                    /* line */ (const char *) "x..............................x",
+                    /* line */ (const char *) "x..............................x",
+                    /* line */ (const char *) "x..............................x",
+                    /* line */ (const char *) "x$...........................$Ex",
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* end */ nullptr);
+  }
+
+  {
+    LevelGenOverrides overrides;
+
+    overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
+
+    level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE2, "treasure2.12", __FUNCTION__, __LINE__, overrides, 0,
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* line */ (const char *) "xx$.............xx...........Exx",
+                    /* line */ (const char *) "x$xx...........xxxx..........x$x",
+                    /* line */ (const char *) "x..xx.........xx..xx........xx.x",
+                    /* line */ (const char *) "x...xx.......xx............xx..x",
+                    /* line */ (const char *) "x....xx.....xx......xx....xx...x",
+                    /* line */ (const char *) "x.....xx...xx........xx..xx....x",
+                    /* line */ (const char *) "x......xx.xx....g.....xxxx.....x",
+                    /* line */ (const char *) "x.......xxx............xx......x",
+                    /* line */ (const char *) "x.......xx............xxx......x",
+                    /* line */ (const char *) "x......xxxx.............xx.....x",
+                    /* line */ (const char *) "x.....xx..xx........xx...xx....x",
+                    /* line */ (const char *) "x....xx....xx......xx..........x",
+                    /* line */ (const char *) "x...........xx....xx.......xx..x",
+                    /* line */ (const char *) "x..xx....g...xx..xx.........xx.x",
+                    /* line */ (const char *) "x.xx....gxg...xxxx.....g.....xxx",
+                    /* line */ (const char *) "xxx......g.....xx...........xx.x",
+                    /* line */ (const char *) "x.xx..........xxxx.........xx..x",
+                    /* line */ (const char *) "x..xx............xx.......xx...x",
+                    /* line */ (const char *) "x...........xx....xx...........x",
+                    /* line */ (const char *) "x....xx....xx...........xx.....x",
+                    /* line */ (const char *) "x.....xx..xx........xx.xx......x",
+                    /* line */ (const char *) "x......xxxx....gx....xxx.......x",
+                    /* line */ (const char *) "x.......xx.....xg....xxx.......x",
+                    /* line */ (const char *) "x......xxxx.........xx.xx......x",
+                    /* line */ (const char *) "x.....xx..xx.......xx...xx.....x",
+                    /* line */ (const char *) "x....g.....xx.....xx.....xx....x",
+                    /* line */ (const char *) "x...xx......xx....x.......xx...x",
+                    /* line */ (const char *) "x..xx........xx............xx..x",
+                    /* line */ (const char *) "x.xx..........xxx...........xx$x",
+                    /* line */ (const char *) "xxx...........@x.............$xx",
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* end */ nullptr);
+  }
+
+  {
+    LevelGenOverrides overrides;
+
+    overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
+
+    level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE2, "treasure2.13", __FUNCTION__, __LINE__, overrides, 0,
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* line */ (const char *) "xxxg........$CCCECCC$.......gxxx",
+                    /* line */ (const char *) "xxxxCCCCCCCCCCCC.CCCCCCCCCCCxxxx",
+                    /* line */ (const char *) "xgxxCCCCCC.CCCCC.CCCCC.CCCCxxxgx",
+                    /* line */ (const char *) "x..xxx........CC.CC.......xxx..x",
+                    /* line */ (const char *) "x...xxx........C.C.......xxx...x",
+                    /* line */ (const char *) "x....xxx.......C.C......xxx....x",
+                    /* line */ (const char *) "x.$...xxx..............xxx.....x",
+                    /* line */ (const char *) "x......xxx.....bTb....xxx......x",
+                    /* line */ (const char *) "x......xxxxxxxxxxxxxxxxxx....$.x",
+                    /* line */ (const char *) "x......x.xxx..gbTbg.xxx.x......x",
+                    /* line */ (const char *) "x......x..xx........xx..x......x",
+                    /* line */ (const char *) "x......x....x......x....x......x",
+                    /* line */ (const char *) "x......xg....b....b....gx......x",
+                    /* line */ (const char *) "x.....bxb..............bxb.....x",
+                    /* line */ (const char *) "x.....TxT......bb......TxT.....x",
+                    /* line */ (const char *) "x.....bxb......bb......bxb.....x",
+                    /* line */ (const char *) "x......xg..............gx......x",
+                    /* line */ (const char *) "x......x.....b....b.....x......x",
+                    /* line */ (const char *) "x......x....x......x....x......x",
+                    /* line */ (const char *) "x......x..xx........xx..x......x",
+                    /* line */ (const char *) "x......x$xxx.gbTbg..xxx.x......x",
+                    /* line */ (const char *) "x......xxxxxxxxxxxxxxxxxx......x",
+                    /* line */ (const char *) "x......xxx....bTb.....xxx......x",
+                    /* line */ (const char *) "x.....xxx..............xxx.....x",
+                    /* line */ (const char *) "x....xxx................xxx....x",
+                    /* line */ (const char *) "x...xxx..................xxx...x",
+                    /* line */ (const char *) "x..xxxxxxx................xxx..x",
+                    /* line */ (const char *) "xgxxx....x.................xxxgx",
+                    /* line */ (const char *) "xxxx..@..x.................gxxxx",
+                    /* line */ (const char *) "xxx........................g$xxx",
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* end */ nullptr);
+  }
+
+  {
+    LevelGenOverrides overrides;
+
+    overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
+
+    level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE2, "treasure2.14", __FUNCTION__, __LINE__, overrides, 0,
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* line */ (const char *) "x$.s.....g............x$.....x$x",
+                    /* line */ (const char *) "xT.s.@...x............x......xsx",
+                    /* line */ (const char *) "x$.s.....x............g........x",
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.x",
+                    /* line */ (const char *) "x........x............g........x",
+                    /* line */ (const char *) "x........g............x........x",
+                    /* line */ (const char *) "x.xxxxxxxxxxxxxxsxxxxxxxxxxxxxxx",
+                    /* line */ (const char *) "x........g............x.......$x",
+                    /* line */ (const char *) "x........x............g........x",
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.x",
+                    /* line */ (const char *) "x........x............g........x",
+                    /* line */ (const char *) "x........g............x........x",
+                    /* line */ (const char *) "x.xxxxxxxxxxxxxxsxxxxxxxxxxxxxxx",
+                    /* line */ (const char *) "x........x............x........x",
+                    /* line */ (const char *) "x$.......g............g........x",
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.x",
+                    /* line */ (const char *) "x........x............g........x",
+                    /* line */ (const char *) "x........g............x........x",
+                    /* line */ (const char *) "x.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* line */ (const char *) "x........x............x........x",
+                    /* line */ (const char *) "x........g............g........x",
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxsxxxxxxxxxxxxx.x",
+                    /* line */ (const char *) "x........g............x........x",
+                    /* line */ (const char *) "x........x............g........x",
+                    /* line */ (const char *) "x.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* line */ (const char *) "x........x............x.......$x",
+                    /* line */ (const char *) "xT.......g............g........x",
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxsxxxxxxxxxxxx..x",
+                    /* line */ (const char *) "x........g............g........x",
+                    /* line */ (const char *) "xE.......x............x........x",
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* end */ nullptr);
+  }
+
+  {
+    LevelGenOverrides overrides;
+
+    overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
+
+    level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE2, "treasure2.15", __FUNCTION__, __LINE__, overrides, 0,
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* line */ (const char *) "x....xT.......................xx",
+                    /* line */ (const char *) "x..@.x.......x...............x$x",
+                    /* line */ (const char *) "x....x......xkx.............x..x",
+                    /* line */ (const char *) "x....x.......x.............x...x",
+                    /* line */ (const char *) "x....x....................x....x",
+                    /* line */ (const char *) "x....x...................x.....x",
+                    /* line */ (const char *) "xx..xxxxx...............x......x",
+                    /* line */ (const char *) "x......................x.......x",
+                    /* line */ (const char *) "x.x.x.x.x.x.x.x.......x........x",
+                    /* line */ (const char *) "x..........................x...x",
+                    /* line */ (const char *) "x..x.x.x.x.x.x.x.x........xgx..x",
+                    /* line */ (const char *) "x..................x.......x...x",
+                    /* line */ (const char *) "x.........b......x.............x",
+                    /* line */ (const char *) "x..................x...........x",
+                    /* line */ (const char *) "x................x.............x",
+                    /* line */ (const char *) "x....x.............x...........x",
+                    /* line */ (const char *) "x...xgx..........x.......x.....x",
+                    /* line */ (const char *) "x....x.............x....xgx....x",
+                    /* line */ (const char *) "x................x.......x.....x",
+                    /* line */ (const char *) "x..................x...........x",
+                    /* line */ (const char *) "x................x.............x",
+                    /* line */ (const char *) "x..b.....x.....................x",
+                    /* line */ (const char *) "x.......xgx....................x",
+                    /* line */ (const char *) "x........x.......b.............x",
+                    /* line */ (const char *) "x.......................xxxxxxxx",
+                    /* line */ (const char *) "x........b.............._b....gx",
+                    /* line */ (const char *) "x..............x........_b....gx",
+                    /* line */ (const char *) "x.............xgx......._......x",
+                    /* line */ (const char *) "xxxxx..........x........_b....gx",
+                    /* line */ (const char *) "xT.._..................._b....Ex",
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* end */ nullptr);
+  }
+
+  {
+    LevelGenOverrides overrides;
+
+    overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
+
+    level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE2, "treasure2.16", __FUNCTION__, __LINE__, overrides, 0,
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* line */ (const char *) "x..............................x",
+                    /* line */ (const char *) "x..xx..xx..xx..xx..xx..xx..xx..x",
+                    /* line */ (const char *) "x..xx..xx..xx..xx..xx..xx..xx..x",
+                    /* line */ (const char *) "x..xx..xx..xx..xx..xx..xx..xx..x",
+                    /* line */ (const char *) "x..xx..xx..xx..xx..xx..xx..xx..x",
+                    /* line */ (const char *) "x..xx..xx..xx..xx..xx..xx..xx..x",
+                    /* line */ (const char *) "x..xx..xx..xx..xx..xx..xx..xx..x",
+                    /* line */ (const char *) "x..xx..xx..xx..xx..xx..xx..xx..x",
+                    /* line */ (const char *) "x..xx..xx..xx..xx..xx..xx..xx..x",
+                    /* line */ (const char *) "x..x$..x$..x$..x$..x$..x$..x$..x",
+                    /* line */ (const char *) "x@.xxggxxggxxggxxggxxggxxggxxTEx",
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxTxx",
+                    /* line */ (const char *) "x..............................x",
+                    /* line */ (const char *) "x..xx..xx..xx..xx..xx..xx..xx..x",
+                    /* line */ (const char *) "x..xx..xx..xx..xx..xx..xx..xx..x",
+                    /* line */ (const char *) "x..xx..xx..xx..xx..xx..xx..xx..x",
+                    /* line */ (const char *) "x..xx..xx..xx..xx..xx..xx..xx..x",
+                    /* line */ (const char *) "x..xx..xx..xx..xx..xx..xx..xx..x",
+                    /* line */ (const char *) "x..xx..xx..xx..xx..xx..xx..xx..x",
+                    /* line */ (const char *) "x..xx..xx..xx..xx..xx..xx..xx..x",
+                    /* line */ (const char *) "x..x$..x$..x$..x$..x$..x$..x$..x",
+                    /* line */ (const char *) "xE.xxggxxggxxggxxggxxggxxggxxggx",
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* end */ nullptr);
+  }
+
+  {
+    LevelGenOverrides overrides;
+
+    overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
+
+    level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE2, "treasure2.17", __FUNCTION__, __LINE__, overrides, 0,
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* line */ (const char *) "x....x............x.........x.kx",
+                    /* line */ (const char *) "x..@.x.x........g.x....x....x..x",
+                    /* line */ (const char *) "x....x...x.....x..x.........xxsx",
+                    /* line */ (const char *) "x.xxxx.g........xxxxx.....x....x",
+                    /* line */ (const char *) "x....x...x.x...................x",
+                    /* line */ (const char *) "x...................xxxx....x..x",
+                    /* line */ (const char *) "xxxxxx..xCCx...x.......x.......x",
+                    /* line */ (const char *) "x..........C...........x.......x",
+                    /* line */ (const char *) "x.x..x..x..x..x....x..........xx",
+                    /* line */ (const char *) "x....x...................x.....x",
+                    /* line */ (const char *) "x....x.....x.....g.......x..xxxx",
+                    /* line */ (const char *) "x....x...x..........x....x.....x",
+                    /* line */ (const char *) "x..x...........................x",
+                    /* line */ (const char *) "x....x....xCCx...x...........x.x",
+                    /* line */ (const char *) "xxxxxx...................x.....x",
+                    /* line */ (const char *) "x....x.....x.x.......x...C....xx",
+                    /* line */ (const char *) "xg................x..x...C.....x",
+                    /* line */ (const char *) "x..x..x....x..g......x...x...x.x",
+                    /* line */ (const char *) "x..C...........x.....x.........x",
+                    /* line */ (const char *) "x..C.....xxx......x..xxxx...g..x",
+                    /* line */ (const char *) "x..x.......x......g............x",
+                    /* line */ (const char *) "x.......x..xxx.......x...x...x.x",
+                    /* line */ (const char *) "x....x.........................x",
+                    /* line */ (const char *) "x............x.................x",
+                    /* line */ (const char *) "xxxxxx..g..x.....xCCCx......x..x",
+                    /* line */ (const char *) "x........................x..xxxx",
+                    /* line */ (const char *) "x..x.x.x...x..xxxxx..x.........x",
+                    /* line */ (const char *) "x___...x........x.......x...x..x",
+                    /* line */ (const char *) "x$$_.x.x.....x..x...x..........x",
+                    /* line */ (const char *) "x$$_...x..x.....x.........x..E.x",
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* end */ nullptr);
+  }
+
+  {
+    LevelGenOverrides overrides;
+
+    overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
+
+    level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE2, "treasure2.18", __FUNCTION__, __LINE__, overrides, 0,
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* line */ (const char *) "x......x$Cg....................x",
+                    /* line */ (const char *) "x..@...x$Cg....................x",
+                    /* line */ (const char *) "x......x$Cg....................x",
+                    /* line */ (const char *) "x....k.x$Cg....................x",
+                    /* line */ (const char *) "x....xxxxxxxxxxxxxxxxxxxxxxxxxsx",
+                    /* line */ (const char *) "x....xg..................gxg...x",
+                    /* line */ (const char *) "x....x....................x....x",
+                    /* line */ (const char *) "x....x....................x....x",
+                    /* line */ (const char *) "x....x...xxxxxxxxxxxxxx...x....x",
+                    /* line */ (const char *) "x....x...xg...........x...x....x",
+                    /* line */ (const char *) "x...gx...x............x...x....x",
+                    /* line */ (const char *) "x....x...x............x...x....x",
+                    /* line */ (const char *) "x....x...x...xxxxxx...x...x....x",
+                    /* line */ (const char *) "x....x...x.....CCCx...xCCCx....x",
+                    /* line */ (const char *) "x....x...x...x.C.Ex...s...s....x",
+                    /* line */ (const char *) "x....x...x...x.C..x...xCCCx....x",
+                    /* line */ (const char *) "x....x...x...xgCCCx...x...x....x",
+                    /* line */ (const char *) "x....x...x...xxxxxx...x...x....x",
+                    /* line */ (const char *) "x....x...x............x...x....x",
+                    /* line */ (const char *) "xg...x...x............x...x....x",
+                    /* line */ (const char *) "x....x...x............C...x....x",
+                    /* line */ (const char *) "x....x...xxxxxxxxxxxxxx...x....x",
+                    /* line */ (const char *) "x....x....................x....x",
+                    /* line */ (const char *) "x....x....................x....x",
+                    /* line */ (const char *) "x....C...................gxg...x",
+                    /* line */ (const char *) "x____xxxxxxxxxxxxxxxxxxxxxxsxxxx",
+                    /* line */ (const char *) "x....x..s..............._......x",
+                    /* line */ (const char *) "x....xk.x...............xxx....x",
+                    /* line */ (const char *) "x....xxxx.................x....x",
+                    /* line */ (const char *) "x$........................xg...x",
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* end */ nullptr);
+  }
+
+  {
+    LevelGenOverrides overrides;
+
+    overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
+
+    level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE2, "treasure2.19", __FUNCTION__, __LINE__, overrides, 0,
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* line */ (const char *) "x.............................$x",
+                    /* line */ (const char *) "x..@.x.x.x.x.x.x.g.x.x.x.x.x.x.x",
+                    /* line */ (const char *) "x..............................x",
+                    /* line */ (const char *) "x.x.x.x.x.x.x.x.x.x.x.x.x.x.x..x",
+                    /* line */ (const char *) "x..............................x",
+                    /* line */ (const char *) "x..x.x.x.x.g.x.x.x.x.x.x.x.x.x.x",
+                    /* line */ (const char *) "x..............................x",
+                    /* line */ (const char *) "xxx.x.x.x.x.CCCCCCC.x.x.x.x.x..x",
+                    /* line */ (const char *) "x...........CCCCCCC............x",
+                    /* line */ (const char *) "x...........CCCCCCC............x",
+                    /* line */ (const char *) "x...........CCCCCCC............x",
+                    /* line */ (const char *) "x..x.x.x.x..CC$.CCC..x.g.x.x.xxx",
+                    /* line */ (const char *) "x...........CCg................x",
+                    /* line */ (const char *) "x.x.x.x.x.x.CC$.CCC.x.x.x.x.x..x",
+                    /* line */ (const char *) "x...........CCCCCCC............x",
+                    /* line */ (const char *) "x...........CCCCCCC............x",
+                    /* line */ (const char *) "x...........CCCCCCC............x",
+                    /* line */ (const char *) "x..x.x.x.x..CCCCCCC..x.g.x.x.x.x",
+                    /* line */ (const char *) "x..............................x",
+                    /* line */ (const char *) "xxx.x.x.x.x.x.x.x.x.x.x.x.x.x..x",
+                    /* line */ (const char *) "x..............................x",
+                    /* line */ (const char *) "x..x.x.x.x.g.x.x.x.x.x.x.x.x.x.x",
+                    /* line */ (const char *) "x..............................x",
+                    /* line */ (const char *) "x.x.g.x.x.x.x.x.x.x.x.x.x.x.x..x",
+                    /* line */ (const char *) "x..............................x",
+                    /* line */ (const char *) "x..x.x.x.x.x.x.x.x.x.x.g.x.x.x.x",
+                    /* line */ (const char *) "x$............................Ex",
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* end */ nullptr);
+  }
+
+  {
+    LevelGenOverrides overrides;
+
+    overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
+
+    level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE2, "treasure2.20", __FUNCTION__, __LINE__, overrides, 0,
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    /* line */ (const char *) "x$g.........x......v.........gkx",
+                    /* line */ (const char *) "xg........v....@.....v........gx",
+                    /* line */ (const char *) "x...........v......v...........x",
+                    /* line */ (const char *) "x.........v..........v.........x",
+                    /* line */ (const char *) "x...........v......v...........x",
+                    /* line */ (const char *) "x.........v..........v.........x",
+                    /* line */ (const char *) "x...........v......v...........x",
+                    /* line */ (const char *) "x.........v..........v.........x",
+                    /* line */ (const char *) "x..............................x",
+                    /* line */ (const char *) "x.x.x.x.x.x.x.x.x.x.x.x.x.x.x.xx",
+                    /* line */ (const char *) "x______________________________x",
+                    /* line */ (const char *) "x..x.x.x.x.x.x.x.x.x.x.x.x.x.x.x",
+                    /* line */ (const char *) "x..............................x",
+                    /* line */ (const char *) "x............................xxx",
+                    /* line */ (const char *) "x....v.........................x",
+                    /* line */ (const char *) "x...vgv........................x",
+                    /* line */ (const char *) "x....v.........................x",
+                    /* line */ (const char *) "x......................v.......x",
+                    /* line */ (const char *) "xxx...................vgv......x",
+                    /* line */ (const char *) "x......................v.......x",
+                    /* line */ (const char *) "x..............................x",
+                    /* line */ (const char *) "x........v.....................x",
+                    /* line */ (const char *) "x.......vgv..................xxx",
+                    /* line */ (const char *) "x........v.....................x",
+                    /* line */ (const char *) "x..............................x",
+                    /* line */ (const char *) "xCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCx",
+                    /* line */ (const char *) "x............xx.xx.............x",
+                    /* line */ (const char *) "x...........x.....x............x",
+                    /* line */ (const char *) "xCC........x...E...x.........CCx",
+                    /* line */ (const char *) "x$C........x.......x.........C$x",
+                    /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
                     /* end */ nullptr);
   }
 
