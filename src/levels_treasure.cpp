@@ -833,11 +833,11 @@ void levels_treasure(Gamep g)
   {
     LevelGenOverrides overrides;
 
-    overrides.o[ 'e' ].do_thing_spawn = [](Gamep g, Levelsp v, Levelp l, const bpoint &at, ThingEvent *e) -> Thingp {
-      (void) thing_spawn(g, v, l, tp_find_random(is_water_dweller), at, e);
-      (void) thing_spawn(g, v, l, tp_first(is_water_deep), at, e);
-      (void) thing_spawn(g, v, l, tp_first(is_water_shallow), at, e);
-      return thing_spawn(g, v, l, tp_first(is_dirt), at, e);
+    overrides.o[ 'e' ].do_thing_spawn = [](Gamep g_in, Levelsp v, Levelp l, const bpoint &at, ThingEvent *e) -> Thingp {
+      (void) thing_spawn(g_in, v, l, tp_find_random(is_water_dweller), at, e);
+      (void) thing_spawn(g_in, v, l, tp_first(is_water_deep), at, e);
+      (void) thing_spawn(g_in, v, l, tp_first(is_water_shallow), at, e);
+      return thing_spawn(g_in, v, l, tp_first(is_dirt), at, e);
     };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE2, "treasure2.1", __FUNCTION__, __LINE__, overrides, 0,
@@ -879,11 +879,11 @@ void levels_treasure(Gamep g)
   {
     LevelGenOverrides overrides;
 
-    overrides.o[ 'e' ].do_thing_spawn = [](Gamep g, Levelsp v, Levelp l, const bpoint &at, ThingEvent *e) -> Thingp {
-      (void) thing_spawn(g, v, l, tp_find_random(is_water_dweller), at, e);
-      (void) thing_spawn(g, v, l, tp_first(is_water_deep), at, e);
-      (void) thing_spawn(g, v, l, tp_first(is_water_shallow), at, e);
-      return thing_spawn(g, v, l, tp_first(is_dirt), at, e);
+    overrides.o[ 'e' ].do_thing_spawn = [](Gamep g_in, Levelsp v, Levelp l, const bpoint &at, ThingEvent *e) -> Thingp {
+      (void) thing_spawn(g_in, v, l, tp_find_random(is_water_dweller), at, e);
+      (void) thing_spawn(g_in, v, l, tp_first(is_water_deep), at, e);
+      (void) thing_spawn(g_in, v, l, tp_first(is_water_shallow), at, e);
+      return thing_spawn(g_in, v, l, tp_first(is_dirt), at, e);
     };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE2, "treasure2.2", __FUNCTION__, __LINE__, overrides, 0,
@@ -970,10 +970,10 @@ void levels_treasure(Gamep g)
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE2, "treasure2.4", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-                    /* line */ (const char *) "x$....k........................x",
-                    /* line */ (const char *) "x........@.....................x",
+                    /* line */ (const char *) "x$....k....................g...x",
                     /* line */ (const char *) "x..........................g...x",
-                    /* line */ (const char *) "x$__________________________...x",
+                    /* line */ (const char *) "x$....@....................g...x",
+                    /* line */ (const char *) "x___________________________...x",
                     /* line */ (const char *) "x.........................._...x",
                     /* line */ (const char *) "x.........................._...x",
                     /* line */ (const char *) "x.......g.................._...x",
