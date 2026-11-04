@@ -1016,8 +1016,13 @@ case "$MY_OS_NAME" in
 #
 # Clean up the old installs
 #
+echo \$0: remove old installers
 rm *installer.exe
+
+echo \$0: stripping the target
+ls -la strip ${TARGET}.exe
 strip ${TARGET}.exe
+ls -la strip ${TARGET}.exe
 
 #
 # Update the version
@@ -1060,15 +1065,22 @@ esac
 
 log_info "Run:"
 if [[ $OPT_WEB_BUILD = "" ]]; then
-  echo "  ./${TARGET} --debug          # enable a reasonable level of debugging"
-  echo "  ./${TARGET} --debug2         # include level generation debugging"
-  echo "  ./${TARGET} --seed weekly    # to play the weekly seed"
-  echo "  ./${TARGET} --seed daily     # to play the daily seed"
-  echo "  ./${TARGET} --seed someseed  # to play a specific seed"
-  echo "  ./${TARGET} --level <n>      # to start at level number <n>"
-  echo "  ./${TARGET} --quickstart     # to jump past the initial menus"
-  echo "  ./${TARGET} --tests          # to run unit tests"
-  echo "  ./${TARGET}                  # to play the game"
+  echo "  ./${TARGET} --debug           # enable a reasonable level of debugging"
+  echo "  ./${TARGET} --debug2          # include level generation debugging"
+  echo "  ./${TARGET} --seed weekly     # to play the weekly seed"
+  echo "  ./${TARGET} --seed daily      # to play the daily seed"
+  echo "  ./${TARGET} --seed someseed   # to play a specific seed"
+  echo "  ./${TARGET} --level <n>       # to start at level number <n>"
+  echo "  ./${TARGET} --quickstart      # to jump past the initial menus"
+  echo "  ./${TARGET} --tests           # to run unit tests"
+  echo "  ./${TARGET}                   # to play the game"
+
+  case "$MY_OS_NAME" in
+    *MING*|*MSYS*)
+        echo "  ./${TARGET}-create-release.sh # to build a release"
+        echo "  ./${TARGET}.sh                # to execute on windows"
+      ;;
+  esac
 else
   echo "  python -m http.server"
 fi
