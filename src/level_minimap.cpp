@@ -64,11 +64,14 @@ static void level_minimap_levels_update(Gamep g, Levelsp v, Levelp l, const bool
           }
         }
 
+        if (level_is_empty_bool(g, v, l, p)) {
+          c = BLUE4;
+        }
         if (level_is_border(g, v, l, p)) {
           c = GRAY50;
         }
         if (level_is_dirt_bool(g, v, l, p)) {
-          c = GRAY10;
+          c = GRAY20;
         }
         if (level_is_floor_bool(g, v, l, p)) {
           c = GRAY20;
@@ -77,7 +80,7 @@ static void level_minimap_levels_update(Gamep g, Levelsp v, Levelp l, const bool
           c = GRAY20;
         }
         if (level_is_wall_bool(g, v, l, p)) {
-          c = GRAY90;
+          c = GRAY60;
         }
         if (level_is_bridge_bool(g, v, l, p)) {
           c = BROWN;
@@ -89,20 +92,20 @@ static void level_minimap_levels_update(Gamep g, Levelsp v, Levelp l, const bool
           c = BLUE;
         }
         if (level_is_water_deep_bool(g, v, l, p)) {
-          c = BLUE4;
+          c = BLUE2;
         }
         if (level_is_door_locked_bool(g, v, l, p)) {
           if (level_open_is_door_locked(g, v, l, p) != nullptr) {
             // ignore
           } else {
-            c = GRAY40;
+            c = GRAY50;
           }
         }
         if (level_is_door_secret_bool(g, v, l, p)) {
           if (level_open_is_door_secret(g, v, l, p) != nullptr) {
             // ignore
           } else {
-            c = GRAY40;
+            c = GRAY50;
           }
         }
         if (level_is_lava_bool(g, v, l, p)) {

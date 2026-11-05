@@ -737,6 +737,19 @@ ENUM_DEF_H(THING_CHANCE_ENUM, ThingChanceType)
 ENUM_DEF_H(THING_RARITY_ENUM, ThingRarityType)
 
 //
+// Thing difficulty enum
+//
+#define THING_DIFFICULTY_ENUM(list_macro)                                                                                                       \
+  CLANG_FORMAT_INDENT()                                  /* dummy line for clang indentation fixup */                                           \
+  list_macro(THING_DIFFICULTY_EASY_1, "easiest"),        /* newline */                                                                          \
+      list_macro(THING_DIFFICULTY_2, "2"),               /* newline */                                                                          \
+      list_macro(THING_DIFFICULTY_3, "3"),               /* newline */                                                                          \
+      list_macro(THING_DIFFICULTY_4, "4"),               /* newline */                                                                          \
+      list_macro(THING_DIFFICULTY_HARDEST_5, "hardest"), /* newline */
+
+ENUM_DEF_H(THING_DIFFICULTY_ENUM, ThingDifficultyType)
+
+//
 // Thing dir enum
 //
 #define THING_DIR_ENUM(list_macro)                                                                                                              \
@@ -847,7 +860,7 @@ class Tp;
 [[nodiscard]] auto tp_damage_max(Tpp tp, ThingEventType event_type) -> int;
 [[nodiscard]] auto tp_damage_random_type_get(Tpp tp) -> ThingEventType;
 [[nodiscard]] auto tp_damage(Tpp tp, ThingEventType val) -> int;
-[[nodiscard]] auto tp_difficulty_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_difficulty_get(Tpp tp) -> ThingDifficultyType;
 [[nodiscard]] auto tp_distance_avoid_target_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_distance_follower_from_leader_max_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_distance_jump_get(Tpp tp) -> int;
@@ -1357,7 +1370,7 @@ void tp_damage_set(Tpp tp, ThingEventType stat, const std::string &val);
 void tp_dbg(Tpp tp, const char *fmt, ...) CHECK_FORMAT_STR(printf, 2, 3);
 void tp_die_(Tpp tp, const char *fmt, va_list args); // compile error without
 void tp_die(Tpp tp, const char *fmt, ...) CHECK_FORMAT_STR(printf, 2, 3);
-void tp_difficulty_set(Tpp tp, int val);
+void tp_difficulty_set(Tpp tp, ThingDifficultyType val);
 void tp_distance_avoid_target_set(Tpp tp, int val);
 void tp_distance_follower_from_leader_max_set(Tpp tp, int val);
 void tp_distance_jump_set(Tpp tp, int val);

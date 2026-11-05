@@ -180,19 +180,16 @@ void wid_level_show_contents(Gamep g, Levelsp v, Levelp l, WidPopup *parent)
   }
 
   if (1 || l->is_treasure_level) {
-    static auto minimap_size = UI_RIGHTBAR_WIDTH / 2;
+    static auto minimap_size = UI_RIGHTBAR_WIDTH - 8;
+    static auto pad          = (UI_RIGHTBAR_WIDTH - minimap_size) / 2;
 
     level_minimaps_update(g, v, l);
 
-    //    parent->log_empty_line(g);
-    //    parent->log(g, "Minimap:");
-
     auto *w = parent->log_empty_line(g);
     if (w != nullptr) {
-      auto         tly = wid_get_tl_y(w);
-      auto        *w2  = wid_new_square_button(g, parent->wid_popup_container, "level map");
-      spoint const minimap_tl(1, tly);
-      spoint const minimap_br(minimap_size + 2, tly + minimap_size);
+      auto  *w2 = wid_new_square_button(g, parent->wid_popup_container, "level map");
+      spoint minimap_tl(pad, TERM_HEIGHT - minimap_size);
+      spoint minimap_br(UI_RIGHTBAR_WIDTH - 1 - pad, TERM_HEIGHT - 2);
       wid_set_tilename(TILE_LAYER_BOX_FG, w2, "FBO_MINIMAP_LEVEL");
       wid_set_text_lhs(w2);
       wid_set_text_top(w2);

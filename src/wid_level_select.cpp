@@ -99,7 +99,7 @@ void wid_level_select(Gamep g, Levelsp v, Levelp l)
 
   wid_set_on_key_down(wid_level_select_window->wid_popup_container, wid_level_select_key_down);
 
-  {
+  if (0) {
     TRACE();
     auto *p = wid_level_select_window->wid_text_area->wid_text_area;
     auto *w = wid_new_continue_button(g, p, "continue");

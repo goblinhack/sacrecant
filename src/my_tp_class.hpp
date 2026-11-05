@@ -188,7 +188,7 @@ public:
   //
   // Game difficulty
   //
-  int difficulty {0};
+  ThingDifficultyType difficulty {THING_DIFFICULTY_EASY_1};
 
   int jump_attack_pct_chance {0};
   int items_collected_max {0};

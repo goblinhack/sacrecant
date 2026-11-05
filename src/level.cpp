@@ -896,7 +896,13 @@ void level_bounds_set(Gamep g, Levelsp v, Levelp l)
 [[nodiscard]] auto level_is_empty_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, p) { return false; }
+  FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, p)
+  {
+    if (thing_is_internal(it)) {
+      continue;
+    }
+    return false;
+  }
   return true;
 }
 

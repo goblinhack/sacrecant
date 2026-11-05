@@ -653,25 +653,26 @@ static void wid_thing_info_thing_mouse_over_end(Gamep g, Widp w)
   TRACE();
 
   switch (tp_difficulty_get(thing_tp(me))) {
-    case 0 : //
+    case THING_DIFFICULTY_EASY_1 : //
       parent->log(g, UI_INFO2_FMT_STR "Difficulty: as easy as it gets.");
       break;
-    case 1 : //
+    case THING_DIFFICULTY_2 : //
       parent->log(g, UI_INFO2_FMT_STR "Difficulty: hard");
       parent->log(g, UI_YELLOW_FMT_STR "More monsters and faster mob spawn chances" UI_RESET_FMT);
       break;
-    case 2 : //
+    case THING_DIFFICULTY_3 : //
       parent->log(g, UI_INFO2_FMT_STR "Difficulty: harder");
       parent->log(g, UI_ORANGE_FMT_STR "Even more monsters and faster mob spawn chances" UI_RESET_FMT);
       break;
-    case 3 : //
+    case THING_DIFFICULTY_4 : //
       parent->log(g, UI_INFO2_FMT_STR "Difficulty: nightmare");
       parent->log(g, UI_RED_FMT_STR "Yet more monsters and faster mob spawn chances" UI_RESET_FMT);
       break;
-    case 4 : //
+    case THING_DIFFICULTY_HARDEST_5 : //
       parent->log(g, UI_INFO2_FMT_STR "Difficulty: end times");
       parent->log(g, UI_RED_FMT_STR "More monsters and faster mob spawn chances" UI_RESET_FMT);
       break;
+    case THING_DIFFICULTY_ENUM_MAX : CROAK("unhandled game difficulty");
   }
 
   return true;

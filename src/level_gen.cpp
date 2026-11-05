@@ -75,9 +75,13 @@ static const int MAX_LEVEL_GEN_MIN_TREASURE_PER_LEVEL = 6;
 //
 // Monster limits
 //
-static const int MAX_LEVEL_GEN_MIN_MONST_PER_LEVEL = 10;
-static const int MAX_LEVEL_GEN_MAX_MONST_PER_LEVEL = 12;
-static const int MAX_LEVEL_GEN_MIN_MONST_PLACE_TRY = 100;
+static const int MAX_LEVEL_GEN_MIN_MONST_PER_LEVEL              = 10;
+static const int MAX_LEVEL_GEN_MAX_MONST_PER_LEVEL_DIFFICULTY_1 = 12;
+static const int MAX_LEVEL_GEN_MAX_MONST_PER_LEVEL_DIFFICULTY_2 = 16;
+static const int MAX_LEVEL_GEN_MAX_MONST_PER_LEVEL_DIFFICULTY_3 = 20;
+static const int MAX_LEVEL_GEN_MAX_MONST_PER_LEVEL_DIFFICULTY_4 = 24;
+static const int MAX_LEVEL_GEN_MAX_MONST_PER_LEVEL_DIFFICULTY_5 = 32;
+static const int MAX_LEVEL_GEN_MIN_MONST_PLACE_TRY              = 100;
 
 //
 // Mob limits
@@ -2373,13 +2377,7 @@ void level_fixed_add(Gamep g, int chance, LevelType level_type, const std::strin
   lf->width      = level_width;
   lf->height     = level_height;
   lf->overrides  = overrides;
-  lf->data       = static_cast< char * >(MYZALLOC(MAP_WIDTH * MAP_HEIGHT, "level data"));
-
-  //
-  // Center the level if smaller
-  //
-  auto pad_w = static_cast< int >(floor((MAP_WIDTH - level_width) / 2));
-  auto pad_h = static_cast< int >(floor((MAP_HEIGHT - level_height) / 2));
+  lf->data       = static_cast< char * >(MYZALLOC(lf->width * lf->height, "level data"));
 
   //
   // Now read the level again
@@ -2391,17 +2389,11 @@ void level_fixed_add(Gamep g, int chance, LevelType level_type, const std::strin
     for (int x = 0; x < lf->width; x++) {
       auto c = level_line[ x ];
 
-      auto X = x + pad_w;
-      auto Y = y + pad_h;
-
-      lf->data[ (Y * MAP_WIDTH) + X ] = c;
+      lf->data[ (y * lf->width) + x ] = c;
     }
   }
 
   va_end(ap);
-
-  lf->width  = MAP_WIDTH;
-  lf->height = MAP_HEIGHT;
 
   if (exit_count == 0) {
     if (level_type != LEVEL_TYPE_TEST) {
@@ -2513,6 +2505,29 @@ static auto level_gen_string(class LevelGen *lg, class LevelFixed *lf) -> std::s
   for (int y = 0; y < lg->map_height; y++) {
     for (int x = 0; x < lg->map_width; x++) {
       auto c = lf->data[ (y * lg->map_width) + x ];
+      if (c == 0) {
+        c = CHARMAP_CHASM;
+      }
+      lg->data[ x ][ y ].c = c;
+      out += c;
+    }
+  }
+
+  return out;
+}
+
+//
+// Convert a level into a single string
+//
+static auto level_gen_string(class LevelGen *lg) -> std::string
+{
+  TRACE();
+
+  std::string out;
+
+  for (int y = 0; y < lg->map_height; y++) {
+    for (int x = 0; x < lg->map_width; x++) {
+      auto c = lg->data[ x ][ y ].c;
       if (c == 0) {
         c = CHARMAP_CHASM;
       }
@@ -2637,24 +2652,6 @@ static void level_gen_dump(LevelGen *lg, const char *msg)
   }
 
   level_gen_mutex.unlock();
-}
-
-//
-// Convert a level into a single string
-//
-static auto level_gen_string(class LevelGen *lg) -> std::string
-{
-  TRACE();
-
-  std::string out;
-
-  for (int y = 0; y < lg->map_height; y++) {
-    for (int x = 0; x < lg->map_width; x++) {
-      out += lg->data[ x ][ y ].c;
-    }
-  }
-
-  return out;
 }
 
 //
@@ -3299,15 +3296,52 @@ static auto level_gen_new_class(Gamep g, LevelArrIdx level_arr_idx, uint32_t att
   lg->info.seed_num = seed;
   lg->level_arr_idx = level_arr_idx;
 
-  if (d100() < 90) {
-    lg->map_width  = MAP_SMALL_WIDTH;
-    lg->map_height = MAP_SMALL_HEIGHT;
-  } else if (d100() < 90) {
-    lg->map_width  = MAP_MED_WIDTH;
-    lg->map_height = MAP_MED_HEIGHT;
-  } else {
-    lg->map_width  = MAP_WIDTH;
-    lg->map_height = MAP_HEIGHT;
+  switch (game_difficulty_get(g)) {
+    case THING_DIFFICULTY_EASY_1 : //
+      if (d100() < 90) {
+        lg->map_width  = MAP_SMALL_WIDTH;
+        lg->map_height = MAP_SMALL_HEIGHT;
+      } else if (d100() < 90) {
+        lg->map_width  = MAP_MED_WIDTH;
+        lg->map_height = MAP_MED_HEIGHT;
+      } else {
+        lg->map_width  = MAP_WIDTH;
+        lg->map_height = MAP_HEIGHT;
+      }
+      break;
+    case THING_DIFFICULTY_2 : //
+      if (d100() < 50) {
+        lg->map_width  = MAP_SMALL_WIDTH;
+        lg->map_height = MAP_SMALL_HEIGHT;
+      } else if (d100() < 90) {
+        lg->map_width  = MAP_MED_WIDTH;
+        lg->map_height = MAP_MED_HEIGHT;
+      } else {
+        lg->map_width  = MAP_WIDTH;
+        lg->map_height = MAP_HEIGHT;
+      }
+      break;
+    case THING_DIFFICULTY_3 : //
+      if (d100() < 10) {
+        lg->map_width  = MAP_SMALL_WIDTH;
+        lg->map_height = MAP_SMALL_HEIGHT;
+      } else if (d100() < 10) {
+        lg->map_width  = MAP_MED_WIDTH;
+        lg->map_height = MAP_MED_HEIGHT;
+      } else {
+        lg->map_width  = MAP_WIDTH;
+        lg->map_height = MAP_HEIGHT;
+      }
+      break;
+    case THING_DIFFICULTY_4 : //
+      lg->map_width  = MAP_WIDTH;
+      lg->map_height = MAP_HEIGHT;
+      break;
+    case THING_DIFFICULTY_HARDEST_5 : //
+      lg->map_width  = MAP_WIDTH;
+      lg->map_height = MAP_HEIGHT;
+      break;
+    case THING_DIFFICULTY_ENUM_MAX : CROAK("unhandled game difficulty");
   }
 
   lg->min_room_count = MIN_LEVEL_ROOM_COUNT + (level_arr_idx / 10);
@@ -4729,15 +4763,37 @@ static void level_gen_remove_additional_keys(class LevelGen *lg)
   }
 }
 
-//
-// Too many monsters?
-//
-static void level_gen_remove_additional_monsts(class LevelGen *lg)
+[[nodiscard]] static int level_gen_max_monsters_per_level(Gamep g, class LevelGen *lg)
 {
   TRACE();
 
+  switch (game_difficulty_get(g)) {
+    case THING_DIFFICULTY_EASY_1 : //
+      return MAX_LEVEL_GEN_MAX_MONST_PER_LEVEL_DIFFICULTY_1;
+    case THING_DIFFICULTY_2 : //
+      return MAX_LEVEL_GEN_MAX_MONST_PER_LEVEL_DIFFICULTY_2;
+    case THING_DIFFICULTY_3 : //
+      return MAX_LEVEL_GEN_MAX_MONST_PER_LEVEL_DIFFICULTY_3;
+    case THING_DIFFICULTY_4 : //
+      return MAX_LEVEL_GEN_MAX_MONST_PER_LEVEL_DIFFICULTY_4;
+    case THING_DIFFICULTY_HARDEST_5 : //
+      return MAX_LEVEL_GEN_MAX_MONST_PER_LEVEL_DIFFICULTY_5;
+    case THING_DIFFICULTY_ENUM_MAX : CROAK("unhandled game difficulty");
+  }
+  return MAX_LEVEL_GEN_MAX_MONST_PER_LEVEL_DIFFICULTY_1;
+}
+
+//
+// Too many monsters?
+//
+static void level_gen_remove_additional_monsts(Gamep g, class LevelGen *lg)
+{
+  TRACE();
+
+  auto max_monsts = level_gen_max_monsters_per_level(g, lg);
+
   {
-    int tries = lg->info.monst_count - MAX_LEVEL_GEN_MAX_MONST_PER_LEVEL;
+    int tries = lg->info.monst_count - max_monsts;
     while (tries-- > 0) {
       if (level_gen_remove_thing_balanced_by_grid(lg, CHARMAP_MONST1)) {
         lg->info.monst_count--;
@@ -4746,7 +4802,7 @@ static void level_gen_remove_additional_monsts(class LevelGen *lg)
   }
 
   {
-    int tries = lg->info.monst_count - MAX_LEVEL_GEN_MAX_MONST_PER_LEVEL;
+    int tries = lg->info.monst_count - max_monsts;
     while (tries-- > 0) {
       (void) level_gen_remove_thing_balanced_by_grid(lg, CHARMAP_MONST2);
     }
@@ -5684,7 +5740,7 @@ static auto level_gen_create_proc_gen_level(Gamep g, class LevelGenAll *lga, Lev
   //
   // If too many monsters, remove some
   //
-  level_gen_remove_additional_monsts(lg);
+  level_gen_remove_additional_monsts(g, lg);
   if (lg->debug) [[unlikely]] {
     level_gen_dump(lg, "remove additional monsts");
   }

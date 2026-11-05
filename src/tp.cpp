@@ -1910,7 +1910,7 @@ void tp_fumble_roll_set(Tpp tp, int val)
   return tp->fumble_roll;
 }
 
-void tp_difficulty_set(Tpp tp, int val)
+void tp_difficulty_set(Tpp tp, ThingDifficultyType val)
 {
   TRACE_DEBUG();
   if (tp == nullptr) [[unlikely]] {
@@ -1920,12 +1920,12 @@ void tp_difficulty_set(Tpp tp, int val)
   tp->difficulty = val;
 }
 
-[[nodiscard]] auto tp_difficulty_get(Tpp tp) -> int
+[[nodiscard]] auto tp_difficulty_get(Tpp tp) -> ThingDifficultyType
 {
   TRACE_DEBUG();
   if (tp == nullptr) [[unlikely]] {
     no_tp_pointer();
-    return 0;
+    return THING_DIFFICULTY_EASY_1;
   }
   return tp->difficulty;
 }
