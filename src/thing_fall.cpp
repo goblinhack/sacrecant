@@ -534,6 +534,24 @@ void thing_fall(Gamep g, Levelsp v, Levelp l, Thingp me)
     return;
   }
 
+  //
+  // Things like ghosts do not fall, but when dead they need to be cleaned up
+  //
+  if (thing_is_dead(me) && ! thing_is_able_to_fall_normally(g, v, l, me)) {
+    ThingEvent e {
+        .reason     = "by falling",                   //
+        .event_type = THING_EVENT_FALL,               //
+        .damage     = thing_fall_damage(g, v, l, me), //
+    };
+
+    THING_DBG(g, v, l, me, "dead due to falling");
+    TRACE_INDENT();
+
+    thing_dead(g, v, l, me, e);
+    thing_is_scheduled_for_cleanup_set(g, v, l, me);
+    return;
+  }
+
   if (thing_is_able_to_fall_sound(me)) {
     thing_sound_play(g, v, l, me, "fall");
   }
@@ -586,6 +604,25 @@ void thing_fall(Gamep g, Levelsp v, Levelp l, Thingp me)
         return true;
       }
     }
+  }
+
+  //
+  // Can't fall when levitating
+  //
+  if (thing_is_flying(g, v, l, me) || thing_is_levitating(g, v, l, me)) {
+    return false;
+  }
+
+  return tp_flag(thing_tp(me), is_able_to_fall) != 0;
+}
+
+[[nodiscard]] auto thing_is_able_to_fall_normally(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    no_thing_pointer();
+    return false;
   }
 
   //

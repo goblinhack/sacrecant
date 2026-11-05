@@ -962,6 +962,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_able_to_fall_repeatedly(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_able_to_fall_sound(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_able_to_fall(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
+[[nodiscard]] auto thing_is_able_to_fall_normally(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_able_to_fire_weapons(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_heal(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_jump_attack(Thingp me) -> bool;
