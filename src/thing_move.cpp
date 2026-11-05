@@ -462,8 +462,14 @@ void thing_moving_from_set(Thingp t, const bpoint &val)
     // e.g. a mob, monst, locked door vault and this is a wall walker, ensure we cannot pass
     //
     if (thing_is_obs_to_wall_walker(me)) {
-      if (thing_is_wall_walker(g, v, l, me)) {
+      if (thing_is_wall_walker(g, v, l, player_or_monst)) {
         return true;
+      }
+    }
+
+    if (thing_is_wall(me)) {
+      if (thing_is_wall_walker(g, v, l, player_or_monst)) {
+        return false;
       }
     }
 
