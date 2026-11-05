@@ -549,7 +549,7 @@ void tp_load_player_common(Tpp tp)
   tp_flag_set(tp, is_dmap);
   tp_flag_set(tp, is_flesh);
   tp_flag_set(tp, is_light_flicker);
-  tp_flag_set(tp, is_light_source, MAP_WIDTH / 2);
+  tp_flag_set(tp, is_light_source, MAP_WIDTH / 4);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_obs_to_beam);

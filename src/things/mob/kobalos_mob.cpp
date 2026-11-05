@@ -98,11 +98,11 @@ static void tp_kobalos_mob_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_light_color_set(tp, "green");
   tp_minion_max_set(tp, 5);
   tp_monst_group_add(tp, MOB_GROUP2);
-  tp_name_a_or_an_set(tp, "a kobalos mob");
-  tp_name_apostrophize_set(tp, "kobalos mob'");
+  tp_name_a_or_an_set(tp, "a kobalos spawner");
+  tp_name_apostrophize_set(tp, "kobalos spawner'");
   tp_name_long_set(tp, "kobalos mob");
-  tp_name_pluralize_set(tp, "kobalos mobs");
-  tp_name_short_set(tp, "kobalos mob");
+  tp_name_pluralize_set(tp, "kobalos spawners");
+  tp_name_short_set(tp, "kobalos spawner");
   tp_priority_set(tp, THING_PRIORITY_MOB);
   tp_speed_set(tp, 100);
   tp_temperature_burns_at_set(tp, 100);  // celsius
