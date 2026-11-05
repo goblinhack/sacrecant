@@ -44,10 +44,10 @@
         "xxxxxxxx"; //
 
   LevelGenOverrides overrides;
-  overrides.o[ 'm' ].get_tp =  [](char c, bpoint p) -> Tpp { return tp_find_mand("spider_giant"); };
-  Levelp  l        = nullptr;
-  Levelsp v        = game_test_init(g, &l, level_num, w, h, start.c_str(), overrides);
-  bool    result   = true;
+  overrides.o[ 'm' ].get_tp = [](char c, bpoint p) -> Tpp { return tp_find_mand("spider_giant"); };
+  Levelp  l                 = nullptr;
+  Levelsp v                 = game_test_init(g, &l, level_num, w, h, start.c_str(), overrides);
+  bool    result            = true;
   bpoint  throw_to;
   int     threw_count = 0;
   Thingp  monst       = nullptr;

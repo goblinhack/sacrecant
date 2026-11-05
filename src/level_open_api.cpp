@@ -1448,10 +1448,10 @@
   return level_open(g, v, l, is_unused96, p);
 }
 
-[[nodiscard]] auto level_open_is_unused97(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+[[nodiscard]] auto level_open_is_water_common(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_open(g, v, l, is_unused97, p);
+  return level_open(g, v, l, is_water_common, p);
 }
 
 [[nodiscard]] auto level_open_is_water_dweller(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp

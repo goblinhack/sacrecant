@@ -9,6 +9,7 @@
 #include "my_main.hpp"
 #include "my_thing.hpp"
 #include "my_thing_inlines.hpp"
+#include "my_time.hpp"
 #include "my_types.hpp"
 
 #include <cstdint>
@@ -50,6 +51,10 @@ void thing_dmap(Gamep g, Levelsp v, Levelp l, Thingp me, bool reverse)
     return;
   }
 
+  if (thing_is_dead(me)) {
+    return;
+  }
+
   uint8_t const minx = 0;
   uint8_t const miny = 0;
   uint8_t const maxx = MAP_WIDTH - 1;
@@ -86,6 +91,8 @@ void thing_dmap(Gamep g, Levelsp v, Levelp l, Thingp me, bool reverse)
     dmap_print(&dmap->dmap, target, dmap_start, dmap_end);
   }
 
+  auto start = game_time_ms();
+
   if (reverse) {
     dmap_process_reverse(&dmap->dmap, dmap_start, dmap_end);
   } else {
@@ -95,5 +102,13 @@ void thing_dmap(Gamep g, Levelsp v, Levelp l, Thingp me, bool reverse)
   if (compiler_unused) {
     THING_DBG(g, v, l, me, "thing dmap");
     dmap_print(&dmap->dmap, target, dmap_start, dmap_end);
+  }
+
+  auto end = game_time_ms();
+
+  if (end - start) {
+    if (g_thread_id == MAIN_THREAD) {
+      THING_DBG(g, v, l, me, "dmap took %u ms", end - start);
+    }
   }
 }

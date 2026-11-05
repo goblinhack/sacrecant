@@ -112,13 +112,14 @@ void gl_init_fbo(Gamep g, FboEnum fbo)
     // If no change in size then do not reset the FBO
     //
     if (g_fbo_size[ i ] == isize(tex_width, tex_height)) {
-      DBG("no change in size for FBO %u, %ux%u", i, tex_width, tex_height);
-      // continue;
+      DBG("GL: no change in size for FBO %u, %ux%u", i, tex_width, tex_height);
+      continue;
     }
+
     if (g_fbo_size[ i ].w != 0) {
-      DBG("Change in size for FBO %u, %ux%u -> %ux%u", i, g_fbo_size[ i ].w, g_fbo_size[ i ].h, tex_width, tex_height);
+      DBG("GL: change in size for FBO %u, %ux%u -> %ux%u", i, g_fbo_size[ i ].w, g_fbo_size[ i ].h, tex_width, tex_height);
     } else {
-      DBG("Init FBO %u, %ux%u", i, tex_width, tex_height);
+      DBG("GL: init FBO %u, %ux%u", i, tex_width, tex_height);
     }
 
     gl_init_fbo_(i, &g_render_buf_id[ i ], &g_fbo_id[ i ], &g_fbo_tex_id[ i ], tex_width, tex_height);

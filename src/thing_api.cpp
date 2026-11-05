@@ -1577,7 +1577,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   return tp_flag(thing_tp(t), is_unused96) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused97(Thingp t) -> bool
+[[nodiscard]] auto thing_is_water_common(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1585,7 +1585,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     no_thing_pointer();
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused97) != 0;
+  return tp_flag(thing_tp(t), is_water_common) != 0;
 }
 
 [[nodiscard]] auto thing_is_water_dweller(Thingp t) -> bool

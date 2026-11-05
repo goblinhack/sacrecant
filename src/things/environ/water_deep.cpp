@@ -52,6 +52,7 @@ static auto tp_water_deep_description_get(Gamep g, Levelsp v, Levelp l, Thingp m
   tp_flag_set(tp, is_soft_landing);
   tp_flag_set(tp, is_tick_end_delay);
   tp_flag_set(tp, is_tiled);
+  tp_flag_set(tp, is_water_common);
   tp_flag_set(tp, is_water_deep);
   tp_health_set(tp, "40"); // to allow it to be damaged by fire
   tp_name_a_or_an_set(tp, "deep water");

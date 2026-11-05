@@ -40,10 +40,10 @@
   //
   // Create the level and start playing
   //
-  Levelp    l = nullptr;
+  Levelp            l = nullptr;
   LevelGenOverrides overrides;
-  overrides.o[ 'm' ].get_tp =  [](char c, bpoint p) -> Tpp { return tp_find_mand("cleaner"); };
-  Levelsp v        = game_test_init(g, &l, level_num, w, h, start.c_str(), overrides);
+  overrides.o[ 'm' ].get_tp = [](char c, bpoint p) -> Tpp { return tp_find_mand("cleaner"); };
+  Levelsp v                 = game_test_init(g, &l, level_num, w, h, start.c_str(), overrides);
 
   //
   // The guts of the test

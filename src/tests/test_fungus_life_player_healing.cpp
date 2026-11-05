@@ -59,11 +59,11 @@
   // Create the level and start playing
   //
   LevelGenOverrides overrides;
-  overrides.o[ 'f' ].get_tp =  [](char c, bpoint p) -> Tpp { return tp_find_mand("fungus_life"); };
-  Levelp  l          = nullptr;
-  Levelsp v          = game_test_init(g, &l, level_num, w, h, start.c_str(), overrides);
-  int     health     = 0;
-  int     health_max = 0;
+  overrides.o[ 'f' ].get_tp = [](char c, bpoint p) -> Tpp { return tp_find_mand("fungus_life"); };
+  Levelp  l                 = nullptr;
+  Levelsp v                 = game_test_init(g, &l, level_num, w, h, start.c_str(), overrides);
+  int     health            = 0;
+  int     health_max        = 0;
 
   //
   // The guts of the test

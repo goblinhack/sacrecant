@@ -30,12 +30,6 @@ static void level_minimap_levels_update(Gamep g, Levelsp v, Levelp l, const bool
     return;
   }
 
-  if (level_select) {
-    if (! l->is_treasure_level) {
-      //            return;
-    }
-  }
-
   const FboEnum fbo = FBO_MINIMAP_LEVEL;
   const auto    dx  = 1;
   const auto    dy  = 1;

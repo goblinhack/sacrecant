@@ -1447,10 +1447,10 @@
   return tp_flag(tp, is_unused96) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused97(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_water_common(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused97) != 0;
+  return tp_flag(tp, is_water_common) != 0;
 }
 
 [[nodiscard]] auto tp_is_water_dweller(Tpp tp) -> bool

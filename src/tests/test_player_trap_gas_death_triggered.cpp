@@ -42,10 +42,10 @@
   //
   // Create the level and start playing
   //
-  Levelp    l = nullptr;
+  Levelp            l = nullptr;
   LevelGenOverrides overrides;
-  overrides.o[ 't' ].get_tp =  [](char c, bpoint p) -> Tpp { return tp_find_mand("trap_gas_death"); };
-  Levelsp v        = game_test_init(g, &l, level_num, w, h, level1.c_str(), overrides);
+  overrides.o[ 't' ].get_tp = [](char c, bpoint p) -> Tpp { return tp_find_mand("trap_gas_death"); };
+  Levelsp v                 = game_test_init(g, &l, level_num, w, h, level1.c_str(), overrides);
 
   //
   // The guts of the test

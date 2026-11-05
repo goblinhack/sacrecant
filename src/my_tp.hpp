@@ -409,7 +409,7 @@
       list_macro(is_unused94, "is_unused94"),                                               /* newline */                                       \
       list_macro(is_unused95, "is_unused95"),                                               /* newline */                                       \
       list_macro(is_unused96, "is_unused96"),                                               /* newline */                                       \
-      list_macro(is_unused97, "is_unused97"),                                               /* newline */                                       \
+      list_macro(is_water_common, "is_water_common"),                                       /* newline */                                       \
       list_macro(is_water_dweller, "is_water_dweller"),                                     /* newline */                                       \
       list_macro(is_leader_kill_followers_on_death, "is_leader_kill_followers_on_death"),   /* newline */                                       \
       list_macro(is_usable, "is_usable"),                                                   /* newline */                                       \
@@ -1283,7 +1283,6 @@ class Tp;
 [[nodiscard]] auto tp_is_unused94(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused95(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused96(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused97(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_usable(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_vault(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_venomous(Tpp tp) -> bool;
@@ -1296,6 +1295,7 @@ class Tp;
 [[nodiscard]] auto tp_is_wall(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_wand(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_water_bound(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_water_common(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_water_deep(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_water_dweller(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_water_shallow(Tpp tp) -> bool;

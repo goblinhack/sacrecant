@@ -191,6 +191,13 @@ static void thing_heat_exchange(Gamep g, Levelsp v, Levelp l, Thingp a, Thingp b
   }
 
   //
+  // No point in having water tiles in the same tile interact
+  //
+  if (thing_is_water_common(a) && thing_is_water_common(b)) {
+    return;
+  }
+
+  //
   // Weapons only heat up things they hit.
   //
   // Steam over water is handled as a special case.

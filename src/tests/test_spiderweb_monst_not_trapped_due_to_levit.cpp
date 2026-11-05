@@ -45,10 +45,10 @@
         "xxxxxxxxxxxxxxxxx";
 
   LevelGenOverrides overrides;
-  overrides.o[ 'm' ].get_tp =  [](char c, bpoint p) -> Tpp { return tp_find_mand("argusul"); };
-  Levelp  l        = nullptr;
-  Levelsp v        = game_test_init(g, &l, level_num, w, h, start.c_str(), overrides);
-  bool    result   = true;
+  overrides.o[ 'm' ].get_tp = [](char c, bpoint p) -> Tpp { return tp_find_mand("argusul"); };
+  Levelp  l                 = nullptr;
+  Levelsp v                 = game_test_init(g, &l, level_num, w, h, start.c_str(), overrides);
+  bool    result            = true;
 
   auto *player = thing_player(g);
   if (player == nullptr) [[unlikely]] {

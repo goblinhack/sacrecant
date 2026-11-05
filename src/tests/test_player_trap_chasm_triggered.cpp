@@ -57,11 +57,11 @@
   //
   // Create the level and start playing
   //
-  Levelp    l1 = nullptr;
-  Levelp    l2 = nullptr;
+  Levelp            l1 = nullptr;
+  Levelp            l2 = nullptr;
   LevelGenOverrides overrides;
-  overrides.o[ 't' ].get_tp =  [](char c, bpoint p) -> Tpp { return tp_find_mand("trap_chasm"); };
-  Levelsp v        = game_test_init(g, &l1, level_num, w, h, level1.c_str(), overrides);
+  overrides.o[ 't' ].get_tp = [](char c, bpoint p) -> Tpp { return tp_find_mand("trap_chasm"); };
+  Levelsp v                 = game_test_init(g, &l1, level_num, w, h, level1.c_str(), overrides);
   game_test_init_level(g, v, &l2, level_num + 1, w, h, level2.c_str());
 
   //

@@ -42,15 +42,15 @@
   // Create the level and start playing
   //
   LevelGenOverrides overrides;
-  overrides.o[ '1' ].get_tp =  [](char c, bpoint p) -> Tpp { return tp_find_mand("pot_healing"); };
-  overrides.o[ '2' ].get_tp =  [](char c, bpoint p) -> Tpp { return tp_find_mand("pot_incin"); };
-  overrides.o[ '3' ].get_tp =  [](char c, bpoint p) -> Tpp { return tp_find_mand("pot_stealth"); };
-  overrides.o[ '4' ].get_tp =  [](char c, bpoint p) -> Tpp { return tp_find_mand("pot_tireless"); };
-  overrides.o[ '5' ].get_tp =  [](char c, bpoint p) -> Tpp { return tp_find_mand("horseshoe"); };
-  overrides.o[ '6' ].get_tp =  [](char c, bpoint p) -> Tpp { return tp_find_mand("chest"); };
-  overrides.o[ 'm' ].get_tp =  [](char c, bpoint p) -> Tpp { return tp_find_mand("cleaner"); };
-  Levelp  l        = nullptr;
-  Levelsp v        = game_test_init(g, &l, level_num, w, h, start.c_str(), overrides);
+  overrides.o[ '1' ].get_tp = [](char c, bpoint p) -> Tpp { return tp_find_mand("pot_healing"); };
+  overrides.o[ '2' ].get_tp = [](char c, bpoint p) -> Tpp { return tp_find_mand("pot_incin"); };
+  overrides.o[ '3' ].get_tp = [](char c, bpoint p) -> Tpp { return tp_find_mand("pot_stealth"); };
+  overrides.o[ '4' ].get_tp = [](char c, bpoint p) -> Tpp { return tp_find_mand("pot_tireless"); };
+  overrides.o[ '5' ].get_tp = [](char c, bpoint p) -> Tpp { return tp_find_mand("horseshoe"); };
+  overrides.o[ '6' ].get_tp = [](char c, bpoint p) -> Tpp { return tp_find_mand("chest"); };
+  overrides.o[ 'm' ].get_tp = [](char c, bpoint p) -> Tpp { return tp_find_mand("cleaner"); };
+  Levelp  l                 = nullptr;
+  Levelsp v                 = game_test_init(g, &l, level_num, w, h, start.c_str(), overrides);
 
   //
   // The guts of the test

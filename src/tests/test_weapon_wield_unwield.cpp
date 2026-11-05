@@ -36,14 +36,14 @@
         "x.........................x"
         "xxxxxxxxxxxxxxxxxxxxxxxxxxx";
 
-  LevelGenOverrides  overrides;
-  Levelp     l       = nullptr;
-  Levelsp    v       = game_test_init(g, &l, level_num, w, h, start.c_str());
-  bool       result  = true;
-  Thingp     weapon  = nullptr;
-  Thingp     worn    = nullptr;
-  Tpp        item_tp = nullptr;
-  ThingEvent e       = {};
+  LevelGenOverrides overrides;
+  Levelp            l       = nullptr;
+  Levelsp           v       = game_test_init(g, &l, level_num, w, h, start.c_str());
+  bool              result  = true;
+  Thingp            weapon  = nullptr;
+  Thingp            worn    = nullptr;
+  Tpp               item_tp = nullptr;
+  ThingEvent        e       = {};
 
   auto *player = thing_player(g);
   if (player == nullptr) [[unlikely]] {

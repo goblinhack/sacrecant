@@ -45,10 +45,10 @@
         "xxxxxxxxxxxxxxxxx";
 
   LevelGenOverrides overrides;
-  overrides.o[ 'M' ].get_tp =  [](char c, bpoint p) -> Tpp { return tp_find_mand("mummy"); };
-  Levelp  l        = nullptr;
-  Levelsp v        = game_test_init(g, &l, level_num, w, h, start.c_str(), overrides);
-  bool    result   = true;
+  overrides.o[ 'M' ].get_tp = [](char c, bpoint p) -> Tpp { return tp_find_mand("mummy"); };
+  Levelp  l                 = nullptr;
+  Levelsp v                 = game_test_init(g, &l, level_num, w, h, start.c_str(), overrides);
+  bool    result            = true;
 
   auto *tp_beam_of_fire = tp_find_mand("beam_of_fire");
   tp_damage_set(tp_beam_of_fire, THING_EVENT_FIRE_DAMAGE, "100");

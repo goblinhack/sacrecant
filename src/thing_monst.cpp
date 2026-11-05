@@ -17,6 +17,7 @@
 #include "my_thing.hpp"
 #include "my_thing_callbacks.hpp"
 #include "my_thing_inlines.hpp"
+#include "my_time.hpp"
 #include "my_tp.hpp"
 #include "my_types.hpp"
 
@@ -1398,7 +1399,12 @@ void thing_monst_tick(Gamep g, Levelsp v, Levelp l, Thingp me)
   THING_DBG(g, v, l, me, "monst tick, move_rem %d dt %f", thing_move_remaining(me), static_cast< float >(me->thing_dt));
   TRACE_INDENT();
 
+  auto start = game_time_ms();
   thing_monst_event_loop(g, v, l, me);
+  auto end = game_time_ms();
+  if (end - start) {
+    THING_DBG(g, v, l, me, "event loop took %u ms", end - start);
+  }
 }
 
 [[nodiscard]] auto thing_is_monst(Thingp me) -> bool

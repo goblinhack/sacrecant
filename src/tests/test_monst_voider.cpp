@@ -49,12 +49,12 @@
   //
   // Create the level and start playing
   //
-  ThingEvent e {};
-  LevelGenOverrides  overrides;
-  overrides.o[ 'm' ].get_tp =  [](char c, bpoint p) -> Tpp { return tp_find_mand("voider"); };
-  Thingp  monst    = nullptr;
-  Levelp  l        = nullptr;
-  Levelsp v        = game_test_init(g, &l, level_num, w, h, start.c_str(), overrides);
+  ThingEvent        e {};
+  LevelGenOverrides overrides;
+  overrides.o[ 'm' ].get_tp = [](char c, bpoint p) -> Tpp { return tp_find_mand("voider"); };
+  Thingp  monst             = nullptr;
+  Levelp  l                 = nullptr;
+  Levelsp v                 = game_test_init(g, &l, level_num, w, h, start.c_str(), overrides);
 
   //
   // The guts of the test
