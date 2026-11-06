@@ -794,7 +794,7 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
         light_pixels = nullptr;
       }
 
-      if (tile_width(tile) != LIGHT_PIXEL) {
+      if (tile_width(tile) != TILE_WIDTH) {
         light_pixels = nullptr;
       }
     } else {

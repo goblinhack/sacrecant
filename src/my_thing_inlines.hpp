@@ -632,7 +632,7 @@
   return ext->_recoil_ms;
 }
 
-[[nodiscard]] static inline auto thing_light_struct(Gamep g, Levelsp v, Thingp t) -> ThingLightp
+[[nodiscard]] static inline auto thing_light_struct(Gamep g, Levelsp v, Thingp me) -> ThingLightp
 {
 #ifdef DEBUG_BUILD
   TRACE_DEBUG();
@@ -642,7 +642,7 @@
   }
 #endif
 
-  auto light_id = t->light_id;
+  auto light_id = me->light_id;
   if (light_id == 0U) {
     return nullptr;
   }

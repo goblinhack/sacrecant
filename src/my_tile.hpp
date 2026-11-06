@@ -44,7 +44,7 @@ enum { TILE_HEIGHT = 12, TILE_WIDTH = 12 };
 // The tiles are 14x14 to allow for outlines, however the screen lighting is done in
 // 12x12, ignoring the extra pixel. So all walls and floors etc... are 12x12.
 //
-#define LIGHT_PIXEL (TILE_WIDTH)
+#define LIGHT_PIXEL (TILE_WIDTH / 2)
 
 #define TILE_HEIGHT_MAX OUTLINE_TILE_HEIGHT
 #define TILE_WIDTH_MAX  OUTLINE_TILE_WIDTH // Largest tile for collisions
