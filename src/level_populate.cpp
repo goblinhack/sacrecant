@@ -1092,6 +1092,20 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
     }
   }
 
+  //
+  // Fill empty spaces with chasms
+  //
+  if (! g_opt_tests) {
+    for (auto y = 0; y < MAP_WIDTH; y++) {
+      for (auto x = 0; x < MAP_HEIGHT; x++) {
+        bpoint p(x, y);
+        if (level_is_empty_bool(g, v, l, p)) {
+          (void) thing_spawn(g, v, l, lp.tp_chasm, p);
+        }
+      }
+    }
+  }
+
   if (compiler_unused) {
     if (l->entrance.x > 0) {
       if (thing_spawn(g, v, l, tp_find_random(g, v, l, is_exit), l->entrance + bpoint(1, 1)) == nullptr) {

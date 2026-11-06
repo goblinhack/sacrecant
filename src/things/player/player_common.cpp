@@ -21,6 +21,8 @@
 #include "../../my_ui.hpp"
 #include "../../my_wids.hpp"
 
+static const auto vision_distance = MAP_WIDTH / 3;
+
 auto tp_player_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
 {
   TRACE();
@@ -506,7 +508,6 @@ void tp_load_player_common(Tpp tp)
   tp_damage_set(tp, THING_EVENT_MELEE_DAMAGE, "1d2");
   tp_distance_jump_set(tp, 3);
   tp_distance_throw_set(tp, 6);
-  tp_distance_vision_set(tp, MAP_WIDTH); // tiles
   tp_flag_set(tp, is_able_to_be_buffed);
   tp_flag_set(tp, is_able_to_be_engulfed);
   tp_flag_set(tp, is_able_to_be_ensnared);
@@ -549,7 +550,8 @@ void tp_load_player_common(Tpp tp)
   tp_flag_set(tp, is_dmap);
   tp_flag_set(tp, is_flesh);
   tp_flag_set(tp, is_light_flicker);
-  tp_flag_set(tp, is_light_source, MAP_WIDTH / 4);
+  tp_flag_set(tp, is_light_source, vision_distance);
+  tp_distance_vision_set(tp, vision_distance);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_obs_to_beam);
