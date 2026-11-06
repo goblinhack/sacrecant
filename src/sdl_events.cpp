@@ -666,7 +666,7 @@ void sdl_key_repeat_events(Gamep g)
   bool right_held = static_cast< bool >(state[ sdlk_to_scancode(game_key_move_right_get(g)) ]);
 
   if (compiler_unused) {
-    con("movement %d/%d/%d/%d", static_cast< int >(up_held), static_cast< int >(down_held), static_cast< int >(left_held),
+    DBG("held down: u%d d%d l%d r%d", static_cast< int >(up_held), static_cast< int >(down_held), static_cast< int >(left_held),
         static_cast< int >(right_held));
   }
 
@@ -768,11 +768,20 @@ void sdl_key_repeat_events(Gamep g)
 
   static ts_t last_movement_keypress = 0;
 
-  if (last_movement_keypress == 0) {
-    last_movement_keypress = game_time_ms();
-  }
-
+  //
+  // If any key is held? Either in this call, or a previous call within SDL_KEY_REPEAT_PLAYER
+  //
   if (up || down || left || right || fire) {
+    //
+    // Upon the first key held, we keep track of the time.
+    //
+    // If another key is pressed within the window of this value and SDL_KEY_REPEAT_PLAYER then we combine
+    // the moves; this allows two keeps to be pressed to achieve diagonal movement.
+    //
+    if (last_movement_keypress == 0) {
+      last_movement_keypress = game_time_ms();
+    }
+
     auto *player = thing_player(g);
     if (player != nullptr) {
       //
@@ -789,7 +798,7 @@ void sdl_key_repeat_events(Gamep g)
 
       if (fast_repeat_allowed || game_time_have_x_hundredths_passed_since(SDL_KEY_REPEAT_PLAYER, last_movement_keypress)) {
         if (player_move_request(g, up, down, left, right, fire)) {
-          last_movement_keypress = game_time_ms();
+          last_movement_keypress = 0;
 
           if (fire_pressed > 0) {
             fire_pressed--;
