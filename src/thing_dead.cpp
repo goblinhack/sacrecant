@@ -546,10 +546,6 @@ void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   //
   if (thing_is_burning(me) && (tp_tiles_size(tp, THING_ANIM_BURNT) != 0)) {
     //
-    // If it has burnt anim frames
-    //
-    me->anim_type = THING_ANIM_BURNT;
-    //
     // Restart the animation if we have burnt frames
     //
     thing_anim_init(g, v, l, me, THING_ANIM_BURNT);

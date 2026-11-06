@@ -67,9 +67,11 @@
   }
 
   //
-  // Reset animation
+  // Reset animation. Could have dead frames, so leave as is if this is the case.
   //
-  thing_anim_init(g, v, l, me, THING_ANIM_IDLE);
+  if (! thing_is_dead(me)) {
+    thing_anim_init(g, v, l, me, THING_ANIM_IDLE);
+  }
 
   return true;
 }
