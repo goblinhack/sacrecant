@@ -1020,9 +1020,9 @@ echo \$0: remove old installers
 rm *installer.exe
 
 echo \$0: stripping the target
-ls -la strip ${TARGET}.exe
+ls -la ${TARGET}.exe
 strip ${TARGET}.exe
-ls -la strip ${TARGET}.exe
+ls -la ${TARGET}.exe
 
 #
 # Update the version
