@@ -767,6 +767,11 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
     // No lighting
     //
     fg = WHITE;
+  } else if (t_maybe_null && thing_is_lava_bg(t_maybe_null)) {
+    //
+    // No lighting
+    //
+    fg = WHITE;
   } else if (thing_vision_can_see_tile(g, v, l, player, p)) {
     //
     // Apply lighting to current tiles

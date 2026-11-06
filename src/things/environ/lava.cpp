@@ -38,6 +38,7 @@ static auto tp_lava_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> 
   tp_flag_set(tp, is_lava);
   tp_flag_set(tp, is_light_flicker);
   tp_flag_set(tp, is_light_source, 2);
+  tp_flag_set(tp, is_blit_per_pixel_lighting);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_needs_move_confirm);
   tp_flag_set(tp, is_obs_to_jumping_out_of);

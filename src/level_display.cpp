@@ -416,10 +416,8 @@ static void level_display_fbo_do(Gamep g, Levelsp v, Levelp level_above, Levelp 
 
             if (level_above != nullptr) {
               display_tile = level_is_lava_cached(g, v, l, p);
-            } else {
-              if (level_has_seen_cached(g, v, l, p)) {
-                display_tile = level_is_lava_cached(g, v, l, p);
-              }
+            } else if (level_has_seen_cached(g, v, l, p)) {
+              display_tile = level_is_lava_cached(g, v, l, p);
             }
             break;
 

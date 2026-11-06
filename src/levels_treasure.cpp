@@ -2788,16 +2788,8 @@ void levels_treasure(Gamep g)
     overrides.o[ 'f' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("skullferno"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE5, "treasure5.4", __FUNCTION__, __LINE__, overrides, 0,
-                    /* line */ (const char *) "LLLLLLLLLLLLLLLLLLLLRLLLLLLL",
-                    /* line */ (const char *) "L,,LLLLLLLLLLLLLLLLLLLLLLLLL",
-                    /* line */ (const char *) "L,,LLLLLLLLLLLLLLLLLLLLLLLLL",
-                    /* line */ (const char *) "L,,LLLLLLLLLLLLLLLLLLLLLLLLL",
-                    /* line */ (const char *) "L,,LLLLLLLLLLLLLLLLLLLLLLLLL",
-                    /* line */ (const char *) "L,,LLLLLLLLLLLLLLLLLLLLLLLLL",
-                    /* line */ (const char *) "L,,LLLLLLLLLLLLLLLLLLLLLLLLL",
-                    /* line */ (const char *) "L,,LLLLLLLLLLLLLLLLLLLLLLLLL",
-                    /* line */ (const char *) "L,,LLLLLLLLLLLLLLLLLLLLLLLLL",
-                    /* line */ (const char *) "L,,LLLLLLLLLLLLLLLLLLLLLLLLL",
+                    /* line */ (const char *) "LLRLLLLLLLLLRLRLLLLLRLLLLLLL",
+                    /* line */ (const char *) "LRLLLLLLLLLLLLLLRLLLRLLLLLLL",
                     /* line */ (const char *) "LL@,$LLLL$,,,,,,,,,LLLLEf$LL",
                     /* line */ (const char *) "LLLL,LLLLLL,LLLLLL,LLLLLL,LL",
                     /* line */ (const char *) "LLLL,LLRLLL,LLLLLL,LLLRLLoLL",
