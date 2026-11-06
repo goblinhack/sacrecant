@@ -1402,7 +1402,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_lifespan_initial(Thingp me) -> int;
 [[nodiscard]] auto thing_lifespan_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int;
 [[nodiscard]] auto thing_lifespan(Gamep g, Levelsp v, Levelp l, Thingp me) -> int;
-[[nodiscard]] auto thing_light_struct(Gamep g, Thingp t) -> ThingLightp;
 [[nodiscard]] auto thing_lunge(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &to) -> bool;
 [[nodiscard]] auto thing_mana_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
 [[nodiscard]] auto thing_mana_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;

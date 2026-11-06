@@ -455,19 +455,6 @@
   return nullptr;
 }
 
-[[nodiscard]] static inline auto thing_is_light_source(Thingp me) -> int
-{
-#ifdef DEBUG_BUILD
-  TRACE_DEBUG();
-  if (me == nullptr) {
-    no_thing_pointer();
-    return 0;
-  }
-#endif
-
-  return tp_flag(thing_tp(me), is_light_source);
-}
-
 [[nodiscard]] static inline auto thing_submerged_pct(Thingp me) -> int
 {
 #ifdef DEBUG_BUILD
@@ -643,6 +630,42 @@
   }
 
   return ext->_recoil_ms;
+}
+
+[[nodiscard]] static inline auto thing_light_struct(Gamep g, Levelsp v, Thingp t) -> ThingLightp
+{
+#ifdef DEBUG_BUILD
+  TRACE_DEBUG();
+  if (me == nullptr) {
+    no_thing_pointer();
+    return 0;
+  }
+#endif
+
+  auto light_id = t->light_id;
+  if (light_id == 0U) {
+    return nullptr;
+  }
+
+  return &v->thing_light[ light_id ];
+}
+
+[[nodiscard]] static inline auto thing_is_light_source(Gamep g, Levelsp v, Thingp me) -> int
+{
+#ifdef DEBUG_BUILD
+  TRACE_DEBUG();
+  if (me == nullptr) {
+    no_thing_pointer();
+    return 0;
+  }
+#endif
+
+  auto ext = thing_light_struct(g, v, me);
+  if (! ext) {
+    return false;
+  }
+
+  return tp_flag(thing_tp(me), is_light_source);
 }
 
 #endif // MY_THING_INLINES_HPP

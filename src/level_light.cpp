@@ -151,7 +151,7 @@ static void level_light_calculate_all_things(Gamep g, Levelsp v, Levelp l)
   //
   FOR_ALL_THINGS_ON_LEVEL_NO_BREAK(g, v, l, t)
   {
-    int max_radius = thing_is_light_source(t);
+    int max_radius = thing_is_light_source(g, v, t);
     if (max_radius == 0) [[likely]] {
       continue;
     }
@@ -160,7 +160,7 @@ static void level_light_calculate_all_things(Gamep g, Levelsp v, Levelp l)
       continue;
     }
 
-    auto *light = thing_light_struct(g, t);
+    auto *light = thing_light_struct(g, v, t);
 
     //
     // If a monster is moving between two tiles, as the lighting is tile based,
@@ -187,7 +187,7 @@ static void level_light_calculate_all_things(Gamep g, Levelsp v, Levelp l)
     ctx.has_seen_tile            = nullptr;
     ctx.light_walls              = true;
     ctx.light_color              = tp_light_color(thing_tp(t));
-    ctx.light_strength_in_pixels = thing_is_light_source(t) * TILE_WIDTH;
+    ctx.light_strength_in_pixels = thing_is_light_source(g, v, t) * TILE_WIDTH;
 
     //
     // Flicker the light strength?

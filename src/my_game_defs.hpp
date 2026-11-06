@@ -20,7 +20,7 @@ enum {
 
   THING_DMAP_ID_PER_LEVEL_MAX  = 100,
   THING_EXT_ID_PER_LEVEL_MAX   = 400,
-  THING_LIGHT_ID_PER_LEVEL_MAX = 700,
+  THING_LIGHT_ID_PER_LEVEL_MAX = 800,
 
   //
   // Entropy is always > 0 for Thing IDs to distinguish them

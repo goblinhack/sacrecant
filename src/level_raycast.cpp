@@ -381,7 +381,7 @@ void Raycast::raycast_do(Gamep g, Levelsp v, Levelp l)
     return;
   }
 
-  auto *light = thing_light_struct(g, player);
+  auto *light = thing_light_struct(g, v, player);
   if (light == nullptr) {
     return;
   }
@@ -425,7 +425,7 @@ void Raycast::raycast_do(Gamep g, Levelsp v, Levelp l)
   ctx.pov                      = thing_at(g, v, l, player);
   ctx.light_color              = tp_light_color(tp);
   ctx.thing_at_in_pixels       = thing_pix_at(player);
-  ctx.light_strength_in_pixels = thing_is_light_source(player) * TILE_WIDTH;
+  ctx.light_strength_in_pixels = thing_is_light_source(g, v, player) * TILE_WIDTH;
 
   //
   // Flicker the light strength and color?

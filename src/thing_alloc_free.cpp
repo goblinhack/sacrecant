@@ -393,7 +393,7 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
   return me;
 }
 
-[[nodiscard]] auto thing_alloc(Gamep g, Levelsp v, Levelp l, Tpp tp, bpoint /*p*/) -> Thingp
+[[nodiscard]] auto thing_alloc(Gamep g, Levelsp v, Levelp l, Tpp tp, bpoint p) -> Thingp
 {
   TRACE();
 
@@ -407,6 +407,17 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
   auto needs_dmap_memory  = tp_is_dmap(tp);
   auto needs_ext_memory   = tp_is_memory_ext(tp) || needs_dmap_memory;
   auto needs_light_memory = tp_is_light_source(tp) || tp_is_player(tp);
+
+  //
+  // Too much light from lava in later levels
+  //
+  if (needs_light_memory) {
+    if (tp_is_lava(tp)) {
+      if ((p.x & 1) || (p.y & 1)) {
+        needs_light_memory = false;
+      }
+    }
+  }
 
   auto level_arr_idx = l->level_arr_idx;
 

@@ -167,23 +167,6 @@ void thing_stats_dump(Gamep g, Levelsp v)
   log("- Free things         %u", free_things);
 }
 
-[[nodiscard]] auto thing_light_struct(Gamep g, Thingp t) -> ThingLightp
-{
-  TRACE_DEBUG();
-
-  auto *v = game_levels_get(g);
-  if (v == nullptr) [[unlikely]] {
-    return nullptr;
-  }
-
-  auto light_id = t->light_id;
-  if (light_id == 0U) {
-    return nullptr;
-  }
-
-  return &v->thing_light[ light_id ];
-}
-
 [[nodiscard]] auto thing_player_struct(Gamep g) -> ThingPlayerp
 {
   TRACE_DEBUG();

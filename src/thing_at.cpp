@@ -113,7 +113,7 @@ void thing_pix_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, const spoint &val
     return;
   }
 
-  if (thing_is_light_source(me) != 0) {
+  if (thing_is_light_source(g, v, me) != 0) {
     if (me->_curr_pix_at != val) {
       l->request_to_update_per_pixel_visibility = true;
     }
@@ -133,7 +133,7 @@ void thing_pix_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, short x, short y)
 
   spoint const val(x, y);
 
-  if (thing_is_light_source(me) != 0) {
+  if (thing_is_light_source(g, v, me) != 0) {
     if (me->_curr_pix_at != val) {
       l->request_to_update_per_pixel_visibility = true;
     }
