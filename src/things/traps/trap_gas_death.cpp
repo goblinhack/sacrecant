@@ -79,7 +79,6 @@ static auto tp_trap_gas_death_activated(Gamep g, Levelsp v, Levelp l, Thingp tra
   thing_description_set(tp, tp_trap_gas_death_description_get);
   thing_on_activated_set(tp, tp_trap_gas_death_activated);
   tp_flag_set(tp, is_blit_centered);
-  tp_flag_set(tp, is_blit_per_pixel_lighting);
   tp_flag_set(tp, is_blit_shown_in_chasms);
   tp_flag_set(tp, is_described_cursor);
   tp_flag_set(tp, is_flat);

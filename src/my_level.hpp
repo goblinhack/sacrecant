@@ -119,33 +119,6 @@ using LevelInfo = struct LevelInfo {
   //////////////////////////////////////////////////////////////
 };
 
-using LightPixel = struct LightPixel {
-  //
-  // The total of all lights intersecting here, which is then scaled into the final light
-  //
-  uint8_t r;
-  uint8_t g;
-  uint8_t b;
-  uint8_t player_r;
-  uint8_t player_g;
-  uint8_t player_b;
-};
-
-using LightPixels = struct LightPixels {
-  LightPixel pixel[ LIGHT_PIXEL ][ LIGHT_PIXEL ];
-};
-
-using LightTile = struct LightTile {
-  LightPixels pixels;
-};
-
-//
-// Light map for the level
-//
-using LightMap = struct LightMap {
-  LightTile tile[ MAP_WIDTH ][ MAP_HEIGHT ];
-};
-
 using Level = struct Level {
   //////////////////////////////////////////////////////////////
   // No c++ types can be used here, to allow easy level replay
@@ -411,10 +384,6 @@ using Levels = struct Levels {
   // Flag array of all levels. The levels equate to one tile in the level grid.
   //
   Level level[ LEVEL_ARR_IDX_MAX ];
-  //
-  // Level lighting.
-  //
-  LightMap light_map;
   //
   // Active level noise of the player.
   //

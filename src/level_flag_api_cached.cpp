@@ -141,12 +141,6 @@
   return level_flag_cached(g, v, l, is_blit_outlined, p);
 }
 
-[[nodiscard]] auto level_is_blit_per_pixel_lighting_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
-{
-  TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_blit_per_pixel_lighting, p);
-}
-
 [[nodiscard]] auto level_is_blit_shown_in_chasms_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();

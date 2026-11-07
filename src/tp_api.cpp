@@ -139,12 +139,6 @@
   return tp_flag(tp, is_blit_outlined) != 0;
 }
 
-[[nodiscard]] auto tp_is_blit_per_pixel_lighting(Tpp tp) -> bool
-{
-  TRACE_DEBUG();
-  return tp_flag(tp, is_blit_per_pixel_lighting) != 0;
-}
-
 [[nodiscard]] auto tp_is_blit_shown_in_chasms(Tpp tp) -> bool
 {
   TRACE_DEBUG();

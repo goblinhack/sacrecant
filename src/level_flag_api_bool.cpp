@@ -141,12 +141,6 @@
   return level_flag(g, v, l, is_blit_outlined, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_blit_per_pixel_lighting_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
-{
-  TRACE_DEBUG();
-  return level_flag(g, v, l, is_blit_per_pixel_lighting, p, me) != nullptr;
-}
-
 [[nodiscard]] auto level_is_blit_shown_in_chasms_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();

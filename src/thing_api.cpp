@@ -3193,17 +3193,6 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   return tp_flag(thing_tp(t), is_meltable) != 0;
 }
 
-[[nodiscard]] auto thing_is_blit_per_pixel_lighting(Thingp t) -> bool
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    no_thing_pointer();
-    return false;
-  }
-  return tp_flag(thing_tp(t), is_blit_per_pixel_lighting) != 0;
-}
-
 [[nodiscard]] auto thing_is_lucky(Thingp t) -> bool
 {
   TRACE_DEBUG();

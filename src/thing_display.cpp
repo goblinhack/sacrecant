@@ -278,7 +278,7 @@ static void thing_display_outlined_blit(Gamep g, Tpp tp, spoint tl, spoint br, T
 }
 
 static void thing_display_blit(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp t_maybe_null, spoint tl, spoint br, Tilep tile, float x1, float x2,
-                               float y1, float y2, FboEnum fbo, color fg, LightPixels *light_pixels = nullptr, bool blit_flush_per_line = false)
+                               float y1, float y2, FboEnum fbo, color fg)
 {
   TRACE_DEBUG();
 
@@ -370,13 +370,9 @@ static void thing_display_blit(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp t_ma
     return;
   }
 
-  //
-  // Cannot use quantized values of fg if the light_pixels is set, else the lighting
-  // appears in blocks of squares
-  //
-  if (light_pixels != nullptr) {
-    fg = WHITE;
+  fg = WHITE;
 
+  if (t_maybe_null != nullptr) {
     if (thing_is_water_shallow(t_maybe_null)) {
       switch (level_to_biome(g, v, l)) {
         case BIOME_DUNGEON :    break;
@@ -400,7 +396,7 @@ static void thing_display_blit(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp t_ma
     }
   }
 
-  tile_blit(tile, x1, x2, y1, y2, tl, br, fg, light_pixels, blit_flush_per_line);
+  tile_blit(tile, x1, x2, y1, y2, tl, br, fg);
 }
 
 //
@@ -505,7 +501,7 @@ static void thing_levitating_shadow(spoint tl, spoint br, Tilep tile, float x1, 
   color fg = BLACK;
   fg.a     = 150;
 
-  tile_blit(tile, x1, x2, y1, y2, tl, br, fg, nullptr, false);
+  tile_blit(tile, x1, x2, y1, y2, tl, br, fg);
 }
 
 static void thing_levitating_bounce(spoint &tl, spoint &br, Tilep tile)
@@ -548,7 +544,7 @@ static void thing_display_it(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp t_mayb
     //
     // Probably the cursor
     //
-    thing_display_blit(g, v, l, tp, t_maybe_null, tl, br, tile, x1, x2, y1, y2, fbo, fg, nullptr, false);
+    thing_display_blit(g, v, l, tp, t_maybe_null, tl, br, tile, x1, x2, y1, y2, fbo, fg);
     return;
   }
 
@@ -580,8 +576,7 @@ static void thing_display_it(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp t_mayb
   // If we have alpha values in the texture, the end of one triangle line and the start of another creates
   // a visible strip
   //
-  bool const is_blit_flush_per_line = thing_is_blit_flush_per_line(t_maybe_null);
-  thing_display_blit(g, v, l, tp, t_maybe_null, tl, br, tile, x1, x2, y1, y2, fbo, fg, light_pixels, is_blit_flush_per_line);
+  thing_display_blit(g, v, l, tp, t_maybe_null, tl, br, tile, x1, x2, y1, y2, fbo, fg);
 
   //
   // Low health visual
@@ -644,7 +639,7 @@ static void thing_display_it(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp t_mayb
     fg.g               = is_hit.g;
     fg.b               = is_hit.b;
     fg.a               = static_cast< uint8_t >(a);
-    thing_display_blit(g, v, l, tp, t_maybe_null, tl, br, tile, x1, x2, y1, y2, fbo, fg, nullptr, false);
+    thing_display_blit(g, v, l, tp, t_maybe_null, tl, br, tile, x1, x2, y1, y2, fbo, fg);
     return;
   }
 
@@ -659,7 +654,7 @@ static void thing_display_it(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp t_mayb
       fg.b            = hot.b;
       fg.a            = thing_is_hot(t_maybe_null);
       light_pixels    = nullptr;
-      thing_display_blit(g, v, l, tp, t_maybe_null, tl, br, tile, x1, x2, y1, y2, fbo, fg, light_pixels, is_blit_flush_per_line);
+      thing_display_blit(g, v, l, tp, t_maybe_null, tl, br, tile, x1, x2, y1, y2, fbo, fg);
 
       if (thing_is_blit_hit_outline_w_invis_inside(t_maybe_null)) {
         tile_blit_outline_w_invis_inside(tile, x1, x2, y1, y2, tl, br, fg);
@@ -760,52 +755,6 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
   float y2 = 0;
   tile_coords(tile, &x1, &y1, &x2, &y2);
 
-  LightPixels *light_pixels = nullptr;
-
-  if (is_level_select) {
-    //
-    // No lighting
-    //
-    fg = WHITE;
-  } else if (t_maybe_null && thing_is_lava_bg(t_maybe_null)) {
-    //
-    // No lighting
-    //
-    fg = WHITE;
-  } else if (thing_vision_can_see_tile(g, v, l, player, p)) {
-    //
-    // Apply lighting to current tiles
-    //
-    if ((fbo == FBO_MAP_BG_FLOOR_WATER_LAVA) || (fbo == FBO_MAP_LAVA_OVERLAY)) {
-      auto *pixel = &v->light_map.tile[ p.x ][ p.y ].pixels.pixel[ LIGHT_PIXEL / 2 ][ LIGHT_PIXEL / 2 ];
-      fg.r        = std::max(pixel->r, pixel->player_r);
-      fg.g        = std::max(pixel->g, pixel->player_g);
-      fg.b        = std::max(pixel->b, pixel->player_b);
-
-      //
-      // Note if this is disabled in full map mode, the bogland water color will be missing
-      //
-      light_pixels = &v->light_map.tile[ p.x ][ p.y ].pixels;
-
-      //
-      // Can only light things that are exactly on pixel boundaries
-      //
-      if (! tp_is_blit_per_pixel_lighting(tp)) {
-        light_pixels = nullptr;
-      }
-
-      if (tile_width(tile) != TILE_WIDTH) {
-        light_pixels = nullptr;
-      }
-    } else {
-      fg = WHITE;
-    }
-  } else {
-    //
-    // Default color, which might be monochrome for non visited tiles
-    //
-  }
-
   if (t_maybe_null != nullptr) {
     //
     // Handle various effects
@@ -827,10 +776,10 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
       //
       if (submerged_pct != 0) {
         if (thing_is_reeds(t_maybe_null)) {
-          thing_display_it(g, v, l, tp, t_maybe_null, tl, br, tile, x1, x2, y1, y2, fbo, fg, light_pixels);
+          thing_display_it(g, v, l, tp, t_maybe_null, tl, br, tile, x1, x2, y1, y2, fbo, fg);
         } else {
           tile_blit_apply_submerge_pct(g, tl, br, tile, x1, x2, y1, y2, thing_submerged_pct(t_maybe_null));
-          thing_display_it(g, v, l, tp, t_maybe_null, tl, br, tile, x1, x2, y1, y2, fbo, fg, light_pixels);
+          thing_display_it(g, v, l, tp, t_maybe_null, tl, br, tile, x1, x2, y1, y2, fbo, fg);
         }
 
         //
@@ -845,8 +794,7 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
             fg.r /= 2;
             fg.g /= 2;
             fg.b /= 2;
-            light_pixels = nullptr;
-            auto h       = br.y - tl.y;
+            auto h = br.y - tl.y;
             std::swap(br.y, tl.y);
             tl.y += h;
             br.y += h;
@@ -868,7 +816,7 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
       last_flicker = game_time_ms_cached();
     }
 
-    thing_display_it(g, v, l, tp, t_maybe_null, tl, br, tile, x1, x2, y1 + tex_y_offset, y2 + tex_y_offset, fbo, fg, light_pixels);
+    thing_display_it(g, v, l, tp, t_maybe_null, tl, br, tile, x1, x2, y1 + tex_y_offset, y2 + tex_y_offset, fbo, fg);
     blit_flush();
 
     //
@@ -877,7 +825,7 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
     blit_init();
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   } else {
-    thing_display_it(g, v, l, tp, t_maybe_null, tl, br, tile, x1, x2, y1, y2, fbo, fg, light_pixels);
+    thing_display_it(g, v, l, tp, t_maybe_null, tl, br, tile, x1, x2, y1, y2, fbo, fg);
   }
 }
 

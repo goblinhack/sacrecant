@@ -83,7 +83,6 @@
       list_macro(is_blit_obscures, "is_blit_obscures"),                                     /* newline */                                       \
       list_macro(is_blit_on_ground, "is_blit_on_ground"),                                   /* newline */                                       \
       list_macro(is_blit_outlined, "is_blit_outlined"),                                     /* newline */                                       \
-      list_macro(is_blit_per_pixel_lighting, "is_blit_per_pixel_lighting"),                 /* newline */                                       \
       list_macro(is_blit_shown_in_chasms, "is_blit_shown_in_chasms"),                       /* newline */                                       \
       list_macro(is_blit_shown_in_overlay, "is_blit_shown_in_overlay"),                     /* newline */                                       \
       list_macro(is_blit_square_outlined, "is_blit_square_outlined"),                       /* newline */                                       \

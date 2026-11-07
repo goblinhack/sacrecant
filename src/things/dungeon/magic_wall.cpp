@@ -71,7 +71,6 @@ static void tp_magic_wall_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
     tp_flag_set(tp, is_blit_centered);
     tp_flag_set(tp, is_blit_if_has_seen);
     tp_flag_set(tp, is_blit_obscures);
-    tp_flag_set(tp, is_blit_per_pixel_lighting);
     tp_flag_set(tp, is_blit_shown_in_chasms);
     tp_flag_set(tp, is_blit_shown_in_overlay);
     tp_flag_set(tp, is_collision_square);

@@ -140,12 +140,6 @@
   return level_alive(g, v, l, is_blit_outlined, p);
 }
 
-[[nodiscard]] auto level_alive_is_blit_per_pixel_lighting(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
-{
-  TRACE_DEBUG();
-  return level_alive(g, v, l, is_blit_per_pixel_lighting, p);
-}
-
 [[nodiscard]] auto level_alive_is_blit_shown_in_chasms(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
