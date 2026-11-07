@@ -59,7 +59,7 @@
   bool    found_it {};
   ThingId mob_id = 0;
 
-  static std::initializer_list< std::string > items = {
+  static const std::initializer_list< std::string > items = {
       "wand_fire", //
   };
 

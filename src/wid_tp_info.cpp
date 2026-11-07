@@ -131,6 +131,7 @@
 
     auto space = (width - 4) / 2;
 
+#ifdef USE_STD_FORMAT
     if (title_allowed) {
       auto line
           = std::format(std::runtime_format("- {:<{}}{:>{}}"), string_capitalize_first(ThingEventType_to_string(e)), space, damage_str, space);
@@ -140,6 +141,19 @@
           = std::format(std::runtime_format("{:<{}}{:>{}}"), string_capitalize_first(ThingEventType_to_string(e)), space, damage_str, space);
       parent->log(g, line, TEXT_FORMAT_RHS);
     }
+#else
+    if (title_allowed) {
+      auto line = string_sprintf("- %-*s%*s",                                                         //
+                                 space, string_capitalize_first(ThingEventType_to_string(e)).c_str(), //
+                                 space, damage_str.c_str());
+      parent->log(g, line, TEXT_FORMAT_RHS);
+    } else {
+      auto line = string_sprintf("%-*s%*s",                                                           //
+                                 space, string_capitalize_first(ThingEventType_to_string(e)).c_str(), //
+                                 space, damage_str.c_str());
+      parent->log(g, line, TEXT_FORMAT_RHS);
+    }
+#endif
     printed_something = true;
   }
 
@@ -170,7 +184,13 @@
     auto damage_str = val.roll;
 
     auto space = (width - 4) / 2;
-    auto line  = std::format(std::runtime_format("- {:<{}}{:>{}}"), string_capitalize_first(val.name), space, damage_str, space);
+#ifdef USE_STD_FORMAT
+    auto line = std::format(std::runtime_format("- {:<{}}{:>{}}"), string_capitalize_first(val.name), space, damage_str, space);
+#else
+    auto line = string_sprintf("- %-*s%*s",                                      //
+                               space, string_capitalize_first(val.name).c_str(), //
+                               space, damage_str.c_str());
+#endif
     parent->log(g, line, TEXT_FORMAT_LHS);
 
     //
@@ -218,7 +238,11 @@
     auto val = d.second;
 
     auto space = (width - 4) / 2;
-    auto line  = std::format(std::runtime_format("- {:<{}}"), string_capitalize_first(val.name), space);
+#ifdef USE_STD_FORMAT
+    auto line = std::format(std::runtime_format("- {:<{}}"), string_capitalize_first(val.name), space);
+#else
+    auto line = string_sprintf("- %-*s", space, string_capitalize_first(val.name).c_str());
+#endif
     parent->log(g, UI_INFO2_FMT_STR + line, TEXT_FORMAT_LHS);
 
     printed_something = true;
@@ -249,7 +273,11 @@
     auto val = d.second;
 
     auto space = (width - 4) / 2;
-    auto line  = std::format(std::runtime_format("- {:<{}}"), string_capitalize_first(val.name), space);
+#ifdef USE_STD_FORMAT
+    auto line = std::format(std::runtime_format("- {:<{}}"), string_capitalize_first(val.name), space);
+#else
+    auto line = string_sprintf("- %-*s", space, string_capitalize_first(val.name).c_str());
+#endif
     parent->log(g, UI_INFO2_FMT_STR + line, TEXT_FORMAT_LHS);
 
     printed_something = true;

@@ -42,7 +42,7 @@
 
   int use_count = 0;
 
-  static std::initializer_list< std::string > usable_items = {
+  static const std::initializer_list< std::string > usable_items = {
       "pot_levit", //
   };
 

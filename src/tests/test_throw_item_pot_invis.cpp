@@ -43,7 +43,7 @@
   bpoint  throw_to;
   int     threw_count = 0;
 
-  static std::initializer_list< std::string > items = {
+  static const std::initializer_list< std::string > items = {
       "pot_invis", //
   };
 

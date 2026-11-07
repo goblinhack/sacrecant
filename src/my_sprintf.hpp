@@ -15,6 +15,8 @@
 //
 [[nodiscard]] auto string_sprintf(const char *format, va_list args) -> std::string;
 
+std::string string_sprintf(const char *format, ...) CHECK_FORMAT_STR(printf, 1, 2); // NOLINT
+
 //
 // Join two strings with ", ", ignoring either if empty. Use with std::format e.g.:
 //

@@ -102,7 +102,7 @@
   bool right {};
   int  use_count = 0;
 
-  static std::initializer_list< std::string > items = {
+  static const std::initializer_list< std::string > items = {
       "pot_stealth", //
   };
 

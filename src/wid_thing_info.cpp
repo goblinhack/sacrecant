@@ -1615,14 +1615,34 @@ static void wid_thing_info_overlay(std::string &line, size_t pos, std::string_vi
     // Discount?
     //
     auto space = (width - 4) / 2;
-    auto line  = std::format(std::runtime_format("- {:<{}}{:{}}"), "Retail SP", space, thing_spell_cost(g, v, l, me), space);
+#ifdef USE_STD_FORMAT
+    auto line = std::format(std::runtime_format("- {:<{}}{:{}}"), "Retail SP", space, thing_spell_cost(g, v, l, me), space);
+#else
+    auto line = string_sprintf("- %-*s%*d",        //
+                               space, "Retail SP", //
+                               space, thing_spell_cost(g, v, l, me));
+
+#endif
     parent->log(g, line, TEXT_FORMAT_RHS);
 
+#ifdef USE_STD_FORMAT
     line = std::format(std::runtime_format("- {:<{}}{:{}}"), "To you", space, thing_spell_cost_for(g, v, l, me, player), space);
+#else
+    line = string_sprintf("- %-*s%*d",     //
+                          space, "To you", //
+                          space, thing_spell_cost_for(g, v, l, me, player));
+#endif
+
     parent->log(g, UI_IMPORTANT_FMT_STR + line, TEXT_FORMAT_RHS);
   } else {
     auto space = (width - 4) / 2;
-    auto line  = std::format(std::runtime_format("- {:<{}}{:{}}"), "Spell cost", space, thing_spell_cost(g, v, l, me), space);
+#ifdef USE_STD_FORMAT
+    auto line = std::format(std::runtime_format("- {:<{}}{:{}}"), "Spell cost", space, thing_spell_cost(g, v, l, me), space);
+#else
+    auto line = string_sprintf("- %-*s%*d",         //
+                               space, "Spell cost", //
+                               space, thing_spell_cost(g, v, l, me));
+#endif
     parent->log(g, line, TEXT_FORMAT_RHS);
   }
 
@@ -1631,14 +1651,32 @@ static void wid_thing_info_overlay(std::string &line, size_t pos, std::string_vi
     // Discount?
     //
     auto space = (width - 4) / 2;
-    auto line  = std::format(std::runtime_format("- {:<{}}{:{}}"), "Retail Mana", space, thing_spell_mana_cost(g, v, l, me), space);
+#ifdef USE_STD_FORMAT
+    auto line = std::format(std::runtime_format("- {:<{}}{:{}}"), "Retail Mana", space, thing_spell_mana_cost(g, v, l, me), space);
+#else
+    auto line = string_sprintf("- %-*s%*d",          //
+                               space, "Retail Mana", //
+                               space, thing_spell_mana_cost(g, v, l, me));
+#endif
     parent->log(g, line, TEXT_FORMAT_RHS);
 
+#ifdef USE_STD_FORMAT
     line = std::format(std::runtime_format("- {:<{}}{:{}}"), "To you", space, thing_spell_mana_cost_for(g, v, l, me, player), space);
+#else
+    line = string_sprintf("- %-*s%*d",     //
+                          space, "To you", //
+                          space, thing_spell_mana_cost_for(g, v, l, me, player));
+#endif
     parent->log(g, UI_IMPORTANT_FMT_STR + line, TEXT_FORMAT_RHS);
   } else {
     auto space = (width - 4) / 2;
-    auto line  = std::format(std::runtime_format("- {:<{}}{:{}}"), "Mana cost", space, thing_spell_mana_cost(g, v, l, me), space);
+#ifdef USE_STD_FORMAT
+    auto line = std::format(std::runtime_format("- {:<{}}{:{}}"), "Mana cost", space, thing_spell_mana_cost(g, v, l, me), space);
+#else
+    auto line = string_sprintf("- %-*s%*d",        //
+                               space, "Mana cost", //
+                               space, thing_spell_mana_cost(g, v, l, me));
+#endif
     parent->log(g, line, TEXT_FORMAT_RHS);
   }
 
@@ -1660,25 +1698,49 @@ static void wid_thing_info_overlay(std::string &line, size_t pos, std::string_vi
 
   if (thing_spell_range(g, v, l, me) != 0) {
     auto space = (width - 4) / 2;
-    auto line  = std::format(std::runtime_format("- {:<{}}{:{}}"), "Spell range", space, thing_spell_range(g, v, l, me), space);
+#ifdef USE_STD_FORMAT
+    auto line = std::format(std::runtime_format("- {:<{}}{:{}}"), "Spell range", space, thing_spell_range(g, v, l, me), space);
+#else
+    auto line = string_sprintf("- %-*s%*d",          //
+                               space, "Spell range", //
+                               space, thing_spell_range(g, v, l, me));
+#endif
     parent->log(g, line, TEXT_FORMAT_RHS);
   }
 
   if (thing_spell_range_max(g, v, l, me) != 0) {
     auto space = (width - 4) / 2;
-    auto line  = std::format(std::runtime_format("- {:<{}}{:{}}"), "  Upgrade max", space, thing_spell_range_max(g, v, l, me), space);
+#ifdef USE_STD_FORMAT
+    auto line = std::format(std::runtime_format("- {:<{}}{:{}}"), "  Upgrade max", space, thing_spell_range_max(g, v, l, me), space);
+#else
+    auto line = string_sprintf("- %-*s%*d",            //
+                               space, "  Upgrade max", //
+                               space, thing_spell_range_max(g, v, l, me));
+#endif
     parent->log(g, UI_INFO2_FMT_STR + line, TEXT_FORMAT_RHS);
   }
 
   if (thing_spell_radius(g, v, l, me) != 0) {
     auto space = (width - 4) / 2;
-    auto line  = std::format(std::runtime_format("- {:<{}}{:{}}"), "Spell radius", space, thing_spell_radius(g, v, l, me), space);
+#ifdef USE_STD_FORMAT
+    auto line = std::format(std::runtime_format("- {:<{}}{:{}}"), "Spell radius", space, thing_spell_radius(g, v, l, me), space);
+#else
+    auto line = string_sprintf("- %-*s%*d",           //
+                               space, "Spell radius", //
+                               space, thing_spell_radius(g, v, l, me));
+#endif
     parent->log(g, line, TEXT_FORMAT_RHS);
   }
 
   if (thing_spell_radius_max(g, v, l, me) != 0) {
     auto space = (width - 4) / 2;
-    auto line  = std::format(std::runtime_format("- {:<{}}{:{}}"), "  Upgrade max", space, thing_spell_radius_max(g, v, l, me), space);
+#ifdef USE_STD_FORMAT
+    auto line = std::format(std::runtime_format("- {:<{}}{:{}}"), "  Upgrade max", space, thing_spell_radius_max(g, v, l, me), space);
+#else
+    auto line = string_sprintf("- %-*s%*d",            //
+                               space, "  Upgrade max", //
+                               space, thing_spell_radius_max(g, v, l, me));
+#endif
     parent->log(g, UI_INFO2_FMT_STR + line, TEXT_FORMAT_RHS);
   }
 

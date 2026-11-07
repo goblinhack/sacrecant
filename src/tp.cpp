@@ -34,7 +34,7 @@
 // to be in this list
 //
 /* clang-format off */
-static std::initializer_list< std::string > tps = {
+static const std::initializer_list< std::string > tps = {
     // clang-format off
     "", // ID 0 means unused
     "floor1", // Update FLOOR_VARIANTS

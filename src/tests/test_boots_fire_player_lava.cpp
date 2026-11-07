@@ -55,7 +55,7 @@
   int  health {};
   int  health_max {};
 
-  static std::initializer_list< std::string > usable_items = {
+  static const std::initializer_list< std::string > usable_items = {
       "boots_fire", //
   };
 

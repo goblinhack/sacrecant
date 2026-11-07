@@ -55,7 +55,7 @@
   Levelsp v                 = game_test_init(g, &l, level_num, w, h, start.c_str(), overrides);
   bool    result            = true;
 
-  static std::initializer_list< std::string > items = {};
+  static const std::initializer_list< std::string > items = {};
 
   tp_beam_of_energy = tp_find_mand("beam_of_energy");
   if (tp_beam_of_energy == nullptr) [[unlikely]] {

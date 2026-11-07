@@ -10,6 +10,7 @@
 #include "my_sdl_proto.hpp"
 #include "my_sound.hpp"
 #include "my_spoint.hpp"
+#include "my_sprintf.hpp"
 #include "my_thing.hpp"
 #include "my_thing_inlines.hpp"
 #include "my_tp.hpp"
@@ -154,10 +155,16 @@ static void wid_statistics_show_defeated(Gamep g, Levelp l, Thingp player)
     s += " %%tp=";
     s += tp_name(it);
     s += "$ ";
-    auto n   = tp_name_short(it);
+    auto n = tp_name_short(it);
+#ifdef USE_STD_FORMAT
     auto cnt = std::format("{}x ", player_struct->defeated[ i ]);
     s += std::format(std::runtime_format("{:<5}{:>{}}"), cnt, n, static_cast< int >(UI_MAX_THING_NAME_SHORT));
     line += std::format(std::runtime_format("{:>{}}"), s, COLUMN_WIDTH);
+#else
+    auto cnt = string_sprintf("%dx ", player_struct->defeated[ i ]);
+    s += string_sprintf("%-5s%*s", cnt.c_str(), UI_MAX_THING_NAME_SHORT, n.c_str());
+    line += string_sprintf("%*s", COLUMN_WIDTH, s.c_str());
+#endif
 
     if (++column_count >= 4) {
       column_count = 0;
@@ -208,10 +215,16 @@ static void wid_statistics_show_items(Gamep g, Levelsp v, Levelp l, Thingp playe
     s += tp_name(it);
     s += "$ ";
 
-    auto n   = tp_name_short(it);
+    auto n = tp_name_short(it);
+#ifdef USE_STD_FORMAT
     auto cnt = std::format("{}x ", slot->count);
     s += std::format(std::runtime_format("{:<5}{:>{}}"), cnt, n, static_cast< int >(UI_MAX_THING_NAME_SHORT));
     line += std::format(std::runtime_format("{:>{}}"), s, COLUMN_WIDTH);
+#else
+    auto cnt = string_sprintf("%dx ", slot->count);
+    s += string_sprintf("%-5s%*s", cnt.c_str(), UI_MAX_THING_NAME_SHORT, n.c_str());
+    line += string_sprintf("%*s", COLUMN_WIDTH, s.c_str());
+#endif
 
     if (++column_count >= 4) {
       column_count = 0;

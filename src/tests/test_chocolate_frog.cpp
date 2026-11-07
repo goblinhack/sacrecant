@@ -59,7 +59,7 @@
   int  health     = 0;
   int  health_max = 0;
 
-  static std::initializer_list< std::string > items = {
+  static const std::initializer_list< std::string > items = {
       "chocolate_frog", //
       "chocolate_frog", //
       "chocolate_frog", //

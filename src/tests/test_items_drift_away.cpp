@@ -45,7 +45,7 @@
   bool    left {};
   bool    right {};
 
-  static std::initializer_list< std::string > items = {
+  static const std::initializer_list< std::string > items = {
       "staff_fire",   //
       "staff_fire",   //
       "staff_energy", //
