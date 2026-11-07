@@ -51,7 +51,7 @@
   int  stamina     = 0;
   int  stamina_max = 0;
 
-  static const std::initializer_list< std::string > items = {
+  const std::initializer_list< std::string > items = {
       "pot_tireless", //
   };
 

@@ -65,7 +65,7 @@
   bool   right {};
   Thingp monst = nullptr;
 
-  static const std::initializer_list< std::string > items = {};
+  const std::initializer_list< std::string > items = {};
 
   auto *player = thing_player(g);
   if (player == nullptr) [[unlikely]] {

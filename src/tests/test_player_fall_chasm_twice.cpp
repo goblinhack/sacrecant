@@ -89,7 +89,7 @@
 
   Thingp player = nullptr;
 
-  static const std::initializer_list< std::string > items = {
+  const std::initializer_list< std::string > items = {
       "pot_tireless", //
   };
 

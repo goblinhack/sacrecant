@@ -53,7 +53,7 @@
   bool left {};
   bool right {};
 
-  static const std::initializer_list< std::string > usable_items = {
+  const std::initializer_list< std::string > usable_items = {
       "boots_spider", //
   };
 

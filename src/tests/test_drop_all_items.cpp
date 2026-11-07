@@ -41,7 +41,7 @@
   Levelsp v      = game_test_init(g, &l, level_num, w, h, start.c_str());
   bool    result = true;
 
-  static const std::initializer_list< std::string > items = {
+  const std::initializer_list< std::string > items = {
       "clown_meat",   //
       "clown_meat",   //
       "clown_meat",   //

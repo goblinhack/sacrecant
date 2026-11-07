@@ -50,7 +50,7 @@
   //
   bool result {};
 
-  static const std::initializer_list< std::string > items = {
+  const std::initializer_list< std::string > items = {
       "ring_life", //
       "ring_life", //
   };

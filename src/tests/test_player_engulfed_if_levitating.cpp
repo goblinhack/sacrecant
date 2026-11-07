@@ -60,7 +60,7 @@
   //
   bool result {};
 
-  static const std::initializer_list< std::string > usable_items = {
+  const std::initializer_list< std::string > usable_items = {
       "pot_levit", //
   };
 

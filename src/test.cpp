@@ -27,7 +27,7 @@
 #include <vector>
 
 /* clang-format off */
-static const std::initializer_list< std::string > tests = {
+const std::initializer_list< std::string > tests = {
     /* begin shell marker1 */
     /* shell for i in $(find . -name "*.cpp" | xargs grep -h "test_load(\"" | sort | awk '{print $4}' | cut -d\" -f2) */
     /* shell do */

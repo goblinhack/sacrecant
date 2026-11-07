@@ -18,7 +18,7 @@
 #include "../../my_ui.hpp"
 #include "my_boss_common.hpp"
 
-static const std::initializer_list< bpoint > multi_tile_tiles = {
+const std::initializer_list< bpoint > multi_tile_tiles = {
     bpoint(0, -2), bpoint(1, -2),                                           //
     bpoint(0, -1), bpoint(1, -1),                                           //
     bpoint(0, 0),  bpoint(1, 0),                                            //

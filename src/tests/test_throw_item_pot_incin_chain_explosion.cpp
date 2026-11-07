@@ -49,7 +49,7 @@
   bpoint  throw_to;
   int     threw_count = 0;
 
-  static const std::initializer_list< std::string > items = {
+  const std::initializer_list< std::string > items = {
       "pot_incin", //
   };
 

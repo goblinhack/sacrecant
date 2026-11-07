@@ -58,7 +58,7 @@
   bpoint throw_to;
   int    threw_count = 0;
 
-  static const std::initializer_list< std::string > items = {
+  const std::initializer_list< std::string > items = {
       "staff_fire", //
       "staff_fire", //
       "staff_fire", //

@@ -18,14 +18,14 @@
 #include "../../my_ui.hpp"
 #include "my_boss_common.hpp"
 
-static const std::initializer_list< bpoint > multi_tile_tiles = {
+const std::initializer_list< bpoint > multi_tile_tiles = {
     bpoint(-2, 0),
     bpoint(-1, 0),
     bpoint(0, 0),
     bpoint(1, 0), //
 };
 
-static const std::initializer_list< bpoint > tentacle_list = {
+const std::initializer_list< bpoint > tentacle_list = {
     bpoint(0, -3), bpoint(-3, -3), bpoint(3, -3), bpoint(-3, 0), bpoint(3, 0), bpoint(-3, 3), bpoint(3, 3), bpoint(0, 3),
 };
 

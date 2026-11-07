@@ -60,7 +60,7 @@
   //
   bool result {};
 
-  static const std::initializer_list< std::string > items = {
+  const std::initializer_list< std::string > items = {
       "ring_war", //
       "ring_war", //
   };

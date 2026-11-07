@@ -131,10 +131,10 @@
   bool result {};
   int  use_count = 0;
 
-  static const std::initializer_list< std::string > usable_items = {
+  const std::initializer_list< std::string > usable_items = {
       "pot_disloc", //
   };
-  static const std::initializer_list< std::string > other_items = {
+  const std::initializer_list< std::string > other_items = {
       "horseshoe", //
       "horseshoe", //
       "horseshoe", //

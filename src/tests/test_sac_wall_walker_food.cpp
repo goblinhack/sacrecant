@@ -58,7 +58,7 @@
   int  eat_count = 0;
   int  health    = 0;
 
-  static const std::initializer_list< std::string > items = {
+  const std::initializer_list< std::string > items = {
       "chocolate_frog", //
       "chocolate_frog", //
       "chocolate_frog", //

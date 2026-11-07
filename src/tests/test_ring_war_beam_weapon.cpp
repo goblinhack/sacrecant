@@ -55,7 +55,7 @@
   Levelsp v                 = game_test_init(g, &l, level_num, w, h, start.c_str(), overrides);
   bool    result            = true;
 
-  static const std::initializer_list< std::string > items = {
+  const std::initializer_list< std::string > items = {
       "ring_war", //
       "ring_war", //
   };
