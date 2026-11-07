@@ -32,9 +32,9 @@ static auto tp_spell_wildfire_storm_get(Gamep g, Levelsp v, Levelp l, Thingp me)
   if (damage_mod) {
     // clang compiler fail
     auto damage_total_str = std::format("{} (+{})", damage_str, damage_mod);
-    line                  = std::format("- {:<{}}{:>{}}\n", "Damage per tile", space, damage_total_str, space);
+    line                  = std::format(std::runtime_format("- {:<{}}{:>{}}\n"), "Damage per tile", space, damage_total_str, space);
   } else {
-    line = std::format("- {:<{}}{:>{}}\n", "Damage per tile", space, damage_str, space);
+    line = std::format(std::runtime_format("- {:<{}}{:>{}}\n"), "Damage per tile", space, damage_str, space);
   }
 
   return                                                                                                                                     //

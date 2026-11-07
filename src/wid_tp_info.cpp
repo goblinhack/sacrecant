@@ -132,10 +132,12 @@
     auto space = (width - 4) / 2;
 
     if (title_allowed) {
-      auto line = std::format("- {:<{}}{:>{}}", string_capitalize_first(ThingEventType_to_string(e)), space, damage_str, space);
+      auto line
+          = std::format(std::runtime_format("- {:<{}}{:>{}}"), string_capitalize_first(ThingEventType_to_string(e)), space, damage_str, space);
       parent->log(g, line, TEXT_FORMAT_RHS);
     } else {
-      auto line = std::format("{:<{}}{:>{}}", string_capitalize_first(ThingEventType_to_string(e)), space, damage_str, space);
+      auto line
+          = std::format(std::runtime_format("{:<{}}{:>{}}"), string_capitalize_first(ThingEventType_to_string(e)), space, damage_str, space);
       parent->log(g, line, TEXT_FORMAT_RHS);
     }
     printed_something = true;
@@ -168,7 +170,7 @@
     auto damage_str = val.roll;
 
     auto space = (width - 4) / 2;
-    auto line  = std::format("- {:<{}}{:>{}}", string_capitalize_first(val.name), space, damage_str, space);
+    auto line  = std::format(std::runtime_format("- {:<{}}{:>{}}"), string_capitalize_first(val.name), space, damage_str, space);
     parent->log(g, line, TEXT_FORMAT_LHS);
 
     //
@@ -216,7 +218,7 @@
     auto val = d.second;
 
     auto space = (width - 4) / 2;
-    auto line  = std::format("- {:<{}}", string_capitalize_first(val.name), space);
+    auto line  = std::format(std::runtime_format("- {:<{}}"), string_capitalize_first(val.name), space);
     parent->log(g, UI_INFO2_FMT_STR + line, TEXT_FORMAT_LHS);
 
     printed_something = true;
@@ -247,7 +249,7 @@
     auto val = d.second;
 
     auto space = (width - 4) / 2;
-    auto line  = std::format("- {:<{}}", string_capitalize_first(val.name), space);
+    auto line  = std::format(std::runtime_format("- {:<{}}"), string_capitalize_first(val.name), space);
     parent->log(g, UI_INFO2_FMT_STR + line, TEXT_FORMAT_LHS);
 
     printed_something = true;
