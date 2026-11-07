@@ -186,6 +186,7 @@ void fbo_get_size(Gamep g, FboEnum fbo, int &w, int &h)
       h = game_map_fbo_height_get(g);
       break;
     case FBO_MAP_LIGHT :
+    case FBO_MAP_LIGHT_MASK :
       w = static_cast< int >(MAP_WIDTH) * static_cast< int >(TILE_WIDTH);
       h = static_cast< int >(MAP_HEIGHT) * static_cast< int >(TILE_HEIGHT);
       break;

@@ -114,5 +114,5 @@ void level_light_calculate_all(Gamep g, Levelsp v, Levelp l)
   //
   // Calculate player lighting while we wait
   //
-  level_raycast(g, v, l, FBO_MAP_LIGHT);
+  level_raycast(g, v, l, FBO_MAP_LIGHT_MASK);
 }

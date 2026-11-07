@@ -21,7 +21,7 @@
 #include "../../my_ui.hpp"
 #include "../../my_wids.hpp"
 
-static const auto vision_distance = MAP_WIDTH / 5;
+static const auto vision_distance = MAP_WIDTH / 3;
 
 auto tp_player_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
 {

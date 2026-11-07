@@ -16,6 +16,7 @@
 #include "my_ptrcheck.hpp"
 #include "my_random.hpp"
 #include "my_spoint.hpp"
+#include "my_tex.hpp"
 #include "my_thing.hpp"
 #include "my_thing_inlines.hpp"
 #include "my_tile.hpp"
@@ -72,6 +73,9 @@ public:
   std::array< std::vector< RayPixel >, LIGHT_MAX_RAYS_MAX > ray_pixels;
 
   std::vector< float > ray_gl_cmds;
+
+  Texp light_tex;
+  int  light_tex_id;
 };
 
 static Raycast *player_raycast;
@@ -601,7 +605,7 @@ void Raycast::raycast_render(Gamep g, Levelsp v, Levelp l)
 
   int w = 0;
   int h = 0;
-  fbo_get_size(g, FBO_MAP_LIGHT, w, h);
+  fbo_get_size(g, FBO_MAP_LIGHT_MASK, w, h);
   gl_enter_2d_mode(g, w, h);
 
   blit_fbo_bind(fbo);
@@ -662,6 +666,22 @@ void Raycast::raycast_render(Gamep g, Levelsp v, Levelp l)
     std::copy(gl_array_buf, bufp, ray_gl_cmds.begin());
     blit_flush_triangle_fan();
   }
+
+  blit_fbo_unbind();
+
+  blit_fbo_bind(FBO_MAP_LIGHT);
+  {
+    spoint tl(light_pos.x - ray_max_length_in_pixels, light_pos.y - ray_max_length_in_pixels);
+    spoint br(light_pos.x + ray_max_length_in_pixels, light_pos.y + ray_max_length_in_pixels);
+
+    glBlendFunc(GL_ONE, GL_ZERO);
+    blit_init();
+    blit(light_tex_id, tl.x, tl.y, br.x, br.y, WHITE);
+    blit_flush();
+
+    glBlendFunc(GL_DST_ALPHA, GL_DST_ALPHA);
+    blit_fbo(g, FBO_MAP_LIGHT_MASK, RED);
+  }
   blit_fbo_unbind();
 }
 
@@ -676,7 +696,9 @@ static auto raycast_new(int ray_max_length_in_pixels, FboEnum fbo) -> Raycast *
     CROAK("no light power");
   }
 
-  l->fbo = fbo;
+  l->fbo          = fbo;
+  l->light_tex    = tex_load("", "light", GL_LINEAR);
+  l->light_tex_id = tex_get_gl_binding(l->light_tex);
 
   return l;
 }

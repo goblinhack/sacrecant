@@ -276,6 +276,7 @@ void gl_init_fbo_(FboEnum fbo, GLuint *render_buf_id, GLuint *fbo_id, GLuint *fb
     case FBO_MAP_FG :
     case FBO_MAP_FG_OVERLAY :
     case FBO_MAP_LIGHT :
+    case FBO_MAP_LIGHT_MASK :
     case FBO_FULL_SCREEN_PREVIOUSLY_SEEN_TILES :
     case FBO_FULL_SCREEN_VISIBLE_TILES :
     case FBO_FULL_SCREEN_LEVEL_CURR :

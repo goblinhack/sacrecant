@@ -43,7 +43,7 @@ static void level_blit_light(Gamep g, Levelsp v, Levelp l, color c)
     // Zoomed out. Full map visible.
     //
     blit_init();
-    blit(g_fbo_tex_id[ FBO_MAP_LIGHT ], 0, 1, 1, 0, visible_map_tl_x, visible_map_tl_y, visible_map_br_x, visible_map_br_y, c);
+    blit(g_fbo_tex_id[ FBO_MAP_LIGHT_MASK ], 0, 1, 1, 0, visible_map_tl_x, visible_map_tl_y, visible_map_br_x, visible_map_br_y, c);
     blit_flush();
   } else {
     //
@@ -85,6 +85,74 @@ static void level_blit_light(Gamep g, Levelsp v, Levelp l, color c)
     blit(g_fbo_tex_id[ FBO_MAP_LIGHT ], 0, 1, 1, 0, tl1.x, tl1.y, br2.x, br2.y, c);
     blit_flush();
 
+    // sdl_fbo_dump(g, FBO_MAP_LIGHT_MASK, "FBO_MAP_LIGHT_MASK");
+    // sdl_fbo_dump(g, FBO_MAP_LIGHT, "FBO_MAP_LIGHT");
+
+    glDisable(GL_SCISSOR_TEST);
+  }
+}
+
+static void level_blit_light_mask(Gamep g, Levelsp v, Levelp l, color c)
+{
+  TRACE_DEBUG();
+
+  //
+  // Get the pixel extents of the map on screen
+  //
+  int visible_map_tl_x = 0;
+  int visible_map_tl_y = 0;
+  int visible_map_br_x = 0;
+  int visible_map_br_y = 0;
+  game_visible_map_pix_get(g, &visible_map_tl_x, &visible_map_tl_y, &visible_map_br_x, &visible_map_br_y);
+
+  if (game_map_zoom_is_full_map_visible(g)) {
+    //
+    // Zoomed out. Full map visible.
+    //
+    blit_init();
+    blit(g_fbo_tex_id[ FBO_MAP_LIGHT_MASK ], 0, 1, 1, 0, visible_map_tl_x, visible_map_tl_y, visible_map_br_x, visible_map_br_y, c);
+    blit_flush();
+  } else {
+    //
+    // Zoomed in. Partial map visible.
+    //
+    spoint tl1;
+    spoint br1;
+    spoint tl2;
+    spoint br2;
+    //
+    // Get the on screen pixel coordinates of the top left and bottom right tiles
+    //
+    //    auto single_pix_size = game_map_single_pix_size_get(g);
+    thing_display_get_tile_info(g, v, l, bpoint(0, 0), NULL_TP, NULL_THING, tl1, br1, nullptr);
+    thing_display_get_tile_info(g, v, l, bpoint(MAP_WIDTH - 1, MAP_HEIGHT - 1), NULL_TP, NULL_THING, tl2, br2, nullptr);
+
+    tl1.x += visible_map_tl_x;
+    tl1.y += visible_map_tl_y;
+    br2.x += visible_map_tl_x;
+    br2.y += visible_map_tl_y;
+
+    //
+    // glScissor coordinates are inverted
+    //
+    auto y = game_window_pix_height_get(g) - visible_map_br_y;
+    auto w = visible_map_br_x - visible_map_tl_x;
+    auto h = visible_map_br_y - visible_map_tl_y;
+
+    //
+    // As we display the light map zoomed in, we need to clip it
+    //
+    glEnable(GL_SCISSOR_TEST);
+    glScissor(visible_map_tl_x, y, w, h);
+
+    //
+    // Blit the entire light map, scaled to the pixel size of the zoomed in mode
+    //
+    blit_init();
+    blit(g_fbo_tex_id[ FBO_MAP_LIGHT_MASK ], 0, 1, 1, 0, tl1.x, tl1.y, br2.x, br2.y, c);
+    blit_flush();
+
+    // sdl_fbo_dump(g, FBO_MAP_LIGHT_MASK, "FBO_MAP_LIGHT_MASK");
     // sdl_fbo_dump(g, FBO_MAP_LIGHT, "FBO_MAP_LIGHT");
 
     glDisable(GL_SCISSOR_TEST);
@@ -699,54 +767,54 @@ static void level_display_fbos(Gamep g, Levelsp v, Levelp level_above, Levelp l)
     blit_fbo_unbind();
   } else {
     //
-    // Blit the dark background tiles that have been seen previously
+    // Blit the dark background tiles that have been seen previously and mask out the light so
+    // we see only the background tiles not lit.
     //
-    blit_fbo_bind(FBO_FULL_SCREEN_PREVIOUSLY_SEEN_TILES);
     {
-      //
-      // Blit the floor tiles, water, lava, ripples
-      //
-      glBlendFunc(GL_ONE, GL_ZERO);
-      blit_fbo(g, FBO_MAP_BG_PREVIOUSLY_SEEN_TILES, visible_map_tl_x, visible_map_tl_y, visible_map_br_x, visible_map_br_y, WHITE);
+      blit_fbo_bind(FBO_FULL_SCREEN_PREVIOUSLY_SEEN_TILES);
+      {
+        glBlendFunc(GL_ONE, GL_ZERO);
+        level_blit_light_mask(g, v, l, WHITE);
 
-      //
-      // Mask out non lit areas of the foreground
-      //
-      glBlendFunc(GL_ZERO, GL_ONE_MINUS_SRC_ALPHA);
-      level_blit_light(g, v, l, WHITE);
+        glBlendFunc(GL_ONE_MINUS_DST_ALPHA, GL_ZERO);
+        blit_fbo(g, FBO_MAP_BG_PREVIOUSLY_SEEN_TILES, visible_map_tl_x, visible_map_tl_y, visible_map_br_x, visible_map_br_y, WHITE);
+      }
+      blit_fbo_unbind();
     }
-    blit_fbo_unbind();
 
     //
-    // Blit the light as a mask
+    // Blit the fuzzy light
     //
-    blit_fbo_bind(FBO_FULL_SCREEN_VISIBLE_TILES);
     {
-      //
-      // Blit the floor tiles, water, lava, ripples
-      //
-      glBlendFunc(GL_ONE, GL_ZERO); // no need to gl_clear
-      blit_fbo(g, FBO_MAP_BG_FLOOR_WATER_LAVA, visible_map_tl_x, visible_map_tl_y, visible_map_br_x, visible_map_br_y, WHITE);
+      blit_fbo_bind(FBO_FULL_SCREEN_VISIBLE_TILES);
+      {
+        //
+        // Blit the floor tiles, water, lava, ripples
+        //
+        glBlendFunc(GL_ONE, GL_ZERO); // no need to gl_clear
+        blit_fbo(g, FBO_MAP_BG_FLOOR_WATER_LAVA, visible_map_tl_x, visible_map_tl_y, visible_map_br_x, visible_map_br_y, WHITE);
 
-      //
-      // Blit the lava scrolling pattern
-      //
-      glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-      blit_fbo(g, FBO_MAP_LAVA_OVERLAY, visible_map_tl_x, visible_map_tl_y, visible_map_br_x, visible_map_br_y, WHITE);
+        //
+        // Blit the lava scrolling pattern
+        //
+        glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+        blit_fbo(g, FBO_MAP_LAVA_OVERLAY, visible_map_tl_x, visible_map_tl_y, visible_map_br_x, visible_map_br_y, WHITE);
 
-      //
-      // Blit all other tiles, walls, objects
-      //
-      glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-      blit_fbo(g, FBO_MAP_FG, visible_map_tl_x, visible_map_tl_y, visible_map_br_x, visible_map_br_y, WHITE);
+        //
+        // Blit all other tiles, walls, objects
+        //
+        glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+        blit_fbo(g, FBO_MAP_FG, visible_map_tl_x, visible_map_tl_y, visible_map_br_x, visible_map_br_y, WHITE);
 
-      //
-      // Mask out non lit areas of the foreground
-      //
-      glBlendFunc(GL_DST_ALPHA, GL_ONE);
-      level_blit_light(g, v, l, COLOR_NONE);
+        //
+        // Blit the fuzzy white light
+        //
+        glBlendFunc(GL_ZERO, GL_SRC_ALPHA);
+
+        level_blit_light(g, v, l, WHITE);
+      }
+      blit_fbo_unbind();
     }
-    blit_fbo_unbind();
   }
 
   //

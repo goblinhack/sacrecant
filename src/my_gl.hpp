@@ -125,6 +125,7 @@
       list_macro(FBO_MAP_FG, "FBO_MAP_FG"),                                                       /* newline */                                 \
       list_macro(FBO_MAP_FG_OVERLAY, "FBO_MAP_FG_OVERLAY"),                                       /* newline */                                 \
       list_macro(FBO_MAP_LIGHT, "FBO_MAP_LIGHT"),                                                 /* newline */                                 \
+      list_macro(FBO_MAP_LIGHT_MASK, "FBO_MAP_LIGHT_MASK"),                                       /* newline */                                 \
       list_macro(FBO_FULL_SCREEN_PREVIOUSLY_SEEN_TILES, "FBO_FULL_SCREEN_PREVIOUSLY_SEEN_TILES"), /* newline */                                 \
       list_macro(FBO_FULL_SCREEN_VISIBLE_TILES, "FBO_FULL_SCREEN_VISIBLE_TILES"),                 /* newline */                                 \
       list_macro(FBO_FULL_SCREEN_LEVEL_CURR, "FBO_FULL_SCREEN_LEVEL_CURR"),                       /* newline */                                 \

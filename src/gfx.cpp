@@ -921,6 +921,14 @@ static void gfx_ui_init_solid()
   tile_load_arr("data/gfx/ui/solid.tga", "solid", 8, 8, ARRAY_SIZE(tiles), tiles);
 }
 
+static void gfx_ui_init_light()
+{
+  TRACE();
+  const char *tiles[] = {"light"};
+  tile_load_arr("data/gfx/light.tga", "light", static_cast< int >(TILE_WIDTH) * static_cast< int >(MAP_WIDTH),
+                static_cast< int >(TILE_HEIGHT) * static_cast< int >(MAP_HEIGHT), ARRAY_SIZE(tiles), tiles);
+}
+
 static void gfx_ui_init_worlds()
 {
   TRACE();
@@ -7685,6 +7693,7 @@ void gfx_init()
   gfx_ui_init_powerup();
   gfx_ui_init_progress_bar();
   gfx_ui_init_solid();
+  gfx_ui_init_light();
   gfx_ui_init_stat_bar();
   gfx_ui_init_transition();
   gfx_ui_init_worlds();
