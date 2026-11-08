@@ -925,7 +925,12 @@ static auto level_select_next(Gamep g, Levelsp v, Levelp l, Levelp level_over) -
   // Switch to the chosen level if possible; allow going back to the old level to clean up if needed
   //
   if ((level_over == player_level) || ok_to_choose) {
-    new_level = level_change(g, v, level_over->level_arr_idx);
+    new_level = level_change_for_player(g, v, level_over->level_arr_idx);
+    if (! new_level) {
+      topcon("You cannot enter level %u. Is seems broken!", level_over->level_arr_idx + 1);
+      (void) sound_play(g, "error");
+      return false;
+    }
   } else {
     topcon("You cannot enter level %u yet. Choose an open door.", level_over->level_arr_idx + 1);
     (void) sound_play(g, "error");
@@ -940,11 +945,33 @@ static auto level_select_next(Gamep g, Levelsp v, Levelp l, Levelp level_over) -
   // Move the player also
   //
   if (new_level != nullptr) {
-    if (new_level->player_completed_level_via_exit) {
+    if (level_is_boss_level(g, v, new_level)) {
+      //
+      // Boss level we always return to the entrance
+      //
+      LEVEL_DBG(g, v, new_level, "boss level, warp to entrance");
+      TRACE_INDENT();
+      thing_level_warp_to_entrance(g, v, new_level, player);
+    } else if (new_level->player_completed_level_via_exit) {
+      //
+      // Boss level exit is hidden, so cannot do this
+      //
+      LEVEL_DBG(g, v, new_level, "player completed level via exit, warp to exit");
+      TRACE_INDENT();
       thing_level_warp_to_exit(g, v, new_level, player);
     } else if (new_level->player_fell_out_of_level) {
+      //
+      // Boss level exit is hidden, so cannot do this
+      //
+      LEVEL_DBG(g, v, new_level, "player completed level via falling, warp to exit");
+      TRACE_INDENT();
       thing_level_warp_to_exit(g, v, new_level, player);
     } else {
+      //
+      // Warp to the entrance
+      //
+      LEVEL_DBG(g, v, new_level, "warp to entrance");
+      TRACE_INDENT();
       thing_level_warp_to_entrance(g, v, new_level, player);
     }
     level_scroll_warp_to_focus(g, v, new_level);

@@ -1050,7 +1050,7 @@ void Game::create_levels()
   //
   // First level. Usually 0 but can be a specified level.
   //
-  if (level_change(g, v, g_level_opt.level_arr_idx) == nullptr) {
+  if (level_change_for_player(g, v, g_level_opt.level_arr_idx) == nullptr) {
     ERR("failed to change to chosen level %d", g_level_opt.level_arr_idx);
     return;
   }
@@ -1064,7 +1064,7 @@ void Game::create_levels()
     //
     // Start in level select?
     //
-    if (level_change(g, v, LEVEL_ARR_IDX_LEVEL_SELECT) == nullptr) {
+    if (level_change_for_player(g, v, LEVEL_ARR_IDX_LEVEL_SELECT) == nullptr) {
       ERR("failed to change to level selection");
       return;
     }

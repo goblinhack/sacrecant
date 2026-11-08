@@ -125,15 +125,6 @@ static void tp_boss2_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEven
   tp_boss_on_death(g, v, l, me, e);
 }
 
-static void tp_boss2_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
-{
-  TRACE();
-
-  if ((! me->tick) || ! (me->tick % 500)) {
-    (void) sound_play(g, v, l, "monster_roar_epic");
-  }
-}
-
 static bool tp_boss2_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thingp target, ThingEvent &e)
 {
   THING_DBG(g, v, l, attacker, "boss attack");
@@ -225,6 +216,15 @@ bool tp_boss2_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   return true;
 }
 
+static void tp_boss2_on_level_change_for_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player)
+{
+  TRACE();
+
+  if (thing_is_player(player)) {
+    (void) sound_play(g, v, l, "monster_roar_epic");
+  }
+}
+
 [[nodiscard]] auto tp_load_boss2() -> bool
 {
   auto *tp   = tp_load("boss2"); // keep as string for scripts
@@ -233,6 +233,7 @@ bool tp_boss2_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   // begin sort marker1 {
   thing_assess_tile_set(tp, tp_boss2_assess_tile);
   thing_assess_tp_set(tp, tp_boss2_assess_tp);
+  thing_on_level_change_for_player_set(tp, tp_boss2_on_level_change_for_player);
   thing_description_set(tp, tp_boss2_description_get);
   thing_detail_set(tp, tp_boss2_detail_get);
   thing_on_attacking_set(tp, tp_boss2_on_attacking);
@@ -242,7 +243,6 @@ bool tp_boss2_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   thing_on_popped_set(tp, tp_boss2_on_popped);
   thing_on_pushed_set(tp, tp_boss2_on_pushed);
   thing_on_spawned_set(tp, tp_boss2_on_spawned);
-  thing_on_tick_begin_set(tp, tp_boss2_tick_begin);
   tp_attack_count_max_per_tick_set(tp, 1);
   tp_chance_set(tp, THING_CHANCE_CONTINUE_TO_BURN, "1d6"); // fumble => intensify / keep burning / crit => stop burning
   tp_chance_set(tp, THING_CHANCE_START_BURNING, "1d2");    // fumble => flames spread to you

@@ -75,10 +75,6 @@ static void tp_boss5_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   auto at = thing_at(g, v, l, me);
 
-  if ((! me->tick) || ! (me->tick % 500)) {
-    (void) sound_play(g, v, l, "monster_roar_epic");
-  }
-
   //
   // Spawn a spider!
   //
@@ -299,6 +295,15 @@ static auto tp_boss5_assess_tile(Gamep g, Levelsp v, Levelp l, const bpoint &at,
   return THING_ENVIRON_NEUTRAL;
 }
 
+static void tp_boss5_on_level_change_for_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player)
+{
+  TRACE();
+
+  if (thing_is_player(player)) {
+    (void) sound_play(g, v, l, "monster_roar_epic");
+  }
+}
+
 [[nodiscard]] auto tp_load_boss5() -> bool
 {
   auto *tp   = tp_load("boss5"); // keep as string for scripts
@@ -308,6 +313,7 @@ static auto tp_boss5_assess_tile(Gamep g, Levelsp v, Levelp l, const bpoint &at,
   thing_assess_tile_set(tp, tp_boss5_assess_tile);
   thing_assess_tp_set(tp, tp_boss5_assess_tp);
   thing_description_set(tp, tp_boss5_description_get);
+  thing_on_level_change_for_player_set(tp, tp_boss5_on_level_change_for_player);
   thing_detail_set(tp, tp_boss5_detail_get);
   thing_on_attacking_set(tp, tp_boss5_on_attacking);
   thing_on_damage_set(tp, tp_boss5_on_damage);

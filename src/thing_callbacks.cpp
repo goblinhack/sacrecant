@@ -262,17 +262,17 @@ void thing_on_level_enter(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp->on_level_enter(g, v, l, me);
 }
 
-void thing_on_level_changed_set(Tpp tp, thing_on_level_changed_t callback)
+void thing_on_level_change_for_playerd_set(Tpp tp, thing_on_level_change_for_playerd_t callback)
 {
   TRACE();
   if (tp == nullptr) [[unlikely]] {
     no_tp_pointer();
     return;
   }
-  tp->on_level_changed = callback;
+  tp->on_level_change_for_playerd = callback;
 }
 
-void thing_on_level_changed(Gamep g, Levelsp v, Levelp l, Thingp me)
+void thing_on_level_change_for_playerd(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
   auto *tp = thing_tp(me);
@@ -280,10 +280,10 @@ void thing_on_level_changed(Gamep g, Levelsp v, Levelp l, Thingp me)
     no_tp_pointer();
     return;
   }
-  if (tp->on_level_changed == nullptr) {
+  if (tp->on_level_change_for_playerd == nullptr) {
     return;
   }
-  tp->on_level_changed(g, v, l, me);
+  tp->on_level_change_for_playerd(g, v, l, me);
 }
 
 void thing_on_level_reached_exit_set(Tpp tp, thing_on_level_reached_exit_t callback)
@@ -768,6 +768,34 @@ void thing_on_shoved(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp shover)
     return;
   }
   tp->on_shoved(g, v, l, me, shover);
+}
+
+void thing_on_level_change_for_player_set(Tpp tp, thing_on_level_change_for_player_t callback)
+{
+  TRACE();
+  if (tp == nullptr) [[unlikely]] {
+    no_tp_pointer();
+    return;
+  }
+  tp->on_level_change_for_player = callback;
+}
+
+void thing_on_level_change_for_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp shover)
+{
+  TRACE();
+  auto *tp = thing_tp(me);
+  if (tp == nullptr) [[unlikely]] {
+    no_tp_pointer();
+    return;
+  }
+  if (tp->on_level_change_for_player == nullptr) {
+    return;
+  }
+  if (! thing_is_player(shover) && ! thing_is_monst(shover)) {
+    thing_err(g, v, l, shover, "unexpected thing for %s", __FUNCTION__);
+    return;
+  }
+  tp->on_level_change_for_player(g, v, l, me, shover);
 }
 
 void thing_on_fall_begin_set(Tpp tp, thing_on_fall_begin_t callback)

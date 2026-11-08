@@ -150,18 +150,18 @@
     return false;
   }
 
-  bool  level_changed = false;
+  bool  level_change_for_playerd = false;
   auto *old_level     = thing_level(g, v, me);
 
   //
   // Need to reset vision when leaving a level
   //
   if (old_level != new_level) {
-    level_changed = true;
+    level_change_for_playerd = true;
   }
 
-  if (level_changed) {
-    thing_on_level_changed(g, v, old_level, me);
+  if (level_change_for_playerd) {
+    thing_on_level_change_for_playerd(g, v, old_level, me);
   }
 
   //
@@ -227,7 +227,7 @@
   //
   // Enter the new level callback. Do this after updating position so that light update works.
   //
-  if (level_changed) {
+  if (level_change_for_playerd) {
     thing_on_level_enter(g, v, new_level, me);
   }
 

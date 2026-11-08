@@ -50,11 +50,12 @@
 //
 void thing_level_warp_to_entrance(Gamep g, Levelsp v, Levelp new_level, Thingp t)
 {
-  TRACE();
-
   if (t == nullptr) {
     return;
   }
+
+  THING_DBG(g, v, new_level, t, "warp to entrance at @%d,%d", new_level->entrance.x, new_level->entrance.y);
+  TRACE();
 
   //
   // Now move to the correct location

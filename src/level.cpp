@@ -208,10 +208,16 @@ void level_is_completed_by_player_falling(Gamep g, Levelsp v, Levelp l)
 //
 // Change the current level
 //
-[[nodiscard]] auto level_change(Gamep g, Levelsp v, LevelArrIdx level_arr_idx) -> Levelp
+[[nodiscard]] auto level_change_for_player(Gamep g, Levelsp v, LevelArrIdx level_arr_idx) -> Levelp
 {
   DBG("level change to %u", level_arr_idx);
   TRACE_INDENT();
+
+  auto *player = thing_player(g);
+  if (! player) {
+    no_thing_player_pointer();
+    return nullptr;
+  }
 
   VERIFY(MTYPE_LEVELS, v);
 
@@ -226,7 +232,7 @@ void level_is_completed_by_player_falling(Gamep g, Levelsp v, Levelp l)
 
   if (level_arr_idx == LEVEL_ARR_IDX_LEVEL_SELECT) {
     //
-    // Enter level selectionm
+    // Enter level selection
     //
     DBG("level change to %u (level select)", level_arr_idx);
   } else if ((level_arr_idx > s->level_count) && (static_cast< bool >(s->level_count))) {
@@ -255,6 +261,10 @@ void level_is_completed_by_player_falling(Gamep g, Levelsp v, Levelp l)
     }
     return new_level;
   }
+
+  THING_DBG(g, v, old_level, player, "this is the old level");
+  THING_DBG(g, v, new_level, player, "this is the new level");
+  TRACE_INDENT();
 
   level_scroll_warp_to_focus(g, v, new_level);
   level_debug(g, v, new_level);
@@ -287,6 +297,15 @@ void level_is_completed_by_player_falling(Gamep g, Levelsp v, Levelp l)
     topcon_newline();
     topcon("You enter the first level of dungeon '%s'.", game_seed_name_get(g));
     game_state_change(g, STATE_PLAYING, "new level");
+  }
+
+  //
+  // Wake up bosses
+  //
+  FOR_ALL_THINGS_ON_LEVEL_NO_BREAK_UNSAFE(g, v, new_level, it)
+  {
+    TRACE();
+    thing_on_level_change_for_player(g, v, new_level, it, player);
   }
 
   level_update_visibility(g, v, new_level);

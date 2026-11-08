@@ -331,7 +331,7 @@ public:
   thing_on_invisible_t          on_invisible          = {};
   thing_on_level_populated_t    on_level_populated    = {};
   thing_on_level_enter_t        on_level_enter        = {};
-  thing_on_level_changed_t      on_level_changed      = {};
+  thing_on_level_change_for_playerd_t      on_level_change_for_playerd      = {};
   thing_on_level_reached_exit_t on_level_reached_exit = {};
   thing_on_engulf_request_t     on_engulf_request     = {};
   thing_on_open_request_t       on_open_request       = {};
@@ -364,6 +364,7 @@ public:
   thing_on_teleported_t         on_teleported         = {};
   thing_on_activated_t          on_activated          = {};
   thing_on_shoved_t             on_shoved             = {};
+  thing_on_level_change_for_player_t              on_level_change_for_player              = {};
   thing_on_jump_end_t           on_jump_end           = {};
   thing_on_jump_begin_t         on_jump_begin         = {};
   thing_on_thrown_end_t         on_thrown_end         = {};

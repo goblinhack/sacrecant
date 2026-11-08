@@ -1740,6 +1740,7 @@ auto thing_pix_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, const spoint &val
 auto thing_pix_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, short x, short y) -> void;
 auto thing_player_event_loop(Gamep g, Levelsp v, Levelp l) -> void;
 auto thing_player_init(Gamep g) -> void;
+void no_thing_player_pointer();
 auto thing_proj_move(Gamep g, Levelsp v, Levelp l, Thingp me, float dt) -> void;
 auto thing_recoil_end_check(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
 auto thing_recoil_modify_position(Gamep g, Levelsp v, Levelp l, Thingp me, spoint &tl, spoint &br) -> void;
