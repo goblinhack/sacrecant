@@ -110,7 +110,11 @@
   //
   level_dump(g, v, l, w, h);
   TEST_PROGRESS(t);
-  TEST_ASSERT(t, game_tick_get(g, v) == 12, "final tick counter value");
+
+  //
+  // Differences in dt between clang and gcc
+  //
+  TEST_ASSERT(t, (game_tick_get(g, v) == 11) || (game_tick_get(g, v) == 12), "final tick counter value");
 
   level_dump(g, v, l, w, h);
   TEST_PASSED(t);

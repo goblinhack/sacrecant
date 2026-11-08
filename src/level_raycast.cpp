@@ -740,7 +740,9 @@ void level_raycast(Gamep g, Levelsp v, Levelp l, FboEnum fbo)
 
   player_raycast->raycast_do(g, v, l);
 
-  player_raycast->render_small_lights(g, v, l, FBO_MAP_LIGHT);
+  if (! g_opt_tests) {
+    player_raycast->render_small_lights(g, v, l, FBO_MAP_LIGHT);
+  }
   // sdl_fbo_dump(g, FBO_MAP_LIGHT, "FBO_MAP_LIGHT");
 }
 
