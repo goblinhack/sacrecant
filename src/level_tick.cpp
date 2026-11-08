@@ -408,7 +408,8 @@ static void level_tick_body(Gamep g, Levelsp v, Levelp l, float dt, bool tick_is
   if (player == nullptr) [[unlikely]] {
     return;
   }
-  const int player_speed = thing_speed(g, v, l, player);
+
+  const float player_speed = thing_speed(g, v, l, player);
 
   if (compiler_unused) {
     if (level_is_player_level(g, v, l)) {
@@ -438,7 +439,7 @@ static void level_tick_body(Gamep g, Levelsp v, Levelp l, float dt, bool tick_is
 
     float t_speed = thing_speed(g, v, l, t);
     if (t_speed == 0) {
-      t_speed = static_cast< float >(player_speed);
+      t_speed = player_speed;
     }
 
     //
@@ -447,7 +448,7 @@ static void level_tick_body(Gamep g, Levelsp v, Levelp l, float dt, bool tick_is
     // zips to the finish line.
     //
     if (thing_is_jumping(t)) {
-      t_speed = static_cast< float >(player_speed);
+      t_speed = player_speed;
     }
 
     auto old_thing_dt = t->thing_dt;
@@ -455,7 +456,7 @@ static void level_tick_body(Gamep g, Levelsp v, Levelp l, float dt, bool tick_is
     if (thing_is_projectile(t)) {
       t->thing_dt = v->time_step;
     } else {
-      t->thing_dt += dt * (t_speed / static_cast< float >(player_speed));
+      t->thing_dt += dt * (t_speed / player_speed);
     }
 
     if (tick_is_about_to_end || (t->thing_dt >= 1.0)) {
@@ -465,12 +466,12 @@ static void level_tick_body(Gamep g, Levelsp v, Levelp l, float dt, bool tick_is
     auto thing_dt_change = t->thing_dt - old_thing_dt;
 
     if (compiler_unused) {
-      THING_DBG(g, v, l, t, "level dt %f old_thing_dt %f thing_dt %f thing_dt_change %f speed %d v %d",
+      THING_DBG(g, v, l, t, "level dt %f old_thing_dt %f thing_dt %f thing_dt_change %f speed %f v %f",
                 dt,                                    //
                 static_cast< float >(old_thing_dt),    //
                 static_cast< float >(t->thing_dt),     //
                 static_cast< float >(thing_dt_change), //
-                static_cast< int >(t_speed),           //
+                t_speed,                               //
                 player_speed                           //
       );
     }

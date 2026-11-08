@@ -739,7 +739,7 @@ fi
 MAKEFILE=../build/Makefile.template
 
 if [[ $OPT_RELEASE_BUILD != "" ]]; then
-    echo "COMPILER_FLAGS=$WERROR $CFLAGS -O3 -ffast-math -g" > $MAKEFILE
+    echo "COMPILER_FLAGS=$WERROR $CFLAGS -O3 -g" > $MAKEFILE
 else
     echo "COMPILER_FLAGS=$WERROR $CFLAGS -Og -g" > $MAKEFILE
 fi
