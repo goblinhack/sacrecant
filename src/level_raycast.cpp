@@ -94,75 +94,6 @@ Raycast::~Raycast()
   OLDPTR(MTYPE_LIGHT, this);
 }
 
-static float player_light_fade[ MAP_WIDTH ];
-
-static void level_raycast_precalculate()
-{
-  static const char player_light_fade_map[ (MAP_WIDTH * MAP_HEIGHT) + 1 ]
-      = "xx                                              " // light strength
-        "  xx                                            " //       |
-        "    x                                           " //       |
-        "     x                                          " //       |
-        "      x                                         " //       |
-        "       x                                        " //       |
-        "        x                                       " //       |
-        "        x                                       " //       |
-        "         x                                      " //       |
-        "         x                                      " //       |
-        "          x                                     " //       |
-        "          x                                     " //       |
-        "           x                                    " //       |
-        "           x                                    " //       |
-        "            x                                   " //       |
-        "            x                                   " //       |
-        "             x                                  " //       |
-        "             x                                  " //       |
-        "              x                                 " //       |
-        "              x                                 " //       |
-        "               x                                " //       |
-        "               x                                " //       |
-        "               x                                " //       |
-        "                x                               " //       |
-        "                x                               " //       |
-        "                x                               " //       |
-        "                 x                              " //       |
-        "                 x                              " //       |
-        "                 x                              " //       |
-        "                 x                              " //       |
-        "                 x                              " //       |
-        "                  x                             " //       |
-        "                  x                             " //       |
-        "                  x                             " //       |
-        "                   x                            " //       |
-        "                   x                            " //       |
-        "                   x                            " //       |
-        "                    x                           " //       |
-        "                    x                           " //       |
-        "                     x                          " //       |
-        "                     x                          " //       |
-        "                      x                         " //       |
-        "                       x                        " //       |
-        "                        x                       " //       |
-        "                         x                      " //       |
-        "                          xx                    " //       |
-        "                            xxxxxxxxxxxxxxxxxxxx" //       |
-        "                                                " //       v
-      ;
-
-  for (auto x = 0; x < MAP_WIDTH; x++) {
-    for (auto y = 0; y < MAP_HEIGHT; y++) {
-      {
-        auto c = player_light_fade_map[ (MAP_WIDTH * y) + x ];
-        if (c == 'x') {
-          if (player_light_fade[ x ] == 0) {
-            player_light_fade[ x ] = 1.0F - (static_cast< float >(y) / static_cast< float >(MAP_HEIGHT));
-          }
-        }
-      }
-    }
-  }
-}
-
 void Raycast::ray_pixel_add(int16_t index, const spoint p0, const spoint p1)
 {
   RayPixel ray;
@@ -249,7 +180,7 @@ void Raycast::ray_lengths_precalculate(Gamep g, Levelsp v, Levelp l)
   }
 }
 
-static void level_raycast_light_tile(const FovContext &ctx, const bpoint &tile, ThingLightp light, ThingExtp ext)
+static void level_raycast_light_tile(const FovContext &ctx, const bpoint &tile, ThingPlayerp light, ThingExtp ext)
 {
   TRACE_DEBUG();
 
@@ -333,7 +264,7 @@ void Raycast::raycast_do(Gamep g, Levelsp v, Levelp l)
     return;
   }
 
-  auto *light = thing_light_struct(g, v, player);
+  auto *light = thing_player_struct(g);
   if (light == nullptr) {
     return;
   }
@@ -740,11 +671,7 @@ void level_raycast(Gamep g, Levelsp v, Levelp l, FboEnum fbo)
   player_raycast->raycast_do(g, v, l);
 }
 
-void level_raycast_init(Gamep g)
-{
-  TRACE();
-  level_raycast_precalculate();
-}
+void level_raycast_init(Gamep g) { TRACE(); }
 
 void level_raycast_fini()
 {

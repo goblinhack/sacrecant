@@ -459,7 +459,7 @@ static void level_tick_body(Gamep g, Levelsp v, Levelp l, float dt, bool tick_is
     }
 
     if (tick_is_about_to_end || (t->thing_dt >= 1.0)) {
-      t->thing_dt = static_cast< f16 >(1.0);
+      t->thing_dt = 1.0;
     }
 
     auto thing_dt_change = t->thing_dt - old_thing_dt;

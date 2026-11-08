@@ -44,9 +44,8 @@ using ThingIdPacked = union {
 //
 // Essentially equates to the max number of monsters+light sources per level
 //
-#define THING_EXT_ID_MAX   (LEVEL_ARR_IDX_MAX * THING_EXT_ID_PER_LEVEL_MAX)   // The size of thing_ext
-#define THING_DMAP_ID_MAX  (LEVEL_ARR_IDX_MAX * THING_DMAP_ID_PER_LEVEL_MAX)  // The size of thing_dmap
-#define THING_LIGHT_ID_MAX (LEVEL_ARR_IDX_MAX * THING_LIGHT_ID_PER_LEVEL_MAX) // The size of thing_light
+#define THING_EXT_ID_MAX  (LEVEL_ARR_IDX_MAX * THING_EXT_ID_PER_LEVEL_MAX)  // The size of thing_ext
+#define THING_DMAP_ID_MAX (LEVEL_ARR_IDX_MAX * THING_DMAP_ID_PER_LEVEL_MAX) // The size of thing_dmap
 
 #define THING_MOVE_PATH_MAX MAP_WIDTH // Player/monster move paths (max size uint8_t)
 #define THING_INVENTORY_MAX 26
@@ -486,17 +485,6 @@ using ThingExt = struct ThingExt {
 };
 
 //
-// Per thing light source lighting memory
-//
-using ThingLight = struct ThingLight {
-  uint8_t in_use : 1;
-  //
-  // Used to avoid lighting the same tile multiple times.
-  //
-  FovMap is_lit;
-};
-
-//
 // Player specific memory
 //
 using ThingPlayer = struct ThingPlayer {
@@ -520,6 +508,10 @@ using ThingPlayer = struct ThingPlayer {
   // To keep track of powerups
   //
   uint8_t level_completed[ LEVEL_ARR_IDX_MAX ];
+  //
+  // Used to avoid lighting the same tile multiple times.
+  //
+  FovMap is_lit;
 };
 
 using Thing = struct Thing {
@@ -660,10 +652,6 @@ using Thing = struct Thing {
   // For player and monsters
   //
   ThingExtId ext_id;
-  //
-  // For light sources and player and monsters
-  //
-  ThingLightId light_id;
   //
   // Previous map coordinates used for interpolation when moving. Changes when
   // the move finishes.

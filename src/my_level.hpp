@@ -408,10 +408,6 @@ using Levels = struct Levels {
   //
   ThingExt thing_ext[ THING_EXT_ID_MAX ];
   //
-  // For lighting memory.
-  //
-  ThingLight thing_light[ THING_LIGHT_ID_MAX ];
-  //
   // Space for player memory.
   //
   ThingPlayer thing_player;

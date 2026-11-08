@@ -29,12 +29,10 @@ void game_debug_info(Gamep g)
   log("  Thing body memory:               %" PRI_SIZE_T " Mb", sizeof(v->thing_body) / (1024 * 1024));
   log("  Thing ext memory:                %" PRI_SIZE_T " Mb", sizeof(v->thing_ext) / (1024 * 1024));
   log("  Thing dmap memory:               %" PRI_SIZE_T " Mb", sizeof(v->thing_dmap) / (1024 * 1024));
-  log("  Thing light memory:              %" PRI_SIZE_T " Mb", sizeof(v->thing_light) / (1024 * 1024));
   log("  sizeof(Thing):                   %" PRI_SIZE_T " b", sizeof(Thing));
   log("  sizeof(ThingInventory):          %" PRI_SIZE_T " b", sizeof(ThingInventory));
   log("  sizeof(ThingExt)                 %" PRI_SIZE_T " b", sizeof(ThingExt));
   log("  sizeof(ThingDmap)                %" PRI_SIZE_T " b", sizeof(ThingDmap));
-  log("  sizeof(ThingLight)               %" PRI_SIZE_T " b", sizeof(ThingLight));
   log("  sizeof(ThingPlayer):             %" PRI_SIZE_T " b", sizeof(ThingPlayer));
   log("  MAP_HEIGHT                       %u", MAP_HEIGHT);
   log("  MAP_WIDTH                        %u", MAP_WIDTH);
@@ -54,7 +52,6 @@ void game_debug_info(Gamep g)
   levels_thing_id_histogram(g, v);
   levels_thing_ext_histogram(g, v);
   levels_thing_dmap_histogram(g, v);
-  levels_thing_light_histogram(g, v);
 
   if (LEVEL_ID_REQ > LEVEL_ID_MAX) {
     CROAK("You need more bits for level IDs as the level will use too many");
@@ -70,10 +67,6 @@ void game_debug_info(Gamep g)
 
   if (THING_DMAP_ID_MAX >= 1 << (sizeof(ThingDmapId) * 8)) {
     CROAK("ThingDmapId is not a big enough type");
-  }
-
-  if (THING_LIGHT_ID_MAX >= 1 << (sizeof(ThingLightId) * 8)) {
-    CROAK("ThingLightId is not a big enough type");
   }
 
   thing_stats_dump(g, v);
@@ -199,46 +192,12 @@ auto levels_thing_dmap_histogram(Gamep g, Levelsp v) -> void
   }
 }
 
-auto levels_thing_light_histogram(Gamep g, Levelsp v) -> void
-{
-  TRACE();
-
-  auto max_per_level_count = THING_LIGHT_ID_PER_LEVEL_MAX;
-
-  log("Thing light statistics:");
-
-  for (auto level_num = 0; level_num < LEVEL_ARR_IDX_MAX; level_num++) {
-    int count = {};
-
-    for (auto i = 0; i < max_per_level_count; i++) {
-      auto id = max_per_level_count * level_num;
-      if (v->thing_light[ id + i ].in_use) {
-        count++;
-      }
-    }
-    levels_histogram(level_num, count, max_per_level_count);
-  }
-}
-
 [[nodiscard]] auto levels_thing_dmap_count(Gamep g, Levelsp v) -> int
 {
   TRACE();
 
   auto count = 0;
   for (auto &id : v->thing_dmap) {
-    if (id.in_use) {
-      count++;
-    }
-  }
-  return count;
-}
-
-[[nodiscard]] auto levels_thing_light_count(Gamep g, Levelsp v) -> int
-{
-  TRACE();
-
-  auto count = 0;
-  for (auto &id : v->thing_light) {
     if (id.in_use) {
       count++;
     }

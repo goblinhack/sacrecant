@@ -178,74 +178,9 @@ static void thing_dmap_free(Gamep g, Levelsp v, Levelp l, Thingp me)
   ext->dmap_id             = 0;
 }
 
-[[nodiscard]] static auto thing_light_alloc(Levelsp v, Levelp l, Thingp me) -> bool
-{
-  TRACE();
-
-  //
-  // Continue from the last successful allocation
-  //
-  int max_tries = 0;
-
-  if (g_thread_id == MAIN_THREAD) {
-    max_tries = THING_LIGHT_ID_MAX;
-  } else {
-    max_tries = THING_LIGHT_ID_PER_LEVEL_MAX;
-  }
-
-  auto level_arr_idx = l->level_arr_idx;
-  if (last_light_id[ level_arr_idx ] == 0U) {
-    last_light_id[ level_arr_idx ] = level_arr_idx * THING_LIGHT_ID_PER_LEVEL_MAX;
-  }
-
-  for (auto tries = 0; tries < max_tries; tries++) {
-    ThingLightId light_id = last_light_id[ level_arr_idx ] + tries;
-    light_id %= THING_LIGHT_ID_MAX;
-    if (light_id == 0U) [[unlikely]] {
-      continue;
-    }
-
-    if ((v->thing_light[ light_id ].in_use) != 0U) [[unlikely]] {
-      continue;
-    }
-
-    v->thing_light[ light_id ].in_use = true;
-    me->light_id                      = light_id;
-    last_light_id[ level_arr_idx ]    = light_id;
-
-    return true;
-  }
-
-  if (g_thread_id == MAIN_THREAD) {
-    warn("out of thing light IDs: max is %08" PRIX32 "", THING_LIGHT_ID_MAX);
-  } else {
-    CROAK("out of thing light IDs on level %08" PRIX32 ": max is %08" PRIX32 "", level_arr_idx, THING_LIGHT_ID_MAX);
-  }
-
-  return false;
-}
-
-static void thing_light_free(Levelsp v, Thingp me)
-{
-  TRACE();
-
-  auto light_id = me->light_id;
-  if (light_id == 0U) {
-    return;
-  }
-
-  if (! v->thing_light[ light_id ].in_use) {
-    CROAK("freeing thing light ID which is not in use, %" PRIX32 "", light_id);
-  }
-
-  v->thing_light[ light_id ] = {};
-  me->light_id               = 0;
-}
-
 static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked id,
-                           bool needs_ext_memory,   //
-                           bool needs_dmap_memory,  //
-                           bool needs_light_memory, //
+                           bool needs_ext_memory,  //
+                           bool needs_dmap_memory, //
                            bool need_mutex) -> Thingp
 {
   TRACE();
@@ -362,14 +297,6 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
     }
   }
 
-  if (needs_light_memory) {
-    if (! thing_light_alloc(v, l, me)) {
-      //
-      // Try to carry on
-      //
-    }
-  }
-
   if (compiler_unused) {
     THING_DBG(g, v, l, me, "alloced ext id   %08x", me->ext_id);
 
@@ -377,8 +304,6 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
     if (ext != nullptr) [[unlikely]] {
       THING_DBG(g, v, l, me, "alloced dmap id  %08x", ext->dmap_id);
     }
-
-    THING_DBG(g, v, l, me, "alloced light id %08x", me->light_id);
   }
 
 #ifdef ENABLE_PER_THING_MEMORY
@@ -404,20 +329,8 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
   //
   // Check we cannot overflow on monsters
   //
-  auto needs_dmap_memory  = tp_is_dmap(tp);
-  auto needs_ext_memory   = tp_is_memory_ext(tp) || needs_dmap_memory;
-  auto needs_light_memory = tp_is_light_source(tp) || tp_is_player(tp);
-
-  //
-  // Too much light from lava in later levels
-  //
-  if (needs_light_memory) {
-    if (tp_is_lava(tp)) {
-      if ((p.x & 1) || (p.y & 1)) {
-        needs_light_memory = false;
-      }
-    }
-  }
+  auto needs_dmap_memory = tp_is_dmap(tp);
+  auto needs_ext_memory  = tp_is_memory_ext(tp) || needs_dmap_memory;
 
   auto level_arr_idx = l->level_arr_idx;
 
@@ -436,7 +349,7 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
     id.b.level_arr_idx      = level_arr_idx;
     id.b.per_level_thing_id = per_level_id;
 
-    auto *me = thing_alloc_do(g, v, l, tp, id, needs_ext_memory, needs_dmap_memory, needs_light_memory, false /* mutex */);
+    auto *me = thing_alloc_do(g, v, l, tp, id, needs_ext_memory, needs_dmap_memory, false /* mutex */);
     if (me != nullptr) {
       thing_id_last_per_level_id[ level_arr_idx ] = per_level_id;
       return me;
@@ -458,7 +371,7 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
     ThingIdPacked id = {};
     id.c.arr_index   = arr_index;
 
-    auto *me = thing_alloc_do(g, v, l, tp, id, needs_ext_memory, needs_dmap_memory, needs_light_memory, true /* mutex */);
+    auto *me = thing_alloc_do(g, v, l, tp, id, needs_ext_memory, needs_dmap_memory, true /* mutex */);
     if (me != nullptr) {
       thing_id_from_end_id = arr_index;
       return me;
@@ -479,8 +392,6 @@ void thing_free(Gamep g, Levelsp v, Levelp l, Thingp me)
     if (ext != nullptr) [[unlikely]] {
       THING_DBG(g, v, l, me, "free dmap id  %08x", ext->dmap_id);
     }
-
-    THING_DBG(g, v, l, me, "free light id %08x", me->light_id);
   }
   TRACE();
 
@@ -515,7 +426,6 @@ void thing_free(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   thing_dmap_free(g, v, l, me);
   thing_ext_free(v, me);
-  thing_light_free(v, me);
   memset((void *) me, 0, SIZEOF(*me));
 
 #ifdef ENABLE_PER_THING_MEMORY

@@ -94,9 +94,11 @@ void thing_vision_reset(Gamep g, Levelsp v, Levelp l, Thingp t)
     ext->can_see  = {{0}};
   }
 
-  auto *light = thing_light_struct(g, v, t);
-  if (light != nullptr) {
-    light->is_lit = {{0}};
+  if (thing_is_player(t)) {
+    auto *light = thing_player_struct(g);
+    if (light != nullptr) {
+      light->is_lit = {{0}};
+    }
   }
 }
 
