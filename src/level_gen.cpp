@@ -23,7 +23,6 @@
 #include "my_types.hpp"
 
 #include <array>
-#include <cmath>
 #include <cstdarg>
 #include <cstddef>
 #include <cstdint>
@@ -4763,7 +4762,7 @@ static void level_gen_remove_additional_keys(class LevelGen *lg)
   }
 }
 
-[[nodiscard]] static int level_gen_max_monsters_per_level(Gamep g, class LevelGen *lg)
+[[nodiscard]] static auto level_gen_max_monsters_per_level(Gamep g) -> int
 {
   TRACE();
 
@@ -4790,7 +4789,7 @@ static void level_gen_remove_additional_monsts(Gamep g, class LevelGen *lg)
 {
   TRACE();
 
-  auto max_monsts = level_gen_max_monsters_per_level(g, lg);
+  auto max_monsts = level_gen_max_monsters_per_level(g);
 
   {
     int tries = lg->info.monst_count - max_monsts;

@@ -1396,13 +1396,13 @@ void thing_monst_tick(Gamep g, Levelsp v, Levelp l, Thingp me)
   //
   (void) thing_move_remaining_incr(g, v, l, me, thing_speed(g, v, l, me));
 
-  THING_DBG(g, v, l, me, "monst tick, move_rem %d dt %f", thing_move_remaining(me), static_cast< float >(me->thing_dt));
+  THING_DBG(g, v, l, me, "monst tick, move_rem %d dt %f", thing_move_remaining(me), me->thing_dt);
   TRACE_INDENT();
 
   auto start = game_time_ms();
   thing_monst_event_loop(g, v, l, me);
   auto end = game_time_ms();
-  if (end - start) {
+  if ((end - start) != 0) {
     THING_DBG(g, v, l, me, "event loop took %u ms", end - start);
   }
 }

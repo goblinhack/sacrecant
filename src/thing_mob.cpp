@@ -8,12 +8,13 @@
 #include "my_level.hpp"
 #include "my_level_inlines.hpp" // NOLINT
 #include "my_main.hpp"
-#include "my_random.hpp"
 #include "my_thing.hpp"
 #include "my_thing_inlines.hpp" // NOLINT
 #include "my_tp.hpp"
 #include "my_types.hpp"
 #include <cstring>
+#include <initializer_list>
+#include <vector>
 
 void thing_mob_dead(Gamep g, Levelsp v, Levelp l, Thingp mob, ThingEvent &e)
 {
@@ -193,8 +194,8 @@ void thing_mob_dead(Gamep g, Levelsp v, Levelp l, Thingp mob, ThingEvent &e)
     for (auto tries = 0; tries < 16; tries++) {
       auto delta = pcg_rand_one_of(deltas);
 
-      auto minion = thing_mob_spawn_a_minion_at(g, v, l, mob, tp_minion, at + delta);
-      if (minion) {
+      auto *minion = thing_mob_spawn_a_minion_at(g, v, l, mob, tp_minion, at + delta);
+      if (minion != nullptr) {
         return minion;
       }
     }

@@ -34,8 +34,8 @@ static auto tp_chasm_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) ->
   tp_flag_set(tp, is_described_cursor);
   tp_flag_set(tp, is_needs_move_confirm);
   tp_flag_set(tp, is_obs_to_explosion);
-  tp_flag_set(tp, is_obs_to_spawning);
   tp_flag_set(tp, is_obs_to_jumping_onto);
+  tp_flag_set(tp, is_obs_to_spawning);
   tp_flag_set(tp, is_soft_landing);
   tp_flag_set(tp, is_teleport_hazard);
   tp_flag_set(tp, is_tick_end_delay);

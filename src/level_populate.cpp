@@ -858,7 +858,7 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
         auto do_thing_spawn = o.do_thing_spawn;
         if (do_thing_spawn) {
           ThingEvent e {};
-          if (do_thing_spawn(g, v, l, lp.spawn_at, &e)) {
+          if (do_thing_spawn(g, v, l, lp.spawn_at, &e) != nullptr) {
             continue;
           }
         }
@@ -1098,7 +1098,7 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
   if (! g_opt_tests) {
     for (auto y = 0; y < MAP_WIDTH; y++) {
       for (auto x = 0; x < MAP_HEIGHT; x++) {
-        bpoint p(x, y);
+        bpoint const p(x, y);
         if (level_is_empty_bool(g, v, l, p)) {
           (void) thing_spawn(g, v, l, lp.tp_chasm, p);
         }

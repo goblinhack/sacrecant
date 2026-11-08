@@ -5,13 +5,11 @@
 #include "my_callstack.hpp"
 #include "my_color.hpp"
 #include "my_gl.hpp"
-#include "my_level.hpp"
+#include "my_main.hpp" // NOLINT
 #include "my_ptrcheck.hpp"
 #include "my_spoint.hpp"
-#include "my_tile.hpp"
 #include "my_types.hpp"
 
-#include <algorithm>
 #include <cmath>
 #include <cstddef>
 #include <cstdint>
@@ -90,7 +88,7 @@ static void blit_push(float **P, const float *p_end, bool first_vertex, float te
   float *p = *P;
 
   if ((p >= p_end)) [[unlikely]] {
-    log("overflow on gl bug %s", __FUNCTION__);
+    err("overflow %s", __FUNCTION__);
     return;
   }
 

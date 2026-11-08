@@ -47,6 +47,8 @@ static auto tp_trap_gas_death_activated(Gamep g, Levelsp v, Levelp l, Thingp tra
   }
 
   if (thing_on_same_level_as_player(g, v, trap)) {
+    thing_sound_play(g, v, l, trap, "gas_leak");
+
     if (thing_at(g, v, l, trap) == player_at) {
       topcon(UI_IMPORTANT_FMT_STR "You hear the hiss of gas!" UI_RESET_FMT);
     } else if (thing_vision_can_see_tile(g, v, l, user, player_at)) {

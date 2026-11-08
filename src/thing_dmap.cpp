@@ -6,6 +6,7 @@
 #include "my_callstack.hpp"
 #include "my_dmap.hpp"
 #include "my_game_defs.hpp"
+#include "my_globals.hpp"
 #include "my_main.hpp"
 #include "my_thing.hpp"
 #include "my_thing_inlines.hpp"
@@ -106,7 +107,7 @@ void thing_dmap(Gamep g, Levelsp v, Levelp l, Thingp me, bool reverse)
 
   auto end = game_time_ms();
 
-  if (end - start) {
+  if ((end - start) != 0) {
     if (g_thread_id == MAIN_THREAD) {
       THING_DBG(g, v, l, me, "dmap took %u ms", end - start);
     }

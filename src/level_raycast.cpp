@@ -5,6 +5,7 @@
 #include "my_age_map_inlines.hpp"
 #include "my_bpoint.hpp"
 #include "my_callstack.hpp"
+#include "my_color_defs.hpp"
 #include "my_fov_map_inlines.hpp"
 #include "my_game_defs.hpp"
 #include "my_gl.hpp"
@@ -15,7 +16,6 @@
 #include "my_math.hpp"
 #include "my_ptrcheck.hpp"
 #include "my_random.hpp"
-#include "my_sdl_proto.hpp"
 #include "my_spoint.hpp"
 #include "my_tex.hpp"
 #include "my_thing.hpp"
@@ -53,7 +53,7 @@ public:
   void ray_lengths_precalculate(Gamep g, Levelsp v, Levelp l);
   void raycast_do(Gamep g, Levelsp v, Levelp l);
   void raycast_render(Gamep g, Levelsp v, Levelp l);
-  void render_small_lights(Gamep g, Levelsp v, Levelp l, FboEnum fbo_small_lights);
+  void render_small_lights(Gamep g, Levelsp v, Levelp l, FboEnum fbo_small_lights) const;
 
   //
   // This is how far the light rays reach
@@ -77,8 +77,8 @@ public:
 
   std::vector< float > ray_gl_cmds;
 
-  Texp light_tex;
-  int  light_tex_id;
+  Texp light_tex {};
+  int  light_tex_id {};
 };
 
 static Raycast *player_raycast;
@@ -183,7 +183,7 @@ void Raycast::ray_lengths_precalculate(Gamep g, Levelsp v, Levelp l)
   }
 }
 
-static void level_raycast_light_tile(const FovContext &ctx, const bpoint &tile, ThingPlayerp light, ThingExtp ext)
+static void level_raycast_light_tile(const bpoint &tile, ThingPlayerp light, ThingExtp ext)
 {
   TRACE_DEBUG();
 
@@ -401,7 +401,7 @@ void Raycast::raycast_do(Gamep g, Levelsp v, Levelp l)
       prev_tile_x = tile_x;
       prev_tile_y = tile_y;
 
-      level_raycast_light_tile(ctx, tile, light, ext);
+      level_raycast_light_tile(tile, light, ext);
 
       //
       // This is for foliage so we don't obscure too much where we stand
@@ -495,7 +495,7 @@ void Raycast::raycast_do(Gamep g, Levelsp v, Levelp l)
             break;
           }
 
-          level_raycast_light_tile(ctx, tile, light, ext);
+          level_raycast_light_tile(tile, light, ext);
           step_inside_wall++;
         }
 
@@ -605,8 +605,8 @@ void Raycast::raycast_render(Gamep g, Levelsp v, Levelp l)
 
   blit_fbo_bind(FBO_MAP_LIGHT);
   {
-    spoint tl(light_pos.x - ray_max_length_in_pixels, light_pos.y - ray_max_length_in_pixels);
-    spoint br(light_pos.x + ray_max_length_in_pixels, light_pos.y + ray_max_length_in_pixels);
+    spoint const tl(light_pos.x - ray_max_length_in_pixels, light_pos.y - ray_max_length_in_pixels);
+    spoint const br(light_pos.x + ray_max_length_in_pixels, light_pos.y + ray_max_length_in_pixels);
 
     glBlendFunc(GL_ONE, GL_ZERO);
     blit_init();
@@ -622,7 +622,7 @@ void Raycast::raycast_render(Gamep g, Levelsp v, Levelp l)
 //
 // All light from all light sources, combined.
 //
-void Raycast::render_small_lights(Gamep g, Levelsp v, Levelp l, FboEnum fbo_small_lights)
+void Raycast::render_small_lights(Gamep g, Levelsp v, Levelp l, FboEnum fbo_small_lights) const
 {
   TRACE();
 
@@ -642,7 +642,7 @@ void Raycast::render_small_lights(Gamep g, Levelsp v, Levelp l, FboEnum fbo_smal
     //
     FOR_ALL_THINGS_ON_LEVEL_NO_BREAK(g, v, l, t)
     {
-      int max_radius = thing_is_light_source(g, v, t);
+      int const max_radius = thing_is_light_source(g, v, t);
       if (max_radius == 0) [[likely]] {
         continue;
       }
@@ -661,7 +661,7 @@ void Raycast::render_small_lights(Gamep g, Levelsp v, Levelp l, FboEnum fbo_smal
 
       auto light_color = tp_light_color(thing_tp(t));
 
-      if (! t->light_radius_in_pixels) {
+      if (t->light_radius_in_pixels == 0u) {
         t->light_radius_in_pixels = thing_is_light_source(g, v, t) * TILE_WIDTH;
       }
 
@@ -670,14 +670,14 @@ void Raycast::render_small_lights(Gamep g, Levelsp v, Levelp l, FboEnum fbo_smal
       //
       if (thing_is_light_flicker(t)) [[unlikely]] {
         if (game_time_have_x_hundredths_passed_since(THING_LIGHT_FLICKER_ANIM_MS, t->last_flicker)) {
-          t->light_radius_in_pixels = thing_is_light_source(g, v, t) * TILE_WIDTH + OS_RANDOM_RANGE(0, 10);
+          t->light_radius_in_pixels = (thing_is_light_source(g, v, t) * TILE_WIDTH) + OS_RANDOM_RANGE(0, 10);
           t->last_flicker           = game_time_ms_cached();
         }
       }
 
-      auto   rad = t->light_radius_in_pixels;
-      spoint tl(light_pos.x - rad, light_pos.y - rad);
-      spoint br(light_pos.x + rad, light_pos.y + rad);
+      auto         rad = t->light_radius_in_pixels;
+      spoint const tl(light_pos.x - rad, light_pos.y - rad);
+      spoint const br(light_pos.x + rad, light_pos.y + rad);
 
       blit(light_tex_id, tl.x, tl.y, br.x, br.y, light_color);
     }

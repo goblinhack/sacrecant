@@ -25,7 +25,6 @@
 #include <SDL_keyboard.h>
 #include <SDL_keycode.h>
 #include <cstdint>
-#include <format>
 
 static WidPopup *wid_statistics_popup;
 

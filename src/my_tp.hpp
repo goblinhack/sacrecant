@@ -878,7 +878,7 @@ class Tp;
 [[nodiscard]] auto tp_find_random_player() -> Tpp;
 [[nodiscard]] auto tp_find_random_wall() -> Tpp;
 [[nodiscard]] auto tp_find_random(Gamep g, Levelsp v, Levelp l, ThingFlagType f) -> Tpp;
-[[nodiscard]] auto tp_find_random(ThingFlagType) -> Tpp;
+[[nodiscard]] auto tp_find_random(ThingFlagType /*f*/) -> Tpp;
 [[nodiscard]] auto tp_first_tile(class Tp *tp, ThingAnimType val) -> Tilep;
 [[nodiscard]] auto tp_first(ThingFlagType f) -> Tpp;
 [[nodiscard]] auto tp_follower_max_get(Tpp tp) -> int;

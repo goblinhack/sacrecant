@@ -2,6 +2,7 @@
 // Copyright goblinhack@gmail.com
 //
 
+#include "my_ascii.hpp"
 #include "my_callstack.hpp"
 #include "my_color_defs.hpp"
 #include "my_level.hpp"
@@ -187,9 +188,9 @@ void wid_level_show_contents(Gamep g, Levelsp v, Levelp l, WidPopup *parent)
 
     auto *w = parent->log_empty_line(g);
     if (w != nullptr) {
-      auto  *w2 = wid_new_square_button(g, parent->wid_popup_container, "level map");
-      spoint minimap_tl(pad, TERM_HEIGHT - minimap_size);
-      spoint minimap_br(UI_RIGHTBAR_WIDTH - 1 - pad, TERM_HEIGHT - 2);
+      auto        *w2 = wid_new_square_button(g, parent->wid_popup_container, "level map");
+      spoint const minimap_tl(pad, TERM_HEIGHT - minimap_size);
+      spoint const minimap_br(UI_RIGHTBAR_WIDTH - 1 - pad, TERM_HEIGHT - 2);
       wid_set_tilename(TILE_LAYER_BOX_FG, w2, "FBO_MINIMAP_LEVEL");
       wid_set_text_lhs(w2);
       wid_set_text_top(w2);

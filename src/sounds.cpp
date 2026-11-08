@@ -33,6 +33,7 @@ void sounds_load(Gamep g)
   (void) sound_load(1.0F /* volume */, "data/sounds/ambience/humming.ogg", "humming_creepy");
   (void) sound_load(0.1F /* volume */, "data/sounds/ambience/bogland_ambience.ogg", "bogland_ambience");
   (void) sound_load(0.2F /* volume */, "data/sounds/misc/rock.ogg", "rock", 3 /* concurrent_max */);
+  (void) sound_load(0.5F /* volume */, "data/sounds/misc/gas_leak.ogg", "gas_leak", 1 /* concurrent_max */);
   (void) sound_load(0.5F /* volume */, "data/sounds/ambience/graveyard_ambience.ogg", "graveyard_ambience");
   (void) sound_load(0.5F /* volume */, "data/sounds/impacts/explosion.ogg", "explosion", 8 /* concurrent_max */);
   (void) sound_load(1.0F /* volume */, "data/sounds/ambience/dungeon_ambience.ogg", "dungeon_ambience");

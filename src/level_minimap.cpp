@@ -61,7 +61,7 @@ static void level_minimap_levels_update(Gamep g, Levelsp v, Levelp l, const bool
         if (level_is_empty_bool(g, v, l, p)) {
           c = BLUE4;
         }
-        if (level_is_border(g, v, l, p)) {
+        if (level_is_border_bool(g, v, l, p)) {
           c = GRAY50;
         }
         if (level_is_dirt_bool(g, v, l, p)) {

@@ -2,6 +2,7 @@
 // Copyright goblinhack@gmail.com
 //
 
+#include "cfg.hpp"
 #include "config.hpp"
 #include "my_ascii.hpp"
 #include "my_callstack.hpp"
