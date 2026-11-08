@@ -810,7 +810,6 @@ static void level_display_fbos(Gamep g, Levelsp v, Levelp level_above, Levelp l)
         // Blit the fuzzy white light
         //
         glBlendFunc(GL_ZERO, GL_SRC_ALPHA);
-
         level_blit_light(g, v, l, WHITE);
       }
       blit_fbo_unbind();

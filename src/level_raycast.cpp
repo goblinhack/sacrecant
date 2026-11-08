@@ -15,11 +15,13 @@
 #include "my_math.hpp"
 #include "my_ptrcheck.hpp"
 #include "my_random.hpp"
+#include "my_sdl_proto.hpp"
 #include "my_spoint.hpp"
 #include "my_tex.hpp"
 #include "my_thing.hpp"
 #include "my_thing_inlines.hpp"
 #include "my_tile.hpp"
+#include "my_time.hpp"
 #include "my_tp.hpp"
 #include "my_types.hpp"
 
@@ -51,6 +53,7 @@ public:
   void ray_lengths_precalculate(Gamep g, Levelsp v, Levelp l);
   void raycast_do(Gamep g, Levelsp v, Levelp l);
   void raycast_render(Gamep g, Levelsp v, Levelp l);
+  void render_small_lights(Gamep g, Levelsp v, Levelp l, FboEnum fbo_small_lights);
 
   //
   // This is how far the light rays reach
@@ -616,6 +619,73 @@ void Raycast::raycast_render(Gamep g, Levelsp v, Levelp l)
   blit_fbo_unbind();
 }
 
+//
+// All light from all light sources, combined.
+//
+void Raycast::render_small_lights(Gamep g, Levelsp v, Levelp l, FboEnum fbo_small_lights)
+{
+  TRACE();
+
+  int w = 0;
+  int h = 0;
+  fbo_get_size(g, fbo_small_lights, w, h);
+
+  gl_enter_2d_mode(g, w, h);
+  glBlendFunc(GL_SRC_ALPHA_SATURATE, GL_ONE_MINUS_CONSTANT_ALPHA);
+
+  blit_fbo_bind(fbo_small_lights);
+  {
+    blit_init();
+
+    //
+    // Calculate all lit tiles for non player things
+    //
+    FOR_ALL_THINGS_ON_LEVEL_NO_BREAK(g, v, l, t)
+    {
+      int max_radius = thing_is_light_source(g, v, t);
+      if (max_radius == 0) [[likely]] {
+        continue;
+      }
+
+      if (thing_is_player(t)) [[unlikely]] {
+        continue;
+      }
+
+      if (thing_is_dead(t)) [[unlikely]] {
+        continue;
+      }
+
+      auto light_pos = thing_pix_at(t);
+      light_pos.x += TILE_WIDTH / 2;
+      light_pos.y += TILE_HEIGHT / 2;
+
+      auto light_color = tp_light_color(thing_tp(t));
+
+      if (! t->light_radius_in_pixels) {
+        t->light_radius_in_pixels = thing_is_light_source(g, v, t) * TILE_WIDTH;
+      }
+
+      //
+      // Flicker the light strength?
+      //
+      if (thing_is_light_flicker(t)) [[unlikely]] {
+        if (game_time_have_x_hundredths_passed_since(THING_LIGHT_FLICKER_ANIM_MS, t->last_flicker)) {
+          t->light_radius_in_pixels = thing_is_light_source(g, v, t) * TILE_WIDTH + OS_RANDOM_RANGE(0, 10);
+          t->last_flicker           = game_time_ms_cached();
+        }
+      }
+
+      auto   rad = t->light_radius_in_pixels;
+      spoint tl(light_pos.x - rad, light_pos.y - rad);
+      spoint br(light_pos.x + rad, light_pos.y + rad);
+
+      blit(light_tex_id, tl.x, tl.y, br.x, br.y, light_color);
+    }
+    blit_flush();
+  }
+  blit_fbo_unbind();
+}
+
 static auto raycast_new(int ray_max_length_in_pixels, FboEnum fbo) -> Raycast *
 {
   TRACE();
@@ -669,6 +739,9 @@ void level_raycast(Gamep g, Levelsp v, Levelp l, FboEnum fbo)
   }
 
   player_raycast->raycast_do(g, v, l);
+
+  player_raycast->render_small_lights(g, v, l, FBO_MAP_LIGHT);
+  // sdl_fbo_dump(g, FBO_MAP_LIGHT, "FBO_MAP_LIGHT");
 }
 
 void level_raycast_init(Gamep g) { TRACE(); }

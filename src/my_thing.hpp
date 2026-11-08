@@ -640,6 +640,14 @@ using Thing = struct Thing {
   //
   uint32_t tick_event;
   //
+  // When this light source last flickered
+  //
+  uint32_t last_flicker;
+  //
+  // When this light source last flickered
+  //
+  uint16_t light_radius_in_pixels;
+  //
   // Unique ID with some entropy built in
   //
   ThingId id;
