@@ -32,8 +32,8 @@ static auto tp_trap_gas_explosive_activated(Gamep g, Levelsp v, Levelp l, Thingp
       bpoint(-1, -1), bpoint(1, -1), bpoint(0, -1), bpoint(-1, 0), bpoint(1, 0), bpoint(0, 0), bpoint(-1, 1), bpoint(1, 1), bpoint(0, 1),
   };
 
-  auto player_at = thing_at(g, v, l, user);
-  auto at        = thing_at(g, v, l, trap);
+  auto user_at = thing_at(g, v, l, user);
+  auto at      = thing_at(g, v, l, trap);
 
   for (auto delta : points) {
     auto p = at + delta;
@@ -49,12 +49,27 @@ static auto tp_trap_gas_explosive_activated(Gamep g, Levelsp v, Levelp l, Thingp
   if (thing_on_same_level_as_player(g, v, trap)) {
     thing_sound_play(g, v, l, trap, "gas_leak");
 
-    if (thing_at(g, v, l, trap) == player_at) {
-      topcon(UI_IMPORTANT_FMT_STR "You hear the hiss of gas!" UI_RESET_FMT);
-    } else if (thing_vision_can_see_tile(g, v, l, user, player_at)) {
-      topcon(UI_WARN_FMT_STR "You see a cloud of gas!" UI_RESET_FMT);
+    //
+    // The player triggered the trap
+    //
+    if (thing_is_player(user)) {
+      if (thing_at(g, v, l, trap) == user_at) {
+        topcon(UI_IMPORTANT_FMT_STR "You hear the hiss of gas!" UI_RESET_FMT);
+      } else if (thing_vision_can_see_tile(g, v, l, user, user_at)) {
+        topcon(UI_WARN_FMT_STR "You see a cloud of explosive gas!" UI_RESET_FMT);
+      } else {
+        topcon("You hear gas!");
+      }
     } else {
-      topcon("You hear gas!");
+      //
+      // Something else triggered the trap
+      //
+      if (thing_vision_can_see_tile(g, v, l, user, user_at)) {
+        auto The_thing = thing_name_long_The(g, v, l, user);
+        topcon("%s is enveloped in explosive gas!", The_thing.c_str());
+      } else {
+        topcon("You hear gas!");
+      }
     }
   }
 

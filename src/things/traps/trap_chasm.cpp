@@ -27,16 +27,36 @@ static auto tp_trap_chasm_activated(Gamep g, Levelsp v, Levelp l, Thingp trap, T
 {
   TRACE();
 
+  auto user_at = thing_at(g, v, l, user);
+
   if (! level_is_chasm_bool(g, v, l, thing_at(g, v, l, trap))) {
     if (thing_spawn(g, v, l, tp_first(is_chasm), trap)) {
-      auto player_at = thing_at(g, v, l, user);
       if (thing_on_same_level_as_player(g, v, trap)) {
-        if (thing_at(g, v, l, trap) == player_at) {
-          topcon(UI_IMPORTANT_FMT_STR "The ground opens up beneath you!" UI_RESET_FMT);
-        } else if (thing_vision_can_see_tile(g, v, l, user, player_at)) {
-          topcon(UI_WARN_FMT_STR "The ground collapses!" UI_RESET_FMT);
+        if (thing_is_player(user)) {
+          //
+          // The player triggered the trap
+          //
+          if (thing_at(g, v, l, trap) == user_at) {
+            topcon(UI_IMPORTANT_FMT_STR "The ground opens up beneath you!" UI_RESET_FMT);
+          } else if (thing_vision_can_see_tile(g, v, l, user, user_at)) {
+            topcon(UI_WARN_FMT_STR "The ground collapses!" UI_RESET_FMT);
+          } else {
+            topcon("You hear the ground collapse!");
+          }
         } else {
-          topcon("You hear the ground collapse!");
+          //
+          // Something else triggered the trap
+          //
+          if (thing_vision_can_see_tile(g, v, l, user, user_at)) {
+            auto The_thing = thing_name_long_The(g, v, l, user);
+            if (thing_is_able_to_fall(g, v, l, user)) {
+              topcon("%s cries out as the ground opens up beneath them.", The_thing.c_str());
+            } else {
+              topcon("%s watches as the ground opens up beneath them.", The_thing.c_str());
+            }
+          } else {
+            topcon("You hear the ground collapse!");
+          }
         }
       } else {
         topcon("You hear a very distant landslide!");

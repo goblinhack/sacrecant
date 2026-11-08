@@ -32,8 +32,83 @@ void rooms_prefab_locked(Gamep g)
            /* line */ (const char *) "   v....v   ",
            /* line */ (const char *) "   v....v   ",
            /* line */ (const char *) "   v....v   ",
-           /* line */ (const char *) "   vvv.vv   ",
+           /* line */ (const char *) "   vvv+vv   ",
            /* line */ (const char *) "      ^     ",
+           /* end */ nullptr);
+
+  room_add(g, CHANCE_NORMAL, ROOM_FLAG_CHECK_EXITS | ROOM_FLAG_LOCKED, __FUNCTION__, __LINE__,
+           /* line */ (const char *) " vvvvvvvvvv ",
+           /* line */ (const char *) " vg..$$..gv ",
+           /* line */ (const char *) " v........v ",
+           /* line */ (const char *) " v........v ",
+           /* line */ (const char *) " v........v ",
+           /* line */ (const char *) " vvv....vvv ",
+           /* line */ (const char *) "   v....v   ",
+           /* line */ (const char *) "   v....v   ",
+           /* line */ (const char *) "   v....v   ",
+           /* line */ (const char *) "   v____v   ",
+           /* line */ (const char *) "      ^     ",
+           /* end */ nullptr);
+
+  room_add(g, CHANCE_NORMAL, ROOM_FLAG_CHECK_EXITS | ROOM_FLAG_LOCKED, __FUNCTION__, __LINE__,
+           /* line */ (const char *) " vvvvvvvvvv ",
+           /* line */ (const char *) " vg..$$..gv ",
+           /* line */ (const char *) " v........v ",
+           /* line */ (const char *) " v........v ",
+           /* line */ (const char *) " v........v ",
+           /* line */ (const char *) " vvvCCCCvvv ",
+           /* line */ (const char *) "   vCCCCv   ",
+           /* line */ (const char *) "   v....v   ",
+           /* line */ (const char *) "   v....v   ",
+           /* line */ (const char *) "   v____v   ",
+           /* line */ (const char *) "      ^     ",
+           /* end */ nullptr);
+
+  room_add(g, CHANCE_NORMAL, ROOM_FLAG_CHECK_EXITS | ROOM_FLAG_LOCKED, __FUNCTION__, __LINE__,
+           /* line */ (const char *) " vvvvvvvvvv ",
+           /* line */ (const char *) " vg..$$..gv ",
+           /* line */ (const char *) " v........v ",
+           /* line */ (const char *) " v........v ",
+           /* line */ (const char *) " v........v ",
+           /* line */ (const char *) " v________v ",
+           /* line */ (const char *) "     ^      ",
+           /* end */ nullptr);
+
+  room_add(g, CHANCE_NORMAL, ROOM_FLAG_CHECK_EXITS | ROOM_FLAG_LOCKED, __FUNCTION__, __LINE__,
+           /* line */ (const char *) " vvvvvvvvvv ",
+           /* line */ (const char *) " vg..$$..gv ",
+           /* line */ (const char *) " v........v ",
+           /* line */ (const char *) " vR.......v ",
+           /* line */ (const char *) " v.R...R..v ",
+           /* line */ (const char *) " v..R...R.v ",
+           /* line */ (const char *) " v...R...Rv ",
+           /* line */ (const char *) " v........v ",
+           /* line */ (const char *) " v________v ",
+           /* line */ (const char *) "     ^      ",
+           /* end */ nullptr);
+
+  room_add(g, CHANCE_NORMAL, ROOM_FLAG_CHECK_EXITS | ROOM_FLAG_LOCKED, __FUNCTION__, __LINE__,
+           /* line */ (const char *) " vvvvvvvvvv ",
+           /* line */ (const char *) " vg..$$..gv ",
+           /* line */ (const char *) " v........v ",
+           /* line */ (const char *) " v.CCCCCC.v ",
+           /* line */ (const char *) " v........v ",
+           /* line */ (const char *) " v________v ",
+           /* line */ (const char *) "     ^      ",
+           /* end */ nullptr);
+
+  room_add(g, CHANCE_NORMAL, ROOM_FLAG_CHECK_EXITS | ROOM_FLAG_LOCKED, __FUNCTION__, __LINE__,
+           /* line */ (const char *) " vvvvvvvvvv ",
+           /* line */ (const char *) " vg..$$...v ",
+           /* line */ (const char *) " v.R......v ",
+           /* line */ (const char *) " v..g.....v ",
+           /* line */ (const char *) " v...R....v ",
+           /* line */ (const char *) " v....g...v ",
+           /* line */ (const char *) " v.....R..v ",
+           /* line */ (const char *) " v......R.v ",
+           /* line */ (const char *) " v.......gv ",
+           /* line */ (const char *) " v________v ",
+           /* line */ (const char *) "     ^      ",
            /* end */ nullptr);
 
   room_add(g, CHANCE_NORMAL, ROOM_FLAG_CHECK_EXITS | ROOM_FLAG_LOCKED, __FUNCTION__, __LINE__,
@@ -66,7 +141,7 @@ void rooms_prefab_locked(Gamep g)
            /* line */ (const char *) "   v.....v   ",
            /* line */ (const char *) "   vB...Bv   ",
            /* line */ (const char *) "   v.....v   ",
-           /* line */ (const char *) "   vvv.vvv   ",
+           /* line */ (const char *) "   vvv+vvv   ",
            /* line */ (const char *) "      ^      ",
            /* end */ nullptr);
 

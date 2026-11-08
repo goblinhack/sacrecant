@@ -243,14 +243,12 @@ void level_scroll_to_focus(Gamep g, Levelsp v, Levelp l)
       if (game_time_have_x_tenths_passed_since(5, v->requested_forced_auto_scroll)) {
         v->requested_forced_auto_scroll = 0;
         v->scroll_speed                 = MAP_SCROLL_SPEED;
-        topcon("fixed scroll speed");
       }
     }
   } else if (v->requested_forced_auto_scroll != 0U) {
     if (game_time_have_x_secs_passed_since(1, v->requested_forced_auto_scroll)) {
       v->requested_forced_auto_scroll = 0;
       v->scroll_speed                 = MAP_SCROLL_SPEED;
-      topcon("fixed scroll speed");
     }
   }
 
