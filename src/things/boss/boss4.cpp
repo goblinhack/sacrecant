@@ -69,7 +69,7 @@ static void tp_boss4_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
 
-  if (! me->tick) {
+  if ((! me->tick) || ! (me->tick % 200)) {
     (void) sound_play(g, v, l, "humming_creepy");
   }
 

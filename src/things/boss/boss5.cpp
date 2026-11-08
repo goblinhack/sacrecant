@@ -75,7 +75,7 @@ static void tp_boss5_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   auto at = thing_at(g, v, l, me);
 
-  if (! me->tick) {
+  if ((! me->tick) || ! (me->tick % 500)) {
     (void) sound_play(g, v, l, "monster_roar_epic");
   }
 
