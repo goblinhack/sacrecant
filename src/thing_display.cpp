@@ -370,13 +370,21 @@ static void thing_display_blit(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp t_ma
     return;
   }
 
-  fg = WHITE;
-
+  //
+  // Keep alpha unmodified for reflections
+  //
   if (t_maybe_null != nullptr) {
     if (thing_is_water_shallow(t_maybe_null)) {
       switch (level_to_biome(g, v, l)) {
-        case BIOME_DUNGEON :    break;
-        case BIOME_BOGLAND :    fg = GREEN2; break;
+        case BIOME_DUNGEON : break;
+        case BIOME_BOGLAND :
+          {
+            auto new_fg = GREEN2;
+            fg.r        = new_fg.r;
+            fg.g        = new_fg.g;
+            fg.b        = new_fg.b;
+          }
+          break;
         case BIOME_NETHERVOID : break;
         case BIOME_GRAVEYARD :  break;
         case BIOME_UNDERHELL :  break;
@@ -385,8 +393,15 @@ static void thing_display_blit(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp t_ma
       }
     } else if (thing_is_wall(t_maybe_null)) {
       switch (level_to_biome(g, v, l)) {
-        case BIOME_DUNGEON :    break;
-        case BIOME_BOGLAND :    fg = GREEN; break;
+        case BIOME_DUNGEON : break;
+        case BIOME_BOGLAND :
+          {
+            auto new_fg = GREEN;
+            fg.r        = new_fg.r;
+            fg.g        = new_fg.g;
+            fg.b        = new_fg.b;
+          }
+          break;
         case BIOME_NETHERVOID : break;
         case BIOME_GRAVEYARD :  break;
         case BIOME_UNDERHELL :  break;
