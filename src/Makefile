@@ -87,7 +87,13 @@ $(eval $(BUILD_DIR)/$(call obj_name,$x): $x ;\
 # use file list instead of wildcard for link command so we don't accidentally
 # link with old object files for removed source files
 $(TARGET_GAME): $(OBJ_FILES)
-	cd $(BUILD_DIR); $(CC) $(OBJECTS) $(LDLIBS) $(LDFLAGS) -o $(TARGET_GAME)
+	#
+	# Why do this? argument list gets too long on Mingw
+	#
+	ld -r $(BUILD_DIR)/[0-9]*.o -o $(BUILD_DIR)/_1.o
+	ld -r $(BUILD_DIR)/[a-f]*.o -o $(BUILD_DIR)/_2.o
+	ld -r $(BUILD_DIR)/[g-z]*.o -o $(BUILD_DIR)/_3.o
+	cd $(BUILD_DIR); $(CC) $(BUILD_DIR)/_1.o $(BUILD_DIR)/_2.o $(BUILD_DIR)/_3.o $(LDLIBS) $(LDFLAGS) -o $(TARGET_GAME)
 
 #####################################################
 # to show options:
