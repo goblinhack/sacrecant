@@ -755,6 +755,8 @@ CHOSEN_COMPILER=
 
 case "$MY_OS_NAME" in
     *MING*|*MSYS*)
+        echo "MINGW=1" >> $MAKEFILE
+
         #
         # Defaults
         #

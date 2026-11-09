@@ -86,18 +86,25 @@ $(eval $(BUILD_DIR)/$(call obj_name,$x): $x ;\
 
 # use file list instead of wildcard for link command so we don't accidentally
 # link with old object files for removed source files
+ifeq ($(origin MINGW),undefined)
 $(TARGET_GAME): $(OBJ_FILES)
+	cd $(BUILD_DIR); $(CC) $(OBJECTS) $(LDLIBS) $(LDFLAGS) -o $(TARGET_GAME)
+else
+$(TARGET_GAME): $(OBJ_FILES)
+	# work around too many files on mingw
 	ar rcs $(BUILD_DIR)/1.a  \
-		$(shell echo $(OBJECTS) | sed 's/ /\n/g' | sed -n '1,300p' | sed "s;^;$(BUILD_DIR)\/;g" | paste -sd " " -) 
+		$(shell echo $(OBJECTS) | sed 's/ /\n/g' | grep -v main.o | sed -n '1,300p' | sed "s;^;$(BUILD_DIR)\/;g" | paste -sd " " -) 
 	ar rcs $(BUILD_DIR)/2.a  \
-		$(shell echo $(OBJECTS) | sed 's/ /\n/g' | sed -n '301,600p' | sed "s;^;$(BUILD_DIR)\/;g" | paste -sd " " -) 
+		$(shell echo $(OBJECTS) | sed 's/ /\n/g' | grep -v main.o | sed -n '301,600p' | sed "s;^;$(BUILD_DIR)\/;g" | paste -sd " " -) 
 	ar rcs $(BUILD_DIR)/3.a  \
-		$(shell echo $(OBJECTS) | sed 's/ /\n/g' | sed -n '601,900p' | sed "s;^;$(BUILD_DIR)\/;g" | paste -sd " " -) 
+		$(shell echo $(OBJECTS) | sed 's/ /\n/g' | grep -v main.o | sed -n '601,900p' | sed "s;^;$(BUILD_DIR)\/;g" | paste -sd " " -) 
 	cd $(BUILD_DIR); $(CC) \
+		$(BUILD_DIR)/main.o \
 		$(BUILD_DIR)/1.a \
 		$(BUILD_DIR)/2.a \
 		$(BUILD_DIR)/3.a \
 		$(LDLIBS) $(LDFLAGS) -o $(TARGET_GAME)
+endif
 
 #####################################################
 # to show options:
