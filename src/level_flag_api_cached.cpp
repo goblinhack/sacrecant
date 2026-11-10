@@ -1467,16 +1467,16 @@
   return level_flag_cached(g, v, l, is_unused94, p);
 }
 
-[[nodiscard]] auto level_is_unused95_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_temple_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused95, p);
+  return level_flag_cached(g, v, l, is_temple, p);
 }
 
-[[nodiscard]] auto level_is_unused96_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_spell_stone_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused96, p);
+  return level_flag_cached(g, v, l, is_spell_stone, p);
 }
 
 [[nodiscard]] auto level_is_water_common_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

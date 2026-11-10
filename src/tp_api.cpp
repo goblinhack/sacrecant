@@ -1429,16 +1429,16 @@
   return tp_flag(tp, is_unused94) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused95(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_temple(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused95) != 0;
+  return tp_flag(tp, is_temple) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused96(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_spell_stone(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused96) != 0;
+  return tp_flag(tp, is_spell_stone) != 0;
 }
 
 [[nodiscard]] auto tp_is_water_common(Tpp tp) -> bool

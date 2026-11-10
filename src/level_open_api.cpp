@@ -1430,16 +1430,16 @@
   return level_open(g, v, l, is_unused94, p);
 }
 
-[[nodiscard]] auto level_open_is_unused95(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+[[nodiscard]] auto level_open_is_temple(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_open(g, v, l, is_unused95, p);
+  return level_open(g, v, l, is_temple, p);
 }
 
-[[nodiscard]] auto level_open_is_unused96(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+[[nodiscard]] auto level_open_is_spell_stone(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_open(g, v, l, is_unused96, p);
+  return level_open(g, v, l, is_spell_stone, p);
 }
 
 [[nodiscard]] auto level_open_is_water_common(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp

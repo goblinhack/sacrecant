@@ -1224,6 +1224,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_slime(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_smoke(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_soft_landing(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_spell_stone(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_spell(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_spider_baby(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_spider_giant(Thingp t) -> bool;
@@ -1238,6 +1239,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_teleport_hazard(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_teleport(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_teleporting(Thingp me) -> bool;
+[[nodiscard]] auto thing_is_temple(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_tentacle(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_throwable(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_tick_end_delay(Thingp t) -> bool;
@@ -1349,8 +1351,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused92(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused93(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused94(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused95(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused96(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_upgradable(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade u) -> bool;
 [[nodiscard]] auto thing_is_upgradable(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_usable(Thingp t) -> bool;
@@ -1740,7 +1740,6 @@ auto thing_pix_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, const spoint &val
 auto thing_pix_at_set(Gamep g, Levelsp v, Levelp l, Thingp me, short x, short y) -> void;
 auto thing_player_event_loop(Gamep g, Levelsp v, Levelp l) -> void;
 auto thing_player_init(Gamep g) -> void;
-void no_thing_player_pointer();
 auto thing_proj_move(Gamep g, Levelsp v, Levelp l, Thingp me, float dt) -> void;
 auto thing_recoil_end_check(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
 auto thing_recoil_modify_position(Gamep g, Levelsp v, Levelp l, Thingp me, spoint &tl, spoint &br) -> void;
@@ -1780,6 +1779,7 @@ void level_tick_remove_thing_from_worklist(Thingp me);
 void level_topcon(Gamep g, Levelsp v, Levelp l, const char *fmt, ...) CHECK_FORMAT_STR(printf, 4, 5);
 void level_warn(Gamep g, Levelsp v, Levelp l, const char *fmt, ...) CHECK_FORMAT_STR(printf, 4, 5);
 void no_thing_ext_pointer();
+void no_thing_player_pointer();
 void no_thing_pointer();
 void thing_alloc_free_fini(Gamep g);
 void thing_botcon(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 5, 6);

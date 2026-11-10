@@ -406,8 +406,8 @@
       list_macro(is_unused92, "is_unused92"),                                               /* newline */                                       \
       list_macro(is_unused93, "is_unused93"),                                               /* newline */                                       \
       list_macro(is_unused94, "is_unused94"),                                               /* newline */                                       \
-      list_macro(is_unused95, "is_unused95"),                                               /* newline */                                       \
-      list_macro(is_unused96, "is_unused96"),                                               /* newline */                                       \
+      list_macro(is_temple, "is_temple"),                                                   /* newline */                                       \
+      list_macro(is_spell_stone, "is_spell_stone"),                                         /* newline */                                       \
       list_macro(is_water_common, "is_water_common"),                                       /* newline */                                       \
       list_macro(is_water_dweller, "is_water_dweller"),                                     /* newline */                                       \
       list_macro(is_leader_kill_followers_on_death, "is_leader_kill_followers_on_death"),   /* newline */                                       \
@@ -1158,6 +1158,7 @@ class Tp;
 [[nodiscard]] auto tp_is_slime(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_smoke(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_soft_landing(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_spell_stone(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_spell(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_spider_baby(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_spider_giant(Tpp tp) -> bool;
@@ -1170,6 +1171,7 @@ class Tp;
 [[nodiscard]] auto tp_is_submergible(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_teleport_hazard(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_teleport(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_temple(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_tentacle(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_throwable(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_tick_end_delay(Tpp tp) -> bool;
@@ -1280,8 +1282,6 @@ class Tp;
 [[nodiscard]] auto tp_is_unused92(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused93(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused94(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused95(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused96(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_usable(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_vault(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_venomous(Tpp tp) -> bool;

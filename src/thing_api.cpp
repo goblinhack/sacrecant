@@ -1555,7 +1555,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   return tp_flag(thing_tp(t), is_unused94) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused95(Thingp t) -> bool
+[[nodiscard]] auto thing_is_temple(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1563,10 +1563,10 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     no_thing_pointer();
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused95) != 0;
+  return tp_flag(thing_tp(t), is_temple) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused96(Thingp t) -> bool
+[[nodiscard]] auto thing_is_spell_stone(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1574,7 +1574,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     no_thing_pointer();
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused96) != 0;
+  return tp_flag(thing_tp(t), is_spell_stone) != 0;
 }
 
 [[nodiscard]] auto thing_is_water_common(Thingp t) -> bool

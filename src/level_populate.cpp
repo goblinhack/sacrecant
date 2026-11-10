@@ -65,6 +65,8 @@ public:
   Tpp       tp_border             = {};
   Tpp       tp_gas                = {};
   Tpp       tp_rock               = {};
+  Tpp       tp_temple             = {};
+  Tpp       tp_spell_stone        = {};
   Tpp       tp_water              = {};
   Tpp       tp_lava               = {};
   Tpp       tp_bridge             = {};
@@ -322,6 +324,14 @@ static auto level_populate_biome_dungeon(Gamep g, Levelsp v, Levelp l, class Lev
     case CHARMAP_EMPTY :
       lp.need_dirt = true;
       tp           = lp.tp_rock;
+      break;
+    case CHARMAP_TEMPLE :
+      lp.need_dirt = true;
+      tp           = lp.tp_temple;
+      break;
+    case CHARMAP_SPELL_STONE :
+      lp.need_dirt = true;
+      tp           = lp.tp_spell_stone;
       break;
     default :
       if (! g_opt_do_level_gen) {
@@ -770,32 +780,34 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
 
   LevelPopulate lp;
 
-  lp.biome         = level_to_biome(g, v, l);
-  lp.tp_border     = tp_first(is_border);
-  lp.tp_gas        = tp_first(is_gas_death);
-  lp.tp_wall       = tp_find_random(g, v, l, is_wall);
-  lp.tp_magic_wall = tp_find_random(g, v, l, is_magic_wall);
-  lp.tp_rock       = tp_find_random(g, v, l, is_rock);
-  lp.tp_water      = tp_find_random(g, v, l, is_water_shallow);
-  lp.tp_lava       = tp_find_random(g, v, l, is_lava);
-  lp.tp_bridge     = tp_find_random(g, v, l, is_bridge);
-  lp.tp_chasm      = tp_find_random(g, v, l, is_chasm);
-  lp.tp_water_deep = tp_find_random(g, v, l, is_water_deep);
-  lp.tp_brazier    = tp_find_random(g, v, l, is_brazier);
-  lp.tp_pillar     = tp_find_random(g, v, l, is_pillar);
-  lp.tp_rubble     = tp_find_random(g, v, l, is_rubble);
-  lp.tp_spiderweb  = tp_find_random(g, v, l, is_spiderweb);
-  lp.tp_barrel     = tp_find_random(g, v, l, is_barrel);
-  lp.tp_teleport   = tp_find_random(g, v, l, is_teleport);
-  lp.tp_foliage    = tp_find_random(g, v, l, is_foliage);
-  lp.tp_fungus     = tp_find_random(g, v, l, is_fungus);
-  lp.tp_reeds      = tp_find_random(g, v, l, is_reeds);
-  lp.tp_corridor   = tp_find_random(g, v, l, is_corridor);
-  lp.tp_grass      = tp_find_random(g, v, l, is_grass);
-  lp.tp_floor      = tp_find_random(g, v, l, is_floor);
-  lp.tp_dirt       = tp_find_mand("dirt");
-  lp.tp_exit       = tp_find_mand("exit");
-  lp.tp_entrance   = tp_find_mand("entrance");
+  lp.biome          = level_to_biome(g, v, l);
+  lp.tp_border      = tp_first(is_border);
+  lp.tp_gas         = tp_first(is_gas_death);
+  lp.tp_wall        = tp_find_random(g, v, l, is_wall);
+  lp.tp_magic_wall  = tp_find_random(g, v, l, is_magic_wall);
+  lp.tp_rock        = tp_find_random(g, v, l, is_rock);
+  lp.tp_temple      = tp_first(is_temple);
+  lp.tp_spell_stone = tp_first(is_spell_stone);
+  lp.tp_water       = tp_find_random(g, v, l, is_water_shallow);
+  lp.tp_lava        = tp_find_random(g, v, l, is_lava);
+  lp.tp_bridge      = tp_find_random(g, v, l, is_bridge);
+  lp.tp_chasm       = tp_find_random(g, v, l, is_chasm);
+  lp.tp_water_deep  = tp_find_random(g, v, l, is_water_deep);
+  lp.tp_brazier     = tp_find_random(g, v, l, is_brazier);
+  lp.tp_pillar      = tp_find_random(g, v, l, is_pillar);
+  lp.tp_rubble      = tp_find_random(g, v, l, is_rubble);
+  lp.tp_spiderweb   = tp_find_random(g, v, l, is_spiderweb);
+  lp.tp_barrel      = tp_find_random(g, v, l, is_barrel);
+  lp.tp_teleport    = tp_find_random(g, v, l, is_teleport);
+  lp.tp_foliage     = tp_find_random(g, v, l, is_foliage);
+  lp.tp_fungus      = tp_find_random(g, v, l, is_fungus);
+  lp.tp_reeds       = tp_find_random(g, v, l, is_reeds);
+  lp.tp_corridor    = tp_find_random(g, v, l, is_corridor);
+  lp.tp_grass       = tp_find_random(g, v, l, is_grass);
+  lp.tp_floor       = tp_find_random(g, v, l, is_floor);
+  lp.tp_dirt        = tp_find_mand("dirt");
+  lp.tp_exit        = tp_find_mand("exit");
+  lp.tp_entrance    = tp_find_mand("entrance");
 
   //
   // Get the chosen player

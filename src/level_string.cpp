@@ -178,6 +178,12 @@
       if (level_is_beam_weapon_bool(g, v, l, p)) {
         c = CHARMAP_WEAPON;
       }
+      if (level_is_temple_bool(g, v, l, p)) {
+        c = CHARMAP_TEMPLE;
+      }
+      if (level_is_spell_stone_bool(g, v, l, p)) {
+        c = CHARMAP_SPELL_STONE;
+      }
       if (level_is_gas_bool(g, v, l, p)) {
         c = CHARMAP_GAS;
       }

@@ -151,7 +151,7 @@
   }
 
   bool  level_change_for_playerd = false;
-  auto *old_level     = thing_level(g, v, me);
+  auto *old_level                = thing_level(g, v, me);
 
   //
   // Need to reset vision when leaving a level

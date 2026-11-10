@@ -166,6 +166,7 @@
   if (!tp_load_spell_dispel_obstacles()) { return false; }
   if (!tp_load_spell_effect()) { return false; }
   if (!tp_load_spell_hellish_onslaught()) { return false; }
+  if (!tp_load_spell_stone()) { return false; }
   if (!tp_load_spell_wildfire_storm()) { return false; }
   if (!tp_load_spider_baby()) { return false; }
   if (!tp_load_spider()) { return false; }
@@ -174,6 +175,7 @@
   if (!tp_load_staff_fire()) { return false; }
   if (!tp_load_steam()) { return false; }
   if (!tp_load_teleport()) { return false; }
+  if (!tp_load_temple()) { return false; }
   if (!tp_load_trap_chasm()) { return false; }
   if (!tp_load_trap_gas_death()) { return false; }
   if (!tp_load_trap_gas_explosive()) { return false; }

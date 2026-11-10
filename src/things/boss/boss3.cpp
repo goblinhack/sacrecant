@@ -242,12 +242,12 @@ static void tp_boss3_on_level_change_for_player(Gamep g, Levelsp v, Levelp l, Th
   // begin sort marker1 {
   thing_assess_tile_set(tp, tp_boss3_assess_tile);
   thing_assess_tp_set(tp, tp_boss3_assess_tp);
-  thing_on_level_change_for_player_set(tp, tp_boss3_on_level_change_for_player);
   thing_description_set(tp, tp_boss3_description_get);
   thing_detail_set(tp, tp_boss3_detail_get);
   thing_on_attacking_set(tp, tp_boss3_on_attacking);
   thing_on_damage_set(tp, tp_boss3_on_damage);
   thing_on_death_set(tp, tp_boss3_on_death);
+  thing_on_level_change_for_player_set(tp, tp_boss3_on_level_change_for_player);
   thing_on_missing_set(tp, tp_boss3_on_missing);
   thing_on_popped_set(tp, tp_boss3_on_popped);
   thing_on_pushed_set(tp, tp_boss3_on_pushed);

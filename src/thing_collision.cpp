@@ -1091,7 +1091,7 @@ void tp_collision_init(Tpp tp)
     tp_flag_set(tp, is_collision_detection_enabled);
 
     if (tp_priority_get(tp) == THING_PRIORITY_NONE) {
-      tp_err(tp, "need to set priority");
+      tp_err(tp, "need to set collision priority");
     }
   }
 }

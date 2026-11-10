@@ -692,6 +692,8 @@ static auto room_flip_horiz(class Room *r) -> class Room *
     case CHARMAP_WALL :          return false;
     case CHARMAP_WATER :         return true;
     case CHARMAP_WEAPON :        return true;
+    case CHARMAP_TEMPLE :        return true;
+    case CHARMAP_SPELL_STONE :   return true;
     case CHARMAP_WILDCARD :      return false;
   }
   return false;
@@ -747,6 +749,8 @@ static auto room_flip_horiz(class Room *r) -> class Room *
     case CHARMAP_WALL :          return false;
     case CHARMAP_WATER :         return true;
     case CHARMAP_WEAPON :        return false;
+    case CHARMAP_TEMPLE :        return false;
+    case CHARMAP_SPELL_STONE :   return false;
     case CHARMAP_WILDCARD :      return false;
   }
   return false;
@@ -801,6 +805,8 @@ static auto room_flip_horiz(class Room *r) -> class Room *
     case CHARMAP_WALL :          return false;
     case CHARMAP_WATER :         return false;
     case CHARMAP_WEAPON :        return false;
+    case CHARMAP_TEMPLE :        return true;
+    case CHARMAP_SPELL_STONE :   return true;
     case CHARMAP_WILDCARD :      return false;
   }
   return false;
@@ -918,6 +924,8 @@ void room_add(Gamep g, int chance, int room_flags, const char *file, int line, .
         case CHARMAP_ROCK :          break;
         case CHARMAP_DIRT :          break;
         case CHARMAP_FIRE :          break;
+        case CHARMAP_TEMPLE :        break;
+        case CHARMAP_SPELL_STONE :   break;
         case CHARMAP_EXIT :
           if ((exit_count++) != 0) {
             CROAK("room has too many exits in room @ %s:%d", file, line);
@@ -2306,6 +2314,8 @@ void level_fixed_add(Gamep g, int chance, LevelType level_type, const std::strin
         case CHARMAP_ROCK :          break;
         case CHARMAP_FUNGUS :        break;
         case CHARMAP_BORDER :        break;
+        case CHARMAP_TEMPLE :        break;
+        case CHARMAP_SPELL_STONE :   break;
         case CHARMAP_FIRE :          break;
         case CHARMAP_EXIT :
           if ((exit_count++) != 0) {

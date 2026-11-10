@@ -1467,16 +1467,16 @@
   return level_flag(g, v, l, is_unused94, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused95_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_temple_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused95, p, me) != nullptr;
+  return level_flag(g, v, l, is_temple, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused96_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_spell_stone_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused96, p, me) != nullptr;
+  return level_flag(g, v, l, is_spell_stone, p, me) != nullptr;
 }
 
 [[nodiscard]] auto level_is_water_common_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool

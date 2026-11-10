@@ -102,6 +102,8 @@ void wid_level_show_contents(Gamep g, Levelsp v, Levelp l, WidPopup *parent)
   std::map< std::string, int > mobs;
   std::map< std::string, int > monsts;
   std::map< std::string, int > treasure;
+  std::map< std::string, int > spell_stones;
+  std::map< std::string, int > temples;
 
   FOR_ALL_THINGS_ON_LEVEL_NO_BREAK(g, v, l, t)
   {
@@ -118,10 +120,23 @@ void wid_level_show_contents(Gamep g, Levelsp v, Levelp l, WidPopup *parent)
     if (thing_is_treasure(t)) {
       treasure[ name ]++;
     }
+
+    if (thing_is_spell_stone(t)) {
+      spell_stones[ name ]++;
+    }
+
+    if (thing_is_temple(t)) {
+      temples[ name ]++;
+    }
   }
 
   if (l->is_treasure_level) {
     parent->log(g, UI_GOOD_FMT_STR "Treasure level" UI_RESET_FMT);
+    parent->log_empty_line(g);
+  }
+
+  if (level_is_boss_level(g, v, l)) {
+    parent->log(g, UI_GOOD_FMT_STR "Boss level" UI_RESET_FMT);
     parent->log_empty_line(g);
   }
 
@@ -171,9 +186,11 @@ void wid_level_show_contents(Gamep g, Levelsp v, Levelp l, WidPopup *parent)
   parent->log(g, "Level contents:", TEXT_FORMAT_LHS);
 
   int count = 0;
+  count += level_select_show_sorted_values(g, parent, temples, "Temple");
+  count += level_select_show_sorted_values(g, parent, spell_stones, "Spell Stone");
+  count += level_select_show_sorted_values(g, parent, treasure, "Loot");
   count += level_select_show_sorted_values(g, parent, mobs, "Mobs");
   count += level_select_show_sorted_values(g, parent, monsts, "Monsters");
-  count += level_select_show_sorted_values(g, parent, treasure, "Loot");
 
   if (count == 0) {
     parent->log_empty_line(g);
