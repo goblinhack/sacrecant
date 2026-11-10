@@ -214,7 +214,7 @@ void level_is_completed_by_player_falling(Gamep g, Levelsp v, Levelp l)
   TRACE_INDENT();
 
   auto *player = thing_player(g);
-  if (! player) {
+  if (player == nullptr) {
     no_thing_player_pointer();
     return nullptr;
   }

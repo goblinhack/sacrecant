@@ -661,7 +661,7 @@ void Raycast::render_small_lights(Gamep g, Levelsp v, Levelp l, FboEnum fbo_smal
 
       auto light_color = tp_light_color(thing_tp(t));
 
-      if (t->light_radius_in_pixels == 0u) {
+      if (t->light_radius_in_pixels == 0U) {
         t->light_radius_in_pixels = thing_is_light_source(g, v, t) * TILE_WIDTH;
       }
 

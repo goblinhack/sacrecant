@@ -10,7 +10,6 @@
 #include "my_spoint.hpp"
 #include "my_types.hpp"
 
-#include <cmath>
 #include <cstddef>
 #include <cstdint>
 #include <cstring>

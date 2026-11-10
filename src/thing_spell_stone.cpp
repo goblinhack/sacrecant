@@ -7,8 +7,6 @@
 #include "my_thing_inlines.hpp"
 #include "my_tp.hpp"
 #include "my_types.hpp"
-#include <limits>
-#include <utility>
 
 //
 // Add a spell_stone to the things inventory

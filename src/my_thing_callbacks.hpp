@@ -202,7 +202,7 @@ auto thing_on_shoved(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp shover) -> 
 
 using thing_on_level_change_for_player_t = void (*)(Gamep, Levelsp, Levelp, Thingp me, Thingp player);
 auto thing_on_level_change_for_player_set(Tpp tp, thing_on_level_change_for_player_t callback) -> void;
-auto thing_on_level_change_for_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player) -> void;
+auto thing_on_level_change_for_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp shover) -> void;
 
 using thing_on_jump_begin_t = void (*)(Gamep, Levelsp, Levelp, Thingp me);
 auto thing_on_jump_begin_set(Tpp tp, thing_on_jump_begin_t callback) -> void;

@@ -68,11 +68,11 @@ static void tp_spell_stone_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, Thi
   tp_flag_set(tp, is_critical_to_dungeon_design);
   tp_flag_set(tp, is_critical_to_gameplay);
   tp_flag_set(tp, is_described_cursor);
-  tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_indestructible);
   tp_flag_set(tp, is_light_flicker);
   tp_flag_set(tp, is_light_source, 4);
   tp_flag_set(tp, is_loggable);
+  tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_obs_to_spawning);
   tp_flag_set(tp, is_obs_to_teleporting_onto);
   tp_flag_set(tp, is_obs_to_wall_walker);

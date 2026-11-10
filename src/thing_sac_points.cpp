@@ -8,7 +8,6 @@
 #include "my_thing_inlines.hpp"
 #include "my_types.hpp"
 
-#include <algorithm>
 #include <limits>
 
 [[nodiscard]] auto thing_sac_points(Gamep g, Levelsp v, Levelp l, Thingp me) -> int
@@ -91,4 +90,3 @@
   THING_DBG(g, v, l, me, "sac points decr %u", val);
   return thing_sac_points_set(g, v, l, me, ext->_sac_points + val);
 }
-
