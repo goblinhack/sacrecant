@@ -405,7 +405,7 @@
       list_macro(is_unused91, "is_unused91"),                                               /* newline */                                       \
       list_macro(is_unused92, "is_unused92"),                                               /* newline */                                       \
       list_macro(is_unused93, "is_unused93"),                                               /* newline */                                       \
-      list_macro(is_unused94, "is_unused94"),                                               /* newline */                                       \
+      list_macro(is_able_to_collect_spell_stones, "is_able_to_collect_spell_stones"),       /* newline */                                       \
       list_macro(is_temple, "is_temple"),                                                   /* newline */                                       \
       list_macro(is_spell_stone, "is_spell_stone"),                                         /* newline */                                       \
       list_macro(is_water_common, "is_water_common"),                                       /* newline */                                       \
@@ -902,6 +902,7 @@ class Tp;
 [[nodiscard]] auto tp_is_able_to_choose_targets(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_able_to_collect_items(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_able_to_collect_keys(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_able_to_collect_spell_stones(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_able_to_crush_grass(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_able_to_drop_all_items_on_death(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_able_to_eat_food(Tpp tp) -> bool;
@@ -1281,7 +1282,6 @@ class Tp;
 [[nodiscard]] auto tp_is_unused91(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused92(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused93(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused94(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_usable(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_vault(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_venomous(Tpp tp) -> bool;
@@ -1324,7 +1324,6 @@ class Tp;
 [[nodiscard]] auto tp_priority_get(Tpp tp) -> ThingPriorityType;
 [[nodiscard]] auto tp_rarity_get(Tpp tp) -> ThingRarityType;
 [[nodiscard]] auto tp_sac_points_get(Tpp tp) -> int;
-[[nodiscard]] auto tp_sac_points_max_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_score_value_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_speed_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_spell_cost_get(Tpp tp) -> int;
@@ -1411,7 +1410,6 @@ void tp_name_real_set(Tpp tp, const std::string &val);
 void tp_name_short_set(Tpp tp, const std::string &val);
 void tp_priority_set(Tpp tp, ThingPriorityType val);
 void tp_rarity_set(Tpp tp, ThingRarityType val);
-void tp_sac_points_max_set(Tpp tp, int val);
 void tp_sac_points_set(Tpp tp, int val);
 void tp_score_value_set(Tpp tp, int val);
 void tp_special_attack_add(Tpp tp, TpSpecialAttack val);

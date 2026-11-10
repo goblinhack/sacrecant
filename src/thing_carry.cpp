@@ -26,6 +26,20 @@ static auto thing_carry_item(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp c
     return false;
   }
 
+  if (thing_is_key(item)) {
+    if (! thing_is_able_to_collect_keys(collector)) {
+      THING_DBG(g, v, l, collector, "cannot carry keys");
+      return false;
+    }
+  }
+
+  if (thing_is_spell_stone(item)) {
+    if (! thing_is_able_to_collect_spell_stones(collector)) {
+      THING_DBG(g, v, l, collector, "cannot carry spell_stones");
+      return false;
+    }
+  }
+
   //
   // Need to stop the player collecting a chest, like an engulfer would do. We want the player to open the chest.
   //

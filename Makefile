@@ -56,7 +56,8 @@ tidy:
 clean_files:
 	@rm -rf data/sounds/
 	@rm -rf data/gfx/
-	@rm -rf appdata/
+	rm -rf appdata/$(TARGET)/stdout*
+	rm -rf appdata/$(TARGET)/stderr*
 	@rm -f build.log
 	@rm -f $(TARGET)
 	@rm -f $(TARGET).html
@@ -68,8 +69,7 @@ clean_files:
 clean: clean_files
 	$(foreach var,$(DIRS), $(MAKE) -C $(var) $@; )
 
-clobber: clean_files
-	$(foreach var,$(DIRS), $(MAKE) -C $(var) $@; )
+clobber: clean
 
 .PHONY: all clean_files clean clobber format pre
 

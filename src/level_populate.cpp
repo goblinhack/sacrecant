@@ -454,10 +454,12 @@ static auto level_populate_biome_bogland(Gamep g, Levelsp v, Levelp l, class Lev
     case CHARMAP_EXIT :        [[fallthrough]];
     case CHARMAP_KEY :         [[fallthrough]];
     case CHARMAP_GAS :         [[fallthrough]];
+    case CHARMAP_TEMPLE :      [[fallthrough]];
+    case CHARMAP_SPELL_STONE : [[fallthrough]];
     case CHARMAP_BORDER :      return level_populate_biome_dungeon(g, v, l, lp);
     default :
       if (! g_opt_do_level_gen) {
-        CROAK("unexpected map char '%c'", lp.c);
+        CROAK("unexpected map char for bogland biome '%c'", lp.c);
       }
   }
 
@@ -514,10 +516,12 @@ static auto level_populate_biome_nethervoid(Gamep g, Levelsp v, Levelp l, class 
     case CHARMAP_STEAM :         [[fallthrough]];
     case CHARMAP_KEY :           [[fallthrough]];
     case CHARMAP_ENTRANCE :      [[fallthrough]];
+    case CHARMAP_TEMPLE :        [[fallthrough]];
+    case CHARMAP_SPELL_STONE :   [[fallthrough]];
     case CHARMAP_EXIT :          return level_populate_biome_dungeon(g, v, l, lp);
     default :
       if (! g_opt_do_level_gen) {
-        CROAK("unexpected map char '%c'", lp.c);
+        CROAK("unexpected map char for nethervoid biome '%c'", lp.c);
       }
   }
 
@@ -617,10 +621,12 @@ static auto level_populate_biome_graveyard(Gamep g, Levelsp v, Levelp l, class L
     case CHARMAP_STEAM :         [[fallthrough]];
     case CHARMAP_KEY :           [[fallthrough]];
     case CHARMAP_ENTRANCE :      [[fallthrough]];
+    case CHARMAP_TEMPLE :        [[fallthrough]];
+    case CHARMAP_SPELL_STONE :   [[fallthrough]];
     case CHARMAP_EXIT :          return level_populate_biome_dungeon(g, v, l, lp);
     default :
       if (! g_opt_do_level_gen) {
-        CROAK("unexpected map char '%c'", lp.c);
+        CROAK("unexpected map char for graveyard biome '%c'", lp.c);
       }
   }
 
@@ -713,10 +719,12 @@ static auto level_populate_biome_underhell(Gamep g, Levelsp v, Levelp l, class L
     case CHARMAP_STEAM :         [[fallthrough]];
     case CHARMAP_KEY :           [[fallthrough]];
     case CHARMAP_ENTRANCE :      [[fallthrough]];
+    case CHARMAP_TEMPLE :        [[fallthrough]];
+    case CHARMAP_SPELL_STONE :   [[fallthrough]];
     case CHARMAP_EXIT :          return level_populate_biome_dungeon(g, v, l, lp);
     default :
       if (! g_opt_do_level_gen) {
-        CROAK("unexpected map char '%c'", lp.c);
+        CROAK("unexpected map char for underhell biome '%c'", lp.c);
       }
   }
 

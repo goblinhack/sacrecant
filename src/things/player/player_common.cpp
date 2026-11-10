@@ -519,6 +519,7 @@ void tp_load_player_common(Tpp tp)
   tp_flag_set(tp, is_able_to_cast_spells);
   tp_flag_set(tp, is_able_to_collect_items);
   tp_flag_set(tp, is_able_to_collect_keys);
+  tp_flag_set(tp, is_able_to_collect_spell_stones);
   tp_flag_set(tp, is_able_to_crush_grass);
   tp_flag_set(tp, is_able_to_eat_food);
   tp_flag_set(tp, is_able_to_fall_repeatedly);

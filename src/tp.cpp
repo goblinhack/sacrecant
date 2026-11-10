@@ -1972,26 +1972,6 @@ void tp_mana_set(Tpp tp, int val)
   return tp->mana;
 }
 
-void tp_sac_points_max_set(Tpp tp, int val)
-{
-  TRACE_DEBUG();
-  if (tp == nullptr) [[unlikely]] {
-    no_tp_pointer();
-    return;
-  }
-  tp->sac_points_max = val;
-}
-
-[[nodiscard]] auto tp_sac_points_max_get(Tpp tp) -> int
-{
-  TRACE_DEBUG();
-  if (tp == nullptr) [[unlikely]] {
-    no_tp_pointer();
-    return 0;
-  }
-  return tp->sac_points_max;
-}
-
 void tp_sac_points_set(Tpp tp, int val)
 {
   TRACE_DEBUG();

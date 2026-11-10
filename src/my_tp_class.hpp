@@ -172,7 +172,6 @@ public:
   int mana_max {0};
   int spell_mana_cost {0};
   int sac_points {0};
-  int sac_points_max {0};
   int spell_cost {0};
   int spell_radius {0};
   int spell_radius_max {0};

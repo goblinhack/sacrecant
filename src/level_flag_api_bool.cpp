@@ -1461,10 +1461,10 @@
   return level_flag(g, v, l, is_unused93, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused94_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_able_to_collect_spell_stones_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused94, p, me) != nullptr;
+  return level_flag(g, v, l, is_able_to_collect_spell_stones, p, me) != nullptr;
 }
 
 [[nodiscard]] auto level_is_temple_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool

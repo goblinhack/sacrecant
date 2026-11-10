@@ -3,10 +3,12 @@
 //
 
 #include "../../my_callstack.hpp"
+#include "../../my_dice_rolls.hpp"
 #include "../../my_level.hpp"
 #include "../../my_level_inlines.hpp"
 #include "../../my_main.hpp"
 #include "../../my_thing_callbacks.hpp"
+#include "../../my_thing_inlines.hpp"
 #include "../../my_tile.hpp"
 #include "../../my_tp.hpp"
 #include "../../my_tps.hpp"
@@ -30,6 +32,22 @@ static auto tp_spell_stone_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -
       UI_INFO3_FMT_STR "Which, let's face it, you need.";
 }
 
+static void tp_spell_stone_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
+{
+  TRACE();
+
+  if ((e.event_type == THING_EVENT_CARRIED) || //
+      (e.event_type == THING_EVENT_CARRIED_MERGED)) {
+    if (e.source && thing_is_player(e.source)) {
+      auto bonus = d6();
+      topcon(UI_GOOD_FMT_STR "You gain %u spell points!" UI_RESET_FMT, bonus);
+      (void) thing_sac_points_incr(g, v, l, e.source, bonus);
+    }
+
+    thing_sound_play(g, v, l, me, "bonus");
+  }
+}
+
 [[nodiscard]] auto tp_load_spell_stone() -> bool
 {
   TRACE();
@@ -40,30 +58,34 @@ static auto tp_spell_stone_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -
   // begin sort marker1 {
   thing_description_set(tp, tp_spell_stone_description_get);
   thing_detail_set(tp, tp_spell_stone_detail_get);
+  thing_on_death_set(tp, tp_spell_stone_on_death);
   tp_flag_set(tp, is_animated);
   tp_flag_set(tp, is_blit_if_has_seen);
   tp_flag_set(tp, is_blit_on_ground);
   tp_flag_set(tp, is_blit_shown_in_chasms);
+  tp_flag_set(tp, is_collectable);
   tp_flag_set(tp, is_collision_circle_large);
   tp_flag_set(tp, is_critical_to_dungeon_design);
   tp_flag_set(tp, is_critical_to_gameplay);
   tp_flag_set(tp, is_described_cursor);
+  tp_flag_set(tp, is_memory_ext);
+  tp_flag_set(tp, is_indestructible);
+  tp_flag_set(tp, is_light_flicker);
+  tp_flag_set(tp, is_light_source, 4);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_obs_to_spawning);
   tp_flag_set(tp, is_obs_to_teleporting_onto);
   tp_flag_set(tp, is_obs_to_wall_walker);
   tp_flag_set(tp, is_spell_stone);
   tp_flag_set(tp, is_stone);
-  tp_flag_set(tp, is_light_flicker);
-  tp_light_color_set(tp, "red");
-  tp_flag_set(tp, is_light_source, 4);
   tp_flag_set(tp, is_submergible); // is seen submerged when in water
+  tp_light_color_set(tp, "red");
   tp_name_a_or_an_set(tp, "a spell stone");
   tp_name_apostrophize_set(tp, "spell stones'");
   tp_name_long_set(tp, "spell stone");
   tp_name_pluralize_set(tp, "spell stones");
-  tp_priority_set(tp, THING_PRIORITY_OBJECT);
   tp_name_short_set(tp, "spell stone");
+  tp_priority_set(tp, THING_PRIORITY_OBJECT);
   tp_weight_set(tp, WEIGHT_VHEAVY); // grams
   tp_z_depth_set(tp, MAP_Z_DEPTH_BG_OBJ);
   // end sort marker1 }

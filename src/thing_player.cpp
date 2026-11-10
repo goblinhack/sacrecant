@@ -91,7 +91,7 @@ void thing_player_init(Gamep g)
   //
   FOR_ALL_SACRIFICES(g, v, l, player, sacrifice)
   { //
-    (void) thing_sac_points_max_incr(g, v, l, player, thing_sac_points(g, v, l, sacrifice));
+    (void) thing_sac_points_incr(g, v, l, player, thing_sac_points(g, v, l, sacrifice));
   }
 
   //
@@ -99,10 +99,8 @@ void thing_player_init(Gamep g)
   //
   FOR_ALL_BOOSTS(g, v, l, player, boost)
   { //
-    (void) thing_sac_points_max_incr(g, v, l, player, thing_sac_points(g, v, l, boost));
+    (void) thing_sac_points_incr(g, v, l, player, thing_sac_points(g, v, l, boost));
   }
-
-  (void) thing_sac_points_set(g, v, l, player, thing_sac_points_max(g, v, l, player));
 
   return true;
 }

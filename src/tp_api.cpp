@@ -1423,10 +1423,10 @@
   return tp_flag(tp, is_unused93) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused94(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_able_to_collect_spell_stones(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused94) != 0;
+  return tp_flag(tp, is_able_to_collect_spell_stones) != 0;
 }
 
 [[nodiscard]] auto tp_is_temple(Tpp tp) -> bool

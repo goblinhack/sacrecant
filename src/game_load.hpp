@@ -1088,11 +1088,6 @@ auto operator>>(std::istream &in, Bits< class Game & > my) -> std::istream &
       return in;
     }
     in >> bits(tmp);
-    if (tmp != offsetof(ThingExt, _sac_points_max)) {
-      game_load_error = "thing structure changed: offsetof(ThingExt, _sac_points_max)";
-      return in;
-    }
-    in >> bits(tmp);
     if (tmp != offsetof(ThingExt, _stamina)) {
       game_load_error = "thing structure changed: offsetof(ThingExt, _stamina)";
       return in;

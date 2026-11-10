@@ -432,7 +432,6 @@ using ThingExt = struct ThingExt {
   //
   // Sacrificial points for spell purchase
   //
-  int16_t _sac_points_max;
   int16_t _sac_points;
   //
   // How much score from killing?
@@ -836,6 +835,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_charge_count(Gamep g, Levelsp v, Levelp l, Thingp me) -> int;
 [[nodiscard]] auto thing_close(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp closer) -> bool;
 [[nodiscard]] auto thing_collect_key(Gamep g, Levelsp v, Levelp l, Thingp owner, Thingp it) -> bool;
+[[nodiscard]] auto thing_collect_spell_stone(Gamep g, Levelsp v, Levelp l, Thingp owner, Thingp it) -> bool;
 [[nodiscard]] auto thing_collision_handle_done_already(Levelsp v, Thingp obstacle, Thingp me) -> bool;
 [[nodiscard]] auto thing_collision_radius(Thingp t) -> float;
 [[nodiscard]] auto thing_corpse_allowed(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
@@ -948,6 +948,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_able_to_choose_targets(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_collect_items(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_collect_keys(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_able_to_collect_spell_stones(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_crush_grass(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_drop_all_items_on_death(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_eat_food(Thingp t) -> bool;
@@ -1350,7 +1351,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused91(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused92(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused93(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused94(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_upgradable(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade u) -> bool;
 [[nodiscard]] auto thing_is_upgradable(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_usable(Thingp t) -> bool;
@@ -1487,10 +1487,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_resurrect(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_sac_points_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
 [[nodiscard]] auto thing_sac_points_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
-[[nodiscard]] auto thing_sac_points_max_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
-[[nodiscard]] auto thing_sac_points_max_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
-[[nodiscard]] auto thing_sac_points_max_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int;
-[[nodiscard]] auto thing_sac_points_max(Gamep g, Levelsp v, Levelp l, Thingp me) -> int;
 [[nodiscard]] auto thing_sac_points_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int;
 [[nodiscard]] auto thing_sac_points(Gamep g, Levelsp v, Levelp l, Thingp me) -> int;
 [[nodiscard]] auto thing_score_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int;

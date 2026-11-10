@@ -1461,10 +1461,10 @@
   return level_flag_cached(g, v, l, is_unused93, p);
 }
 
-[[nodiscard]] auto level_is_unused94_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_able_to_collect_spell_stones_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused94, p);
+  return level_flag_cached(g, v, l, is_able_to_collect_spell_stones, p);
 }
 
 [[nodiscard]] auto level_is_temple_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
