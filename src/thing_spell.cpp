@@ -335,7 +335,7 @@ void thing_on_cast_do_set(Tpp tp, thing_on_cast_do_t callback)
 
   if (avail < cost) {
     if (thing_is_player(user)) {
-      topcon(UI_WARN_FMT_STR "You don'me have enough Mana for casting spell %s." UI_RESET_FMT, string_capitalize_all(name).c_str());
+      topcon(UI_WARN_FMT_STR "You don't have enough Mana for casting spell %s." UI_RESET_FMT, string_capitalize_all(name).c_str());
       game_state_reset(g, "failed to cast spell");
     }
     return false;

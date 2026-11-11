@@ -316,7 +316,7 @@ static void wid_player_update_spending(Gamep g, Levelsp v, Levelp l, Thingp play
   auto a    = std::string("Sacrificial points (SPs)");
   auto b    = std::format("Spent:{}", spent);
   auto c    = std::format("Avail:{}", avail);
-  auto line = std::format("{:<30}{:>10}{:>10}", a, b, c);
+  auto line = std::format("{:<25}{:>10}{:>10}", a, b, c);
 
   wid_set_text_lhs(wid_available_sp, 1u);
   wid_set_text(wid_available_sp, line);
@@ -395,7 +395,7 @@ static void wid_player_update_spell_selections(Gamep g, Levelsp v, Levelp l, Thi
     }
 
     s += string_capitalize_first(std::format("{:<22}", tmp));
-    s += std::format("       {:2}", spell_cost);
+    s += std::format(" {:2}", spell_cost);
 
     wid_set_text(w, s);
     wid_apply_bar_button(g, w);
@@ -959,7 +959,7 @@ void wid_spell_learn(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType 
     spoint const br(button_width, y_at + button_height);
     wid_set_text_lhs(w, 1u);
     wid_set_pos(w, tl, br);
-    wid_set_text(w, UI_INFO_FMT_STR "Spell name                    Arcana       SP Cost");
+    wid_set_text(w, UI_INFO_FMT_STR "Spell name                 Arcana     SP Cost");
     y_at++;
   }
 

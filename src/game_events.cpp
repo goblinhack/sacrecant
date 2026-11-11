@@ -253,7 +253,10 @@
     case STATE_SAVE_MENU :           [[fallthrough]];
     case STATE_GAME_OVER_MENU :      [[fallthrough]];
     case STATE_THROW_MENU :          [[fallthrough]];
-    case GAME_STATE_ENUM_MAX :       (void) sound_play(g, "error"); return false;
+    case GAME_STATE_ENUM_MAX :
+      topcon(UI_WARN_FMT_STR "You can only save games when you exit the level." UI_RESET_FMT);
+      (void) sound_play(g, "error");
+      return false;
   }
 
   if (! level_is_level_select(g, v, l)) {
@@ -342,10 +345,12 @@
   auto *player = thing_player(g);
   if (player == nullptr) [[unlikely]] {
     (void) sound_play(g, "error");
+    topcon(UI_WARN_FMT_STR "Waiting failed." UI_RESET_FMT);
     return false;
   }
 
   if (thing_is_dead(player)) {
+    topcon(UI_WARN_FMT_STR "You can't wait when you are dead!" UI_RESET_FMT);
     (void) sound_play(g, "error");
     return false;
   }
@@ -377,7 +382,10 @@
     case STATE_SAVE_MENU :           [[fallthrough]];
     case STATE_GAME_OVER_MENU :      [[fallthrough]];
     case STATE_THROW_MENU :          [[fallthrough]];
-    case GAME_STATE_ENUM_MAX :       (void) sound_play(g, "error"); return false;
+    case GAME_STATE_ENUM_MAX :
+      topcon(UI_WARN_FMT_STR "You can't wait in this state!" UI_RESET_FMT);
+      (void) sound_play(g, "error");
+      return false;
   }
 
   //
@@ -413,6 +421,7 @@
 
   auto *player = thing_player(g);
   if (player == nullptr) [[unlikely]] {
+    topcon(UI_WARN_FMT_STR "Inventory failed!" UI_RESET_FMT);
     (void) sound_play(g, "error");
     return false;
   }
@@ -444,7 +453,10 @@
     case STATE_SAVE_MENU :           [[fallthrough]];
     case STATE_GAME_OVER_MENU :      [[fallthrough]];
     case STATE_THROW_MENU :          [[fallthrough]];
-    case GAME_STATE_ENUM_MAX :       (void) sound_play(g, "error"); return false;
+    case GAME_STATE_ENUM_MAX :
+      topcon(UI_WARN_FMT_STR "Inventory cannot be opened in this state!" UI_RESET_FMT);
+      (void) sound_play(g, "error");
+      return false;
   }
 
   wid_inventory_show(g, v, l, player);
@@ -469,6 +481,7 @@
 
   auto *player = thing_player(g);
   if (player == nullptr) [[unlikely]] {
+    topcon(UI_WARN_FMT_STR "Spell learning failed!" UI_RESET_FMT);
     (void) sound_play(g, "error");
     return false;
   }
@@ -500,7 +513,10 @@
     case STATE_SAVE_MENU :           [[fallthrough]];
     case STATE_GAME_OVER_MENU :      [[fallthrough]];
     case STATE_THROW_MENU :          [[fallthrough]];
-    case GAME_STATE_ENUM_MAX :       (void) sound_play(g, "error"); return false;
+    case GAME_STATE_ENUM_MAX :
+      topcon(UI_WARN_FMT_STR "You cannot learn spells in this state!" UI_RESET_FMT);
+      (void) sound_play(g, "error");
+      return false;
   }
 
   wid_spell_learn(g, v, l, player);
@@ -525,6 +541,7 @@
 
   auto *player = thing_player(g);
   if (player == nullptr) [[unlikely]] {
+    topcon(UI_WARN_FMT_STR "Casting failed!" UI_RESET_FMT);
     (void) sound_play(g, "error");
     return false;
   }
@@ -556,7 +573,10 @@
     case STATE_SAVE_MENU :           [[fallthrough]];
     case STATE_GAME_OVER_MENU :      [[fallthrough]];
     case STATE_THROW_MENU :          [[fallthrough]];
-    case GAME_STATE_ENUM_MAX :       (void) sound_play(g, "error"); return false;
+    case GAME_STATE_ENUM_MAX :
+      topcon(UI_WARN_FMT_STR "You cannot cast spells in this state!" UI_RESET_FMT);
+      (void) sound_play(g, "error");
+      return false;
   }
 
   wid_spellbook(g, v, l, player);
@@ -606,16 +626,21 @@
     case STATE_SAVE_MENU :           [[fallthrough]];
     case STATE_GAME_OVER_MENU :      [[fallthrough]];
     case STATE_THROW_MENU :          [[fallthrough]];
-    case GAME_STATE_ENUM_MAX :       (void) sound_play(g, "error"); return false;
-  }
-
-  if (spell == nullptr) {
-    (void) sound_play(g, "error");
-    return false;
+    case GAME_STATE_ENUM_MAX :
+      topcon(UI_WARN_FMT_STR "You cannot cast spells in this state!" UI_RESET_FMT);
+      (void) sound_play(g, "error");
+      return false;
   }
 
   auto *player = thing_player(g);
   if (player == nullptr) [[unlikely]] {
+    topcon(UI_WARN_FMT_STR "You have no spell to cast!" UI_RESET_FMT);
+    (void) sound_play(g, "error");
+    return false;
+  }
+
+  if (spell == nullptr) {
+    topcon(UI_WARN_FMT_STR "You have no spell to cast!" UI_RESET_FMT);
     (void) sound_play(g, "error");
     return false;
   }
@@ -624,7 +649,7 @@
   game_request_to_remake_ui_set(g);
 
   if (! thing_spell_cast(g, v, l, spell, player, option_name)) {
-    topcon("Spell casting failed!");
+    topcon(UI_WARN_FMT_STR "Spell casting failed!" UI_RESET_FMT);
     (void) sound_play(g, "error");
     return false;
   }
@@ -674,17 +699,22 @@
     case STATE_SAVE_MENU :           [[fallthrough]];
     case STATE_GAME_OVER_MENU :      [[fallthrough]];
     case STATE_THROW_MENU :          [[fallthrough]];
-    case GAME_STATE_ENUM_MAX :       (void) sound_play(g, "error"); return false;
+    case GAME_STATE_ENUM_MAX :
+      topcon(UI_WARN_FMT_STR "You cannot cast spells in this state!" UI_RESET_FMT);
+      (void) sound_play(g, "error");
+      return false;
   }
 
   auto *player = thing_player(g);
   if (player == nullptr) [[unlikely]] {
+    topcon(UI_WARN_FMT_STR "You have no spell to cast!" UI_RESET_FMT);
     (void) sound_play(g, "error");
     return false;
   }
 
   auto *spell = thing_spellbook_get_spell_n(g, v, l, player, index);
   if (spell == nullptr) {
+    topcon(UI_WARN_FMT_STR "You have no spell to cast in slot %u!" UI_RESET_FMT, index + 1);
     (void) sound_play(g, "error");
     return false;
   }
@@ -734,16 +764,21 @@
     case STATE_SAVE_MENU :           [[fallthrough]];
     case STATE_GAME_OVER_MENU :      [[fallthrough]];
     case STATE_THROW_MENU :          [[fallthrough]];
-    case GAME_STATE_ENUM_MAX :       (void) sound_play(g, "error"); return false;
+    case GAME_STATE_ENUM_MAX :
+      topcon(UI_WARN_FMT_STR "You cannot descend in this state!" UI_RESET_FMT);
+      (void) sound_play(g, "error");
+      return false;
   }
 
   auto *player = thing_player(g);
   if (player == nullptr) [[unlikely]] {
+    topcon(UI_WARN_FMT_STR "You cannot descend !" UI_RESET_FMT);
     (void) sound_play(g, "error");
     return false;
   }
 
   if (thing_is_dead(player)) {
+    topcon(UI_WARN_FMT_STR "You cannot descend when dead!" UI_RESET_FMT);
     (void) sound_play(g, "error");
     return false;
   }
@@ -803,16 +838,21 @@
     case STATE_SAVE_MENU :           [[fallthrough]];
     case STATE_GAME_OVER_MENU :      [[fallthrough]];
     case STATE_THROW_MENU :          [[fallthrough]];
-    case GAME_STATE_ENUM_MAX :       (void) sound_play(g, "error"); return false;
+    case GAME_STATE_ENUM_MAX :
+      topcon(UI_WARN_FMT_STR "You cannot descend in this state!" UI_RESET_FMT);
+      (void) sound_play(g, "error");
+      return false;
   }
 
   auto *player = thing_player(g);
   if (player == nullptr) [[unlikely]] {
+    topcon(UI_WARN_FMT_STR "You cannot ascend!" UI_RESET_FMT);
     (void) sound_play(g, "error");
     return false;
   }
 
   if (thing_is_dead(player)) {
+    topcon(UI_WARN_FMT_STR "You cannot ascend when dead!" UI_RESET_FMT);
     (void) sound_play(g, "error");
     return false;
   }
@@ -875,16 +915,22 @@ static auto game_event_jump(Gamep g) -> bool
     case STATE_SAVE_MENU :           [[fallthrough]];
     case STATE_GAME_OVER_MENU :      [[fallthrough]];
     case STATE_THROW_MENU :          [[fallthrough]];
-    case GAME_STATE_ENUM_MAX :       (void) sound_play(g, "error"); return false;
+    case GAME_STATE_ENUM_MAX :
+      topcon(UI_WARN_FMT_STR "You cannot jump in this state!" UI_RESET_FMT);
+      (void) sound_play(g, "error");
+      return false;
   }
 
   auto *player = thing_player(g);
   if (player == nullptr) [[unlikely]] {
+    topcon(UI_WARN_FMT_STR "You cannot jump!" UI_RESET_FMT);
     (void) sound_play(g, "error");
     return false;
   }
 
   if (thing_is_dead(player)) {
+    topcon(UI_WARN_FMT_STR "You cannot jump when dead!" UI_RESET_FMT);
+    (void) sound_play(g, "error");
     return false;
   }
 
@@ -955,6 +1001,7 @@ static auto game_event_jump(Gamep g) -> bool
   }
 
   if (level_tick_is_in_progress(g, v, l) || level_tick_begin_is_requested(g, v, l)) {
+    topcon(UI_WARN_FMT_STR "You cannot jump that quickly!" UI_RESET_FMT);
     (void) sound_play(g, "error");
     return true;
   }
@@ -1008,21 +1055,27 @@ static auto game_event_throw(Gamep g) -> bool
     case STATE_SAVE_MENU :           [[fallthrough]];
     case STATE_GAME_OVER_MENU :      [[fallthrough]];
     case STATE_THROW_MENU :          [[fallthrough]];
-    case GAME_STATE_ENUM_MAX :       (void) sound_play(g, "error"); return false;
+    case GAME_STATE_ENUM_MAX :
+      topcon(UI_WARN_FMT_STR "You cannot throw in this state!" UI_RESET_FMT);
+      (void) sound_play(g, "error");
+      return false;
   }
 
   auto *player = thing_player(g);
   if (player == nullptr) [[unlikely]] {
+    topcon(UI_WARN_FMT_STR "You cannot throw!" UI_RESET_FMT);
     (void) sound_play(g, "error");
     return false;
   }
 
   if (thing_is_dead(player)) {
+    topcon(UI_WARN_FMT_STR "You cannot throw when dead!" UI_RESET_FMT);
     (void) sound_play(g, "error");
     return false;
   }
 
   if (level_tick_is_in_progress(g, v, l) || level_tick_begin_is_requested(g, v, l)) {
+    topcon(UI_WARN_FMT_STR "You cannot throw that quickly!" UI_RESET_FMT);
     (void) sound_play(g, "error");
     return true;
   }

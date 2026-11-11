@@ -88,5 +88,5 @@
   }
 
   THING_DBG(g, v, l, me, "sac points decr %u", val);
-  return thing_sac_points_set(g, v, l, me, ext->_sac_points + val);
+  return thing_sac_points_set(g, v, l, me, ext->_sac_points - val);
 }

@@ -201,7 +201,7 @@ static void wid_player_update_spell_selections(Gamep g, Levelsp v, Levelp l, Thi
     }
 
     s += string_capitalize_first(std::format("{:<22}", tmp));
-    s += std::format("        {:2}", spell_mana_cost);
+    s += std::format("   {:2}", spell_mana_cost);
 
     wid_set_text(w, s);
     wid_apply_bar_button(g, w);
@@ -327,12 +327,14 @@ static void wid_spellbook_key_down_which_spell(Gamep g, Widp w, int index)
 
   w = wid_spell[ index ];
   if (w == nullptr) {
+    topcon(UI_WARN_FMT_STR "No spell is bound to that key!" UI_RESET_FMT);
     (void) sound_play(g, "error");
     return;
   }
 
   auto *spell = wid_get_thing_context(g, v, w, 0);
   if (spell == nullptr) {
+    topcon(UI_WARN_FMT_STR "No spell is bound to that key!" UI_RESET_FMT);
     (void) sound_play(g, "error");
     return;
   }
@@ -724,7 +726,7 @@ void wid_spellbook(Gamep g, Levelsp v, Levelp l, Thingp player, ThingStatType fi
     spoint const br(button_width, y_at + button_height);
     wid_set_text_lhs(w, 1u);
     wid_set_pos(w, tl, br);
-    wid_set_text(w, UI_INFO_FMT_STR "Spell name                    Arcana     Mana Cost");
+    wid_set_text(w, UI_INFO_FMT_STR "Spell name                 Arcana     Mana Cost");
     y_at++;
   }
 

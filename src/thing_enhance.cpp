@@ -40,7 +40,6 @@ void thing_enhance(Gamep g, Levelsp v, Levelp l, Thingp t, Tpp tp)
   (void) thing_temperature_incr(g, v, l, t, tp_temperature_initial_get(tp));
   (void) thing_mana_incr(g, v, l, t, tp_mana_get(tp));
   (void) thing_mana_max_incr(g, v, l, t, tp_mana_max_get(tp));
-  (void) thing_sac_points_incr(g, v, l, t, tp_sac_points_get(tp));
   (void) thing_spell_mana_cost_incr(g, v, l, t, tp_spell_mana_cost_get(tp));
   (void) thing_spell_radius_incr(g, v, l, t, tp_spell_radius_get(tp));
   (void) thing_spell_range_incr(g, v, l, t, tp_spell_range_get(tp));
