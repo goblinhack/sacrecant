@@ -298,6 +298,8 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
   //
   if (to != at) {
     if (thing_is_wooden_leg(g, v, l, me)) {
+      THING_DBG(g, v, l, me, "has wooden leg");
+
       if (level_is_obs_to_movement_bool(g, v, l, to, me)) {
         blocked = true;
         if (thing_is_player(me)) {

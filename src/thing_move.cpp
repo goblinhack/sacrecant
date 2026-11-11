@@ -531,6 +531,46 @@ void thing_moving_from_set(Thingp t, const bpoint &val)
   return tp_flag(thing_tp(me), is_obs_to_paths) != 0;
 }
 
+[[nodiscard]] auto thing_is_obs_to_jumping_onto(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst) -> bool
+{
+  TRACE_DEBUG();
+
+  if (! thing_is_obs_to_movement_common(g, v, l, me, player_or_monst)) {
+    return false;
+  }
+
+  //
+  // Allow players to land on chasms intentionally. Monsters don't want to.
+  //
+  if (thing_is_chasm(me)) {
+    if (thing_is_player(player_or_monst)) {
+      return false;
+    }
+  }
+
+  //
+  // Allow engulfers to land on you
+  //
+  if (thing_is_able_to_be_engulfed(g, v, l, me)) {
+    if (thing_is_able_to_engulf(player_or_monst)) {
+      return false;
+    }
+  }
+
+  return tp_flag(thing_tp(me), is_obs_to_jumping_onto) != 0;
+}
+
+[[nodiscard]] auto thing_is_obs_to_jumping_over(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst) -> bool
+{
+  TRACE_DEBUG();
+
+  if (! thing_is_obs_to_movement_common(g, v, l, me, player_or_monst)) {
+    return false;
+  }
+
+  return tp_flag(thing_tp(me), is_obs_to_jumping_over) != 0;
+}
+
 [[nodiscard]] auto thing_is_cursor_path_warning(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst) -> bool
 {
   TRACE_DEBUG();

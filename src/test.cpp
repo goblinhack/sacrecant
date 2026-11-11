@@ -226,6 +226,7 @@ const std::initializer_list< std::string > tests = {
     "ring_war_defence",
     "ring_war_melee",
     "ring_war_projectile",
+    "sac_all",
     "sac_blood_pact",
     "sac_clumsy",
     "sac_crit_more",

@@ -1181,8 +1181,10 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_obs_to_fire(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_obs_to_gas(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_obs_to_hearing(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_obs_to_jumping_onto(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst) -> bool;
 [[nodiscard]] auto thing_is_obs_to_jumping_onto(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_obs_to_jumping_out_of(Thingp me) -> bool;
+[[nodiscard]] auto thing_is_obs_to_jumping_over(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst) -> bool;
 [[nodiscard]] auto thing_is_obs_to_jumping_over(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_obs_to_movement(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst = nullptr) -> bool;
 [[nodiscard]] auto thing_is_obs_to_paths(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst = nullptr) -> bool;

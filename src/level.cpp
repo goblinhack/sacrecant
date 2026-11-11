@@ -455,27 +455,16 @@ void level_destroy(Gamep g, Levelsp v, Levelp l)
           return true; // filter out i.e. ignore
         }
         break;
-
       case is_obs_to_jumping_onto :
-        //
-        // Allow players to land on chasms intentionally. Monsters don't want to.
-        //
-        if (thing_is_chasm(it)) {
-          if (thing_is_player(me)) {
-            return true; // filter out i.e. ignore
-          }
-        }
-
-        //
-        // Allow engulfers to land on you
-        //
-        if (thing_is_able_to_be_engulfed(g, v, l, it)) {
-          if (thing_is_able_to_engulf(me)) {
-            return true; // filter out i.e. ignore
-          }
+        if (! thing_is_obs_to_jumping_onto(g, v, l, it, me)) {
+          return true; // filter out i.e. ignore
         }
         break;
-
+      case is_obs_to_jumping_over :
+        if (! thing_is_obs_to_jumping_over(g, v, l, it, me)) {
+          return true; // filter out i.e. ignore
+        }
+        break;
       case is_cursor_path_warning :
         if (! thing_is_cursor_path_warning(g, v, l, it, me)) {
           return true; // filter out i.e. ignore
