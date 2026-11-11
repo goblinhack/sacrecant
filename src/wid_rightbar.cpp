@@ -60,7 +60,7 @@ void wid_rightbar_create_minimap_level(Gamep g)
   }
 }
 
-[[nodiscard]] static auto wid_rightbar_thing_info_count(Gamep g, Levelsp v) -> int
+[[nodiscard]] auto wid_rightbar_thing_info_count(Gamep g, Levelsp v) -> int
 {
   int wid_thing_info_count {};
 
@@ -105,6 +105,7 @@ static auto wid_rightbar_thing_info_add(Gamep g, Levelsp v, Levelp l) -> void
 
   switch (game_state(g)) {
     case STATE_CHOOSE_THROW_TARGET : [[fallthrough]];
+    case STATE_LEVEL_SELECT_MENU :   [[fallthrough]];
     case STATE_PLAYING :
       for (auto n = 0; std::cmp_less(n, v->describe_count); n++) {
         auto *t = thing_find_optional(g, v, v->describe[ n ]);
@@ -141,7 +142,6 @@ static auto wid_rightbar_thing_info_add(Gamep g, Levelsp v, Levelp l) -> void
       }
       break;
     case STATE_MAIN_MENU :           [[fallthrough]];
-    case STATE_LEVEL_SELECT_MENU :   [[fallthrough]];
     case STATE_PLAYER_SELECT_MENU :  [[fallthrough]];
     case STATE_SPELL_LEARN_MENU :    [[fallthrough]];
     case STATE_SPELLBOOK_MENU :      [[fallthrough]];
@@ -223,10 +223,10 @@ static auto wid_rightbar_thing_info_add(Gamep g, Levelsp v, Levelp l) -> void
 
   switch (game_state(g)) {
     case STATE_CHOOSE_THROW_TARGET : [[fallthrough]];
-    case STATE_LEVEL_SELECT_MENU :   [[fallthrough]];
     case STATE_PLAYING :             break;
     case STATE_COLLECT_MENU :        [[fallthrough]];
     case STATE_DEAD_MENU :           [[fallthrough]];
+    case STATE_LEVEL_SELECT_MENU :   [[fallthrough]];
     case STATE_STATISTICS_MENU :     [[fallthrough]];
     case STATE_GENERATED :           [[fallthrough]];
     case STATE_GENERATING :          [[fallthrough]];
@@ -253,16 +253,7 @@ static auto wid_rightbar_thing_info_add(Gamep g, Levelsp v, Levelp l) -> void
     case GAME_STATE_ENUM_MAX : break;
   }
 
-  if (level_is_level_select(g, v, l)) {
-    //
-    // If in level select mode, a different wid is used
-    //
-
-    //
-    // Minimaps
-    //
-    wid_rightbar_create_minimap_level(g);
-  } else if (wid_rightbar_thing_info_count(g, v) != 0) {
+  if (wid_rightbar_thing_info_count(g, v) != 0) {
     //
     // Thing infos
     //
@@ -296,7 +287,9 @@ static auto wid_rightbar_thing_info_add(Gamep g, Levelsp v, Levelp l) -> void
     //
     // Minimaps
     //
-    wid_rightbar_create_minimap_level(g);
+    if (! level_is_level_select(g, v, l)) {
+      wid_rightbar_create_minimap_level(g);
+    }
   }
 
   wid_update(g, wid_rightbar->wid_popup_container);

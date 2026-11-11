@@ -101,6 +101,7 @@ auto wid_topcon_log(const std::string &s) -> void;
 [[nodiscard]] auto wid_topcon_init(Gamep g) -> bool;
 [[nodiscard]] auto wid_arcana_pyro_mouse_over_begin(Gamep g) -> WidPopup *;
 [[nodiscard]] auto wid_arcana_geo_mouse_over_begin(Gamep g) -> WidPopup *;
+[[nodiscard]] auto wid_rightbar_thing_info_count(Gamep g, Levelsp v) -> int;
 [[nodiscard]] auto wid_arcana_bio_mouse_over_begin(Gamep g) -> WidPopup *;
 [[nodiscard]] auto wid_arcana_necro_mouse_over_begin(Gamep g) -> WidPopup *;
 

@@ -81,6 +81,9 @@ void wid_level_select(Gamep g, Levelsp v, Levelp l)
 
   if (wid_level_select_window != nullptr) {
     wid_level_select_destroy();
+    if (wid_rightbar_thing_info_count(g, v) != 0) {
+      return;
+    }
   } else if (v->tick == 0U) {
     topcon("Choose your starting level, mortal.");
     topcon_newline();
