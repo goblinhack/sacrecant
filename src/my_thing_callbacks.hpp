@@ -75,6 +75,10 @@ using thing_on_level_reached_exit_t = void (*)(Gamep, Levelsp, Levelp, Thingp me
 auto thing_on_level_reached_exit_set(Tpp tp, thing_on_level_reached_exit_t callback) -> void;
 auto thing_on_level_reached_exit(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
 
+using thing_on_level_reached_temple_t = void (*)(Gamep, Levelsp, Levelp, Thingp me);
+auto thing_on_level_reached_temple_set(Tpp tp, thing_on_level_reached_temple_t callback) -> void;
+auto thing_on_level_reached_temple(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
+
 using thing_on_level_populated_t = void (*)(Gamep, Levelsp, Levelp, Thingp me);
 auto thing_on_level_populated_set(Tpp tp, thing_on_level_populated_t callback) -> void;
 auto thing_on_level_populated(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;

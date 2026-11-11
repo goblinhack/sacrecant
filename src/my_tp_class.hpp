@@ -332,6 +332,7 @@ public:
   thing_on_level_enter_t              on_level_enter              = {};
   thing_on_level_change_for_playerd_t on_level_change_for_playerd = {};
   thing_on_level_reached_exit_t       on_level_reached_exit       = {};
+  thing_on_level_reached_temple_t     on_level_reached_temple     = {};
   thing_on_engulf_request_t           on_engulf_request           = {};
   thing_on_open_request_t             on_open_request             = {};
   thing_on_carry_request_t            on_carry_request            = {};

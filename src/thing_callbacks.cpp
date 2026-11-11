@@ -310,6 +310,30 @@ void thing_on_level_reached_exit(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp->on_level_reached_exit(g, v, l, me);
 }
 
+void thing_on_level_reached_temple_set(Tpp tp, thing_on_level_reached_temple_t callback)
+{
+  TRACE();
+  if (tp == nullptr) [[unlikely]] {
+    no_tp_pointer();
+    return;
+  }
+  tp->on_level_reached_temple = callback;
+}
+
+void thing_on_level_reached_temple(Gamep g, Levelsp v, Levelp l, Thingp me)
+{
+  TRACE();
+  auto *tp = thing_tp(me);
+  if (tp == nullptr) [[unlikely]] {
+    no_tp_pointer();
+    return;
+  }
+  if (tp->on_level_reached_temple == nullptr) {
+    return;
+  }
+  tp->on_level_reached_temple(g, v, l, me);
+}
+
 void thing_on_engulf_request_set(Tpp tp, thing_on_engulf_request_t callback)
 {
   TRACE();

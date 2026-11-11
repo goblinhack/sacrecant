@@ -44,7 +44,7 @@ static void wid_cfg_display_destroy()
     return;
   }
 
-  con("Gfx menu: destroy");
+  con("Display config menu: destroy");
   TRACE_INDENT();
 
   delete wid_cfg_display_window;
@@ -53,7 +53,7 @@ static void wid_cfg_display_destroy()
 
 [[nodiscard]] static auto wid_cfg_display_save(Gamep g, int y, uint32_t button) -> bool
 {
-  con("Gfx menu: save");
+  con("Display config menu: save");
   TRACE_INDENT();
 
   game_save_config(g);
@@ -68,7 +68,7 @@ static void wid_cfg_display_destroy()
 
 [[nodiscard]] static auto wid_cfg_display_cancel(Gamep g, int y, uint32_t button) -> bool
 {
-  con("Gfx menu: cancel");
+  con("Display config menu: cancel");
   TRACE_INDENT();
 
   wid_cfg_display_destroy();
@@ -83,7 +83,7 @@ static void wid_cfg_display_destroy()
 
 [[nodiscard]] static auto wid_cfg_display_back(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
-  con("Gfx menu: back");
+  con("Display config menu: back");
   TRACE_INDENT();
 
   wid_cfg_display_destroy();
@@ -98,7 +98,7 @@ static void wid_cfg_display_destroy()
 
 [[nodiscard]] static auto wid_cfg_display_vsync_enable_toggle(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
-  con("Gfx menu: vsync toggle");
+  con("Display config menu: vsync toggle");
   TRACE_INDENT();
 
   if (game_gfx_vsync_enable_get(g)) {
@@ -114,7 +114,7 @@ static void wid_cfg_display_destroy()
 
 [[nodiscard]] static auto wid_cfg_display_font_toggle(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
-  con("Gfx menu: vsync toggle");
+  con("Display config menu: vsync toggle");
   TRACE_INDENT();
 
   if (game_config_font_get(g) == UI_FONT_1) {
@@ -130,7 +130,7 @@ static void wid_cfg_display_destroy()
 
 [[nodiscard]] static auto wid_cfg_display_fullscreen_toggle(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
-  con("Gfx menu: fullscreen toggle");
+  con("Display config menu: fullscreen toggle");
   TRACE_INDENT();
 
   if (game_gfx_fullscreen_get(g)) {
@@ -157,7 +157,7 @@ static void wid_cfg_display_destroy()
 
 [[nodiscard]] static auto wid_cfg_display_fullscreen_desktop_toggle(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
-  con("Gfx menu: desktop toggle");
+  con("Display config menu: desktop toggle");
   TRACE_INDENT();
 
   if (game_gfx_fullscreen_desktop_get(g)) {
@@ -184,7 +184,7 @@ static void wid_cfg_display_destroy()
 
 [[nodiscard]] static auto wid_cfg_display_borderless_toggle(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
-  con("Gfx menu: borderless toggle");
+  con("Display config menu: borderless toggle");
   TRACE_INDENT();
 
   if (game_gfx_borderless_get(g)) {
@@ -201,7 +201,7 @@ static void wid_cfg_display_destroy()
 
 [[nodiscard]] static auto wid_cfg_other_fps_counter_toggle(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
-  con("Gfx menu: fps toggle");
+  con("Display config menu: fps toggle");
   TRACE_INDENT();
 
   if (game_fps_counter_get(g)) {
@@ -217,7 +217,7 @@ static void wid_cfg_display_destroy()
 
 [[nodiscard]] static auto wid_cfg_display_resolution_apply(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
-  con("Gfx menu: apply");
+  con("Display config menu: apply");
   TRACE_INDENT();
 
   SDL_DisplayMode const mode = pending_mode;
@@ -292,7 +292,7 @@ static auto wid_cfg_display_find_closest_resolution() -> std::string
 
 [[nodiscard]] static auto wid_cfg_display_resolution_incr(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
-  con("Gfx menu: resolution incr");
+  con("Display config menu: resolution incr");
   TRACE_INDENT();
 
   //
@@ -302,10 +302,10 @@ static auto wid_cfg_display_find_closest_resolution() -> std::string
 
   if (pending_mode_set) {
     current_res = std::to_string(pending_mode.w) + "x" + std::to_string(pending_mode.h);
-    con("Increment resolution (pending %s)", current_res.c_str());
+    con("Display config menu: Increment resolution (pending %s)", current_res.c_str());
   } else {
     current_res = wid_cfg_display_find_closest_resolution();
-    con("Increment resolution (current %s)", current_res.c_str());
+    con("Display config menu: Increment resolution (current %s)", current_res.c_str());
   }
 
   auto                                     n = sdl_compat_num_display_modes();
@@ -337,11 +337,11 @@ static auto wid_cfg_display_find_closest_resolution() -> std::string
     log(" - chosen: %s", chosen.c_str());
     pending_mode_set = true;
     pending_mode     = mode;
-    con("Pending resolution %s", chosen.c_str());
+    con("Display config menu: Pending resolution %s", chosen.c_str());
     wid_cfg_display_select(g);
   } else {
     (void) sound_play(g, "error");
-    con("At maximum resolution (current %s)", current_res.c_str());
+    con("Display config menu: At maximum resolution (current %s)", current_res.c_str());
   }
 
   return true;
@@ -349,7 +349,7 @@ static auto wid_cfg_display_find_closest_resolution() -> std::string
 
 [[nodiscard]] static auto wid_cfg_display_resolution_decr(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
-  con("Gfx menu: resolution decr");
+  con("Display config menu: resolution decr");
   TRACE_INDENT();
 
   //
@@ -359,10 +359,10 @@ static auto wid_cfg_display_find_closest_resolution() -> std::string
 
   if (pending_mode_set) {
     current_res = std::to_string(pending_mode.w) + "x" + std::to_string(pending_mode.h);
-    con("Decrement resolution (pending %s)", current_res.c_str());
+    con("Display config menu: Decrement resolution (pending %s)", current_res.c_str());
   } else {
     current_res = wid_cfg_display_find_closest_resolution();
-    con("Decrement resolution (current %s)", current_res.c_str());
+    con("Display config menu: Decrement resolution (current %s)", current_res.c_str());
   }
 
   auto                                     n = sdl_compat_num_display_modes();
@@ -394,11 +394,11 @@ static auto wid_cfg_display_find_closest_resolution() -> std::string
     log(" - chosen: %s", chosen.c_str());
     pending_mode_set = true;
     pending_mode     = mode;
-    con("Pending resolution %s", chosen.c_str());
+    con("Display config menu: Pending resolution %s", chosen.c_str());
     wid_cfg_display_select(g);
   } else {
     (void) sound_play(g, "error");
-    con("At minimum resolution (current %s)", current_res.c_str());
+    con("Display config menu: At minimum resolution (current %s)", current_res.c_str());
   }
 
   return true;
@@ -406,7 +406,7 @@ static auto wid_cfg_display_find_closest_resolution() -> std::string
 
 [[nodiscard]] static auto wid_cfg_display_key_down(Gamep g, Widp w, const struct SDL_Keysym *key) -> bool
 {
-  con("Gfx menu: key down");
+  con("Display config menu: key down");
   TRACE_INDENT();
 
   if (sdlk_eq(*key, game_key_console_get(g))) {
@@ -450,7 +450,7 @@ static auto wid_cfg_display_find_closest_resolution() -> std::string
 
 void wid_cfg_display_select(Gamep g, bool menu_was_created_due_to_game_restarting_in)
 {
-  con("Gfx menu: select");
+  con("Display config menu: select");
   TRACE();
 
   if (wid_cfg_display_window != nullptr) {

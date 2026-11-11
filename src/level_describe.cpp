@@ -77,6 +77,7 @@ void level_cursor_describe_update(Gamep g, Levelsp v)
     case STATE_PLAYING :             break;
     case STATE_MAIN_MENU :           [[fallthrough]];
     case STATE_PLAYER_SELECT_MENU :  [[fallthrough]];
+    case STATE_TEMPLE_SELECT_MENU :  [[fallthrough]];
     case STATE_SPELL_LEARN_MENU :    [[fallthrough]];
     case STATE_SPELLBOOK_MENU :      [[fallthrough]];
     case STATE_COLLECT_MENU :        [[fallthrough]];

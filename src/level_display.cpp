@@ -217,6 +217,7 @@ static void level_display_spell_effect(Gamep g, Levelsp v, Levelp l, FboEnum fbo
     case STATE_CHOOSE_THROW_TARGET : [[fallthrough]];
     case STATE_LEVEL_SELECT_MENU :   [[fallthrough]];
     case STATE_PLAYER_SELECT_MENU :  [[fallthrough]];
+    case STATE_TEMPLE_SELECT_MENU :  [[fallthrough]];
     case STATE_SPELL_LEARN_MENU :    [[fallthrough]];
     case STATE_SPELLBOOK_MENU :      [[fallthrough]];
     case STATE_COLLECT_MENU :        [[fallthrough]];
@@ -277,6 +278,7 @@ static void level_display_cursor(Gamep g, Levelsp v, Levelp l, const bpoint &p, 
           case STATE_CHOOSE_SPELL_TARGET : [[fallthrough]];
           case STATE_LEVEL_SELECT_MENU :   [[fallthrough]];
           case STATE_PLAYER_SELECT_MENU :  [[fallthrough]];
+          case STATE_TEMPLE_SELECT_MENU :  [[fallthrough]];
           case STATE_SPELL_LEARN_MENU :    [[fallthrough]];
           case STATE_SPELLBOOK_MENU :      [[fallthrough]];
           case STATE_COLLECT_MENU :        [[fallthrough]];
@@ -659,6 +661,7 @@ static void level_display_fbo(Gamep g, Levelsp v, Levelp level_above, Levelp l, 
             blit_flush();
             break;
           case STATE_PLAYER_SELECT_MENU : [[fallthrough]];
+          case STATE_TEMPLE_SELECT_MENU : [[fallthrough]];
           case STATE_SPELL_LEARN_MENU :   [[fallthrough]];
           case STATE_SPELLBOOK_MENU :     [[fallthrough]];
           case STATE_COLLECT_MENU :       [[fallthrough]];

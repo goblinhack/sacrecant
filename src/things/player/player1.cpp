@@ -48,7 +48,8 @@ void tp_player1_on_spawned(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent *
     thing_err(g, v, l, me, "failed to carry");
   }
 
-  //  (void) thing_hook_add(g, v, l, me, tp_find_mand("sac_wooden_leg"));
+  //(void) thing_hook_add(g, v, l, me, tp_find_mand("sac_wooden_leg"));
+  (void) thing_hook_add(g, v, l, me, tp_find_mand("sac_wall_walker"));
 }
 
 auto tp_player1_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string

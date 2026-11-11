@@ -21,6 +21,7 @@
 #include "my_types.hpp"
 #include "my_ui.hpp"
 #include "my_wid_warning.hpp"
+#include "my_wids.hpp"
 
 #include <cstdint>
 #include <ranges>
@@ -301,6 +302,7 @@ void thing_player_init(Gamep g)
     case STATE_KEYBOARD_MENU :      [[fallthrough]];
     case STATE_LEVEL_SELECT_MENU :  [[fallthrough]];
     case STATE_PLAYER_SELECT_MENU : [[fallthrough]];
+    case STATE_TEMPLE_SELECT_MENU : [[fallthrough]];
     case STATE_SPELL_LEARN_MENU :   [[fallthrough]];
     case STATE_SPELLBOOK_MENU :     [[fallthrough]];
     case STATE_LOAD_MENU :          [[fallthrough]];
@@ -396,6 +398,7 @@ void thing_player_event_loop(Gamep g, Levelsp v, Levelp l)
     case STATE_GAME_OVER_MENU :     [[fallthrough]];
     case STATE_LEVEL_SELECT_MENU :  [[fallthrough]];
     case STATE_PLAYER_SELECT_MENU : [[fallthrough]];
+    case STATE_TEMPLE_SELECT_MENU : [[fallthrough]];
     case STATE_STATISTICS_MENU :    [[fallthrough]];
     case STATE_DEAD_MENU :
       //
@@ -1460,6 +1463,52 @@ void player_reached_exit(Gamep g, Levelsp v, Levelp l, Thingp player)
 }
 
 //
+// Handle level temple interactions
+//
+void player_reached_temple_do(Gamep g, Levelsp v, Levelp l)
+{
+  TRACE();
+
+  if (! game_request_reached_temple_get(g)) {
+    return;
+  }
+
+  level_log(g, v, l, "player reached temple handler");
+  TRACE_INDENT();
+
+  auto *player = thing_player(g);
+  if (player == nullptr) {
+    level_err(g, v, l, "no player to reach temple");
+    return;
+  }
+
+  game_request_reached_temple_unset(g);
+
+  thing_on_level_reached_temple(g, v, l, player);
+
+  wid_temple_sacrifice_select(g, v, l, player);
+}
+
+//
+// Handle level temple interactions
+//
+void player_reached_temple(Gamep g, Levelsp v, Levelp l, Thingp player)
+{
+  TRACE();
+
+  level_log(g, v, l, "player reached temple");
+  TRACE_INDENT();
+
+  if (g_opt_robot) {
+    ThingEvent ev = {};
+    ev.reason     = "robot reached temple";
+    thing_dead(g, v, l, player, ev);
+  } else {
+    game_request_reached_temple_set(g);
+  }
+}
+
+//
 // Handle level entrance interactions
 //
 void player_reached_entrance_do(Gamep g, Levelsp v, Levelp l)
@@ -1571,6 +1620,14 @@ void player_collision_handle(Gamep g, Levelsp v, Levelp l, Thingp me)
         // Descend
         //
         player_reached_exit(g, v, l, me);
+        return;
+      }
+
+      if (thing_is_temple(it)) {
+        //
+        // Descend
+        //
+        player_reached_temple(g, v, l, me);
         return;
       }
 

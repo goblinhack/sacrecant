@@ -498,6 +498,7 @@ void robot_mode_handler(Gamep g)
         robot_push_event(&e, key);
       }
       break;
+    case STATE_TEMPLE_SELECT_MENU : [[fallthrough]];
     case STATE_PLAYER_SELECT_MENU :
       {
         con("Robot: player select menu: send SPACE key x 2");

@@ -22,6 +22,7 @@
       list_macro(STATE_PLAYING, "STATE_PLAYING"),                         /* newline */                                                         \
       list_macro(STATE_LEVEL_SELECT_MENU, "STATE_LEVEL_SELECT_MENU"),     /* newline */                                                         \
       list_macro(STATE_PLAYER_SELECT_MENU, "STATE_PLAYER_SELECT_MENU"),   /* newline */                                                         \
+      list_macro(STATE_TEMPLE_SELECT_MENU, "STATE_TEMPLE_SELECT_MENU"),   /* newline */                                                         \
       list_macro(STATE_SPELL_LEARN_MENU, "STATE_SPELL_LEARN_MENU"),       /* newline */                                                         \
       list_macro(STATE_SPELLBOOK_MENU, "STATE_SPELLBOOK_MENU"),           /* newline */                                                         \
       list_macro(STATE_MOVE_WARNING_MENU, "STATE_MOVE_WARNING_MENU"),     /* newline */                                                         \
@@ -350,6 +351,10 @@ auto               game_request_to_update_cursor_unset(Gamep g) -> void;
 [[nodiscard]] auto game_request_reached_exit_get(Gamep g) -> bool;
 auto               game_request_reached_exit_set(Gamep g) -> void;
 auto               game_request_reached_exit_unset(Gamep g) -> void;
+
+[[nodiscard]] auto game_request_reached_temple_get(Gamep g) -> bool;
+auto               game_request_reached_temple_set(Gamep g) -> void;
+auto               game_request_reached_temple_unset(Gamep g) -> void;
 
 [[nodiscard]] auto game_request_reached_entrance_get(Gamep g) -> bool;
 auto               game_request_reached_entrance_set(Gamep g) -> void;

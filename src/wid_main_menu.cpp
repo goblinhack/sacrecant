@@ -99,7 +99,7 @@ void wid_main_menu_hide(Gamep g)
   (void) sound_play(g, "start");
 
   if (g_intro_done++ >= 2) {
-    wid_player_select(g);
+    wid_player_and_sacrfifice_select(g);
   } else {
     wid_intro1_select(g);
   }

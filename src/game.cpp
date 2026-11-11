@@ -288,6 +288,11 @@ public:
   bool request_reached_exit {};
 
   //
+  // Set when the player reaches the temple
+  //
+  bool request_reached_temple {};
+
+  //
   // Set when the player reaches the entrance
   //
   bool request_reached_entrance {};
@@ -721,6 +726,7 @@ void Game::cleanup()
   request_to_save_game       = {};
   request_to_update_cursor   = {};
   request_reached_exit       = {};
+  request_reached_temple     = {};
   request_reached_entrance   = {};
   request_to_end_game        = {};
   request_to_end_game_reason = {};
@@ -1221,6 +1227,7 @@ void Game::state_change(GameStateType new_state, const std::string &why)
       game_request_to_update_cursor_unset(g);
       game_request_reached_entrance_unset(g);
       game_request_reached_exit_unset(g);
+      game_request_reached_temple_unset(g);
       break;
     case STATE_LEVEL_SELECT_MENU :
       wid_rightbar_fini(g);
@@ -1250,6 +1257,7 @@ void Game::state_change(GameStateType new_state, const std::string &why)
     case STATE_STATISTICS_MENU :    [[fallthrough]];
     case STATE_MOVE_WARNING_MENU :  [[fallthrough]];
     case STATE_PLAYER_SELECT_MENU : [[fallthrough]];
+    case STATE_TEMPLE_SELECT_MENU : [[fallthrough]];
     case STATE_KEYBOARD_MENU :      [[fallthrough]];
     case STATE_LOAD_MENU :          [[fallthrough]];
     case STATE_LOADED :             [[fallthrough]];
@@ -1290,6 +1298,7 @@ void Game::state_change(GameStateType new_state, const std::string &why)
         wid_main_menu_select(g);
       }
       break;
+    case STATE_TEMPLE_SELECT_MENU : [[fallthrough]];
     case STATE_PLAYER_SELECT_MENU :
       (void) wid_leftbar_init(g);
       (void) wid_rightbar_init(g);
@@ -1344,6 +1353,7 @@ void Game::state_change(GameStateType new_state, const std::string &why)
         case STATE_QUITTING :           [[fallthrough]];
         case STATE_DEAD_MENU :          [[fallthrough]];
         case STATE_STATISTICS_MENU :    [[fallthrough]];
+        case STATE_TEMPLE_SELECT_MENU : [[fallthrough]];
         case STATE_PLAYER_SELECT_MENU : [[fallthrough]];
         case STATE_GAME_OVER_MENU :     [[fallthrough]];
         case STATE_PLAYING :            [[fallthrough]];
@@ -1423,6 +1433,7 @@ void Game::handle_game_request_to_remake_ui()
     case STATE_THROW_MENU :          [[fallthrough]];
     case STATE_INVENTORY_MENU :      [[fallthrough]];
     case STATE_SPELLBOOK_MENU :      [[fallthrough]];
+    case STATE_TEMPLE_SELECT_MENU :  [[fallthrough]];
     case STATE_PLAYER_SELECT_MENU :
       if (v != nullptr) {
         (void) wid_leftbar_init(g);
@@ -1489,6 +1500,7 @@ void Game::tick()
         [[fallthrough]];
       case STATE_PLAYING :             levels_tick(g, v); break;
       case STATE_PLAYER_SELECT_MENU :  [[fallthrough]]; ;
+      case STATE_TEMPLE_SELECT_MENU :  [[fallthrough]];
       case STATE_LEVEL_SELECT_MENU :   [[fallthrough]];
       case STATE_INIT :                [[fallthrough]];
       case STATE_MAIN_MENU :           [[fallthrough]];
@@ -1646,6 +1658,7 @@ void Game::display()
       break;
     case STATE_INIT :               [[fallthrough]];
     case STATE_PLAYER_SELECT_MENU : [[fallthrough]];
+    case STATE_TEMPLE_SELECT_MENU : [[fallthrough]];
     case STATE_MAIN_MENU :          [[fallthrough]];
     case STATE_QUITTING :           [[fallthrough]];
     case STATE_INVENTORY_MENU :     [[fallthrough]];
@@ -4557,6 +4570,38 @@ void game_request_reached_exit_unset(Gamep g)
     return;
   }
   g->request_reached_exit = false;
+}
+
+[[nodiscard]] auto game_request_reached_temple_get(Gamep g) -> bool
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    no_game_pointer();
+    return true;
+  }
+
+  return g->request_reached_temple;
+}
+void game_request_reached_temple_set(Gamep g)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    no_game_pointer();
+    return;
+  }
+  g->request_reached_temple = true;
+}
+void game_request_reached_temple_unset(Gamep g)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    no_game_pointer();
+    return;
+  }
+  g->request_reached_temple = false;
 }
 
 [[nodiscard]] auto game_request_reached_entrance_get(Gamep g) -> bool

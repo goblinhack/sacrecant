@@ -1638,6 +1638,8 @@ auto player_reached_entrance_do(Gamep g, Levelsp v, Levelp l) -> void;
 auto player_reached_entrance(Gamep g, Levelsp v, Levelp l) -> void;
 auto player_reached_exit_do(Gamep g, Levelsp v, Levelp l) -> void;
 auto player_reached_exit(Gamep g, Levelsp v, Levelp l, Thingp player) -> void;
+auto player_reached_temple_do(Gamep g, Levelsp v, Levelp l) -> void;
+auto player_reached_temple(Gamep g, Levelsp v, Levelp l, Thingp player) -> void;
 auto player_warp_to_specific_level(Gamep g, Levelsp v, Levelp l, LevelArrIdx level_num) -> void;
 auto thing_anim_init(Gamep g, Levelsp v, Levelp l, Thingp t, ThingAnimType anim_type) -> void;
 auto thing_anim_time_step(Gamep g, Levelsp v, Levelp l, Thingp t, Tpp tp, int time_step) -> void;

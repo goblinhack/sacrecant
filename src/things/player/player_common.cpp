@@ -315,6 +315,15 @@ void tp_player_level_reached_exit(Gamep g, Levelsp v, Levelp l, Thingp me)
   }
 }
 
+void tp_player_level_reached_temple(Gamep g, Levelsp v, Levelp l, Thingp me)
+{
+  TRACE();
+
+  THING_DBG(g, v, l, me, "temple reached");
+
+  (void) sound_play(g, "gong");
+}
+
 void tp_player_level_enter(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
@@ -494,6 +503,7 @@ void tp_load_player_common(Tpp tp)
   thing_on_level_enter_set(tp, tp_player_level_enter);
   thing_on_level_populated_set(tp, tp_player_level_populated);
   thing_on_level_reached_exit_set(tp, tp_player_level_reached_exit);
+  thing_on_level_reached_temple_set(tp, tp_player_level_reached_temple);
   thing_on_missing_set(tp, tp_player_on_missing);
   thing_on_moved_set(tp, tp_player_on_moved);
   thing_on_moving_to_set(tp, tp_player_on_moving_to);

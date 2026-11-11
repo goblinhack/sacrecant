@@ -55,7 +55,6 @@ static auto tp_temple_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std
   tp_flag_set(tp, is_obs_to_spawning);
   tp_flag_set(tp, is_obs_to_teleporting_onto);
   tp_flag_set(tp, is_obs_to_vision);
-  tp_flag_set(tp, is_obs_to_wall_walker);
   tp_flag_set(tp, is_stone);
   tp_flag_set(tp, is_submergible); // is seen submerged when in water
   tp_flag_set(tp, is_temple);

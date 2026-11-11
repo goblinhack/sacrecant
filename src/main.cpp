@@ -768,7 +768,7 @@ static void parse_args(int argc, char *argv[])
     TRACE_INDENT();
 
     wid_hide(g, wid_console_window);
-    wid_player_select(g);
+    wid_player_and_sacrfifice_select(g);
   } else if (g_opt_level_select_menu) {
     con("Level select menu");
     TRACE_INDENT();

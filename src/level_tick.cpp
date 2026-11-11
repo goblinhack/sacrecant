@@ -750,6 +750,10 @@ static void level_tick_end(Gamep g, Levelsp v, Levelp l)
     player_reached_exit_do(g, v, l);
   }
 
+  if (game_request_reached_temple_get(g)) {
+    player_reached_temple_do(g, v, l);
+  }
+
   if (game_request_reached_entrance_get(g)) {
     player_reached_entrance_do(g, v, l);
   }
