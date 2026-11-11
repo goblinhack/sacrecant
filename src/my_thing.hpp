@@ -1084,12 +1084,12 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_edible(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_effect_attack(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_effect_blood(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_effect_explosion1(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_effect_explosion2(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_effect_orange_explosion(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_effect_protection(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_effect_ripple(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_effect_sparks(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_effect_teleport(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_effect_white_explosion(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_effect(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_engulfed_try_unset(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_ensnared_try_unset(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;

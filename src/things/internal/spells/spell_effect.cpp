@@ -13,9 +13,9 @@
 #include "../../../my_tps.hpp"
 #include "../../../my_types.hpp"
 
-[[nodiscard]] auto tp_load_spell_effect() -> bool
+[[nodiscard]] auto tp_load_effect_spell_target() -> bool
 {
-  auto *tp   = tp_load("spell_effect"); // keep as string for scripts
+  auto *tp   = tp_load("effect_spell_target"); // keep as string for scripts
   auto  name = tp_name(tp);
   // begin sort marker1 {
   tp_flag_set(tp, is_blit_centered);
@@ -23,7 +23,7 @@
   tp_flag_set(tp, is_internal);
   // end sort marker1 }
 
-  auto *tile = tile_find_mand("spell_effect");
+  auto *tile = tile_find_mand("effect_spell_target");
   tp_tiles_push_back(tp, THING_ANIM_IDLE, tile);
 
   return true;

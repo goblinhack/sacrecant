@@ -230,6 +230,7 @@
   if (!test_load_sac_weaponless_attack_mob()) { return false; }
   if (!test_load_save_load()) { return false; }
   if (!test_load_slots()) { return false; }
+  if (!test_load_spell_black_blood()) { return false; }
   if (!test_load_spell_broken_earth_radial()) { return false; }
   if (!test_load_spell_broken_earth()) { return false; }
   if (!test_load_spell_dispel_obstacles()) { return false; }

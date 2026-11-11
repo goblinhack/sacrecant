@@ -34,7 +34,7 @@ static bool tp_spell_cloud_death_on_cast_request(Gamep g, Levelsp v, Levelp l, T
   return tp_spell_common_on_cast_request(g, v, l, spell, user, e);
 }
 
-static bool tp_spell_cloud_death_spawn_gas_death(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, const bpoint &p, ThingEvent &e)
+static bool tp_spell_cloud_death_on_cast_per_tile(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, const bpoint &p, ThingEvent &e)
 {
   TRACE();
 
@@ -52,7 +52,7 @@ static bool tp_spell_cloud_death_on_cast_do(Gamep g, Levelsp v, Levelp l, Thingp
 {
   TRACE();
 
-  return tp_spell_common_on_cast_do(g, v, l, spell, user, e, tp_spell_cloud_death_spawn_gas_death);
+  return tp_spell_common_on_cast_do(g, v, l, spell, user, e, tp_spell_cloud_death_on_cast_per_tile);
 }
 
 static auto tp_spell_cloud_death_on_upgrade_possible(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade u) -> bool

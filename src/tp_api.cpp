@@ -1699,16 +1699,16 @@
   return tp_flag(tp, is_fungus) != 0;
 }
 
-[[nodiscard]] auto tp_is_effect_explosion1(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_effect_orange_explosion(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_effect_explosion1) != 0;
+  return tp_flag(tp, is_effect_orange_explosion) != 0;
 }
 
-[[nodiscard]] auto tp_is_effect_explosion2(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_effect_white_explosion(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_effect_explosion2) != 0;
+  return tp_flag(tp, is_effect_white_explosion) != 0;
 }
 
 [[nodiscard]] auto tp_is_fire_normal(Tpp tp) -> bool

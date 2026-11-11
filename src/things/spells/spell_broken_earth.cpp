@@ -35,11 +35,11 @@ static bool tp_spell_broken_earth_on_cast_request(Gamep g, Levelsp v, Levelp l, 
   return tp_spell_common_on_cast_request(g, v, l, spell, user, e);
 }
 
-static bool tp_spell_broken_earth_spawn_chasm(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, bpoint p, ThingEvent &e)
+static bool tp_spell_broken_earth_on_cast_per_tile(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, bpoint p, ThingEvent &e)
 {
   TRACE();
 
-  (void) thing_spawn(g, v, l, tp_first(is_effect_explosion2), p);
+  (void) thing_spawn(g, v, l, tp_first(is_effect_white_explosion), p);
 
   if (! level_is_critical_to_dungeon_design_bool(g, v, l, p)) {
     if (level_is_dirt_bool(g, v, l, p) || level_is_floor_bool(g, v, l, p) || level_is_lava_bool(g, v, l, p)) {
@@ -53,7 +53,7 @@ static bool tp_spell_broken_earth_on_cast_do(Gamep g, Levelsp v, Levelp l, Thing
 {
   TRACE();
 
-  return tp_spell_common_on_cast_do(g, v, l, spell, user, e, tp_spell_broken_earth_spawn_chasm);
+  return tp_spell_common_on_cast_do(g, v, l, spell, user, e, tp_spell_broken_earth_on_cast_per_tile);
 }
 
 static auto tp_spell_broken_earth_on_upgrade_possible(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade u) -> bool

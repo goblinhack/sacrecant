@@ -312,8 +312,8 @@
       list_macro(is_gas, "is_gas"),                                                         /* newline */                                       \
       list_macro(is_fungus, "is_fungus"),                                                   /* newline */                                       \
       list_macro(is_unused14, "is_unused14"),                                               /* newline */                                       \
-      list_macro(is_effect_explosion1, "is_effect_explosion1"),                             /* newline */                                       \
-      list_macro(is_effect_explosion2, "is_effect_explosion2"),                             /* newline */                                       \
+      list_macro(is_effect_orange_explosion, "is_effect_orange_explosion"),                 /* newline */                                       \
+      list_macro(is_effect_white_explosion, "is_effect_white_explosion"),                   /* newline */                                       \
       list_macro(is_fire_normal, "is_fire_normal"),                                         /* newline */                                       \
       list_macro(is_unused15, "is_unused15"),                                               /* newline */                                       \
       list_macro(is_able_to_heal, "is_able_to_heal"),                                       /* newline */                                       \
@@ -1024,12 +1024,12 @@ class Tp;
 [[nodiscard]] auto tp_is_edible(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_effect_attack(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_effect_blood(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_effect_explosion1(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_effect_explosion2(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_effect_orange_explosion(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_effect_protection(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_effect_ripple(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_effect_sparks(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_effect_teleport(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_effect_white_explosion(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_effect(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_entrance(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_ethereal(Tpp tp) -> bool;

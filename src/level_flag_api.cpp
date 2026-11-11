@@ -1700,16 +1700,16 @@
   return level_flag(g, v, l, is_fungus, p, me);
 }
 
-[[nodiscard]] auto level_is_effect_explosion1(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_effect_orange_explosion(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_effect_explosion1, p, me);
+  return level_flag(g, v, l, is_effect_orange_explosion, p, me);
 }
 
-[[nodiscard]] auto level_is_effect_explosion2(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_effect_white_explosion(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_effect_explosion2, p, me);
+  return level_flag(g, v, l, is_effect_white_explosion, p, me);
 }
 
 [[nodiscard]] auto level_is_fire_normal(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp

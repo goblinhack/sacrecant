@@ -10,11 +10,11 @@
 #include "../../my_tps.hpp"
 #include "../../my_types.hpp"
 
-[[nodiscard]] auto tp_load_effect_explosion2() -> bool
+[[nodiscard]] auto tp_load_effect_white_explosion() -> bool
 {
   TRACE();
 
-  auto *tp   = tp_load("effect_explosion2"); // keep as string for scripts
+  auto *tp   = tp_load("effect_white_explosion"); // keep as string for scripts
   auto  name = tp_name(tp);
 
   // begin sort marker1 {
@@ -23,7 +23,7 @@
   tp_flag_set(tp, is_blit_centered);
   tp_flag_set(tp, is_blit_shown_in_chasms);
   tp_flag_set(tp, is_blit_shown_in_overlay);
-  tp_flag_set(tp, is_effect_explosion2);
+  tp_flag_set(tp, is_effect_white_explosion);
   tp_flag_set(tp, is_effect);
   tp_flag_set(tp, is_removable_on_err);
   tp_flag_set(tp, is_submergible);

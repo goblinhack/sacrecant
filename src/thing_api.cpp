@@ -2006,7 +2006,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   return tp_flag(thing_tp(t), is_fungus) != 0;
 }
 
-[[nodiscard]] auto thing_is_effect_explosion1(Thingp t) -> bool
+[[nodiscard]] auto thing_is_effect_orange_explosion(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -2014,10 +2014,10 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     no_thing_pointer();
     return false;
   }
-  return tp_flag(thing_tp(t), is_effect_explosion1) != 0;
+  return tp_flag(thing_tp(t), is_effect_orange_explosion) != 0;
 }
 
-[[nodiscard]] auto thing_is_effect_explosion2(Thingp t) -> bool
+[[nodiscard]] auto thing_is_effect_white_explosion(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -2025,7 +2025,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     no_thing_pointer();
     return false;
   }
-  return tp_flag(thing_tp(t), is_effect_explosion2) != 0;
+  return tp_flag(thing_tp(t), is_effect_white_explosion) != 0;
 }
 
 [[nodiscard]] auto thing_is_fire_normal(Thingp t) -> bool

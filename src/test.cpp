@@ -248,6 +248,7 @@ const std::initializer_list< std::string > tests = {
     "sac_weaponless_attack_mob",
     "save_load",
     "slots",
+    "spell_black_blood",
     "spell_broken_earth_radial",
     "spell_broken_earth",
     "spell_dispel_obstacles",

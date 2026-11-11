@@ -24,6 +24,7 @@ static auto tp_spell_black_blood_get(Gamep g, Levelsp v, Levelp l, Thingp me) ->
       UI_INFO1_FMT_STR
       "Poison the blood of all vulnerable enemies within target range. "  //
       "Each move they will lose health until the inevitable happens...\n" //
+      "Does not have an impact on the ethereal or undead...\n"            //
       UI_INFO1_FMT_STR "Upgrades are as follows:\n"                       //
       UI_INFO1_FMT_STR "- Radius and range:\n"                            //
       UI_INFO2_FMT_STR "  One extra tile radius per upgrade.\n";          //
@@ -36,9 +37,11 @@ static bool tp_spell_black_blood_on_cast_request(Gamep g, Levelsp v, Levelp l, T
   return tp_spell_common_on_cast_request(g, v, l, spell, user, e);
 }
 
-static bool tp_spell_black_blood_per_tile_do(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, const bpoint &p, ThingEvent &e)
+static bool tp_spell_black_blood_on_cast_per_tile(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, const bpoint &p, ThingEvent &e)
 {
   TRACE();
+
+  auto The_user_thing = thing_name_long_The(g, v, l, user);
 
   FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, p)
   {
@@ -52,13 +55,39 @@ static bool tp_spell_black_blood_per_tile_do(Gamep g, Levelsp v, Levelp l, Thing
 
     if (thing_is_immune_to(g, v, l, it, THING_EVENT_POISON_DAMAGE)) {
       auto the_thing = thing_name_long_the(g, v, l, it);
-      topcon("You fail to poison the %s, it is immune!", the_thing.c_str());
+      if (thing_is_player(user)) {
+        if (user == it) {
+          topcon(UI_GOOD_FMT_STR "You fail to poison yourself, as you are immune!" UI_RESET_FMT);
+        } else {
+          topcon(UI_WARN_FMT_STR "You fail to poison %s, it is immune!" UI_RESET_FMT, the_thing.c_str());
+        }
+      } else {
+        if (user == it) {
+          topcon("%s fails to poison itself!", The_user_thing.c_str());
+        } else {
+          topcon("%s fail to poison %s, it is immune!", The_user_thing.c_str(), the_thing.c_str());
+        }
+      }
       continue;
     }
 
     if (thing_hook_add(g, v, l, it, tp_find_mand("debuff_poison"))) {
       auto the_thing = thing_name_long_the(g, v, l, it);
-      topcon("You poison the %s!", the_thing.c_str());
+      if (thing_is_player(user)) {
+        if (user == it) {
+          topcon(UI_GOOD_FMT_STR "You poison yourself!" UI_RESET_FMT);
+        } else {
+          topcon(UI_WARN_FMT_STR "You poison %s!" UI_RESET_FMT, the_thing.c_str());
+        }
+      } else {
+        if (user == it) {
+          topcon("%s poisons itself!", The_user_thing.c_str());
+        } else {
+          topcon("%s poisons %s!", The_user_thing.c_str(), the_thing.c_str());
+        }
+      }
+
+      (void) thing_spawn(g, v, l, tp_first(is_effect_white_explosion), p);
     }
   }
 
@@ -69,7 +98,7 @@ static bool tp_spell_black_blood_on_cast_do(Gamep g, Levelsp v, Levelp l, Thingp
 {
   TRACE();
 
-  return tp_spell_common_on_cast_do(g, v, l, spell, user, e, tp_spell_black_blood_per_tile_do);
+  return tp_spell_common_on_cast_do(g, v, l, spell, user, e, tp_spell_black_blood_on_cast_per_tile);
 }
 
 static auto tp_spell_black_blood_on_upgrade_possible(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade u) -> bool

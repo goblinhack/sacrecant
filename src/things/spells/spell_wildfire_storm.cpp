@@ -67,7 +67,7 @@ static bool tp_spell_wildfire_storm_on_cast_request(Gamep g, Levelsp v, Levelp l
   return tp_spell_common_on_cast_request(g, v, l, spell, user, e);
 }
 
-static bool tp_spell_wildfire_storm_spawn_fire(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, bpoint p, ThingEvent &e)
+static bool tp_spell_wildfire_storm_on_cast_per_tile(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, bpoint p, ThingEvent &e)
 {
   TRACE();
 
@@ -88,7 +88,7 @@ static bool tp_spell_wildfire_storm_on_cast_do(Gamep g, Levelsp v, Levelp l, Thi
 {
   TRACE();
 
-  return tp_spell_common_on_cast_do(g, v, l, spell, user, e, tp_spell_wildfire_storm_spawn_fire);
+  return tp_spell_common_on_cast_do(g, v, l, spell, user, e, tp_spell_wildfire_storm_on_cast_per_tile);
 }
 
 static auto tp_spell_wildfire_storm_on_upgrade_possible(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade u) -> bool

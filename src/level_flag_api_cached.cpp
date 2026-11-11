@@ -1737,16 +1737,16 @@
   return level_flag_cached(g, v, l, is_fungus, p);
 }
 
-[[nodiscard]] auto level_is_effect_explosion1_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_effect_orange_explosion_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_effect_explosion1, p);
+  return level_flag_cached(g, v, l, is_effect_orange_explosion, p);
 }
 
-[[nodiscard]] auto level_is_effect_explosion2_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_effect_white_explosion_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_effect_explosion2, p);
+  return level_flag_cached(g, v, l, is_effect_white_explosion, p);
 }
 
 [[nodiscard]] auto level_is_fire_normal_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

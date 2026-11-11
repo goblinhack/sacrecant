@@ -159,7 +159,7 @@ static void level_blit_light_mask(Gamep g, Levelsp v, Levelp l, color c)
   }
 }
 
-static void level_display_spell_effect(Gamep g, Levelsp v, Levelp l, FboEnum fbo)
+static void level_display_effect_spell_target(Gamep g, Levelsp v, Levelp l, FboEnum fbo)
 {
   TRACE_DEBUG();
 
@@ -173,7 +173,7 @@ static void level_display_spell_effect(Gamep g, Levelsp v, Levelp l, FboEnum fbo
   //
   static Tpp tp_once;
   if (tp_once == nullptr) {
-    tp_once = tp_find_mand("spell_effect");
+    tp_once = tp_find_mand("effect_spell_target");
   }
 
   switch (game_state(g)) {
@@ -357,7 +357,7 @@ static void level_display_cursor(Gamep g, Levelsp v, Levelp l, FboEnum fbo)
   //
   // Show the spell target area
   //
-  level_display_spell_effect(g, v, l, fbo);
+  level_display_effect_spell_target(g, v, l, fbo);
 
   //
   // Show the cursor and path

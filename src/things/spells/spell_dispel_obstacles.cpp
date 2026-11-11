@@ -34,11 +34,11 @@ static bool tp_spell_dispel_obstacles_on_cast_request(Gamep g, Levelsp v, Levelp
   return tp_spell_common_on_cast_request(g, v, l, spell, user, e);
 }
 
-static bool tp_spell_dispel_obstacles_spawn_chasm(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, const bpoint &p, ThingEvent &e)
+static bool tp_spell_dispel_obstacles_on_cast_per_tile(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, const bpoint &p, ThingEvent &e)
 {
   TRACE();
 
-  (void) thing_spawn(g, v, l, tp_first(is_effect_explosion2), p);
+  (void) thing_spawn(g, v, l, tp_first(is_effect_white_explosion), p);
 
   FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, p)
   {
@@ -68,7 +68,7 @@ static bool tp_spell_dispel_obstacles_on_cast_do(Gamep g, Levelsp v, Levelp l, T
 {
   TRACE();
 
-  return tp_spell_common_on_cast_do(g, v, l, spell, user, e, tp_spell_dispel_obstacles_spawn_chasm);
+  return tp_spell_common_on_cast_do(g, v, l, spell, user, e, tp_spell_dispel_obstacles_on_cast_per_tile);
 }
 
 static auto tp_spell_dispel_obstacles_on_upgrade_possible(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade u) -> bool

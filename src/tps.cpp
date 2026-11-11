@@ -63,15 +63,16 @@
   if (!tp_load_door_unlocked()) { return false; }
   if (!tp_load_effect_attack()) { return false; }
   if (!tp_load_effect_blood()) { return false; }
-  if (!tp_load_effect_explosion1()) { return false; }
-  if (!tp_load_effect_explosion2()) { return false; }
+  if (!tp_load_effect_orange_explosion()) { return false; }
   if (!tp_load_effect_protection()) { return false; }
   if (!tp_load_effect_ripple()) { return false; }
   if (!tp_load_effect_sparks1()) { return false; }
   if (!tp_load_effect_sparks2()) { return false; }
   if (!tp_load_effect_sparks3()) { return false; }
   if (!tp_load_effect_sparks4()) { return false; }
+  if (!tp_load_effect_spell_target()) { return false; }
   if (!tp_load_effect_teleport()) { return false; }
+  if (!tp_load_effect_white_explosion()) { return false; }
   if (!tp_load_entrance()) { return false; }
   if (!tp_load_exit_closed()) { return false; }
   if (!tp_load_exit()) { return false; }
@@ -165,7 +166,6 @@
   if (!tp_load_spell_broken_earth()) { return false; }
   if (!tp_load_spell_cloud_death()) { return false; }
   if (!tp_load_spell_dispel_obstacles()) { return false; }
-  if (!tp_load_spell_effect()) { return false; }
   if (!tp_load_spell_hellish_onslaught()) { return false; }
   if (!tp_load_spell_stone()) { return false; }
   if (!tp_load_spell_wildfire_storm()) { return false; }
