@@ -210,6 +210,7 @@ static bool tp_coil_eel_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacker
   tp_flag_set(tp, is_water_dweller);
   tp_health_set(tp, "2d8");
   tp_hearing_threshold_set(tp, 3); // smaller values => better hearing
+  tp_is_immune_to_add(tp, THING_EVENT_POISON_DAMAGE);
   tp_is_immune_to_add(tp, THING_EVENT_WATER_DAMAGE);
   tp_name_a_or_an_set(tp, "a coil eel");
   tp_name_apostrophize_set(tp, "coil eels'");

@@ -161,6 +161,7 @@
   if (!tp_load_skeleton()) { return false; }
   if (!tp_load_skullferno()) { return false; }
   if (!tp_load_smoke()) { return false; }
+  if (!tp_load_spell_black_blood()) { return false; }
   if (!tp_load_spell_broken_earth()) { return false; }
   if (!tp_load_spell_cloud_death()) { return false; }
   if (!tp_load_spell_dispel_obstacles()) { return false; }

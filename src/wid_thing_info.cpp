@@ -2491,7 +2491,12 @@ static void wid_thing_info_overlay(std::string &line, size_t pos, std::string_vi
   TRACE();
 
   bool printed_something = false;
-  bool first             = true;
+
+  if (! thing_is_player(me) && ! thing_is_monst(me)) {
+    return printed_something;
+  }
+
+  bool first = true;
 
   FOR_ALL_BOOSTS(g, v, l, me, boost)
   {
@@ -2526,7 +2531,7 @@ static void wid_thing_info_overlay(std::string &line, size_t pos, std::string_vi
 
   bool printed_something = false;
 
-  if (! thing_is_player(me)) {
+  if (! thing_is_player(me) && ! thing_is_monst(me)) {
     return printed_something;
   }
 
@@ -2588,7 +2593,7 @@ static void wid_thing_info_overlay(std::string &line, size_t pos, std::string_vi
 
   bool printed_something = false;
 
-  if (! thing_is_player(me)) {
+  if (! thing_is_player(me) && ! thing_is_monst(me)) {
     return printed_something;
   }
 

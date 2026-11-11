@@ -299,6 +299,7 @@ static void tp_boss3_on_level_change_for_player(Gamep g, Levelsp v, Levelp l, Th
   tp_flag_set(tp, is_vision_360_degrees);
   tp_health_set(tp, "100+12d8");
   tp_hearing_threshold_set(tp, 2); // smaller values => better hearing
+  tp_is_immune_to_add(tp, THING_EVENT_POISON_DAMAGE);
   tp_missile_count_max_set(tp, THING_MISSILE_MAX);
   tp_multi_tile_tiles_set(tp, multi_tile_tiles);
   tp_name_a_or_an_set(tp, "god scorpios");

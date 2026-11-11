@@ -268,6 +268,7 @@ const std::initializer_list< std::string > tps = {
     "skeleton",
     "skullferno",
     "smoke",
+    "spell_black_blood",
     "spell_broken_earth",
     "spell_cloud_death",
     "spell_dispel_obstacles",
