@@ -3,8 +3,6 @@ bugs
 
 todo
 ----
-walls to fungus
-summon bushes
 spells
   - geomancy
     - level reroll
@@ -20,6 +18,8 @@ spells
     - rot living flesh
   - biomancy
     - increase max hp
+    - walls to fungus
+    - summon bushes
   - pyromancy
     - burn all vis bushes
     - burn all vis monsts
@@ -29,10 +29,7 @@ spells
   - more lich like spells
   - spells need to have a cost that can be influenced by specializing
   - shrines that reduce spell points
-essential
-  - random monsts with difficulty
 gameplay
-  - lumenstone on each level - collect them all for big bonus
   - shoot from behind double damage
   - boulders that can crush
   - ice weapon and shattering
