@@ -35,16 +35,18 @@ static auto tp_cursor_at_display_get_tile_info(Gamep g, Levelsp v, Levelp l, con
   // Targeting?
   //
   if (game_state(g) == STATE_CHOOSE_THROW_TARGET) {
-    if (! thing_vision_can_see_tile(g, v, l, player, p)) {
-      //
-      // Can't see this tile
-      //
-      return tp_tiles_get(tp, THING_ANIM_CURSOR_TARGET_OUT_OF_RANGE, 0);
-    } else if (distance(p, thing_at(g, v, l, player)) > thing_distance_throw(g, v, l, player)) {
+    if (distance(p, thing_at(g, v, l, player)) > thing_distance_throw(g, v, l, player)) {
       //
       // Too far
       //
       return tp_tiles_get(tp, THING_ANIM_CURSOR_TARGET_OUT_OF_RANGE, 0);
+    }
+
+    if (! thing_vision_can_see_tile(g, v, l, player, p)) {
+      //
+      // Can't see this tile
+      //
+      return tp_tiles_get(tp, THING_ANIM_CURSOR_TARGET_CANNOT_SEE, 0);
     }
     return tp_tiles_get(tp, THING_ANIM_CURSOR_TARGET, 0);
   }
@@ -57,17 +59,20 @@ static auto tp_cursor_at_display_get_tile_info(Gamep g, Levelsp v, Levelp l, con
     if (e) {
       auto spell = e->spell_info.spell;
       if (spell) {
-        if (! thing_vision_can_see_tile(g, v, l, player, p)) {
-          //
-          // Can't see this tile
-          //
-          return tp_tiles_get(tp, THING_ANIM_CURSOR_TARGET_OUT_OF_RANGE, 0);
-        } else if (distance(p, thing_at(g, v, l, player)) > thing_spell_range(g, v, l, spell)) {
+        if (distance(p, thing_at(g, v, l, player)) > thing_spell_range(g, v, l, spell)) {
           //
           // Too far
           //
           return tp_tiles_get(tp, THING_ANIM_CURSOR_TARGET_OUT_OF_RANGE, 0);
         }
+
+        if (! thing_vision_can_see_tile(g, v, l, player, p)) {
+          //
+          // Can't see this tile
+          //
+          return tp_tiles_get(tp, THING_ANIM_CURSOR_TARGET_CANNOT_SEE, 0);
+        }
+
         return tp_tiles_get(tp, THING_ANIM_CURSOR_TARGET, 0);
       }
     }
@@ -135,6 +140,8 @@ static auto tp_cursor_at_display_get_tile_info(Gamep g, Levelsp v, Levelp l, con
   tp_tiles_push_back(tp, THING_ANIM_CURSOR_HAZARD, tile);
   tile = tile_find_mand("cursor_at.target");
   tp_tiles_push_back(tp, THING_ANIM_CURSOR_TARGET, tile);
+  tile = tile_find_mand("cursor_at.target_cannot_see");
+  tp_tiles_push_back(tp, THING_ANIM_CURSOR_TARGET_CANNOT_SEE, tile);
   tile = tile_find_mand("cursor_at.target_out_of_range");
   tp_tiles_push_back(tp, THING_ANIM_CURSOR_TARGET_OUT_OF_RANGE, tile);
 

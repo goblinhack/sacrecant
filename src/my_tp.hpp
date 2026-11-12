@@ -588,6 +588,7 @@ ENUM_DEF_H(WORN_TYPE_ENUM, WornType)
       list_macro(THING_ANIM_CURSOR_NOPATH, "cursor-at-nopath"),                           /* newline */                                         \
       list_macro(THING_ANIM_CURSOR_HAZARD, "cursor-at-hazard"),                           /* newline */                                         \
       list_macro(THING_ANIM_CURSOR_TARGET, "cursor-at-target"),                           /* newline */                                         \
+      list_macro(THING_ANIM_CURSOR_TARGET_CANNOT_SEE, "cursor-target-cannot-see"),        /* newline */                                         \
       list_macro(THING_ANIM_CURSOR_TARGET_OUT_OF_RANGE, "cursor-at-target-out-of-range"), /* newline */                                         \
       list_macro(THING_ANIM_CURSOR_WARNING, "cursor-at-warning"),                         /* newline */
 

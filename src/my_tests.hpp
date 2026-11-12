@@ -231,6 +231,7 @@ auto test_load_slots() -> bool;
 auto test_load_spell_black_blood() -> bool;
 auto test_load_spell_broken_earth_radial() -> bool;
 auto test_load_spell_broken_earth() -> bool;
+auto test_load_spell_deep_cover() -> bool;
 auto test_load_spell_dispel_obstacles() -> bool;
 auto test_load_spell_hellish_onslaught() -> bool;
 auto test_load_spell_wildfire_storm() -> bool;

@@ -233,6 +233,7 @@
   if (!test_load_spell_black_blood()) { return false; }
   if (!test_load_spell_broken_earth_radial()) { return false; }
   if (!test_load_spell_broken_earth()) { return false; }
+  if (!test_load_spell_deep_cover()) { return false; }
   if (!test_load_spell_dispel_obstacles()) { return false; }
   if (!test_load_spell_hellish_onslaught()) { return false; }
   if (!test_load_spell_wildfire_storm()) { return false; }

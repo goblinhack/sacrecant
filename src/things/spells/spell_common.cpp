@@ -19,7 +19,7 @@ const std::string        spell_option_targeted                     = "targeted";
 const std::string        spell_option_radial                       = "radial";
 const std::string        spell_option_radial_excluding_player_tile = "radial, excluding your tile";
 
-bool tp_spell_common_on_cast_request(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, ThingEvent &e, SpellOnCastRequest fn)
+bool tp_spell_common_on_cast_request(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, ThingEvent &e)
 {
   TRACE();
 

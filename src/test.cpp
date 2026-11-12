@@ -251,6 +251,7 @@ const std::initializer_list< std::string > tests = {
     "spell_black_blood",
     "spell_broken_earth_radial",
     "spell_broken_earth",
+    "spell_deep_cover",
     "spell_dispel_obstacles",
     "spell_hellish_onslaught",
     "spell_wildfire_storm",

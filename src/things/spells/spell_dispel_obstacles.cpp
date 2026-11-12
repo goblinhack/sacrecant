@@ -20,11 +20,11 @@ static auto tp_spell_dispel_obstacles_get(Gamep g, Levelsp v, Levelp l, Thingp m
 {
   TRACE();
 
-  return                                                                                                                   //
-      UI_INFO1_FMT_STR "Feeling blocked in? This spell will erase walls, rock, even vaults and more, to clear you path.\n" //
-      UI_INFO1_FMT_STR "Upgrades are as follows:\n"                                                                        //
-      UI_INFO1_FMT_STR "- Radius and range:\n"                                                                             //
-      UI_INFO2_FMT_STR "  One extra tile radius per upgrade.\n";                                                           //
+  return                                                                                                                    //
+      UI_INFO1_FMT_STR "Feeling blocked in? This spell will erase walls, rock, even vaults and more, to clear your path.\n" //
+      UI_INFO1_FMT_STR "Upgrades are as follows:\n"                                                                         //
+      UI_INFO1_FMT_STR "- Radius and range:\n"                                                                              //
+      UI_INFO2_FMT_STR "  One extra tile radius per upgrade.\n";                                                            //
 }
 
 static bool tp_spell_dispel_obstacles_on_cast_request(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, ThingEvent &e)

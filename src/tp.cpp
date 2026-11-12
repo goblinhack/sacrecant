@@ -272,6 +272,7 @@ const std::initializer_list< std::string > tps = {
     "spell_black_blood",
     "spell_broken_earth",
     "spell_cloud_death",
+    "spell_deep_cover",
     "spell_dispel_obstacles",
     "spell_hellish_onslaught",
     "spell_stone",

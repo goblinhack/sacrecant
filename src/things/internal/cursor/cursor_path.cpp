@@ -65,10 +65,6 @@ static auto tp_cursor_path_display_get_tile_info(Gamep g, Levelsp v, Levelp l, c
   tp_tiles_push_back(tp, THING_ANIM_CURSOR_WARNING, tile);
   tile = tile_find_mand("cursor_path.hazard");
   tp_tiles_push_back(tp, THING_ANIM_CURSOR_HAZARD, tile);
-  tile = tile_find_mand("cursor_path.target");
-  tp_tiles_push_back(tp, THING_ANIM_CURSOR_TARGET, tile);
-  tile = tile_find_mand("cursor_path.target_out_of_range");
-  tp_tiles_push_back(tp, THING_ANIM_CURSOR_TARGET_OUT_OF_RANGE, tile);
 
   return true;
 }
