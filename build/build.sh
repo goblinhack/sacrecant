@@ -421,8 +421,17 @@ else
   SDL2_SCORE=0
 
   if [ "$SDL2_CONFIG" != "" ]; then
-      $SDL2_CONFIG --cflags
+      #
+      # Handle -I/x/y/z xxxxx
+      #
       SDL2_INC_PATH=$($SDL2_CONFIG --cflags | sed -e 's/.*-I\([a-zA-Z\/@_0-9:\.]*\) .*/\1/g' -e 's/\-.*//g')
+
+      #
+      # Try again, but assume there is only one arg e.g. -I/x/y/z
+      #
+      if [[ "$SDL2_INC_PATH" = "" ]]; then
+        SDL2_INC_PATH=$($SDL2_CONFIG --cflags | sed -e 's/.*-I\([a-zA-Z\/@_0-9:\.]*\) */\1/g' -e 's/\-.*//g')
+      fi
 
       if [[ "$SDL2_INC_PATH" != "" ]]; then
           find "$SDL2_INC_PATH" | grep -q SDL_mixer.h
