@@ -969,7 +969,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_unused1(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_unused1");
+  grab_key("unused1");
   sdl.on_sdl_key_grab    = wid_cfg_key_unused1_set;
   local_g_config_changed = true;
   return true;
@@ -978,7 +978,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_unused2(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_unused2");
+  grab_key("unused2");
   sdl.on_sdl_key_grab    = wid_cfg_key_unused2_set;
   local_g_config_changed = true;
   return true;
@@ -987,7 +987,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_unused3(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_unused3");
+  grab_key("unused3");
   sdl.on_sdl_key_grab    = wid_cfg_key_unused3_set;
   local_g_config_changed = true;
   return true;
@@ -996,7 +996,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_unused4(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_unused4");
+  grab_key("unused4");
   sdl.on_sdl_key_grab    = wid_cfg_key_unused4_set;
   local_g_config_changed = true;
   return true;
@@ -1005,7 +1005,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_unused5(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_unused5");
+  grab_key("unused5");
   sdl.on_sdl_key_grab    = wid_cfg_key_unused5_set;
   local_g_config_changed = true;
   return true;
@@ -1014,7 +1014,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_unused6(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_unused6");
+  grab_key("unused6");
   sdl.on_sdl_key_grab    = wid_cfg_key_unused6_set;
   local_g_config_changed = true;
   return true;
@@ -1023,7 +1023,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_unused7(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_unused7");
+  grab_key("unused7");
   sdl.on_sdl_key_grab    = wid_cfg_key_unused7_set;
   local_g_config_changed = true;
   return true;
@@ -1032,7 +1032,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_unused8(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_unused8");
+  grab_key("unused8");
   sdl.on_sdl_key_grab    = wid_cfg_key_unused8_set;
   local_g_config_changed = true;
   return true;
@@ -1041,7 +1041,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_unused9(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_unused9");
+  grab_key("unused9");
   sdl.on_sdl_key_grab    = wid_cfg_key_unused9_set;
   local_g_config_changed = true;
   return true;
@@ -1050,7 +1050,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_unused10(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_unused10");
+  grab_key("unused10");
   sdl.on_sdl_key_grab    = wid_cfg_key_unused10_set;
   local_g_config_changed = true;
   return true;
@@ -1059,7 +1059,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_unused11(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_unused11");
+  grab_key("unused11");
   sdl.on_sdl_key_grab    = wid_cfg_key_unused11_set;
   local_g_config_changed = true;
   return true;
@@ -1068,7 +1068,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_cast(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_cast");
+  grab_key("spell cast");
   sdl.on_sdl_key_grab    = wid_cfg_key_cast_set;
   local_g_config_changed = true;
   return true;
@@ -1077,7 +1077,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_spell1(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_spell1");
+  grab_key("spell1");
   sdl.on_sdl_key_grab    = wid_cfg_key_spell1_set;
   local_g_config_changed = true;
   return true;
@@ -1086,7 +1086,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_spell2(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_spell2");
+  grab_key("spell2");
   sdl.on_sdl_key_grab    = wid_cfg_key_spell2_set;
   local_g_config_changed = true;
   return true;
@@ -1095,7 +1095,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_spell3(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_spell3");
+  grab_key("spell3");
   sdl.on_sdl_key_grab    = wid_cfg_key_spell3_set;
   local_g_config_changed = true;
   return true;
@@ -1104,7 +1104,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_spell4(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_spell4");
+  grab_key("spell4");
   sdl.on_sdl_key_grab    = wid_cfg_key_spell4_set;
   local_g_config_changed = true;
   return true;
@@ -1113,7 +1113,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_spell5(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_spell5");
+  grab_key("spell5");
   sdl.on_sdl_key_grab    = wid_cfg_key_spell5_set;
   local_g_config_changed = true;
   return true;
@@ -1122,7 +1122,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_spell6(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_spell6");
+  grab_key("spell6");
   sdl.on_sdl_key_grab    = wid_cfg_key_spell6_set;
   local_g_config_changed = true;
   return true;
@@ -1131,7 +1131,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_spell7(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_spell7");
+  grab_key("spell7");
   sdl.on_sdl_key_grab    = wid_cfg_key_spell7_set;
   local_g_config_changed = true;
   return true;
@@ -1140,7 +1140,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_spell8(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_spell8");
+  grab_key("spell8");
   sdl.on_sdl_key_grab    = wid_cfg_key_spell8_set;
   local_g_config_changed = true;
   return true;
@@ -1149,7 +1149,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_spell9(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_spell9");
+  grab_key("spell9");
   sdl.on_sdl_key_grab    = wid_cfg_key_spell9_set;
   local_g_config_changed = true;
   return true;
@@ -1158,7 +1158,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_spell10(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_spell10");
+  grab_key("spell10");
   sdl.on_sdl_key_grab    = wid_cfg_key_spell10_set;
   local_g_config_changed = true;
   return true;
@@ -1167,7 +1167,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_spell11(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_spell11");
+  grab_key("spell11");
   sdl.on_sdl_key_grab    = wid_cfg_key_spell11_set;
   local_g_config_changed = true;
   return true;
@@ -1176,7 +1176,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_spell12(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_spell12");
+  grab_key("spell12");
   sdl.on_sdl_key_grab    = wid_cfg_key_spell12_set;
   local_g_config_changed = true;
   return true;
@@ -1185,7 +1185,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_spell13(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_spell13");
+  grab_key("spell13");
   sdl.on_sdl_key_grab    = wid_cfg_key_spell13_set;
   local_g_config_changed = true;
   return true;
@@ -1194,7 +1194,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_spell14(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_spell14");
+  grab_key("spell14");
   sdl.on_sdl_key_grab    = wid_cfg_key_spell14_set;
   local_g_config_changed = true;
   return true;
@@ -1203,7 +1203,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_spell15(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_spell15");
+  grab_key("spell15");
   sdl.on_sdl_key_grab    = wid_cfg_key_spell15_set;
   local_g_config_changed = true;
   return true;
@@ -1212,7 +1212,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_spell16(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_spell16");
+  grab_key("spell16");
   sdl.on_sdl_key_grab    = wid_cfg_key_spell16_set;
   local_g_config_changed = true;
   return true;
@@ -1221,7 +1221,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_spell17(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_spell17");
+  grab_key("spell17");
   sdl.on_sdl_key_grab    = wid_cfg_key_spell17_set;
   local_g_config_changed = true;
   return true;
@@ -1230,7 +1230,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_spell18(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_spell18");
+  grab_key("spell18");
   sdl.on_sdl_key_grab    = wid_cfg_key_spell18_set;
   local_g_config_changed = true;
   return true;
@@ -1239,7 +1239,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_spell19(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_spell19");
+  grab_key("spell19");
   sdl.on_sdl_key_grab    = wid_cfg_key_spell19_set;
   local_g_config_changed = true;
   return true;
@@ -1248,7 +1248,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_spell20(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_spell20");
+  grab_key("spell20");
   sdl.on_sdl_key_grab    = wid_cfg_key_spell20_set;
   local_g_config_changed = true;
   return true;
@@ -1257,7 +1257,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_abort(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_abort");
+  grab_key("abort");
   sdl.on_sdl_key_grab    = wid_cfg_key_abort_set;
   local_g_config_changed = true;
   return true;
@@ -1266,7 +1266,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_throw(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_throw");
+  grab_key("throw");
   sdl.on_sdl_key_grab    = wid_cfg_key_throw_set;
   local_g_config_changed = true;
   return true;
@@ -1275,7 +1275,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_fire(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_fire");
+  grab_key("fire");
   sdl.on_sdl_key_grab    = wid_cfg_key_fire_set;
   local_g_config_changed = true;
   return true;
@@ -1284,7 +1284,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_inventory(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_inventory");
+  grab_key("inventory");
   sdl.on_sdl_key_grab    = wid_cfg_key_inventory_set;
   local_g_config_changed = true;
   return true;
@@ -1293,7 +1293,7 @@ static void grab_key(const std::string &which)
 [[nodiscard]] static auto wid_cfg_key_learn(Gamep g, Widp w, int x, int y, uint32_t button) -> bool
 {
   TRACE();
-  grab_key("key_learn");
+  grab_key("learn");
   sdl.on_sdl_key_grab    = wid_cfg_key_learn_set;
   local_g_config_changed = true;
   return true;
@@ -1552,11 +1552,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "save");
+    auto *w = wid_new_bar_button(g, p, "save");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_save);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Save game");
@@ -1580,11 +1580,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "load");
+    auto *w = wid_new_bar_button(g, p, "load");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_load);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Load game");
@@ -1610,11 +1610,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "Move up");
+    auto *w = wid_new_bar_button(g, p, "Move up");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_move_up);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Move up");
@@ -1639,11 +1639,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "Move left");
+    auto *w = wid_new_bar_button(g, p, "Move left");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_move_left);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Move left");
@@ -1668,11 +1668,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "Move down");
+    auto *w = wid_new_bar_button(g, p, "Move down");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_move_down);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Move down");
@@ -1697,11 +1697,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "Move right");
+    auto *w = wid_new_bar_button(g, p, "Move right");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_move_right);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Move right");
@@ -1726,11 +1726,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "fire");
+    auto *w = wid_new_bar_button(g, p, "fire");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_fire);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Fire");
@@ -1755,11 +1755,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "jump");
+    auto *w = wid_new_bar_button(g, p, "jump");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_jump);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Jump");
@@ -1783,11 +1783,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "key_throw");
+    auto *w = wid_new_bar_button(g, p, "throw");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_throw);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Throw item");
@@ -1811,11 +1811,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "key_abort");
+    auto *w = wid_new_bar_button(g, p, "abort");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_abort);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Abort task e.g. throw item");
@@ -1844,11 +1844,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "Wait");
+    auto *w = wid_new_bar_button(g, p, "Wait");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_wait);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Wait");
@@ -1873,11 +1873,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "inventory");
+    auto *w = wid_new_bar_button(g, p, "inventory");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_inventory);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Inventory");
@@ -1902,11 +1902,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "Learn");
+    auto *w = wid_new_bar_button(g, p, "Learn");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_learn);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Inventory");
@@ -1931,11 +1931,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "Cast");
+    auto *w = wid_new_bar_button(g, p, "Cast");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_cast);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Cast");
@@ -1960,11 +1960,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "Ascend");
+    auto *w = wid_new_bar_button(g, p, "Ascend");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_ascend);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Ascend");
@@ -1989,11 +1989,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "Descend");
+    auto *w = wid_new_bar_button(g, p, "Descend");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_descend);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Descend");
@@ -2022,11 +2022,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "key_spell1");
+    auto *w = wid_new_bar_button(g, p, "spell1");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_spell1);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Cast spell 1");
@@ -2051,11 +2051,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "key_spell2");
+    auto *w = wid_new_bar_button(g, p, "spell2");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_spell2);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Cast spell 2");
@@ -2080,11 +2080,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "key_spell3");
+    auto *w = wid_new_bar_button(g, p, "spell3");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_spell3);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Cast spell 3");
@@ -2109,11 +2109,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "key_spell4");
+    auto *w = wid_new_bar_button(g, p, "spell4");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_spell4);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Cast spell 4");
@@ -2138,11 +2138,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "key_spell5");
+    auto *w = wid_new_bar_button(g, p, "spell5");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_spell5);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Cast spell 5");
@@ -2167,11 +2167,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "key_spell6");
+    auto *w = wid_new_bar_button(g, p, "spell6");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_spell6);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Cast spell 6");
@@ -2196,11 +2196,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "key_spell7");
+    auto *w = wid_new_bar_button(g, p, "spell7");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_spell7);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Cast spell 7");
@@ -2225,11 +2225,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "key_spell8");
+    auto *w = wid_new_bar_button(g, p, "spell8");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_spell8);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Cast spell 8");
@@ -2254,11 +2254,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "key_spell9");
+    auto *w = wid_new_bar_button(g, p, "spell9");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_spell9);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Cast spell 9");
@@ -2283,11 +2283,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "key_spell10");
+    auto *w = wid_new_bar_button(g, p, "spell10");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_spell10);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Cast spell 10");
@@ -2312,11 +2312,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "key_spell11");
+    auto *w = wid_new_bar_button(g, p, "spell11");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_spell11);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Cast spell 11");
@@ -2341,11 +2341,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "key_spell12");
+    auto *w = wid_new_bar_button(g, p, "spell12");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_spell12);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Cast spell 12");
@@ -2370,11 +2370,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "key_spell13");
+    auto *w = wid_new_bar_button(g, p, "spell13");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_spell13);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Cast spell 13");
@@ -2399,11 +2399,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "key_spell14");
+    auto *w = wid_new_bar_button(g, p, "spell14");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_spell14);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Cast spell 14");
@@ -2428,11 +2428,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "key_spell15");
+    auto *w = wid_new_bar_button(g, p, "spell15");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_spell15);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Cast spell 15");
@@ -2457,11 +2457,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "key_spell16");
+    auto *w = wid_new_bar_button(g, p, "spell16");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_spell16);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Cast spell 16");
@@ -2486,11 +2486,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "key_spell17");
+    auto *w = wid_new_bar_button(g, p, "spell17");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_spell17);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Cast spell 17");
@@ -2515,11 +2515,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "key_spell18");
+    auto *w = wid_new_bar_button(g, p, "spell18");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_spell18);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Cast spell 18");
@@ -2544,11 +2544,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "key_spell19");
+    auto *w = wid_new_bar_button(g, p, "spell19");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_spell19);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Cast spell 19");
@@ -2573,11 +2573,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "key_spell20");
+    auto *w = wid_new_bar_button(g, p, "spell20");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_spell20);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Cast spell 20");
@@ -2604,11 +2604,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "Zoom in");
+    auto *w = wid_new_bar_button(g, p, "Zoom in");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_zoom_in);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Zoom in");
@@ -2633,11 +2633,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "Toggle zoom");
+    auto *w = wid_new_bar_button(g, p, "Toggle zoom");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_zoom_toggle);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Zoom toggle");
@@ -2662,11 +2662,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "Take a screenshot");
+    auto *w = wid_new_bar_button(g, p, "Take a screenshot");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_screenshot);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Take a screenshot");
@@ -2695,11 +2695,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "quit");
+    auto *w = wid_new_bar_button(g, p, "quit");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_quit);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Quit");
@@ -2723,11 +2723,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "console");
+    auto *w = wid_new_bar_button(g, p, "console");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_console);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "Debug console");
@@ -2751,11 +2751,11 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "help");
+    auto *w = wid_new_bar_button(g, p, "help");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_help);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
     wid_set_text(w, "This useless help");
@@ -2781,14 +2781,14 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "key_unused1");
+    auto *w = wid_new_bar_button(g, p, "unused1");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_unused1);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
-    wid_set_text(w, "key_unused1");
+    wid_set_text(w, "unused1");
   }
   {
     TRACE();
@@ -2809,14 +2809,14 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "key_unused2");
+    auto *w = wid_new_bar_button(g, p, "unused2");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_unused2);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
-    wid_set_text(w, "key_unused2");
+    wid_set_text(w, "unused2");
   }
   {
     TRACE();
@@ -2837,14 +2837,14 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "key_unused3");
+    auto *w = wid_new_bar_button(g, p, "unused3");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_unused3);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
-    wid_set_text(w, "key_unused3");
+    wid_set_text(w, "unused3");
   }
   {
     TRACE();
@@ -2865,14 +2865,14 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "key_unused4");
+    auto *w = wid_new_bar_button(g, p, "unused4");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_unused4);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
-    wid_set_text(w, "key_unused4");
+    wid_set_text(w, "unused4");
   }
   {
     TRACE();
@@ -2893,14 +2893,14 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "key_unused5");
+    auto *w = wid_new_bar_button(g, p, "unused5");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_unused5);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
-    wid_set_text(w, "key_unused5");
+    wid_set_text(w, "unused5");
   }
   {
     TRACE();
@@ -2921,14 +2921,14 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "key_unused6");
+    auto *w = wid_new_bar_button(g, p, "unused6");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_unused6);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
-    wid_set_text(w, "key_unused6");
+    wid_set_text(w, "unused6");
   }
   {
     TRACE();
@@ -2949,14 +2949,14 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "key_unused7");
+    auto *w = wid_new_bar_button(g, p, "unused7");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_unused7);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
-    wid_set_text(w, "key_unused7");
+    wid_set_text(w, "unused7");
   }
   {
     TRACE();
@@ -2977,14 +2977,14 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "key_unused8");
+    auto *w = wid_new_bar_button(g, p, "unused8");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_unused8);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
-    wid_set_text(w, "key_unused8");
+    wid_set_text(w, "unused8");
   }
   {
     TRACE();
@@ -3005,14 +3005,14 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "key_unused9");
+    auto *w = wid_new_bar_button(g, p, "unused9");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_unused9);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
-    wid_set_text(w, "key_unused9");
+    wid_set_text(w, "unused9");
   }
   {
     TRACE();
@@ -3033,14 +3033,14 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "key_unused10");
+    auto *w = wid_new_bar_button(g, p, "unused10");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
+    wid_set_on_mouse_down(w, wid_cfg_key_unused10);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
-    wid_set_text(w, "key_unused10");
+    wid_set_text(w, "unused10");
   }
   {
     TRACE();
@@ -3061,14 +3061,14 @@ void wid_cfg_help_select(Gamep g)
   {
     TRACE();
     auto *p = wid_cfg_help_window->wid_text_area->wid_text_area;
-    auto *w = wid_new_square_button(g, p, "key_unused11");
+    auto *w = wid_new_bar_button(g, p, "unused11");
 
     spoint const tl(0, y_at);
-    spoint const br(menu_width / 2, y_at);
-    wid_set_shape_none(w);
+    spoint const br(rhs_button_right, y_at);
     wid_set_pos(w, tl, br);
     wid_set_text_lhs(w);
-    wid_set_text(w, "key_unused11");
+    wid_set_text(w, "unused11");
+    wid_set_on_mouse_down(w, wid_cfg_key_unused11);
   }
   {
     TRACE();

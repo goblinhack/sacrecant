@@ -255,6 +255,7 @@ const std::initializer_list< std::string > tests = {
     "spell_dispel_obstacles",
     "spell_fungus_amongus",
     "spell_hellish_onslaught",
+    "spell_watery_grave",
     "spell_wildfire_storm",
     "spiderweb_monst_not_trapped_due_to_ethereal",
     "spiderweb_monst_not_trapped_due_to_levitation",

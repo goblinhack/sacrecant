@@ -168,6 +168,7 @@ auto tp_load_spell_dispel_obstacles() -> bool;
 auto tp_load_spell_fungus_amongus() -> bool;
 auto tp_load_spell_hellish_onslaught() -> bool;
 auto tp_load_spell_stone() -> bool;
+auto tp_load_spell_watery_grave() -> bool;
 auto tp_load_spell_wildfire_storm() -> bool;
 auto tp_load_spider_baby() -> bool;
 auto tp_load_spider() -> bool;

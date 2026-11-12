@@ -237,6 +237,7 @@
   if (!test_load_spell_dispel_obstacles()) { return false; }
   if (!test_load_spell_fungus_amongus()) { return false; }
   if (!test_load_spell_hellish_onslaught()) { return false; }
+  if (!test_load_spell_watery_grave()) { return false; }
   if (!test_load_spell_wildfire_storm()) { return false; }
   if (!test_load_spiderweb_monst_not_trapped_due_to_ethereal()) { return false; }
   if (!test_load_spiderweb_monst_not_trapped_due_to_levitation()) { return false; }

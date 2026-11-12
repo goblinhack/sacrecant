@@ -277,6 +277,7 @@ const std::initializer_list< std::string > tps = {
     "spell_fungus_amongus",
     "spell_hellish_onslaught",
     "spell_stone",
+    "spell_watery_grave",
     "spell_wildfire_storm",
     "spider_baby",
     "spider_giant",

@@ -21,7 +21,7 @@ void wid_apply_bar_button(Gamep g, Widp w)
   wid_set_shape_square(w);
   wid_set_mode(w, WID_MODE_OVER);
   wid_set_style(w, UI_WID_STYLE_BUTTON_BAR);
-  wid_set_color(w, WID_COLOR_BG, GREEN);
+  wid_set_color(w, WID_COLOR_BG, PURPLE);
   wid_set_color(w, WID_COLOR_TEXT_FG, WHITE);
   wid_set_mode(w, WID_MODE_NORMAL);
   wid_set_style(w, UI_WID_STYLE_BUTTON_BAR);

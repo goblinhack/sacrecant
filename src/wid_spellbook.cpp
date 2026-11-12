@@ -105,7 +105,7 @@ static void wid_player_update_spending(Gamep g, Levelsp v, Levelp l, Thingp play
   auto avail = wid_player_avail_points(g, v, l, player);
   auto a     = std::string("Mana available for spell casting");
   auto b     = std::format("{}", avail);
-  auto line  = std::format("{:<46}{:>10}", a, b);
+  auto line  = std::format("{:<37}{:>10}", a, b);
 
   wid_set_text_lhs(wid_available_mana, 1u);
   wid_set_text(wid_available_mana, line);

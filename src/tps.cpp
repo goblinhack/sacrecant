@@ -170,6 +170,7 @@
   if (!tp_load_spell_fungus_amongus()) { return false; }
   if (!tp_load_spell_hellish_onslaught()) { return false; }
   if (!tp_load_spell_stone()) { return false; }
+  if (!tp_load_spell_watery_grave()) { return false; }
   if (!tp_load_spell_wildfire_storm()) { return false; }
   if (!tp_load_spider_baby()) { return false; }
   if (!tp_load_spider()) { return false; }
