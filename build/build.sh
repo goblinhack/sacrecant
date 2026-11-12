@@ -418,61 +418,62 @@ if [[ $OPT_SDL3 != "" ]]; then
     CFLAGS+=" -DUSE_SDL3"
     LDLIBS=$(pkg-config --libs sdl3 sdl3-mixer)
 else
-SDL2_SCORE=0
+  SDL2_SCORE=0
 
-if [ "$SDL2_CONFIG" != "" ]; then
-    SDL2_INC_PATH=$($SDL2_CONFIG --cflags | sed -e 's/.*-I\([a-zA-Z\/@_0-9:\.]*\) .*/\1/g' -e 's/\-.*//g')
+  if [ "$SDL2_CONFIG" != "" ]; then
+      $SDL2_CONFIG --cflags
+      SDL2_INC_PATH=$($SDL2_CONFIG --cflags | sed -e 's/.*-I\([a-zA-Z\/@_0-9:\.]*\) .*/\1/g' -e 's/\-.*//g')
 
-    if [[ "$SDL2_INC_PATH" != "" ]]; then
-        find "$SDL2_INC_PATH" | grep -q SDL_mixer.h
-        if [ $? -eq 0 ]; then
-            SDL2_SCORE=$((SDL2_SCORE + 1))
-            SDL2_MIXER=$(find "$SDL2_INC_PATH" -name SDL_mixer.h)
-        fi
+      if [[ "$SDL2_INC_PATH" != "" ]]; then
+          find "$SDL2_INC_PATH" | grep -q SDL_mixer.h
+          if [ $? -eq 0 ]; then
+              SDL2_SCORE=$((SDL2_SCORE + 1))
+              SDL2_MIXER=$(find "$SDL2_INC_PATH" -name SDL_mixer.h)
+          fi
+      fi
+  fi
+
+  log_info "SDL2 config                : $SDL2_CONFIG"
+  log_info "SDL2 version               : "$($SDL2_CONFIG --version 2>/dev/null)
+  log_info "SDL2 libs                  : "$($SDL2_CONFIG --libs 2>/dev/null)
+  log_info "SDL2 static libs           : "$($SDL2_CONFIG --static-libs 2>/dev/null)
+  log_info "SDL2 CFLAGS                : "$($SDL2_CONFIG --cflags 2>/dev/null)
+  log_info "SDL2 prefix                : "$($SDL2_CONFIG --prefix 2>/dev/null)
+  log_info "SDL2 exec-prefix           : "$($SDL2_CONFIG --exec-prefix 2>/dev/null)
+  log_info "SDL2 include path          : $SDL2_INC_PATH"
+  log_info "SDL2 mixer.h               : $SDL2_MIXER"
+  #log_info "SDL2 found                 : $SDL2_SCORE"
+
+  if [[ $SDL2_SCORE != "1" ]]; then
+      sdl_help
+      exit 1
+  fi
+
+  if [[ $OPT_WEB_BUILD = "" ]]; then
+    #
+    # Gives warnings at runtime on MACOS
+    #
+    SDL_LIBS=$($SDL2_CONFIG --libs)
+    if [ $? -ne 0 ]
+    then
+        sdl_help
+        exit 1
     fi
-fi
+    
+    CFLAGS+=$($SDL2_CONFIG --cflags | sed 's/ \-D_REENTRANT//g')
+    if [ $? -ne 0 ]
+    then
+        sdl_help
+        exit 1
+    fi
 
-log_info "SDL2 config                : $SDL2_CONFIG"
-log_info "SDL2 version               : "$($SDL2_CONFIG --version 2>/dev/null)
-log_info "SDL2 libs                  : "$($SDL2_CONFIG --libs 2>/dev/null)
-log_info "SDL2 static libs           : "$($SDL2_CONFIG --static-libs 2>/dev/null)
-log_info "SDL2 CFLAGS                : "$($SDL2_CONFIG --cflags 2>/dev/null)
-log_info "SDL2 prefix                : "$($SDL2_CONFIG --prefix 2>/dev/null)
-log_info "SDL2 exec-prefix           : "$($SDL2_CONFIG --exec-prefix 2>/dev/null)
-log_info "SDL2 include path          : $SDL2_INC_PATH"
-log_info "SDL2 mixer.h               : $SDL2_MIXER"
-#log_info "SDL2 found                 : $SDL2_SCORE"
-
-if [[ $SDL2_SCORE != "1" ]]; then
-    sdl_help
-    exit 1
-fi
-
-if [[ $OPT_WEB_BUILD = "" ]]; then
-  #
-  # Gives warnings at runtime on MACOS
-  #
-  SDL_LIBS=$($SDL2_CONFIG --libs)
-  if [ $? -ne 0 ]
-  then
-      sdl_help
-      exit 1
+    #
+    # -funwind-tables and -rdynamic for backtrace info on linux.
+    # But it seemed to help little.
+    #
+    LDLIBS="$SDL_LIBS"
+    LDLIBS+=" -lSDL2_mixer"
   fi
-  
-  CFLAGS+=$($SDL2_CONFIG --cflags | sed 's/ \-D_REENTRANT//g')
-  if [ $? -ne 0 ]
-  then
-      sdl_help
-      exit 1
-  fi
-
-  #
-  # -funwind-tables and -rdynamic for backtrace info on linux.
-  # But it seemed to help little.
-  #
-  LDLIBS="$SDL_LIBS"
-  LDLIBS+=" -lSDL2_mixer"
-fi
 fi
 
 #
