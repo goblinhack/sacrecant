@@ -233,6 +233,7 @@ auto test_load_spell_broken_earth_radial() -> bool;
 auto test_load_spell_broken_earth() -> bool;
 auto test_load_spell_deep_cover() -> bool;
 auto test_load_spell_dispel_obstacles() -> bool;
+auto test_load_spell_fungus_amongus() -> bool;
 auto test_load_spell_hellish_onslaught() -> bool;
 auto test_load_spell_wildfire_storm() -> bool;
 auto test_load_spiderweb_monst_not_trapped_due_to_ethereal() -> bool;

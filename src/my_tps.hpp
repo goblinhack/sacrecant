@@ -165,6 +165,7 @@ auto tp_load_spell_broken_earth() -> bool;
 auto tp_load_spell_cloud_death() -> bool;
 auto tp_load_spell_deep_cover() -> bool;
 auto tp_load_spell_dispel_obstacles() -> bool;
+auto tp_load_spell_fungus_amongus() -> bool;
 auto tp_load_spell_hellish_onslaught() -> bool;
 auto tp_load_spell_stone() -> bool;
 auto tp_load_spell_wildfire_storm() -> bool;

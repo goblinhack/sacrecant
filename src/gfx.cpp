@@ -7331,7 +7331,7 @@ static void gfx_init_tiles_14x14()
       "",
       // ##############################################################################
       "icon_spell_deep_cover",
-      "icon_spell_xxx",
+      "icon_spell_fungus_amongus",
       "",
       "",
       "",

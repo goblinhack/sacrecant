@@ -149,7 +149,7 @@ static auto tp_spell_wildfire_storm_on_upgrade_do(Gamep g, Levelsp v, Levelp l, 
   tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_spell);
   tp_name_long_set(tp, "wildfire storm");
-  tp_spell_cost_set(tp, 2);
+  tp_spell_cost_set(tp, 3);
   tp_spell_mana_cost_set(tp, 10);
   tp_spell_radius_max_set(tp, 6);
   tp_spell_radius_set(tp, 2);

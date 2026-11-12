@@ -167,6 +167,7 @@
   if (!tp_load_spell_cloud_death()) { return false; }
   if (!tp_load_spell_deep_cover()) { return false; }
   if (!tp_load_spell_dispel_obstacles()) { return false; }
+  if (!tp_load_spell_fungus_amongus()) { return false; }
   if (!tp_load_spell_hellish_onslaught()) { return false; }
   if (!tp_load_spell_stone()) { return false; }
   if (!tp_load_spell_wildfire_storm()) { return false; }
