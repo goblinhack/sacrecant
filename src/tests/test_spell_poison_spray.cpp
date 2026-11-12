@@ -9,7 +9,7 @@
 #include "../my_thing_inlines.hpp"
 #include "../my_wids.hpp"
 
-[[nodiscard]] static auto test_spell_black_blood(Gamep g, Testp t) -> bool
+[[nodiscard]] static auto test_spell_poison_spray(Gamep g, Testp t) -> bool
 {
   TEST_LOG(t, "begin");
   TRACE();
@@ -58,11 +58,11 @@
 
   target_at = thing_at(g, v, l, player) + bpoint(0, 0);
 
-  spell = thing_spawn(g, v, l, tp_find_mand("spell_black_blood"), thing_at(g, v, l, player));
+  spell = thing_spawn(g, v, l, tp_find_mand("spell_poison_spray"), thing_at(g, v, l, player));
   TEST_ASSERT(t, spell, "failed to spawn spell");
 
   TEST_ASSERT(t, thing_spellbook_add(g, v, l, spell, player), "failed to add spell");
-  e.reason                 = "test_spell_black_blood";
+  e.reason                 = "test_spell_poison_spray";
   e.event_type             = THING_EVENT_SPELL_DAMAGE;
   e.source                 = player;
   e.spell_info.spell       = spell;
@@ -110,13 +110,13 @@ exit:
   return result;
 }
 
-[[nodiscard]] auto test_load_spell_black_blood() -> bool // NOLINT
+[[nodiscard]] auto test_load_spell_poison_spray() -> bool // NOLINT
 {
   TRACE();
 
-  Testp test = test_load("spell_black_blood");
+  Testp test = test_load("spell_poison_spray");
 
-  test_callback_set(test, test_spell_black_blood);
+  test_callback_set(test, test_spell_poison_spray);
 
   return true;
 }

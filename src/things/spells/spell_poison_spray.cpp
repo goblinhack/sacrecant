@@ -16,7 +16,7 @@
 
 static const std::string upgrade_1_increase_radius = "increase radius and range";
 
-static auto tp_spell_black_blood_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
+static auto tp_spell_poison_spray_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
 {
   TRACE();
 
@@ -30,14 +30,14 @@ static auto tp_spell_black_blood_get(Gamep g, Levelsp v, Levelp l, Thingp me) ->
       UI_INFO2_FMT_STR "  One extra tile radius per upgrade.\n";          //
 }
 
-static bool tp_spell_black_blood_on_cast_request(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, ThingEvent &e)
+static bool tp_spell_poison_spray_on_cast_request(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, ThingEvent &e)
 {
   TRACE();
 
   return tp_spell_common_on_cast_request(g, v, l, spell, user, e);
 }
 
-static bool tp_spell_black_blood_on_cast_per_tile(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, const bpoint &p, ThingEvent &e)
+static bool tp_spell_poison_spray_on_cast_per_tile(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, const bpoint &p, ThingEvent &e)
 {
   TRACE();
 
@@ -94,14 +94,14 @@ static bool tp_spell_black_blood_on_cast_per_tile(Gamep g, Levelsp v, Levelp l, 
   return true;
 }
 
-static bool tp_spell_black_blood_on_cast_do(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, ThingEvent &e)
+static bool tp_spell_poison_spray_on_cast_do(Gamep g, Levelsp v, Levelp l, Thingp spell, Thingp user, ThingEvent &e)
 {
   TRACE();
 
-  return tp_spell_common_on_cast_do(g, v, l, spell, user, e, tp_spell_black_blood_on_cast_per_tile);
+  return tp_spell_common_on_cast_do(g, v, l, spell, user, e, tp_spell_poison_spray_on_cast_per_tile);
 }
 
-static auto tp_spell_black_blood_on_upgrade_possible(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade u) -> bool
+static auto tp_spell_poison_spray_on_upgrade_possible(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade u) -> bool
 {
   TRACE();
 
@@ -115,7 +115,7 @@ static auto tp_spell_black_blood_on_upgrade_possible(Gamep g, Levelsp v, Levelp 
   return upgradeable;
 }
 
-static auto tp_spell_black_blood_on_upgrade_do(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade u) -> bool
+static auto tp_spell_poison_spray_on_upgrade_do(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade u) -> bool
 {
   TRACE();
 
@@ -130,23 +130,23 @@ static auto tp_spell_black_blood_on_upgrade_do(Gamep g, Levelsp v, Levelp l, Thi
   return false;
 }
 
-[[nodiscard]] auto tp_load_spell_black_blood() -> bool
+[[nodiscard]] auto tp_load_spell_poison_spray() -> bool
 {
   TRACE();
 
-  auto *tp   = tp_load("spell_black_blood"); // keep as string for scripts
+  auto *tp   = tp_load("spell_poison_spray"); // keep as string for scripts
   auto  name = tp_name(tp);
 
   // begin sort marker1 {
-  thing_detail_set(tp, tp_spell_black_blood_get);
-  thing_on_cast_do_set(tp, tp_spell_black_blood_on_cast_do);
-  thing_on_cast_request_set(tp, tp_spell_black_blood_on_cast_request);
-  thing_on_upgrade_do_set(tp, tp_spell_black_blood_on_upgrade_do);
-  thing_on_upgrade_possible_set(tp, tp_spell_black_blood_on_upgrade_possible);
+  thing_detail_set(tp, tp_spell_poison_spray_get);
+  thing_on_cast_do_set(tp, tp_spell_poison_spray_on_cast_do);
+  thing_on_cast_request_set(tp, tp_spell_poison_spray_on_cast_request);
+  thing_on_upgrade_do_set(tp, tp_spell_poison_spray_on_upgrade_do);
+  thing_on_upgrade_possible_set(tp, tp_spell_poison_spray_on_upgrade_possible);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_spell);
-  tp_name_long_set(tp, "black blood");
+  tp_name_long_set(tp, "poison spray");
   tp_spell_cost_set(tp, 1);
   tp_spell_mana_cost_set(tp, 5);
   tp_spell_radius_max_set(tp, 6);

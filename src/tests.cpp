@@ -230,13 +230,13 @@
   if (!test_load_sac_weaponless_attack_mob()) { return false; }
   if (!test_load_save_load()) { return false; }
   if (!test_load_slots()) { return false; }
-  if (!test_load_spell_black_blood()) { return false; }
   if (!test_load_spell_broken_earth_radial()) { return false; }
   if (!test_load_spell_broken_earth()) { return false; }
   if (!test_load_spell_deep_cover()) { return false; }
   if (!test_load_spell_dispel_obstacles()) { return false; }
   if (!test_load_spell_fungus_amongus()) { return false; }
   if (!test_load_spell_hellish_onslaught()) { return false; }
+  if (!test_load_spell_poison_spray()) { return false; }
   if (!test_load_spell_watery_grave()) { return false; }
   if (!test_load_spell_wildfire_storm()) { return false; }
   if (!test_load_spiderweb_monst_not_trapped_due_to_ethereal()) { return false; }
