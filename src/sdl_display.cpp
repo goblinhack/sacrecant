@@ -58,7 +58,13 @@ void sdl_display(Gamep g)
     sdl_screenshot_do(g);
   }
 
-  SDL_Delay(game_sdl_delay_get(g));
+  //
+  // With vsync on, the swap already paces us, so an extra sleep only adds latency (and on some
+  // platforms a 1ms sleep can last far longer). Only yield the cpu when vsync is off.
+  //
+  if (! game_gfx_vsync_enable_get(g)) {
+    SDL_Delay(game_sdl_delay_get(g));
+  }
 
   //
   // Flip

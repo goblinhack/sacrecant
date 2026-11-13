@@ -370,20 +370,12 @@ static void level_display_cursor(Gamep g, Levelsp v, Levelp l, FboEnum fbo)
   }
 }
 
-static void level_display_slot(Gamep g, Levelsp v, Levelp l, const bpoint &p, int slot, MapZDepthType depth, FboEnum fbo)
+//
+// Display a single thing that is already known to be at the given z depth
+//
+static void level_display_thing(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp t, MapZDepthType depth, FboEnum fbo)
 {
   TRACE_DEBUG();
-
-  Tpp   tp = nullptr;
-  auto *t  = thing_and_tp_get_at(g, v, l, p, slot, &tp);
-  if (tp == nullptr) [[unlikely]] {
-    return;
-  }
-
-  auto thing_depth = thing_z_depth_get(g, v, l, t);
-  if (thing_depth != depth) {
-    return;
-  }
 
   //
   // Do not show the special overlay tile unless showing the overlay it belongs in
@@ -426,6 +418,141 @@ static void level_display_slot(Gamep g, Levelsp v, Levelp l, const bpoint &p, in
   thing_display(g, v, l, p, tp, t, tl, br, tile_index, fbo);
 }
 
+static void level_display_slot(Gamep g, Levelsp v, Levelp l, const bpoint &p, int slot, MapZDepthType depth, FboEnum fbo)
+{
+  TRACE_DEBUG();
+
+  Tpp   tp = nullptr;
+  auto *t  = thing_and_tp_get_at(g, v, l, p, slot, &tp);
+  if (tp == nullptr) [[unlikely]] {
+    return;
+  }
+
+  auto thing_depth = thing_z_depth_get(g, v, l, t);
+  if (thing_depth != depth) {
+    return;
+  }
+
+  level_display_thing(g, v, l, p, tp, t, depth, fbo);
+}
+
+//
+// Should the tile at p be displayed in this FBO? This does not depend on the z depth so it only
+// needs to be evaluated once per tile.
+//
+static auto level_display_tile_wanted(Gamep g, Levelsp v, Levelp level_above, Levelp l, const bpoint &p, FboEnum fbo, Thingp player,
+                                      Levelp player_level, bool is_level_select) -> bool
+{
+  auto display_tile = false;
+
+  switch (fbo) {
+    case FBO_MAP_BG_PREVIOUSLY_SEEN_TILES :
+      if (level_has_seen_cached(g, v, l, p)) {
+        //
+        // Has seen previously
+        //
+        display_tile = true;
+      }
+      break;
+
+    case FBO_MAP_BG_FLOOR_WATER_LAVA :
+      if (thing_vision_can_see_tile(g, v, player_level, player, p)) {
+        //
+        // Can see currently
+        //
+        display_tile = true;
+      }
+      break;
+
+    case FBO_MAP_LAVA_OVERLAY :
+      if (level_above != nullptr) {
+        display_tile = level_is_lava_cached(g, v, l, p);
+      } else if (level_has_seen_cached(g, v, l, p)) {
+        display_tile = level_is_lava_cached(g, v, l, p);
+      }
+      break;
+
+    case FBO_MAP_FG :
+      if (thing_vision_can_see_tile(g, v, player_level, player, p)) {
+        //
+        // Can see currently
+        //
+        display_tile = true;
+      }
+      break;
+
+    case FBO_MAP_FG_OVERLAY :
+      //
+      // Only show things we have seen previously
+      //
+      if (level_has_seen_cached(g, v, l, p)) {
+        //
+        // Certain things, like exits, once seen, are always lit above the light
+        //
+        if (level_is_blit_shown_in_overlay_bool(g, v, l, p)) {
+          //
+          // Always show
+          //
+          display_tile = true;
+        }
+      }
+
+      //
+      // Need to show hidden things in the overlay e.g. a ghost inside a wall
+      //
+      if (! display_tile) {
+        //
+        // But only for base tiles that we have seen already. Else a hidden ghost
+        // might briefly appear off screen
+        //
+        if (thing_vision_can_see_tile(g, v, player_level, player, p)) {
+          FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, p)
+          {
+            if (thing_is_player(it) && thing_is_invisible(g, v, l, it)) {
+              display_tile = true;
+              break;
+            }
+
+            if (thing_is_hidden(it) != 0) {
+              display_tile = true;
+              break;
+            }
+
+            if (thing_is_flying(g, v, l, it) || thing_is_levitating(g, v, l, it) || thing_is_jumping(it) || thing_is_thrown(it)) {
+              display_tile = true;
+              break;
+            }
+          }
+        }
+      }
+      break;
+
+    default : break;
+  }
+
+  IF_DEBUG { display_tile = true; }
+  else if (is_level_select)
+  {
+    //
+    // No lighting in level selection
+    //
+    display_tile = true;
+  }
+
+  if (display_tile) {
+    if (level_above != nullptr) {
+      if (! level_is_chasm_cached(g, v, level_above, p)) {
+        //
+        // Viewing through a chasm: only show this tile if the level above is a chasm
+        //
+        display_tile = false;
+      }
+    }
+  }
+
+  return display_tile;
+}
+
 //
 // Render the level to an FBO
 //
@@ -446,150 +573,77 @@ static void level_display_fbo_do(Gamep g, Levelsp v, Levelp level_above, Levelp 
   }
 
   //
-  // Display tiles in z prio order
+  // Display tiles in z prio order.
   //
+  // Per row, gather the things on every tile we want to show once, and then draw them in z depth
+  // order. A stable counting sort by depth keeps the x then slot order within a depth, so the draw
+  // order is unchanged, but we no longer walk every slot of every tile once per z depth.
+  //
+  struct RowEntry {
+    Thingp        t;
+    Tpp           tp;
+    int           x;
+    MapZDepthType depth;
+  };
+
+  constexpr int   row_max     = static_cast< int >(MAP_WIDTH) * static_cast< int >(MAP_SLOTS);
+  constexpr int   depth_count = static_cast< int >(MAP_Z_DEPTH_ENUM_MAX);
+  static RowEntry row_unsorted[ row_max ];
+  static RowEntry row_sorted[ row_max ];
+  const bool      monochrome = (fbo == FBO_MAP_BG_PREVIOUSLY_SEEN_TILES);
+
   for (auto y = v->miny; y < v->maxy; y++) {
-    FOR_ALL_MAP_Z_DEPTH(z_depth)
-    {
-      for (auto x = v->minx; x < v->maxx; x++) {
+    int n = 0;
 
-        bpoint const p(x, y);
-        auto         display_tile = false;
+    for (auto x = v->minx; x < v->maxx; x++) {
+      bpoint const p(x, y);
 
-        switch (fbo) {
-          case FBO_MAP_BG_PREVIOUSLY_SEEN_TILES :
-            display_tile = false;
-            g_monochrome = true;
+      if (! level_display_tile_wanted(g, v, level_above, l, p, fbo, player, player_level, is_level_select)) {
+        continue;
+      }
 
-            if (level_has_seen_cached(g, v, l, p)) {
-              //
-              // Has seen previously
-              //
-              display_tile = true;
-            }
-            break;
-
-          case FBO_MAP_BG_FLOOR_WATER_LAVA :
-            display_tile = false;
-            g_monochrome = false;
-
-            if (thing_vision_can_see_tile(g, v, player_level, player, p)) {
-              //
-              // Can see currently
-              //
-              display_tile = true;
-            }
-            break;
-
-          case FBO_MAP_LAVA_OVERLAY :
-            g_monochrome = false;
-
-            if (level_above != nullptr) {
-              display_tile = level_is_lava_cached(g, v, l, p);
-            } else if (level_has_seen_cached(g, v, l, p)) {
-              display_tile = level_is_lava_cached(g, v, l, p);
-            }
-            break;
-
-          case FBO_MAP_FG :
-            display_tile = false;
-            g_monochrome = false;
-
-            if (thing_vision_can_see_tile(g, v, player_level, player, p)) {
-              //
-              // Can see currently
-              //
-              display_tile = true;
-            }
-            break;
-
-          case FBO_MAP_FG_OVERLAY :
-            display_tile = false;
-            g_monochrome = false;
-
-            //
-            // Only show things we have seen previously
-            //
-            if (level_has_seen_cached(g, v, l, p)) {
-              //
-              // Certain things, like exits, once seen, are always lit above the light
-              //
-              if (level_is_blit_shown_in_overlay_bool(g, v, l, p)) {
-                //
-                // Always show
-                //
-                display_tile = true;
-              }
-            }
-
-            //
-            // Need to show hidden things in the overlay e.g. a ghost inside a wall
-            //
-            if (! display_tile) {
-              //
-              // But only for base tiles that we have seen already. Else a hidden ghost
-              // might briefly appear off screen
-              //
-              if (thing_vision_can_see_tile(g, v, player_level, player, p)) {
-                FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, p)
-                {
-                  if (thing_is_player(it) && thing_is_invisible(g, v, l, it)) {
-                    display_tile = true;
-                    break;
-                  }
-
-                  if (thing_is_hidden(it) != 0) {
-                    display_tile = true;
-                    break;
-                  }
-
-                  if (thing_is_flying(g, v, l, it) || thing_is_levitating(g, v, l, it) || thing_is_jumping(it) || thing_is_thrown(it)) {
-                    display_tile = true;
-                    break;
-                  }
-                }
-              }
-            }
-            break;
-          default : break;
+      for (auto slot = 0; slot < MAP_SLOTS; slot++) {
+        Tpp   tp = nullptr;
+        auto *t  = thing_and_tp_get_at(g, v, l, p, slot, &tp);
+        if (tp == nullptr) [[likely]] {
+          continue;
         }
 
-        IF_DEBUG { display_tile = true; }
-        else if (is_level_select)
-        {
-          //
-          // No lighting in level selection
-          //
-          display_tile = true;
+        auto depth = thing_z_depth_get(g, v, l, t);
+        if ((static_cast< int >(depth) < 0) || (static_cast< int >(depth) >= depth_count)) [[unlikely]] {
+          continue;
         }
 
-        if (display_tile) {
-          if (level_above != nullptr) {
-            if (level_is_chasm_cached(g, v, level_above, p)) {
-              //
-              // Only show this tile if the level above is a chasm
-              //
-            } else {
-              //
-              // Viewing through a chasm
-              //
-              display_tile = false;
-            }
-          }
-
-          if (display_tile) {
-            //
-            // Display all things at this location (for this z depth)
-            //
-            for (auto slot = 0; slot < MAP_SLOTS; slot++) {
-              level_display_slot(g, v, l, p, slot, z_depth, fbo);
-            }
-          }
+        if (n < row_max) [[likely]] {
+          row_unsorted[ n++ ] = {t, tp, x, depth};
         }
-
-        g_monochrome = false;
       }
     }
+
+    if (n == 0) {
+      continue;
+    }
+
+    //
+    // Stable counting sort by depth.
+    //
+    int start[ depth_count + 1 ] = {};
+    for (int i = 0; i < n; i++) {
+      start[ static_cast< int >(row_unsorted[ i ].depth) + 1 ]++;
+    }
+    for (int d = 0; d < depth_count; d++) {
+      start[ d + 1 ] += start[ d ];
+    }
+    for (int i = 0; i < n; i++) {
+      row_sorted[ start[ static_cast< int >(row_unsorted[ i ].depth) ]++ ] = row_unsorted[ i ];
+    }
+
+    g_monochrome = monochrome;
+    for (int i = 0; i < n; i++) {
+      auto &e = row_sorted[ i ];
+      level_display_thing(g, v, l, bpoint(e.x, y), e.tp, e.t, e.depth, fbo);
+    }
+    g_monochrome = false;
   }
 
   IF_NODEBUG

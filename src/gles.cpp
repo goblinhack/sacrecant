@@ -641,7 +641,7 @@ void main()
 // u_flags bit 1 : use the per vertex colour, else the uniform colour
 //
 static const char *const GL_FRAGMENT_SHADER_SRC = R"(#version 300 es
-precision mediump float;
+precision highp float;
 
 in vec2 v_uv;
 in vec4 v_color;
@@ -670,8 +670,19 @@ static constexpr GLint FLAG_TEXTURE      = 1;
 static constexpr GLint FLAG_VERTEX_COLOR = 2;
 
 static GLuint gl_program;
-static GLuint gl_vao;
+static GLuint gl_vaos[ 3 ];      // one per vertex layout, configured on first use
+static bool   gl_vao_ready[ 3 ]; // has the VAO for this layout been configured yet
 static GLuint gl_vbo;
+static GLsizeiptr gl_vbo_capacity; // bytes currently allocated for gl_vbo
+
+//
+// The last values we sent to the program, so we can skip redundant uniform uploads.
+//
+static bool                     gl_uniforms_valid;
+static std::array< float, 16 >  gl_uniform_proj;
+static std::array< float, 16 >  gl_uniform_modelview;
+static std::array< GLubyte, 4 > gl_uniform_color;
+static GLint                    gl_uniform_flags;
 static GLint  gl_loc_mvp   = -1;
 static GLint  gl_loc_tex   = -1;
 static GLint  gl_loc_color = -1;
@@ -730,8 +741,19 @@ void gl_shader_init()
   gl_loc_color = glGetUniformLocation(gl_program, "u_color");
   gl_loc_flags = glGetUniformLocation(gl_program, "u_flags");
 
-  glGenVertexArrays(1, &gl_vao);
+  //
+  // The texture sampler is always unit 0, so there is no need to set it on every draw.
+  //
+  glUseProgram(gl_program);
+  glUniform1i(gl_loc_tex, 0);
+
+  glGenVertexArrays(3, gl_vaos);
   glGenBuffers(1, &gl_vbo);
+  gl_vbo_capacity   = 0;
+  gl_uniforms_valid = false;
+  for (auto &ready : gl_vao_ready) {
+    ready = false;
+  }
 
   GL_ERROR_CHECK();
 }
@@ -744,10 +766,17 @@ void gl_shader_fini()
     glDeleteBuffers(1, &gl_vbo);
     gl_vbo = 0;
   }
-  if (gl_vao != 0) {
-    glDeleteVertexArrays(1, &gl_vao);
-    gl_vao = 0;
+  if (gl_vaos[ 0 ] != 0) {
+    glDeleteVertexArrays(3, gl_vaos);
+    for (auto &vao : gl_vaos) {
+      vao = 0;
+    }
   }
+  for (auto &ready : gl_vao_ready) {
+    ready = false;
+  }
+  gl_vbo_capacity   = 0;
+  gl_uniforms_valid = false;
   if (gl_program != 0) {
     glDeleteProgram(gl_program);
     gl_program = 0;
@@ -773,12 +802,24 @@ static void gl_draw(GLenum mode, int layout, const void *data, GLsizei stride, G
 
   glUseProgram(gl_program);
 
-  Mat4 const mvp = mat4_mul(matrix_curr[ GL_MATRIX_PROJECTION ], matrix_curr[ GL_MATRIX_MODELVIEW ]);
-  glUniformMatrix4fv(gl_loc_mvp, 1, GL_FALSE, mvp.data());
+  //
+  // Only upload uniforms that have changed since the last draw.
+  //
+  auto const &proj = matrix_curr[ GL_MATRIX_PROJECTION ];
+  auto const &mv   = matrix_curr[ GL_MATRIX_MODELVIEW ];
+  if (! gl_uniforms_valid || (proj != gl_uniform_proj) || (mv != gl_uniform_modelview)) {
+    Mat4 const mvp = mat4_mul(proj, mv);
+    glUniformMatrix4fv(gl_loc_mvp, 1, GL_FALSE, mvp.data());
+    gl_uniform_proj      = proj;
+    gl_uniform_modelview = mv;
+  }
 
-  constexpr float inv255 = 1.0F / 255.0F;
-  glUniform4f(gl_loc_color, static_cast< float >(gl_current_color[ 0 ]) * inv255, static_cast< float >(gl_current_color[ 1 ]) * inv255,
-              static_cast< float >(gl_current_color[ 2 ]) * inv255, static_cast< float >(gl_current_color[ 3 ]) * inv255);
+  if (! gl_uniforms_valid || (gl_current_color != gl_uniform_color)) {
+    constexpr float inv255 = 1.0F / 255.0F;
+    glUniform4f(gl_loc_color, static_cast< float >(gl_current_color[ 0 ]) * inv255, static_cast< float >(gl_current_color[ 1 ]) * inv255,
+                static_cast< float >(gl_current_color[ 2 ]) * inv255, static_cast< float >(gl_current_color[ 3 ]) * inv255);
+    gl_uniform_color = gl_current_color;
+  }
 
   GLint flags = 0;
   if (layout != VERTEX_XY) {
@@ -786,46 +827,60 @@ static void gl_draw(GLenum mode, int layout, const void *data, GLsizei stride, G
   }
   if (tex != 0) {
     flags |= FLAG_TEXTURE;
-
-    //
-    // Doesn't seem to fix
-    //
-    // POSSIBLE ISSUE: unit 0 GLD_TEXTURE_INDEX_2D is unloadable and bound to sampler type (Float) - using zero texture because texture
-    // unloadable
-    //
-    // Didn't help
-    //
-    // glUniform1i(glGetUniformLocation(gl_program, "u_Textures[0]"), 0 /* slot */);
-
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, tex);
-    glUniform1i(gl_loc_tex, 0);
   }
-  glUniform1i(gl_loc_flags, flags);
 
-  glBindVertexArray(gl_vao);
+  if (! gl_uniforms_valid || (flags != gl_uniform_flags)) {
+    glUniform1i(gl_loc_flags, flags);
+    gl_uniform_flags = flags;
+  }
+  gl_uniforms_valid = true;
+
+  //
+  // Upload the vertices into one persistent buffer. Orphaning the storage first (a null glBufferData
+  // of the same size) lets the driver hand us fresh memory rather than stalling on a draw that is
+  // still in flight, and avoids reallocating a different sized buffer on every draw.
+  //
+  glBindVertexArray(gl_vaos[ layout ]);
   glBindBuffer(GL_ARRAY_BUFFER, gl_vbo);
-  glBufferData(GL_ARRAY_BUFFER, static_cast< GLsizeiptr >(stride) * nvertices, data, GL_STREAM_DRAW);
 
-  size_t offset = 0;
-
-  if (layout == VERTEX_UV_XY_RGBA) {
-    glEnableVertexAttribArray(ATTR_UV);
-    glVertexAttribPointer(ATTR_UV, 2, GL_FLOAT, GL_FALSE, stride, reinterpret_cast< const void * >(offset));
-    offset += SIZEOF(GLfloat) * 2;
-  } else {
-    glDisableVertexAttribArray(ATTR_UV);
+  auto const bytes = static_cast< GLsizeiptr >(stride) * nvertices;
+  if (bytes > gl_vbo_capacity) {
+    gl_vbo_capacity = 1 << 20; // 1 Mb minimum
+    while (gl_vbo_capacity < bytes) {
+      gl_vbo_capacity *= 2;
+    }
   }
+  glBufferData(GL_ARRAY_BUFFER, gl_vbo_capacity, nullptr, GL_STREAM_DRAW);
+  glBufferSubData(GL_ARRAY_BUFFER, 0, bytes, data);
 
-  glEnableVertexAttribArray(ATTR_XY);
-  glVertexAttribPointer(ATTR_XY, 2, GL_SHORT, GL_FALSE, stride, reinterpret_cast< const void * >(offset));
-  offset += SIZEOF(GLshort) * 2;
+  //
+  // The attribute setup lives in the VAO, so only do it the first time we see each layout.
+  //
+  if (! gl_vao_ready[ layout ]) {
+    gl_vao_ready[ layout ] = true;
 
-  if (layout != VERTEX_XY) {
-    glEnableVertexAttribArray(ATTR_COLOR);
-    glVertexAttribPointer(ATTR_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, stride, reinterpret_cast< const void * >(offset));
-  } else {
-    glDisableVertexAttribArray(ATTR_COLOR);
+    size_t offset = 0;
+
+    if (layout == VERTEX_UV_XY_RGBA) {
+      glEnableVertexAttribArray(ATTR_UV);
+      glVertexAttribPointer(ATTR_UV, 2, GL_FLOAT, GL_FALSE, stride, reinterpret_cast< const void * >(offset));
+      offset += SIZEOF(GLfloat) * 2;
+    } else {
+      glDisableVertexAttribArray(ATTR_UV);
+    }
+
+    glEnableVertexAttribArray(ATTR_XY);
+    glVertexAttribPointer(ATTR_XY, 2, GL_SHORT, GL_FALSE, stride, reinterpret_cast< const void * >(offset));
+    offset += SIZEOF(GLshort) * 2;
+
+    if (layout != VERTEX_XY) {
+      glEnableVertexAttribArray(ATTR_COLOR);
+      glVertexAttribPointer(ATTR_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, stride, reinterpret_cast< const void * >(offset));
+    } else {
+      glDisableVertexAttribArray(ATTR_COLOR);
+    }
   }
 
 #ifdef DEBUG_BUILD
@@ -836,6 +891,12 @@ static void gl_draw(GLenum mode, int layout, const void *data, GLsizei stride, G
 
   glBindVertexArray(0);
   glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+  //
+  // Unbind the texture again. A texture that is still bound to unit 0 while it is also the colour
+  // attachment of the FBO we draw into later can be flagged as a feedback loop by some drivers,
+  // even when the draw does not sample it.
+  //
   if (tex != 0) {
     glBindTexture(GL_TEXTURE_2D, 0);
   }
