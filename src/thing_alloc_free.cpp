@@ -308,7 +308,10 @@ static auto thing_alloc_do(Gamep g, Levelsp v, Levelp l, Tpp tp, ThingIdPacked i
 
 #ifdef ENABLE_PER_THING_MEMORY
   if (memory_test) {
-    auto tmp = malloc(sizeof(*me));
+    auto *tmp = malloc(sizeof(*me));
+    if (tmp == nullptr) {
+      CROAK("no memory for per-thing debug copy");
+    }
     memcpy(tmp, me, sizeof(*me));
     me                               = (Thingp) tmp;
     v->thing_body_debug[ arr_index ] = me;

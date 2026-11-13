@@ -34,7 +34,9 @@ std::unordered_map< std::string, RamdiskT > ramdisk_data;
 
   memcpy(out, const_cast< uint8_t * >(ramfile.data), ramfile.len);
   *(static_cast< uint8_t * >(out) + ramfile.len) = 0;
-  *outlen                                        = ramfile.len;
+  if (outlen != nullptr) {
+    *outlen = ramfile.len;
+  }
 
   return static_cast< uint8_t * >(out);
 }

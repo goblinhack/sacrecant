@@ -9,18 +9,15 @@
 #include "my_game.hpp"
 #include "my_game_defs.hpp"
 #include "my_game_inlines.hpp"
-#include "my_globals.hpp"
 #include "my_level.hpp"
 #include "my_level_inlines.hpp" // NOLINT
 #include "my_main.hpp"
-#include "my_random.hpp"
 #include "my_sdl_proto.hpp"
 #include "my_sound.hpp"
 #include "my_spoint.hpp"
 #include "my_string.hpp"
 #include "my_thing.hpp"
 #include "my_thing_inlines.hpp" // NOLINT
-#include "my_tile.hpp"
 #include "my_tp.hpp"
 #include "my_tp_inlines.hpp"
 #include "my_types.hpp"
@@ -98,8 +95,8 @@ static void wid_temple_sacrifice_select_all_done(Gamep g)
   // Add the chosen sacrifice
   //
   for (auto *chosen_sacrifice : game_chosen_sacrifice_get(g)) {
-    auto sacrifice = thing_hook_add(g, v, l, player, chosen_sacrifice);
-    if (! sacrifice) {
+    auto *sacrifice = thing_hook_add(g, v, l, player, chosen_sacrifice);
+    if (sacrifice == nullptr) {
       tp_err(chosen_sacrifice, "failed to add sacrifice");
     } else {
       (void) thing_sac_points_incr(g, v, l, player, thing_sac_points(g, v, l, sacrifice));
@@ -110,8 +107,8 @@ static void wid_temple_sacrifice_select_all_done(Gamep g)
   // Add the chosen boost
   //
   for (auto *chosen_boost : game_chosen_boost_get(g)) {
-    auto boost = thing_hook_add(g, v, l, player, chosen_boost);
-    if (! boost) {
+    auto *boost = thing_hook_add(g, v, l, player, chosen_boost);
+    if (boost == nullptr) {
       tp_err(chosen_boost, "failed to add boost");
     } else {
       (void) thing_sac_points_incr(g, v, l, player, thing_sac_points(g, v, l, boost));

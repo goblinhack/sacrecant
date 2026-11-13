@@ -62,7 +62,7 @@ extern TpVec tp_vec;
     return nullptr;
   }
 
-  if (static_cast< int >(id) - 1 > static_cast< int >(tp_vec.size())) {
+  if (static_cast< int >(id) - 1 >= static_cast< int >(tp_vec.size())) {
     CROAK("tp_find: thing template %" PRIX16 " bad id, beyond size of tp_vec", id);
     return nullptr;
   }

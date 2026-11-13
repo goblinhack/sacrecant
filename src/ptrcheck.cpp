@@ -199,10 +199,16 @@ static auto hash_init(int hash_size) -> hash_t *
   hash_t *hash_table = nullptr;
 
   hash_table = static_cast< __typeof__(hash_table) >(local_zalloc(SIZEOF(hash_t)));
+  if (hash_table == nullptr) {
+    CROAK("no memory for ptrcheck hash table");
+  }
 
   hash_table->hash_size = hash_size;
 
   hash_table->elements = static_cast< __typeof__(hash_table->elements) >(local_zalloc(hash_size * SIZEOF(hash_elem_t *)));
+  if (hash_table->elements == nullptr) {
+    CROAK("no memory for ptrcheck hash elements");
+  }
 
   return hash_table;
 }
@@ -243,6 +249,9 @@ static void hash_add(hash_t *hash_table, Ptrcheck *pc)
   }
 
   elem       = static_cast< __typeof__(elem) >(local_zalloc(SIZEOF(*elem)));
+  if (elem == nullptr) {
+    CROAK("no memory for ptrcheck hash element");
+  }
   elem->pc   = pc;
   elem->next = *slot;
   *slot      = elem;

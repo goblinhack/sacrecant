@@ -101,7 +101,9 @@ static auto file_io_read(const char *filename, int *len) -> uint8_t *;
 
   auto *r = ramdisk_load(filename, outlen);
   if (r != nullptr) {
-    file_log("READ: read (ramdisk) %s, %d Mb, %d bytes", filename, *outlen / (1024 * 1024), *outlen);
+    if (outlen != nullptr) {
+      file_log("READ: read (ramdisk) %s, %d Mb, %d bytes", filename, *outlen / (1024 * 1024), *outlen);
+    }
     return r;
   }
 
@@ -175,8 +177,9 @@ static auto file_io_read(const char *filename, int *len) -> uint8_t *;
     return nullptr;
   }
 
-  if (! static_cast< bool >(fread(buffer, len, 1, file))) {
+  if ((len > 0) && ! static_cast< bool >(fread(buffer, len, 1, file))) {
     std::println(MY_STDERR, "failed to read file \"{}\": {}", filename, strerror(errno));
+    MYFREE(buffer);
     fclose(file);
     return nullptr;
   }

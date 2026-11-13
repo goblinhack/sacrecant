@@ -171,6 +171,7 @@ static auto find_one(const std::string &alias) -> Music *
   if (m->rw == nullptr) {
     CROAK("SDL_RWFromMem fail [%s]: %s %s", file, Mix_GetError(), SDL_GetError());
     SDL_ClearError();
+    delete m;
     return false;
   }
 

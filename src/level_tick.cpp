@@ -622,7 +622,10 @@ void level_tick_remove_thing_from_worklist(Thingp me)
     return;
   }
 
-  worklist.erase(std::ranges::find(worklist, me->id));
+  auto it = std::ranges::find(worklist, me->id);
+  if (it != worklist.end()) {
+    worklist.erase(it);
+  }
 
   thing_is_scheduled_for_worklist_unset(me);
 }
