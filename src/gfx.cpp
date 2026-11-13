@@ -7298,7 +7298,7 @@ static void gfx_init_tiles_14x14()
       // ##############################################################################
       "icon_spell_broken_earth",
       "icon_spell_dispel_obstacles",
-      "",
+      "icon_spell_level_warp",
       "",
       "",
       "",

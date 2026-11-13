@@ -21,17 +21,6 @@
   auto arr_index          = id_packed.c.arr_index;
 
   auto *t = &v->thing_body[ arr_index ];
-  if (t == nullptr) [[unlikely]] {
-    CROAK("thing not found as id %08" PRIX32 //
-          " (level: %" PRIu32                //
-          " id: %08" PRIX32                  //
-          " entropy: %08" PRIX32             //
-          ")",                               //
-          id,                                //
-          id_packed.b.level_arr_idx,         //
-          id_packed.b.per_level_thing_id,    //
-          id_packed.b.entropy);
-  }
 
   if ((t->id != id)) [[unlikely]] {
     ThingIdPacked id_found = {};

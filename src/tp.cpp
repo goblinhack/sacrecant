@@ -275,6 +275,7 @@ const std::initializer_list< std::string > tps = {
     "spell_dispel_obstacles",
     "spell_fungus_amongus",
     "spell_hellish_onslaught",
+    "spell_level_warp",
     "spell_poison_spray",
     "spell_stone",
     "spell_watery_grave",
@@ -680,8 +681,13 @@ auto tp_find_random(ThingFlagType f) -> Tpp
 {
   TRACE_DEBUG();
 
-  auto v     = tp_flag_vec[ f ];
-  int  tries = 100;
+  auto &v = tp_flag_vec[ f ];
+  if (v.empty()) [[unlikely]] {
+    ERR("tp_find_random: no tp found for ThingFlagType %d/%s", f, ThingFlagType_to_c_str(f));
+    return nullptr;
+  }
+
+  int tries = 100;
   while (tries-- > 0) {
     auto *tp = tp_find_random_select_with_rarity(v);
     if (tp == nullptr) [[unlikely]] {

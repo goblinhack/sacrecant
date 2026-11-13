@@ -166,6 +166,7 @@ auto tp_load_spell_deep_cover() -> bool;
 auto tp_load_spell_dispel_obstacles() -> bool;
 auto tp_load_spell_fungus_amongus() -> bool;
 auto tp_load_spell_hellish_onslaught() -> bool;
+auto tp_load_spell_level_warp() -> bool;
 auto tp_load_spell_poison_spray() -> bool;
 auto tp_load_spell_stone() -> bool;
 auto tp_load_spell_watery_grave() -> bool;

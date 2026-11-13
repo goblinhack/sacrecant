@@ -168,6 +168,7 @@
   if (!tp_load_spell_dispel_obstacles()) { return false; }
   if (!tp_load_spell_fungus_amongus()) { return false; }
   if (!tp_load_spell_hellish_onslaught()) { return false; }
+  if (!tp_load_spell_level_warp()) { return false; }
   if (!tp_load_spell_poison_spray()) { return false; }
   if (!tp_load_spell_stone()) { return false; }
   if (!tp_load_spell_watery_grave()) { return false; }

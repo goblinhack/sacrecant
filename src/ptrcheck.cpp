@@ -248,7 +248,7 @@ static void hash_add(hash_t *hash_table, Ptrcheck *pc)
     return;
   }
 
-  elem       = static_cast< __typeof__(elem) >(local_zalloc(SIZEOF(*elem)));
+  elem = static_cast< __typeof__(elem) >(local_zalloc(SIZEOF(*elem)));
   if (elem == nullptr) {
     CROAK("no memory for ptrcheck hash element");
   }

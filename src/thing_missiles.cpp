@@ -212,7 +212,7 @@
     }
 
     auto *missile_ext = thing_ext_struct(g, v, missile);
-    if (ext == nullptr) [[unlikely]] {
+    if (missile_ext == nullptr) [[unlikely]] {
       return 0;
     }
 

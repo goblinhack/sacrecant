@@ -313,7 +313,7 @@ static void thing_hook_sort(Gamep g, Levelsp v, Levelp l, Thingp me)
     }
 
     auto *hook_ext = thing_ext_struct(g, v, hook);
-    if (ext == nullptr) [[unlikely]] {
+    if (hook_ext == nullptr) [[unlikely]] {
       continue;
     }
 

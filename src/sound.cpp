@@ -320,7 +320,7 @@ static auto find_one(const std::string &name_alias) -> Sound *
     DBG("play sound %s volume %d channel %d", name_alias.c_str(), static_cast< int >(volume), chan);
   }
 
-  return false;
+  return true;
 }
 
 [[nodiscard]] auto sound_play(Gamep g, Levelsp v, Levelp l, const std::string &name_alias, float scale, int loops, Thingp me) -> bool
