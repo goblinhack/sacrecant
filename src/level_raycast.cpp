@@ -75,8 +75,6 @@ public:
   //
   std::array< std::vector< RayPixel >, LIGHT_MAX_RAYS_MAX > ray_pixels;
 
-  std::vector< float > ray_gl_cmds;
-
   Texp light_tex {};
   int  light_tex_id {};
 };
@@ -292,15 +290,20 @@ void Raycast::raycast_do(Gamep g, Levelsp v, Levelp l)
   auto *tp = thing_tp(player);
 
   //
-  // Local cache of things blocking light
+  // Local cache of things blocking light. The rays only ever touch a fraction of the map (they stop at
+  // walls), so work out what blocks light on demand rather than for every tile up front. Nothing
+  // changes the level while the rays are walked, so the answer for a tile is stable.
   //
-  Thingp light_blocker_cache[ MAP_WIDTH ][ MAP_HEIGHT ];
+  Thingp  light_blocker_cache[ MAP_WIDTH ][ MAP_HEIGHT ];
+  uint8_t light_blocker_cached[ MAP_WIDTH ][ MAP_HEIGHT ] = {};
 
-  for (auto x = 0; x < MAP_WIDTH; x++) {
-    for (auto y = 0; y < MAP_HEIGHT; y++) {
-      light_blocker_cache[ x ][ y ] = level_light_blocker_at(g, v, l, bpoint(x, y), player);
+  auto light_blocker_get = [ & ](const bpoint &at) -> Thingp {
+    if (light_blocker_cached[ at.x ][ at.y ] == 0U) {
+      light_blocker_cached[ at.x ][ at.y ] = 1U;
+      light_blocker_cache[ at.x ][ at.y ]  = level_light_blocker_at(g, v, l, at, player);
     }
-  }
+    return light_blocker_cache[ at.x ][ at.y ];
+  };
 
   FovContext ctx;
 
@@ -425,7 +428,7 @@ void Raycast::raycast_do(Gamep g, Levelsp v, Levelp l)
       //
       // Did the light ray hit an obstacle?
       //
-      obs_to_vision = light_blocker_cache[ tile.x ][ tile.y ];
+      obs_to_vision = light_blocker_get(tile);
       if (obs_to_vision != nullptr) {
         //
         // What type of obstacle?
@@ -483,7 +486,7 @@ void Raycast::raycast_do(Gamep g, Levelsp v, Levelp l)
           //
           // If we've left the wall, we're done
           //
-          next_obs_to_vision = light_blocker_cache[ tile.x ][ tile.y ];
+          next_obs_to_vision = light_blocker_get(tile);
           if (next_obs_to_vision == nullptr) {
             break;
           }
@@ -539,7 +542,7 @@ void Raycast::raycast_render(Gamep g, Levelsp v, Levelp l)
 
   int w = 0;
   int h = 0;
-  fbo_get_size(g, FBO_MAP_LIGHT_MASK, w, h);
+  fbo_get_size(g, fbo, w, h);
   gl_enter_2d_mode(g, w, h);
 
   blit_fbo_bind(fbo);
@@ -595,9 +598,6 @@ void Raycast::raycast_render(Gamep g, Levelsp v, Levelp l)
       PUSH_POINT(p1x, p1y);
     }
 
-    auto sz = bufp - gl_array_buf;
-    ray_gl_cmds.resize(sz);
-    std::copy(gl_array_buf, bufp, ray_gl_cmds.begin());
     blit_flush_triangle_fan();
   }
 
@@ -614,7 +614,7 @@ void Raycast::raycast_render(Gamep g, Levelsp v, Levelp l)
     blit_flush();
 
     glBlendFunc(GL_DST_ALPHA, GL_DST_ALPHA);
-    blit_fbo(g, FBO_MAP_LIGHT_MASK, RED);
+    blit_fbo(g, fbo, RED);
   }
   blit_fbo_unbind();
 }
