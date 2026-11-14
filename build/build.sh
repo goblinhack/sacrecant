@@ -184,10 +184,9 @@ help_full()
       log_warn "  pacman -Sy ${MINGW_PKG_TYPE}-x86_64-lz4"
       log_warn "  pacman -Sy ${MINGW_PKG_TYPE}-x86_64-mpc"
       log_warn "  pacman -Sy ${MINGW_PKG_TYPE}-x86_64-mpfr"
-      log_warn "  pacman -Sy ${MINGW_PKG_TYPE}-x86_64-ncurses"
       log_warn "  pacman -Sy ${MINGW_PKG_TYPE}-x86_64-openssl"
       log_warn "  pacman -Sy ${MINGW_PKG_TYPE}-x86_64-portaudio"
-      log_warn "  pacman -Sy ${MINGW_PKG_TYPE}-x86_64-python3"
+      log_warn "  pacman -Sy ${MINGW_PKG_TYPE}-x86_64-python"
       log_warn "  pacman -Sy ${MINGW_PKG_TYPE}-x86_64-readline"
       log_warn "  pacman -Sy ${MINGW_PKG_TYPE}-x86_64-SDL"
       log_warn "  pacman -Sy ${MINGW_PKG_TYPE}-x86_64-SDL2"
@@ -244,10 +243,9 @@ help_full()
                            ${MINGW_PKG_TYPE}-x86_64-lz4 \
                            ${MINGW_PKG_TYPE}-x86_64-mpc \
                            ${MINGW_PKG_TYPE}-x86_64-mpfr \
-                           ${MINGW_PKG_TYPE}-x86_64-ncurses \
                            ${MINGW_PKG_TYPE}-x86_64-openssl \
                            ${MINGW_PKG_TYPE}-x86_64-portaudio \
-                           ${MINGW_PKG_TYPE}-x86_64-python3 \
+                           ${MINGW_PKG_TYPE}-x86_64-python \
                            ${MINGW_PKG_TYPE}-x86_64-readline \
                            ${MINGW_PKG_TYPE}-x86_64-SDL \
                            ${MINGW_PKG_TYPE}-x86_64-SDL2 \
