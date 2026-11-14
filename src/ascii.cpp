@@ -170,6 +170,26 @@ void pixel_to_ascii(Gamep g, int *x, int *y)
   return ascii_ok(x, y);
 }
 
+//
+// Clip the half open rectangle [x0,x1) x [y0,y1) to the screen and the scissors. This selects exactly the
+// cells for which ascii_ok_for_scissors() is true, without testing every cell. An empty result has x0 >= x1
+// or y0 >= y1.
+//
+void ascii_clip_rect(int *x0, int *y0, int *x1, int *y1)
+{
+  *x0 = std::max(*x0, 0);
+  *y0 = std::max(*y0, 0);
+  *x1 = std::min(*x1, static_cast< int >(TERM_WIDTH));
+  *y1 = std::min(*y1, static_cast< int >(TERM_HEIGHT));
+
+  if (scissors_enabled) {
+    *x0 = std::max(*x0, static_cast< int >(scissors_tl.x));
+    *y0 = std::max(*y0, static_cast< int >(scissors_tl.y));
+    *x1 = std::min(*x1, static_cast< int >(scissors_br.x) + 1); // the scissors are inclusive
+    *y1 = std::min(*y1, static_cast< int >(scissors_br.y) + 1);
+  }
+}
+
 [[nodiscard]] auto ascii_is_empty(int x, int y) -> bool
 {
   AsciiCell const *cell = &(*cells)[ x ][ y ];

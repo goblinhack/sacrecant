@@ -544,6 +544,8 @@ void wid_set_thing_context(Gamep g, Levelsp v, Widp w, Thingp t)
       return;
     }
   }
+
+  ERR("no free thing context slot on wid (UI_MAX_WID_CONTEXT is %d)", static_cast< int >(UI_MAX_WID_CONTEXT));
 }
 
 void wid_unset_thing_context(Gamep g, Levelsp v, Widp w, Thingp t)
@@ -598,7 +600,7 @@ void wid_unset_thing_context(Gamep g, Levelsp v, Widp w, Thingp t)
     return nullptr;
   }
 
-  if (which >= UI_MAX_WID_CONTEXT) {
+  if ((which < 0) || (which >= UI_MAX_WID_CONTEXT)) {
     ERR("index overflow for UI_MAX_WID_CONTEXT");
     return nullptr;
   }
@@ -643,6 +645,8 @@ void wid_set_tp_context(Gamep g, Widp w, Tpp tp)
       return;
     }
   }
+
+  ERR("no free tp context slot on wid (UI_MAX_WID_CONTEXT is %d)", static_cast< int >(UI_MAX_WID_CONTEXT));
 }
 
 void wid_unset_tp_context(Gamep g, Widp w, Tpp tp)
@@ -687,7 +691,7 @@ void wid_unset_tp_context(Gamep g, Widp w, Tpp tp)
     return nullptr;
   }
 
-  if (which >= UI_MAX_WID_CONTEXT) {
+  if ((which < 0) || (which >= UI_MAX_WID_CONTEXT)) {
     ERR("index overflow for UI_MAX_WID_CONTEXT");
     return nullptr;
   }
@@ -929,6 +933,10 @@ static void wid_set_scissors(int tlx, int tly, int brx, int bry)
     return true;
   }
 
+  if (w == nullptr) [[unlikely]] {
+    return true;
+  }
+
   Widp top {};
 
   if ((static_cast< bool >(w->hidden)) || (static_cast< bool >(w->being_destroyed))) {
@@ -954,6 +962,10 @@ static void wid_set_scissors(int tlx, int tly, int brx, int bry)
   TRACE();
 
   if (! wid_safe()) {
+    return true;
+  }
+
+  if (w == nullptr) [[unlikely]] {
     return true;
   }
 
@@ -2366,6 +2378,13 @@ static void wid_destroy_immediate(Gamep g_maybe_null, Widp w)
     // is destroyed, to remove the popup. Else we get a dangling popup.
     //
     wid_mouse_over_end(g_maybe_null);
+
+    //
+    // wid_mouse_over_end returns early if the mouse is hidden, so make sure we are not left dangling.
+    //
+    if (w == wid_over) {
+      wid_over = nullptr;
+    }
   }
 
   for (auto x = 0; x < TERM_WIDTH; x++) {
@@ -2462,6 +2481,11 @@ void wid_destroy_nodelay(Gamep g, Widp *wp)
 void wid_destroy_in(Gamep g, Widp w, uint32_t ms)
 {
   TRACE();
+
+  if (w == nullptr) [[unlikely]] {
+    no_wid_pointer();
+    return;
+  }
 
   w->destroy_when = wid_time + ms;
 
@@ -5239,13 +5263,15 @@ static void wid_display(Gamep g, Widp w, uint8_t disable_scissor, uint8_t *updat
   //
   // If inputting text, show a cursor.
   //
-  std::string text;
+  std::string        text_with_cursor;
+  const std::string *text_ptr = &w->text;
 
   if (wid_get_show_cursor(w)) {
-    text = wid_get_text_with_cursor(w);
-  } else {
-    text = wid_get_text(w);
+    text_with_cursor = wid_get_text_with_cursor(w);
+    text_ptr         = &text_with_cursor;
   }
+
+  const std::string &text = *text_ptr;
 
   if (static_cast< bool >(w->disable_scissors)) {
     disable_scissor = 1U;
@@ -5336,18 +5362,15 @@ static void wid_display(Gamep g, Widp w, uint8_t disable_scissor, uint8_t *updat
     // if the parent is resized.
     //
     // con("%d,%d to @%d,%d %s %p", tl.x, tl.y, br.x, br.y, w->name.c_str(), w);
-    for (auto x = tl.x; x < br.x; x++) {
-      if ((ascii_x_ok(x) == 0)) [[unlikely]] {
-        continue;
-      }
-      for (auto y = tl.y; y < br.y; y++) {
-        if ((ascii_y_ok(y) == 0)) [[unlikely]] {
-          continue;
-        }
+    int clip_tlx = tl.x;
+    int clip_tly = tl.y;
+    int clip_brx = br.x;
+    int clip_bry = br.y;
+    ascii_clip_rect(&clip_tlx, &clip_tly, &clip_brx, &clip_bry);
 
-        if (ascii_ok_for_scissors(x, y) != 0) {
-          wid_on_screen_at[ x ][ y ] = w;
-        }
+    for (auto x = clip_tlx; x < clip_brx; x++) {
+      for (auto y = clip_tly; y < clip_bry; y++) {
+        wid_on_screen_at[ x ][ y ] = w;
       }
     }
   }
@@ -5646,29 +5669,23 @@ void wid_display_all(Gamep g)
 
   wid_total_count = 0;
 
-  auto wid_top_level_copy = wid_top_level;
-  for (auto &iter : wid_top_level_copy) {
-    auto *w = iter.second;
-
-    if (w->parent != nullptr) {}
-
+  //
+  // Take a snapshot as widgets can be created while displaying. A flat vector of pointers is much cheaper
+  // to build than a copy of the map.
+  //
+  std::vector< Widp > wid_top_level_copy;
+  wid_top_level_copy.reserve(wid_top_level.size());
+  for (auto &iter : wid_top_level) {
+    auto w = iter.second;
     if (wid_is_hidden(w)) {
       continue;
     }
-
-    if (compiler_unused) {}
-#if 0
-auto last = wid_total_count;
-#endif
-    wid_display(g, w, 0U /* disable_scissors */, nullptr /* updated_scissors */, 1);
-#if 0
-printf("%s %d\n", wid_name(w).c_str(), wid_total_count - last);
-#endif
+    wid_top_level_copy.push_back(w);
   }
 
-#if 0
-printf("========================================= %d\n", wid_total_count);
-#endif
+  for (auto *w : wid_top_level_copy) {
+    wid_display(g, w, 0U /* disable_scissors */, nullptr /* updated_scissors */, 1);
+  }
 
   if (wid_total_count > 5000) {
     topcon("too many widgets %d", wid_total_count);
@@ -5732,6 +5749,10 @@ printf("========================================= %d\n", wid_total_count);
 [[nodiscard]] auto wid_is_always_hidden(const Widp w) -> bool
 {
   TRACE();
+
+  if (w == nullptr) [[unlikely]] {
+    return false;
+  }
 
   return w->always_hidden != 0;
 }
