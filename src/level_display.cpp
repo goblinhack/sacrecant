@@ -23,7 +23,15 @@
 #include "my_types.hpp"
 #include "my_wid.hpp"
 
+#include <algorithm>
+#include <array>
+#include <cmath>
 #include <cstdint>
+#include <ranges>
+#include <set>
+#include <unordered_set>
+#include <utility>
+#include <vector>
 
 static void level_blit_light(Gamep g, Levelsp v, Levelp l, color c)
 {
@@ -586,14 +594,14 @@ static void level_display_fbo_do(Gamep g, Levelsp v, Levelp level_above, Levelp 
     MapZDepthType depth;
   };
 
-  constexpr int   row_max     = static_cast< int >(MAP_WIDTH) * static_cast< int >(MAP_SLOTS);
-  constexpr int   depth_count = static_cast< int >(MAP_Z_DEPTH_ENUM_MAX);
-  static RowEntry row_unsorted[ row_max ];
-  static RowEntry row_sorted[ row_max ];
-  const bool      monochrome = (fbo == FBO_MAP_BG_PREVIOUSLY_SEEN_TILES);
+  constexpr int row_max    = static_cast< int >(MAP_WIDTH) * static_cast< int >(MAP_SLOTS);
+  const bool    monochrome = (fbo == FBO_MAP_BG_PREVIOUSLY_SEEN_TILES);
+
+  std::vector< RowEntry > row_data;
+  row_data.reserve(row_max);
 
   for (auto y = v->miny; y < v->maxy; y++) {
-    int n = 0;
+    row_data.clear();
 
     for (auto x = v->minx; x < v->maxx; x++) {
       bpoint const p(x, y);
@@ -610,38 +618,22 @@ static void level_display_fbo_do(Gamep g, Levelsp v, Levelp level_above, Levelp 
         }
 
         auto depth = thing_z_depth_get(g, v, l, t);
-        if ((static_cast< int >(depth) < 0) || (static_cast< int >(depth) >= depth_count)) [[unlikely]] {
-          continue;
-        }
-
-        if (n < row_max) [[likely]] {
-          row_unsorted[ n++ ] = {t, tp, x, depth};
-        }
+        row_data.push_back({t, tp, x, depth});
       }
     }
 
-    if (n == 0) {
+    if (row_data.empty()) [[unlikely]] {
       continue;
     }
 
     //
     // Stable counting sort by depth.
     //
-    int start[ depth_count + 1 ] = {};
-    for (int i = 0; i < n; i++) {
-      start[ static_cast< int >(row_unsorted[ i ].depth) + 1 ]++;
-    }
-    for (int d = 0; d < depth_count; d++) {
-      start[ d + 1 ] += start[ d ];
-    }
-    for (int i = 0; i < n; i++) {
-      row_sorted[ start[ static_cast< int >(row_unsorted[ i ].depth) ]++ ] = row_unsorted[ i ];
-    }
+    std::ranges::sort(row_data, [](const RowEntry &a, const RowEntry &b) -> bool { return a.depth < b.depth; });
 
     g_monochrome = monochrome;
-    for (int i = 0; i < n; i++) {
-      auto &e = row_sorted[ i ];
-      level_display_thing(g, v, l, bpoint(e.x, y), e.tp, e.t, e.depth, fbo);
+    for (const auto &r : row_data) {
+      level_display_thing(g, v, l, bpoint(r.x, y), r.tp, r.t, r.depth, fbo);
     }
     g_monochrome = false;
   }
