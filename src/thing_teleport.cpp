@@ -447,7 +447,7 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
   THING_DBG(g, v, l, me, "teleport, try");
   TRACE_INDENT();
 
-  auto curr_level = thing_level(g, v, me);
+  auto *curr_level = thing_level(g, v, me);
 
   if (me->tick_event != 0U) {
     if (me->tick_event == v->tick) {

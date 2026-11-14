@@ -24,13 +24,7 @@
 #include "my_wid.hpp"
 
 #include <algorithm>
-#include <array>
-#include <cmath>
 #include <cstdint>
-#include <ranges>
-#include <set>
-#include <unordered_set>
-#include <utility>
 #include <vector>
 
 static void level_blit_light(Gamep g, Levelsp v, Levelp l, color c)

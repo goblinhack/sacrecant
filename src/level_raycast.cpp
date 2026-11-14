@@ -25,12 +25,10 @@
 #include "my_tp.hpp"
 #include "my_types.hpp"
 
-#include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstdint>
 #include <cstring>
-#include <utility>
 #include <vector>
 
 using Ray = struct Ray {

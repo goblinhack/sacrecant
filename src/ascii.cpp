@@ -179,8 +179,8 @@ void ascii_clip_rect(int *x0, int *y0, int *x1, int *y1)
 {
   *x0 = std::max(*x0, 0);
   *y0 = std::max(*y0, 0);
-  *x1 = std::min(*x1, static_cast< int >(TERM_WIDTH));
-  *y1 = std::min(*y1, static_cast< int >(TERM_HEIGHT));
+  *x1 = std::min(*x1, TERM_WIDTH);
+  *y1 = std::min(*y1, TERM_HEIGHT);
 
   if (scissors_enabled) {
     *x0 = std::max(*x0, static_cast< int >(scissors_tl.x));
@@ -582,7 +582,7 @@ template < typename F > static void ascii_scan_text(const std::string &text, F &
 [[nodiscard]] auto ascii_strlen(std::string const &text) -> int
 {
   int width = 0;
-  ascii_scan_text(text, [ & ](char) { width++; });
+  ascii_scan_text(text, [ & ](char) -> void { width++; });
   return width;
 }
 
@@ -590,7 +590,7 @@ template < typename F > static void ascii_scan_text(const std::string &text, F &
 {
   std::string out;
   out.reserve(text.size());
-  ascii_scan_text(text, [ & ](char ch) { out += ch; });
+  ascii_scan_text(text, [ & ](char ch) -> void { out += ch; });
   return out;
 }
 

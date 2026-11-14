@@ -92,7 +92,7 @@ using box_args = struct BoxArgs {
 [[nodiscard]] auto ascii_get_stat_context(int x, int y) -> void *;
 [[nodiscard]] auto ascii_is_empty(int x, int y) -> bool;
 [[nodiscard]] auto ascii_ok_for_scissors(int x, int y) -> int;
-auto                ascii_clip_rect(int *x0, int *y0, int *x1, int *y1) -> void;
+auto               ascii_clip_rect(int *x0, int *y0, int *x1, int *y1) -> void;
 [[nodiscard]] auto ascii_ok(int x, int y) -> int;
 [[nodiscard]] auto ascii_strip(std::string const &text) -> std::string;
 [[nodiscard]] auto ascii_strlen(std::string const &text) -> int;

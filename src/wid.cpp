@@ -5676,7 +5676,7 @@ void wid_display_all(Gamep g)
   std::vector< Widp > wid_top_level_copy;
   wid_top_level_copy.reserve(wid_top_level.size());
   for (auto &iter : wid_top_level) {
-    auto w = iter.second;
+    auto *w = iter.second;
     if (wid_is_hidden(w)) {
       continue;
     }
