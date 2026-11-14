@@ -1092,7 +1092,10 @@ if [[ $OPT_WEB_BUILD = "" ]]; then
       ;;
   esac
 else
+  cp $TARGET.html index.html
+  zip $TARGET.zip index.html $TARGET.wasm $TARGET.js
   echo "  python -m http.server"
+  echo "then open localhost:8000"
 fi
 
 rm -f Makefile.bak
