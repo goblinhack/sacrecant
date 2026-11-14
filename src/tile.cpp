@@ -699,6 +699,7 @@ void tile_coords(Tilep tile, float *x1, float *y1, float *x2, float *y2)
   auto result = all_tiles.find(name);
   if (result == all_tiles.end()) {
     ERR("unknown tile [%s]", name.c_str());
+    return nullptr;
   }
 
   return result->second;

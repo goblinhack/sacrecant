@@ -49,94 +49,47 @@ void thing_blit_text(Gamep g, Levelsp v, Levelp l, spoint tl, spoint br, std::st
   tl.y += oh / 2;
   br.y = tl.y + h;
 
-  bool found_format_string = false;
-  char c                   = 0;
-  auto text_start          = text.begin();
-  auto text_iter           = text_start;
+  //
+  // A %tp= or %tile= applies to the character that follows, so remember it until we draw that.
+  //
+  Tilep        tile = nullptr;
+  const size_t size = text.size();
+  size_t       pos  = 0;
 
-  for (;;) {
-    Tilep tile = nullptr;
+  while (pos < size) {
+    auto const tok = text_next_token(text, pos);
+    pos            = tok.next;
 
-    c = *text_iter;
-    if (c == 0) {
-      break;
+    switch (tok.type) {
+      case TextTokenType::Char : break;
+      case TextTokenType::Skip :
+      case TextTokenType::Bg :
+      case TextTokenType::Tex :  continue;
+      case TextTokenType::Fg :
+        {
+          std::string name = text.substr(tok.arg, tok.arg_len);
+          int         len2 = 0;
+          fg               = string2color(name, &len2);
+          continue;
+        }
+      case TextTokenType::Tp :
+        {
+          std::string name = text.substr(tok.arg, tok.arg_len + (tok.terminated ? 1 : 0));
+          const char *tmpc = name.c_str();
+          int         len2 = 0;
+          tile             = tp_first_tile(string2tp(&tmpc, &len2), THING_ANIM_IDLE);
+          continue;
+        }
+      case TextTokenType::Tile :
+        {
+          std::string name = text.substr(tok.arg, tok.arg_len + (tok.terminated ? 1 : 0));
+          int         len2 = 0;
+          tile             = string2tile(name, &len2);
+          continue;
+        }
     }
 
-    if (! found_format_string) {
-      if (c == '%') {
-        found_format_string = true;
-        continue;
-      }
-    } else if (found_format_string) {
-      if (std::string(text_iter, text_iter + 3) == "fg=") {
-        text_iter += 3;
-        auto tmp = std::string(text_iter, text.end());
-
-        int tmplen = 0;
-        fg         = string2color(tmp, &tmplen);
-        text_iter += tmplen + 1;
-
-        found_format_string = false;
-        continue;
-      }
-      if (std::string(text_iter, text_iter + 3) == "bg=") {
-        text_iter += 3;
-        auto tmp = std::string(text_iter, text.end());
-
-        int tmp_len = 0;
-        (void) string2color(tmp, &tmp_len);
-        text_iter += tmp_len + 1;
-
-        found_format_string = false;
-        continue;
-      }
-      if (std::string(text_iter, text_iter + 4) == "tex=") {
-        text_iter += 4;
-        auto tmp = std::string(text_iter, text.end());
-
-        int tmp_len = 0;
-        (void) string2tex(tmp, &tmp_len);
-        text_iter += tmp_len + 1;
-
-        found_format_string = false;
-        continue;
-      }
-      if (std::string(text_iter, text_iter + 3) == "tp=") {
-        text_iter += 3;
-        auto tmp = std::string(text_iter, text.end());
-
-        int         tmp_len = 0;
-        const char *tmpc    = tmp.c_str();
-        auto       *tp      = string2tp(&tmpc, &tmp_len);
-        text_iter += tmp_len + 1;
-
-        tile                = tp_first_tile(tp, THING_ANIM_IDLE);
-        found_format_string = false;
-        continue;
-      }
-      if (std::string(text_iter, text_iter + 5) == "tile=") {
-        text_iter += 5;
-        auto tmp = std::string(text_iter, text.end());
-
-        int tmp_len = 0;
-        tile        = string2tile(tmp, &tmp_len);
-        text_iter += tmp_len + 1;
-
-        found_format_string = false;
-        continue;
-      }
-      if (c == '%') {
-        // line_len -= 1;
-      } else {
-        found_format_string = false;
-        text_iter--;
-      }
-
-      text_iter++;
-      continue;
-    }
-
-    text_iter++;
+    auto const c = tok.ch;
 
     if (tile == nullptr) {
       tile = font_ui->font_get_tile(c);
@@ -171,6 +124,7 @@ void thing_blit_text(Gamep g, Levelsp v, Levelp l, spoint tl, spoint br, std::st
 
     tl.x += w;
     br.x += w;
+    tile = nullptr;
   }
   GLCOLOR(WHITE);
 }

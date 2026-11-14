@@ -313,9 +313,8 @@ void ascii_set(int depth, int x, int y, const char ch) { ascii_set(depth, x, y, 
 
 void ascii_putf_internal2(int x, int y, color fg, color bg, const std::string &text)
 {
-  Tilep tile      = nullptr;
-  int   bg_set    = 0;
-  auto  text_iter = text.begin();
+  Tilep tile   = nullptr;
+  int   bg_set = 0;
 
   if (compiler_unused) {
     std::println("ascii_putf_internal2 [{}]/{} scissors x {} y {} scissors {} {} {} {} {:d}", text, static_cast< int >(text.size()), x, y,
@@ -337,83 +336,50 @@ void ascii_putf_internal2(int x, int y, color fg, color bg, const std::string &t
     bg_set = 1;
   }
 
-  tile         = nullptr;
-  bool got_pct = false;
-  char ch      = 0;
+  tile    = nullptr;
+  char ch = 0;
 
-  for (;;) {
-    if (text.end() - text_iter <= 0) {
-      break;
-    }
+  const size_t size = text.size();
+  size_t       pos  = 0;
 
-    if (text_iter == text.end()) {
-      if (! got_pct) {
-        break;
-      }
-      got_pct = false;
-    } else {
-      ch = *text_iter;
-      text_iter++;
+  while (pos < size) {
+    auto const tok = text_next_token(text, pos);
+    pos            = tok.next;
 
-      auto len = text.end() - text_iter;
-      if (len > 0) {
-        if (ch == L'%') [[unlikely]] {
-          got_pct = true;
-          if ((len > 3) && (std::string(text_iter, text_iter + 3) == "fg=")) {
-            text_iter += 3;
-            auto tmp  = std::string(text_iter, text.end());
-            int  slen = 0;
-            fg        = string2color(tmp, &slen);
-            text_iter += slen + 1;
-            got_pct = false;
-            continue;
-          }
-          if ((len > 3) && (std::string(text_iter, text_iter + 3) == "bg=")) {
-            text_iter += 3;
-            auto tmp  = std::string(text_iter, text.end());
-            int  slen = 0;
-            bg        = string2color(tmp, &slen);
-            text_iter += slen + 1;
-
-            bg_set  = 1;
-            got_pct = false;
-            continue;
-          }
-          if ((len > 4) && (std::string(text_iter, text_iter + 4) == "tex=")) {
-            text_iter += 4;
-            got_pct = false;
-            continue;
-          }
-          if ((len > 3) && (std::string(text_iter, text_iter + 3) == "tp=")) {
-            text_iter += 3;
-            auto        tmp  = std::string(text_iter, text.end());
-            int         slen = 0;
-            const char *c    = tmp.c_str();
-            auto       *tp   = string2tp(&c, &slen);
-            text_iter += slen - 1;
-
-            tile    = tp_first_tile(tp, THING_ANIM_IDLE);
-            got_pct = false;
-            continue;
-          }
-          if ((len > 5) && (std::string(text_iter, text_iter + 5) == "tile=")) {
-            text_iter += 5;
-            auto tmp  = std::string(text_iter, text.end());
-            int  slen = 0;
-            tile      = string2tile(tmp, &slen);
-            text_iter += slen;
-            got_pct = false;
-            continue;
-          }
-          if (*(text_iter + 1) == '%') {
-            //
-            // Actual % sign
-            //
-          } else {
-            continue;
-          }
+    switch (tok.type) {
+      case TextTokenType::Char : ch = tok.ch; break;
+      case TextTokenType::Skip :
+      case TextTokenType::Tex :  continue;
+      case TextTokenType::Fg :
+        {
+          std::string name = text.substr(tok.arg, tok.arg_len);
+          int         slen = 0;
+          fg               = string2color(name, &slen);
+          continue;
         }
-      }
+      case TextTokenType::Bg :
+        {
+          std::string name = text.substr(tok.arg, tok.arg_len);
+          int         slen = 0;
+          bg               = string2color(name, &slen);
+          bg_set           = 1;
+          continue;
+        }
+      case TextTokenType::Tp :
+        {
+          std::string name = text.substr(tok.arg, tok.arg_len + (tok.terminated ? 1 : 0));
+          const char *c    = name.c_str();
+          int         slen = 0;
+          tile             = tp_first_tile(string2tp(&c, &slen), THING_ANIM_IDLE);
+          continue;
+        }
+      case TextTokenType::Tile :
+        {
+          std::string name = text.substr(tok.arg, tok.arg_len + (tok.terminated ? 1 : 0));
+          int         slen = 0;
+          tile             = string2tile(name, &slen);
+          continue;
+        }
     }
 
     //
@@ -509,88 +475,13 @@ void ascii_putf_internal2(int x, int y, color fg, color bg, const std::string &t
   }
 }
 
-//
-// Walk the text calling on_char for every character that ascii_putf_internal2 would display, skipping
-// the %fg=, %bg=, %tex=, %tp= and %tile= codes. This follows the rules in ascii_putf_internal2 exactly so
-// that the width we calculate is the width that is drawn, and unlike the old copies of this logic, all
-// reads are bounds checked, so text that ends part way through a code is safe.
-//
-template < typename F > static void ascii_scan_text(const std::string &text, F &&on_char)
-{
-  const size_t size = text.size();
-  size_t       pos  = 0;
-
-  auto starts_with = [ & ](size_t at, const char *prefix) -> bool { return text.compare(at, strlen(prefix), prefix) == 0; };
-
-  //
-  // Length of a code argument, up to (but not including) the terminating $
-  //
-  auto arg_len = [ & ](size_t at) -> size_t {
-    size_t n = 0;
-    while ((at + n < size) && (text[ at + n ] != '$') && (text[ at + n ] != '\0')) {
-      n++;
-    }
-    return n;
-  };
-
-  while (pos < size) {
-    const char   ch  = text[ pos++ ];
-    const size_t len = size - pos;
-
-    if ((len > 0) && (ch == '%')) [[unlikely]] {
-      if ((len > 3) && starts_with(pos, "fg=")) {
-        pos += 3;
-        pos = std::min(size, pos + arg_len(pos) + 1); // skip the $ too
-        continue;
-      }
-      if ((len > 3) && starts_with(pos, "bg=")) {
-        pos += 3;
-        pos = std::min(size, pos + arg_len(pos) + 1);
-        continue;
-      }
-      if ((len > 4) && starts_with(pos, "tex=")) {
-        pos += 4;
-        continue;
-      }
-      if ((len > 3) && starts_with(pos, "tp=")) {
-        //
-        // The $ is left behind and is displayed as the tile
-        //
-        pos += 3;
-        pos = std::min(size, pos + arg_len(pos));
-        continue;
-      }
-      if ((len > 5) && starts_with(pos, "tile=")) {
-        pos += 5;
-        pos = std::min(size, pos + arg_len(pos));
-        continue;
-      }
-
-      //
-      // Not a code. Same rule as the renderer.
-      //
-      const char next = ((pos + 1) < size) ? text[ pos + 1 ] : '\0';
-      if (next != '%') {
-        continue;
-      }
-    }
-
-    on_char(ch);
-  }
-}
-
-[[nodiscard]] auto ascii_strlen(std::string const &text) -> int
-{
-  int width = 0;
-  ascii_scan_text(text, [ & ](char) -> void { width++; });
-  return width;
-}
+[[nodiscard]] auto ascii_strlen(std::string const &text) -> int { return text_visible_length(text); }
 
 [[nodiscard]] auto ascii_strip(std::string const &text) -> std::string
 {
   std::string out;
   out.reserve(text.size());
-  ascii_scan_text(text, [ & ](char ch) -> void { out += ch; });
+  text_for_each_char(text, [ & ](char ch) { out += ch; });
   return out;
 }
 

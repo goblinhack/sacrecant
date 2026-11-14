@@ -80,19 +80,20 @@ void string_copy(std::span< char > dst, std::string_view src)
 [[nodiscard]] auto string_split(const std::string &text, int max_line_len) -> std::vector< std::string >
 {
   TRACE();
-  bool found_format_string = false;
-  int  line_len            = 0;
-  char c                   = 0;
-  auto text_start          = text.begin();
-  auto text_iter           = text_start;
-  auto line_start          = text_start;
-  auto line_end            = text_start;
+  int  line_len   = 0;
+  char c          = 0;
+  auto text_start = text.begin();
+  auto text_iter  = text_start;
+  auto line_start = text_start;
+  auto line_end   = text_start;
   //
   // Save the format string such that if we split a line of text, we carry
-  // the format onto subsequent lines.
+  // the format onto subsequent lines. The foreground and background are tracked separately so
+  // a background code does not lose the foreground.
   //
   std::string saved_format_string;
-  std::string this_saved_format_string;
+  std::string saved_fg;
+  std::string saved_bg;
 
   if (max_line_len < 0) {
     CROAK("bad max line len %d text [%s]", max_line_len, text.c_str());
@@ -134,91 +135,26 @@ void string_copy(std::span< char > dst, std::string_view src)
      * Read in as much of the line we can up to the line length.
      */
     while (line_len < max_line_len) {
-      c = *text_iter;
+      auto const pos = static_cast< size_t >(text_iter - text_start);
+      if (pos >= text.size()) {
+        break;
+      }
+
+      c = text[ pos ];
       if ((c == '\n') || (c == '\0')) {
         break;
       }
-      line_len++;
 
-      if (! found_format_string) {
-        if (c == '%') {
-          found_format_string = true;
-        }
-      } else if (found_format_string) {
-        if (std::string(text_iter, text_iter + 3) == "fg=") {
-          text_iter += 3;
-          line_len -= 2; /* for the %% */
-          auto tmp = std::string(text_iter, text.end());
-
-          int  len                 = 0;
-          auto color_name          = string2colorname(tmp, &len);
-          this_saved_format_string = "%%fg=" + color_name + "$";
-          text_iter += len + 1;
-
-          found_format_string = false;
-          continue;
-        }
-        if (std::string(text_iter, text_iter + 3) == "bg=") {
-          text_iter += 3;
-          line_len -= 2; /* for the %% */
-          auto tmp = std::string(text_iter, text.end());
-
-          int  len                 = 0;
-          auto color_name          = string2colorname(tmp, &len);
-          this_saved_format_string = "%%bg=" + color_name + "$";
-          text_iter += len + 1;
-
-          found_format_string = false;
-          continue;
-        }
-        if (std::string(text_iter, text_iter + 4) == "tex=") {
-          text_iter += 4;
-          line_len -= 2; /* for the %% */
-          auto tmp = std::string(text_iter, text.end());
-
-          int len = 0;
-          (void) string2tex(tmp, &len);
-          text_iter += len + 1;
-
-          found_format_string = false;
-          continue;
-        }
-        if (std::string(text_iter, text_iter + 3) == "tp=") {
-          text_iter += 3;
-          auto tmp = std::string(text_iter, text.end());
-
-          int         len  = 0;
-          const char *tmpc = tmp.c_str();
-          auto       *tp   = string2tp(&tmpc, &len);
-          text_iter += len + 1;
-
-          (void) tp_first_tile(tp, THING_ANIM_IDLE);
-          found_format_string = false;
-          continue;
-        }
-        if (std::string(text_iter, text_iter + 5) == "tile=") {
-          text_iter += 5;
-          auto tmp = std::string(text_iter, text.end());
-
-          int len = 0;
-          (void) string2tile(tmp, &len);
-          text_iter += len + 1;
-
-          found_format_string = false;
-          continue;
-        }
-        if (c == '%') {
-          line_len -= 1;
-        } else {
-          found_format_string = false;
-          text_iter--;
-        }
+      //
+      // Only displayed characters count towards the line length. The format codes take no space.
+      //
+      auto const tok = text_next_token(text, pos);
+      if (tok.type == TextTokenType::Char) {
+        line_len++;
       }
 
-      text_iter++;
-      // printf("LEN %d [%c]\n", line_len, c);
+      text_iter = text_start + static_cast< std::ptrdiff_t >(tok.next);
     }
-    // printf("END line_len %d\n", line_len);
 
     line_end = text_iter;
 
@@ -267,8 +203,27 @@ void string_copy(std::span< char > dst, std::string_view src)
     // printf("OUT [%s] max_line_len %d\n", tmp.c_str(), line_len);
     //
     result.push_back(saved_format_string + tmp);
-    saved_format_string = this_saved_format_string;
-    first_line          = false;
+
+    //
+    // Work out the format in force at the end of this line, to carry onto the next. This cannot be
+    // taken from the scan above, as that can run on past the end of the line before we back up to a
+    // word break, which would let a color from the next line leak onto the end of this one.
+    //
+    {
+      auto pos           = static_cast< size_t >(line_start - text_start);
+      auto const end_pos = static_cast< size_t >(line_end - text_start);
+      while (pos < end_pos) {
+        auto const tok = text_next_token(text, pos);
+        if (tok.type == TextTokenType::Fg) {
+          saved_fg = "%%fg=" + text.substr(tok.arg, tok.arg_len) + "$";
+        } else if (tok.type == TextTokenType::Bg) {
+          saved_bg = "%%bg=" + text.substr(tok.arg, tok.arg_len) + "$";
+        }
+        pos = tok.next;
+      }
+      saved_format_string = saved_fg + saved_bg;
+    }
+    first_line = false;
 
     text_iter = line_end;
     if (*text_iter == 0) {
@@ -288,98 +243,7 @@ void string_copy(std::span< char > dst, std::string_view src)
 [[nodiscard]] auto string_length_without_format(const std::string &text) -> int
 {
   TRACE();
-  bool found_format_string = false;
-  char c                   = 0;
-  auto text_start          = text.begin();
-  auto text_iter           = text_start;
-  int  line_len            = 0;
-
-  for (;;) {
-    c = *text_iter;
-    if (c == 0) {
-      break;
-    }
-    line_len++;
-
-    if (! found_format_string) {
-      if (c == '%') {
-        found_format_string = true;
-      }
-    } else if (found_format_string) {
-      if (std::string(text_iter, text_iter + 3) == "fg=") {
-        text_iter += 3;
-        line_len -= 2; /* for the %% */
-        auto tmp = std::string(text_iter, text.end());
-
-        int len = 0;
-        (void) string2color(tmp, &len);
-        text_iter += len + 1;
-
-        found_format_string = false;
-        continue;
-      }
-      if (std::string(text_iter, text_iter + 3) == "bg=") {
-        text_iter += 3;
-        line_len -= 2; /* for the %% */
-        auto tmp = std::string(text_iter, text.end());
-
-        int len = 0;
-        (void) string2color(tmp, &len);
-        text_iter += len + 1;
-
-        found_format_string = false;
-        continue;
-      }
-      if (std::string(text_iter, text_iter + 4) == "tex=") {
-        text_iter += 4;
-        line_len -= 2; /* for the %% */
-        auto tmp = std::string(text_iter, text.end());
-
-        int len = 0;
-        (void) string2tex(tmp, &len);
-        text_iter += len + 1;
-
-        found_format_string = false;
-        continue;
-      }
-      if (std::string(text_iter, text_iter + 3) == "tp=") {
-        text_iter += 3;
-        auto tmp = std::string(text_iter, text.end());
-
-        int         len  = 0;
-        const char *tmpc = tmp.c_str();
-        auto       *tp   = string2tp(&tmpc, &len);
-        text_iter += len + 1;
-
-        (void) tp_first_tile(tp, THING_ANIM_IDLE);
-        found_format_string = false;
-        continue;
-      }
-      if (std::string(text_iter, text_iter + 5) == "tile=") {
-        text_iter += 5;
-        auto tmp = std::string(text_iter, text.end());
-
-        int len = 0;
-        (void) string2tile(tmp, &len);
-        text_iter += len + 1;
-
-        found_format_string = false;
-        continue;
-      }
-      if (c == '%') {
-        line_len -= 1;
-      } else {
-        found_format_string = false;
-        text_iter--;
-      }
-    }
-
-    text_iter++;
-    // printf("LEN %d [%c]\n", line_len, c);
-  }
-  // printf("END line_len %d\n", line_len);
-
-  return line_len;
+  return text_visible_length(text);
 }
 
 [[nodiscard]] auto string_split_tokens(const std::string &s, const char delimiter) -> std::vector< std::string >
