@@ -287,8 +287,6 @@ void Raycast::raycast_do(Gamep g, Levelsp v, Levelp l)
   const int tile_w = TILE_WIDTH;
   const int tile_h = TILE_HEIGHT;
 
-  auto *tp = thing_tp(player);
-
   //
   // Local cache of things blocking light. The rays only ever touch a fraction of the map (they stop at
   // walls), so work out what blocks light on demand rather than for every tile up front. Nothing
@@ -305,37 +303,19 @@ void Raycast::raycast_do(Gamep g, Levelsp v, Levelp l)
     return light_blocker_cache[ at.x ][ at.y ];
   };
 
-  FovContext ctx;
-
-  ctx.g                        = g;
-  ctx.v                        = v;
-  ctx.l                        = l;
-  ctx.me                       = player;
-  ctx.pov                      = thing_at(g, v, l, player);
-  ctx.light_color              = tp_light_color(tp);
-  ctx.thing_at_in_pixels       = thing_pix_at(player);
-  ctx.light_strength_in_pixels = thing_is_light_source(g, v, player) * TILE_WIDTH;
-
-  //
-  // Flicker the light strength and color?
-  //
-  if (thing_is_light_flicker(player)) [[unlikely]] {
-    auto      depth      = OS_RANDOM_RANGE(0, 10);
-    int const pixel_step = 1 * depth;
-    int const color_step = 2 * depth;
-
-    if (std::cmp_greater(ctx.light_color.g, color_step)) {
-      ctx.light_color.g -= color_step;
-    }
-
-    if (std::cmp_greater(ctx.light_color.b, color_step)) {
-      ctx.light_color.b -= color_step;
-    }
-
-    if (ctx.light_strength_in_pixels > pixel_step) {
-      ctx.light_strength_in_pixels -= pixel_step;
-    }
+  if (player->light_radius_in_pixels == 0U) {
+    player->light_radius_in_pixels = ray_max_length_in_pixels;
   }
+
+  //
+  // Flicker the light strength?
+  //
+  if (game_time_have_x_hundredths_passed_since(THING_LIGHT_FLICKER_ANIM_MS, player->last_flicker)) {
+    player->light_radius_in_pixels = ray_max_length_in_pixels - OS_RANDOM_RANGE(0, ray_max_length_in_pixels / 4);
+    player->last_flicker           = game_time_ms_cached();
+  }
+
+  const auto light_radius_in_pixels = player->light_radius_in_pixels;
 
   //
   // Center the light on the player
@@ -376,7 +356,7 @@ void Raycast::raycast_do(Gamep g, Levelsp v, Levelp l)
       //
       // Beyond vision limits?
       //
-      if ((ray_pixel->distance > ray_max_length_in_pixels)) [[unlikely]] {
+      if ((ray_pixel->distance > light_radius_in_pixels)) [[unlikely]] {
         break;
       }
 
@@ -605,8 +585,9 @@ void Raycast::raycast_render(Gamep g, Levelsp v, Levelp l)
 
   blit_fbo_bind(FBO_MAP_LIGHT);
   {
-    spoint const tl(light_pos.x - ray_max_length_in_pixels, light_pos.y - ray_max_length_in_pixels);
-    spoint const br(light_pos.x + ray_max_length_in_pixels, light_pos.y + ray_max_length_in_pixels);
+    const auto   light_radius_in_pixels = player->light_radius_in_pixels;
+    spoint const tl(light_pos.x - light_radius_in_pixels, light_pos.y - light_radius_in_pixels);
+    spoint const br(light_pos.x + light_radius_in_pixels, light_pos.y + light_radius_in_pixels);
 
     glBlendFunc(GL_ONE, GL_ZERO);
     blit_init();
@@ -675,9 +656,9 @@ void Raycast::render_small_lights(Gamep g, Levelsp v, Levelp l, FboEnum fbo_smal
         }
       }
 
-      auto         rad = t->light_radius_in_pixels;
-      spoint const tl(light_pos.x - rad, light_pos.y - rad);
-      spoint const br(light_pos.x + rad, light_pos.y + rad);
+      const auto   light_radius_in_pixels = t->light_radius_in_pixels;
+      spoint const tl(light_pos.x - light_radius_in_pixels, light_pos.y - light_radius_in_pixels);
+      spoint const br(light_pos.x + light_radius_in_pixels, light_pos.y + light_radius_in_pixels);
 
       blit(light_tex_id, tl.x, tl.y, br.x, br.y, light_color);
     }
