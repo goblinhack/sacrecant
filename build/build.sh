@@ -731,8 +731,8 @@ log_info "Have llvm                  : $LLVM_PATH/bin"
 #CFLAGS+=" -flto"
 
 if [[ $OPT_WEB_BUILD != "" ]]; then
-  CFLAGS+=" -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='[\"tga\"]'"
-  LDFLAGS+=" --profiling-funcs -s ASSERTIONS=2 -s USE_WEBGL2=1 -s STACK_SIZE=655360 -s ALLOW_MEMORY_GROWTH -s GL_UNSAFE_OPTS -s GL_FFP_ONLY -s LEGACY_GL_EMULATION=1 -s WASM=1 -s USE_SDL_MIXER=2 -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='[\"tga\"]'"
+  CFLAGS+=" -fwasm-exceptions -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='[\"tga\"]'"
+  LDFLAGS+=" -fwasm-exceptions --profiling-funcs -s ASSERTIONS=2 -s USE_WEBGL2=1 -s STACK_SIZE=655360 -s ALLOW_MEMORY_GROWTH -s GL_UNSAFE_OPTS -s GL_FFP_ONLY -s LEGACY_GL_EMULATION=1 -s WASM=1 -s USE_SDL_MIXER=2 -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='[\"tga\"]'"
 fi
 
 #
