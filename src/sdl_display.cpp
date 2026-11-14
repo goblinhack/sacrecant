@@ -235,6 +235,14 @@ static inline void sdl_list_video_size()
     // video_flags |= SDL_WINDOW_ALWAYS_ON_TOP;
   }
 
+#ifdef WEB_BUILD
+  log("SDL: Set SDL_WINDOW_FULLSCREEN");
+  video_flags |= SDL_WINDOW_FULLSCREEN;
+
+  log("SDL: Set SDL_WINDOW_FULLSCREEN_DESKTOP");
+  video_flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+#endif
+
   if (g_skip_audio_and_gfx) {
     video_width  = 640;
     video_height = 480;

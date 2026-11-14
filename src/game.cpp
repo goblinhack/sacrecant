@@ -761,7 +761,9 @@ void game_save_config(Gamep g)
     return;
   }
 
-#ifndef WEB_BUILD
+#ifdef WEB_BUILD
+  topcon("Config save is not possible in web build.\n");
+#else
   g->save_config();
 #endif
 }
@@ -1700,6 +1702,7 @@ void game_display(Gamep g)
   }
 
 #ifdef WEB_BUILD
+  topcon("Config load is not possible in web build.\n");
   return false;
 #else
   return g->load_config().empty() /* no error */;
