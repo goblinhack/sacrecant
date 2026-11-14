@@ -105,8 +105,8 @@ static bool tp_spell_level_warp_on_cast_do(Gamep g, Levelsp v, Levelp l, Thingp 
   tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_spell);
   tp_name_long_set(tp, "level warp");
-  tp_spell_cost_set(tp, 1);
-  tp_spell_mana_cost_set(tp, 10);
+  tp_spell_cost_set(tp, 2);
+  tp_spell_mana_cost_set(tp, 20);
   tp_spell_radius_max_set(tp, 6);
   tp_spell_radius_set(tp, 2);
   tp_spell_range_max_set(tp, 12);

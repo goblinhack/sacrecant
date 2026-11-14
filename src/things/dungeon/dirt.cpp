@@ -21,6 +21,7 @@
   tp_flag_set(tp, is_blit_shown_in_chasms);
   tp_flag_set(tp, is_dead_on_falling);
   tp_flag_set(tp, is_dirt);
+  tp_flag_set(tp, is_one_per_tile_only);
   tp_weight_set(tp, WEIGHT_VVHEAVY); // grams
   tp_z_depth_set(tp, MAP_Z_DEPTH_FLOOR);
   // end sort marker1 }

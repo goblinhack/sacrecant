@@ -1419,10 +1419,10 @@
   return level_count(g, v, l, is_unused92, p);
 }
 
-[[nodiscard]] auto level_count_is_unused93(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_one_per_tile_only(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused93, p);
+  return level_count(g, v, l, is_one_per_tile_only, p);
 }
 
 [[nodiscard]] auto level_count_is_able_to_collect_spell_stones(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t

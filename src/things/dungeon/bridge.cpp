@@ -187,6 +187,7 @@ static void tp_bridge_on_fall_end(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_flag_set(tp, is_described_cursor);
   tp_flag_set(tp, is_grouped_thing);
   tp_flag_set(tp, is_loggable);
+  tp_flag_set(tp, is_one_per_tile_only);
   tp_flag_set(tp, is_physics_explosion);
   tp_flag_set(tp, is_physics_temperature);
   tp_flag_set(tp, is_tickable);

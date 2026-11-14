@@ -220,6 +220,7 @@ static void tp_door_unlocked_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, T
   tp_flag_set(tp, is_obs_to_teleporting_onto);
   tp_flag_set(tp, is_obs_to_throwing_onto);
   tp_flag_set(tp, is_obs_to_vision);
+  tp_flag_set(tp, is_one_per_tile_only);
   tp_flag_set(tp, is_openable);
   tp_flag_set(tp, is_physics_explosion);
   tp_flag_set(tp, is_physics_temperature);

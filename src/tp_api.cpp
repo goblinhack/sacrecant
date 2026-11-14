@@ -1417,10 +1417,10 @@
   return tp_flag(tp, is_unused92) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused93(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_one_per_tile_only(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused93) != 0;
+  return tp_flag(tp, is_one_per_tile_only) != 0;
 }
 
 [[nodiscard]] auto tp_is_able_to_collect_spell_stones(Tpp tp) -> bool

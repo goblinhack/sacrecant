@@ -45,6 +45,7 @@ static auto tp_water_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) ->
   tp_flag_set(tp, is_described_cursor);
   tp_flag_set(tp, is_flat);
   tp_flag_set(tp, is_obs_to_fire);
+  tp_flag_set(tp, is_one_per_tile_only);
   tp_flag_set(tp, is_physics_temperature);
   tp_flag_set(tp, is_soft_landing);
   tp_flag_set(tp, is_tick_end_delay);

@@ -1195,6 +1195,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_obs_to_wall_walker(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_obs_when_dead(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_on_map(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_one_per_tile_only(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_open_try_set(Gamep g, Levelsp v, Levelp l, Thingp t, Thingp opener, bool val = true) -> bool;
 [[nodiscard]] auto thing_is_open_try_unset(Gamep g, Levelsp v, Levelp l, Thingp t, Thingp closer) -> bool;
 [[nodiscard]] auto thing_is_openable(Thingp t) -> bool;
@@ -1352,7 +1353,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused90(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused91(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused92(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused93(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_upgradable(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade u) -> bool;
 [[nodiscard]] auto thing_is_upgradable(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_usable(Thingp t) -> bool;

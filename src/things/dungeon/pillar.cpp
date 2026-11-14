@@ -46,6 +46,7 @@ static auto tp_pillar_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -
   tp_flag_set(tp, is_obs_to_teleporting_onto);
   tp_flag_set(tp, is_obs_to_throwing_onto);
   tp_flag_set(tp, is_obs_to_vision);
+  tp_flag_set(tp, is_one_per_tile_only);
   tp_flag_set(tp, is_physics_explosion);
   tp_flag_set(tp, is_pillar);
   tp_flag_set(tp, is_stone);

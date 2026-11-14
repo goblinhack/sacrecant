@@ -44,6 +44,7 @@ static auto tp_teleport_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> s
   tp_flag_set(tp, is_light_source, 4);
   tp_flag_set(tp, is_obs_to_spawning);
   tp_flag_set(tp, is_obs_to_teleporting_onto);
+  tp_flag_set(tp, is_one_per_tile_only);
   tp_flag_set(tp, is_stone);
   tp_flag_set(tp, is_submergible);
   tp_flag_set(tp, is_teleport);

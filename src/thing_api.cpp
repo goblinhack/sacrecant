@@ -1533,7 +1533,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   return tp_flag(thing_tp(t), is_unused92) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused93(Thingp t) -> bool
+[[nodiscard]] auto thing_is_one_per_tile_only(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1541,7 +1541,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     no_thing_pointer();
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused93) != 0;
+  return tp_flag(thing_tp(t), is_one_per_tile_only) != 0;
 }
 
 [[nodiscard]] auto thing_is_able_to_collect_spell_stones(Thingp t) -> bool

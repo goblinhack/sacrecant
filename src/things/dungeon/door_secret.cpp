@@ -77,6 +77,7 @@ static auto tp_door_secret_description_get(Gamep g, Levelsp v, Levelp l, Thingp 
     tp_flag_set(tp, is_obs_to_hearing);
     tp_flag_set(tp, is_obs_to_spawning);
     tp_flag_set(tp, is_obs_to_vision);
+    tp_flag_set(tp, is_one_per_tile_only);
     tp_flag_set(tp, is_openable);
     tp_flag_set(tp, is_physics_explosion);
     tp_flag_set(tp, is_physics_temperature);

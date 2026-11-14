@@ -42,6 +42,7 @@ static auto tp_lava_description_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> 
   tp_flag_set(tp, is_needs_move_confirm);
   tp_flag_set(tp, is_obs_to_jumping_out_of);
   tp_flag_set(tp, is_obs_to_spawning);
+  tp_flag_set(tp, is_one_per_tile_only);
   tp_flag_set(tp, is_physics_temperature);
   tp_flag_set(tp, is_physics_water);
   tp_flag_set(tp, is_teleport_hazard);

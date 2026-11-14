@@ -91,6 +91,7 @@ static void tp_magic_wall_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
     tp_flag_set(tp, is_obs_to_spawning);
     tp_flag_set(tp, is_obs_to_teleporting_onto);
     tp_flag_set(tp, is_obs_to_throwing_onto);
+    tp_flag_set(tp, is_one_per_tile_only);
     tp_flag_set(tp, is_stone);
     tp_flag_set(tp, is_tiled);
     tp_health_set(tp, "100");

@@ -40,6 +40,7 @@
   tp_flag_set(tp, is_obs_to_throwing_onto);
   tp_flag_set(tp, is_obs_to_vision);
   tp_flag_set(tp, is_obs_to_wall_walker);
+  tp_flag_set(tp, is_one_per_tile_only);
   tp_flag_set(tp, is_tiled);
   tp_priority_set(tp, THING_PRIORITY_LOWEST);
   tp_weight_set(tp, WEIGHT_VVHEAVY); // grams

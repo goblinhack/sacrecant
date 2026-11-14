@@ -161,6 +161,7 @@ static void tp_fire_spready_on_fall_begin(Gamep g, Levelsp v, Levelp l, Thingp m
   tp_flag_set(tp, is_light_flicker);
   tp_flag_set(tp, is_light_source, 5);
   tp_flag_set(tp, is_loggable);
+  tp_flag_set(tp, is_one_per_tile_only);
   tp_flag_set(tp, is_physics_temperature);
   tp_flag_set(tp, is_physics_water);
   tp_flag_set(tp, is_removable_on_err);

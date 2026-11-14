@@ -117,6 +117,7 @@ static bool tp_fungus_pyro_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, Th
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_obs_to_movement);
   tp_flag_set(tp, is_obs_to_vision);
+  tp_flag_set(tp, is_one_per_tile_only);
   tp_flag_set(tp, is_physics_explosion);
   tp_flag_set(tp, is_physics_temperature);
   tp_flag_set(tp, is_removable_on_err);

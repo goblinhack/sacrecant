@@ -1455,10 +1455,10 @@
   return level_flag(g, v, l, is_unused92, p, me) != nullptr;
 }
 
-[[nodiscard]] auto level_is_unused93_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_one_per_tile_only_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused93, p, me) != nullptr;
+  return level_flag(g, v, l, is_one_per_tile_only, p, me) != nullptr;
 }
 
 [[nodiscard]] auto level_is_able_to_collect_spell_stones_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool

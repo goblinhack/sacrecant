@@ -6,6 +6,7 @@
 #include "my_callstack.hpp"
 #include "my_fpoint.hpp"
 #include "my_level.hpp"
+#include "my_level_inlines.hpp"
 #include "my_thing.hpp"
 #include "my_thing_callbacks.hpp"
 #include "my_thing_inlines.hpp"
@@ -38,6 +39,19 @@ void thing_is_spawned_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
 [[nodiscard]] auto thing_spawn(Gamep g, Levelsp v, Levelp l, Tpp tp, const fpoint &at, ThingEvent *e) -> Thingp
 {
   TRACE();
+
+  //
+  // Ensure we can't spawn chasms on chasms for example
+  //
+  if (tp_is_one_per_tile_only(tp)) {
+    FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, at)
+    {
+      if (thing_tp(it) == tp) {
+        THING_DBG(g, v, l, it, "exists one instance at tile already");
+        return it;
+      }
+    }
+  }
 
   auto *me = thing_init(g, v, l, tp, at);
   if (me == nullptr) {

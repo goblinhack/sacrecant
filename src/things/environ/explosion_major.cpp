@@ -40,6 +40,7 @@ static void tp_explosion_spawned(Gamep g, Levelsp v, Levelp l, Thingp me, ThingE
   tp_flag_set(tp, is_gaseous);
   tp_flag_set(tp, is_light_source, 7);
   tp_flag_set(tp, is_loggable);
+  tp_flag_set(tp, is_one_per_tile_only);
   tp_flag_set(tp, is_physics_temperature);
   tp_flag_set(tp, is_removable_on_err);
   tp_flag_set(tp, is_submergible);

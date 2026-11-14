@@ -404,7 +404,7 @@
       list_macro(is_unused90, "is_unused90"),                                               /* newline */                                       \
       list_macro(is_unused91, "is_unused91"),                                               /* newline */                                       \
       list_macro(is_unused92, "is_unused92"),                                               /* newline */                                       \
-      list_macro(is_unused93, "is_unused93"),                                               /* newline */                                       \
+      list_macro(is_one_per_tile_only, "is_one_per_tile_only"),                             /* newline */                                       \
       list_macro(is_able_to_collect_spell_stones, "is_able_to_collect_spell_stones"),       /* newline */                                       \
       list_macro(is_temple, "is_temple"),                                                   /* newline */                                       \
       list_macro(is_spell_stone, "is_spell_stone"),                                         /* newline */                                       \
@@ -1131,6 +1131,7 @@ class Tp;
 [[nodiscard]] auto tp_is_obs_to_vision(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_obs_to_wall_walker(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_obs_when_dead(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_one_per_tile_only(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_openable(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_phantom(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_physics_explosion(Tpp tp) -> bool;
@@ -1282,7 +1283,6 @@ class Tp;
 [[nodiscard]] auto tp_is_unused90(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused91(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused92(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused93(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_usable(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_vault(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_venomous(Tpp tp) -> bool;

@@ -45,6 +45,7 @@ static auto tp_exit_closed_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -
   tp_flag_set(tp, is_exit_closed);
   tp_flag_set(tp, is_indestructible);
   tp_flag_set(tp, is_loggable);
+  tp_flag_set(tp, is_one_per_tile_only);
   tp_flag_set(tp, is_stone);
   tp_flag_set(tp, is_submergible);
   tp_name_a_or_an_set(tp, "an boarded up exit");
