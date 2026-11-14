@@ -26,6 +26,7 @@
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <print>
 #include <string>
 
@@ -34,22 +35,13 @@ struct Ascii {
   // In ascii mode, where on the ASCII we are
   //
   spoint mouse_at {};
-  //
-  // UI triggers for ASCII coordinates.
-  //
-  std::array< std::array< int, TERM_HEIGHT_MAX >, TERM_WIDTH_MAX > sdl_mod {};
-  std::array< std::array< int, TERM_HEIGHT_MAX >, TERM_WIDTH_MAX > sdl_key {};
-  std::array< std::array< int, TERM_HEIGHT_MAX >, TERM_WIDTH_MAX > mouse_button {};
 
   //
-  // Callbacks for ASCII coordinates.
+  // Note: per cell UI triggers (sdl_mod, sdl_key, mouse_button) and callbacks (key_down, mouse_down,
+  // mouse_over) used to be stored here for every box drawn, but nothing ever read them back, so the
+  // ~375Kb of tables and the per box fill loop were removed. The values are still passed in box_args.
   //
-  std::array< std::array< ascii_key_down_callback, TERM_HEIGHT_MAX >, TERM_WIDTH_MAX >   key_down {};
-  std::array< std::array< ascii_mouse_down_callback, TERM_HEIGHT_MAX >, TERM_WIDTH_MAX > mouse_down {};
-  std::array< std::array< ascii_mouse_over_callback, TERM_HEIGHT_MAX >, TERM_WIDTH_MAX > mouse_over {};
 };
-
-static struct Ascii ascii;
 
 int TERM_WIDTH;
 int TERM_HEIGHT;
@@ -409,6 +401,7 @@ void ascii_putf_internal2(int x, int y, color fg, color bg, const std::string &t
     //
     if ((ascii_ok_for_scissors(x, y) == 0)) [[unlikely]] {
       x++;
+      tile = nullptr; // do not let a %tile= or %tp= for this char leak onto the next visible one
       continue;
     }
 
@@ -496,170 +489,88 @@ void ascii_putf_internal2(int x, int y, color fg, color bg, const std::string &t
   }
 }
 
+//
+// Walk the text calling on_char for every character that ascii_putf_internal2 would display, skipping
+// the %fg=, %bg=, %tex=, %tp= and %tile= codes. This follows the rules in ascii_putf_internal2 exactly so
+// that the width we calculate is the width that is drawn, and unlike the old copies of this logic, all
+// reads are bounds checked, so text that ends part way through a code is safe.
+//
+template < typename F > static void ascii_scan_text(const std::string &text, F &&on_char)
+{
+  const size_t size = text.size();
+  size_t       pos  = 0;
+
+  auto starts_with = [ & ](size_t at, const char *prefix) -> bool { return text.compare(at, strlen(prefix), prefix) == 0; };
+
+  //
+  // Length of a code argument, up to (but not including) the terminating $
+  //
+  auto arg_len = [ & ](size_t at) -> size_t {
+    size_t n = 0;
+    while ((at + n < size) && (text[ at + n ] != '$') && (text[ at + n ] != '\0')) {
+      n++;
+    }
+    return n;
+  };
+
+  while (pos < size) {
+    const char   ch  = text[ pos++ ];
+    const size_t len = size - pos;
+
+    if ((len > 0) && (ch == '%')) [[unlikely]] {
+      if ((len > 3) && starts_with(pos, "fg=")) {
+        pos += 3;
+        pos = std::min(size, pos + arg_len(pos) + 1); // skip the $ too
+        continue;
+      }
+      if ((len > 3) && starts_with(pos, "bg=")) {
+        pos += 3;
+        pos = std::min(size, pos + arg_len(pos) + 1);
+        continue;
+      }
+      if ((len > 4) && starts_with(pos, "tex=")) {
+        pos += 4;
+        continue;
+      }
+      if ((len > 3) && starts_with(pos, "tp=")) {
+        //
+        // The $ is left behind and is displayed as the tile
+        //
+        pos += 3;
+        pos = std::min(size, pos + arg_len(pos));
+        continue;
+      }
+      if ((len > 5) && starts_with(pos, "tile=")) {
+        pos += 5;
+        pos = std::min(size, pos + arg_len(pos));
+        continue;
+      }
+
+      //
+      // Not a code. Same rule as the renderer.
+      //
+      const char next = ((pos + 1) < size) ? text[ pos + 1 ] : '\0';
+      if (next != '%') {
+        continue;
+      }
+    }
+
+    on_char(ch);
+  }
+}
+
 [[nodiscard]] auto ascii_strlen(std::string const &text) -> int
 {
-  auto text_iter = text.begin();
-  int  x         = 0;
-
-  bool got_pct = false;
-  char ch      = 0;
-
-  for (;;) {
-    if (text.end() - text_iter <= 0) {
-      break;
-    }
-
-    if (text_iter == text.end()) {
-      if (! got_pct) {
-        break;
-      }
-      got_pct = false;
-    } else {
-      ch = *text_iter;
-      text_iter++;
-
-      if (text_iter != text.end()) {
-        if (ch == L'%') {
-          if (text_iter != text.end()) {
-            if (*text_iter == L'%') {
-              text_iter++;
-            }
-          }
-
-          auto len = text.end() - text_iter;
-          if (len > 0) {
-            if ((len > 3) && (std::string(text_iter, text_iter + 3) == "fg=")) {
-              text_iter += 3;
-              if (text_iter != text.end()) {
-                auto tmp = std::string(text_iter, text.end());
-
-                int slen = 0;
-                (void) string2color(tmp, &slen);
-                text_iter += slen + 1;
-              }
-              continue;
-            }
-            if ((len > 3) && (std::string(text_iter, text_iter + 3) == "bg=")) {
-              text_iter += 3;
-              auto tmp = std::string(text_iter, text.end());
-
-              int slen = 0;
-              (void) string2color(tmp, &slen);
-              text_iter += slen + 1;
-
-              continue;
-            }
-            if ((len > 3) && (std::string(text_iter, text_iter + 3) == "tp=")) {
-              text_iter += 3;
-              auto        tmp  = std::string(text_iter, text.end());
-              int         slen = 0;
-              const char *c    = tmp.c_str();
-              (void) string2tp(&c, &slen);
-              text_iter += slen - 1;
-              got_pct = false;
-              continue;
-            }
-            if ((len > 4) && (std::string(text_iter, text_iter + 4) == "tex=")) {
-              text_iter += 4;
-              got_pct = false;
-              continue;
-            }
-            if ((len > 5) && (std::string(text_iter, text_iter + 5) == "tile=")) {
-              text_iter += 5;
-              auto tmp  = std::string(text_iter, text.end());
-              int  slen = 0;
-              (void) string2tile(tmp, &slen);
-              text_iter += slen;
-              got_pct = false;
-              continue;
-            }
-            if (*(text_iter + 1) == '%') {
-              //
-              // Actual % sign
-              //
-            } else {
-              continue;
-            }
-          } else {
-            break;
-          }
-        }
-      }
-    }
-
-    x++;
-  }
-
-  return x;
+  int width = 0;
+  ascii_scan_text(text, [ & ](char) { width++; });
+  return width;
 }
 
 [[nodiscard]] auto ascii_strip(std::string const &text) -> std::string
 {
-  auto        text_iter = text.begin();
   std::string out;
-
-  for (;;) {
-    auto ch = *text_iter;
-    text_iter++;
-
-    if (ch == '\0') {
-      break;
-    }
-
-    if (ch == '%') {
-      if (text_iter != text.end()) {
-        if (*text_iter == '%') {
-          text_iter++;
-        }
-      }
-
-      if (std::string(text_iter, text_iter + 3) == "fg=") {
-        text_iter += 3;
-        auto tmp  = std::string(text_iter, text.end());
-        int  slen = 0;
-        (void) string2color(tmp, &slen);
-        text_iter += slen + 1;
-        continue;
-      }
-      if (std::string(text_iter, text_iter + 3) == "bg=") {
-        text_iter += 3;
-        auto tmp  = std::string(text_iter, text.end());
-        int  slen = 0;
-        (void) string2color(tmp, &slen);
-        text_iter += slen + 1;
-        continue;
-      }
-      if (std::string(text_iter, text_iter + 3) == "tp=") {
-        text_iter += 3;
-        auto        tmp  = std::string(text_iter, text.end());
-        int         slen = 0;
-        const char *c    = tmp.c_str();
-        (void) string2tp(&c, &slen);
-        text_iter += slen - 1;
-        continue;
-      }
-      if (std::string(text_iter, text_iter + 4) == "tex=") {
-        text_iter += 4;
-        continue;
-      }
-      if (std::string(text_iter, text_iter + 5) == "tile=") {
-        text_iter += 5;
-        auto tmp  = std::string(text_iter, text.end());
-        int  slen = 0;
-        (void) string2tile(tmp, &slen);
-        text_iter += slen;
-        continue;
-      }
-      if (*(text_iter + 1) == '%') {
-        //
-        // Actual % sign
-        //
-      } else {
-        continue;
-      }
-    }
-    out += ch;
-  }
+  out.reserve(text.size());
+  ascii_scan_text(text, [ & ](char ch) { out += ch; });
   return out;
 }
 
@@ -672,7 +583,7 @@ static void ascii_putf_internal(int x, int y, color fg, color bg, const char *fm
   //
   // Only a single nul is written, but as we read 2 at a time...
   //
-  if ((wrote != 0) && (wrote < MAXLONGSTR - 1)) {
+  if ((wrote > 0) && (wrote < MAXLONGSTR - 1)) {
     buf[ wrote + 1 ] = '\0';
   }
 
@@ -1009,6 +920,18 @@ void ascii_clear_display()
   }
 }
 
+//
+// Modulo that stays positive, as boxes can be partly off screen with negative coordinates.
+//
+static auto ascii_wrap(int v, int n) -> int
+{
+  v %= n;
+  if (v < 0) {
+    v += n;
+  }
+  return v;
+}
+
 static void ascii_put_box_(int style, const TileLayers tiles_in, int x1, int y1, int x2, int y2, color col_bg, color col_fg, void *context)
 {
   static bool      init;
@@ -1033,6 +956,11 @@ static void ascii_put_box_(int style, const TileLayers tiles_in, int x1, int y1,
         }
       }
     }
+  }
+
+  Tilep space_tile = nullptr;
+  if (tiles_in[ TILE_LAYER_TEXT_FG ] == nullptr) {
+    space_tile = font_ui->font_get_tile(' ');
   }
 
   {
@@ -1074,7 +1002,7 @@ static void ascii_put_box_(int style, const TileLayers tiles_in, int x1, int y1,
             ascii_set(depth, x, y, tiles_in[ depth ], tx, ty, dx, dy);
             ascii_set(depth, x, y, col_fg);
           } else {
-            ascii_set(TILE_LAYER_TEXT_FG, x, y, ' ');
+            ascii_set(TILE_LAYER_TEXT_FG, x, y, space_tile, ' ');
           }
         }
       }
@@ -1088,7 +1016,7 @@ static void ascii_put_box_(int style, const TileLayers tiles_in, int x1, int y1,
     auto y = y1;
     for (auto x = x1; x <= x2; x++) {
       if (style >= 0) {
-        ascii_set(TILE_LAYER_TEXT_BG, x, y, tiles[ ui_type ][ style ][ (x % MAX_UI_BG_SIZE) + 1 ][ 0 ]);
+        ascii_set(TILE_LAYER_TEXT_BG, x, y, tiles[ ui_type ][ style ][ ascii_wrap(x, MAX_UI_BG_SIZE) + 1 ][ 0 ]);
       }
       ascii_set(TILE_LAYER_TEXT_BG, x, y, col_bg);
     }
@@ -1106,7 +1034,7 @@ static void ascii_put_box_(int style, const TileLayers tiles_in, int x1, int y1,
     auto x = x1;
     for (auto y = y1; y <= y2; y++) {
       if (style >= 0) {
-        ascii_set(TILE_LAYER_TEXT_BG, x, y, tiles[ ui_type ][ style ][ 0 ][ (y % MAX_UI_BG_SIZE) + 1 ]);
+        ascii_set(TILE_LAYER_TEXT_BG, x, y, tiles[ ui_type ][ style ][ 0 ][ ascii_wrap(y, MAX_UI_BG_SIZE) + 1 ]);
       }
       ascii_set(TILE_LAYER_TEXT_BG, x, y, col_bg);
     }
@@ -1119,40 +1047,9 @@ static void ascii_put_box_(int style, const TileLayers tiles_in, int x1, int y1,
 
   for (auto y = y1; y <= y2; y++) {
     for (auto x = x1; x <= x2; x++) {
-      if (style >= 0) {
-        ascii_set(TILE_LAYER_TEXT_BG, x, y, tiles[ ui_type ][ style ][ (x % MAX_UI_BG_SIZE) + 1 ][ (y % MAX_UI_BG_SIZE) + 1 ]);
-      }
-      ascii_set(TILE_LAYER_TEXT_BG, x, y, col_bg);
-    }
-  }
-
-  for (auto y = y1 + 1; y <= y2; y++) {
-    for (auto x = x1 + 1; x <= x2; x++) {
-      if (style >= 0) {
-        ascii_set(TILE_LAYER_TEXT_BG, x, y, tiles[ ui_type ][ style ][ (x % MAX_UI_BG_SIZE) + 1 ][ (y % MAX_UI_BG_SIZE) + 1 ]);
-      }
-      ascii_set(TILE_LAYER_TEXT_BG, x, y, col_bg);
-    }
-    if (style >= 0) {
-      ascii_set(TILE_LAYER_TEXT_BG, x1, y2, tiles[ ui_type ][ style ][ (x1 % MAX_UI_BG_SIZE) + 1 ][ (y2 % MAX_UI_BG_SIZE) + 1 ]);
-    }
-    ascii_set(TILE_LAYER_TEXT_BG, x1, y2, col_bg);
-  }
-
-  for (auto y = y1 + 1; y <= y2 - 1; y++) {
-    for (auto x = x1 + 1; x <= x2 - 1; x++) {
-      if (style >= 0) {
-        ascii_set(TILE_LAYER_TEXT_BG, x, y, tiles[ ui_type ][ style ][ (x % MAX_UI_BG_SIZE) + 1 ][ (y % MAX_UI_BG_SIZE) + 1 ]);
-      }
-      ascii_set(TILE_LAYER_TEXT_BG, x, y, col_bg);
-    }
-  }
-
-  for (auto x = x1; x <= x2; x++) {
-    for (auto y = y1; y <= y2; y++) {
       ascii_set_context(x, y, context);
       if (style >= 0) {
-        ascii_set(TILE_LAYER_TEXT_BG, x, y, tiles[ ui_type ][ style ][ (x % MAX_UI_BG_SIZE) + 1 ][ (y % MAX_UI_BG_SIZE) + 1 ]);
+        ascii_set(TILE_LAYER_TEXT_BG, x, y, tiles[ ui_type ][ style ][ ascii_wrap(x, MAX_UI_BG_SIZE) + 1 ][ ascii_wrap(y, MAX_UI_BG_SIZE) + 1 ]);
       }
       ascii_set(TILE_LAYER_TEXT_BG, x, y, col_bg);
     }
@@ -1160,15 +1057,15 @@ static void ascii_put_box_(int style, const TileLayers tiles_in, int x1, int y1,
 
   for (auto x = x1 + 1; x <= x2 - 1; x++) {
     if (style >= 0) {
-      ascii_set(TILE_LAYER_TEXT_BG, x, y1, tiles[ ui_type ][ style ][ (x % MAX_UI_BG_SIZE) + 1 ][ 0 ]);
-      ascii_set(TILE_LAYER_TEXT_BG, x, y2, tiles[ ui_type ][ style ][ (x % MAX_UI_BG_SIZE) + 1 ][ MAX_UI_SIZE - 1 ]);
+      ascii_set(TILE_LAYER_TEXT_BG, x, y1, tiles[ ui_type ][ style ][ ascii_wrap(x, MAX_UI_BG_SIZE) + 1 ][ 0 ]);
+      ascii_set(TILE_LAYER_TEXT_BG, x, y2, tiles[ ui_type ][ style ][ ascii_wrap(x, MAX_UI_BG_SIZE) + 1 ][ MAX_UI_SIZE - 1 ]);
     }
   }
 
   for (auto y = y1 + 1; y <= y2 - 1; y++) {
     if (style >= 0) {
-      ascii_set(TILE_LAYER_TEXT_BG, x1, y, tiles[ ui_type ][ style ][ 0 ][ (y % MAX_UI_BG_SIZE) + 1 ]);
-      ascii_set(TILE_LAYER_TEXT_BG, x2, y, tiles[ ui_type ][ style ][ MAX_UI_SIZE - 1 ][ (y % MAX_UI_BG_SIZE) + 1 ]);
+      ascii_set(TILE_LAYER_TEXT_BG, x1, y, tiles[ ui_type ][ style ][ 0 ][ ascii_wrap(y, MAX_UI_BG_SIZE) + 1 ]);
+      ascii_set(TILE_LAYER_TEXT_BG, x2, y, tiles[ ui_type ][ style ][ MAX_UI_SIZE - 1 ][ ascii_wrap(y, MAX_UI_BG_SIZE) + 1 ]);
     }
   }
 
@@ -1192,7 +1089,7 @@ static void ascii_put_box_(int style, const TileLayers tiles, int x, int y, int 
     //
     // Only a single nul is written, but as we read 2 at a time...
     //
-    if ((wrote != 0) && (wrote < MAXLONGSTR - 1)) {
+    if ((wrote > 0) && (wrote < MAXLONGSTR - 1)) {
       buf[ wrote + 1 ] = '\0';
     }
 
@@ -1216,11 +1113,6 @@ void ascii_put_box(box_args b, int style, const TileLayers tiles, const char *fm
     b.height = TERM_HEIGHT;
   }
 
-  int       x = b.x;
-  int       y = b.y;
-  int const w = b.width;
-  int const h = b.height;
-
   //
   // Draw the box
   //
@@ -1229,39 +1121,4 @@ void ascii_put_box(box_args b, int style, const TileLayers tiles, const char *fm
   ascii_put_box_(style, tiles, b.x, b.y, b.width, b.height, b.col_bg, b.col_text, fmt, args);
 
   va_end(args);
-
-  //
-  // Populate the ascii callbacks for this box.
-  //
-  int x1 = 0;
-  int x2 = 0;
-  int y1 = 0;
-  int y2 = 0;
-
-  x1 = x;
-  y1 = y;
-  x2 = x + w;
-  y2 = y + h;
-
-  for (x = x1; x <= x2; x++) {
-    if ((ascii_x_ok(x) == 0)) [[unlikely]] {
-      continue;
-    }
-    for (y = y1; y <= y2; y++) {
-      if ((ascii_y_ok(y) == 0)) [[unlikely]] {
-        continue;
-      }
-
-      ascii.sdl_mod[ x ][ y ]      = b.sdl_mod;
-      ascii.sdl_key[ x ][ y ]      = b.sdl_key;
-      ascii.mouse_button[ x ][ y ] = b.mouse_button;
-
-      //
-      // Callbacks for ascii coordinates.
-      //
-      ascii.key_down[ x ][ y ]   = b.key_down;
-      ascii.mouse_down[ x ][ y ] = b.mouse_down;
-      ascii.mouse_over[ x ][ y ] = b.mouse_over;
-    }
-  }
 }
