@@ -309,7 +309,7 @@ void Raycast::raycast_do(Gamep g, Levelsp v, Levelp l)
   // Flicker the light strength?
   //
   if (game_time_have_x_hundredths_passed_since(THING_LIGHT_FLICKER_ANIM_MS, player->last_flicker)) {
-    player->light_radius_in_pixels = ray_max_length_in_pixels - OS_RANDOM_RANGE(0, ray_max_length_in_pixels / 4);
+    player->light_radius_in_pixels = ray_max_length_in_pixels - OS_RANDOM_RANGE(0, ray_max_length_in_pixels / 6);
     player->last_flicker           = game_time_ms_cached();
   }
 

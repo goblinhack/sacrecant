@@ -433,7 +433,11 @@ void wid_main_menu_select(Gamep g)
   const auto button_height = 2;
   const auto button_step   = 3;
 
-  auto menu_height = 15;
+  auto menu_height = 12;
+
+#ifndef WEB_BUILD
+  menu_height += 3;
+#endif
 
   if (! g_opt_seed_name_weekly.empty()) {
     menu_height += 3;
