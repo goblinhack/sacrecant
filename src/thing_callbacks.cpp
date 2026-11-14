@@ -262,30 +262,6 @@ void thing_on_level_enter(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp->on_level_enter(g, v, l, me);
 }
 
-void thing_on_level_change_for_playerd_set(Tpp tp, thing_on_level_change_for_playerd_t callback)
-{
-  TRACE();
-  if (tp == nullptr) [[unlikely]] {
-    no_tp_pointer();
-    return;
-  }
-  tp->on_level_change_for_playerd = callback;
-}
-
-void thing_on_level_change_for_playerd(Gamep g, Levelsp v, Levelp l, Thingp me)
-{
-  TRACE();
-  auto *tp = thing_tp(me);
-  if (tp == nullptr) [[unlikely]] {
-    no_tp_pointer();
-    return;
-  }
-  if (tp->on_level_change_for_playerd == nullptr) {
-    return;
-  }
-  tp->on_level_change_for_playerd(g, v, l, me);
-}
-
 void thing_on_level_reached_exit_set(Tpp tp, thing_on_level_reached_exit_t callback)
 {
   TRACE();
@@ -794,17 +770,17 @@ void thing_on_shoved(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp shover)
   tp->on_shoved(g, v, l, me, shover);
 }
 
-void thing_on_level_change_for_player_set(Tpp tp, thing_on_level_change_for_player_t callback)
+void thing_on_level_changed_for_player_set(Tpp tp, thing_on_level_changed_for_player_t callback)
 {
   TRACE();
   if (tp == nullptr) [[unlikely]] {
     no_tp_pointer();
     return;
   }
-  tp->on_level_change_for_player = callback;
+  tp->on_level_changed_for_player = callback;
 }
 
-void thing_on_level_change_for_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp shover)
+void thing_on_level_changed_for_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player)
 {
   TRACE();
   auto *tp = thing_tp(me);
@@ -812,14 +788,14 @@ void thing_on_level_change_for_player(Gamep g, Levelsp v, Levelp l, Thingp me, T
     no_tp_pointer();
     return;
   }
-  if (tp->on_level_change_for_player == nullptr) {
+  if (tp->on_level_changed_for_player == nullptr) {
     return;
   }
-  if (! thing_is_player(shover) && ! thing_is_monst(shover)) {
-    thing_err(g, v, l, shover, "unexpected thing for %s", __FUNCTION__);
+  if (! thing_is_player(player) && ! thing_is_monst(player)) {
+    thing_err(g, v, l, player, "unexpected thing for %s", __FUNCTION__);
     return;
   }
-  tp->on_level_change_for_player(g, v, l, me, shover);
+  tp->on_level_changed_for_player(g, v, l, me, player);
 }
 
 void thing_on_fall_begin_set(Tpp tp, thing_on_fall_begin_t callback)

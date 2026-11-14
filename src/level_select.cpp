@@ -925,7 +925,7 @@ static auto level_select_next(Gamep g, Levelsp v, Levelp l, Levelp level_over) -
   // Switch to the chosen level if possible; allow going back to the old level to clean up if needed
   //
   if ((level_over == player_level) || ok_to_choose) {
-    new_level = level_change_for_player(g, v, level_over->level_arr_idx);
+    new_level = level_changed_for_player(g, v, level_over->level_arr_idx);
     if (new_level == nullptr) {
       topcon("You cannot enter level %u. Is seems broken!", level_over->level_arr_idx + 1);
       (void) sound_play(g, "error");

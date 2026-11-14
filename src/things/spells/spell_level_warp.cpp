@@ -67,7 +67,8 @@ static bool tp_spell_level_warp_on_cast_do(Gamep g, Levelsp v, Levelp l, Thingp 
     return false;
   }
 
-  level_log(g, v, l, "chosen level");
+  level_log(g, v, l_new, "chosen level to warp to");
+  TRACE_INDENT();
 
   if (! thing_teleport_random(g, v, l_new, user)) {
     if (thing_is_player(user)) {

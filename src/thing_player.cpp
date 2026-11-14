@@ -1381,7 +1381,7 @@ static void player_leave_current_level_and_change_to_level_num(Gamep g, Levelsp 
 
   level_select_update_grid_tiles(g, v);
   level_cursor_path_reset(g, v, game_level_get(g, v));
-  (void) level_change_for_player(g, v, level_num);
+  (void) level_changed_for_player(g, v, level_num);
   game_request_to_remake_ui_set(g);
 }
 
@@ -1401,7 +1401,7 @@ void player_warp_to_specific_level(Gamep g, Levelsp v, Levelp l, LevelArrIdx lev
     return;
   }
 
-  auto *new_level = level_change_for_player(g, v, level_num);
+  auto *new_level = level_changed_for_player(g, v, level_num);
   if (new_level == nullptr) {
     thing_err(g, v, l, me, "failed to move me to level %u", level_num);
     return;
@@ -1550,7 +1550,7 @@ void player_fell(Gamep g, Levelsp v, Levelp l, Levelp next_level, Thingp /*me*/)
   level_cursor_path_reset(g, v, l);
   level_is_completed_by_player_falling(g, v, l);
 
-  if (next_level != level_change_for_player(g, v, next_level->level_arr_idx)) {
+  if (next_level != level_changed_for_player(g, v, next_level->level_arr_idx)) {
     ERR("unexpected level found");
     return;
   }

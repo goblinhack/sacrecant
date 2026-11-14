@@ -67,9 +67,9 @@ using thing_on_level_enter_t = void (*)(Gamep, Levelsp, Levelp, Thingp me);
 auto thing_on_level_enter_set(Tpp tp, thing_on_level_enter_t callback) -> void;
 auto thing_on_level_enter(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
 
-using thing_on_level_change_for_playerd_t = void (*)(Gamep, Levelsp, Levelp, Thingp me);
-auto thing_on_level_change_for_playerd_set(Tpp tp, thing_on_level_change_for_playerd_t callback) -> void;
-auto thing_on_level_change_for_playerd(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
+using thing_on_level_changed_for_player_t = void (*)(Gamep, Levelsp, Levelp, Thingp me, Thingp player);
+auto thing_on_level_changed_for_player_set(Tpp tp, thing_on_level_changed_for_player_t callback) -> void;
+auto thing_on_level_changed_for_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player) -> void;
 
 using thing_on_level_reached_exit_t = void (*)(Gamep, Levelsp, Levelp, Thingp me);
 auto thing_on_level_reached_exit_set(Tpp tp, thing_on_level_reached_exit_t callback) -> void;
@@ -203,10 +203,6 @@ auto thing_on_teleported(Gamep g, Levelsp v, Levelp l, Thingp me) -> void;
 using thing_on_shoved_t = void (*)(Gamep, Levelsp, Levelp, Thingp me, Thingp shover);
 auto thing_on_shoved_set(Tpp tp, thing_on_shoved_t callback) -> void;
 auto thing_on_shoved(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp shover) -> void;
-
-using thing_on_level_change_for_player_t = void (*)(Gamep, Levelsp, Levelp, Thingp me, Thingp player);
-auto thing_on_level_change_for_player_set(Tpp tp, thing_on_level_change_for_player_t callback) -> void;
-auto thing_on_level_change_for_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp shover) -> void;
 
 using thing_on_jump_begin_t = void (*)(Gamep, Levelsp, Levelp, Thingp me);
 auto thing_on_jump_begin_set(Tpp tp, thing_on_jump_begin_t callback) -> void;

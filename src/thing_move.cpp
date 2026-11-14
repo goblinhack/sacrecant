@@ -150,18 +150,21 @@
     return false;
   }
 
-  bool  level_change_for_playerd = false;
-  auto *old_level                = thing_level(g, v, me);
+  bool  did_level_changed_for_player = false;
+  auto *old_level                    = thing_level(g, v, me);
 
   //
   // Need to reset vision when leaving a level
   //
   if (old_level != new_level) {
-    level_change_for_playerd = true;
+    did_level_changed_for_player = true;
   }
 
-  if (level_change_for_playerd) {
-    thing_on_level_change_for_playerd(g, v, old_level, me);
+  if (did_level_changed_for_player) {
+    THING_DBG(g, v, new_level, me, "warp to @%d,%d with level change for player", to.x, to.y);
+    //    (void) level_changed_for_player(g, v, new_level->level_arr_idx);
+    //    TODO
+    thing_on_level_changed_for_player(g, v, old_level, me, me);
   }
 
   //
@@ -227,7 +230,7 @@
   //
   // Enter the new level callback. Do this after updating position so that light update works.
   //
-  if (level_change_for_playerd) {
+  if (did_level_changed_for_player) {
     thing_on_level_enter(g, v, new_level, me);
   }
 

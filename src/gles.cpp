@@ -669,10 +669,10 @@ static constexpr GLuint ATTR_COLOR = 2;
 static constexpr GLint FLAG_TEXTURE      = 1;
 static constexpr GLint FLAG_VERTEX_COLOR = 2;
 
-static GLuint gl_program;
-static GLuint gl_vaos[ 3 ];      // one per vertex layout, configured on first use
-static bool   gl_vao_ready[ 3 ]; // has the VAO for this layout been configured yet
-static GLuint gl_vbo;
+static GLuint     gl_program;
+static GLuint     gl_vaos[ 3 ];      // one per vertex layout, configured on first use
+static bool       gl_vao_ready[ 3 ]; // has the VAO for this layout been configured yet
+static GLuint     gl_vbo;
 static GLsizeiptr gl_vbo_capacity; // bytes currently allocated for gl_vbo
 
 //
@@ -683,10 +683,10 @@ static std::array< float, 16 >  gl_uniform_proj;
 static std::array< float, 16 >  gl_uniform_modelview;
 static std::array< GLubyte, 4 > gl_uniform_color;
 static GLint                    gl_uniform_flags;
-static GLint  gl_loc_mvp   = -1;
-static GLint  gl_loc_tex   = -1;
-static GLint  gl_loc_color = -1;
-static GLint  gl_loc_flags = -1;
+static GLint                    gl_loc_mvp   = -1;
+static GLint                    gl_loc_tex   = -1;
+static GLint                    gl_loc_color = -1;
+static GLint                    gl_loc_flags = -1;
 
 static auto gl_shader_compile(GLenum type, const char *src) -> GLuint
 {

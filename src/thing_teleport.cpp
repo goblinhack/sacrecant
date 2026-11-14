@@ -254,7 +254,7 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
     //
     // Not sure how this happens, but we need the teleport to take us somewhere.
     //
-    THING_DBG(g, v, l, me, "could not teleport to (%d,%d)", to.x, to.y);
+    THING_DBG(g, v, l, me, "could not teleport to (%d,%d) (obs)", to.x, to.y);
     return false;
   }
 
@@ -339,7 +339,7 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
     //
     // No hazard
     //
-    THING_DBG(g, v, l, me, "found a landing spot (%d,%d)", out.x, out.y);
+    THING_DBG(g, v, l, me, "found a maybe safe landing spot (%d,%d)", out.x, out.y);
     target = out;
     return true;
   }
@@ -467,7 +467,7 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
   auto good_luck = thing_stat_success(g, v, l, me, THING_STAT_LUCK, TARGET_ROLL_TELEPORT_HAZARD);
 
   if (good_luck) {
-    THING_DBG(g, v, l, me, "teleport, try with good lick");
+    THING_DBG(g, v, l, me, "teleport, try with good luck");
   }
 
   bpoint to;
@@ -509,6 +509,7 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
       continue;
     }
 
+    THING_DBG(g, v, l, me, "found a landing spot (1) %d,%d", to.x, to.y);
     got_one = true;
     break;
   }
@@ -549,10 +550,11 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
         }
 
         if (! teleport_find_maybe_safe_landing_spot(g, v, l, me, to, good_luck)) {
-          THING_DBG(g, v, l, me, "failed to find a random landing (2)");
+          THING_DBG(g, v, l, me, "failed to find a random landing (1)");
           continue;
         }
 
+        THING_DBG(g, v, l, me, "found a landing spot (2) %d,%d", to.x, to.y);
         got_one = true;
         break;
       }
@@ -592,7 +594,7 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
         }
 
         if (! teleport_find_viable_landing_spot(g, v, l, me, to, 0)) {
-          THING_DBG(g, v, l, me, "failed to find a random landing (3)");
+          THING_DBG(g, v, l, me, "failed to find a random landing (2)");
           continue;
         }
 
@@ -606,6 +608,7 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
           }
         }
 
+        THING_DBG(g, v, l, me, "found a landing spot (3) %d,%d", to.x, to.y);
         got_one = true;
         break;
       }
@@ -655,6 +658,52 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
           }
         }
 
+        THING_DBG(g, v, l, me, "found a landing spot (4) %d,%d", to.x, to.y);
+        got_one = true;
+        break;
+      }
+
+      if (got_one) {
+        break;
+      }
+    }
+  }
+
+  //
+  // Ignore the distance
+  //
+  if (! got_one) {
+    for (uint8_t y = MAP_BORDER; y < MAP_HEIGHT - MAP_BORDER; y++) {
+      for (uint8_t x = MAP_BORDER; x < MAP_WIDTH - MAP_BORDER; x++) {
+        to.x = x;
+        to.y = y;
+
+        if (is_oob_or_border(to)) [[unlikely]] {
+          IF_DEBUG3 { THING_DBG(g, v, l, me, "teleport, no; oob"); }
+          continue;
+        }
+
+        if (level_is_empty_bool(g, v, l, to)) {
+          IF_DEBUG3 { THING_DBG(g, v, l, me, "teleport, no; nothing there"); }
+          continue;
+        }
+
+        if (! teleport_find_viable_landing_spot(g, v, l, me, to, 0)) {
+          THING_DBG(g, v, l, me, "failed to find a random landing (4)");
+          continue;
+        }
+
+        //
+        // Bosses can choose where to land
+        //
+        if (thing_is_able_to_teleport_safely(me)) {
+          if (! thing_assess_landing_spot(g, v, l, me, to)) {
+            THING_DBG(g, v, l, me, "need a safe spot for teleport");
+            continue;
+          }
+        }
+
+        THING_DBG(g, v, l, me, "found a landing spot (5) %d,%d", to.x, to.y);
         got_one = true;
         break;
       }
@@ -668,6 +717,9 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
   //
   // Very last chance
   //
+  THING_DBG(g, v, l, me, "last chance");
+  TRACE_INDENT();
+
   if (! got_one) {
     for (uint8_t y = MAP_BORDER; y < MAP_HEIGHT - MAP_BORDER; y++) {
       for (uint8_t x = MAP_BORDER; x < MAP_WIDTH - MAP_BORDER; x++) {
@@ -689,6 +741,10 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
           continue;
         }
 
+        if (level_is_obs_to_teleporting_onto_bool(g, v, l, to)) {
+          continue;
+        }
+
         //
         // Bosses can choose where to land
         //
@@ -699,6 +755,7 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
           }
         }
 
+        THING_DBG(g, v, l, me, "found a landing spot (6) %d,%d", to.x, to.y);
         got_one = true;
         break;
       }

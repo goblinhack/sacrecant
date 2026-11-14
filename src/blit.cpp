@@ -64,7 +64,8 @@ void blit_init()
   // Note: the offset is in bytes, so add it while the pointer is still a char pointer. Adding it
   // to a float pointer would scale it by sizeof(float) and put the end well past the allocation.
   //
-  gl_array_buf_end = reinterpret_cast< __typeof__(gl_array_buf_end) >(reinterpret_cast< char * >(gl_array_buf) + ((gl_array_size_required * 2) / 3));
+  gl_array_buf_end
+      = reinterpret_cast< __typeof__(gl_array_buf_end) >(reinterpret_cast< char * >(gl_array_buf) + ((gl_array_size_required * 2) / 3));
 
   bufp     = gl_array_buf;
   bufp_end = gl_array_buf_end;

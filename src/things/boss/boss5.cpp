@@ -295,7 +295,7 @@ static auto tp_boss5_assess_tile(Gamep g, Levelsp v, Levelp l, const bpoint &at,
   return THING_ENVIRON_NEUTRAL;
 }
 
-static void tp_boss5_on_level_change_for_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player)
+static void tp_boss5_on_level_changed_for_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player)
 {
   TRACE();
 
@@ -317,7 +317,7 @@ static void tp_boss5_on_level_change_for_player(Gamep g, Levelsp v, Levelp l, Th
   thing_on_attacking_set(tp, tp_boss5_on_attacking);
   thing_on_damage_set(tp, tp_boss5_on_damage);
   thing_on_death_set(tp, tp_boss5_on_death);
-  thing_on_level_change_for_player_set(tp, tp_boss5_on_level_change_for_player);
+  thing_on_level_changed_for_player_set(tp, tp_boss5_on_level_changed_for_player);
   thing_on_missing_set(tp, tp_boss5_on_missing);
   thing_on_popped_set(tp, tp_boss5_on_popped);
   thing_on_pushed_set(tp, tp_boss5_on_pushed);

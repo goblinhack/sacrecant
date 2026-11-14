@@ -208,7 +208,7 @@ void level_is_completed_by_player_falling(Gamep g, Levelsp v, Levelp l)
 //
 // Change the current level
 //
-[[nodiscard]] auto level_change_for_player(Gamep g, Levelsp v, LevelArrIdx level_arr_idx) -> Levelp
+[[nodiscard]] auto level_changed_for_player(Gamep g, Levelsp v, LevelArrIdx level_arr_idx) -> Levelp
 {
   DBG("level change to %u", level_arr_idx);
   TRACE_INDENT();
@@ -305,7 +305,7 @@ void level_is_completed_by_player_falling(Gamep g, Levelsp v, Levelp l)
   FOR_ALL_THINGS_ON_LEVEL_NO_BREAK_UNSAFE(g, v, new_level, it)
   {
     TRACE();
-    thing_on_level_change_for_player(g, v, new_level, it, player);
+    thing_on_level_changed_for_player(g, v, new_level, it, player);
   }
 
   level_update_visibility(g, v, new_level);

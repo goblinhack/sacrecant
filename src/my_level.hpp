@@ -683,7 +683,7 @@ enum {
 [[nodiscard]] auto fragment_alt_add(Gamep g, int chance, uint32_t flags, const char *file, int line, ...) -> bool;
 [[nodiscard]] auto level_alive(Gamep g, Levelsp v, Levelp l, ThingFlagType f, bpoint p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_alive(Gamep g, Levelsp v, Levelp l, ThingFlagType f, Thingp me) -> Thingp;
-[[nodiscard]] auto level_change_for_player(Gamep g, Levelsp v, LevelArrIdx level_arr_idx) -> Levelp;
+[[nodiscard]] auto level_changed_for_player(Gamep g, Levelsp v, LevelArrIdx level_arr_idx) -> Levelp;
 [[nodiscard]] auto level_count(Gamep g, Levelsp v, Levelp l, ThingFlagType f, bpoint p) -> int;
 [[nodiscard]] auto level_count(Gamep g, Levelsp v, Levelp l, ThingFlagType f, Thingp t) -> int;
 [[nodiscard]] auto level_cursor_describe_add(Gamep g, Levelsp v, Thingp t) -> bool;
