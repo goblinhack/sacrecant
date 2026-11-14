@@ -447,10 +447,17 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
   THING_DBG(g, v, l, me, "teleport, try");
   TRACE_INDENT();
 
+  auto curr_level = thing_level(g, v, me);
+
   if (me->tick_event != 0U) {
     if (me->tick_event == v->tick) {
-      THING_DBG(g, v, l, me, "teleport, no; too frequent");
-      return false;
+      //
+      // Allow spell warp level to proceed
+      //
+      if (curr_level == l) {
+        THING_DBG(g, v, l, me, "teleport, no; too frequent");
+        return false;
+      }
     }
   }
 
@@ -490,13 +497,18 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
       continue;
     }
 
-    if (distance(to, at) < MAP_WIDTH / 2) {
-      IF_DEBUG3 { THING_DBG(g, v, l, me, "teleport, no; too close"); }
-      continue;
+    //
+    // If on the same level then do not teleport too close
+    //
+    if (curr_level == l) {
+      if (distance(to, at) < MAP_WIDTH / 2) {
+        IF_DEBUG3 { THING_DBG(g, v, l, me, "teleport, no; too close"); }
+        continue;
+      }
     }
 
     if (! g_opt_tests) {
-      if (attempt < 100) {
+      if (attempt < 500) {
         if (l->info.on_path_entrance_to_exit[ to.x ][ to.y ] == 0U) {
           IF_DEBUG3 { THING_DBG(g, v, l, me, "teleport, no; not on safe path"); }
           continue;
@@ -533,9 +545,14 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
           continue;
         }
 
-        if (distance(to, at) < MAP_WIDTH / 2) {
-          IF_DEBUG3 { THING_DBG(g, v, l, me, "teleport, no; too close"); }
-          continue;
+        //
+        // If on the same level then do not teleport too close
+        //
+        if (curr_level == l) {
+          if (distance(to, at) < MAP_WIDTH / 2) {
+            IF_DEBUG3 { THING_DBG(g, v, l, me, "teleport, no; too close"); }
+            continue;
+          }
         }
 
         if (! g_opt_tests) {
@@ -584,9 +601,14 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
           continue;
         }
 
-        if (distance(to, at) < MAP_WIDTH / 2) {
-          IF_DEBUG3 { THING_DBG(g, v, l, me, "teleport, no; too close"); }
-          continue;
+        //
+        // If on the same level then do not teleport too close
+        //
+        if (curr_level == l) {
+          if (distance(to, at) < MAP_WIDTH / 2) {
+            IF_DEBUG3 { THING_DBG(g, v, l, me, "teleport, no; too close"); }
+            continue;
+          }
         }
 
         if (level_is_teleport_hazard_bool(g, v, l, to)) {
@@ -638,9 +660,14 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
           continue;
         }
 
-        if (distance(to, at) < MAP_WIDTH / 2) {
-          IF_DEBUG3 { THING_DBG(g, v, l, me, "teleport, no; too close"); }
-          continue;
+        //
+        // If on the same level then do not teleport too close
+        //
+        if (curr_level == l) {
+          if (distance(to, at) < MAP_WIDTH / 2) {
+            IF_DEBUG3 { THING_DBG(g, v, l, me, "teleport, no; too close"); }
+            continue;
+          }
         }
 
         if (! teleport_find_viable_landing_spot(g, v, l, me, to, 0)) {

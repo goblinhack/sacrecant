@@ -156,15 +156,10 @@
   //
   // Need to reset vision when leaving a level
   //
-  if (old_level != new_level) {
-    did_level_changed_for_player = true;
-  }
-
-  if (did_level_changed_for_player) {
-    THING_DBG(g, v, new_level, me, "warp to @%d,%d with level change for player", to.x, to.y);
-    //    (void) level_changed_for_player(g, v, new_level->level_arr_idx);
-    //    TODO
-    thing_on_level_changed_for_player(g, v, old_level, me, me);
+  if (thing_is_player(me)) {
+    if (old_level != new_level) {
+      did_level_changed_for_player = true;
+    }
   }
 
   //
@@ -231,7 +226,13 @@
   // Enter the new level callback. Do this after updating position so that light update works.
   //
   if (did_level_changed_for_player) {
-    thing_on_level_enter(g, v, new_level, me);
+    THING_DBG(g, v, new_level, me, "warped to @%d,%d with level change for player", to.x, to.y);
+    TRACE_INDENT();
+
+    //
+    // Notify player
+    //
+    (void) level_changed_for_player(g, v, new_level->level_arr_idx);
   }
 
   //

@@ -52,6 +52,11 @@ static bool tp_spell_level_warp_on_cast_do(Gamep g, Levelsp v, Levelp l, Thingp 
     if (level_is_boss_level(g, v, l_it)) {
       continue;
     }
+
+    if (level_is_level_select(g, v, l_it)) {
+      continue;
+    }
+
     if (level_to_biome(g, v, l_it) == biome) {
       cands.push_back(l_it);
       level_log(g, v, l, "cand level");

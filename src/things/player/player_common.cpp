@@ -261,22 +261,6 @@ void tp_player_on_fall_end(Gamep g, Levelsp v, Levelp l, Thingp me)
   }
 }
 
-void tp_player_level_changed_for_player(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player)
-{
-  TRACE();
-
-  THING_DBG(g, v, l, me, "level changed");
-  thing_vision_reset(g, v, l, me);
-
-  //
-  // If in level select we might choose another level than level 1, so only fade out
-  // when leaving a level that we spent time in.
-  //
-  if (v->tick) {
-    sound_fade_out(g);
-  }
-}
-
 void tp_player_level_reached_exit(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
@@ -329,6 +313,14 @@ void tp_player_level_enter(Gamep g, Levelsp v, Levelp l, Thingp me)
   TRACE();
 
   THING_DBG(g, v, l, me, "level enter");
+
+  //
+  // If in level select we might choose another level than level 1, so only fade out
+  // when leaving a level that we spent time in.
+  //
+  if (v->tick) {
+    sound_fade_out(g);
+  }
 
   thing_vision_reset(g, v, l, me);
 
@@ -499,7 +491,6 @@ void tp_load_player_common(Tpp tp)
   thing_on_fall_begin_set(tp, tp_player_on_fall_begin);
   thing_on_fall_end_set(tp, tp_player_on_fall_end);
   thing_on_jump_end_set(tp, tp_player_on_jump_end);
-  thing_on_level_changed_for_player_set(tp, tp_player_level_changed_for_player);
   thing_on_level_enter_set(tp, tp_player_level_enter);
   thing_on_level_populated_set(tp, tp_player_level_populated);
   thing_on_level_reached_exit_set(tp, tp_player_level_reached_exit);

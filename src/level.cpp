@@ -300,6 +300,11 @@ void level_is_completed_by_player_falling(Gamep g, Levelsp v, Levelp l)
   }
 
   //
+  // Notify player
+  //
+  level_enter(g, v, new_level, player);
+
+  //
   // Wake up bosses
   //
   FOR_ALL_THINGS_ON_LEVEL_NO_BREAK_UNSAFE(g, v, new_level, it)
