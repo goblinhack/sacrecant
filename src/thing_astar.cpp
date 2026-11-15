@@ -16,7 +16,6 @@
 #include <array>     // do not remove
 #include <cmath>
 #include <cstdint>
-#include <map>
 #include <string>
 #include <utility>
 #include <vector>
@@ -27,54 +26,52 @@ static std::array< std::array< char, MAP_HEIGHT >, MAP_WIDTH > astar_debug;
 
 using Cost = float;
 
-static int16_t g_tiebreak;
+//
+// Used to break ties between nodes of the same cost, in the order they were created. This is wide
+// enough that it cannot wrap during one search, which would upset the ordering.
+//
+static int32_t g_tiebreak;
 
 class Nodecost
 {
 public:
   Nodecost() = default;
-  explicit Nodecost(Cost c) : cost(c), tiebreak(++g_tiebreak)
-  {
-    if (compiler_unused) {
-      log("new node %f:%u", c, tiebreak);
-    }
-  }
 
-  auto operator<(const Nodecost &rhs) const -> bool
-  {
-    if (compiler_unused) {
-      log("compare:");
-      log(" a node %f:%u", cost, tiebreak);
-      log(" b node %f:%u", rhs.cost, rhs.tiebreak);
-    }
-    if (cost < rhs.cost) {
-      return true;
-    }
-    if (cost > rhs.cost) {
-      return false;
-    }
+  explicit Nodecost(Cost c) : cost(c), tiebreak(++g_tiebreak) {}
 
-    return tiebreak < rhs.tiebreak;
-  }
-
-  Cost    cost {};
-  int16_t tiebreak {};
+  Cost    cost;
+  int32_t tiebreak;
 };
 
+//
+// There is one node per grid element, so Node is deliberately left uninitialized. It is always filled
+// in by node_init() and the caller before being used, so there is no need to clear them all for every search.
+//
 class Node
 {
 public:
   Node() = default;
-
-  class Node *came_from {};
+  class Node *came_from;
   Nodecost    cost;
-  bpoint      at {};
+  bpoint      at;
 };
 
 //
-// The nodemap needs to be sorted by distance so std::map must be used
+// The open set is a binary heap, ordered by cost and then by creation order. When the cost of a node
+// improves it is simply pushed again, and the old entry is skipped when it comes to the top.
 //
-using Nodemap = std::map< Nodecost, Node * >;
+class OpenEntry
+{
+public:
+  Cost    cost;
+  int32_t tiebreak;
+  Node   *node;
+};
+
+//
+// Where each grid element is in the search.
+//
+enum : uint8_t { ASTAR_UNSEEN = 0, ASTAR_OPEN = 1, ASTAR_CLOSED = 2 };
 
 class Astar
 {
@@ -89,12 +86,7 @@ public:
   //
   // These are the nodes still to evaluate
   //
-  Nodemap open_nodes;
-
-  //
-  // These are the nodes we have evaluated
-  //
-  Nodemap closed_nodes;
+  std::vector< OpenEntry > open_heap;
 
   //
   // Start and desired end of the search
@@ -103,28 +95,27 @@ public:
   bpoint dst {};
 
   //
-  // Indicates which nodes in the grid we've searched and added to the open list
+  // Does this thing move through walls in any direction
   //
-  std::array< std::array< Node *, MAP_HEIGHT >, MAP_WIDTH > open = {};
+  bool wall_walker {};
 
   //
-  // Indicates which nodes in the grid we've searched and added to the closed list
+  // Which nodes in the grid we've searched and added to the open or closed lists
   //
-  std::array< std::array< Node *, MAP_HEIGHT >, MAP_WIDTH > closed = {};
+  std::array< std::array< uint8_t, MAP_HEIGHT >, MAP_WIDTH > state = {};
 
   //
   // A node per grid element. Avoids needing to allocate memory
   //
-  std::array< std::array< Node, MAP_HEIGHT >, MAP_WIDTH > nodes = {};
+  std::array< std::array< Node, MAP_HEIGHT >, MAP_WIDTH > nodes;
 
   //
-  // Cache of where this thing can move to
+  // Cache of where this thing can move to. The values are only read once the matching "set" flag is on.
   //
-  std::array< std::array< bool, MAP_HEIGHT >, MAP_WIDTH > can_move_to_possible_cached     = {};
-  std::array< std::array< bool, MAP_HEIGHT >, MAP_WIDTH > can_move_to_possible_cached_set = {};
-
-  std::array< std::array< int16_t, MAP_HEIGHT >, MAP_WIDTH > can_move_to_cost_cached     = {};
-  std::array< std::array< int16_t, MAP_HEIGHT >, MAP_WIDTH > can_move_to_cost_cached_set = {};
+  std::array< std::array< bool, MAP_HEIGHT >, MAP_WIDTH >    can_move_to_possible_cached;
+  std::array< std::array< uint8_t, MAP_HEIGHT >, MAP_WIDTH > can_move_to_possible_cached_set = {};
+  std::array< std::array< int16_t, MAP_HEIGHT >, MAP_WIDTH > can_move_to_cost_cached;
+  std::array< std::array< uint8_t, MAP_HEIGHT >, MAP_WIDTH > can_move_to_cost_cached_set = {};
 
   [[nodiscard]] auto        can_move_to_possible(const bpoint &to) -> bool;
   [[nodiscard]] auto        can_move_to_cost(const bpoint &to) -> int16_t;
@@ -138,6 +129,7 @@ public:
   void dump();
   void eval_neighbor(Node *current, const bpoint &delta);
   void remove_from_open(Node *n);
+  [[nodiscard]] auto pop_open() -> Node *;
 
   static void init();
 };
@@ -145,60 +137,72 @@ public:
 void Astar::add_to_open(Node *n)
 {
   auto  p = n->at;
-  auto *o = &open[ p.x ][ p.y ];
-  if (*o != nullptr) {
+  auto *o = &state[ p.x ][ p.y ];
+  if (*o == ASTAR_OPEN) {
     thing_err(g, v, l, me, "already in open");
     return;
   }
-  *o = n;
 
-  if (compiler_unused) {
-    thing_log(g, v, l, me, "add to open (cost %f:%u at %d,%d)", n->cost.cost, n->cost.tiebreak, p.x, p.y);
-  }
+  *o = ASTAR_OPEN;
 
-  auto result = open_nodes.insert(std::make_pair(n->cost, n));
-  if (! result.second) {
-    thing_err(g, v, l, me, "open insert fail");
-    return;
-  }
+  open_heap.push_back({n->cost.cost, n->cost.tiebreak, n});
+  std::ranges::push_heap(open_heap, [](const OpenEntry &a, const OpenEntry &b) {
+    //
+    // The heap keeps its "largest" entry on top, so this puts the cheapest on top.
+    //
+    return (a.cost > b.cost) || ((a.cost == b.cost) && (a.tiebreak > b.tiebreak));
+  });
 }
 
 void Astar::add_to_closed(Node *n)
 {
   auto  p = n->at;
-  auto *o = &closed[ p.x ][ p.y ];
-  if (*o != nullptr) {
+  auto *o = &state[ p.x ][ p.y ];
+  if (*o == ASTAR_CLOSED) {
     thing_err(g, v, l, me, "already in closed");
     return;
   }
-  *o = n;
 
-  if (compiler_unused) {
-    thing_log(g, v, l, me, "add to closed (cost %f:%u at %d,%d)", n->cost.cost, n->cost.tiebreak, p.x, p.y);
-  }
-
-  auto result = closed_nodes.insert(std::make_pair(n->cost, n));
-  if (! result.second) {
-    thing_err(g, v, l, me, "closed insert fail (cost %f:%u at %d,%d)", n->cost.cost, n->cost.tiebreak, p.x, p.y);
-    return;
-  }
+  *o = ASTAR_CLOSED;
 }
 
 void Astar::remove_from_open(Node *n)
 {
   auto  p = n->at;
-  auto *o = &open[ p.x ][ p.y ];
-  if (*o == nullptr) {
+  auto *o = &state[ p.x ][ p.y ];
+  if (*o != ASTAR_OPEN) {
     thing_err(g, v, l, me, "not in open");
     return;
   }
-  *o = nullptr;
 
-  if (compiler_unused) {
-    thing_log(g, v, l, me, "remove from open (cost %f:%u at %d,%d)", n->cost.cost, n->cost.tiebreak, p.x, p.y);
+  //
+  // The entry in the heap is left behind. It is recognised as out of date when it reaches the top.
+  //
+  *o = ASTAR_UNSEEN;
+}
+
+//
+// Take the cheapest node off the open set. Returns null if there is none.
+//
+[[nodiscard]] auto Astar::pop_open() -> Node *
+{
+  while (! open_heap.empty()) {
+    std::ranges::pop_heap(open_heap, [](const OpenEntry &a, const OpenEntry &b) {
+      return (a.cost > b.cost) || ((a.cost == b.cost) && (a.tiebreak > b.tiebreak));
+    });
+    auto const e = open_heap.back();
+    open_heap.pop_back();
+
+    //
+    // Skip entries for nodes that have since been closed or given a better cost.
+    //
+    auto *n = e.node;
+    if ((state[ n->at.x ][ n->at.y ] == ASTAR_OPEN) && (n->cost.tiebreak == e.tiebreak)) {
+      return n;
+    }
   }
 
-  open_nodes.erase(n->cost);
+  return nullptr;
 }
 
 [[nodiscard]] auto Astar::heuristic(const bpoint at) const -> Cost
@@ -229,16 +233,15 @@ void Astar::remove_from_open(Node *n)
 //
 void Astar::eval_neighbor(Node *current, const bpoint &delta)
 {
-  const auto next_hop = current->at + delta;
+  const bpoint next_hop(static_cast< int8_t >(current->at.x + delta.x), static_cast< int8_t >(current->at.y + delta.y));
 
   //
   // If in the closed set already, ignore.
   //
-  if (closed[ next_hop.x ][ next_hop.y ] != nullptr) {
+  auto const next_state = state[ next_hop.x ][ next_hop.y ];
+  if (next_state == ASTAR_CLOSED) {
     return;
   }
-
-  Cost cost = current->cost.cost + (heuristic(next_hop) / 10);
 
   //
   // If there is something in the way that would block us moving here,
@@ -251,17 +254,18 @@ void Astar::eval_neighbor(Node *current, const bpoint &delta)
     return;
   }
 
+  Cost cost = current->cost.cost + (heuristic(next_hop) / 10);
   cost += can_move_to_cost(next_hop);
 
-  Node *neighbor = open[ next_hop.x ][ next_hop.y ];
-  if (neighbor == nullptr) {
-    auto ncost          = Nodecost(cost);
-    neighbor            = node_init(next_hop, ncost);
+  if (next_state != ASTAR_OPEN) {
+    auto  ncost         = Nodecost(cost);
+    Node *neighbor      = node_init(next_hop, ncost);
     neighbor->came_from = current;
     add_to_open(neighbor);
     return;
   }
 
+  Node *neighbor = &nodes[ next_hop.x ][ next_hop.y ];
   if (cost < neighbor->cost.cost) {
     auto ncost = Nodecost(cost);
     remove_from_open(neighbor);
@@ -299,12 +303,12 @@ void Astar::init()
 
 [[nodiscard]] auto Astar::can_move_to_possible(const bpoint &to) -> bool
 {
-  if (to == dst) {
+  if ((to.x == dst.x) && (to.y == dst.y)) {
     return true;
   }
 
-  if (! can_move_to_possible_cached_set[ to.x ][ to.y ]) {
-    can_move_to_possible_cached_set[ to.x ][ to.y ]    = true;
+  if (can_move_to_possible_cached_set[ to.x ][ to.y ] == 0U) {
+    can_move_to_possible_cached_set[ to.x ][ to.y ]    = 1U;
     return can_move_to_possible_cached[ to.x ][ to.y ] = thing_can_move_to_possible(g, v, l, me, to, true);
   }
 
@@ -313,7 +317,7 @@ void Astar::init()
 
 [[nodiscard]] auto Astar::can_move_to_cost(const bpoint &to) -> int16_t
 {
-  if (to == dst) {
+  if ((to.x == dst.x) && (to.y == dst.y)) {
     return 0;
   }
 
@@ -347,29 +351,21 @@ void Astar::init()
 
   static const std::vector< bpoint > empty;
 
+  open_heap.reserve(256);
+
+  if (allow_diagonal) {
+    wall_walker = thing_is_wall_walker(g, v, l, me);
+  }
+
   auto  ncost    = Nodecost(heuristic(src));
   auto *neighbor = node_init(src, ncost);
-
+  neighbor->came_from = nullptr;
   add_to_open(neighbor);
 
-  while (! open_nodes.empty()) {
-    auto  c       = open_nodes.begin();
-    Node *current = c->second;
-
-    if (compiler_unused) {
-      log("open nodes:");
-      for (auto n : open_nodes) {
-        auto p = n.first;
-        log(" %f:%u", p.cost, p.tiebreak);
-      }
-    }
-
-    if (compiler_unused) {
-      log("closed nodes:");
-      for (auto n : closed_nodes) {
-        auto p = n.first;
-        log(" %f:%u", p.cost, p.tiebreak);
-      }
+  for (;;) {
+    Node *current = pop_open();
+    if (current == nullptr) {
+      break;
     }
 
     //
@@ -384,7 +380,6 @@ void Astar::init()
     astar_debug[ at.x ][ at.y ] = '?';
 #endif
 
-    remove_from_open(current);
     add_to_closed(current);
 
     //
@@ -400,7 +395,7 @@ void Astar::init()
     eval_neighbor(current, bpoint(0, 1));
 
     if (allow_diagonal) {
-      if (thing_is_wall_walker(g, v, l, me)) {
+      if (wall_walker) {
         //
         // Can move through walls in any direction
         //
@@ -538,6 +533,14 @@ void Astar::dump()
 [[nodiscard]] auto astar_solve(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint src, bpoint dst) -> std::vector< bpoint >
 {
   TRACE();
+
+  //
+  // The search indexes straight into the grid, so make sure the end points are on it.
+  //
+  if ((src.x < 0) || (src.y < 0) || (src.x >= MAP_WIDTH) || (src.y >= MAP_HEIGHT) || (dst.x < 0) || (dst.y < 0) || (dst.x >= MAP_WIDTH)
+      || (dst.y >= MAP_HEIGHT)) [[unlikely]] {
+    return {};
+  }
 
   Astar a;
   a.g   = g;

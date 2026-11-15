@@ -178,24 +178,10 @@ void dmap_process(Dmap *D, bpoint tl, bpoint br)
 {
   TRACE_DEBUG();
 
-  uint8_t  x       = {};
-  uint8_t  y       = {};
-  uint8_t  a       = {};
-  uint8_t  b       = {};
-  uint8_t  c       = {};
-  uint8_t  d       = {};
-  uint8_t *e       = nullptr;
-  uint8_t  f       = {};
-  uint8_t  g       = {};
-  uint8_t  h       = {};
-  uint8_t  i       = {};
-  uint8_t  lowest  = {};
-  bool     changed = {};
-  int8_t   minx    = {};
-  int8_t   miny    = {};
-  int8_t   maxx    = {};
-  int8_t   maxy    = {};
-  auto     orig    = *D;
+  int8_t minx = {};
+  int8_t miny = {};
+  int8_t maxx = {};
+  int8_t maxy = {};
 
   if (tl.x < br.x) {
     minx = tl.x;
@@ -215,11 +201,11 @@ void dmap_process(Dmap *D, bpoint tl, bpoint br)
   //
   // Need a wall around the dmap or the search will sort of trickle off the map
   //
-  for (y = miny; std::cmp_less_equal(y, maxy); y++) {
+  for (auto y = miny; std::cmp_less_equal(y, maxy); y++) {
     D->val[ minx ][ y ] = DMAP_IS_WALL;
     D->val[ maxx ][ y ] = DMAP_IS_WALL;
   }
-  for (x = minx; std::cmp_less_equal(x, maxx); x++) {
+  for (auto x = minx; std::cmp_less_equal(x, maxx); x++) {
     D->val[ x ][ miny ] = DMAP_IS_WALL;
     D->val[ x ][ maxy ] = DMAP_IS_WALL;
   }
@@ -237,69 +223,92 @@ void dmap_process(Dmap *D, bpoint tl, bpoint br)
   maxx = std::min(maxx, static_cast< int8_t >(MAP_WIDTH - 2));
   maxy = std::min(maxy, static_cast< int8_t >(MAP_HEIGHT - 2));
 
-  do {
-    changed = false;
+  //
+  // Every step costs 1, so the result is the shortest distance to the nearest goal. Sweeping over the
+  // whole map again and again until nothing changes gets there, but it takes a pass per step of the longest
+  // path. Instead spread out from the goals in order of distance, so each cell is visited a couple of times.
+  //
+  // The cells start with any label, not just 0 for a goal, so the work list is bucketed by the label.
+  // Labels of 253 and over cannot lower any neighbor, so only the labels below that are worth spreading.
+  //
+  constexpr int  max_label = 252;
+  constexpr auto none      = static_cast< uint16_t >(0xffff);
 
-    for (y = miny; std::cmp_less_equal(y, maxy); y++) {
-      for (x = minx; std::cmp_less_equal(x, maxx); x++) {
-        if (orig.val[ x ][ y ] == DMAP_IS_WALL) {
-          continue;
-        }
+  //
+  // A cell can be queued twice, once with its starting label and once if it is lowered. Entry n is for
+  // cell n / 2.
+  //
+  std::array< uint16_t, max_label + 1 >                    head;
+  std::array< uint16_t, MAP_WIDTH * MAP_HEIGHT * 2 >       next;
+  head.fill(none);
 
-        e = &D->val[ x ][ y ];
+  auto queue = [ & ](int label, int x, int y, int which) {
+    auto const n = static_cast< uint16_t >((((x * MAP_HEIGHT) + y) * 2) + which);
+    next[ n ]    = head[ label ];
+    head[ label ] = n;
+  };
 
-        a = D->val[ x - 1 ][ y - 1 ];
-        b = D->val[ x ][ y - 1 ];
-        c = D->val[ x + 1 ][ y - 1 ];
-        d = D->val[ x - 1 ][ y ];
-        f = D->val[ x + 1 ][ y ];
-        g = D->val[ x - 1 ][ y + 1 ];
-        h = D->val[ x ][ y + 1 ];
-        i = D->val[ x + 1 ][ y + 1 ];
+  for (auto y = miny; y <= maxy; y++) {
+    for (auto x = minx; x <= maxx; x++) {
+      if (D->val[ x ][ y ] <= max_label) {
+        queue(D->val[ x ][ y ], x, y, 0);
+      }
+    }
+  }
 
-        //
-        // a b c
-        // d e f
-        // g h i
-        //
-        // No corner cutting
-        //
-        if ((b == DMAP_IS_WALL) && (d == DMAP_IS_WALL)) {
-          a = DMAP_IS_WALL;
-        }
-        if ((b == DMAP_IS_WALL) && (f == DMAP_IS_WALL)) {
-          c = DMAP_IS_WALL;
-        }
-        if ((d == DMAP_IS_WALL) && (h == DMAP_IS_WALL)) {
-          g = DMAP_IS_WALL;
-        }
-        if ((f == DMAP_IS_WALL) && (h == DMAP_IS_WALL)) {
-          i = DMAP_IS_WALL;
-        }
+  for (int label = 0; label <= max_label; label++) {
+    while (head[ label ] != none) {
+      auto const n = head[ label ];
+      head[ label ] = next[ n ];
 
-        if (a < b) {
-          lowest = a;
-        } else {
-          lowest = b;
-        }
+      auto const cell = n / 2;
+      auto const x    = static_cast< int >(cell / MAP_HEIGHT);
+      auto const y    = static_cast< int >(cell % MAP_HEIGHT);
 
-        lowest = std::min(c, lowest);
-        lowest = std::min(d, lowest);
-        lowest = std::min(f, lowest);
-        lowest = std::min(g, lowest);
-        lowest = std::min(h, lowest);
-        lowest = std::min(i, lowest);
+      //
+      // Lowered since it was queued? Then it is on a later list as well.
+      //
+      if (D->val[ x ][ y ] != label) {
+        continue;
+      }
 
-        if (*e - lowest >= 2) {
-          auto old_e = *e;
-          *e         = lowest + 1;
-          if (*e != old_e) {
-            changed = true;
+      auto const lower = static_cast< uint8_t >(label + 1);
+
+      for (int dy = -1; dy <= 1; dy++) {
+        for (int dx = -1; dx <= 1; dx++) {
+          if ((dx == 0) && (dy == 0)) {
+            continue;
+          }
+
+          auto const nx = x + dx;
+          auto const ny = y + dy;
+
+          //
+          // The wall around the edge stops us leaving the map. Walls never change.
+          //
+          if (D->val[ nx ][ ny ] == DMAP_IS_WALL) {
+            continue;
+          }
+
+          //
+          // No corner cutting
+          //
+          if ((dx != 0) && (dy != 0)) {
+            if ((D->val[ x + dx ][ y ] == DMAP_IS_WALL) && (D->val[ x ][ y + dy ] == DMAP_IS_WALL)) {
+              continue;
+            }
+          }
+
+          if (D->val[ nx ][ ny ] - label >= 2) {
+            D->val[ nx ][ ny ] = lower;
+            if (lower <= max_label) {
+              queue(lower, nx, ny, 1);
+            }
           }
         }
       }
     }
-  } while (changed);
+  }
 }
 
 //
