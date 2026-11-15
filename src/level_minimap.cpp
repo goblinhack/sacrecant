@@ -58,79 +58,107 @@ static void level_minimap_levels_update(Gamep g, Levelsp v, Levelp l, const bool
           }
         }
 
+        bool c_set {};
+
         if (level_is_empty_bool(g, v, l, p)) {
-          c = BLUE4;
+          c     = BLUE4;
+          c_set = true;
         }
         if (level_is_border_bool(g, v, l, p)) {
-          c = GRAY10;
+          c     = GRAY10;
+          c_set = true;
         }
         if (level_is_dirt_bool(g, v, l, p)) {
-          c = GRAY20;
+          c     = GRAY20;
+          c_set = true;
         }
         if (level_is_floor_bool(g, v, l, p)) {
-          c = GRAY20;
+          c     = GRAY20;
+          c_set = true;
         }
         if (level_is_corridor_bool(g, v, l, p)) {
-          c = GRAY20;
+          c     = GRAY20;
+          c_set = true;
         }
         if (level_is_wall_bool(g, v, l, p)) {
-          c = GRAY60;
+          c     = GRAY60;
+          c_set = true;
         }
         if (level_is_bridge_bool(g, v, l, p)) {
-          c = BROWN;
+          c     = BROWN;
+          c_set = true;
         }
         if (level_is_chasm_bool(g, v, l, p)) {
-          c = BLACK;
+          c     = BLACK;
+          c_set = true;
         }
         if (level_is_water_shallow_bool(g, v, l, p)) {
-          c = BLUE;
+          c     = BLUE;
+          c_set = true;
         }
         if (level_is_water_deep_bool(g, v, l, p)) {
-          c = BLUE2;
+          c     = BLUE2;
+          c_set = true;
         }
         if (level_is_door_locked_bool(g, v, l, p)) {
           if (level_open_is_door_locked(g, v, l, p) != nullptr) {
             // ignore
           } else {
-            c = GRAY50;
+            c     = GRAY50;
+            c_set = true;
           }
         }
         if (level_is_door_secret_bool(g, v, l, p)) {
           if (level_open_is_door_secret(g, v, l, p) != nullptr) {
             // ignore
           } else {
-            c = GRAY50;
+            c     = GRAY50;
+            c_set = true;
           }
         }
         if (level_is_lava_bool(g, v, l, p)) {
-          c = ORANGE;
+          c     = ORANGE;
+          c_set = true;
         }
         if (level_is_teleport_bool(g, v, l, p)) {
-          c = PURPLE;
+          c     = PURPLE;
+          c_set = true;
         }
         if (level_is_entrance_bool(g, v, l, p)) {
-          c = WHITE;
+          c     = WHITE;
+          c_set = true;
         }
         if (level_is_exit_bool(g, v, l, p)) {
-          c = YELLOW;
+          c     = YELLOW;
+          c_set = true;
         }
         if (level_is_fire_bool(g, v, l, p)) {
-          c = ORANGE2;
+          c     = ORANGE2;
+          c_set = true;
         }
         if (level_is_player_bool(g, v, l, p)) {
-          c = PINK;
+          c     = PINK;
+          c_set = true;
         }
         if (level_is_monst_bool(g, v, l, p)) {
-          c = RED;
+          c     = RED;
+          c_set = true;
         }
         if (level_is_mob_bool(g, v, l, p)) {
-          c = RED;
+          c     = RED;
+          c_set = true;
         }
         if (level_is_proj_bool(g, v, l, p)) {
-          c = ORANGE;
+          c     = ORANGE;
+          c_set = true;
         }
         if (level_is_beam_weapon_bool(g, v, l, p)) {
-          c = ORANGE;
+          c     = ORANGE;
+          c_set = true;
+        }
+
+        if (! c_set) {
+          continue;
         }
 
         if (level_is_blit_shown_in_overlay_bool(g, v, l, p)) {
