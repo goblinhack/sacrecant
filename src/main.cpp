@@ -792,18 +792,7 @@ static void parse_args(int argc, char *argv[])
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
     GL_ERROR_CHECK();
 
-    if (game_gfx_vsync_enable_get(g)) {
-      //
-      // Force display VSYNC
-      //
-      SDL_GL_SetSwapInterval(1);
-    } else {
-      //
-      // No VSYNC
-      //
-      SDL_GL_SetSwapInterval(0);
-    }
-    GL_ERROR_CHECK();
+    config_gfx_vsync_update(g);
 
     SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
     GL_ERROR_CHECK();

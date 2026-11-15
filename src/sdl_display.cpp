@@ -236,8 +236,8 @@ static inline void sdl_list_video_size()
   }
 
 #ifdef WEB_BUILD
-  log("SDL: Set SDL_WINDOW_FULLSCREEN");
-  video_flags |= SDL_WINDOW_FULLSCREEN;
+  log("SDL: Set SDL_WINDOW_RESIZABLE");
+  video_flags |= SDL_WINDOW_RESIZABLE;
 
   log("SDL: Set SDL_WINDOW_FULLSCREEN_DESKTOP");
   video_flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;

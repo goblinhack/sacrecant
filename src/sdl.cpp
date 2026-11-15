@@ -528,14 +528,7 @@ void sdl_prepare_to_exit(Gamep g)
     }
   }
 
-  if (game_gfx_vsync_enable_get(g)) {
-    con("SDL: Vsync enabled.");
-    SDL_GL_SetSwapInterval(1);
-  } else {
-    con("SDL: Vsync disabled.");
-    SDL_GL_SetSwapInterval(0);
-  }
-  GL_ERROR_CHECK();
+  config_gfx_vsync_update(g);
 
   return 1U;
 }
@@ -545,8 +538,10 @@ void config_gfx_vsync_update(Gamep g)
   TRACE();
 
   if (game_gfx_vsync_enable_get(g)) {
+    con("SDL: Vsync enabled");
     SDL_GL_SetSwapInterval(1);
   } else {
+    con("SDL: Vsync disabled");
     SDL_GL_SetSwapInterval(0);
   }
   GL_ERROR_CHECK();
