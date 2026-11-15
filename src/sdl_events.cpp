@@ -77,13 +77,6 @@ auto sdl_get_mouse_state(Gamep g, int *x, int *y) -> int
     return button;
   }
 
-  int wx {};
-  int wy {};
-  SDL_GetWindowPosition(sdl.window, &wx, &wy);
-
-  mx -= wx;
-  my -= wy;
-
   //
   // Account for window position
   //

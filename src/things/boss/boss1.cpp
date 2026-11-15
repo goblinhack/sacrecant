@@ -4,6 +4,7 @@
 
 #include "../../my_callstack.hpp"
 #include "../../my_cpp_template.hpp"
+#include "../../my_dice_rolls.hpp"
 #include "../../my_random.hpp"
 #include "../../my_sound.hpp"
 #include "../../my_thing.hpp"
@@ -207,6 +208,23 @@ static void tp_boss1_on_level_changed_for_player(Gamep g, Levelsp v, Levelp l, T
   }
 }
 
+static void tp_boss1_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
+{
+  TRACE();
+
+  auto tp = thing_tp(me);
+
+  if (thing_health(g, v, l, me) < thing_health_max(g, v, l, me) / 2) {
+    tp_distance_avoid_target_set(tp, 6);
+  } else {
+    if (d100() < 10) {
+      tp_distance_avoid_target_set(tp, 0);
+    } else {
+      tp_distance_avoid_target_set(tp, 6);
+    }
+  }
+}
+
 [[nodiscard]] auto tp_load_boss1() -> bool
 {
   auto *tp   = tp_load("boss1"); // keep as string for scripts
@@ -218,16 +236,17 @@ static void tp_boss1_on_level_changed_for_player(Gamep g, Levelsp v, Levelp l, T
   thing_description_set(tp, tp_boss1_description_get);
   thing_detail_set(tp, tp_boss1_detail_get);
   thing_on_attacking_set(tp, tp_boss1_on_attacking);
+  thing_on_tick_begin_set(tp, tp_boss1_tick_begin);
   thing_on_death_set(tp, tp_boss1_on_death);
   thing_on_level_changed_for_player_set(tp, tp_boss1_on_level_changed_for_player);
   thing_on_missing_set(tp, tp_boss1_on_missing);
   thing_on_popped_set(tp, tp_boss1_on_popped);
   thing_on_pushed_set(tp, tp_boss1_on_pushed);
-  tp_attack_count_max_per_tick_set(tp, 1);
+  tp_attack_count_max_per_tick_set(tp, 2);
   tp_chance_set(tp, THING_CHANCE_CONTINUE_TO_BURN, "1d6"); // fumble => intensify / keep burning / crit => stop burning
   tp_chance_set(tp, THING_CHANCE_START_BURNING, "1d2");    // fumble => flames spread to you
   tp_damage_set(tp, THING_EVENT_MELEE_DAMAGE, "1d4");
-  tp_distance_avoid_target_set(tp, 8);
+  tp_distance_avoid_target_set(tp, 3);
   tp_distance_vision_set(tp, MAP_WIDTH / 2);
   tp_flag_set(tp, is_able_to_be_buffed);
   tp_flag_set(tp, is_able_to_be_invisible);
@@ -282,7 +301,7 @@ static void tp_boss1_on_level_changed_for_player(Gamep g, Levelsp v, Levelp l, T
   tp_priority_set(tp, THING_PRIORITY_MONST);
   tp_rarity_set(tp, THING_RARITY_COMMON);
   tp_score_value_set(tp, 1000);
-  tp_speed_set(tp, 50);
+  tp_speed_set(tp, 25);
   tp_stat_set(tp, THING_STAT_ATT, "1d4+14");
   tp_stat_set(tp, THING_STAT_DEF, "1d4+14");
   tp_stat_set(tp, THING_STAT_DMG, "1d4+14");
@@ -318,7 +337,7 @@ static void tp_boss1_on_level_changed_for_player(Gamep g, Levelsp v, Levelp l, T
                             .type         = "3",                 //
                             .name         = "central eye blast", //
                             .what         = "beam_of_energy",    //
-                            .d100         = 50,
+                            .d100         = 70,
                             .when_distant = true,
                         });
 

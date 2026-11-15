@@ -69,7 +69,7 @@ static const int MAX_LEVEL_GEN_MIN_BRIDGE_LEN_CHANCE = 30;
 //
 // Per level minimums
 //
-static const int MAX_LEVEL_GEN_MIN_TREASURE_PER_LEVEL = 6;
+static const int MAX_LEVEL_GEN_MIN_TREASURE_PER_LEVEL = 10;
 
 //
 // Monster limits
