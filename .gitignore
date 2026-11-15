@@ -56,10 +56,11 @@ src/ramdisk_data_8.S
 src/ramdisk_data_9.S
 src/ramdisk_data.cpp
 .DS_Store
+sacrecant.zip
 sacrecant.html
 sacrecant.js
 sacrecant.wasm
 sacrecant-create-release.sh
 sacrecant.pdb
 sacrecant.sh
-
+index.html
