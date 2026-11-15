@@ -77,6 +77,13 @@ auto sdl_get_mouse_state(Gamep g, int *x, int *y) -> int
     return button;
   }
 
+  int wx {};
+  int wy {};
+  SDL_GetWindowPosition(sdl.window, &wx, &wy);
+
+  mx -= wx;
+  my -= wy;
+
   //
   // Account for window position
   //
@@ -109,8 +116,16 @@ auto sdl_get_mouse_state(Gamep g, int *x, int *y) -> int
   fx *= static_cast< float >(w1) / static_cast< float >(w2);
   fy *= static_cast< float >(h1) / static_cast< float >(h2);
 
+  if (compiler_unused) {
+    con("%dx%d %dx%d mouse %d,%d", w1, h1, w2, h2, *x, *y);
+  }
+
   *x = static_cast< int >(fx);
   *y = static_cast< int >(fy);
+
+  if (compiler_unused) {
+    con("%dx%d %dx%d mouse %d,%d final", w1, h1, w2, h2, *x, *y);
+  }
 
   return button;
 }

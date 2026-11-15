@@ -249,6 +249,13 @@ static inline void sdl_list_video_size()
     video_flags  = 0;
   }
 
+  const bool widescreen_test = false;
+  if (widescreen_test) {
+    video_width  = 2000;
+    video_height = 640;
+    video_flags  = 0;
+  }
+
   if (AN_ERROR_OCCURRED()) {
     log("SDL: Create safe mode window size %ux%u", video_width, video_height);
   } else {

@@ -656,7 +656,12 @@ void config_game_gfx_update(Gamep g)
     return;
   }
 
-  TERM_WIDTH                = TERM_WIDTH_DEF;
+  TERM_WIDTH = TERM_WIDTH_DEF;
+
+  if (game_aspect_ratio_get(g) > 2) {
+    TERM_WIDTH *= 2;
+  }
+
   int const new_font_width  = game_window_pix_width_get(g) / TERM_WIDTH;
   int       new_font_height = static_cast< int >(static_cast< float >(new_font_width) * font_aspect_ratio);
   TERM_HEIGHT               = game_window_pix_height_get(g) / new_font_height;
@@ -755,14 +760,15 @@ void config_game_gfx_update(Gamep g)
   //
   // For screens that are very wide, unstretch the map
   //
-  if (map_term_w > map_term_h) {
-    int const pad = (((map_term_w * w) - (map_term_h * h)) / w) / 2;
-    if (pad > 0) {
-      log("SDL: - map is over wide      : %dx%d (reduce by %d cells either side)", map_term_w, map_term_h, pad);
-      visible_map_tl_x += w * pad;
-      visible_map_br_x -= w * pad;
+  if (0)
+    if (map_term_w > map_term_h) {
+      int const pad = (((map_term_w * w) - (map_term_h * h)) / w) / 2;
+      if (pad > 0) {
+        log("SDL: - map is over wide      : %dx%d (reduce by %d cells either side)", map_term_w, map_term_h, pad);
+        visible_map_tl_x += w * pad;
+        visible_map_br_x -= w * pad;
+      }
     }
-  }
 
   int const map_w = visible_map_br_x - visible_map_tl_x;
   int const map_h = visible_map_br_y - visible_map_tl_y;
