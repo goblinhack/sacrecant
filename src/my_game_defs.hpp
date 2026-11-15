@@ -161,10 +161,14 @@ enum {
   POPUP_DURATION_TILE_HEIGHT = 3,
   POPUP_TEXT_SCALE_ACROSS    = 3,
 
-  //
-  // Number of light rays the player casts
-  //
-  LIGHT_MAX_RAYS_MAX = (360 * 4),
+//
+// Number of light rays the player casts
+//
+#ifdef WEB_BUILD
+  LIGHT_MAX_RAYS_MAX = 180,
+#else
+  LIGHT_MAX_RAYS_MAX = 360,
+#endif
 
   LEVEL_TEST_MAX = 1000,
 
