@@ -382,6 +382,11 @@ static void parse_args(int argc, char *argv[])
 
   g_thread_id = MAIN_THREAD;
 
+#ifdef DEBUG_BUILD
+  g_opt_debug1               = true;
+  g_opt_override_debug_level = true;
+#endif
+
   TRACE();
   auto appdata = log_dir_create(); // Want this first so we get all logs
 

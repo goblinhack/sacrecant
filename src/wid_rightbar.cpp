@@ -106,6 +106,12 @@ static auto wid_rightbar_thing_info_add(Gamep g, Levelsp v, Levelp l) -> void
   switch (game_state(g)) {
     case STATE_CHOOSE_THROW_TARGET : [[fallthrough]];
     case STATE_LEVEL_SELECT_MENU :   [[fallthrough]];
+    case STATE_SPELL_LEARN_MENU :    [[fallthrough]];
+    case STATE_SPELLBOOK_MENU :      [[fallthrough]];
+    case STATE_THROW_MENU :          [[fallthrough]];
+    case STATE_ITEM_MENU :           [[fallthrough]];
+    case STATE_COLLECT_MENU :        [[fallthrough]];
+    case STATE_INVENTORY_MENU :      [[fallthrough]];
     case STATE_PLAYING :
       for (auto n = 0; std::cmp_less(n, v->describe_count); n++) {
         auto *t = thing_find_optional(g, v, v->describe[ n ]);
@@ -144,17 +150,12 @@ static auto wid_rightbar_thing_info_add(Gamep g, Levelsp v, Levelp l) -> void
     case STATE_MAIN_MENU :           [[fallthrough]];
     case STATE_PLAYER_SELECT_MENU :  [[fallthrough]];
     case STATE_TEMPLE_SELECT_MENU :  [[fallthrough]];
-    case STATE_SPELL_LEARN_MENU :    [[fallthrough]];
-    case STATE_SPELLBOOK_MENU :      [[fallthrough]];
     case STATE_CHOOSE_SPELL_TARGET : [[fallthrough]];
-    case STATE_COLLECT_MENU :        [[fallthrough]];
     case STATE_DEAD_MENU :           [[fallthrough]];
     case STATE_STATISTICS_MENU :     [[fallthrough]];
     case STATE_GENERATED :           [[fallthrough]];
     case STATE_GENERATING :          [[fallthrough]];
     case STATE_INIT :                [[fallthrough]];
-    case STATE_INVENTORY_MENU :      [[fallthrough]];
-    case STATE_ITEM_MENU :           [[fallthrough]];
     case STATE_KEYBOARD_MENU :       [[fallthrough]];
     case STATE_LOAD_MENU :           [[fallthrough]];
     case STATE_LOADED :              [[fallthrough]];
@@ -163,7 +164,6 @@ static auto wid_rightbar_thing_info_add(Gamep g, Levelsp v, Levelp l) -> void
     case STATE_QUITTING :            [[fallthrough]];
     case STATE_SAVE_MENU :           [[fallthrough]];
     case STATE_GAME_OVER_MENU :      [[fallthrough]];
-    case STATE_THROW_MENU :          [[fallthrough]];
     case GAME_STATE_ENUM_MAX :       break;
   }
 

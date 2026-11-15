@@ -410,11 +410,19 @@
     return me;
   }
 
+#ifdef DEBUG_BUILD
   if (me->id != 0U) {
     thing_err(g, v, thing_level(g, v, me), me, "thing_find_optional: thing mismatch found for id, %p %08" PRIX32 "", (void *) me, me->id);
   } else {
-    thing_err(g, v, thing_level(g, v, me), me, "thing_find_optional: thing already freed for id, %p %08" PRIX32 "", (void *) me, me->id);
+    thing_log(g, v, thing_level(g, v, me), me, "thing_find_optional: thing already freed for id, %p %08" PRIX32 "", (void *) me, me->id);
   }
+#else
+  if (me->id != 0U) {
+    thing_log(g, v, thing_level(g, v, me), me, "thing_find_optional: thing mismatch found for id, %p %08" PRIX32 "", (void *) me, me->id);
+  } else {
+    thing_log(g, v, thing_level(g, v, me), me, "thing_find_optional: thing already freed for id, %p %08" PRIX32 "", (void *) me, me->id);
+  }
+#endif
 
   return nullptr;
 }
@@ -448,9 +456,23 @@
     return me;
   }
 
+#ifdef DEBUG_BUILD
   if (me->id != 0U) {
-    thing_err(g, v, thing_level(g, v, me), me, "thing_find_optional: thing mismatch found for id, %p %08" PRIX32 "", (void *) me, me->id);
+    thing_err(g, v, thing_level(g, v, me), me, "thing_find_optional_may_be_freed: thing mismatch found for id, %p %08" PRIX32 "", (void *) me,
+              me->id);
+  } else {
+    thing_log(g, v, thing_level(g, v, me), me, "thing_find_optional_may_be_freed: thing already freed for id, %p %08" PRIX32 "", (void *) me,
+              me->id);
   }
+#else
+  if (me->id != 0U) {
+    thing_log(g, v, thing_level(g, v, me), me, "thing_find_optional_may_be_freed: thing mismatch found for id, %p %08" PRIX32 "", (void *) me,
+              me->id);
+  } else {
+    thing_log(g, v, thing_level(g, v, me), me, "thing_find_optional_may_be_freed: thing already freed for id, %p %08" PRIX32 "", (void *) me,
+              me->id);
+  }
+#endif
 
   return nullptr;
 }

@@ -36,12 +36,17 @@ static void error_message_do(Gamep g, std::string &tech_support)
     }
   }
 
+#ifdef WEB_BUILD
+  tech_support += "\n";
+  tech_support += "Could you please email goblinhack@gmail.com this trace info?\n";
+#else
   tech_support += "\n";
   tech_support += "Could you please email goblinhack@gmail.com and attach the following files and trace info?\n";
   tech_support += g_log_stdout_filename;
   tech_support += "\n";
   tech_support += g_log_stderr_filename;
-  tech_support += "\n";
+#endif
+
   tech_support += "\n";
   tech_support += backtrace_string();
   tech_support += "\n";
