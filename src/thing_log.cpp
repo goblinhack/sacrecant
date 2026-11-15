@@ -27,7 +27,11 @@ static void thing_log_(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, 
   buf[ 0 ] = '\0';
   get_timestamp(buf, MAXLONGSTR);
   len = static_cast< int >(strlen(buf));
-  snprintf(buf + len, MAXLONGSTR - len, "[%-60s]: %*s", to_string(g, v, l, t).c_str(), g_callframes_indent, "");
+  if (l) {
+    snprintf(buf + len, MAXLONGSTR - len, "[%-60s]: %*s", to_string(g, v, l, t).c_str(), g_callframes_indent, "");
+  } else {
+    snprintf(buf + len, MAXLONGSTR - len, "[%-60s]: %*s", to_string(g, v, t).c_str(), g_callframes_indent, "");
+  }
   len = static_cast< int >(strlen(buf));
 
   vsnprintf(buf + len, MAXLONGSTR - len, fmt, args);
@@ -49,6 +53,41 @@ void thing_log(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...)
   va_list args = {};
   va_start(args, fmt);
   thing_log_(g, v, l, t, fmt, args);
+  va_end(args);
+}
+
+static void thing_log_(Gamep g, Levelsp v, Thingp t, const char *fmt, va_list args)
+{
+  TRACE();
+
+  char buf[ MAXLONGSTR ];
+  int  len = 0;
+
+  buf[ 0 ] = '\0';
+  get_timestamp(buf, MAXLONGSTR);
+  len = static_cast< int >(strlen(buf));
+  snprintf(buf + len, MAXLONGSTR - len, "[%-60s]: %*s", to_string(g, v, t).c_str(), g_callframes_indent, "");
+  len = static_cast< int >(strlen(buf));
+
+  vsnprintf(buf + len, MAXLONGSTR - len, fmt, args);
+
+  putf(MY_STDOUT, buf);
+}
+
+void thing_log(Gamep g, Levelsp v, Thingp t, const char *fmt, ...)
+{
+  TRACE();
+
+  //
+  // Filter to interesting things
+  //
+  if (! thing_is_loggable(t)) {
+    return;
+  }
+
+  va_list args = {};
+  va_start(args, fmt);
+  thing_log_(g, v, t, fmt, args);
   va_end(args);
 }
 
@@ -146,6 +185,29 @@ void thing_err(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...)
   va_list args = {};
   va_start(args, fmt);
   thing_err_(g, v, l, t, fmt, args);
+  va_end(args);
+}
+
+static void thing_err_(Gamep g, Levelsp v, Thingp t, const char *fmt, va_list args)
+{
+  char buf[ MAXLONGSTR ];
+  int  len = 0;
+
+  buf[ 0 ] = '\0';
+  snprintf(buf + len, MAXLONGSTR - len, "%s: ", to_string(g, v, t).c_str());
+  len = static_cast< int >(strlen(buf));
+  vsnprintf(buf + len, MAXLONGSTR - len, fmt, args);
+
+  ERR("%s", buf);
+}
+
+void thing_err(Gamep g, Levelsp v, Thingp t, const char *fmt, ...)
+{
+  TRACE();
+
+  va_list args = {};
+  va_start(args, fmt);
+  thing_err_(g, v, t, fmt, args);
   va_end(args);
 }
 

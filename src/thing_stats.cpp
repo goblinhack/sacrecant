@@ -504,6 +504,10 @@
   // Override the level. This can happen during falling and the level we want to use is that of the thing.
   //
   l = thing_level(g, v, me);
+  if (! l) {
+    thing_err(g, v, me, "no level");
+    return false;
+  }
 
   auto mod = thing_stat_mod(g, v, l, me, stat);
 

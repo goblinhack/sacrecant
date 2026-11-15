@@ -26,6 +26,10 @@
 #include <utility>
 #include <vector>
 
+#ifdef GITHUB_BUILD
+#include <print> // NOLINT
+#endif
+
 /* clang-format off */
 const std::initializer_list< std::string > tests = {
     /* begin shell marker1 */

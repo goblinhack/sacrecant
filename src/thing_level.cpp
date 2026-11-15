@@ -21,7 +21,11 @@
 
   auto *o = thing_find(g, v, t->id);
   if (t != o) {
-    CROAK("thing_level: thing mismatch found for id, %p %08" PRIX32 "", (void *) t, t->id);
+    //
+    // May not be an error if called from optional find functions
+    //
+    thing_log(g, v, t, "thing_level: thing mismatch found for id, %p %08" PRIX32 "", (void *) t, t->id);
+    return nullptr;
   }
 
   return game_level_get(g, v, t->level_arr_idx);

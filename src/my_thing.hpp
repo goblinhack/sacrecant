@@ -1601,6 +1601,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto to_death_reason_string(Gamep g, Levelsp v, Levelp l, Thingp t, ThingEvent &e) -> std::string;
 [[nodiscard]] auto to_string(Gamep g, Levelsp v, Levelp l, ThingEvent &e) -> std::string;
 [[nodiscard]] auto to_string(Gamep g, Levelsp v, Levelp l, Thingp t) -> std::string;
+[[nodiscard]] auto to_string(Gamep g, Levelsp v, Thingp t) -> std::string;
 [[nodiscard]] auto tp_damage_types(Tpp tp) -> std::vector< ThingEventType >;
 [[nodiscard]] auto wid_get_thing_context(Gamep g, Levelsp v, Widp w, int which) -> Thingp;
 [[nodiscard]] auto wid_get_tp_context(Gamep g, Widp w, int which) -> Tpp;
@@ -1787,12 +1788,14 @@ void thing_con(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) CHE
 void thing_croak(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 5, 6);
 void thing_dbg(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 5, 6);
 void thing_err(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 5, 6);
+void thing_err(Gamep g, Levelsp v, Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 4, 5);
 void thing_is_follower_set(Thingp me);
 void thing_leader_dead(Gamep g, Levelsp v, Levelp l, Thingp leader, ThingEvent &e);
 void thing_leader_followers_kill_if_too_far(Gamep g, Levelsp v, Levelp l, Thingp me);
 void thing_leader_move_followers_offset(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint offset);
 void thing_leader_warp_followers_to(Gamep g, Levelsp v, Levelp old_level, Levelp new_level, Thingp me, bpoint from, bpoint to);
 void thing_log(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 5, 6);
+void thing_log(Gamep g, Levelsp v, Thingp t, const char *fmt, ...) CHECK_FORMAT_STR(printf, 4, 5);
 void thing_mob_dead(Gamep g, Levelsp v, Levelp l, Thingp mob, ThingEvent &e);
 void thing_mob_minions_kill_if_too_far(Gamep g, Levelsp v, Levelp l, Thingp me);
 void thing_mob_move_minions_offset(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint offset);

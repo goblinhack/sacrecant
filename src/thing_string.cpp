@@ -86,6 +86,78 @@
   return out;
 }
 
+//
+// This is mainly for error conditions
+//
+[[nodiscard]] auto to_string(Gamep g, Levelsp v, Thingp t) -> std::string
+{
+  TRACE();
+
+  if (t == nullptr) {
+    no_thing_pointer();
+    return "<no thing>";
+  }
+
+  //  log("to_string: thing id %08" PRIX32 "", t->id);
+
+  auto *tp = thing_tp(t);
+  if (t == nullptr) {
+    no_tp_pointer();
+    return "<no tp>";
+  }
+
+  auto name = tp_name(tp);
+  if ((g != nullptr) && thing_is_player(t)) {
+    name = game_player_name_get(g);
+  }
+
+  auto at = t->_at;
+
+  std::string out
+      = /* keep ( */ (std::format("{:08X}"
+                                  /* level num                     */ " l{}"
+                                  /* tick                          */ " t{:3}"
+                                  /* thing_health                  */ " h{:<3}"
+                                  /* at                            */ " @{:2},{:2}"
+                                  /* name                          */ "{}"
+                                  /* name                          */ " {}"
+                                  /* is_dead                       */ "{}"
+                                  /* is_moving                     */ "{}"
+                                  /* is_worn                       */ "{}"
+                                  /* is_jumping                    */ "{}"
+                                  /* is_thrown                     */ "{}"
+                                  /* is_engulfed                   */ "{}"
+                                  /* is_ensnared                   */ "{}"
+                                  /* is_carried                    */ "{}"
+                                  /* is_sleeping                   */ "{}"
+                                  /* is_falling                    */ "{}"
+                                  /* is_open                       */ "{}"
+                                  /* is_burning                    */ "{}"
+                                  /* is_scheduled_for_cleanup      */ "{}",
+                                  /* newline */ t->id,
+                                  /* newline */ t->level_arr_idx + 1,
+                                  /* newline */ t->tick,
+                                  /* newline */ t->_health,
+                                  /* newline */ at.x, at.y,
+                                  /* newline */ t->_is_on_map ? "" : "(nomap)",
+                                  /* newline */ name,
+                                  /* newline */ thing_is_moving(t) ? "/move" : "",
+                                  /* newline */ thing_is_worn(t) ? "/worn" : "",
+                                  /* newline */ thing_is_jumping(t) ? "/jump" : "",
+                                  /* newline */ thing_is_thrown(t) ? "/thrw" : "",
+                                  /* newline */ thing_is_engulfed(t) ? "/gulf" : "",
+                                  /* newline */ thing_is_ensnared(t) ? "/snrd" : "",
+                                  /* newline */ thing_is_carried(t) ? "/carr" : "",
+                                  /* newline */ thing_is_dead(t) ? "/dead" : "",
+                                  /* newline */ thing_is_sleeping(t) ? "/zzz" : "",
+                                  /* newline */ (thing_is_falling(t) != 0) ? "/fall" : "",
+                                  /* newline */ thing_is_open(t) ? "/open" : "",
+                                  /* newline */ thing_is_burning(t) ? "/burn" : "",
+                                  /* newline */ thing_is_scheduled_for_cleanup(t) ? "/fre" : ""));
+
+  return out;
+}
+
 [[nodiscard]] auto to_string(Gamep g, Levelsp v, Levelp l, ThingEvent &e) -> std::string
 {
   TRACE();

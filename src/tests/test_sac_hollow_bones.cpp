@@ -170,7 +170,9 @@
     }
   }
 
-  l          = thing_level(g, v, player);
+  l = thing_level(g, v, player);
+  TEST_ASSERT(t, l, "missing level");
+
   health     = thing_health(g, v, l, player);
   health_max = thing_health_max(g, v, l, player);
   TEST_ASSERT(t, health == health_max, "expected full health");
