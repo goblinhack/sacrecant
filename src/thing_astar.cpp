@@ -14,10 +14,8 @@
 
 #include <algorithm> // do not remove
 #include <array>     // do not remove
-#include <cmath>
 #include <cstdint>
 #include <string>
-#include <utility>
 #include <vector>
 
 #ifdef ENABLE_DEBUG_AI_ASTAR
@@ -107,14 +105,14 @@ public:
   //
   // A node per grid element. Avoids needing to allocate memory
   //
-  std::array< std::array< Node, MAP_HEIGHT >, MAP_WIDTH > nodes;
+  std::array< std::array< Node, MAP_HEIGHT >, MAP_WIDTH > nodes {};
 
   //
   // Cache of where this thing can move to. The values are only read once the matching "set" flag is on.
   //
-  std::array< std::array< bool, MAP_HEIGHT >, MAP_WIDTH >    can_move_to_possible_cached;
+  std::array< std::array< bool, MAP_HEIGHT >, MAP_WIDTH >    can_move_to_possible_cached {};
   std::array< std::array< uint8_t, MAP_HEIGHT >, MAP_WIDTH > can_move_to_possible_cached_set = {};
-  std::array< std::array< int16_t, MAP_HEIGHT >, MAP_WIDTH > can_move_to_cost_cached;
+  std::array< std::array< int16_t, MAP_HEIGHT >, MAP_WIDTH > can_move_to_cost_cached {};
   std::array< std::array< uint8_t, MAP_HEIGHT >, MAP_WIDTH > can_move_to_cost_cached_set = {};
 
   [[nodiscard]] auto        can_move_to_possible(const bpoint &to) -> bool;
@@ -124,11 +122,11 @@ public:
   [[nodiscard]] auto        solve(bool allow_diagonal) -> std::vector< bpoint >;
   [[nodiscard]] static auto create_path(const Node *came_from) -> std::vector< bpoint >;
 
-  void add_to_closed(Node *n);
-  void add_to_open(Node *n);
-  void dump();
-  void eval_neighbor(Node *current, const bpoint &delta);
-  void remove_from_open(Node *n);
+  void               add_to_closed(Node *n);
+  void               add_to_open(Node *n);
+  void               dump();
+  void               eval_neighbor(Node *current, const bpoint &delta);
+  void               remove_from_open(Node *n);
   [[nodiscard]] auto pop_open() -> Node *;
 
   static void init();
@@ -146,7 +144,7 @@ void Astar::add_to_open(Node *n)
   *o = ASTAR_OPEN;
 
   open_heap.push_back({n->cost.cost, n->cost.tiebreak, n});
-  std::ranges::push_heap(open_heap, [](const OpenEntry &a, const OpenEntry &b) {
+  std::ranges::push_heap(open_heap, [](const OpenEntry &a, const OpenEntry &b) -> bool {
     //
     // The heap keeps its "largest" entry on top, so this puts the cheapest on top.
     //
@@ -187,7 +185,7 @@ void Astar::remove_from_open(Node *n)
 [[nodiscard]] auto Astar::pop_open() -> Node *
 {
   while (! open_heap.empty()) {
-    std::ranges::pop_heap(open_heap, [](const OpenEntry &a, const OpenEntry &b) {
+    std::ranges::pop_heap(open_heap, [](const OpenEntry &a, const OpenEntry &b) -> bool {
       return (a.cost > b.cost) || ((a.cost == b.cost) && (a.tiebreak > b.tiebreak));
     });
     auto const e = open_heap.back();
@@ -357,8 +355,8 @@ void Astar::init()
     wall_walker = thing_is_wall_walker(g, v, l, me);
   }
 
-  auto  ncost    = Nodecost(heuristic(src));
-  auto *neighbor = node_init(src, ncost);
+  auto  ncost         = Nodecost(heuristic(src));
+  auto *neighbor      = node_init(src, ncost);
   neighbor->came_from = nullptr;
   add_to_open(neighbor);
 

@@ -2,6 +2,7 @@
 // Copyright goblinhack@gmail.com
 //
 
+#include <cstddef>
 #include <string>
 #include <utility>
 
@@ -13,7 +14,6 @@
 #include "my_game_defs.hpp"
 #include "my_spoint.hpp"
 #include "my_string.hpp"
-#include "my_tex.hpp"
 #include "my_thing.hpp" // NOLINT
 #include "my_tile.hpp"
 #include "my_tp.hpp"
@@ -74,10 +74,10 @@ void thing_blit_text(Gamep g, Levelsp v, Levelp l, spoint tl, spoint br, std::st
         }
       case TextTokenType::Tp :
         {
-          std::string name = text.substr(tok.arg, tok.arg_len + (tok.terminated ? 1 : 0));
-          const char *tmpc = name.c_str();
-          int         len2 = 0;
-          tile             = tp_first_tile(string2tp(&tmpc, &len2), THING_ANIM_IDLE);
+          std::string const name = text.substr(tok.arg, tok.arg_len + (tok.terminated ? 1 : 0));
+          const char       *tmpc = name.c_str();
+          int               len2 = 0;
+          tile                   = tp_first_tile(string2tp(&tmpc, &len2), THING_ANIM_IDLE);
           continue;
         }
       case TextTokenType::Tile :

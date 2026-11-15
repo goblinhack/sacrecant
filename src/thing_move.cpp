@@ -152,7 +152,7 @@
 
   bool  did_level_changed_for_player = false;
   auto *old_level                    = thing_level(g, v, me);
-  if (! old_level) {
+  if (old_level == nullptr) {
     thing_err(g, v, new_level, me, "warp to oob %d,%d, failed, no old level", to.x, to.y);
     return false;
   }

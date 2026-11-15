@@ -504,7 +504,7 @@
   // Override the level. This can happen during falling and the level we want to use is that of the thing.
   //
   l = thing_level(g, v, me);
-  if (! l) {
+  if (l == nullptr) {
     thing_err(g, v, me, "no level");
     return false;
   }

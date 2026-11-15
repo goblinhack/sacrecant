@@ -238,13 +238,13 @@ void dmap_process(Dmap *D, bpoint tl, bpoint br)
   // A cell can be queued twice, once with its starting label and once if it is lowered. Entry n is for
   // cell n / 2.
   //
-  std::array< uint16_t, max_label + 1 >                    head;
-  std::array< uint16_t, MAP_WIDTH * MAP_HEIGHT * 2 >       next;
+  std::array< uint16_t, max_label + 1 >              head {};
+  std::array< uint16_t, MAP_WIDTH * MAP_HEIGHT * 2 > next {};
   head.fill(none);
 
-  auto queue = [ & ](int label, int x, int y, int which) {
-    auto const n = static_cast< uint16_t >((((x * MAP_HEIGHT) + y) * 2) + which);
-    next[ n ]    = head[ label ];
+  auto queue = [ & ](int label, int x, int y, int which) -> void {
+    auto const n  = static_cast< uint16_t >((((x * MAP_HEIGHT) + y) * 2) + which);
+    next[ n ]     = head[ label ];
     head[ label ] = n;
   };
 
@@ -258,7 +258,7 @@ void dmap_process(Dmap *D, bpoint tl, bpoint br)
 
   for (int label = 0; label <= max_label; label++) {
     while (head[ label ] != none) {
-      auto const n = head[ label ];
+      auto const n  = head[ label ];
       head[ label ] = next[ n ];
 
       auto const cell = n / 2;
@@ -268,7 +268,7 @@ void dmap_process(Dmap *D, bpoint tl, bpoint br)
       //
       // Lowered since it was queued? Then it is on a later list as well.
       //
-      if (D->val[ x ][ y ] != label) {
+      if (std::cmp_not_equal(D->val[ x ][ y ], label)) {
         continue;
       }
 

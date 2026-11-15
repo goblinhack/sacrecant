@@ -3,11 +3,8 @@
 //
 
 #include "my_callstack.hpp"
-#include "my_color.hpp"
 #include "my_main.hpp"
 #include "my_string.hpp"
-#include "my_tex.hpp"
-#include "my_tile.hpp"
 #include "my_tp.hpp"
 #include "my_types.hpp"
 
@@ -210,7 +207,7 @@ void string_copy(std::span< char > dst, std::string_view src)
     // word break, which would let a color from the next line leak onto the end of this one.
     //
     {
-      auto pos           = static_cast< size_t >(line_start - text_start);
+      auto       pos     = static_cast< size_t >(line_start - text_start);
       auto const end_pos = static_cast< size_t >(line_end - text_start);
       while (pos < end_pos) {
         auto const tok = text_next_token(text, pos);

@@ -367,10 +367,10 @@ void ascii_putf_internal2(int x, int y, color fg, color bg, const std::string &t
         }
       case TextTokenType::Tp :
         {
-          std::string name = text.substr(tok.arg, tok.arg_len + (tok.terminated ? 1 : 0));
-          const char *c    = name.c_str();
-          int         slen = 0;
-          tile             = tp_first_tile(string2tp(&c, &slen), THING_ANIM_IDLE);
+          std::string const name = text.substr(tok.arg, tok.arg_len + (tok.terminated ? 1 : 0));
+          const char       *c    = name.c_str();
+          int               slen = 0;
+          tile                   = tp_first_tile(string2tp(&c, &slen), THING_ANIM_IDLE);
           continue;
         }
       case TextTokenType::Tile :
@@ -481,7 +481,7 @@ void ascii_putf_internal2(int x, int y, color fg, color bg, const std::string &t
 {
   std::string out;
   out.reserve(text.size());
-  text_for_each_char(text, [ & ](char ch) { out += ch; });
+  text_for_each_char(text, [ & ](char ch) -> void { out += ch; });
   return out;
 }
 

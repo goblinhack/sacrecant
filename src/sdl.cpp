@@ -760,7 +760,7 @@ void config_game_gfx_update(Gamep g)
   //
   // For screens that are very wide, unstretch the map
   //
-  if (0)
+  if (compiler_unused) {
     if (map_term_w > map_term_h) {
       int const pad = (((map_term_w * w) - (map_term_h * h)) / w) / 2;
       if (pad > 0) {
@@ -769,6 +769,7 @@ void config_game_gfx_update(Gamep g)
         visible_map_br_x -= w * pad;
       }
     }
+  }
 
   int const map_w = visible_map_br_x - visible_map_tl_x;
   int const map_h = visible_map_br_y - visible_map_tl_y;

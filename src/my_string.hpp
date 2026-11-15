@@ -91,9 +91,9 @@ struct TextToken {
   }
 
   auto code = [ & ](TextTokenType type, size_t prefix_len, bool eat_terminator) -> TextToken {
-    tok.type    = type;
-    tok.arg     = at + prefix_len;
-    size_t n    = 0;
+    tok.type = type;
+    tok.arg  = at + prefix_len;
+    size_t n = 0;
     while ((tok.arg + n < size) && (text[ tok.arg + n ] != '$') && (text[ tok.arg + n ] != '\0')) {
       n++;
     }
@@ -154,7 +154,7 @@ template < typename F > inline void text_for_each_char(const std::string &text, 
 [[nodiscard]] inline auto text_visible_length(const std::string &text) -> int
 {
   int width = 0;
-  text_for_each_char(text, [ & ](char) { width++; });
+  text_for_each_char(text, [ & ](char) -> void { width++; });
   return width;
 }
 
