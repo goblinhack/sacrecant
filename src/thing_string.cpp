@@ -44,8 +44,7 @@
                                   /* thing_health                  */ " h{:<3}"
                                   /* at                            */ " @{:2},{:2}"
                                   /* name                          */ "{}"
-                                  /* name                          */ " {}"
-                                  /* is_dead                       */ "{}"
+                                  /* on map                        */ " {}"
                                   /* is_dormant                    */ "{}"
                                   /* is_moving                     */ "{}"
                                   /* is_worn                       */ "{}"
@@ -55,6 +54,7 @@
                                   /* is_engulfed                   */ "{}"
                                   /* is_ensnared                   */ "{}"
                                   /* is_carried                    */ "{}"
+                                  /* is_dead                       */ "{}"
                                   /* is_sleeping                   */ "{}"
                                   /* is_falling                    */ "{}"
                                   /* is_open                       */ "{}"
@@ -100,17 +100,6 @@
 
   //  log("to_string: thing id %08" PRIX32 "", t->id);
 
-  auto *tp = thing_tp(t);
-  if (t == nullptr) {
-    no_tp_pointer();
-    return "<no tp>";
-  }
-
-  auto name = tp_name(tp);
-  if ((g != nullptr) && thing_is_player(t)) {
-    name = game_player_name_get(g);
-  }
-
   auto at = t->_at;
 
   std::string out
@@ -119,9 +108,7 @@
                                   /* tick                          */ " t{:3}"
                                   /* thing_health                  */ " h{:<3}"
                                   /* at                            */ " @{:2},{:2}"
-                                  /* name                          */ "{}"
-                                  /* name                          */ " {}"
-                                  /* is_dead                       */ "{}"
+                                  /* on map                        */ " {}"
                                   /* is_moving                     */ "{}"
                                   /* is_worn                       */ "{}"
                                   /* is_jumping                    */ "{}"
@@ -129,6 +116,7 @@
                                   /* is_engulfed                   */ "{}"
                                   /* is_ensnared                   */ "{}"
                                   /* is_carried                    */ "{}"
+                                  /* is_dead                       */ "{}"
                                   /* is_sleeping                   */ "{}"
                                   /* is_falling                    */ "{}"
                                   /* is_open                       */ "{}"
@@ -140,7 +128,6 @@
                                   /* newline */ t->_health,
                                   /* newline */ at.x, at.y,
                                   /* newline */ t->_is_on_map ? "" : "(nomap)",
-                                  /* newline */ name,
                                   /* newline */ thing_is_moving(t) ? "/move" : "",
                                   /* newline */ thing_is_worn(t) ? "/worn" : "",
                                   /* newline */ thing_is_jumping(t) ? "/jump" : "",
