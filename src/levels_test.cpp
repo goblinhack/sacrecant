@@ -941,28 +941,28 @@ void levels_test(Gamep g)
   {
     LevelGenOverrides overrides;
 
-    overrides.o[ 'm' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("coil_eel"); };
+    overrides.o[ 'm' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("pirnana"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "water", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
                     /* line */ (const char *) "x~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~x",
                     /* line */ (const char *) "x~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~x",
                     /* line */ (const char *) "x~~~~~~~~~~~~~~~~R~~~~~~~~~~~~~x",
-                    /* line */ (const char *) "x~~~~~~~R~~~~~~~~~~~~~~R~~~~~~~x",
+                    /* line */ (const char *) "x~~~m~~~R~~~~~~~~~~~~~~R~~~~~~~x",
                     /* line */ (const char *) "x~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~x",
                     /* line */ (const char *) "x~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~x",
-                    /* line */ (const char *) "x~~~~~~~~~~~~~,,,~~RRR~~~~~~~~~x",
+                    /* line */ (const char *) "x~~~~~~~~~~~~~,,,~~RRR~~~~~m~~~x",
                     /* line */ (const char *) "x~~~~~~...~~~~,@,~~...~~~~~~~~~x",
                     /* line */ (const char *) "x~~~~~~.B.~~~~,,,~~.B.~~~~~~~~~x",
                     /* line */ (const char *) "x~~~~~~...~~~~~~~~~...R~~~~~~~~x",
                     /* line */ (const char *) "x~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~x",
                     /* line */ (const char *) "x~~~~~~~R~~~~~~~~~~,,,~~~~~~~~~x",
-                    /* line */ (const char *) "x~~~~~~~~~~~~~~R~~~,B,~~~~~~~~~x",
+                    /* line */ (const char *) "x~~~m~~~~~~~~~~R~~~,B,~~~~~~~~~x",
                     /* line */ (const char *) "x~~~~~~~~~~~~~~~~~~,,,~~~~~~~~~x",
                     /* line */ (const char *) "x~~~~~~~~~~,,,~~~~~~~~~~~~~~~~~x",
                     /* line */ (const char *) "x~~~~~~~~~~,B,~~~~~~~~~~~~~~~~~x",
                     /* line */ (const char *) "x~~~~~~~~~~,,,~~~~~~~~~~~~~~~~~x",
-                    /* line */ (const char *) "x~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~x",
+                    /* line */ (const char *) "x~~~~~~~~~~~~~~~~~~~m~~~~~~~~~~x",
                     /* line */ (const char *) "x~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~x",
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
                     /* end */ nullptr);
