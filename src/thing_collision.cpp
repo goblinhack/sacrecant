@@ -674,7 +674,7 @@ static void thing_collision_handle_do(Gamep g, Levelsp v, Levelp l, Thingp obsta
     //
     // Can we hit this thing in deep water?
     //
-    if (level_is_water_deep(g, v, l, thing_at(g, v, l, obstacle))) {
+    if (level_is_water_deep_bool(g, v, l, thing_at(g, v, l, obstacle))) {
       //
       // If in deep water, ignore for projectile
       //

@@ -20,6 +20,7 @@
 #include "my_thing_inlines.hpp"
 #include "my_tp.hpp"
 #include "my_types.hpp"
+#include <cstdint>
 
 static Texp solid_tex;
 static int  solid_tex_id;
@@ -260,9 +261,9 @@ enum : uint32_t {
 class MinimapVision
 {
 public:
-  MinimapVision(Gamep g, Levelsp v, Levelp l, Thingp player)
+  MinimapVision(Gamep g, Levelsp v, Levelp l, Thingp player) : ext(thing_ext_struct(g, v, player))
   {
-    ext = thing_ext_struct(g, v, player);
+
     if (ext == nullptr) [[unlikely]] {
       return;
     }

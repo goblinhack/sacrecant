@@ -673,7 +673,9 @@ void game_test_init_level(Gamep g, Levelsp v, Levelp *l_out, LevelArrIdx level_a
 
 void game_test_init_level(Gamep g, Levelsp v, Levelp *l_out, LevelArrIdx level_arr_idx, int w, int h, const char *contents,
                           const LevelGenOverrides &overrides)
-{ game_test_init_level(g, v, l_out, level_arr_idx, bpoint(0, level_arr_idx), w, h, contents, overrides); }
+{
+  game_test_init_level(g, v, l_out, level_arr_idx, bpoint(0, level_arr_idx), w, h, contents, overrides);
+}
 
 void Game::fini()
 {
