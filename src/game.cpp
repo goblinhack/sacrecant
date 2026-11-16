@@ -673,9 +673,7 @@ void game_test_init_level(Gamep g, Levelsp v, Levelp *l_out, LevelArrIdx level_a
 
 void game_test_init_level(Gamep g, Levelsp v, Levelp *l_out, LevelArrIdx level_arr_idx, int w, int h, const char *contents,
                           const LevelGenOverrides &overrides)
-{
-  game_test_init_level(g, v, l_out, level_arr_idx, bpoint(0, level_arr_idx), w, h, contents, overrides);
-}
+{ game_test_init_level(g, v, l_out, level_arr_idx, bpoint(0, level_arr_idx), w, h, contents, overrides); }
 
 void Game::fini()
 {
@@ -3622,7 +3620,7 @@ void game_key_zoom_toggle_set(Gamep g, SDL_Keysym key)
     return MAP_ZOOM_DEF;
   }
   if (level_is_level_select(g, v, l)) {
-    return MAP_ZOOM_DEF;
+    return MAP_ZOOM_LEVEL_SELECT;
   }
   return game_map_zoom_get(g);
 }

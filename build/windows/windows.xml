@@ -1,7 +1,7 @@
 <project>
     <shortName>Sacrecant</shortName>
     <fullName>Sacrecant</fullName>
-    <version>0.0.1</version>
+    <version>0.0.4</version>
     <installerFilename></installerFilename>
     <licenseFile>C:/msys64/home/neila/sacrecant/LICENSE</licenseFile>
     <leftImage>C:\msys64\home\neila\sacrecant\data\web\itch_background.png</leftImage>

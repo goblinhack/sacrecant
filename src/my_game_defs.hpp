@@ -55,9 +55,10 @@ enum {
   //
   // Visible map zoom level
   //
-  MAP_ZOOM_FULL_MAP = 1,
-  MAP_ZOOM_DEF      = 8,
-  MAP_ZOOM_MAX      = 16,
+  MAP_ZOOM_FULL_MAP     = 1,
+  MAP_ZOOM_LEVEL_SELECT = 2,
+  MAP_ZOOM_DEF          = 8,
+  MAP_ZOOM_MAX          = 16,
 
   //
   // How long we allow the fall animation
