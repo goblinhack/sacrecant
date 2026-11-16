@@ -218,6 +218,7 @@ const std::initializer_list< std::string > tests = {
     "proj_mob_dormant_should_die",
     "proj_mob",
     "proj_over_grass",
+    "proj_over_water_with_submerged_monst",
     "proj_over_water",
     "proj_rock_turns_to_lava",
     "proj_spiderweb",

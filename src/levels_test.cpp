@@ -941,29 +941,34 @@ void levels_test(Gamep g)
   {
     LevelGenOverrides overrides;
 
-    overrides.o[ 'm' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("pirnana"); };
+    overrides.o[ 'm' ].do_thing_spawn = [](Gamep g_in, Levelsp v, Levelp l, const bpoint &at, ThingEvent *e) -> Thingp {
+      (void) thing_spawn(g_in, v, l, tp_find_mand("pirnana"), at, e);
+      (void) thing_spawn(g_in, v, l, tp_first(is_water_deep), at, e);
+      (void) thing_spawn(g_in, v, l, tp_first(is_water_shallow), at, e);
+      return thing_spawn(g_in, v, l, tp_first(is_dirt), at, e);
+    };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "water", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-                    /* line */ (const char *) "x~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~x",
-                    /* line */ (const char *) "x~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~x",
-                    /* line */ (const char *) "x~~~~~~~~~~~~~~~~R~~~~~~~~~~~~~x",
-                    /* line */ (const char *) "x~~~m~~~R~~~~~~~~~~~~~~R~~~~~~~x",
-                    /* line */ (const char *) "x~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~x",
-                    /* line */ (const char *) "x~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~x",
-                    /* line */ (const char *) "x~~~~~~~~~~~~~,,,~~RRR~~~~~m~~~x",
-                    /* line */ (const char *) "x~~~~~~...~~~~,@,~~...~~~~~~~~~x",
-                    /* line */ (const char *) "x~~~~~~.B.~~~~,,,~~.B.~~~~~~~~~x",
-                    /* line */ (const char *) "x~~~~~~...~~~~~~~~~...R~~~~~~~~x",
-                    /* line */ (const char *) "x~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~x",
-                    /* line */ (const char *) "x~~~~~~~R~~~~~~~~~~,,,~~~~~~~~~x",
-                    /* line */ (const char *) "x~~~m~~~~~~~~~~R~~~,B,~~~~~~~~~x",
-                    /* line */ (const char *) "x~~~~~~~~~~~~~~~~~~,,,~~~~~~~~~x",
-                    /* line */ (const char *) "x~~~~~~~~~~,,,~~~~~~~~~~~~~~~~~x",
-                    /* line */ (const char *) "x~~~~~~~~~~,B,~~~~~~~~~~~~~~~~~x",
-                    /* line */ (const char *) "x~~~~~~~~~~,,,~~~~~~~~~~~~~~~~~x",
-                    /* line */ (const char *) "x~~~~~~~~~~~~~~~~~~~m~~~~~~~~~~x",
-                    /* line */ (const char *) "x~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~x",
+                    /* line */ (const char *) "xWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWWWWWWWWWWWWRWWWWWWWWWWWWWx",
+                    /* line */ (const char *) "xWWWmWWWRWWWWWWWWWWWWWWRWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWWWWWWWWW,,,WWRRRWWWWWmWWWx",
+                    /* line */ (const char *) "xWWWWWW...WWWW,@,WW...WWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWW.B.WWWW,,,WW.B.WWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWW...WWWWWWWWW...RWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWWWRWWWWWWWWWW,,,WWWWWWWWWx",
+                    /* line */ (const char *) "xWWWmWWWWWWWWWWRWWW,B,WWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWWWWWWWWWWWWWW,,,WWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWWWWWW,,,WWWWWWWWWWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWWWWWW,B,WWWWWWWWWWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWWWWWW,,,WWWWWWWWWWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWWWWWWWWWWWWWWWmWWWWWWWWWWx",
+                    /* line */ (const char *) "xWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWx",
                     /* line */ (const char *) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
                     /* end */ nullptr);
   }

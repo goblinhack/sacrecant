@@ -471,7 +471,7 @@ static void thing_collision_handle_dead_thing(Gamep g, Levelsp v, Levelp l, Thin
     };
 
     THING_DBG(g, v, l, me, "weapon collision with dead thing");
-    THING_DBG(g, v, l, obstacle, "me");
+    THING_DBG(g, v, l, obstacle, "obstacle");
     TRACE_INDENT();
 
     thing_damage_apply(g, v, l, obstacle, e);
@@ -581,7 +581,7 @@ static void thing_collision_handle_alive_thing(Gamep g, Levelsp v, Levelp l, Thi
     };
 
     THING_DBG(g, v, l, me, "weapon collision with");
-    THING_DBG(g, v, l, obstacle, "me");
+    THING_DBG(g, v, l, obstacle, "obstacle");
     TRACE_INDENT();
 
     thing_damage_apply(g, v, l, obstacle, e);
@@ -641,10 +641,6 @@ static void thing_collision_handle_alive_thing(Gamep g, Levelsp v, Levelp l, Thi
 //
 static void thing_collision_handle_do(Gamep g, Levelsp v, Levelp l, Thingp obstacle, Thingp me, bool &stop)
 {
-  if (compiler_unused) {
-    THING_DBG(g, v, l, obstacle, "%s", __FUNCTION__);
-  }
-
   if (obstacle == me) {
     return;
   }
@@ -657,6 +653,11 @@ static void thing_collision_handle_do(Gamep g, Levelsp v, Levelp l, Thingp obsta
     return;
   }
 
+  if (compiler_unused) {
+    THING_DBG(g, v, l, me, "collision handle do for me");
+    THING_DBG(g, v, l, obstacle, "obstacle");
+  }
+
   if (thing_is_ethereal(g, v, l, me)) {
     return;
   }
@@ -664,10 +665,37 @@ static void thing_collision_handle_do(Gamep g, Levelsp v, Levelp l, Thingp obsta
   //
   // Projectiles do not hit grass
   //
-  if (thing_is_flat(obstacle)) {
-    if (thing_is_projectile(me) || thing_is_beam_weapon(me)) {
+  if (thing_is_projectile(me) || thing_is_beam_weapon(me)) {
+    if (thing_is_flat(obstacle)) {
       THING_DBG(g, v, l, obstacle, "ignore as flat");
       return;
+    }
+
+    //
+    // Can we hit this thing in deep water?
+    //
+    if (level_is_water_deep(g, v, l, thing_at(g, v, l, obstacle))) {
+      //
+      // If in deep water, ignore for projectile
+      //
+      if (thing_is_submerged(g, v, l, obstacle)) {
+        THING_DBG(g, v, l, obstacle, "ignore as submerged");
+        return;
+      }
+
+      //
+      // Projectiles do not hit submerged pirnanas or eels!
+      //
+      if (! thing_is_levitating(g, v, l, obstacle)) {
+        if (thing_is_amphibious(obstacle)) {
+          THING_DBG(g, v, l, obstacle, "ignore as amphibian in water");
+          return;
+        }
+        if (thing_is_fish(obstacle)) {
+          THING_DBG(g, v, l, obstacle, "ignore as fish in water");
+          return;
+        }
+      }
     }
   }
 

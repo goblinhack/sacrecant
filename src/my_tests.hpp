@@ -194,6 +194,7 @@ auto test_load_proj_magic_wall() -> bool;
 auto test_load_proj_mob_dormant_should_die() -> bool;
 auto test_load_proj_mob() -> bool;
 auto test_load_proj_over_grass() -> bool;
+auto test_load_proj_over_water_with_submerged_monst() -> bool;
 auto test_load_proj_over_water() -> bool;
 auto test_load_proj_rock_turns_to_lava() -> bool;
 auto test_load_proj_spiderweb() -> bool;

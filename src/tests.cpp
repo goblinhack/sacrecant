@@ -196,6 +196,7 @@
   if (!test_load_proj_mob_dormant_should_die()) { return false; }
   if (!test_load_proj_mob()) { return false; }
   if (!test_load_proj_over_grass()) { return false; }
+  if (!test_load_proj_over_water_with_submerged_monst()) { return false; }
   if (!test_load_proj_over_water()) { return false; }
   if (!test_load_proj_rock_turns_to_lava()) { return false; }
   if (!test_load_proj_spiderweb()) { return false; }
