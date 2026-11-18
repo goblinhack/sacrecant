@@ -249,11 +249,36 @@ static inline void sdl_list_video_size()
     video_flags  = 0;
   }
 
-  const bool widescreen_test = false;
-  if (widescreen_test) {
+  const bool resolution_test = false;
+  if (resolution_test) {
+    video_flags = 0;
+
+    video_width  = 1536;
+    video_height = 864;
+
+    video_width  = 1920;
+    video_height = 1080;
+
+    video_width  = 640;
+    video_height = 480;
+
     video_width  = 2000;
     video_height = 640;
-    video_flags  = 0;
+
+    video_width  = 800;
+    video_height = 600;
+
+    video_width  = 1366;
+    video_height = 768;
+
+    video_width  = 2560;
+    video_height = 1440;
+
+    video_width  = 1440;
+    video_height = 900;
+
+    video_width  = 3840;
+    video_height = 2160;
   }
 
   if (AN_ERROR_OCCURRED()) {

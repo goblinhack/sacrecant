@@ -3621,9 +3621,20 @@ void game_key_zoom_toggle_set(Gamep g, SDL_Keysym key)
     no_game_pointer();
     return MAP_ZOOM_DEF;
   }
+
   if (level_is_level_select(g, v, l)) {
+    int w {};
+    int h {};
+    (void) SDL_GetWindowSize(sdl.window, &w, &h);
+    if (w <= 1000) {
+      return 1;
+    }
+    if (w <= 1536) {
+      return 2;
+    }
     return MAP_ZOOM_LEVEL_SELECT;
   }
+
   return game_map_zoom_get(g);
 }
 void game_map_zoom_set(Gamep g, int val)

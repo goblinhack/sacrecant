@@ -77,13 +77,24 @@ auto sdl_get_mouse_state(Gamep g, int *x, int *y) -> int
     return button;
   }
 
+  if (compiler_unused) {
+    topcon("mouse %dx%d", mx, my);
+  }
+
+  int px {};
+  int py {};
+  SDL_GetWindowPosition(sdl.window, &px, &py);
+
+  if (compiler_unused) {
+    topcon("window offset %d,%d", px, py);
+  }
+
+  auto flags = SDL_GetWindowFlags(sdl.window);
+
   //
   // Account for window position
   //
-  if (game_gfx_fullscreen_get(g) || game_gfx_fullscreen_desktop_get(g)) {
-    int px {};
-    int py {};
-    SDL_GetWindowPosition(sdl.window, &px, &py);
+  if ((flags & SDL_WINDOW_FULLSCREEN) || (flags & SDL_WINDOW_FULLSCREEN_DESKTOP)) {
     mx += px;
     my += py;
   }
@@ -101,9 +112,17 @@ auto sdl_get_mouse_state(Gamep g, int *x, int *y) -> int
     return button;
   }
 
+  if (compiler_unused) {
+    topcon("drawable %dx%d", w1, h1);
+  }
+
   SDL_GetWindowSize(sdl.window, &w2, &h2);
   if ((w2 == 0) || (h2 == 0)) {
     return button;
+  }
+
+  if (compiler_unused) {
+    topcon("window %dx%d", w2, h2);
   }
 
   fx *= static_cast< float >(w1) / static_cast< float >(w2);
