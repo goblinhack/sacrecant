@@ -602,6 +602,7 @@ void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
 
       auto death_reason = to_death_reason_string(g, v, l, me, e);
 
+#ifndef WEB_BUILD
       //
       // Hiscore?
       //
@@ -610,6 +611,7 @@ void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
         topcon(UI_GOOD_FMT_STR "New high score, %s place!" UI_RESET_FMT, game_place_str(g, score));
         game_add_new_hiscore(g, score, l->level_arr_idx, game_player_name_get(g), death_reason.c_str());
       }
+#endif
 
       //
       // Request the dead menu at end of tick

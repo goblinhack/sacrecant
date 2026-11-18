@@ -120,10 +120,15 @@ void wid_more_select(Gamep g)
   auto box_height = 2;
   auto box_step   = 3;
 
-  int const    menu_height = 10;
-  int const    menu_width  = UI_WID_POPUP_WIDTH_NORMAL;
+  int menu_height = 7;
+#ifndef WEB_BUILD
+  menu_height += box_step;
+#endif
+
+  int const    menu_width = UI_WID_POPUP_WIDTH_NORMAL;
   spoint const outer_tl((TERM_WIDTH / 2) - (menu_width / 2), (TERM_HEIGHT / 2) - (menu_height / 2));
-  spoint const outer_br((TERM_WIDTH / 2) + (menu_width / 2), (TERM_HEIGHT / 2) + (menu_height / 2));
+  spoint const outer_br = outer_tl + spoint(menu_width, menu_height);
+
   wid_more_window = new WidPopup(g, "More menu", outer_tl, outer_br, nullptr, "nothing", false, false);
 
   auto button_width = outer_br.x - outer_tl.x - 2;
@@ -148,6 +153,7 @@ void wid_more_select(Gamep g)
     wid_set_text(w, UI_HIGHLIGHT_FMT_STR "C" UI_FMT_STR "redits");
   }
   y_at += box_step;
+#ifndef WEB_BUILD
   {
     TRACE();
     auto *p = wid_more_window->wid_text_area->wid_text_area;
@@ -160,6 +166,7 @@ void wid_more_select(Gamep g)
     wid_set_text(w, UI_HIGHLIGHT_FMT_STR "H" UI_FMT_STR "iscores");
   }
   y_at += box_step;
+#endif
   {
     TRACE();
     auto *p = wid_more_window->wid_text_area->wid_text_area;
