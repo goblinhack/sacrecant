@@ -617,6 +617,11 @@ using Thing = struct Thing {
   //
   uint16_t _fall_ms;
   //
+  // The current radius of this light source, in pixels. Zero means use the default. This is reduced
+  // when the light flickers.
+  //
+  uint16_t light_radius_in_pixels;
+  //
   // Weight in grams. Impacts things like grass being crushed.
   //
   uint32_t _weight;
@@ -642,10 +647,6 @@ using Thing = struct Thing {
   // When this light source last flickered
   //
   uint32_t last_flicker;
-  //
-  // When this light source last flickered
-  //
-  uint16_t light_radius_in_pixels;
   //
   // Unique ID with some entropy built in
   //
@@ -674,13 +675,13 @@ using Thing = struct Thing {
   //
   spoint _curr_pix_at;
   //
-  // Increases per tick and when it reaches 1, allows the thing to move
-  //
-  float thing_dt; // Cannot use f16 as gcc versus clang sometimes differ in test runs
-  //
   // Angle of movement. Also used when falling.
   //
   f16 angle;
+  //
+  // Increases per tick and when it reaches 1, allows the thing to move
+  //
+  float thing_dt; // Cannot use f16 as gcc versus clang sometimes differ in test runs
   //
   // Map coordinates. This is the slot the thing is at when rounded.
   //
