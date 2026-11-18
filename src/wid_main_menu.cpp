@@ -391,8 +391,13 @@ static void wid_main_menu_tick(Gamep g, Widp w)
   game_display_title_fg(g);
   game_display_title_bg(g);
 
+#ifdef WEB_BUILD
+  std::string msg = "This is the web version. Desktop version is faster and has save game support.";
+  ascii_putf((TERM_WIDTH - msg.size()) / 2, 0, YELLOW, BLACK, msg.c_str());
+#endif
+
   if (wid_main_menu_window != nullptr) {
-    ascii_putf(TERM_WIDTH - SIZEOF(MYVER), TERM_HEIGHT - 1, GREEN, BLACK, "v" MYVER);
+    ascii_putf(TERM_WIDTH - SIZEOF(MYVER), TERM_HEIGHT - 1, YELLOW, BLACK, "v" MYVER);
 
     std::string const seed_name(game_seed_name_get(g));
     auto              seed_text = "Seed: '" + seed_name + "'";

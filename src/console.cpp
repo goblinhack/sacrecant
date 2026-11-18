@@ -18,6 +18,10 @@ static inline void term_puts_fg(uint8_t a)
 {
   TRACE();
 
+#ifdef WEB_BUILD
+  return;
+#endif
+
   // NOLINTBEGIN
   static const char *data[] = {
       "[30m", "[31m", "[32m", "[33m", "[34m", "[35m", "[36m", "[37m", "\033[m",
@@ -34,6 +38,10 @@ static inline void term_puts_fg(uint8_t a)
 static void term_puts_fgbg(uint8_t fg, uint8_t bg)
 {
   TRACE();
+
+#ifdef WEB_BUILD
+  return;
+#endif
 
   // NOLINTBEGIN
   static const char *data[] = {
