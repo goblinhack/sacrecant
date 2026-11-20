@@ -181,7 +181,7 @@
     auto attacked_count = p->attacked_by[ tp_id_get(thing_tp(monst)) ];
 
     log("attacked_count %d", attacked_count);
-    TEST_ASSERT(t, attacked_count == 40, "attacked by count not as expected");
+    TEST_ASSERT(t, attacked_count == 38, "attacked by count not as expected");
   }
 
   //
@@ -189,7 +189,7 @@
   //
   level_dump(g, v, l, w, h);
   TEST_PROGRESS(t);
-  TEST_ASSERT(t, game_tick_get(g, v) == 25, "final tick counter value");
+  TEST_ASSERT(t, game_tick_get(g, v) == 23, "final tick counter value");
 
   level_dump(g, v, l, w, h);
   TEST_PASSED(t);

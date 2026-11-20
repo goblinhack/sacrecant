@@ -13,6 +13,7 @@
 #include "my_level_ext.hpp"
 #include "my_level_inlines.hpp" // NOLINT
 #include "my_main.hpp"
+#include "my_random.hpp"
 #include "my_thing.hpp"
 #include "my_thing_callbacks.hpp"
 #include "my_thing_inlines.hpp" // NOLINT
@@ -129,16 +130,10 @@ static auto level_populate_biome_dungeon(Gamep g, Levelsp v, Levelp l, class Lev
         }
       }
       break;
-    case CHARMAP_CHASM : tp = lp.tp_chasm; break;
-    case CHARMAP_JOIN :
-      lp.need_corridor = true;
-      break;
-      break;
-    case CHARMAP_CORRIDOR :
-      tp = lp.tp_corridor;
-      break;
-      break;
-    case CHARMAP_BRIDGE : tp = lp.tp_bridge; break;
+    case CHARMAP_CHASM :    tp = lp.tp_chasm; break;
+    case CHARMAP_JOIN :     lp.need_corridor = true; break;
+    case CHARMAP_CORRIDOR : tp = lp.tp_corridor; break;
+    case CHARMAP_BRIDGE :   tp = lp.tp_bridge; break;
     case CHARMAP_VAULT :
       lp.need_floor = true;
       tp            = lp.tp_vault;
@@ -940,21 +935,20 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
 
       if (lp.need_floor) {
         auto *tp_add = lp.tp_floor;
-        if (thing_spawn(g, v, l, tp_add, lp.spawn_at) == nullptr) {
+        if (! tp_push(g, v, l, tp_add, lp.spawn_at)) {
           return false;
         }
       }
 
       if (lp.need_corridor) {
-        auto *tp_add = lp.tp_corridor;
-        if (thing_spawn(g, v, l, tp_add, lp.spawn_at) == nullptr) {
+        if (! tp_push(g, v, l, lp.tp_corridor, lp.spawn_at)) {
           return false;
         }
       }
 
       if (lp.need_dirt) {
         auto *tp_add = lp.tp_dirt;
-        if (thing_spawn(g, v, l, tp_add, lp.spawn_at) == nullptr) {
+        if (! tp_push(g, v, l, tp_add, lp.spawn_at)) {
           return false;
         }
       }
@@ -1054,63 +1048,122 @@ static auto level_populate_fixup_biome_underhell(class LevelPopulate &lp, Tpp tp
     }
   }
 
-  if ((lp.biome != BIOME_NETHERVOID) && ! lp.is_test_level) {
-    if ((w == MAP_WIDTH) && (h == MAP_HEIGHT)) {
-      for (auto y = 0; y < h; y++) {
-        auto x      = 0;
-        lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
-        if (! is_oob(lp.spawn_at)) {
-          (void) thing_spawn(g, v, l, tp_find_random(g, v, l, is_border), lp.spawn_at);
-        }
+  if (1)
+    if ((lp.biome != BIOME_NETHERVOID) && ! lp.is_test_level) {
+      if ((w == MAP_WIDTH) && (h == MAP_HEIGHT)) {
+        for (auto y = 0; y < h; y++) {
+          auto x      = 0;
+          lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
+          if (! is_oob(lp.spawn_at)) {
+            (void) thing_spawn(g, v, l, tp_find_random(g, v, l, is_border), lp.spawn_at);
+          }
 
-        x           = w - 1;
-        lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
-        if (! is_oob(lp.spawn_at)) {
-          (void) thing_spawn(g, v, l, tp_find_random(g, v, l, is_border), lp.spawn_at);
+          x           = w - 1;
+          lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
+          if (! is_oob(lp.spawn_at)) {
+            (void) thing_spawn(g, v, l, tp_find_random(g, v, l, is_border), lp.spawn_at);
+          }
         }
-      }
-      for (auto x = 0; x < w; x++) {
-        auto y      = 0;
-        lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
-        if (! is_oob(lp.spawn_at)) {
-          (void) thing_spawn(g, v, l, tp_find_random(g, v, l, is_border), lp.spawn_at);
-        }
+        for (auto x = 0; x < w; x++) {
+          auto y      = 0;
+          lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
+          if (! is_oob(lp.spawn_at)) {
+            (void) thing_spawn(g, v, l, tp_find_random(g, v, l, is_border), lp.spawn_at);
+          }
 
-        y           = h - 1;
-        lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
-        if (! is_oob(lp.spawn_at)) {
-          (void) thing_spawn(g, v, l, tp_find_random(g, v, l, is_border), lp.spawn_at);
+          y           = h - 1;
+          lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
+          if (! is_oob(lp.spawn_at)) {
+            (void) thing_spawn(g, v, l, tp_find_random(g, v, l, is_border), lp.spawn_at);
+          }
         }
-      }
-    } else {
-      for (auto y = -1; y <= h; y++) {
-        auto x      = -1;
-        lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
-        if (! is_oob(lp.spawn_at)) {
-          (void) thing_spawn(g, v, l, tp_find_random(g, v, l, is_border), lp.spawn_at);
-        }
+      } else {
+        for (auto y = -1; y <= h; y++) {
+          auto x      = -1;
+          lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
+          if (! is_oob(lp.spawn_at)) {
+            (void) thing_spawn(g, v, l, tp_find_random(g, v, l, is_border), lp.spawn_at);
+          }
 
-        x           = w;
-        lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
-        if (! is_oob(lp.spawn_at)) {
-          (void) thing_spawn(g, v, l, tp_find_random(g, v, l, is_border), lp.spawn_at);
+          x           = w;
+          lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
+          if (! is_oob(lp.spawn_at)) {
+            (void) thing_spawn(g, v, l, tp_find_random(g, v, l, is_border), lp.spawn_at);
+          }
         }
-      }
-      for (auto x = -1; x <= w; x++) {
-        auto y      = -1;
-        lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
-        if (! is_oob(lp.spawn_at)) {
-          (void) thing_spawn(g, v, l, tp_find_random(g, v, l, is_border), lp.spawn_at);
-        }
+        for (auto x = -1; x <= w; x++) {
+          auto y      = -1;
+          lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
+          if (! is_oob(lp.spawn_at)) {
+            (void) thing_spawn(g, v, l, tp_find_random(g, v, l, is_border), lp.spawn_at);
+          }
 
-        y           = h;
-        lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
-        if (! is_oob(lp.spawn_at)) {
-          (void) thing_spawn(g, v, l, tp_find_random(g, v, l, is_border), lp.spawn_at);
+          y           = h;
+          lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
+          if (! is_oob(lp.spawn_at)) {
+            (void) thing_spawn(g, v, l, tp_find_random(g, v, l, is_border), lp.spawn_at);
+          }
         }
       }
     }
-  }
+  if (0)
+    if ((lp.biome != BIOME_NETHERVOID) && ! lp.is_test_level) {
+      if ((w == MAP_WIDTH) && (h == MAP_HEIGHT)) {
+        for (auto y = 0; y < h; y++) {
+          auto x      = 0;
+          lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
+          if (! is_oob(lp.spawn_at)) {
+            (void) tp_push(g, v, l, lp.tp_border, lp.spawn_at);
+          }
+
+          x           = w - 1;
+          lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
+          if (! is_oob(lp.spawn_at)) {
+            (void) tp_push(g, v, l, lp.tp_border, lp.spawn_at);
+          }
+        }
+        for (auto x = 0; x < w; x++) {
+          auto y      = 0;
+          lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
+          if (! is_oob(lp.spawn_at)) {
+            (void) tp_push(g, v, l, lp.tp_border, lp.spawn_at);
+          }
+
+          y           = h - 1;
+          lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
+          if (! is_oob(lp.spawn_at)) {
+            (void) tp_push(g, v, l, lp.tp_border, lp.spawn_at);
+          }
+        }
+      } else {
+        for (auto y = -1; y <= h; y++) {
+          auto x      = -1;
+          lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
+          if (! is_oob(lp.spawn_at)) {
+            (void) tp_push(g, v, l, lp.tp_border, lp.spawn_at);
+          }
+
+          x           = w;
+          lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
+          if (! is_oob(lp.spawn_at)) {
+            (void) tp_push(g, v, l, lp.tp_border, lp.spawn_at);
+          }
+        }
+        for (auto x = -1; x <= w; x++) {
+          auto y      = -1;
+          lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
+          if (! is_oob(lp.spawn_at)) {
+            (void) tp_push(g, v, l, lp.tp_border, lp.spawn_at);
+          }
+
+          y           = h;
+          lp.spawn_at = bpoint(x, y) + bpoint(pad_w, pad_h);
+          if (! is_oob(lp.spawn_at)) {
+            (void) tp_push(g, v, l, lp.tp_border, lp.spawn_at);
+          }
+        }
+      }
+    }
 
   //
   // Fill empty spaces with chasms

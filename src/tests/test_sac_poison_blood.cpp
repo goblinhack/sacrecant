@@ -75,7 +75,7 @@
   //
   level_dump(g, v, l, w, h);
   TEST_PROGRESS(t);
-  TEST_ASSERT(t, game_tick_get(g, v) == 60, "final tick counter value");
+  TEST_ASSERT(t, game_tick_get(g, v) == 31, "final tick counter value");
 
   result = true;
 

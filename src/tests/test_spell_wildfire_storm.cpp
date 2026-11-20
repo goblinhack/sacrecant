@@ -31,17 +31,17 @@
   std::string const expect1
       = "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
         "x.........................x"
+        "x......mm.................x"
+        "x......m@m.....G..........x"
         "x.......m.................x"
-        "x.......@m...m.G..........x"
-        "x.......m.................x"
-        "x......m..................x"
+        "x.........................x"
         "xxxxxxxxxxxxxxxxxxxxxxxxxxx";
   std::string const expect2
       = "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
         "x..........!..............x"
-        "x.......m.!!!m............x"
-        "x.......@!!!!!.G..........x"
         "x......mm.!!!.............x"
+        "x......m@!!!!!.G..........x"
+        "x.......m.!!!.............x"
         "x..........!..............x"
         "xxxxxxxxxxxxxxxxxxxxxxxxxxx";
 

@@ -38,18 +38,18 @@
         "xxxxxxxxxxxxxxxxxxxxxxxxxxx";
   std::string const level1_expect1
       = "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        "x..................m......x"
         "x.........................x"
-        "x.........................x"
-        "x.......@m.....G..........x"
-        "x.........................x"
+        "x.......@......G..........x"
+        "x...............m.........x"
         "x.........................x"
         "xxxxxxxxxxxxxxxxxxxxxxxxxxx";
   std::string const level1_expect2
       = "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
-        "x..........C..............x"
+        "x..........C........m.....x"
         "x.........CCC.............x"
         "x.......@CCCCC.G..........x"
-        "x.........CCC.............x"
+        "x.........CCC....m........x"
         "x..........C..............x"
         "xxxxxxxxxxxxxxxxxxxxxxxxxxx";
   std::string const level2_expect2

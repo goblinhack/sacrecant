@@ -43,7 +43,7 @@ void no_thing_ext_pointer()
     return nullptr;
   }
 
-  if ((slot < 0) || (slot >= MAP_SLOTS)) {
+  if ((slot < 0) || (slot >= MAP_THING_SLOTS)) {
     ERR("slot out of bounds thing_get %d,%d, slot %d", p.x, p.y, slot);
     return nullptr;
   }
@@ -117,7 +117,7 @@ void no_thing_ext_pointer()
     return nullptr;
   }
 
-  if ((slot < 0) || (slot >= MAP_SLOTS)) {
+  if ((slot < 0) || (slot >= MAP_THING_SLOTS)) {
     ERR("slot out of bounds thing_and_tp_get_at (%d,%d), slot %d", p.x, p.y, slot);
     return nullptr;
   }

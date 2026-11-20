@@ -29,10 +29,10 @@
         "xxxxxxx";
   std::string const expect1
       = "xxxxxxx"
-        "x..xm.x"
+        "x..x..x"
         "x..x..x"
         "x@.+..x"
-        "x..x..x"
+        "x..xm.x"
         "x..x..x"
         "xxxxxxx";
 

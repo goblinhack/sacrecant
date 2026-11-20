@@ -747,9 +747,11 @@ fi
 MAKEFILE=../build/Makefile.template
 
 if [[ $OPT_RELEASE_BUILD != "" ]]; then
-    echo "COMPILER_FLAGS=$WERROR $CFLAGS -O3 -g" > $MAKEFILE
+    COMPILER_DEBUG="-fno-standalone-debug -g1"
+    echo "COMPILER_FLAGS=$WERROR $CFLAGS -O3 $COMPILER_DEBUG " > $MAKEFILE
 else
-    echo "COMPILER_FLAGS=$WERROR $CFLAGS -Og -g" > $MAKEFILE
+    COMPILER_DEBUG="-g"
+    echo "COMPILER_FLAGS=$WERROR $CFLAGS -Og $COMPILER_DEBUG " > $MAKEFILE
 fi
 
 if [[ $OPT_SANITY_BUILD != "" ]]; then

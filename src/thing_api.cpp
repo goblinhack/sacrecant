@@ -202,17 +202,6 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   return tp_flag(thing_tp(t), is_chasm) != 0;
 }
 
-[[nodiscard]] auto thing_is_corridor(Thingp t) -> bool
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    no_thing_pointer();
-    return false;
-  }
-  return tp_flag(thing_tp(t), is_corridor) != 0;
-}
-
 [[nodiscard]] auto thing_is_cursor_path(Thingp t) -> bool
 {
   TRACE_DEBUG();
@@ -255,17 +244,6 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     return false;
   }
   return tp_flag(thing_tp(t), is_described_cursor) != 0;
-}
-
-[[nodiscard]] auto thing_is_dirt(Thingp t) -> bool
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    no_thing_pointer();
-    return false;
-  }
-  return tp_flag(thing_tp(t), is_dirt) != 0;
 }
 
 [[nodiscard]] auto thing_is_door_unlocked(Thingp t) -> bool
@@ -3092,17 +3070,6 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     return false;
   }
   return tp_flag(thing_tp(t), is_obs_to_spawning) != 0;
-}
-
-[[nodiscard]] auto thing_is_border(Thingp t) -> bool
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    no_thing_pointer();
-    return false;
-  }
-  return tp_flag(thing_tp(t), is_border) != 0;
 }
 
 [[nodiscard]] auto thing_is_gold(Thingp t) -> bool

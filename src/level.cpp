@@ -351,6 +351,11 @@ void level_destroy(Gamep g, Levelsp v, Levelp l)
   FOR_ALL_THINGS_ON_LEVEL_NO_BREAK(g, v, l, t) { thing_err(g, v, l, t, "thing still on level after destroying it"); }
 
   //
+  // Remove all tps
+  //
+  FOR_ALL_TPS_ON_LEVEL_NO_BREAK(g, v, l, tp) { (void) tp_pop(g, v, l, tp, bpoint(_x_, _y_)); }
+
+  //
   // Clean up the level select snake walk
   //
   if (level_is_level_select(g, v, l)) {
@@ -511,6 +516,47 @@ void level_destroy(Gamep g, Levelsp v, Levelp l)
 //
 // Additional level flag filters e.g. open doors are not obstacles
 //
+[[nodiscard]] static auto level_flag_filter(Gamep g, Levelsp v, Levelp l, ThingFlagType f, Thingp me, Tpp it) -> bool
+{
+  TRACE_DEBUG();
+
+  if (it == nullptr) {
+    return true;
+  }
+
+  //
+  // Check where "me" is null and/or there are common code paths
+  // for obstacles
+  //
+  switch (f) {
+    case is_obs_to_jumping_out_of :
+      if (tp_is_water_deep(it)) {
+        if (thing_is_fish(me) && thing_is_able_to_jump(g, v, l, me)) {
+          return true; // filter out i.e. ignore
+        }
+      }
+      [[fallthrough]];
+    default : break;
+  }
+
+  if (me != nullptr) {
+    switch (f) {
+      case is_obs_to_vision :
+        if (! tp_vision_blocker(g, v, l, me, it)) {
+          return true; // filter out i.e. ignore
+        }
+        break;
+
+      default : break;
+    }
+  }
+
+  return false;
+}
+
+//
+// Additional level flag filters e.g. open doors are not obstacles
+//
 [[nodiscard]] static auto level_flag_filter_needed(Gamep g, Levelsp v, Levelp l, ThingFlagType f, Thingp me) -> bool
 {
   Thingp it = nullptr;
@@ -647,6 +693,65 @@ void level_update_flags(Gamep g, Levelsp v, Levelp l)
   }
 
   return level_flag(g, v, l, f, thing_at(g, v, l, me), me);
+}
+
+[[nodiscard]] auto level_flag_bool(Gamep g, Levelsp v, Levelp l, ThingFlagType f, bpoint p, Thingp me) -> bool
+{
+  TRACE_DEBUG();
+
+  const auto filter_needed = level_flag_filter_needed(g, v, l, f, me);
+
+  if (filter_needed) {
+    FOR_ALL_TPS_AT(g, v, l, it, p)
+    {
+      if (level_flag_filter(g, v, l, f, me, it)) {
+        continue;
+      }
+
+      if (tp_flag(it, f) != 0) {
+        return true;
+      }
+    }
+
+    FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, p)
+    {
+      if (level_flag_filter(g, v, l, f, me, it)) {
+        continue;
+      }
+
+      if (tp_flag(thing_tp(it), f) != 0) {
+        return true;
+      }
+    }
+  } else {
+    FOR_ALL_TPS_AT(g, v, l, it, p)
+    {
+      if (tp_flag(it, f) != 0) {
+        return true;
+      }
+    }
+
+    FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, p)
+    {
+      if (tp_flag(thing_tp(it), f) != 0) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
+[[nodiscard]] auto level_flag_bool(Gamep g, Levelsp v, Levelp l, ThingFlagType f, Thingp me) -> bool
+{
+  TRACE();
+
+  if (me == nullptr) {
+    no_thing_pointer();
+    return false;
+  }
+
+  return level_flag_bool(g, v, l, f, thing_at(g, v, l, me), me);
 }
 
 //
@@ -813,7 +918,7 @@ void level_update_flags(Gamep g, Levelsp v, Levelp l)
     return false;
   }
 
-  for (auto slot = 0; slot < MAP_SLOTS; slot++) {
+  for (auto slot = 0; slot < MAP_THING_SLOTS; slot++) {
     Tpp    it_tp = nullptr;
     Thingp it    = thing_and_tp_get_at(g, v, l, p, slot, &it_tp);
     if (it == nullptr) {
@@ -909,6 +1014,9 @@ void level_bounds_set(Gamep g, Levelsp v, Levelp l)
 [[nodiscard]] auto level_is_empty_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
+
+  FOR_ALL_TPS_AT(g, v, l, it, p) { return false; }
+
   FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, p)
   {
     if (thing_is_internal(it)) {
@@ -916,6 +1024,7 @@ void level_bounds_set(Gamep g, Levelsp v, Levelp l)
     }
     return false;
   }
+
   return true;
 }
 

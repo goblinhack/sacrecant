@@ -32,6 +32,15 @@ void level_tick_chasm(Gamep g, Levelsp v, Levelp l)
       continue;
     }
 
+    FOR_ALL_TPS_AT(g, v, l, tp, p)
+    {
+      if (! tp_is_able_to_fall(tp)) {
+        continue;
+      }
+
+      (void) tp_pop(g, v, l, tp, p);
+    }
+
     FOR_ALL_THINGS_AT(g, v, l, t, p)
     {
       if (! thing_is_able_to_fall(g, v, l, t)) {

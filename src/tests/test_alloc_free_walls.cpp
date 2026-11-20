@@ -51,7 +51,7 @@
       // No need to test all slots for level select. Additionally, we've filled
       // all the other levels, so not a lot of space to alloc IDs from.
       //
-      auto slot_depth_to_test = static_cast< int >(MAP_SLOTS - 1);
+      auto slot_depth_to_test = static_cast< int >(MAP_THING_SLOTS - 1);
       if (level_num == LEVEL_ARR_IDX_LEVEL_SELECT) {
         //
         // There's just no space in other levels if we fully allocate them!

@@ -43,7 +43,7 @@
         "X.CCCCCCCCCCC.X"
         "X.CCCCCCCCCCC.X"
         "X.CCCCCCCCCCC.X"
-        "X@CCCCMCCCCCC.X"
+        "X------CCCCCC.X"
         "XXXXXXXXXXXXXXX";
   std::string const expect3
       = "XXXXXXXXXXXXXXX"
@@ -51,7 +51,7 @@
         "X.CCCCCCCCCCC.X"
         "X.CCCCCCCCCCC.X"
         "X.CCCCCCCCCCC.X"
-        "X---MCCCCCCCC.X"
+        "X------CCCCCC.X"
         "XXXXXXXXXXXXXXX";
 
   //
@@ -167,7 +167,7 @@
   //
   level_dump(g, v, l, w, h);
   TEST_PROGRESS(t);
-  TEST_ASSERT(t, game_tick_get(g, v) == 64, "final tick counter value");
+  TEST_ASSERT(t, game_tick_get(g, v) == 14, "final tick counter value");
 
   level_dump(g, v, l, w, h);
   TEST_PASSED(t);

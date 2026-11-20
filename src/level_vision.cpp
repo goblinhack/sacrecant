@@ -81,6 +81,13 @@ void level_vision_calculate_all(Gamep g, Levelsp v, Levelp l)
 //
 [[nodiscard]] auto level_vision_blocker_at(Gamep g, Levelsp v, Levelp l, Thingp me, const bpoint &at) -> bool
 {
+  FOR_ALL_TPS_AT(g, v, l, it, at)
+  {
+    if (tp_vision_blocker(g, v, l, me, it)) {
+      return true;
+    }
+  }
+
   FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, at)
   {
     if (thing_vision_blocker(g, v, l, me, it)) {

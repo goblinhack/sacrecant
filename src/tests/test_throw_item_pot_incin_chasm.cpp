@@ -39,9 +39,9 @@
         ".......";
   std::string const expect2 // second level
       = "......."
-        "..!!!.."
-        "..!!!.."
-        "..!!!.."
+        "..!...."
+        "...$!.."
+        "....!.."
         "....B.."
         "......."
         ".......";
@@ -59,6 +59,8 @@
   int    threw_count = 0;
 
   const std::initializer_list< std::string > items = {
+      "pot_incin", //
+      "pot_incin", //
       "pot_incin", //
       "pot_incin", //
       "pot_incin", //
@@ -114,7 +116,7 @@
     goto exit;
   }
 
-  TEST_ASSERT(t, game_tick_get(g, v) == 3, "final tick counter value");
+  TEST_ASSERT(t, game_tick_get(g, v) == 5, "final tick counter value");
 
   TEST_PASSED(t);
 exit:

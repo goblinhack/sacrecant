@@ -23,6 +23,56 @@
 //
 // Something blocking the fov?
 //
+[[nodiscard]] auto tp_vision_blocker(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp it) -> bool
+{
+  //
+  // Some monsters can see through walls
+  //
+  if (thing_is_able_to_see_through_walls(me)) {
+    if (tp_is_wall(it)) {
+      return false;
+    }
+  }
+
+  //
+  // Monsters can see through secret doors
+  //
+  if (thing_is_monst(me)) {
+    if (tp_is_door_secret(it)) {
+      return false;
+    }
+  }
+
+  //
+  // See invisible?
+  //
+  if (tp_is_invisible(it)) {
+    if (! thing_is_able_to_see_invisible(me)) {
+      return false;
+    }
+  }
+
+  if (tp_is_obs_to_vision(it)) {
+    //
+    // Things that are submerged should not block you, if you are less submerged
+    //
+    auto sub_it = 0;
+    auto sub_me = thing_submerged_pct(me);
+
+    if ((sub_it != 0) && (sub_me != 0)) {
+      if (sub_it >= sub_me) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  return false;
+}
+
+//
+// Something blocking the fov?
+//
 [[nodiscard]] auto thing_vision_blocker(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp it) -> bool
 {
   //

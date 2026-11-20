@@ -29,7 +29,7 @@
   //
   // Already at this location?
   //
-  for (auto slot = 0; slot < MAP_SLOTS; slot++) {
+  for (auto slot = 0; slot < MAP_THING_SLOTS; slot++) {
     auto o_id = l->thing_id[ at.x ][ at.y ][ slot ];
     if (o_id == t->id) {
       return true;
@@ -39,7 +39,7 @@
   //
   // Need to push to the new location.
   //
-  for (auto slot = 0; slot < MAP_SLOTS; slot++) {
+  for (auto slot = 0; slot < MAP_THING_SLOTS; slot++) {
     auto o_id = l->thing_id[ at.x ][ at.y ][ slot ];
     if (o_id == 0U) {
       l->thing_id[ at.x ][ at.y ][ slot ] = t->id;
@@ -71,7 +71,7 @@
   // Already at this location?
   //
   auto slot_count = 0;
-  for (auto slot = 0; slot < MAP_SLOTS; slot++) {
+  for (auto slot = 0; slot < MAP_THING_SLOTS; slot++) {
     auto o_id = l->thing_id[ at.x ][ at.y ][ slot ];
     if (o_id == t->id) {
       return true;
@@ -84,7 +84,7 @@
   //
   // Try and keep some space for critical things like the player
   //
-  if (slot_count > MAP_SLOTS - 2) {
+  if (slot_count > MAP_THING_SLOTS - 2) {
     if (! thing_is_critical_to_gameplay(t)) {
       return false;
     }
@@ -98,8 +98,8 @@
   //
   // Need to push to the new location.
   //
-  for (auto tries = 0; tries < MAP_SLOTS; tries++) {
-    for (auto slot = 0; slot < MAP_SLOTS; slot++) {
+  for (auto tries = 0; tries < MAP_THING_SLOTS; tries++) {
+    for (auto slot = 0; slot < MAP_THING_SLOTS; slot++) {
       auto o_id = l->thing_id[ at.x ][ at.y ][ slot ];
       if (o_id == 0U) {
         auto *tp = thing_tp(t);
@@ -133,7 +133,7 @@
     //
     bool removed_one = false;
 
-    for (auto slot = 0; slot < MAP_SLOTS; slot++) {
+    for (auto slot = 0; slot < MAP_THING_SLOTS; slot++) {
       auto o_id = l->thing_id[ at.x ][ at.y ][ slot ];
       if (o_id != 0U) {
         auto *it = thing_find(g, v, o_id);
@@ -155,7 +155,7 @@
     // We failed to push this thing. Try to remove something and try again.
     // Try to remove any higher priority things if we're still stuck.
     //
-    for (auto slot = 0; slot < MAP_SLOTS; slot++) {
+    for (auto slot = 0; slot < MAP_THING_SLOTS; slot++) {
       auto o_id = l->thing_id[ at.x ][ at.y ][ slot ];
       if (o_id != 0U) {
         auto *it = thing_find(g, v, o_id);
@@ -176,7 +176,7 @@
     //
     // Try again
     //
-    for (auto slot = 0; slot < MAP_SLOTS; slot++) {
+    for (auto slot = 0; slot < MAP_THING_SLOTS; slot++) {
       auto o_id = l->thing_id[ at.x ][ at.y ][ slot ];
       if (o_id != 0U) {
         auto *it = thing_find(g, v, o_id);
@@ -197,7 +197,7 @@
     //
     // Last resort
     //
-    for (auto slot = 0; slot < MAP_SLOTS; slot++) {
+    for (auto slot = 0; slot < MAP_THING_SLOTS; slot++) {
       auto o_id = l->thing_id[ at.x ][ at.y ][ slot ];
       if (o_id != 0U) {
         auto *it = thing_find(g, v, o_id);
@@ -328,7 +328,7 @@
   //
   // Dump the contents of slots if we were unable to push
   //
-  for (auto slot = 0; slot < MAP_SLOTS; slot++) {
+  for (auto slot = 0; slot < MAP_THING_SLOTS; slot++) {
     auto dump_id = l->thing_id[ at.x ][ at.y ][ slot ];
     if (dump_id != 0U) {
       auto *it = thing_find(g, v, dump_id);
@@ -350,7 +350,7 @@
     return false;
   }
 
-  for (auto slot = 0; slot < MAP_SLOTS; slot++) {
+  for (auto slot = 0; slot < MAP_THING_SLOTS; slot++) {
     auto o_id = l->thing_id[ at.x ][ at.y ][ slot ];
     if (o_id == t->id) {
       l->thing_id[ at.x ][ at.y ][ slot ] = 0;
@@ -393,7 +393,7 @@
     return false;
   }
 
-  for (auto slot = 0; slot < MAP_SLOTS; slot++) {
+  for (auto slot = 0; slot < MAP_THING_SLOTS; slot++) {
     auto o_id = l->thing_id[ at.x ][ at.y ][ slot ];
     if (o_id == t->id) {
       l->thing_id[ at.x ][ at.y ][ slot ] = 0;
@@ -409,7 +409,7 @@
   //
   // Dump the contents if we failed to pop
   //
-  for (auto slot = 0; slot < MAP_SLOTS; slot++) {
+  for (auto slot = 0; slot < MAP_THING_SLOTS; slot++) {
     auto dump_id = l->thing_id[ at.x ][ at.y ][ slot ];
     if (dump_id != 0U) {
       auto *it = thing_find(g, v, dump_id);

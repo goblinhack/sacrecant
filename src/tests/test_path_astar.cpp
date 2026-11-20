@@ -145,7 +145,7 @@
 
   {
     for (auto p : astar_solve(g, v, l, player, thing_at(g, v, l, player), thing_at(g, v, l, exit_thing))) {
-      TEST_ASSERT(t, thing_spawn(g, v, l, tp_first(is_corridor), p) != nullptr, "failed to spawn thing");
+      TEST_ASSERT(t, tp_push(g, v, l, tp_first(is_corridor), p), "failed to spawn thing");
     }
   }
 

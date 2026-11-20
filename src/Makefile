@@ -27,10 +27,12 @@ obj_name = $(addsuffix .o,$(subst /,__,$(subst ../,,$(basename $1))))
 
 # recursively search all src/ subdirectories for cpp source files
 CPP_SOURCES := $(subst ./,,$(shell find $(SRC_DIR) -name \*.cpp -not -path "*3rdparty*"))
-CPP_SOURCES_NO_TESTS := $(wildcard *.cpp)
+CPP_SOURCES_TESTS := $(subst ./,,$(shell find $(SRC_DIR)/tests -name \*.cpp))
+CPP_SOURCES_THINGS := $(subst ./,,$(shell find $(SRC_DIR)/things -name \*.cpp))
+CPP_SOURCES_CORE := $(wildcard *.cpp)
 CPP_3RD_PARTY_SOURCES := $(subst ./,,$(shell find $(SRC_DIR)/3rdparty -name \*.cpp))
 ASM_SOURCES := $(wildcard *.S)
-SOURCES := $(CPP_3RD_PARTY_SOURCES) $(CPP_SOURCES) $(ASM_SOURCES)
+SOURCES := $(CPP_3RD_PARTY_SOURCES) $(CPP_SOURCES_CORE) $(CPP_SOURCES_THINGS) $(CPP_SOURCES_TESTS) $(ASM_SOURCES)
 
 OBJECTS := $(call obj_name,$(SOURCES))
 OBJ_FILES := $(addprefix $(BUILD_DIR)/,$(OBJECTS))
@@ -64,25 +66,33 @@ PRECOMPILED_H_OBJ := $(PRECOMPILED_H).gch
 #
 ifeq ($(origin USE_PRECOMPILED),undefined)
 
-$(foreach x,$(CPP_SOURCES),\
+$(foreach x,$(CPP_SOURCES_CORE),\
 $(eval $(BUILD_DIR)/$(call obj_name,$x): $x ;\
   $(CC) $(CFLAGS) -c -o $$@ $$<))
 
 else
 
-$(foreach x,$(CPP_SOURCES),\
+$(foreach x,$(CPP_SOURCES_CORE),\
 $(eval $(BUILD_DIR)/$(call obj_name,$x): $x | $(PRECOMPILED_H_OBJ) ;\
   $(CC) -include $(PRECOMPILED_H) $(CFLAGS) -c -o $$@ $$<))
 
 endif
 
+$(foreach x,$(CPP_SOURCES_THINGS),\
+$(eval $(BUILD_DIR)/$(call obj_name,$x): $x ;\
+  $(CC) $(CFLAGS) -O0 -g1 -c -o $$@ $$<))
+
+$(foreach x,$(CPP_SOURCES_TESTS),\
+$(eval $(BUILD_DIR)/$(call obj_name,$x): $x ;\
+  $(CC) $(CFLAGS) -O0 -g1 -c -o $$@ $$<))
+
 $(foreach x,$(CPP_3RD_PARTY_SOURCES),\
 $(eval $(BUILD_DIR)/$(call obj_name,$x): $x ;\
-  $(CC) $(CFLAGS) -c -o $$@ $$<))
+  $(CC) $(CFLAGS) -g0 -c -o $$@ $$<))
 
 $(foreach x,$(ASM_SOURCES),\
 $(eval $(BUILD_DIR)/$(call obj_name,$x): $x ;\
-  $(CC) $(CFLAGS) -c -o $$@ $$<))
+  $(CC) $(CFLAGS) -O0 -g0 -c -o $$@ $$<))
 
 # use file list instead of wildcard for link command so we don't accidentally
 # link with old object files for removed source files
@@ -117,7 +127,7 @@ endif
 #			// NOLINTEND
 #####################################################
 tidy:
-	$(foreach x,$(CPP_SOURCES_NO_TESTS),\
+	$(foreach x,$(CPP_SOURCES_CORE),\
 		echo "Running tidy on $x..." ; \
 		clang-tidy \
 			-fix \
@@ -168,8 +178,9 @@ tidy:
 
 clean:
 	@rm -f $(TARGET_GAME) ../stdout.txt ../stderr.txt
-	@rm -f $(BUILD_DIR)/*.[od]
-	@rm -f $(BUILD_DIR)/*.[od].*
+	@rm -f $(BUILD_DIR)/*.o
+	@rm -f $(BUILD_DIR)/*.d
+	@rm -f $(BUILD_DIR)/*.gch
 	@rm -f $(BUILD_DIR)/test-tmp-file
 	@([ -d "$(BUILD_DIR)" ] && rmdir $(BUILD_DIR) 2>/dev/null) || true
 

@@ -28,15 +28,15 @@
         "XXXXXXXXXXXXXXXXXXXXXXXXXX";
   std::string const expect1
       = "XXXXXXXXXXXXXXXXXXXXXXXXXX"
-        "X........................X"
+        "X.........m..............X"
         "X...................xxxxxX"
         "X.....................xxxX"
-        "X.........m..........@xxxX"
+        "X....................@xxxX"
         "XXXXXXXXXXXXXXXXXXXXXXXXXX";
   std::string const expect2
       = "XXXXXXXXXXXXXXXXXXXXXXXXXX"
-        "X........................X"
-        "X.........m.........xxxxxX"
+        "X.........m..............X"
+        "X...................xxxxxX"
         "X.....................xxxX"
         "X....................@xxxX"
         "XXXXXXXXXXXXXXXXXXXXXXXXXX";

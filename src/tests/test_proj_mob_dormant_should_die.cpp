@@ -22,21 +22,21 @@
   // How the dungeon starts out, and how we expect it to change
   //
   std::string const start
-      = "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
-        "x.........................x"
-        "x.........................x"
-        "x@.......................Gx"
-        "x.........................x"
-        "x.........................x"
-        "xxxxxxxxxxxxxxxxxxxxxxxxxxx";
+      = "xxxxxxxxxxxxxxxxxxxxxxxxxxX"
+        "x.........................X"
+        "x.........................X"
+        "x@.......................GX"
+        "x.........................X"
+        "x.........................X"
+        "xxxxxxxxxxxxxxxxxxxxxxxxxxX";
   std::string const expect1
-      = "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
-        "x.........................x"
-        "x.........................x"
-        "x@......m.................."
-        "x.........................x"
-        "x....................m....x"
-        "xxxxxxxxxxxxxxxxxxxxxxxxxxx";
+      = "xxxxxxxxxxxxxxxxxxxxxxxxxxX"
+        "x.........................X"
+        "x...............m.........X"
+        "x@m.......................X"
+        "x.........................X"
+        "x.........................X"
+        "xxxxxxxxxxxxxxxxxxxxxxxxxxX";
 
   LevelGenOverrides overrides;
   overrides.o[ 'G' ].get_tp = [](char c, bpoint p) -> Tpp { return tp_find_mand("kobalos_mob"); };
@@ -108,7 +108,7 @@
     goto exit;
   }
 
-  TEST_ASSERT(t, game_tick_get(g, v) == 63, "final tick counter value");
+  TEST_ASSERT(t, game_tick_get(g, v) == 54, "final tick counter value");
 
   level_dump(g, v, l, w, h);
   TEST_PASSED(t);

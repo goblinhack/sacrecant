@@ -31,7 +31,7 @@
       = "xxxxxxxxxxxxxxxxx"
         "x...............x"
         "x...............x"
-        "x.ww@wwww.......x"
+        "x.wwww@ww.......x"
         "x...............x"
         "x...............x"
         "xxxxxxxxxxxxxxxxx";

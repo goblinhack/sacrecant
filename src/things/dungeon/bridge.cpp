@@ -63,16 +63,12 @@ static void thing_bridge_replace(Gamep g, Levelsp v, Levelp l, Thingp me)
         if (! level_is_water_shallow_bool(g, v, l, thing_at(g, v, l, me))) {
           (void) thing_spawn(g, v, l, tp_first(is_water_shallow), me);
         }
-        if (! level_is_dirt_bool(g, v, l, thing_at(g, v, l, me))) {
-          (void) thing_spawn(g, v, l, tp_first(is_dirt), me);
-        }
+        (void) tp_push(g, v, l, tp_first(is_dirt), thing_at(g, v, l, me));
       } else if (max_count == lava_count) {
         if (! level_is_lava_bool(g, v, l, thing_at(g, v, l, me))) {
-          (void) thing_spawn(g, v, l, tp_first(is_lava), me);
+          (void) thing_spawn(g, v, l, tp_first(is_lava), thing_at(g, v, l, me));
         }
-        if (! level_is_dirt_bool(g, v, l, thing_at(g, v, l, me))) {
-          (void) thing_spawn(g, v, l, tp_first(is_dirt), me);
-        }
+        (void) tp_push(g, v, l, tp_first(is_dirt), thing_at(g, v, l, me));
       }
     } else {
       //

@@ -5,7 +5,9 @@
 #include "my_callstack.hpp"
 #include "my_game.hpp"
 #include "my_game_defs.hpp"
+#include "my_game_inlines.hpp"
 #include "my_level.hpp"
+#include "my_level_inlines.hpp"
 #include "my_main.hpp"
 #include "my_thing.hpp"
 #include "my_types.hpp"
@@ -24,11 +26,18 @@ void game_debug_info(Gamep g)
     return;
   }
 
+  auto *l = game_level_get(g, v);
+  if (l == nullptr) [[unlikely]] {
+    return;
+  }
+
   log("Level info:");
   log("  Levels memory:                   %" PRI_SIZE_T " Mb", sizeof(Levels) / (1024 * 1024));
-  log("  Thing body memory:               %" PRI_SIZE_T " Mb", sizeof(v->thing_body) / (1024 * 1024));
-  log("  Thing ext memory:                %" PRI_SIZE_T " Mb", sizeof(v->thing_ext) / (1024 * 1024));
-  log("  Thing dmap memory:               %" PRI_SIZE_T " Mb", sizeof(v->thing_dmap) / (1024 * 1024));
+  log("  All levels Thing body memory:    %" PRI_SIZE_T " Mb", sizeof(v->thing_body) / (1024 * 1024));
+  log("  All levels Thing ext memory:     %" PRI_SIZE_T " Mb", sizeof(v->thing_ext) / (1024 * 1024));
+  log("  All levels Thing dmap memory:    %" PRI_SIZE_T " Mb", sizeof(v->thing_dmap) / (1024 * 1024));
+  log("  Per level Tp    id memory:       %" PRI_SIZE_T " Kb", sizeof(l->tp_id) / (1024));
+  log("  Per level Thing id memory:       %" PRI_SIZE_T " Kb", sizeof(l->thing_id) / (1024));
   log("  sizeof(Thing):                   %" PRI_SIZE_T " b", sizeof(Thing));
   log("  sizeof(ThingInventory):          %" PRI_SIZE_T " b", sizeof(ThingInventory));
   log("  sizeof(ThingExt)                 %" PRI_SIZE_T " b", sizeof(ThingExt));
@@ -36,7 +45,8 @@ void game_debug_info(Gamep g)
   log("  sizeof(ThingPlayer):             %" PRI_SIZE_T " b", sizeof(ThingPlayer));
   log("  MAP_HEIGHT                       %u", MAP_HEIGHT);
   log("  MAP_WIDTH                        %u", MAP_WIDTH);
-  log("  MAP_SLOTS                        %u", MAP_SLOTS);
+  log("  MAP_TP_SLOTS                     %u", MAP_TP_SLOTS);
+  log("  MAP_THING_SLOTS                  %u", MAP_THING_SLOTS);
   log("  LEVEL_GRID_ACROSS                %u", LEVEL_GRID_ACROSS);
   log("  LEVEL_GRID_DOWN                  %u", LEVEL_GRID_DOWN);
   log("  LEVEL_ARR_IDX_LEVEL_SELECT       %u", LEVEL_ARR_IDX_LEVEL_SELECT);

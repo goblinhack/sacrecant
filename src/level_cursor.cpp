@@ -395,7 +395,7 @@ auto level_cursor_path_draw_line(Gamep g, Levelsp v, Levelp l, const bpoint &sta
     return empty;
   }
 
-  THING_DBG(g, v, l, player, "draw path %d,%d to %d,%d", start.x, start.y, end.x, end.y);
+  THING_DBG(g, v, l, player, "cursor draw path %d,%d to %d,%d", start.x, start.y, end.x, end.y);
 
   //
   // Choose the shortest path of each attempt.

@@ -141,7 +141,7 @@
   auto *dmap = thing_get_dmap(g, v, l, player);
 
   for (auto p : dmap_solve(g, v, l, player, dmap, thing_at(g, v, l, player))) {
-    TEST_ASSERT(t, thing_spawn(g, v, l, tp_first(is_corridor), p) != nullptr, "failed to spawn thing");
+    TEST_ASSERT(t, tp_push(g, v, l, tp_first(is_corridor), p), "failed to spawn thing");
   }
 
   if (! (result = level_match_contents(g, v, l, t, w, h, expect.c_str()))) {

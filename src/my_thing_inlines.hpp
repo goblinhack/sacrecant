@@ -302,19 +302,6 @@
   return tp_flag(thing_tp(me), is_wall) != 0;
 }
 
-[[nodiscard]] static inline auto thing_is_floor(Thingp me) -> bool
-{
-#ifdef DEBUG_BUILD
-  TRACE_DEBUG();
-
-  if (me == nullptr) {
-    no_thing_pointer();
-    return false;
-  }
-#endif
-  return tp_flag(thing_tp(me), is_floor) != 0;
-}
-
 [[nodiscard]] static inline auto thing_is_obs_to_vision(Thingp me) -> bool
 {
 #ifdef DEBUG_BUILD

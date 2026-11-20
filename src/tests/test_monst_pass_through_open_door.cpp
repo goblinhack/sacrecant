@@ -40,8 +40,8 @@
         "x...x.x"
         "x...x.x"
         "x...@.x"
-        "x...xmx"
         "x...x.x"
+        "x...xmx"
         "xxxxxxx";
   std::string const expect3
       = "xxxxxxx"

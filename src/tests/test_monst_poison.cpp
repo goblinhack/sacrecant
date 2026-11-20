@@ -33,8 +33,8 @@
       = "XXXXXXXXXXXXXXX"
         "X....~~~~~~~~.X"
         "X....~.~~~~~~.X"
-        "X..@.m~~~~.~~.X"
-        "X....m~~~~~~~.X"
+        "X..@.m~m~~.~~.X"
+        "X....~~~~~~~~.X"
         "X.............X"
         "XXXXXXXXXXXXXXX";
 
@@ -136,16 +136,16 @@
 
   TEST_ASSERT(t, thing_is_dead(player), "player is not dead");
 
-  TEST_ASSERT(t, wid_console_find_text(g, "You are being poisoned"), "did not find console text");
+  TEST_ASSERT(t, wid_console_find_text(g, "You are being poisoned"), "did not find console text You are being poisoned");
 
-  TEST_ASSERT(t, wid_console_find_text(g, "You are poisoned and die."), "did not find console text");
+  TEST_ASSERT(t, wid_console_find_text(g, "You are poisoned and die."), "did not find console text You are poisoned and die");
 
   //
   // Check the tick is as expected
   //
   level_dump(g, v, l, w, h);
   TEST_PROGRESS(t);
-  TEST_ASSERT(t, game_tick_get(g, v) == 17, "final tick counter value");
+  TEST_ASSERT(t, game_tick_get(g, v) == 8, "final tick counter value");
 
   level_dump(g, v, l, w, h);
   TEST_PASSED(t);

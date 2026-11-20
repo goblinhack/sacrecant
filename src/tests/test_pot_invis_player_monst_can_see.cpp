@@ -33,8 +33,8 @@
       = "xxxxxxx"
         "x.....x"
         "x...xxx"
-        "x.....x"
         "xM....x"
+        "x.....x"
         "x@....x"
         "xxxxxxx";
 

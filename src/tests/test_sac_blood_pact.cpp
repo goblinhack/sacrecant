@@ -138,11 +138,11 @@
     goto exit;
   }
 
-  TEST_ASSERT(t, thing_health(g, v, l, player) == 96, "did not find expected health drop");
+  TEST_ASSERT(t, thing_health(g, v, l, player) == 91, "did not find expected health drop");
 
   TEST_ASSERT(t, thing_stamina(g, v, l, player) == 98, "did not find expected stamina drop");
 
-  TEST_ASSERT(t, game_tick_get(g, v) == 3, "final tick counter value");
+  TEST_ASSERT(t, game_tick_get(g, v) == 6, "final tick counter value");
 
   level_dump(g, v, l, w, h);
   TEST_PASSED(t);

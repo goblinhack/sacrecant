@@ -33,9 +33,9 @@
       = "xxxxxxx"
         "x.....x"
         "x...xxx"
+        "x...m.x"
         "x.....x"
-        "x.....x"
-        "x@...mx"
+        "x@....x"
         "xxxxxxx";
 
   //

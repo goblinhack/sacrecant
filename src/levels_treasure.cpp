@@ -913,8 +913,8 @@ void levels_treasure(Gamep g)
     overrides.o[ 'e' ].do_thing_spawn = [](Gamep g_in, Levelsp v, Levelp l, const bpoint &at, ThingEvent *e) -> Thingp {
       (void) thing_spawn(g_in, v, l, tp_find_random(is_water_dweller), at, e);
       (void) thing_spawn(g_in, v, l, tp_first(is_water_deep), at, e);
-      (void) thing_spawn(g_in, v, l, tp_first(is_water_shallow), at, e);
-      return thing_spawn(g_in, v, l, tp_first(is_dirt), at, e);
+      (void) tp_push(g_in, v, l, tp_first(is_dirt), at);
+      return thing_spawn(g_in, v, l, tp_first(is_water_shallow), at, e);
     };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE2, "treasure2.1", __FUNCTION__, __LINE__, overrides, 0,
@@ -959,8 +959,8 @@ void levels_treasure(Gamep g)
     overrides.o[ 'e' ].do_thing_spawn = [](Gamep g_in, Levelsp v, Levelp l, const bpoint &at, ThingEvent *e) -> Thingp {
       (void) thing_spawn(g_in, v, l, tp_find_random(is_water_dweller), at, e);
       (void) thing_spawn(g_in, v, l, tp_first(is_water_deep), at, e);
-      (void) thing_spawn(g_in, v, l, tp_first(is_water_shallow), at, e);
-      return thing_spawn(g_in, v, l, tp_first(is_dirt), at, e);
+      (void) tp_push(g_in, v, l, tp_first(is_dirt), at);
+      return thing_spawn(g_in, v, l, tp_first(is_water_shallow), at, e);
     };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE2, "treasure2.2", __FUNCTION__, __LINE__, overrides, 0,
@@ -1088,8 +1088,8 @@ void levels_treasure(Gamep g)
     overrides.o[ 'e' ].do_thing_spawn = [](Gamep g_in, Levelsp v, Levelp l, const bpoint &at, ThingEvent *e) -> Thingp {
       (void) thing_spawn(g_in, v, l, tp_find_random(is_water_dweller), at, e);
       (void) thing_spawn(g_in, v, l, tp_first(is_water_deep), at, e);
-      (void) thing_spawn(g_in, v, l, tp_first(is_water_shallow), at, e);
-      return thing_spawn(g_in, v, l, tp_first(is_dirt), at, e);
+      (void) tp_push(g_in, v, l, tp_first(is_dirt), at);
+      return thing_spawn(g_in, v, l, tp_first(is_water_shallow), at, e);
     };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE2, "treasure2.5", __FUNCTION__, __LINE__, overrides, 0,
@@ -1134,8 +1134,8 @@ void levels_treasure(Gamep g)
     overrides.o[ 'e' ].do_thing_spawn = [](Gamep g_in, Levelsp v, Levelp l, const bpoint &at, ThingEvent *e) -> Thingp {
       (void) thing_spawn(g_in, v, l, tp_find_random(is_water_dweller), at, e);
       (void) thing_spawn(g_in, v, l, tp_first(is_water_deep), at, e);
-      (void) thing_spawn(g_in, v, l, tp_first(is_water_shallow), at, e);
-      return thing_spawn(g_in, v, l, tp_first(is_dirt), at, e);
+      (void) tp_push(g_in, v, l, tp_first(is_dirt), at);
+      return thing_spawn(g_in, v, l, tp_first(is_water_shallow), at, e);
     };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE2, "treasure2.6", __FUNCTION__, __LINE__, overrides, 0,
@@ -1153,8 +1153,8 @@ void levels_treasure(Gamep g)
     overrides.o[ 'e' ].do_thing_spawn = [](Gamep g_in, Levelsp v, Levelp l, const bpoint &at, ThingEvent *e) -> Thingp {
       (void) thing_spawn(g_in, v, l, tp_find_random(is_water_dweller), at, e);
       (void) thing_spawn(g_in, v, l, tp_first(is_water_deep), at, e);
-      (void) thing_spawn(g_in, v, l, tp_first(is_water_shallow), at, e);
-      return thing_spawn(g_in, v, l, tp_first(is_dirt), at, e);
+      (void) tp_push(g_in, v, l, tp_first(is_dirt), at);
+      return thing_spawn(g_in, v, l, tp_first(is_water_shallow), at, e);
     };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TREASURE2, "treasure2.7", __FUNCTION__, __LINE__, overrides, 0,
@@ -1281,8 +1281,8 @@ void levels_treasure(Gamep g)
     overrides.o[ 'e' ].do_thing_spawn = [](Gamep g_in, Levelsp v, Levelp l, const bpoint &at, ThingEvent *e) -> Thingp {
       (void) thing_spawn(g_in, v, l, tp_find_random(is_water_dweller), at, e);
       (void) thing_spawn(g_in, v, l, tp_first(is_water_deep), at, e);
-      (void) thing_spawn(g_in, v, l, tp_first(is_water_shallow), at, e);
-      return thing_spawn(g_in, v, l, tp_first(is_dirt), at, e);
+      (void) tp_push(g_in, v, l, tp_first(is_dirt), at);
+      return thing_spawn(g_in, v, l, tp_first(is_water_shallow), at, e);
     };
     overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
 
@@ -1369,8 +1369,8 @@ void levels_treasure(Gamep g)
     overrides.o[ 'e' ].do_thing_spawn = [](Gamep g_in, Levelsp v, Levelp l, const bpoint &at, ThingEvent *e) -> Thingp {
       (void) thing_spawn(g_in, v, l, tp_find_random(is_water_dweller), at, e);
       (void) thing_spawn(g_in, v, l, tp_first(is_water_deep), at, e);
-      (void) thing_spawn(g_in, v, l, tp_first(is_water_shallow), at, e);
-      return thing_spawn(g_in, v, l, tp_first(is_dirt), at, e);
+      (void) tp_push(g_in, v, l, tp_first(is_dirt), at);
+      return thing_spawn(g_in, v, l, tp_first(is_water_shallow), at, e);
     };
     overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
 
@@ -1410,8 +1410,8 @@ void levels_treasure(Gamep g)
     overrides.o[ 'e' ].do_thing_spawn = [](Gamep g_in, Levelsp v, Levelp l, const bpoint &at, ThingEvent *e) -> Thingp {
       (void) thing_spawn(g_in, v, l, tp_find_random(is_water_dweller), at, e);
       (void) thing_spawn(g_in, v, l, tp_first(is_water_deep), at, e);
-      (void) thing_spawn(g_in, v, l, tp_first(is_water_shallow), at, e);
-      return thing_spawn(g_in, v, l, tp_first(is_dirt), at, e);
+      (void) tp_push(g_in, v, l, tp_first(is_dirt), at);
+      return thing_spawn(g_in, v, l, tp_first(is_water_shallow), at, e);
     };
     overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
 
@@ -1450,8 +1450,8 @@ void levels_treasure(Gamep g)
     overrides.o[ 'e' ].do_thing_spawn = [](Gamep g_in, Levelsp v, Levelp l, const bpoint &at, ThingEvent *e) -> Thingp {
       (void) thing_spawn(g_in, v, l, tp_find_random(is_water_dweller), at, e);
       (void) thing_spawn(g_in, v, l, tp_first(is_water_deep), at, e);
-      (void) thing_spawn(g_in, v, l, tp_first(is_water_shallow), at, e);
-      return thing_spawn(g_in, v, l, tp_first(is_dirt), at, e);
+      (void) tp_push(g_in, v, l, tp_first(is_dirt), at);
+      return thing_spawn(g_in, v, l, tp_first(is_water_shallow), at, e);
     };
     overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
 
@@ -1531,8 +1531,8 @@ void levels_treasure(Gamep g)
     overrides.o[ 'e' ].do_thing_spawn = [](Gamep g_in, Levelsp v, Levelp l, const bpoint &at, ThingEvent *e) -> Thingp {
       (void) thing_spawn(g_in, v, l, tp_find_random(is_water_dweller), at, e);
       (void) thing_spawn(g_in, v, l, tp_first(is_water_deep), at, e);
-      (void) thing_spawn(g_in, v, l, tp_first(is_water_shallow), at, e);
-      return thing_spawn(g_in, v, l, tp_first(is_dirt), at, e);
+      (void) tp_push(g_in, v, l, tp_first(is_dirt), at);
+      return thing_spawn(g_in, v, l, tp_first(is_water_shallow), at, e);
     };
     overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
 
@@ -1568,8 +1568,8 @@ void levels_treasure(Gamep g)
     overrides.o[ 'e' ].do_thing_spawn = [](Gamep g_in, Levelsp v, Levelp l, const bpoint &at, ThingEvent *e) -> Thingp {
       (void) thing_spawn(g_in, v, l, tp_find_random(is_water_dweller), at, e);
       (void) thing_spawn(g_in, v, l, tp_first(is_water_deep), at, e);
-      (void) thing_spawn(g_in, v, l, tp_first(is_water_shallow), at, e);
-      return thing_spawn(g_in, v, l, tp_first(is_dirt), at, e);
+      (void) tp_push(g_in, v, l, tp_first(is_dirt), at);
+      return thing_spawn(g_in, v, l, tp_first(is_water_shallow), at, e);
     };
     overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
 
@@ -1605,8 +1605,8 @@ void levels_treasure(Gamep g)
     overrides.o[ 'e' ].do_thing_spawn = [](Gamep g_in, Levelsp v, Levelp l, const bpoint &at, ThingEvent *e) -> Thingp {
       (void) thing_spawn(g_in, v, l, tp_find_random(is_water_dweller), at, e);
       (void) thing_spawn(g_in, v, l, tp_first(is_water_deep), at, e);
-      (void) thing_spawn(g_in, v, l, tp_first(is_water_shallow), at, e);
-      return thing_spawn(g_in, v, l, tp_first(is_dirt), at, e);
+      (void) tp_push(g_in, v, l, tp_first(is_dirt), at);
+      return thing_spawn(g_in, v, l, tp_first(is_water_shallow), at, e);
     };
     overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
 
@@ -1650,8 +1650,8 @@ void levels_treasure(Gamep g)
     overrides.o[ 'e' ].do_thing_spawn = [](Gamep g_in, Levelsp v, Levelp l, const bpoint &at, ThingEvent *e) -> Thingp {
       (void) thing_spawn(g_in, v, l, tp_find_random(is_water_dweller), at, e);
       (void) thing_spawn(g_in, v, l, tp_first(is_water_deep), at, e);
-      (void) thing_spawn(g_in, v, l, tp_first(is_water_shallow), at, e);
-      return thing_spawn(g_in, v, l, tp_first(is_dirt), at, e);
+      (void) tp_push(g_in, v, l, tp_first(is_dirt), at);
+      return thing_spawn(g_in, v, l, tp_first(is_water_shallow), at, e);
     };
     overrides.o[ 'g' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("haunt_mob"); };
 

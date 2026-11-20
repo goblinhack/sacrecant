@@ -29,7 +29,7 @@
         "xxxxxxx";
   std::string const expect1
       = "xxxxxxx"
-        "x.x.&&x"
+        "x.x..&x"
         "x.xxx&x"
         "x..@D&x"
         "x...x&x"
@@ -37,7 +37,7 @@
         "xxxxxxx";
   std::string const expect2
       = "xxxxxxx"
-        "x.x..&x"
+        "x.x.&&x"
         "x.xxx&x"
         "x...&&x"
         "x...x&x"
@@ -45,7 +45,7 @@
         "xxxxxxx";
   std::string const expect3
       = "xxxxxxx"
-        "x.x.&&x"
+        "x.x..&x"
         "x.xxx&x"
         "x....&x"
         "x...x&x"
@@ -53,7 +53,7 @@
         "xxxxxxx";
   std::string const expect4
       = "xxxxxxx"
-        "x.x.&&x"
+        "x.x..&x"
         "x.xxx&x"
         "x....&x"
         "x...x&x"

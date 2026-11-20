@@ -616,6 +616,11 @@ void game_init(Gamep g) { g->init(); }
   game_state_change(g, STATE_PLAYING, "new game");
 
   //
+  // Set the seed again, so we ignore any variation in level populate
+  //
+  g->seed_set(TEST_SEED);
+
+  //
   // Need this to update visibility.
   //
   game_tick(g);

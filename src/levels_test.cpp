@@ -945,8 +945,8 @@ void levels_test(Gamep g)
     overrides.o[ 'm' ].do_thing_spawn = [](Gamep g_in, Levelsp v, Levelp l, const bpoint &at, ThingEvent *e) -> Thingp {
       (void) thing_spawn(g_in, v, l, tp_find_mand("pirnana"), at, e);
       (void) thing_spawn(g_in, v, l, tp_first(is_water_deep), at, e);
-      (void) thing_spawn(g_in, v, l, tp_first(is_water_shallow), at, e);
-      return thing_spawn(g_in, v, l, tp_first(is_dirt), at, e);
+      (void) tp_push(g_in, v, l, tp_first(is_dirt), at);
+      return thing_spawn(g_in, v, l, tp_first(is_water_shallow), at, e);
     };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "water", __FUNCTION__, __LINE__, overrides, 0,

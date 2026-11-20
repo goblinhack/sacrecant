@@ -15,7 +15,7 @@
 
   LevelArrIdx const level_num = 0;
   auto              w         = 7;
-  auto              h         = 8;
+  auto              h         = 9;
 
   //
   // How the dungeon starts out, and how we expect it to change
@@ -27,6 +27,7 @@
         "X`````X"
         "X.....X"
         "X.....X"
+        "X.....X"
         "X....mX"
         "XXXXXXX";
   std::string const expect1
@@ -34,6 +35,7 @@
         "X@````X"
         "X`````X"
         "X`````X"
+        "X.....X"
         "X.....X"
         "X.m...X"
         "X.....X"
@@ -44,6 +46,7 @@
         "X`````X"
         "X`````X"
         "X.....X"
+        "X.....X"
         "X.m...X"
         "X.....X"
         "XXXXXXX";
@@ -52,15 +55,17 @@
         "X.`@``X"
         "X`````X"
         "X`````X"
-        "X.....X"
-        "X.....X"
         "X..m..X"
+        "X.....X"
+        "X.....X"
+        "X.....X"
         "XXXXXXX";
   std::string const expect4
       = "XXXXXXX"
-        "X.`@``X"
+        "X.m@``X"
         "X`````X"
-        "X``m``X"
+        "X`````X"
+        "X.....X"
         "X.....X"
         "X.....X"
         "X.....X"
@@ -73,12 +78,14 @@
         "X.....X"
         "X.....X"
         "X.....X"
+        "X.....X"
         "XXXXXXX";
   std::string const expect6
       = "XXXXXXX"
         "X.`@``X"
         "X`````X"
-        "Xm````X"
+        "X`````X"
+        "X.m...X"
         "X.....X"
         "X.....X"
         "X.....X"

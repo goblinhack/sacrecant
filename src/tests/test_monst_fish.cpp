@@ -31,8 +31,8 @@
       = "XXXXXXXXXXXXXXX"
         "X....W,,,WWWW.X"
         "X....W,,,WWWW.X"
-        "X...@W,,,W.WW.X"
-        "X....W,,,WmWW.X"
+        "X...@m,,,W.WW.X"
+        "X....W,,,WWWW.X"
         "X.............X"
         "XXXXXXXXXXXXXXX";
 

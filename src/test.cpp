@@ -166,7 +166,7 @@ const std::initializer_list< std::string > tests = {
     "player_in_steam",
     "player_lava",
     "player_melee_locked_door",
-    "player_melee_w_obs_when_dead",
+    "player_melee_with_obs_when_dead",
     "player_melee",
     "player_move_diagonal_barrel",
     "player_move_diagonal_border",

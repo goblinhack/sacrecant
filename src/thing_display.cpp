@@ -11,6 +11,7 @@
 #include "my_gl.hpp" // NOLINT
 #include "my_level.hpp"
 #include "my_main.hpp"
+#include "my_random.hpp"
 #include "my_spoint.hpp"
 #include "my_thing.hpp"
 #include "my_thing_callbacks.hpp"
@@ -72,7 +73,23 @@ void thing_display_get_tile_info(Gamep g, Levelsp v, Levelp l, const bpoint &p, 
     //
     // Cursor usually
     //
-    tile = tp_tiles_get(tp_maybe_null, THING_ANIM_IDLE, 0);
+    auto ntiles = tp_tiles_size(tp_maybe_null, THING_ANIM_IDLE);
+    if (ntiles) {
+      static unsigned int tile_rand[ MAP_WIDTH ][ MAP_HEIGHT ];
+      static bool         tile_rand_init {};
+      int                 x {};
+      int                 y {};
+
+      if (! tile_rand_init) {
+        tile_rand_init = true;
+        FOR_ALL_MAP_POINTS_NO_BREAK(g, v, l, x, y) { tile_rand[ x ][ y ] = OS_RAND(); }
+      }
+
+      tile = tp_tiles_get(tp_maybe_null, THING_ANIM_IDLE, tile_rand[ p.x ][ p.y ] % ntiles);
+    } else {
+      tile = tp_tiles_get(tp_maybe_null, THING_ANIM_IDLE, 0);
+    }
+
     if (tile != nullptr) {
       if (tile_index != nullptr) {
         *tile_index = tile_global_index(tile);
@@ -874,6 +891,52 @@ auto thing_to_pixel(Gamep g, Levelsp v, Levelp l, Thingp it) -> spoint
   float const tl_py     = ((tl_pix_at.y * zoom) - v->pixel_map_at.y) / static_cast< float >(h);
 
   auto        br_pix_at = thing_pix_at(it) + spoint(TILE_WIDTH, TILE_HEIGHT);
+  float const br_px     = ((br_pix_at.x * zoom) - v->pixel_map_at.x) / static_cast< float >(w);
+  float const br_py     = ((br_pix_at.y * zoom) - v->pixel_map_at.y) / static_cast< float >(h);
+
+  auto px = (tl_px + br_px) / 2;
+  auto py = (tl_py + br_py) / 2;
+
+  spoint pix;
+
+  pix.x = static_cast< int16_t >(visible_map_tl_x + ((visible_map_br_x - visible_map_tl_x) * px));
+  pix.y = static_cast< int16_t >(visible_map_tl_y + ((visible_map_br_y - visible_map_tl_y) * py));
+
+  //  topcon("%d,%d vs %d,%d\n", pix.x, pix.y, sdl.mouse_x, sdl.mouse_y);
+
+  return pix;
+}
+
+//
+// Find the on screen pixel a tp is at
+//
+auto tile_location_to_pixel(Gamep g, Levelsp v, Levelp l, bpoint at) -> spoint
+{
+  TRACE();
+
+  //
+  // Get the visible map bounds
+  //
+  int visible_map_tl_x = 0;
+  int visible_map_tl_y = 0;
+  int visible_map_br_x = 0;
+  int visible_map_br_y = 0;
+  game_visible_map_pix_get(g, &visible_map_tl_x, &visible_map_tl_y, &visible_map_br_x, &visible_map_br_y);
+
+  //
+  // Get the size of the on screen map.
+  //
+  int w = 0;
+  int h = 0;
+  fbo_get_size(g, FBO_MAP_BG_FLOOR_WATER_LAVA, w, h);
+
+  int const zoom = game_map_zoom_get(g, v, l);
+
+  auto        tl_pix_at = spoint(at.x * TILE_WIDTH, at.y * TILE_HEIGHT);
+  float const tl_px     = ((tl_pix_at.x * zoom) - v->pixel_map_at.x) / static_cast< float >(w);
+  float const tl_py     = ((tl_pix_at.y * zoom) - v->pixel_map_at.y) / static_cast< float >(h);
+
+  auto        br_pix_at = tl_pix_at + spoint(TILE_WIDTH, TILE_HEIGHT);
   float const br_px     = ((br_pix_at.x * zoom) - v->pixel_map_at.x) / static_cast< float >(w);
   float const br_py     = ((br_pix_at.y * zoom) - v->pixel_map_at.y) / static_cast< float >(h);
 

@@ -64,6 +64,22 @@ enum : uint32_t {
   uint32_t mask         = 0;
   bool     non_internal = false;
 
+  FOR_ALL_TPS_AT(g, v, l, tp, p)
+  {
+    if (tp_flag(tp, is_dirt) != 0) {
+      mask |= MINIMAP_DIRT;
+    }
+    if (tp_flag(tp, is_floor) != 0) {
+      mask |= MINIMAP_FLOOR;
+    }
+    if (tp_flag(tp, is_border) != 0) {
+      mask |= MINIMAP_BORDER;
+    }
+    if (tp_flag(tp, is_corridor) != 0) {
+      mask |= MINIMAP_CORRIDOR;
+    }
+  }
+
   FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, p)
   {
     auto *tp = thing_tp(it);
@@ -72,18 +88,6 @@ enum : uint32_t {
       non_internal = true;
     }
 
-    if (tp_flag(tp, is_border) != 0) {
-      mask |= MINIMAP_BORDER;
-    }
-    if (tp_flag(tp, is_dirt) != 0) {
-      mask |= MINIMAP_DIRT;
-    }
-    if (tp_flag(tp, is_floor) != 0) {
-      mask |= MINIMAP_FLOOR;
-    }
-    if (tp_flag(tp, is_corridor) != 0) {
-      mask |= MINIMAP_CORRIDOR;
-    }
     if (tp_flag(tp, is_wall) != 0) {
       mask |= MINIMAP_WALL;
     }

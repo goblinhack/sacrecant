@@ -275,9 +275,13 @@ using Level = struct Level {
   //
   uint8_t is_modified_tile[ MAP_WIDTH ][ MAP_HEIGHT ];
   //
+  // Used for things that never change, like floors
+  //
+  TpId tp_id[ MAP_WIDTH ][ MAP_HEIGHT ][ MAP_TP_SLOTS ];
+  //
   // What things are where? Each Id points to a thing structure.
   //
-  ThingId thing_id[ MAP_WIDTH ][ MAP_HEIGHT ][ MAP_SLOTS ];
+  ThingId thing_id[ MAP_WIDTH ][ MAP_HEIGHT ][ MAP_THING_SLOTS ];
   //
   // Has the player been on this tile?
   //
@@ -544,6 +548,27 @@ struct MyIter {
         for ((_y_) = 0; (_y_) < MAP_HEIGHT; (_y_)++)
 
 //
+// For all tps on this level
+//
+#define FOR_ALL_TPS_ON_LEVEL_NO_BREAK(_g_, _v_, _l_, _t_)                                                                                       \
+  if ((VERIFY(MTYPE_GAME, _g_)) && (VERIFY(MTYPE_LEVELS, _v_)))                                                                                 \
+    if ((_l_))                                                                                                                                  \
+      for (auto _x_ = 0; _x_ < MAP_WIDTH; _x_++)                                                                                                \
+        for (auto _y_ = 0; _y_ < MAP_HEIGHT; _y_++)                                                                                             \
+          for (auto _slot_ = 0; _slot_ < MAP_TP_SLOTS; _slot_++)                                                                                \
+            if (TpId _id_ = 0; (_id_ = (_l_)->tp_id[ _x_ ][ _y_ ][ _slot_ ]))                                                                   \
+              if (Tpp _t_ = nullptr; ((_t_) = tp_find(_id_)))
+
+#define FOR_ALL_TPS_AT(_g_, _v_, _l_, _t_, _p_)                                                                                                 \
+  if ((VERIFY(MTYPE_GAME, _g_)) && (VERIFY(MTYPE_LEVELS, _v_)))                                                                                 \
+    if ((_l_))                                                                                                                                  \
+      if (bpoint _at_ = make_bpoint(_p_); true)                                                                                                 \
+        if (! is_oob(_at_))                                                                                                                     \
+          for (auto _slot_ = 0; _slot_ < MAP_TP_SLOTS; _slot_++)                                                                                \
+            if (TpId _id_ = 0; (_id_ = (_l_)->tp_id[ _at_.x ][ _at_.y ][ _slot_ ]))                                                             \
+              if (Tpp _t_ = nullptr; ((_t_) = tp_find(_id_)))
+
+//
 // For all things on this level
 //
 // Unsafe here means that if things move around during processing, we could process
@@ -553,7 +578,7 @@ struct MyIter {
   if ((_g_) && (_v_) && (_l_))                                                                                                                  \
     for (auto _x_ = 0; _x_ < MAP_WIDTH; _x_++)                                                                                                  \
       for (auto _y_ = 0; _y_ < MAP_HEIGHT; _y_++)                                                                                               \
-        for (auto _slot_ = 0; _slot_ < MAP_SLOTS; _slot_++)                                                                                     \
+        for (auto _slot_ = 0; _slot_ < MAP_THING_SLOTS; _slot_++)                                                                               \
           if (ThingId _id_ = 0; (_id_ = (_l_)->thing_id[ _x_ ][ _y_ ][ _slot_ ]))                                                               \
             if (Thingp _t_ = nullptr; ((_t_) = thing_find(_g_, _v_, _id_)))
 
@@ -564,25 +589,11 @@ struct MyIter {
         if (MyIter _iter_(_g_, _v_, _l_, &_iter_index_, __FUNCTION__, __LINE__); true)                                                          \
           for (auto _x_ = 0; _x_ < MAP_WIDTH; _x_++)                                                                                            \
             for (auto _y_ = 0; _y_ < MAP_HEIGHT; _y_++)                                                                                         \
-              for (auto _slot_ = 0; _slot_ < MAP_SLOTS; _slot_++)                                                                               \
+              for (auto _slot_ = 0; _slot_ < MAP_THING_SLOTS; _slot_++)                                                                         \
                 if (ThingId _id_ = 0; (_id_ = (_l_)->thing_id[ _x_ ][ _y_ ][ _slot_ ]))                                                         \
                   if (Thingp _t_ = nullptr; ((_t_) = thing_find(_g_, _v_, _id_)))                                                               \
                     if ((_t_)->iter[ _iter_index_ ] != (_l_)->iter[ _iter_index_ ])                                                             \
                       if ((((_t_)->iter[ _iter_index_ ] = (_l_)->iter[ _iter_index_ ])) || 1)
-
-#define FOR_ALL_THINGS_ON_LEVEL_NO_BREAK_DEBUG(_g_, _v_, _l_, _t_)                                                                              \
-  if ((VERIFY(MTYPE_GAME, _g_)) && (VERIFY(MTYPE_LEVELS, _v_)))                                                                                 \
-    if ((_l_))                                                                                                                                  \
-      if (int _iter_index_ = 0; true)                                                                                                           \
-        if (MyIter _iter_(_g_, _v_, _l_, &_iter_index_, __FUNCTION__, __LINE__); true)                                                          \
-          for (auto _x_ = 0; _x_ < MAP_WIDTH; _x_++)                                                                                            \
-            for (auto _y_ = 0; _y_ < MAP_HEIGHT; _y_++)                                                                                         \
-              for (auto _slot_ = 0; _slot_ < MAP_SLOTS; _slot_++)                                                                               \
-                if (ThingId _id_ = 0; (_id_ = (_l_)->thing_id[ _x_ ][ _y_ ][ _slot_ ]))                                                         \
-                  if (Thingp _t_ = nullptr; ((_t_) = thing_find(_g_, _v_, _id_)))                                                               \
-                    if (thing_debug(_g_, _v_, _l_, _t_, _iter_index_))                                                                          \
-                      if ((_t_)->iter[ _iter_index_ ] != (_l_)->iter[ _iter_index_ ])                                                           \
-                        if ((((_t_)->iter[ _iter_index_ ] = (_l_)->iter[ _iter_index_ ])) || 1)
 
 #define FOR_ALL_GROUP_THINGS_ON_LEVEL_UNSAFE(_g_, _v_, _l_, _t_, _group_id_)                                                                    \
   FOR_ALL_THINGS_ON_LEVEL_NO_BREAK_UNSAFE(_g_, _v_, _l_, _t_)                                                                                   \
@@ -592,15 +603,11 @@ struct MyIter {
   FOR_ALL_THINGS_ON_LEVEL_NO_BREAK(_g_, _v_, _l_, _t_)                                                                                          \
   if ((_t_)->group_id == (_group_id_))
 
-#define FOR_ALL_GROUP_THINGS_ON_LEVEL_DEBUG(_g_, _v_, _l_, _t_, _group_id_)                                                                     \
-  FOR_ALL_THINGS_ON_LEVEL_NO_BREAK_DEBUG(_g_, _v_, _l_, _t_)                                                                                    \
-  if ((_t_)->group_id == (_group_id_))
-
 #define FOR_ALL_THINGS_AT_UNSAFE(_g_, _v_, _l_, _t_, _p_)                                                                                       \
   if ((_g_) && (_v_) && (_l_))                                                                                                                  \
     if (bpoint _at_ = make_bpoint(_p_); true)                                                                                                   \
       if (! is_oob(_at_))                                                                                                                       \
-        for (auto _slot_ = 0; _slot_ < MAP_SLOTS; _slot_++)                                                                                     \
+        for (auto _slot_ = 0; _slot_ < MAP_THING_SLOTS; _slot_++)                                                                               \
           if (ThingId _id_ = 0; (_id_ = (_l_)->thing_id[ _at_.x ][ _at_.y ][ _slot_ ]))                                                         \
             if (Thingp _t_ = nullptr; ((_t_) = thing_find(_g_, _v_, _id_)))
 
@@ -611,7 +618,7 @@ struct MyIter {
         if (! is_oob(_at_))                                                                                                                     \
           if (int _iter_index_ = 0; true)                                                                                                       \
             if (MyIter _iter_(_g_, _v_, _l_, &_iter_index_, __FUNCTION__, __LINE__); true)                                                      \
-              for (auto _slot_ = 0; _slot_ < MAP_SLOTS; _slot_++)                                                                               \
+              for (auto _slot_ = 0; _slot_ < MAP_THING_SLOTS; _slot_++)                                                                         \
                 if (ThingId _id_ = 0; (_id_ = (_l_)->thing_id[ _at_.x ][ _at_.y ][ _slot_ ]))                                                   \
                   if (Thingp _t_ = nullptr; ((_t_) = thing_find(_g_, _v_, _id_)))                                                               \
                     if ((_t_)->iter[ _iter_index_ ] != (_l_)->iter[ _iter_index_ ])                                                             \
@@ -693,6 +700,8 @@ enum {
 [[nodiscard]] auto level_cursor_path_size(Gamep g) -> int;
 [[nodiscard]] auto level_find_all(Gamep g, Levelsp v, Levelp l, ThingFlagType f, bpoint p) -> std::vector< Thingp >;
 [[nodiscard]] auto level_find_all(Gamep g, Levelsp v, Levelp l, ThingFlagType f) -> std::vector< Thingp >;
+[[nodiscard]] auto level_flag_bool(Gamep g, Levelsp v, Levelp l, ThingFlagType f, bpoint p, Thingp me = nullptr) -> bool;
+[[nodiscard]] auto level_flag_bool(Gamep g, Levelsp v, Levelp l, ThingFlagType f, Thingp me) -> bool;
 [[nodiscard]] auto level_flag_cached(Gamep g, Levelsp v, Levelp l, ThingFlagType f, bpoint p) -> bool;
 [[nodiscard]] auto level_flag(Gamep g, Levelsp v, Levelp l, ThingFlagType f, bpoint p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_flag(Gamep g, Levelsp v, Levelp l, ThingFlagType f, Thingp me) -> Thingp;
@@ -746,6 +755,7 @@ enum {
 [[nodiscard]] auto player_state(Gamep g, Levelsp v) -> PlayerStateType;
 [[nodiscard]] auto thing_level_select(Gamep g) -> Thingp;
 [[nodiscard]] auto thing_to_pixel(Gamep g, Levelsp v, Levelp l, Thingp it) -> spoint;
+[[nodiscard]] auto tile_location_to_pixel(Gamep g, Levelsp v, Levelp l, bpoint at) -> spoint;
 [[nodiscard]] auto to_string(Gamep g, Levelsp v, Levelp l) -> std::string;
 // end sort marker1 }
 
@@ -998,7 +1008,6 @@ auto level_fov(const FovContext & /*ctx*/) -> void;
 [[nodiscard]] auto level_is_collision_square(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_combustible(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_corpse_on_death(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
-[[nodiscard]] auto level_is_corridor(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_critical_to_dungeon_design(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_critical_to_gameplay(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_crushable(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
@@ -1017,7 +1026,6 @@ auto level_fov(const FovContext & /*ctx*/) -> void;
 [[nodiscard]] auto level_is_debuff(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_described_cursor(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_described_when_killed(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
-[[nodiscard]] auto level_is_dirt(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_dmap(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_door_locked(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_door_secret(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
@@ -1050,7 +1058,6 @@ auto level_fov(const FovContext & /*ctx*/) -> void;
 [[nodiscard]] auto level_is_flat(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_flesh_eater(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_flesh(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
-[[nodiscard]] auto level_is_floor(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_flying(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_foliage(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_follower(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
@@ -1392,7 +1399,6 @@ auto level_fov(const FovContext & /*ctx*/) -> void;
 [[nodiscard]] auto level_is_blit_when_obscured_outline_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_boost_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_boots_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
-[[nodiscard]] auto level_is_border_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_boss_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_boss1_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_boss2_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
@@ -1416,7 +1422,6 @@ auto level_fov(const FovContext & /*ctx*/) -> void;
 [[nodiscard]] auto level_is_collision_square_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_combustible_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_corpse_on_death_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
-[[nodiscard]] auto level_is_corridor_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_critical_to_dungeon_design_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_critical_to_gameplay_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_crushable_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
@@ -1435,7 +1440,6 @@ auto level_fov(const FovContext & /*ctx*/) -> void;
 [[nodiscard]] auto level_is_debuff_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_described_cursor_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_described_when_killed_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
-[[nodiscard]] auto level_is_dirt_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_dmap_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_door_locked_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_door_secret_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
@@ -1468,7 +1472,6 @@ auto level_fov(const FovContext & /*ctx*/) -> void;
 [[nodiscard]] auto level_is_flat_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_flesh_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_flesh_eater_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
-[[nodiscard]] auto level_is_floor_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_flying_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_foliage_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_follower_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
@@ -1806,7 +1809,6 @@ auto level_fov(const FovContext & /*ctx*/) -> void;
 [[nodiscard]] auto level_alive_is_blit_when_obscured_outline(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_boost(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_boots(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
-[[nodiscard]] auto level_alive_is_border(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_boss(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_boss1(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_boss2(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
@@ -1830,7 +1832,6 @@ auto level_fov(const FovContext & /*ctx*/) -> void;
 [[nodiscard]] auto level_alive_is_collision_square(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_combustible(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_corpse_on_death(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
-[[nodiscard]] auto level_alive_is_corridor(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_critical_to_dungeon_design(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_critical_to_gameplay(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_crushable(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
@@ -1849,7 +1850,6 @@ auto level_fov(const FovContext & /*ctx*/) -> void;
 [[nodiscard]] auto level_alive_is_debuff(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_described_cursor(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_described_when_killed(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
-[[nodiscard]] auto level_alive_is_dirt(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_dmap(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_door_locked(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_door_secret(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
@@ -1882,7 +1882,6 @@ auto level_fov(const FovContext & /*ctx*/) -> void;
 [[nodiscard]] auto level_alive_is_flat(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_flesh_eater(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_flesh(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
-[[nodiscard]] auto level_alive_is_floor(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_flying(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_foliage(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_follower(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
@@ -2220,7 +2219,6 @@ auto level_fov(const FovContext & /*ctx*/) -> void;
 [[nodiscard]] auto level_count_is_blit_when_obscured_outline(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_boost(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_boots(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
-[[nodiscard]] auto level_count_is_border(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_boss(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_boss1(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_boss2(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
@@ -2244,7 +2242,6 @@ auto level_fov(const FovContext & /*ctx*/) -> void;
 [[nodiscard]] auto level_count_is_collision_square(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_combustible(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_corpse_on_death(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
-[[nodiscard]] auto level_count_is_corridor(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_critical_to_dungeon_design(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_critical_to_gameplay(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_crushable(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
@@ -2263,7 +2260,6 @@ auto level_fov(const FovContext & /*ctx*/) -> void;
 [[nodiscard]] auto level_count_is_debuff(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_described_cursor(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_described_when_killed(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
-[[nodiscard]] auto level_count_is_dirt(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_dmap(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_door_locked(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_door_secret(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
@@ -2296,7 +2292,6 @@ auto level_fov(const FovContext & /*ctx*/) -> void;
 [[nodiscard]] auto level_count_is_flat(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_flesh_eater(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_flesh(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
-[[nodiscard]] auto level_count_is_floor(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_flying(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_foliage(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_follower(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
@@ -2641,7 +2636,6 @@ auto level_fov(const FovContext & /*ctx*/) -> void;
 [[nodiscard]] auto level_open_is_blit_when_obscured_outline(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_boost(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_boots(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
-[[nodiscard]] auto level_open_is_border(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_boss(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_boss1(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_boss2(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
@@ -2665,7 +2659,6 @@ auto level_fov(const FovContext & /*ctx*/) -> void;
 [[nodiscard]] auto level_open_is_collision_square(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_combustible(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_corpse_on_death(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
-[[nodiscard]] auto level_open_is_corridor(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_critical_to_dungeon_design(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_critical_to_gameplay(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_crushable(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
@@ -2684,7 +2677,6 @@ auto level_fov(const FovContext & /*ctx*/) -> void;
 [[nodiscard]] auto level_open_is_debuff(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_described_cursor(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_described_when_killed(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
-[[nodiscard]] auto level_open_is_dirt(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_dmap(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_door_locked(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_door_secret(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
@@ -2717,7 +2709,6 @@ auto level_fov(const FovContext & /*ctx*/) -> void;
 [[nodiscard]] auto level_open_is_flat(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_flesh_eater(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_flesh(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
-[[nodiscard]] auto level_open_is_floor(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_flying(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_foliage(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_follower(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;

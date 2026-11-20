@@ -42,16 +42,16 @@
       = "xxxxxxx"
         "x.....x"
         "x.&&..x"
-        "x..&.@x"
-        "x.....x"
+        "x.&&.@x"
+        "x.&...x"
         "x.....x"
         "xxxxxxx";
   std::string const expect3
       = "xxxxxxx"
         "x.....x"
         "x.&&..x"
-        "x..&.@x"
-        "x.....x"
+        "x.&&.@x"
+        "x.&...x"
         "x.....x"
         "xxxxxxx";
 

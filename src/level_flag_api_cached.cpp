@@ -165,12 +165,6 @@
   return level_flag_cached(g, v, l, is_blit_when_obscured_faded, p);
 }
 
-[[nodiscard]] auto level_is_border_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
-{
-  TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_border, p);
-}
-
 [[nodiscard]] auto level_is_brazier_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
@@ -243,12 +237,6 @@
   return level_flag_cached(g, v, l, is_corpse_on_death, p);
 }
 
-[[nodiscard]] auto level_is_corridor_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
-{
-  TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_corridor, p);
-}
-
 [[nodiscard]] auto level_is_crushable_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
@@ -313,12 +301,6 @@
 {
   TRACE_DEBUG();
   return level_flag_cached(g, v, l, is_described_cursor, p);
-}
-
-[[nodiscard]] auto level_is_dirt_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
-{
-  TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_dirt, p);
 }
 
 [[nodiscard]] auto level_is_dmap_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
@@ -403,12 +385,6 @@
 {
   TRACE_DEBUG();
   return level_flag_cached(g, v, l, is_levitating, p);
-}
-
-[[nodiscard]] auto level_is_floor_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
-{
-  TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_floor, p);
 }
 
 [[nodiscard]] auto level_is_obs_to_ethereal_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

@@ -1019,7 +1019,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_blit_when_obscured_outline(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_boost(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_boots(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_border(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_boss(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_boss1(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_boss2(Thingp t) -> bool;
@@ -1047,7 +1046,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_combustible(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_corpse_on_death(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_corpse(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_corridor(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_critical_to_dungeon_design(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_critical_to_gameplay(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_crushable(Thingp t) -> bool;
@@ -1074,7 +1072,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_dir_tl(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_dir_tr(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_dir_up(Thingp me) -> bool;
-[[nodiscard]] auto thing_is_dirt(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_dmap(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_door_locked(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_door_secret(Thingp t) -> bool;
@@ -1604,6 +1601,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto to_string(Gamep g, Levelsp v, Levelp l, Thingp t) -> std::string;
 [[nodiscard]] auto to_string(Gamep g, Levelsp v, Thingp t) -> std::string;
 [[nodiscard]] auto tp_damage_types(Tpp tp) -> std::vector< ThingEventType >;
+[[nodiscard]] auto tp_vision_blocker(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp it) -> bool;
 [[nodiscard]] auto wid_get_thing_context(Gamep g, Levelsp v, Widp w, int which) -> Thingp;
 [[nodiscard]] auto wid_get_tp_context(Gamep g, Widp w, int which) -> Tpp;
 [[nodiscard]] auto wid_thing_info_detail(Gamep g, Levelsp v, Levelp l, Thingp me, WidPopup *parent) -> bool;

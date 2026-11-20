@@ -42,7 +42,7 @@
       = "xxxxxxx"
         "x.....x"
         "x.....x"
-        "x&&&&&x"
+        "x.&&&&x"
         "x.....x"
         "x.....x"
         "xxxxxxx";
@@ -120,7 +120,7 @@
     goto exit;
   }
 
-  TEST_ASSERT(t, game_tick_get(g, v) == 23, "final tick counter value");
+  TEST_ASSERT(t, game_tick_get(g, v) == 28, "final tick counter value");
 
   level_dump(g, v, l, w, h);
   TEST_PASSED(t);

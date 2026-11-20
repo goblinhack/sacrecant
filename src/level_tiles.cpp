@@ -82,7 +82,7 @@ static void level_assign_tiles_at(Gamep g, Levelsp v, Levelp l, const bpoint &p)
   auto x = p.x;
   auto y = p.y;
 
-  for (auto slot = 0; slot < MAP_SLOTS; slot++) {
+  for (auto slot = 0; slot < MAP_THING_SLOTS; slot++) {
     Tpp tp = nullptr;
 
     auto *t = thing_and_tp_get_at(g, v, l, p, slot, &tp);

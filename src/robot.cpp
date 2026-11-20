@@ -50,11 +50,18 @@ public:
   int         score = {};
   bpoint      at;
   std::string what;
-  Thingp      what_it = {};
+  Tpp         cand_tp    = {};
+  Thingp      cand_thing = {};
 
-  Goal(int _prio, int _score, bpoint _at, std::string _what, Thingp _what_it)
+  Goal(int _prio, int _score, bpoint _at, std::string _what, Thingp _tp)
       : //
-        prio(_prio), score(_score), at(_at), what(std::move(_what)), what_it(_what_it)
+        prio(_prio), score(_score), at(_at), what(std::move(_what)), cand_thing(_tp)
+  {
+  }
+
+  Goal(int _prio, int _score, bpoint _at, std::string _what, Tpp _t)
+      : //
+        prio(_prio), score(_score), at(_at), what(std::move(_what)), cand_tp(_t)
   {
   }
 };
@@ -212,6 +219,17 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
       score -= 10;
     }
 
+    FOR_ALL_TPS_AT(g, v, l, tp, p)
+    {
+      if (tp_is_floor(tp)) {
+        goals.insert(Goal(GOAL_PRIO_EXPLORE_EDGE_OF_VISION, score, p, "floor", tp));
+      }
+
+      if (tp_is_dirt(tp)) {
+        goals.insert(Goal(GOAL_PRIO_EXPLORE_EDGE_OF_VISION, score, p, "dirt", tp));
+      }
+    }
+
     FOR_ALL_THINGS_AT_UNSAFE(g, v, l, t, p)
     {
       //
@@ -226,10 +244,6 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
       //
       if (level_is_obs_to_movement_bool(g, v, l, p)) {
         continue;
-      }
-
-      if (thing_is_floor(t) || thing_is_dirt(t)) {
-        goals.insert(Goal(GOAL_PRIO_EXPLORE_EDGE_OF_VISION, score, p, "floor", t));
       }
 
       if (thing_is_water_shallow(t)) {
@@ -412,9 +426,16 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
   }
 
   for (const auto &goal : goals) {
-    if (goal.what_it != nullptr) {
+    if ((goal.cand_tp != nullptr) || (goal.cand_thing != nullptr)) {
 
-      auto pixel = thing_to_pixel(g, v, l, goal.what_it);
+      spoint pixel;
+
+      if (goal.cand_tp) {
+        pixel = tile_location_to_pixel(g, v, l, goal.at);
+      } else {
+        pixel = thing_to_pixel(g, v, l, goal.cand_thing);
+      }
+
       if (pixel.x <= visible_map_tl_x) {
         continue;
       }
@@ -445,13 +466,14 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
         return;
       }
 
-      if (thing_is_monst(goal.what_it)) {
+      if (goal.cand_thing && thing_is_monst(goal.cand_thing)) {
         e.type = SDL_KEYDOWN;
         *key   = game_key_fire_get(g);
         robot_push_event(&e, key);
         log("Robot: fire!");
         return;
       }
+
       e.type          = SDL_MOUSEBUTTONDOWN;
       e.button.button = 0;
       robot_push_event(&e, key);
@@ -464,6 +486,7 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
     ThingEvent ev = {};
     ev.reason     = "robot is out of things to do";
     thing_dead(g, v, l, player, ev);
+    exit(0);
   }
 }
 

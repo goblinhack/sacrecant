@@ -49,7 +49,7 @@
       = "xxxxxxx"
         "xxxxxxx"
         "xxLLLxx"
-        "xx@LLxx"
+        "xxL@Lxx"
         "xxLLLxx"
         "xxxxxxx"
         "xxxxxxx";

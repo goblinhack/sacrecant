@@ -1441,6 +1441,9 @@ void tp_weight_set(Tpp tp, uint32_t val);
 void tp_z_depth_set(Tpp tp, MapZDepthType val);
 // end sort marker2 }
 
+[[nodiscard]] auto tp_pop(Gamep g, Levelsp v, Levelp l, Tpp tp, const bpoint &at) -> bool;
+[[nodiscard]] auto tp_push(Gamep g, Levelsp v, Levelp l, Tpp tp, const bpoint &at) -> bool;
+
 //
 // Heat capacity indicates the amount of heat energy required to
 // change a material's temperature.

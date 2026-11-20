@@ -68,7 +68,7 @@ static auto tp_boss2_tentacles_assess_tile(Gamep g, Levelsp v, Levelp l, const b
     return THING_ENVIRON_LIKES;
   }
 
-  if (level_is_dirt_cached(g, v, l, at)) {
+  if (level_is_dirt_bool(g, v, l, at)) {
     const std::initializer_list< bpoint > points = {
         bpoint(-1, -1), bpoint(0, -1), bpoint(1, -1), bpoint(-1, 0), bpoint(1, 0), bpoint(-1, 1), bpoint(0, 1), bpoint(1, 1),
     };
@@ -90,7 +90,7 @@ static auto tp_boss2_tentacles_assess_tile(Gamep g, Levelsp v, Levelp l, const b
     }
   }
 
-  if (level_is_floor_cached(g, v, l, at)) {
+  if (level_is_floor_bool(g, v, l, at)) {
     return THING_ENVIRON_HATES;
   }
 

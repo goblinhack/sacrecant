@@ -72,7 +72,7 @@ static auto tp_coil_eel_assess_tile(Gamep g, Levelsp v, Levelp l, const bpoint &
     return THING_ENVIRON_NEUTRAL;
   }
 
-  if (level_is_dirt_cached(g, v, l, at)) {
+  if (level_is_dirt_bool(g, v, l, at)) {
     const std::initializer_list< bpoint > points = {
         bpoint(-1, -1), bpoint(0, -1), bpoint(1, -1), bpoint(-1, 0), bpoint(1, 0), bpoint(-1, 1), bpoint(0, 1), bpoint(1, 1),
     };
@@ -94,7 +94,7 @@ static auto tp_coil_eel_assess_tile(Gamep g, Levelsp v, Levelp l, const bpoint &
     }
   }
 
-  if (level_is_floor_cached(g, v, l, at)) {
+  if (level_is_floor_bool(g, v, l, at)) {
     return THING_ENVIRON_HATES;
   }
 

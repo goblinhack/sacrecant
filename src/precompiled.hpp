@@ -1,5 +1,4 @@
 
-#include "my_sdl_compat.hpp"
 #include <algorithm>
 #include <array>
 #include <cassert>

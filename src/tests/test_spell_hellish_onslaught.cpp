@@ -30,20 +30,20 @@
         "xxxxxxxxxxxxxxxxxxxxxxxxxxx";
   std::string const expect1
       = "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
-        "x........xx.....m..m......x"
         "x........xx...............x"
+        "x........xx....m..........x"
         "x.......@mx....g..........x"
-        "x........xx...............x"
-        "x........xx...............x"
-        "xxxxxxxxxxxxxxmxxxxxxxxxxxx";
+        "x........xx.......m.......x"
+        "x........xx...m...........x"
+        "xxxxxxxxxxxxxxxxmxxxxxxxxxx";
   std::string const expect2
       = "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
-        "x........xx!......m.......x"
-        "x........xx!!..m..........x"
+        "x........xx!..m...........x"
+        "x........xx!!.............x"
         "x.......@mx!!!.g..........x"
         "x........xx!!.............x"
-        "x........xx!...m..........x"
-        "xxxxxxxxxxxxxxxmxxxxxxxxxxx";
+        "x........xx!.m.m.m........x"
+        "xxxxxxxxxxxxxxxxxxxxxxxxxxx";
 
   LevelGenOverrides overrides;
   overrides.o[ 'm' ].get_tp = [](char c, bpoint p) -> Tpp { return tp_find_mand("phantom"); };

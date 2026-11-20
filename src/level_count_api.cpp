@@ -165,12 +165,6 @@
   return level_count(g, v, l, is_blit_when_obscured_faded, p);
 }
 
-[[nodiscard]] auto level_count_is_border(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
-{
-  TRACE_DEBUG();
-  return level_count(g, v, l, is_border, p);
-}
-
 [[nodiscard]] auto level_count_is_brazier(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
@@ -243,12 +237,6 @@
   return level_count(g, v, l, is_corpse_on_death, p);
 }
 
-[[nodiscard]] auto level_count_is_corridor(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
-{
-  TRACE_DEBUG();
-  return level_count(g, v, l, is_corridor, p);
-}
-
 [[nodiscard]] auto level_count_is_crushable(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
@@ -313,12 +301,6 @@
 {
   TRACE_DEBUG();
   return level_count(g, v, l, is_described_cursor, p);
-}
-
-[[nodiscard]] auto level_count_is_dirt(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
-{
-  TRACE_DEBUG();
-  return level_count(g, v, l, is_dirt, p);
 }
 
 [[nodiscard]] auto level_count_is_dmap(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
@@ -403,12 +385,6 @@
 {
   TRACE_DEBUG();
   return level_count(g, v, l, is_levitating, p);
-}
-
-[[nodiscard]] auto level_count_is_floor(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
-{
-  TRACE_DEBUG();
-  return level_count(g, v, l, is_floor, p);
 }
 
 [[nodiscard]] auto level_count_is_obs_to_ethereal(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t

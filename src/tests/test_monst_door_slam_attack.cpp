@@ -17,42 +17,26 @@
 
   LevelArrIdx const level_num = 0;
   auto              w         = 7;
-  auto              h         = 7;
+  auto              h         = 3;
 
   //
   // How the dungeon starts out, and how we expect it to change
   //
   std::string const start
       = "xxxxxxx"
-        "x...x.x"
-        "x...x.x"
-        "x.@k+.x"
-        "x...x.x"
-        "x...xmx"
+        "x.@k+mx"
         "xxxxxxx";
   std::string const expect1
       = "xxxxxxx"
-        "x...x.x"
-        "x...x.x"
-        "x..@+.x"
-        "x...x.x"
-        "x...xmx"
+        "x..@+mx"
         "xxxxxxx";
   std::string const expect2
       = "xxxxxxx"
-        "x...x.x"
-        "x...x.x"
-        "x...@.x"
-        "x...xmx"
-        "x...x.x"
+        "x...@mx"
         "xxxxxxx";
   std::string const expect3
       = "xxxxxxx"
-        "x...x.x"
-        "x...x.x"
-        "x..@m.x"
-        "x...x.x"
-        "x...x.x"
+        "x..@.mx"
         "xxxxxxx";
 
   //
@@ -193,6 +177,16 @@
   {
     if (thing_is_monst(it)) {
       monst = it;
+    }
+  }
+
+  if (! monst) {
+    p = thing_at(g, v, l, player) + bpoint(2, 0);
+    FOR_ALL_THINGS_AT(g, v, l, it, p)
+    {
+      if (thing_is_monst(it)) {
+        monst = it;
+      }
     }
   }
 

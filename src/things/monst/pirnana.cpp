@@ -62,11 +62,11 @@ static auto tp_pirnana_assess_tile(Gamep g, Levelsp v, Levelp l, const bpoint &a
     return THING_ENVIRON_LIKES;
   }
 
-  if (level_is_dirt_cached(g, v, l, at)) {
+  if (level_is_dirt_bool(g, v, l, at)) {
     return THING_ENVIRON_HATES;
   }
 
-  if (level_is_floor_cached(g, v, l, at)) {
+  if (level_is_floor_bool(g, v, l, at)) {
     return THING_ENVIRON_HATES;
   }
 

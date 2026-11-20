@@ -250,6 +250,16 @@ static void level_display_cursor(Gamep g, Levelsp v, Levelp l, const bpoint &p, 
 
   Tpp tp = nullptr;
 
+  if (compiler_unused) {
+    auto *player = thing_player(g);
+    if (player) {
+      spoint a = tile_location_to_pixel(g, v, l, thing_at(g, v, l, player));
+      topcon("(a) %d,%d", a.x, a.y);
+      spoint b = thing_to_pixel(g, v, l, player);
+      topcon("(b) %d,%d", b.x, b.y);
+    }
+  }
+
   switch (v->cursor[ p.x ][ p.y ]) {
     case CURSOR_NONE :
       //
@@ -383,7 +393,7 @@ static void level_display_thing(Gamep g, Levelsp v, Levelp l, const bpoint &p, T
   // Do not show the special overlay tile unless showing the overlay it belongs in
   //
   if (fbo != FBO_MAP_LAVA_OVERLAY) {
-    if (thing_is_lava_bg(t)) {
+    if (t && thing_is_lava_bg(t)) {
       return;
     }
   }
@@ -588,7 +598,7 @@ static void level_display_fbo_do(Gamep g, Levelsp v, Levelp level_above, Levelp 
     MapZDepthType depth;
   };
 
-  constexpr int row_max    = static_cast< int >(MAP_WIDTH) * static_cast< int >(MAP_SLOTS);
+  constexpr int row_max    = static_cast< int >(MAP_WIDTH) * static_cast< int >(MAP_THING_SLOTS);
   const bool    monochrome = (fbo == FBO_MAP_BG_PREVIOUSLY_SEEN_TILES);
 
   std::vector< RowEntry > row_data;
@@ -604,12 +614,29 @@ static void level_display_fbo_do(Gamep g, Levelsp v, Levelp level_above, Levelp 
         continue;
       }
 
-      for (auto slot = 0; slot < MAP_SLOTS; slot++) {
-        Tpp   tp = nullptr;
-        auto *t  = thing_and_tp_get_at(g, v, l, p, slot, &tp);
-        if (tp == nullptr) [[likely]] {
+      for (auto slot = 0; slot < MAP_TP_SLOTS; slot++) {
+        auto const tp_id = l->tp_id[ x ][ y ][ slot ];
+        if (tp_id == 0U) [[likely]] {
           continue;
         }
+
+        auto tp    = tp_find(tp_id);
+        auto depth = tp_z_depth_get(tp);
+        row_data.push_back({nullptr, tp, x, depth});
+      }
+
+      for (auto slot = 0; slot < MAP_THING_SLOTS; slot++) {
+        auto const id = l->thing_id[ x ][ y ][ slot ];
+        if (id == 0U) [[likely]] {
+          continue;
+        }
+
+        auto *t = thing_find(g, v, id);
+        if (t == nullptr) {
+          continue;
+        }
+
+        auto tp = tp_find(t->tp_id);
 
         auto depth = thing_z_depth_get(g, v, l, t);
         row_data.push_back({t, tp, x, depth});
@@ -652,7 +679,7 @@ static void level_display_fbo_do(Gamep g, Levelsp v, Levelp level_above, Levelp 
         //
         // Display all things at this location (for this z depth)
         //
-        for (auto slot = 0; slot < MAP_SLOTS; slot++) {
+        for (auto slot = 0; slot < MAP_THING_SLOTS; slot++) {
           level_display_slot(g, v, l, p, slot, z_depth, fbo);
         }
       }

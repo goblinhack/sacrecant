@@ -65,7 +65,7 @@
         "xLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLx"  //
         "xLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLx"  //
         "xLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLx"  //
-        "x...........................x..................x"  //
+        "xLLLLLLLLLLLLLLLLLLLLLLLLLLLxLLLLLLLLLLLLLLLLLLx"  //
         "x...........................x..................x"  //
         "x.............................................Ex"  //
         "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"; //
@@ -114,7 +114,7 @@
         "xLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLx"  //
         "xLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLx"  //
         "xLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLx"  //
-        "x...........................x..................x"  //
+        "xLLLLLLLLLLLLLLLLLLLLLLLLLLLxLLLLLLLLLLLLLLLLLLx"  //
         "x...........................x..................x"  //
         "x.............................................Ex"  //
         "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"; //

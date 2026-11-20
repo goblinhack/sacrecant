@@ -10,7 +10,7 @@
 #include "../my_thing_inlines.hpp"
 #include "../my_wids.hpp"
 
-[[nodiscard]] static auto test_player_melee_w_obs_when_dead(Gamep g, Testp t) -> bool
+[[nodiscard]] static auto test_player_melee_with_obs_when_dead(Gamep g, Testp t) -> bool
 {
   TEST_LOG(t, "begin");
   TRACE();
@@ -142,7 +142,7 @@
 
   TEST_ASSERT(t, wid_console_find_text(g, "You hit the mantisman"), "did not find console text");
 
-  TEST_ASSERT(t, game_tick_get(g, v) == 8, "final tick counter value");
+  TEST_ASSERT(t, game_tick_get(g, v) == 13, "final tick counter value");
 
   level_dump(g, v, l, w, h);
   TEST_PASSED(t);
@@ -153,13 +153,13 @@ exit:
   return result;
 }
 
-[[nodiscard]] auto test_load_player_melee_w_obs_when_dead() -> bool // NOLINT
+[[nodiscard]] auto test_load_player_melee_with_obs_when_dead() -> bool // NOLINT
 {
   TRACE();
 
-  Testp test = test_load("player_melee_w_obs_when_dead");
+  Testp test = test_load("player_melee_with_obs_when_dead");
 
-  test_callback_set(test, test_player_melee_w_obs_when_dead);
+  test_callback_set(test, test_player_melee_with_obs_when_dead);
 
   return true;
 }
