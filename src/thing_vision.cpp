@@ -323,18 +323,20 @@ void thing_vision_calculate(Gamep g, Levelsp v, Levelp l, Thingp me)
     return d;
   }
 
-  //
-  // Reduce vision in bogland
-  //
-  if (thing_is_player(me)) {
-    switch (level_to_biome(g, v, l)) {
-      case BIOME_DUNGEON :    break;
-      case BIOME_BOGLAND :    d /= 4; break;
-      case BIOME_NETHERVOID : break;
-      case BIOME_GRAVEYARD :  break;
-      case BIOME_UNDERHELL :  d /= 2; break;
-      case BIOME_NONE :       [[fallthrough]];
-      case BIOME_ENUM_MAX :   break;
+  if (! level_is_boss_level(g, v, l)) {
+    //
+    // Reduce vision in some biomes
+    //
+    if (thing_is_player(me)) {
+      switch (level_to_biome(g, v, l)) {
+        case BIOME_DUNGEON :    break;
+        case BIOME_BOGLAND :    d /= 4; break;
+        case BIOME_NETHERVOID : break;
+        case BIOME_GRAVEYARD :  break;
+        case BIOME_UNDERHELL :  d /= 2; break;
+        case BIOME_NONE :       [[fallthrough]];
+        case BIOME_ENUM_MAX :   break;
+      }
     }
   }
 
