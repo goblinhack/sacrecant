@@ -204,8 +204,8 @@ static void level_display_effect_spell_target(Gamep g, Levelsp v, Levelp l, FboE
                   continue;
                 }
 
-                spoint   tl;
-                spoint   br;
+                spoint    tl;
+                spoint    br;
                 TileIndex tile_index = 0;
                 thing_display_get_tile_info(g, v, l, effect, tp_once, NULL_THING, tl, br, &tile_index);
                 thing_display(g, v, l, effect, tp_once, NULL_THING, tl, br, tile_index, fbo);
@@ -340,8 +340,8 @@ static void level_display_cursor(Gamep g, Levelsp v, Levelp l, const bpoint &p, 
   }
 
   if (tp != nullptr) {
-    spoint   tl;
-    spoint   br;
+    spoint    tl;
+    spoint    br;
     TileIndex tile_index = 0;
     thing_display_get_tile_info(g, v, l, p, tp, NULL_THING, tl, br, &tile_index);
     thing_display(g, v, l, p, tp, NULL_THING, tl, br, tile_index, fbo);
@@ -393,7 +393,7 @@ static void level_display_thing(Gamep g, Levelsp v, Levelp l, const bpoint &p, T
   // Do not show the special overlay tile unless showing the overlay it belongs in
   //
   if (fbo != FBO_MAP_LAVA_OVERLAY) {
-    if (t && thing_is_lava_bg(t)) {
+    if (tp && tp_is_lava_bg(tp)) {
       return;
     }
   }
@@ -423,29 +423,11 @@ static void level_display_thing(Gamep g, Levelsp v, Levelp l, const bpoint &p, T
     default :                 break;
   }
 
-  spoint   tl;
-  spoint   br;
+  spoint    tl;
+  spoint    br;
   TileIndex tile_index = 0;
   thing_display_get_tile_info(g, v, l, p, tp, t, tl, br, &tile_index);
   thing_display(g, v, l, p, tp, t, tl, br, tile_index, fbo);
-}
-
-static void level_display_slot(Gamep g, Levelsp v, Levelp l, const bpoint &p, int slot, MapZDepthType depth, FboEnum fbo)
-{
-  TRACE_DEBUG();
-
-  Tpp   tp = nullptr;
-  auto *t  = thing_and_tp_get_at(g, v, l, p, slot, &tp);
-  if (tp == nullptr) [[unlikely]] {
-    return;
-  }
-
-  auto thing_depth = thing_z_depth_get(g, v, l, t);
-  if (thing_depth != depth) {
-    return;
-  }
-
-  level_display_thing(g, v, l, p, tp, t, depth, fbo);
 }
 
 //
@@ -614,32 +596,19 @@ static void level_display_fbo_do(Gamep g, Levelsp v, Levelp level_above, Levelp 
         continue;
       }
 
-      for (auto slot = 0; slot < MAP_TP_SLOTS; slot++) {
-        auto const tp_id = l->tps[ x ][ y ][ slot ].tp_id;
-        if (tp_id == 0U) [[likely]] {
-          continue;
+      FOR_ALL_TP_SLOTS_AT_NO_BREAK(g, v, l, p, slot, tp)
+      {
+        if (tp) {
+          auto depth = tp_z_depth_get(tp);
+          row_data.push_back({nullptr, tp, x, depth});
         }
-
-        auto tp    = tp_find(tp_id);
-        auto depth = tp_z_depth_get(tp);
-        row_data.push_back({nullptr, tp, x, depth});
       }
 
-      for (auto slot = 0; slot < MAP_THING_SLOTS; slot++) {
-        auto const id = l->thing_id[ x ][ y ][ slot ];
-        if (id == 0U) [[likely]] {
-          continue;
-        }
-
-        auto *t = thing_find(g, v, id);
-        if (t == nullptr) {
-          continue;
-        }
-
-        auto tp = tp_find(t->tp_id);
-
-        auto depth = thing_z_depth_get(g, v, l, t);
-        row_data.push_back({t, tp, x, depth});
+      FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, p)
+      {
+        auto tp    = tp_find(it->tp_id);
+        auto depth = thing_z_depth_get(g, v, l, it);
+        row_data.push_back({it, tp, x, depth});
       }
     }
 
@@ -659,32 +628,14 @@ static void level_display_fbo_do(Gamep g, Levelsp v, Levelp level_above, Levelp 
     g_monochrome = false;
   }
 
-  IF_NODEBUG
-  {
-    if (fbo == FBO_MAP_LAVA_OVERLAY) {
-      auto         z_depth = MAP_Z_DEPTH_LAVA;
-      bpoint const p(0, 0);
-      auto         display_tile = false;
+  if (fbo == FBO_MAP_LAVA_OVERLAY) {
+    bpoint const p(0, 0);
 
-      switch (fbo) {
-        case FBO_MAP_LAVA_OVERLAY :
-          g_monochrome = false;
-          display_tile = level_is_lava_bg_cached(g, v, l, p);
-          break;
-
-        default : break;
+    FOR_ALL_TPS_AT(g, v, l, tp, p)
+    {
+      if (tp_is_lava_bg(tp)) {
+        level_display_thing(g, v, l, p, tp, nullptr, MAP_Z_DEPTH_LAVA, fbo);
       }
-
-      if (display_tile) {
-        //
-        // Display all things at this location (for this z depth)
-        //
-        for (auto slot = 0; slot < MAP_THING_SLOTS; slot++) {
-          level_display_slot(g, v, l, p, slot, z_depth, fbo);
-        }
-      }
-
-      g_monochrome = false;
     }
   }
 }

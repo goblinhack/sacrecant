@@ -729,7 +729,7 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
     is_falling = thing_is_falling(t_maybe_null) > 0;
   }
 
-  if ((t_maybe_null != nullptr) && thing_is_lava_bg(t_maybe_null)) {
+  if ((tp != nullptr) && tp_is_lava_bg(tp)) {
     //
     // Lava effect is always shown
     //
@@ -844,7 +844,7 @@ void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp
     }
   }
 
-  if ((t_maybe_null != nullptr) && thing_is_lava_bg(t_maybe_null)) {
+  if ((tp != nullptr) && tp_is_lava_bg(tp)) {
     //
     // A bit of a hack. Make the lava scroll slowly.
     //

@@ -2096,12 +2096,6 @@
   return level_open(g, v, l, is_tick_on_drop, p);
 }
 
-[[nodiscard]] auto level_open_is_lava_bg(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
-{
-  TRACE_DEBUG();
-  return level_open(g, v, l, is_lava_bg, p);
-}
-
 [[nodiscard]] auto level_open_is_tick_on_use(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();

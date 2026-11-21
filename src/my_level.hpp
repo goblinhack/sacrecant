@@ -568,7 +568,7 @@ struct MyIter {
             if (TpId _id_ = 0; (_id_ = (_l_)->tps[ _at_.x ][ _at_.y ][ _slot_ ].tp_id))                                                         \
               if (Tpp _tp_ = nullptr; ((_tp_) = tp_find(_id_)))
 
-#define FOR_ALL_TP_SLOTS_AT_NO_BREAK(_g_, _v_, _l_, _p_, _slot_, _tp_)                                                                                   \
+#define FOR_ALL_TP_SLOTS_AT_NO_BREAK(_g_, _v_, _l_, _p_, _slot_, _tp_)                                                                          \
   if ((VERIFY(MTYPE_GAME, _g_)) && (VERIFY(MTYPE_LEVELS, _v_)))                                                                                 \
     if ((_l_))                                                                                                                                  \
       if (bpoint _at_ = make_bpoint(_p_); true)                                                                                                 \
@@ -1092,7 +1092,6 @@ auto level_fov(const FovContext & /*ctx*/) -> void;
 [[nodiscard]] auto level_is_item(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_key(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_kobalos(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
-[[nodiscard]] auto level_is_lava_bg(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_lava(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_leader_kill_followers_on_death(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
 [[nodiscard]] auto level_is_leader(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me = nullptr) -> Thingp;
@@ -1506,7 +1505,6 @@ auto level_fov(const FovContext & /*ctx*/) -> void;
 [[nodiscard]] auto level_is_item_mergeable_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_key_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_kobalos_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
-[[nodiscard]] auto level_is_lava_bg_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_lava_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_leader_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
 [[nodiscard]] auto level_is_leader_kill_followers_on_death_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool;
@@ -1916,7 +1914,6 @@ auto level_fov(const FovContext & /*ctx*/) -> void;
 [[nodiscard]] auto level_alive_is_item(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_key(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_kobalos(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
-[[nodiscard]] auto level_alive_is_lava_bg(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_lava(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_leader_kill_followers_on_death(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_alive_is_leader(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
@@ -2326,7 +2323,6 @@ auto level_fov(const FovContext & /*ctx*/) -> void;
 [[nodiscard]] auto level_count_is_item(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_key(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_kobalos(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
-[[nodiscard]] auto level_count_is_lava_bg(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_lava(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_leader_kill_followers_on_death(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
 [[nodiscard]] auto level_count_is_leader(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t;
@@ -2743,7 +2739,6 @@ auto level_fov(const FovContext & /*ctx*/) -> void;
 [[nodiscard]] auto level_open_is_item(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_key(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_kobalos(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
-[[nodiscard]] auto level_open_is_lava_bg(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_lava(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_leader_kill_followers_on_death(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
 [[nodiscard]] auto level_open_is_leader(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp;
