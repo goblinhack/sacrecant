@@ -18,7 +18,6 @@
 #include "my_tp.hpp"
 #include "my_types.hpp"
 
-#include <cstdint>
 #include <list>
 #include <string>
 
@@ -139,7 +138,7 @@ void game_popups_display(Gamep g, Levelsp v, Levelp l)
       }
 
       for (auto *i : *game_popups_get(g, x, y)) {
-        TileIndex tile_index = 0;
+        TileIndex    tile_index = 0;
         bpoint const p(x, y);
         spoint       tl = {};
         spoint       br = {};

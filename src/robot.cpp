@@ -13,8 +13,10 @@
 #include "my_random_name.hpp"
 #include "my_robot.hpp"
 #include "my_sdl_proto.hpp"
+#include "my_spoint.hpp"
 #include "my_thing.hpp"
 #include "my_thing_inlines.hpp"
+#include "my_tp.hpp"
 #include "my_types.hpp"
 #include "my_wids.hpp"
 
@@ -22,6 +24,7 @@
 #include <SDL_keyboard.h>
 #include <SDL_keycode.h>
 #include <cmath>
+#include <cstdlib>
 #include <initializer_list>
 #include <set>
 #include <string>
@@ -430,7 +433,7 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
 
       spoint pixel;
 
-      if (goal.cand_tp) {
+      if (goal.cand_tp != nullptr) {
         pixel = tile_location_to_pixel(g, v, l, goal.at);
       } else {
         pixel = thing_to_pixel(g, v, l, goal.cand_thing);
@@ -466,7 +469,7 @@ static void robot_mode_handler_playing(Gamep g, Robot *robot)
         return;
       }
 
-      if (goal.cand_thing && thing_is_monst(goal.cand_thing)) {
+      if ((goal.cand_thing != nullptr) && thing_is_monst(goal.cand_thing)) {
         e.type = SDL_KEYDOWN;
         *key   = game_key_fire_get(g);
         robot_push_event(&e, key);

@@ -10,7 +10,7 @@
 #include "my_game_inlines.hpp"
 #include "my_gl.hpp" // NOLINT
 #include "my_level.hpp"
-#include "my_level_inlines.hpp"
+#include "my_level_inlines.hpp" // NOLINT
 #include "my_main.hpp"
 #include "my_random.hpp"
 #include "my_spoint.hpp"
@@ -28,6 +28,7 @@
 #include <numbers>
 
 #include "my_bpoint.hpp"
+
 void tp_display_init(Tpp tp)
 {
   TRACE();
@@ -89,7 +90,7 @@ void thing_display_get_tile_info(Gamep g, Levelsp v, Levelp l, const bpoint &p, 
       // Floor tiles
       //
       auto ntiles = tp_tiles_size(tp_maybe_null, THING_ANIM_TYPE_IDLE);
-      if (ntiles) {
+      if (ntiles != 0) {
         static unsigned int tile_rand[ MAP_WIDTH ][ MAP_HEIGHT ];
         static bool         tile_rand_init {};
         int                 x {};
@@ -488,7 +489,7 @@ static void thing_display_rotated(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp t
 //
 // Low health visual
 //
-static void thing_low_health(spoint tl, spoint br, Tilep tile, float x1, float x2, float y1, float y2, color fg)
+static void thing_low_health(spoint tl, spoint br, Tilep tile, float x1, float x2, float y1, float y2)
 {
   TRACE();
 
@@ -631,7 +632,7 @@ static void thing_display_it(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp t_mayb
       auto h     = thing_health(g, v, l, t_maybe_null);
 
       if (h < h_max / 10) {
-        thing_low_health(tl, br, tile, x1, x2, y1, y2, fg);
+        thing_low_health(tl, br, tile, x1, x2, y1, y2);
       }
     }
   }

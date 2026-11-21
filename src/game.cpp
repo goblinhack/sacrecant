@@ -19,6 +19,7 @@
 #include "my_ptrcheck.hpp"
 #include "my_random.hpp"
 #include "my_random_name.hpp"
+#include "my_sdl_event.hpp"
 #include "my_sdl_proto.hpp"
 #include "my_spoint.hpp"
 #include "my_test.hpp"
@@ -34,6 +35,7 @@
 #include <SDL_keyboard.h>
 #include <SDL_keycode.h>
 #include <SDL_mixer.h>
+#include <SDL_video.h>
 #include <algorithm>
 #include <array>
 #include <cmath>
@@ -3630,7 +3632,7 @@ void game_key_zoom_toggle_set(Gamep g, SDL_Keysym key)
   if (level_is_level_select(g, v, l)) {
     int w {};
     int h {};
-    (void) SDL_GetWindowSize(sdl.window, &w, &h);
+    SDL_GetWindowSize(sdl.window, &w, &h);
     if (w <= 1000) {
       return 1;
     }

@@ -8,7 +8,7 @@
 #include "my_enum.hpp"
 #include "my_game_defs.hpp"
 #include "my_level.hpp"
-#include "my_level_inlines.hpp"
+#include "my_level_inlines.hpp" // NOLINT
 #include "my_main.hpp"
 #include "my_random.hpp"
 #include "my_thing.hpp"
@@ -19,6 +19,7 @@
 
 #include <cstdint>
 #include <cstring>
+#include <string>
 
 /* clang-format off */
 #define IS_JOIN_ENUM(list_macro)                  \
@@ -184,7 +185,7 @@ static void level_assign_tiles_at(Gamep g, Levelsp v, Levelp l, const bpoint &p)
 
   FOR_ALL_TP_SLOTS_AT_NO_BREAK(g, v, l, p, slot, tp)
   {
-    if (tp && tp_is_tiled(tp)) {
+    if ((tp != nullptr) && tp_is_tiled(tp)) {
       int8_t anim_type = -1;
       auto   which     = level_assign_tiles_for_tp(g, v, l, p, tp, anim_type);
       auto  *tile      = tile_find_mand(which);
@@ -197,7 +198,7 @@ static void level_assign_tiles_at(Gamep g, Levelsp v, Levelp l, const bpoint &p)
 
   FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, p)
   {
-    auto tp = thing_tp(it);
+    auto *tp = thing_tp(it);
     if (tp_is_tiled(tp)) {
       int8_t anim_type = -1;
       auto   which     = level_assign_tiles_for_tp(g, v, l, p, tp, anim_type);

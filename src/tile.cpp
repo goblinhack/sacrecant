@@ -12,7 +12,6 @@
 #include "my_ptrcheck.hpp"
 #include "my_size.hpp"
 #include "my_spoint.hpp"
-#include "my_string.hpp"
 #include "my_tex.hpp"
 #include "my_tile.hpp"
 #include "my_types.hpp"

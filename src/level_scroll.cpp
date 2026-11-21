@@ -18,7 +18,6 @@
 #include "my_types.hpp"
 
 #include <algorithm>
-#include <cstdint>
 #include <utility>
 
 //
@@ -315,8 +314,8 @@ void level_scroll_warp_to_focus(Gamep g, Levelsp v, Levelp l)
   //
   auto *player = thing_player(g);
   if (player != nullptr) {
-    spoint   tl;
-    spoint   br;
+    spoint    tl;
+    spoint    br;
     TileIndex tile_index = 0;
     thing_display_get_tile_info(g, v, l, thing_at(g, v, l, player), thing_tp(player), player, tl, br, &tile_index);
     if (tile_index != 0U) {

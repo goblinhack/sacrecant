@@ -20,6 +20,7 @@
 #include "my_thing_inlines.hpp"
 #include "my_time.hpp"
 #include "my_tp.hpp"
+#include "my_tp_inlines.hpp"
 #include "my_types.hpp"
 #include "my_wid.hpp"
 
@@ -252,10 +253,10 @@ static void level_display_cursor(Gamep g, Levelsp v, Levelp l, const bpoint &p, 
 
   if (compiler_unused) {
     auto *player = thing_player(g);
-    if (player) {
-      spoint a = tile_location_to_pixel(g, v, l, thing_at(g, v, l, player));
+    if (player != nullptr) {
+      spoint const a = tile_location_to_pixel(g, v, l, thing_at(g, v, l, player));
       topcon("(a) %d,%d", a.x, a.y);
-      spoint b = thing_to_pixel(g, v, l, player);
+      spoint const b = thing_to_pixel(g, v, l, player);
       topcon("(b) %d,%d", b.x, b.y);
     }
   }
@@ -393,7 +394,7 @@ static void level_display_thing(Gamep g, Levelsp v, Levelp l, const bpoint &p, T
   // Do not show the special overlay tile unless showing the overlay it belongs in
   //
   if (fbo != FBO_MAP_LAVA_OVERLAY) {
-    if (tp && tp_is_lava_bg(tp)) {
+    if ((tp != nullptr) && tp_is_lava_bg(tp)) {
       return;
     }
   }
@@ -598,7 +599,7 @@ static void level_display_fbo_do(Gamep g, Levelsp v, Levelp level_above, Levelp 
 
       FOR_ALL_TP_SLOTS_AT_NO_BREAK(g, v, l, p, slot, tp)
       {
-        if (tp) {
+        if (tp != nullptr) {
           auto depth = tp_z_depth_get(tp);
           row_data.push_back({nullptr, tp, x, depth});
         }
@@ -606,8 +607,8 @@ static void level_display_fbo_do(Gamep g, Levelsp v, Levelp level_above, Levelp 
 
       FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, p)
       {
-        auto tp    = tp_find(it->tp_id);
-        auto depth = thing_z_depth_get(g, v, l, it);
+        auto *tp    = tp_find(it->tp_id);
+        auto  depth = thing_z_depth_get(g, v, l, it);
         row_data.push_back({it, tp, x, depth});
       }
     }
