@@ -513,6 +513,19 @@ using ThingPlayer = struct ThingPlayer {
   FovMap is_lit;
 };
 
+using TpTile = struct TpTile {
+  //////////////////////////////////////////////////////////////
+  // No c++ types can be used here, to allow easy level replay
+  //
+  // Why C types only ? For large data structures it is visibly
+  // faster to malloc and memset versus default construction.
+  //////////////////////////////////////////////////////////////
+
+  uint16_t      tp_id;
+  ThingAnimType anim_type;
+  AnimIndex     anim_index;
+} __attribute__((__packed__));
+
 using Thing = struct Thing {
   //////////////////////////////////////////////////////////////
   // No c++ types can be used here, to allow easy level replay
@@ -546,7 +559,7 @@ using Thing = struct Thing {
   //
   // The current tiles[] index for this object
   //
-  uint8_t anim_index;
+  AnimIndex anim_index;
   //
   // Decrements each frame. Increments if hit.
   //
@@ -574,7 +587,7 @@ using Thing = struct Thing {
   //
   // Current tile.
   //
-  uint16_t tile_index;
+  TileIndex tile_index;
   //
   // Move speed, with 100 being player.
   //
@@ -1807,7 +1820,7 @@ void thing_warn(Gamep g, Levelsp v, Levelp l, Thingp t, const char *fmt, ...) CH
 void thing_display_get_tile_info(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp_maybe_null, Thingp t_maybe_null, spoint &tl, spoint &br,
                                  uint16_t *tile_index);
 
-void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp t_maybe_null, spoint tl, spoint br, uint16_t tile_index,
+void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp t_maybe_null, spoint tl, spoint br, TileIndex tile_index,
                    FboEnum fbo);
 
 //

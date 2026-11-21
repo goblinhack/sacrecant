@@ -37,15 +37,15 @@
   // Already at this location?
   //
   for (auto slot = 0; slot < MAP_TP_SLOTS; slot++) {
-    auto o_id = l->tp_id[ at.x ][ at.y ][ slot ];
+    auto o_tp = &l->tps[ at.x ][ at.y ][ slot ];
 
-    if (! free_slot_set && ! o_id) {
+    if (! free_slot_set && ! o_tp->tp_id) {
       free_slot     = slot;
       free_slot_set = true;
       continue;
     }
 
-    if (o_id == id) {
+    if (o_tp->tp_id == id) {
       return true;
     }
   }
@@ -55,7 +55,10 @@
     return false;
   }
 
-  l->tp_id[ at.x ][ at.y ][ free_slot ] = tp_id_get(tp);
+  auto n        = &l->tps[ at.x ][ at.y ][ free_slot ];
+  n->tp_id      = tp_id_get(tp);
+  n->anim_type  = THING_ANIM_TYPE_IDLE;
+  n->anim_index = 0;
   return true;
 }
 
@@ -79,10 +82,12 @@
   // Already at this location?
   //
   for (auto slot = 0; slot < MAP_TP_SLOTS; slot++) {
-    auto o_id = l->tp_id[ at.x ][ at.y ][ slot ];
+    auto o_tp = &l->tps[ at.x ][ at.y ][ slot ];
 
-    if (o_id == id) {
-      l->tp_id[ at.x ][ at.y ][ slot ] = 0;
+    if (o_tp->tp_id == id) {
+      o_tp->tp_id      = 0;
+      o_tp->anim_type  = THING_ANIM_TYPE_IDLE;
+      o_tp->anim_index = 0;
       return true;
     }
   }

@@ -10,6 +10,7 @@
 #include "my_game_inlines.hpp"
 #include "my_gl.hpp" // NOLINT
 #include "my_level.hpp"
+#include "my_level_inlines.hpp"
 #include "my_main.hpp"
 #include "my_random.hpp"
 #include "my_spoint.hpp"
@@ -71,23 +72,38 @@ void thing_display_get_tile_info(Gamep g, Levelsp v, Levelp l, const bpoint &p, 
     }
   } else if (tp_maybe_null != nullptr) {
     //
-    // Cursor usually
+    // Cursor or tps with no thing, like floor tiles
     //
-    auto ntiles = tp_tiles_size(tp_maybe_null, THING_ANIM_IDLE);
-    if (ntiles) {
-      static unsigned int tile_rand[ MAP_WIDTH ][ MAP_HEIGHT ];
-      static bool         tile_rand_init {};
-      int                 x {};
-      int                 y {};
-
-      if (! tile_rand_init) {
-        tile_rand_init = true;
-        FOR_ALL_MAP_POINTS_NO_BREAK(g, v, l, x, y) { tile_rand[ x ][ y ] = OS_RAND(); }
+    if (tp_is_tiled(tp_maybe_null)) {
+      //
+      // Border tiles
+      //
+      FOR_ALL_TP_SLOTS_AT_NO_BREAK(g, v, l, p, slot, tp)
+      {
+        if (tp == tp_maybe_null) {
+          tile = tp_tiles_get(tp, slot->anim_type, slot->anim_index);
+        }
       }
-
-      tile = tp_tiles_get(tp_maybe_null, THING_ANIM_IDLE, tile_rand[ p.x ][ p.y ] % ntiles);
     } else {
-      tile = tp_tiles_get(tp_maybe_null, THING_ANIM_IDLE, 0);
+      //
+      // Floor tiles
+      //
+      auto ntiles = tp_tiles_size(tp_maybe_null, THING_ANIM_TYPE_IDLE);
+      if (ntiles) {
+        static unsigned int tile_rand[ MAP_WIDTH ][ MAP_HEIGHT ];
+        static bool         tile_rand_init {};
+        int                 x {};
+        int                 y {};
+
+        if (! tile_rand_init) {
+          tile_rand_init = true;
+          FOR_ALL_MAP_POINTS_NO_BREAK(g, v, l, x, y) { tile_rand[ x ][ y ] = OS_RAND(); }
+        }
+
+        tile = tp_tiles_get(tp_maybe_null, THING_ANIM_TYPE_IDLE, tile_rand[ p.x ][ p.y ] % ntiles);
+      } else {
+        tile = tp_tiles_get(tp_maybe_null, THING_ANIM_TYPE_IDLE, 0);
+      }
     }
 
     if (tile != nullptr) {
@@ -371,11 +387,6 @@ static void thing_display_blit(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp t_ma
     default : break;
   }
 
-  //
-  // NOTE: light_pixels is set for things like floors and walls, and blits the tile as lots of individual
-  // pixels with their own lighting
-  //
-
   if (t_maybe_null != nullptr) {
     if (thing_is_invisible(g, v, l, t_maybe_null)) {
       return;
@@ -477,8 +488,7 @@ static void thing_display_rotated(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp t
 //
 // Low health visual
 //
-static void thing_low_health(spoint tl, spoint br, Tilep tile, float x1, float x2, float y1, float y2, color fg,
-                             LightPixels *light_pixels = nullptr)
+static void thing_low_health(spoint tl, spoint br, Tilep tile, float x1, float x2, float y1, float y2, color fg)
 {
   TRACE();
 
@@ -560,16 +570,15 @@ static void thing_levitating_bounce(spoint &tl, spoint &br, Tilep tile)
 // Handle all the various lighting modes to display a thing
 //
 static void thing_display_it(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp t_maybe_null, spoint tl, spoint br, Tilep tile, float x1, float x2,
-                             float y1, float y2, FboEnum fbo, color fg, LightPixels *light_pixels = nullptr)
+                             float y1, float y2, FboEnum fbo, color fg)
 {
   TRACE_DEBUG();
 
   IF_DEBUG2
   {
-    light_pixels = nullptr;
-    fg.r         = 255;
-    fg.g         = 255;
-    fg.b         = 255;
+    fg.r = 255;
+    fg.g = 255;
+    fg.b = 255;
   }
 
   if (t_maybe_null == nullptr) {
@@ -622,7 +631,7 @@ static void thing_display_it(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp t_mayb
       auto h     = thing_health(g, v, l, t_maybe_null);
 
       if (h < h_max / 10) {
-        thing_low_health(tl, br, tile, x1, x2, y1, y2, fg, light_pixels);
+        thing_low_health(tl, br, tile, x1, x2, y1, y2, fg);
       }
     }
   }
@@ -685,7 +694,6 @@ static void thing_display_it(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp t_mayb
       fg.g            = hot.g;
       fg.b            = hot.b;
       fg.a            = thing_is_hot(t_maybe_null);
-      light_pixels    = nullptr;
       thing_display_blit(g, v, l, tp, t_maybe_null, tl, br, tile, x1, x2, y1, y2, fbo, fg);
 
       if (thing_is_blit_hit_outline_w_invis_inside(t_maybe_null)) {
@@ -700,7 +708,7 @@ static void thing_display_it(Gamep g, Levelsp v, Levelp l, Tpp tp, Thingp t_mayb
 //
 // Display a single thing to an FBO
 //
-void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp t_maybe_null, spoint tl, spoint br, uint16_t tile_index,
+void thing_display(Gamep g, Levelsp v, Levelp l, const bpoint &p, Tpp tp, Thingp t_maybe_null, spoint tl, spoint br, TileIndex tile_index,
                    FboEnum fbo)
 {
   TRACE_DEBUG();

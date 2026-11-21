@@ -88,4 +88,37 @@ extern TpVec tp_vec;
   return result;
 }
 
+[[nodiscard]] static inline auto tp_find_optional(TpId id) -> Tpp
+{
+#ifdef DEBUG_BUILD
+  TRACE_DEBUG(); // expensive
+#endif
+
+  if (id == 0U) [[unlikely]] {
+    return nullptr;
+  }
+
+#ifdef DEBUG_BUILD
+  if (static_cast< int >(id) - 1 >= static_cast< int >(tp_vec.size())) {
+    CROAK("tp_find_optional: thing template %" PRIX16 " bad id, beyond size of tp_vec", id);
+    return nullptr;
+  }
+#else
+  if (id > tp_vec.size()) [[unlikely]] {
+    return nullptr;
+  }
+#endif
+
+  auto *result = tp_vec[ id - 1 ];
+
+#ifdef DEBUG_BUILD
+  if (result == nullptr) {
+    CROAK("tp_find_optional: thing template %" PRIX16 " not found", id);
+    return nullptr;
+  }
+#endif
+
+  return result;
+}
+
 #endif

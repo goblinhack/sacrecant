@@ -46,13 +46,13 @@ public:
   //
   // Grabbed by a template
   //
-  uint8_t in_use {};
-  int     global_index {};
+  uint8_t   in_use {};
+  TileIndex global_index {};
 
   //
   // Index within the overall texture, left to right, top to bottom.
   //
-  uint16_t index {};
+  TileTexIndex tile_tex_index {};
 
   int pix_width {};
   int pix_height {};
@@ -128,6 +128,8 @@ Tile::~Tile() { OLDPTR(MTYPE_TILE, this); }
 
   tile_init_done = true;
 
+  all_tiles_array.reserve(16384);
+
   return true;
 }
 
@@ -146,56 +148,6 @@ void tile_fini()
 
   all_tiles.clear();
   all_tiles_array.clear();
-}
-
-Tile::Tile(const class Tile *tile)
-    :                                                               //
-      global_index(all_tiles_array.size() + 1),                     //
-      pix_width(tile->pix_width),                                   //
-      pix_height(tile->pix_height),                                 //
-      x1(tile->x1),                                                 //
-      y1(tile->y1),                                                 //
-      x2(tile->x2),                                                 //
-      y2(tile->y2),                                                 //
-      tex(tile->tex),                                               //
-      tex_monochrome(tile->tex_monochrome),                         //
-      tex_mask(tile->tex_mask),                                     //
-      tex_outline_w_black_inside(tile->tex_outline_w_black_inside), //
-      tex_outline_w_invis_inside(tile->tex_outline_w_invis_inside), //
-      delay_ms(tile->delay_ms),                                     //
-      dir(tile->dir),                                               //
-      internal_has_dir_anim(tile->internal_has_dir_anim),           //
-      is_alive_on_end_of_anim(tile->is_alive_on_end_of_anim),       //
-      is_cleanup_on_end_of_anim(tile->is_cleanup_on_end_of_anim),   //
-      is_end_of_anim(tile->is_end_of_anim),                         //
-      is_loggable(tile->is_loggable)                                //
-{
-  TRACE();
-
-  NEWPTR(MTYPE_TILE, this, "tile copy");
-
-#ifdef ENABLE_TILE_BOUNDS
-  px1 = tile->px1;
-  py1 = tile->py1;
-  px2 = tile->px2;
-  py2 = tile->py2;
-#endif
-
-  set_gl_binding(tile->gl_binding());
-  set_gl_binding_monochrome(tile->gl_binding_monochrome());
-  set_gl_binding_mask(tile->gl_binding_mask());
-  set_gl_binding_outline_w_black_inside(tile->gl_binding_outline_w_black_inside());
-  set_gl_binding_outline_w_invis_inside(tile->gl_binding_outline_w_invis_inside());
-
-  memcpy(pix, tile->pix, sizeof(pix));
-
-  name = tile->name + " " + std::to_string(global_index);
-
-  auto result = all_tiles.insert(std::make_pair(name, this));
-  if (! result.second) {
-    ERR("tile copy insert name [%s] failed", name.c_str());
-  }
-  all_tiles_array.push_back(this);
 }
 
 void tile_load_arr(const char *file, const char *alias, uint32_t width, uint32_t height, int nargs, const char *arr[])
@@ -236,11 +188,11 @@ void tile_load_arr(const char *file, const char *alias, uint32_t width, uint32_t
       all_tiles_array.push_back(t);
       t->global_index = all_tiles_array.size();
 
-      t->name       = name;
-      t->index      = idx - 1;
-      t->pix_width  = width;
-      t->pix_height = height;
-      t->tex        = tex;
+      t->name           = name;
+      t->tile_tex_index = idx - 1;
+      t->pix_width      = width;
+      t->pix_height     = height;
+      t->tex            = tex;
       t->set_gl_binding(tex_get_gl_binding(tex));
 
       t->x1 = fw * (static_cast< float >(x));
@@ -403,7 +355,7 @@ void tile_load_arr_sprites(const char *file, const char *alias, uint32_t tile_wi
       t->global_index = all_tiles_array.size();
 
       t->name                       = name;
-      t->index                      = idx - 1;
+      t->tile_tex_index             = idx - 1;
       t->pix_width                  = tile_width;
       t->pix_height                 = tile_height;
       t->tex                        = tex;
@@ -619,10 +571,10 @@ void tile_from_fbo(Gamep g, FboEnum fbo)
   return tile->tex;
 }
 
-[[nodiscard]] auto tile_index(Tilep tile) -> uint16_t
+[[nodiscard]] auto tile_tex_index(Tilep tile) -> TileTexIndex
 {
   TRACE_DEBUG();
-  return tile->index;
+  return tile->tile_tex_index;
 }
 
 void tile_coords(Tilep tile, float *x1, float *y1, float *x2, float *y2)
@@ -633,42 +585,6 @@ void tile_coords(Tilep tile, float *x1, float *y1, float *x2, float *y2)
   *y1 = tile->y1;
   *x2 = tile->x2;
   *y2 = tile->y2;
-}
-
-[[nodiscard]] auto string2tile(const char **s, int *len) -> Tilep
-{
-  TRACE();
-  static char        name[ MAXSHORTSTR ];
-  static const char *eo_name = name + MAXSHORTSTR;
-  const char        *c       = *s;
-  char              *t       = name; // NOLINT
-
-  while (t < eo_name) {
-    if ((*c == '\0') || (*c == '$')) {
-      break;
-    }
-
-    *t++ = *c++;
-  }
-
-  if (c == eo_name) {
-    return nullptr;
-  }
-
-  *t++ = '\0';
-  *s += (t - name);
-
-  if (len != nullptr) {
-    *len = t - name;
-  }
-
-  auto result = all_tiles.find(name);
-  if (result == all_tiles.end()) {
-    ERR("unknown tile [%s]", name);
-    return nullptr;
-  }
-
-  return result->second;
 }
 
 [[nodiscard]] auto string2tile(std::string &s, int *len) -> Tilep
@@ -705,7 +621,7 @@ void tile_coords(Tilep tile, float *x1, float *y1, float *x2, float *y2)
   return result->second;
 }
 
-[[nodiscard]] auto tile_index_to_tile(int i) -> Tilep
+[[nodiscard]] auto tile_index_to_tile(TileIndex i) -> Tilep
 {
   TRACE_DEBUG();
 
@@ -755,15 +671,10 @@ void tile_size_set(Tilep t, uint32_t w, uint32_t h)
   t->pix_height = h;
 }
 
-[[nodiscard]] auto tile_global_index(Tilep t) -> uint32_t
+[[nodiscard]] auto tile_global_index(Tilep t) -> TileIndex
 {
   TRACE();
   return t->global_index;
-}
-void tile_global_index_set(Tilep t, uint32_t val)
-{
-  TRACE();
-  t->global_index = val;
 }
 
 [[nodiscard]] auto tile_is_loggable(Tilep t) -> bool

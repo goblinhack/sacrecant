@@ -34,7 +34,7 @@
   for (auto frame = 0; frame < 4; frame++) {
     auto *tile = tile_find_mand(name + std::string(".idle.") + std::to_string(frame));
     tile_delay_ms_set(tile, delay);
-    tp_tiles_push_back(tp, THING_ANIM_IDLE, tile);
+    tp_tiles_push_back(tp, THING_ANIM_TYPE_IDLE, tile);
 
     if (frame == 3) {
       tile_is_cleanup_on_end_of_anim_set(tile);

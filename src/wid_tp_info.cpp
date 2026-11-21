@@ -31,11 +31,11 @@
   auto *text = parent->wid_text_area;
   auto *b    = parent->wid_text_area->wid_text_area;
 
-  if (tp_tiles_size(me, THING_ANIM_IDLE) == 0) {
+  if (tp_tiles_size(me, THING_ANIM_TYPE_IDLE) == 0) {
     return false;
   }
 
-  Tilep tile = tp_tiles_get(me, THING_ANIM_IDLE, 0);
+  Tilep tile = tp_tiles_get(me, THING_ANIM_TYPE_IDLE, 0);
   if (tile == nullptr) {
     return false;
   }

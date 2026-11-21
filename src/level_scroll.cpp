@@ -317,7 +317,7 @@ void level_scroll_warp_to_focus(Gamep g, Levelsp v, Levelp l)
   if (player != nullptr) {
     spoint   tl;
     spoint   br;
-    uint16_t tile_index = 0;
+    TileIndex tile_index = 0;
     thing_display_get_tile_info(g, v, l, thing_at(g, v, l, player), thing_tp(player), player, tl, br, &tile_index);
     if (tile_index != 0U) {
       if (br.x < tl.x) {

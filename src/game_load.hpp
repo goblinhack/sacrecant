@@ -1197,6 +1197,11 @@ auto operator>>(std::istream &in, Bits< class Game & > my) -> std::istream &
       return in;
     }
     in >> bits(tmp);
+    if (tmp != offsetof(Level, tps)) {
+      game_load_error = "Level structure changed: offsetof(Level, tps)";
+      return in;
+    }
+    in >> bits(tmp);
     if (tmp != offsetof(Level, player_has_walked_tile)) {
       game_load_error = "Level structure changed: offsetof(Level, player_has_walked_tile)";
       return in;

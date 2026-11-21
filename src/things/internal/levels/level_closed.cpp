@@ -29,14 +29,14 @@
     const auto delay = 500; /* ms */
     auto      *tile  = tile_find_mand(name + std::string(".") + std::to_string(frame));
     tile_delay_ms_set(tile, delay);
-    tp_tiles_push_back(tp, THING_ANIM_IDLE, tile);
+    tp_tiles_push_back(tp, THING_ANIM_TYPE_IDLE, tile);
   }
 
   for (auto frame = 0; frame < 2; frame++) {
     const auto delay = 500; /* ms */
     auto      *tile  = tile_find_mand(name + std::string(".over.") + std::to_string(frame));
     tile_delay_ms_set(tile, delay);
-    tp_tiles_push_back(tp, THING_ANIM_MOUSE_OVER, tile);
+    tp_tiles_push_back(tp, THING_ANIM_TYPE_MOUSE_OVER, tile);
   }
 
   return true;

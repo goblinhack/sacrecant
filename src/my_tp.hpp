@@ -527,72 +527,72 @@ ENUM_DEF_H(WORN_TYPE_ENUM, WornType)
 //
 // Thing anim enum
 //
-#define THING_ANIM_ENUM(list_macro)                                                                                                             \
+#define THING_ANIM_TYPE_ENUM(list_macro)                                                                                                             \
   CLANG_FORMAT_INDENT()                                                                   /* dummy line for clang indentation fixup */          \
-  list_macro(THING_ANIM_JOIN_BL, "IS_JOIN_BL"),                                           /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_BL2, "IS_JOIN_BL2"),                                     /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_BLOCK, "IS_JOIN_BLOCK"),                                 /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_BOT, "IS_JOIN_BOT"),                                     /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_BR, "IS_JOIN_BR"),                                       /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_BR2, "IS_JOIN_BR2"),                                     /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_HORIZ, "IS_JOIN_HORIZ"),                                 /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_HORIZ2, "IS_JOIN_HORIZ"),                                /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_LEFT, "IS_JOIN_LEFT"),                                   /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_NODE, "IS_JOIN_NODE"),                                   /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_RIGHT, "IS_JOIN_RIGHT"),                                 /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_T_1, "IS_JOIN_T_1"),                                     /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_T_2, "IS_JOIN_T_2"),                                     /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_T_3, "IS_JOIN_T_3"),                                     /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_T, "IS_JOIN_T"),                                         /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_T180_1, "IS_JOIN_T180_"),                                /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_T180_2, "IS_JOIN_T180_"),                                /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_T180_3, "IS_JOIN_T180_"),                                /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_T180, "IS_JOIN_T180"),                                   /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_T270_1, "IS_JOIN_T270_"),                                /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_T270_2, "IS_JOIN_T270_"),                                /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_T270_3, "IS_JOIN_T270_"),                                /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_T270, "IS_JOIN_T270"),                                   /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_T90_1, "IS_JOIN_T90_1"),                                 /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_T90_2, "IS_JOIN_T90_2"),                                 /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_T90_3, "IS_JOIN_T90_3"),                                 /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_T90, "IS_JOIN_T90"),                                     /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_TL, "IS_JOIN_TL"),                                       /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_TL2, "IS_JOIN_TL2"),                                     /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_TOP, "IS_JOIN_TOP"),                                     /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_TR, "IS_JOIN_TR"),                                       /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_TR2, "IS_JOIN_TR2"),                                     /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_VERT, "IS_JOIN_VERT"),                                   /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_VERT2, "IS_JOIN_VERT2"),                                 /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_X, "IS_JOIN_X"),                                         /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_X1_180, "IS_JOIN_X1_18"),                                /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_X1_270, "IS_JOIN_X1_27"),                                /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_X1_90, "IS_JOIN_X1_90"),                                 /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_X1, "IS_JOIN_X1"),                                       /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_X2_180, "IS_JOIN_X2_18"),                                /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_X2_270, "IS_JOIN_X2_27"),                                /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_X2_90, "IS_JOIN_X2_90"),                                 /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_X2, "IS_JOIN_X2"),                                       /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_X3_180, "IS_JOIN_X3_18"),                                /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_X3, "IS_JOIN_X3"),                                       /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_X4_180, "IS_JOIN_X4_18"),                                /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_X4_270, "IS_JOIN_X4_27"),                                /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_X4_90, "IS_JOIN_X4_90"),                                 /* newline */                                         \
-      list_macro(THING_ANIM_JOIN_X4, "IS_JOIN_X4"),                                       /* newline */                                         \
-      list_macro(THING_ANIM_IDLE, "idle"),                                                /* newline */                                         \
-      list_macro(THING_ANIM_DORMANT, "dormant"),                                          /* newline */                                         \
-      list_macro(THING_ANIM_DEAD, "dead"),                                                /* newline */                                         \
-      list_macro(THING_ANIM_OPEN, "open"),                                                /* newline */                                         \
-      list_macro(THING_ANIM_BURNT, "burnt"),                                              /* newline */                                         \
-      list_macro(THING_ANIM_MOUSE_OVER, "mouse-over"),                                    /* newline */                                         \
-      list_macro(THING_ANIM_CURSOR_NORMAL, "cursor-at-normal"),                           /* newline */                                         \
-      list_macro(THING_ANIM_CURSOR_NOPATH, "cursor-at-nopath"),                           /* newline */                                         \
-      list_macro(THING_ANIM_CURSOR_HAZARD, "cursor-at-hazard"),                           /* newline */                                         \
-      list_macro(THING_ANIM_CURSOR_TARGET, "cursor-at-target"),                           /* newline */                                         \
-      list_macro(THING_ANIM_CURSOR_TARGET_CANNOT_SEE, "cursor-target-cannot-see"),        /* newline */                                         \
-      list_macro(THING_ANIM_CURSOR_TARGET_OUT_OF_RANGE, "cursor-at-target-out-of-range"), /* newline */                                         \
-      list_macro(THING_ANIM_CURSOR_WARNING, "cursor-at-warning"),                         /* newline */
+  list_macro(THING_ANIM_TYPE_JOIN_BL, "IS_JOIN_BL"),                                           /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_BL2, "IS_JOIN_BL2"),                                     /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_BLOCK, "IS_JOIN_BLOCK"),                                 /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_BOT, "IS_JOIN_BOT"),                                     /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_BR, "IS_JOIN_BR"),                                       /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_BR2, "IS_JOIN_BR2"),                                     /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_HORIZ, "IS_JOIN_HORIZ"),                                 /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_HORIZ2, "IS_JOIN_HORIZ"),                                /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_LEFT, "IS_JOIN_LEFT"),                                   /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_NODE, "IS_JOIN_NODE"),                                   /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_RIGHT, "IS_JOIN_RIGHT"),                                 /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_T_1, "IS_JOIN_T_1"),                                     /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_T_2, "IS_JOIN_T_2"),                                     /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_T_3, "IS_JOIN_T_3"),                                     /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_T, "IS_JOIN_T"),                                         /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_T180_1, "IS_JOIN_T180_"),                                /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_T180_2, "IS_JOIN_T180_"),                                /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_T180_3, "IS_JOIN_T180_"),                                /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_T180, "IS_JOIN_T180"),                                   /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_T270_1, "IS_JOIN_T270_"),                                /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_T270_2, "IS_JOIN_T270_"),                                /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_T270_3, "IS_JOIN_T270_"),                                /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_T270, "IS_JOIN_T270"),                                   /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_T90_1, "IS_JOIN_T90_1"),                                 /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_T90_2, "IS_JOIN_T90_2"),                                 /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_T90_3, "IS_JOIN_T90_3"),                                 /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_T90, "IS_JOIN_T90"),                                     /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_TL, "IS_JOIN_TL"),                                       /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_TL2, "IS_JOIN_TL2"),                                     /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_TOP, "IS_JOIN_TOP"),                                     /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_TR, "IS_JOIN_TR"),                                       /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_TR2, "IS_JOIN_TR2"),                                     /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_VERT, "IS_JOIN_VERT"),                                   /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_VERT2, "IS_JOIN_VERT2"),                                 /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_X, "IS_JOIN_X"),                                         /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_X1_180, "IS_JOIN_X1_18"),                                /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_X1_270, "IS_JOIN_X1_27"),                                /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_X1_90, "IS_JOIN_X1_90"),                                 /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_X1, "IS_JOIN_X1"),                                       /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_X2_180, "IS_JOIN_X2_18"),                                /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_X2_270, "IS_JOIN_X2_27"),                                /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_X2_90, "IS_JOIN_X2_90"),                                 /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_X2, "IS_JOIN_X2"),                                       /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_X3_180, "IS_JOIN_X3_18"),                                /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_X3, "IS_JOIN_X3"),                                       /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_X4_180, "IS_JOIN_X4_18"),                                /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_X4_270, "IS_JOIN_X4_27"),                                /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_X4_90, "IS_JOIN_X4_90"),                                 /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_JOIN_X4, "IS_JOIN_X4"),                                       /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_IDLE, "idle"),                                                /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_DORMANT, "dormant"),                                          /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_DEAD, "dead"),                                                /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_OPEN, "open"),                                                /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_BURNT, "burnt"),                                              /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_MOUSE_OVER, "mouse-over"),                                    /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_CURSOR_NORMAL, "cursor-at-normal"),                           /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_CURSOR_NOPATH, "cursor-at-nopath"),                           /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_CURSOR_HAZARD, "cursor-at-hazard"),                           /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_CURSOR_TARGET, "cursor-at-target"),                           /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_CURSOR_TARGET_CANNOT_SEE, "cursor-target-cannot-see"),        /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_CURSOR_TARGET_OUT_OF_RANGE, "cursor-at-target-out-of-range"), /* newline */                                         \
+      list_macro(THING_ANIM_TYPE_CURSOR_WARNING, "cursor-at-warning"),                         /* newline */
 
-ENUM_DEF_H(THING_ANIM_ENUM, ThingAnimType)
+ENUM_DEF_H(THING_ANIM_TYPE_ENUM, ThingAnimType)
 
 //
 // Thing event enum
@@ -1342,7 +1342,7 @@ class Tp;
 [[nodiscard]] auto tp_ticks_to_stay_dead_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_ticks_to_stay_dead_max_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_tile_name(Tpp tp) -> std::string;
-[[nodiscard]] auto tp_tiles_get(Tpp tp, ThingAnimType val, int index) -> Tilep;
+[[nodiscard]] auto tp_tiles_get(Tpp tp, ThingAnimType val, AnimIndex index) -> Tilep;
 [[nodiscard]] auto tp_tiles_size(Tpp tp, ThingAnimType val) -> int;
 [[nodiscard]] auto tp_value1_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_value2_get(Tpp tp) -> int;

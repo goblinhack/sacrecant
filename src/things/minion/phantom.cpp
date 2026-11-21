@@ -184,7 +184,7 @@ static void tp_phantom_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEv
     auto *tile = tile_find_mand(name + std::string(".idle.") + std::to_string(frame));
     tile_size_set(tile, OUTLINE_TILE_WIDTH, OUTLINE_TILE_HEIGHT);
     tile_delay_ms_set(tile, delay);
-    tp_tiles_push_back(tp, THING_ANIM_IDLE, tile);
+    tp_tiles_push_back(tp, THING_ANIM_TYPE_IDLE, tile);
   }
 
   delay = 100;
@@ -193,7 +193,7 @@ static void tp_phantom_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEv
     auto *tile = tile_find_mand(name + std::string(".dead.") + std::to_string(frame));
     tile_size_set(tile, OUTLINE_TILE_WIDTH, OUTLINE_TILE_HEIGHT);
     tile_delay_ms_set(tile, delay);
-    tp_tiles_push_back(tp, THING_ANIM_DEAD, tile);
+    tp_tiles_push_back(tp, THING_ANIM_TYPE_DEAD, tile);
 
     if (frame == 2) {
       tile_is_cleanup_on_end_of_anim_set(tile);

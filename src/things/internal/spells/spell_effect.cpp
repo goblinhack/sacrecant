@@ -24,7 +24,7 @@
   // end sort marker1 }
 
   auto *tile = tile_find_mand("effect_spell_target");
-  tp_tiles_push_back(tp, THING_ANIM_IDLE, tile);
+  tp_tiles_push_back(tp, THING_ANIM_TYPE_IDLE, tile);
 
   return true;
 }

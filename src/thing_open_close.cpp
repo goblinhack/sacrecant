@@ -50,7 +50,7 @@
     // Reset animation
     //
     THING_DBG(g, v, l, t, "open success");
-    thing_anim_init(g, v, l, t, THING_ANIM_OPEN);
+    thing_anim_init(g, v, l, t, THING_ANIM_TYPE_OPEN);
   } else {
     //
     // Try to close
@@ -68,7 +68,7 @@
     // Reset animation
     //
     THING_DBG(g, v, l, t, "close success");
-    thing_anim_init(g, v, l, t, THING_ANIM_IDLE);
+    thing_anim_init(g, v, l, t, THING_ANIM_TYPE_IDLE);
   }
 
   return true;

@@ -439,13 +439,13 @@ void sdl_event(Gamep g, SDL_Event *event, bool &processed_mouse_motion_event)
     case SDL_TEXTINPUT :
       {
         sdl.event_count++;
-        DBG("SDL: Keyboard: Text input \"%s\" in window %d", event->text.text, static_cast< int >(event->text.windowID));
+        DBG("SDL: Keyboard: text input \"%s\" in window %d", event->text.text, static_cast< int >(event->text.windowID));
         break;
       }
     case SDL_MOUSEWHEEL :
       {
         sdl.event_count++;
-        DBG("SDL: Mouse: Wheel scrolled %d in x and %d in y in window %d", static_cast< int >(event->wheel.x),
+        DBG("SDL: Mouse: wheel scrolled %d in x and %d in y in window %d", static_cast< int >(event->wheel.x),
             static_cast< int >(event->wheel.y), static_cast< int >(event->wheel.windowID));
 
         (void) sdl_mouse_read_position(g);

@@ -122,14 +122,14 @@ static void tp_haunt_mob_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   for (auto frame = 0; frame < 1; frame++) {
     auto *tile = tile_find_mand(name + std::string(".dormant.") + std::to_string(frame));
     tile_delay_ms_set(tile, delay);
-    tp_tiles_push_back(tp, THING_ANIM_DORMANT, tile);
+    tp_tiles_push_back(tp, THING_ANIM_TYPE_DORMANT, tile);
     tile_size_set(tile, OUTLINE_TILE_WIDTH, OUTLINE_TILE_HEIGHT);
   }
 
   for (auto frame = 0; frame < 2; frame++) {
     auto *tile = tile_find_mand(name + std::string(".idle.") + std::to_string(frame));
     tile_delay_ms_set(tile, delay);
-    tp_tiles_push_back(tp, THING_ANIM_IDLE, tile);
+    tp_tiles_push_back(tp, THING_ANIM_TYPE_IDLE, tile);
     tile_size_set(tile, OUTLINE_TILE_WIDTH, OUTLINE_TILE_HEIGHT);
   }
 
@@ -138,7 +138,7 @@ static void tp_haunt_mob_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
   for (auto frame = 0; frame < 6; frame++) {
     auto *tile = tile_find_mand(name + std::string(".dead.") + std::to_string(frame));
     tile_delay_ms_set(tile, delay);
-    tp_tiles_push_back(tp, THING_ANIM_DEAD, tile);
+    tp_tiles_push_back(tp, THING_ANIM_TYPE_DEAD, tile);
     tile_size_set(tile, OUTLINE_TILE_WIDTH, OUTLINE_TILE_HEIGHT);
 
     if (frame == 5) {

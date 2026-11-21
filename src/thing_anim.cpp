@@ -52,58 +52,58 @@ void thing_anim_init(Gamep g, Levelsp v, Levelp l, Thingp t, ThingAnimType anim_
       t->anim_ms_remaining = tile_delay_ms(tile);
 
       switch (t->anim_type) {
-        case THING_ANIM_JOIN_BL :
-        case THING_ANIM_JOIN_BL2 :
-        case THING_ANIM_JOIN_BLOCK :
-        case THING_ANIM_JOIN_BOT :
-        case THING_ANIM_JOIN_BR :
-        case THING_ANIM_JOIN_BR2 :
-        case THING_ANIM_JOIN_HORIZ :
-        case THING_ANIM_JOIN_HORIZ2 :
-        case THING_ANIM_JOIN_LEFT :
-        case THING_ANIM_JOIN_NODE :
-        case THING_ANIM_JOIN_RIGHT :
-        case THING_ANIM_JOIN_T_1 :
-        case THING_ANIM_JOIN_T_2 :
-        case THING_ANIM_JOIN_T_3 :
-        case THING_ANIM_JOIN_T :
-        case THING_ANIM_JOIN_T180_1 :
-        case THING_ANIM_JOIN_T180_2 :
-        case THING_ANIM_JOIN_T180_3 :
-        case THING_ANIM_JOIN_T180 :
-        case THING_ANIM_JOIN_T270_1 :
-        case THING_ANIM_JOIN_T270_2 :
-        case THING_ANIM_JOIN_T270_3 :
-        case THING_ANIM_JOIN_T270 :
-        case THING_ANIM_JOIN_T90_1 :
-        case THING_ANIM_JOIN_T90_2 :
-        case THING_ANIM_JOIN_T90_3 :
-        case THING_ANIM_JOIN_T90 :
-        case THING_ANIM_JOIN_TL :
-        case THING_ANIM_JOIN_TL2 :
-        case THING_ANIM_JOIN_TOP :
-        case THING_ANIM_JOIN_TR :
-        case THING_ANIM_JOIN_TR2 :
-        case THING_ANIM_JOIN_VERT :
-        case THING_ANIM_JOIN_VERT2 :
-        case THING_ANIM_JOIN_X :
-        case THING_ANIM_JOIN_X1_180 :
-        case THING_ANIM_JOIN_X1_270 :
-        case THING_ANIM_JOIN_X1_90 :
-        case THING_ANIM_JOIN_X1 :
-        case THING_ANIM_JOIN_X2_180 :
-        case THING_ANIM_JOIN_X2_270 :
-        case THING_ANIM_JOIN_X2_90 :
-        case THING_ANIM_JOIN_X2 :
-        case THING_ANIM_JOIN_X3_180 :
-        case THING_ANIM_JOIN_X3 :
-        case THING_ANIM_JOIN_X4_180 :
-        case THING_ANIM_JOIN_X4_270 :
-        case THING_ANIM_JOIN_X4_90 :
-        case THING_ANIM_JOIN_X4 :
-        case THING_ANIM_IDLE :
-        case THING_ANIM_DORMANT :
-        case THING_ANIM_MOUSE_OVER :
+        case THING_ANIM_TYPE_JOIN_BL :
+        case THING_ANIM_TYPE_JOIN_BL2 :
+        case THING_ANIM_TYPE_JOIN_BLOCK :
+        case THING_ANIM_TYPE_JOIN_BOT :
+        case THING_ANIM_TYPE_JOIN_BR :
+        case THING_ANIM_TYPE_JOIN_BR2 :
+        case THING_ANIM_TYPE_JOIN_HORIZ :
+        case THING_ANIM_TYPE_JOIN_HORIZ2 :
+        case THING_ANIM_TYPE_JOIN_LEFT :
+        case THING_ANIM_TYPE_JOIN_NODE :
+        case THING_ANIM_TYPE_JOIN_RIGHT :
+        case THING_ANIM_TYPE_JOIN_T_1 :
+        case THING_ANIM_TYPE_JOIN_T_2 :
+        case THING_ANIM_TYPE_JOIN_T_3 :
+        case THING_ANIM_TYPE_JOIN_T :
+        case THING_ANIM_TYPE_JOIN_T180_1 :
+        case THING_ANIM_TYPE_JOIN_T180_2 :
+        case THING_ANIM_TYPE_JOIN_T180_3 :
+        case THING_ANIM_TYPE_JOIN_T180 :
+        case THING_ANIM_TYPE_JOIN_T270_1 :
+        case THING_ANIM_TYPE_JOIN_T270_2 :
+        case THING_ANIM_TYPE_JOIN_T270_3 :
+        case THING_ANIM_TYPE_JOIN_T270 :
+        case THING_ANIM_TYPE_JOIN_T90_1 :
+        case THING_ANIM_TYPE_JOIN_T90_2 :
+        case THING_ANIM_TYPE_JOIN_T90_3 :
+        case THING_ANIM_TYPE_JOIN_T90 :
+        case THING_ANIM_TYPE_JOIN_TL :
+        case THING_ANIM_TYPE_JOIN_TL2 :
+        case THING_ANIM_TYPE_JOIN_TOP :
+        case THING_ANIM_TYPE_JOIN_TR :
+        case THING_ANIM_TYPE_JOIN_TR2 :
+        case THING_ANIM_TYPE_JOIN_VERT :
+        case THING_ANIM_TYPE_JOIN_VERT2 :
+        case THING_ANIM_TYPE_JOIN_X :
+        case THING_ANIM_TYPE_JOIN_X1_180 :
+        case THING_ANIM_TYPE_JOIN_X1_270 :
+        case THING_ANIM_TYPE_JOIN_X1_90 :
+        case THING_ANIM_TYPE_JOIN_X1 :
+        case THING_ANIM_TYPE_JOIN_X2_180 :
+        case THING_ANIM_TYPE_JOIN_X2_270 :
+        case THING_ANIM_TYPE_JOIN_X2_90 :
+        case THING_ANIM_TYPE_JOIN_X2 :
+        case THING_ANIM_TYPE_JOIN_X3_180 :
+        case THING_ANIM_TYPE_JOIN_X3 :
+        case THING_ANIM_TYPE_JOIN_X4_180 :
+        case THING_ANIM_TYPE_JOIN_X4_270 :
+        case THING_ANIM_TYPE_JOIN_X4_90 :
+        case THING_ANIM_TYPE_JOIN_X4 :
+        case THING_ANIM_TYPE_IDLE :
+        case THING_ANIM_TYPE_DORMANT :
+        case THING_ANIM_TYPE_MOUSE_OVER :
           if (tp_is_animated_sync_first(tp)) {
             //
             // Same first tile e.g. level select tiles, we want to flash in sync and not out of order
@@ -129,22 +129,22 @@ void thing_anim_init(Gamep g, Levelsp v, Levelp l, Thingp t, ThingAnimType anim_
             t->anim_index = index_new;
           }
           break;
-        case THING_ANIM_CURSOR_NORMAL :
-        case THING_ANIM_CURSOR_NOPATH :
-        case THING_ANIM_CURSOR_HAZARD :
-        case THING_ANIM_CURSOR_TARGET :
-        case THING_ANIM_CURSOR_TARGET_CANNOT_SEE :
-        case THING_ANIM_CURSOR_TARGET_OUT_OF_RANGE :
-        case THING_ANIM_CURSOR_WARNING :
-        case THING_ANIM_OPEN :
-        case THING_ANIM_DEAD :
-        case THING_ANIM_BURNT :
+        case THING_ANIM_TYPE_CURSOR_NORMAL :
+        case THING_ANIM_TYPE_CURSOR_NOPATH :
+        case THING_ANIM_TYPE_CURSOR_HAZARD :
+        case THING_ANIM_TYPE_CURSOR_TARGET :
+        case THING_ANIM_TYPE_CURSOR_TARGET_CANNOT_SEE :
+        case THING_ANIM_TYPE_CURSOR_TARGET_OUT_OF_RANGE :
+        case THING_ANIM_TYPE_CURSOR_WARNING :
+        case THING_ANIM_TYPE_OPEN :
+        case THING_ANIM_TYPE_DEAD :
+        case THING_ANIM_TYPE_BURNT :
           //
           // If changing to a non idle state, we want to usually start at tile 0, e.g. for dead animations
           //
           t->anim_index = 0;
           break;
-        case THING_ANIM_ENUM_MAX : ERR("unexpected enum"); break;
+        case THING_ANIM_TYPE_ENUM_MAX : ERR("unexpected enum"); break;
       }
 
       tile = tp_tiles_get(tp, t->anim_type, t->anim_index);

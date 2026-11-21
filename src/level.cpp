@@ -918,13 +918,15 @@ void level_update_flags(Gamep g, Levelsp v, Levelp l)
     return false;
   }
 
-  for (auto slot = 0; slot < MAP_THING_SLOTS; slot++) {
-    Tpp    it_tp = nullptr;
-    Thingp it    = thing_and_tp_get_at(g, v, l, p, slot, &it_tp);
-    if (it == nullptr) {
-      continue;
+  FOR_ALL_TPS_AT(g, v, l, o_tp, p)
+  {
+    if (o_tp == tp) {
+      return true;
     }
+  }
 
+  FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, p)
+  {
     //
     // This check is needed to handle walls that are destroyed, but not yet popped.
     //
@@ -932,10 +934,11 @@ void level_update_flags(Gamep g, Levelsp v, Levelp l)
       continue;
     }
 
-    if (it_tp == tp) {
+    if (thing_tp(it) == tp) {
       return true;
     }
   }
+
   return false;
 }
 

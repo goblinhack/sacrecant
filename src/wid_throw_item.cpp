@@ -302,7 +302,7 @@ void wid_throw_item_show(Gamep g, Levelsp v, Levelp l, Thingp player, std::vecto
     // Item icon
     //
     {
-      Tilep tile = tp_tiles_get(tp, THING_ANIM_IDLE, 0);
+      Tilep tile = tp_tiles_get(tp, THING_ANIM_TYPE_IDLE, 0);
       if (tile != nullptr) {
         TRACE();
         auto        *w = wid_new_square_button(g, wid_throw_item_window, "Icon");

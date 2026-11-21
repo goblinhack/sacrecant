@@ -831,8 +831,8 @@ void level_select_mouse_motion(Gamep g, Levelsp v, Levelp l)
 
   FOR_ALL_THINGS_ON_LEVEL_NO_BREAK(g, v, l, t)
   {
-    if (t->anim_type != THING_ANIM_IDLE) {
-      thing_anim_init(g, v, l, t, THING_ANIM_IDLE);
+    if (t->anim_type != THING_ANIM_TYPE_IDLE) {
+      thing_anim_init(g, v, l, t, THING_ANIM_TYPE_IDLE);
     }
   }
 
@@ -843,8 +843,8 @@ void level_select_mouse_motion(Gamep g, Levelsp v, Levelp l)
 
   auto *t = level_select_get_thing_at_tile_coords(g, v, v->cursor_at);
   if (t != nullptr) {
-    if (t->anim_type != THING_ANIM_MOUSE_OVER) {
-      thing_anim_init(g, v, l, t, THING_ANIM_MOUSE_OVER);
+    if (t->anim_type != THING_ANIM_TYPE_MOUSE_OVER) {
+      thing_anim_init(g, v, l, t, THING_ANIM_TYPE_MOUSE_OVER);
     }
   }
 

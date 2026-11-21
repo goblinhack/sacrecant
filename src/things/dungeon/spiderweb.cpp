@@ -77,7 +77,7 @@ static void tp_spiderweb_on_spawned(Gamep g, Levelsp v, Levelp l, Thingp me, Thi
   for (auto frame = 0; frame < 1; frame++) {
     auto *tile = tile_find_mand(name + std::string(".") + std::to_string(frame));
     tile_size_set(tile, OUTLINE_TILE_WIDTH, OUTLINE_TILE_HEIGHT);
-    tp_tiles_push_back(tp, THING_ANIM_IDLE, tile);
+    tp_tiles_push_back(tp, THING_ANIM_TYPE_IDLE, tile);
   }
 
   return true;

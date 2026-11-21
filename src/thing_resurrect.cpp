@@ -28,7 +28,7 @@
   (void) thing_lifespan_initial_set(g, v, l, me, thing_lifespan_set(g, v, l, me, tp_lifespan_get(tp)));
   (void) thing_ticks_to_stay_dead_initial_set(g, v, l, me, thing_ticks_to_stay_dead_set(g, v, l, me, tp_ticks_to_stay_dead_get(tp)));
 
-  thing_anim_init(g, v, l, me, THING_ANIM_IDLE);
+  thing_anim_init(g, v, l, me, THING_ANIM_TYPE_IDLE);
 
   return true;
 }

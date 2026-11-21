@@ -107,9 +107,10 @@ void error_message(Gamep g, const std::string &error_msg)
     return;
   }
 
+  callstack_dump(MY_STDERR);
+  backtrace_dump(MY_STDERR);
+
   if (g_opt_tests) {
-    callstack_dump(MY_STDERR);
-    backtrace_dump(MY_STDERR);
     return;
   }
 

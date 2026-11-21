@@ -70,7 +70,7 @@
   // Reset animation. Could have dead frames, so leave as is if this is the case.
   //
   if (! thing_is_dead(me)) {
-    thing_anim_init(g, v, l, me, THING_ANIM_IDLE);
+    thing_anim_init(g, v, l, me, THING_ANIM_TYPE_IDLE);
   }
 
   return true;

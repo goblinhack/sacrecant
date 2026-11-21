@@ -544,16 +544,16 @@ void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   //
   // Update the animation, for example, flattened grass
   //
-  if (thing_is_burning(me) && (tp_tiles_size(tp, THING_ANIM_BURNT) != 0)) {
+  if (thing_is_burning(me) && (tp_tiles_size(tp, THING_ANIM_TYPE_BURNT) != 0)) {
     //
     // Restart the animation if we have burnt frames
     //
-    thing_anim_init(g, v, l, me, THING_ANIM_BURNT);
-  } else if (tp_tiles_size(tp, THING_ANIM_DEAD) != 0) {
+    thing_anim_init(g, v, l, me, THING_ANIM_TYPE_BURNT);
+  } else if (tp_tiles_size(tp, THING_ANIM_TYPE_DEAD) != 0) {
     //
     // Restart the animation if we have dead frames
     //
-    thing_anim_init(g, v, l, me, THING_ANIM_DEAD);
+    thing_anim_init(g, v, l, me, THING_ANIM_TYPE_DEAD);
   }
 
   //

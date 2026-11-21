@@ -61,7 +61,7 @@ static auto tp_exit_closed_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -
     const auto delay = 1000; /* ms */
     auto      *tile  = tile_find_mand("exit_closed." + std::to_string(frame));
     tile_delay_ms_set(tile, delay);
-    tp_tiles_push_back(tp, THING_ANIM_IDLE, tile);
+    tp_tiles_push_back(tp, THING_ANIM_TYPE_IDLE, tile);
     tile_size_set(tile, OUTLINE_TILE_WIDTH, OUTLINE_TILE_HEIGHT);
   }
 

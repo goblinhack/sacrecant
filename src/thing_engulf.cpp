@@ -84,13 +84,13 @@
     // Reset animation
     //
     THING_DBG(g, v, l, me, "engulf success");
-    thing_anim_init(g, v, l, me, THING_ANIM_IDLE);
+    thing_anim_init(g, v, l, me, THING_ANIM_TYPE_IDLE);
   } else {
     //
     // Un-engulfed
     //
     THING_DBG(g, v, l, me, "un-engulf success");
-    thing_anim_init(g, v, l, me, THING_ANIM_IDLE);
+    thing_anim_init(g, v, l, me, THING_ANIM_TYPE_IDLE);
   }
 
   return true;

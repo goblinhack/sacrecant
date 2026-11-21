@@ -36,7 +36,7 @@ void game_debug_info(Gamep g)
   log("  All levels Thing body memory:    %" PRI_SIZE_T " Mb", sizeof(v->thing_body) / (1024 * 1024));
   log("  All levels Thing ext memory:     %" PRI_SIZE_T " Mb", sizeof(v->thing_ext) / (1024 * 1024));
   log("  All levels Thing dmap memory:    %" PRI_SIZE_T " Mb", sizeof(v->thing_dmap) / (1024 * 1024));
-  log("  Per level Tp    id memory:       %" PRI_SIZE_T " Kb", sizeof(l->tp_id) / (1024));
+  log("  Per level Tp    memory:          %" PRI_SIZE_T " Kb", sizeof(l->tps) / (1024));
   log("  Per level Thing id memory:       %" PRI_SIZE_T " Kb", sizeof(l->thing_id) / (1024));
   log("  sizeof(Thing):                   %" PRI_SIZE_T " b", sizeof(Thing));
   log("  sizeof(ThingInventory):          %" PRI_SIZE_T " b", sizeof(ThingInventory));

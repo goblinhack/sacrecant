@@ -39,7 +39,7 @@
   //
   // Assign an initial tile
   //
-  thing_anim_init(g, v, l, t, THING_ANIM_IDLE);
+  thing_anim_init(g, v, l, t, THING_ANIM_TYPE_IDLE);
 
   //
   // Assign the player

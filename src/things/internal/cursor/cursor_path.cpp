@@ -18,7 +18,7 @@ static auto tp_cursor_path_display_get_tile_info(Gamep g, Levelsp v, Levelp l, c
   //
   // Default tile
   //
-  Tilep tile = tp_tiles_get(tp, THING_ANIM_CURSOR_NOPATH, 0);
+  Tilep tile = tp_tiles_get(tp, THING_ANIM_TYPE_CURSOR_NOPATH, 0);
 
   auto *player = thing_player(g);
   if (player == nullptr) [[unlikely]] {
@@ -33,14 +33,14 @@ static auto tp_cursor_path_display_get_tile_info(Gamep g, Levelsp v, Levelp l, c
   }
 
   if (level_is_cursor_path_warning_bool(g, v, l, p, player)) {
-    return tp_tiles_get(tp, THING_ANIM_CURSOR_WARNING, 0);
+    return tp_tiles_get(tp, THING_ANIM_TYPE_CURSOR_WARNING, 0);
   }
 
   if (level_is_cursor_path_hazard_bool(g, v, l, p, player)) {
-    return tp_tiles_get(tp, THING_ANIM_CURSOR_HAZARD, 0);
+    return tp_tiles_get(tp, THING_ANIM_TYPE_CURSOR_HAZARD, 0);
   }
 
-  tile = tp_tiles_get(tp, THING_ANIM_CURSOR_NORMAL, 0);
+  tile = tp_tiles_get(tp, THING_ANIM_TYPE_CURSOR_NORMAL, 0);
 
   return tile;
 }
@@ -58,13 +58,13 @@ static auto tp_cursor_path_display_get_tile_info(Gamep g, Levelsp v, Levelp l, c
   // end sort marker1 }
 
   auto *tile = tile_find_mand("cursor_path.nopath");
-  tp_tiles_push_back(tp, THING_ANIM_CURSOR_NOPATH, tile);
+  tp_tiles_push_back(tp, THING_ANIM_TYPE_CURSOR_NOPATH, tile);
   tile = tile_find_mand("cursor_path.normal");
-  tp_tiles_push_back(tp, THING_ANIM_CURSOR_NORMAL, tile);
+  tp_tiles_push_back(tp, THING_ANIM_TYPE_CURSOR_NORMAL, tile);
   tile = tile_find_mand("cursor_path.warning");
-  tp_tiles_push_back(tp, THING_ANIM_CURSOR_WARNING, tile);
+  tp_tiles_push_back(tp, THING_ANIM_TYPE_CURSOR_WARNING, tile);
   tile = tile_find_mand("cursor_path.hazard");
-  tp_tiles_push_back(tp, THING_ANIM_CURSOR_HAZARD, tile);
+  tp_tiles_push_back(tp, THING_ANIM_TYPE_CURSOR_HAZARD, tile);
 
   return true;
 }

@@ -228,7 +228,7 @@ static auto thing_carry_item(Gamep g, Levelsp v, Levelp l, Thingp item, Thingp c
   //
   // Reset animation
   //
-  thing_anim_init(g, v, l, item, THING_ANIM_IDLE);
+  thing_anim_init(g, v, l, item, THING_ANIM_TYPE_IDLE);
 
   return true;
 }

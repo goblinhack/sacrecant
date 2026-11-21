@@ -370,7 +370,7 @@ void ascii_putf_internal2(int x, int y, color fg, color bg, const std::string &t
           std::string const name = text.substr(tok.arg, tok.arg_len + (tok.terminated ? 1 : 0));
           const char       *c    = name.c_str();
           int               slen = 0;
-          tile                   = tp_first_tile(string2tp(&c, &slen), THING_ANIM_IDLE);
+          tile                   = tp_first_tile(string2tp(&c, &slen), THING_ANIM_TYPE_IDLE);
           continue;
         }
       case TextTokenType::Tile :

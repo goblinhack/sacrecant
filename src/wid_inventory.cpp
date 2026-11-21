@@ -282,7 +282,7 @@ void wid_inventory_show(Gamep g, Levelsp v, Levelp l, Thingp player)
     // Item icon
     //
     if (tp != nullptr) {
-      Tilep tile = tp_tiles_get(tp, THING_ANIM_IDLE, 0);
+      Tilep tile = tp_tiles_get(tp, THING_ANIM_TYPE_IDLE, 0);
       if (tile != nullptr) {
         TRACE();
         auto        *w = wid_new_square_button(g, wid_inventory_window, "Icon");

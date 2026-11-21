@@ -76,7 +76,7 @@ static auto tp_temple_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std
   for (auto frame = 0; frame < 2; frame++) {
     auto *tile = tile_find_mand(name + std::string(".idle.") + std::to_string(frame));
     tile_delay_ms_set(tile, delay);
-    tp_tiles_push_back(tp, THING_ANIM_IDLE, tile);
+    tp_tiles_push_back(tp, THING_ANIM_TYPE_IDLE, tile);
     tile_size_set(tile, 32, 32);
   }
 

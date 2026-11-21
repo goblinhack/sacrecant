@@ -206,7 +206,7 @@ static void level_display_effect_spell_target(Gamep g, Levelsp v, Levelp l, FboE
 
                 spoint   tl;
                 spoint   br;
-                uint16_t tile_index = 0;
+                TileIndex tile_index = 0;
                 thing_display_get_tile_info(g, v, l, effect, tp_once, NULL_THING, tl, br, &tile_index);
                 thing_display(g, v, l, effect, tp_once, NULL_THING, tl, br, tile_index, fbo);
               }
@@ -342,7 +342,7 @@ static void level_display_cursor(Gamep g, Levelsp v, Levelp l, const bpoint &p, 
   if (tp != nullptr) {
     spoint   tl;
     spoint   br;
-    uint16_t tile_index = 0;
+    TileIndex tile_index = 0;
     thing_display_get_tile_info(g, v, l, p, tp, NULL_THING, tl, br, &tile_index);
     thing_display(g, v, l, p, tp, NULL_THING, tl, br, tile_index, fbo);
   }
@@ -425,7 +425,7 @@ static void level_display_thing(Gamep g, Levelsp v, Levelp l, const bpoint &p, T
 
   spoint   tl;
   spoint   br;
-  uint16_t tile_index = 0;
+  TileIndex tile_index = 0;
   thing_display_get_tile_info(g, v, l, p, tp, t, tl, br, &tile_index);
   thing_display(g, v, l, p, tp, t, tl, br, tile_index, fbo);
 }
@@ -615,7 +615,7 @@ static void level_display_fbo_do(Gamep g, Levelsp v, Levelp level_above, Levelp 
       }
 
       for (auto slot = 0; slot < MAP_TP_SLOTS; slot++) {
-        auto const tp_id = l->tp_id[ x ][ y ][ slot ];
+        auto const tp_id = l->tps[ x ][ y ][ slot ].tp_id;
         if (tp_id == 0U) [[likely]] {
           continue;
         }

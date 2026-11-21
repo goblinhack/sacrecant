@@ -277,7 +277,7 @@ using Level = struct Level {
   //
   // Used for things that never change, like floors
   //
-  TpId tp_id[ MAP_WIDTH ][ MAP_HEIGHT ][ MAP_TP_SLOTS ];
+  TpTile tps[ MAP_WIDTH ][ MAP_HEIGHT ][ MAP_TP_SLOTS ];
   //
   // What things are where? Each Id points to a thing structure.
   //
@@ -550,23 +550,32 @@ struct MyIter {
 //
 // For all tps on this level
 //
-#define FOR_ALL_TPS_ON_LEVEL_NO_BREAK(_g_, _v_, _l_, _t_)                                                                                       \
+#define FOR_ALL_TPS_ON_LEVEL_NO_BREAK(_g_, _v_, _l_, _tp_)                                                                                      \
   if ((VERIFY(MTYPE_GAME, _g_)) && (VERIFY(MTYPE_LEVELS, _v_)))                                                                                 \
     if ((_l_))                                                                                                                                  \
       for (auto _x_ = 0; _x_ < MAP_WIDTH; _x_++)                                                                                                \
         for (auto _y_ = 0; _y_ < MAP_HEIGHT; _y_++)                                                                                             \
           for (auto _slot_ = 0; _slot_ < MAP_TP_SLOTS; _slot_++)                                                                                \
-            if (TpId _id_ = 0; (_id_ = (_l_)->tp_id[ _x_ ][ _y_ ][ _slot_ ]))                                                                   \
-              if (Tpp _t_ = nullptr; ((_t_) = tp_find(_id_)))
+            if (TpId _id_ = 0; (_id_ = (_l_)->tps[ _x_ ][ _y_ ][ _slot_ ].tp_id))                                                               \
+              if (Tpp _tp_ = nullptr; ((_tp_) = tp_find(_id_)))
 
-#define FOR_ALL_TPS_AT(_g_, _v_, _l_, _t_, _p_)                                                                                                 \
+#define FOR_ALL_TPS_AT(_g_, _v_, _l_, _tp_, _p_)                                                                                                \
   if ((VERIFY(MTYPE_GAME, _g_)) && (VERIFY(MTYPE_LEVELS, _v_)))                                                                                 \
     if ((_l_))                                                                                                                                  \
       if (bpoint _at_ = make_bpoint(_p_); true)                                                                                                 \
         if (! is_oob(_at_))                                                                                                                     \
           for (auto _slot_ = 0; _slot_ < MAP_TP_SLOTS; _slot_++)                                                                                \
-            if (TpId _id_ = 0; (_id_ = (_l_)->tp_id[ _at_.x ][ _at_.y ][ _slot_ ]))                                                             \
-              if (Tpp _t_ = nullptr; ((_t_) = tp_find(_id_)))
+            if (TpId _id_ = 0; (_id_ = (_l_)->tps[ _at_.x ][ _at_.y ][ _slot_ ].tp_id))                                                         \
+              if (Tpp _tp_ = nullptr; ((_tp_) = tp_find(_id_)))
+
+#define FOR_ALL_TP_SLOTS_AT_NO_BREAK(_g_, _v_, _l_, _p_, _slot_, _tp_)                                                                                   \
+  if ((VERIFY(MTYPE_GAME, _g_)) && (VERIFY(MTYPE_LEVELS, _v_)))                                                                                 \
+    if ((_l_))                                                                                                                                  \
+      if (bpoint _at_ = make_bpoint(_p_); true)                                                                                                 \
+        if (! is_oob(_at_))                                                                                                                     \
+          for (auto _n_ = 0; _n_ < MAP_TP_SLOTS; _n_++)                                                                                         \
+            for (AUTO(_slot_) = &(_l_)->tps[ _at_.x ][ _at_.y ][ _n_ ]; _slot_; (_slot_) = nullptr)                                             \
+              for (AUTO(_tp_) = tp_find_optional((_slot_)->tp_id), loop2 = (Tpp) 1; loop2 == (Tpp) 1; loop2 = (Tpp) 0)
 
 //
 // For all things on this level

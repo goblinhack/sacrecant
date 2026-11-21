@@ -20,10 +20,10 @@ static auto tp_cursor_at_display_get_tile_info(Gamep g, Levelsp v, Levelp l, con
   //
   // Default tile
   //
-  Tilep tile = tp_tiles_get(tp, THING_ANIM_CURSOR_NOPATH, 0);
+  Tilep tile = tp_tiles_get(tp, THING_ANIM_TYPE_CURSOR_NOPATH, 0);
 
   if (level_is_level_select(g, v, l)) {
-    return tp_tiles_get(tp, THING_ANIM_CURSOR_NORMAL, 0);
+    return tp_tiles_get(tp, THING_ANIM_TYPE_CURSOR_NORMAL, 0);
   }
 
   auto *player = thing_player(g);
@@ -39,16 +39,16 @@ static auto tp_cursor_at_display_get_tile_info(Gamep g, Levelsp v, Levelp l, con
       //
       // Too far
       //
-      return tp_tiles_get(tp, THING_ANIM_CURSOR_TARGET_OUT_OF_RANGE, 0);
+      return tp_tiles_get(tp, THING_ANIM_TYPE_CURSOR_TARGET_OUT_OF_RANGE, 0);
     }
 
     if (! thing_vision_can_see_tile(g, v, l, player, p)) {
       //
       // Can't see this tile
       //
-      return tp_tiles_get(tp, THING_ANIM_CURSOR_TARGET_CANNOT_SEE, 0);
+      return tp_tiles_get(tp, THING_ANIM_TYPE_CURSOR_TARGET_CANNOT_SEE, 0);
     }
-    return tp_tiles_get(tp, THING_ANIM_CURSOR_TARGET, 0);
+    return tp_tiles_get(tp, THING_ANIM_TYPE_CURSOR_TARGET, 0);
   }
 
   //
@@ -63,17 +63,17 @@ static auto tp_cursor_at_display_get_tile_info(Gamep g, Levelsp v, Levelp l, con
           //
           // Too far
           //
-          return tp_tiles_get(tp, THING_ANIM_CURSOR_TARGET_OUT_OF_RANGE, 0);
+          return tp_tiles_get(tp, THING_ANIM_TYPE_CURSOR_TARGET_OUT_OF_RANGE, 0);
         }
 
         if (! thing_vision_can_see_tile(g, v, l, player, p)) {
           //
           // Can't see this tile
           //
-          return tp_tiles_get(tp, THING_ANIM_CURSOR_TARGET_CANNOT_SEE, 0);
+          return tp_tiles_get(tp, THING_ANIM_TYPE_CURSOR_TARGET_CANNOT_SEE, 0);
         }
 
-        return tp_tiles_get(tp, THING_ANIM_CURSOR_TARGET, 0);
+        return tp_tiles_get(tp, THING_ANIM_TYPE_CURSOR_TARGET, 0);
       }
     }
   }
@@ -94,25 +94,25 @@ static auto tp_cursor_at_display_get_tile_info(Gamep g, Levelsp v, Levelp l, con
   }
 
   if (level_is_cursor_path_warning_bool(g, v, l, p, player)) {
-    return tp_tiles_get(tp, THING_ANIM_CURSOR_WARNING, 0);
+    return tp_tiles_get(tp, THING_ANIM_TYPE_CURSOR_WARNING, 0);
   }
 
   if (level_is_cursor_path_hazard_bool(g, v, l, p, player)) {
-    return tp_tiles_get(tp, THING_ANIM_CURSOR_HAZARD, 0);
+    return tp_tiles_get(tp, THING_ANIM_TYPE_CURSOR_HAZARD, 0);
   }
 
   //
   // If we have a path, show the cursor highlighted
   //
   if ((level_cursor_path_size(g) != 0) || (thing_move_path_size(g, v, l, player) != 0)) {
-    return tp_tiles_get(tp, THING_ANIM_CURSOR_NORMAL, 0);
+    return tp_tiles_get(tp, THING_ANIM_TYPE_CURSOR_NORMAL, 0);
   }
 
   //
   // No path yet, hovering on player
   //
   if (p == thing_at(g, v, l, player)) {
-    return tp_tiles_get(tp, THING_ANIM_CURSOR_NORMAL, 0);
+    return tp_tiles_get(tp, THING_ANIM_TYPE_CURSOR_NORMAL, 0);
   }
 
   return tile;
@@ -131,19 +131,19 @@ static auto tp_cursor_at_display_get_tile_info(Gamep g, Levelsp v, Levelp l, con
   // end sort marker1 }
 
   auto *tile = tile_find_mand("cursor_at.nopath");
-  tp_tiles_push_back(tp, THING_ANIM_CURSOR_NOPATH, tile);
+  tp_tiles_push_back(tp, THING_ANIM_TYPE_CURSOR_NOPATH, tile);
   tile = tile_find_mand("cursor_at.normal");
-  tp_tiles_push_back(tp, THING_ANIM_CURSOR_NORMAL, tile);
+  tp_tiles_push_back(tp, THING_ANIM_TYPE_CURSOR_NORMAL, tile);
   tile = tile_find_mand("cursor_at.warning");
-  tp_tiles_push_back(tp, THING_ANIM_CURSOR_WARNING, tile);
+  tp_tiles_push_back(tp, THING_ANIM_TYPE_CURSOR_WARNING, tile);
   tile = tile_find_mand("cursor_at.hazard");
-  tp_tiles_push_back(tp, THING_ANIM_CURSOR_HAZARD, tile);
+  tp_tiles_push_back(tp, THING_ANIM_TYPE_CURSOR_HAZARD, tile);
   tile = tile_find_mand("cursor_at.target");
-  tp_tiles_push_back(tp, THING_ANIM_CURSOR_TARGET, tile);
+  tp_tiles_push_back(tp, THING_ANIM_TYPE_CURSOR_TARGET, tile);
   tile = tile_find_mand("cursor_at.target_cannot_see");
-  tp_tiles_push_back(tp, THING_ANIM_CURSOR_TARGET_CANNOT_SEE, tile);
+  tp_tiles_push_back(tp, THING_ANIM_TYPE_CURSOR_TARGET_CANNOT_SEE, tile);
   tile = tile_find_mand("cursor_at.target_out_of_range");
-  tp_tiles_push_back(tp, THING_ANIM_CURSOR_TARGET_OUT_OF_RANGE, tile);
+  tp_tiles_push_back(tp, THING_ANIM_TYPE_CURSOR_TARGET_OUT_OF_RANGE, tile);
 
   return true;
 }

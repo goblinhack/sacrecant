@@ -145,7 +145,7 @@ static auto tp_spell_fungus_amongus_on_upgrade_do(Gamep g, Levelsp v, Levelp l, 
 
   auto *tile = tile_find_mand("icon_" + name);
   tile_size_set(tile, OUTLINE_TILE_WIDTH, OUTLINE_TILE_HEIGHT);
-  tp_tiles_push_back(tp, THING_ANIM_IDLE, tile);
+  tp_tiles_push_back(tp, THING_ANIM_TYPE_IDLE, tile);
 
   return true;
 }

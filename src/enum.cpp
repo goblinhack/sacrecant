@@ -12,7 +12,7 @@
 #include "my_tp.hpp"
 
 ENUM_DEF_C(THING_FLAG_ENUM, ThingFlagType)
-ENUM_DEF_C(THING_ANIM_ENUM, ThingAnimType)
+ENUM_DEF_C(THING_ANIM_TYPE_ENUM, ThingAnimType)
 ENUM_DEF_C(THING_DIR_ENUM, ThingDirType)
 ENUM_DEF_C(THING_EVENT_ENUM, ThingEventType)
 ENUM_DEF_C(THING_ENVIRON_ENUM, ThingEnvironType)

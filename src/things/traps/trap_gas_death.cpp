@@ -116,7 +116,7 @@ static auto tp_trap_gas_death_activated(Gamep g, Levelsp v, Levelp l, Thingp tra
   for (auto frame = 0; frame < 1; frame++) {
     auto *tile = tile_find_mand(std::string("trap.") + std::to_string(frame));
     tile_size_set(tile, TILE_WIDTH, TILE_HEIGHT);
-    tp_tiles_push_back(tp, THING_ANIM_IDLE, tile);
+    tp_tiles_push_back(tp, THING_ANIM_TYPE_IDLE, tile);
   }
 
   return true;

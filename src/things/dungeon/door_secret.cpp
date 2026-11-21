@@ -101,10 +101,10 @@ static auto tp_door_secret_description_get(Gamep g, Levelsp v, Levelp l, Thingp 
 
     auto *tile = tile_find_mand(name + ".idle.0");
     tile_size_set(tile, TILE_WIDTH, TILE_HEIGHT);
-    tp_tiles_push_back(tp, THING_ANIM_IDLE, tile);
+    tp_tiles_push_back(tp, THING_ANIM_TYPE_IDLE, tile);
     tile = tile_find_mand(name + ".open.0");
     tile_size_set(tile, TILE_WIDTH, TILE_HEIGHT);
-    tp_tiles_push_back(tp, THING_ANIM_OPEN, tile);
+    tp_tiles_push_back(tp, THING_ANIM_TYPE_OPEN, tile);
   }
 
   return true;

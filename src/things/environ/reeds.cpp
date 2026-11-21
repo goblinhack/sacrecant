@@ -77,19 +77,19 @@ static auto tp_reeds_z_depth_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> Map
   for (auto frame = 0; frame < 14; frame++) {
     auto *tile = tile_find_mand(name + std::string(".idle.") + std::to_string(frame));
     tile_size_set(tile, OUTLINE_TILE_WIDTH, OUTLINE_TILE_HEIGHT);
-    tp_tiles_push_back(tp, THING_ANIM_IDLE, tile);
+    tp_tiles_push_back(tp, THING_ANIM_TYPE_IDLE, tile);
   }
 
   for (auto frame = 0; frame < 1; frame++) {
     auto *tile = tile_find_mand(name + std::string(".dead.") + std::to_string(frame));
     tile_size_set(tile, OUTLINE_TILE_WIDTH, OUTLINE_TILE_HEIGHT);
-    tp_tiles_push_back(tp, THING_ANIM_DEAD, tile);
+    tp_tiles_push_back(tp, THING_ANIM_TYPE_DEAD, tile);
   }
 
   for (auto frame = 0; frame < 1; frame++) {
     auto *tile = tile_find_mand(name + std::string(".burnt.") + std::to_string(frame));
     tile_size_set(tile, OUTLINE_TILE_WIDTH, OUTLINE_TILE_HEIGHT);
-    tp_tiles_push_back(tp, THING_ANIM_BURNT, tile);
+    tp_tiles_push_back(tp, THING_ANIM_TYPE_BURNT, tile);
   }
 
   return true;

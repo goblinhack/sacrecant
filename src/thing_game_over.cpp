@@ -51,7 +51,7 @@ void thing_is_game_over_set(Gamep g, Levelsp v, Levelp l, Thingp player, bool va
 
   thing_is_game_over_set(g, v, l, player);
   thing_dead(g, v, l, player, e);
-  thing_anim_init(g, v, l, player, THING_ANIM_IDLE);
+  thing_anim_init(g, v, l, player, THING_ANIM_TYPE_IDLE);
 
   game_request_to_end_game_set(g);
   game_request_to_end_game_reason_set(g, "game over");

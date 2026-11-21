@@ -31,7 +31,7 @@
     for (auto i = 1; i <= 16; i++) {
       auto *tile = tile_find_mand(name + "." + std::to_string(i));
       tile_size_set(tile, TILE_WIDTH, TILE_HEIGHT);
-      tp_tiles_push_back(tp, THING_ANIM_IDLE, tile);
+      tp_tiles_push_back(tp, THING_ANIM_TYPE_IDLE, tile);
     }
   }
 

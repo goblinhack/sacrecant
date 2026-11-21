@@ -77,7 +77,7 @@ void thing_blit_text(Gamep g, Levelsp v, Levelp l, spoint tl, spoint br, std::st
           std::string const name = text.substr(tok.arg, tok.arg_len + (tok.terminated ? 1 : 0));
           const char       *tmpc = name.c_str();
           int               len2 = 0;
-          tile                   = tp_first_tile(string2tp(&tmpc, &len2), THING_ANIM_IDLE);
+          tile                   = tp_first_tile(string2tp(&tmpc, &len2), THING_ANIM_TYPE_IDLE);
           continue;
         }
       case TextTokenType::Tile :

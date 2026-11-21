@@ -38,7 +38,7 @@ public:
   //
   // Animation tiles
   //
-  std::vector< class Tile * > tiles[ THING_ANIM_ENUM_MAX ];
+  std::vector< class Tile * > tiles[ THING_ANIM_TYPE_ENUM_MAX ];
 
   //
   // Multi tile things. These are tile offsets from the push location.

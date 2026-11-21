@@ -92,7 +92,7 @@ static auto tp_load_beam_of_fire_use_weapon(Gamep g, Levelsp v, Levelp l, Thingp
       auto tile = tile_find_mand(name + "." + std::to_string(frame) + "." + std::to_string(step));
       tile_size_set(tile, TILE_WIDTH, TILE_HEIGHT);
       tile_delay_ms_set(tile, delay);
-      tp_tiles_push_back(tp, THING_ANIM_IDLE, tile);
+      tp_tiles_push_back(tp, THING_ANIM_TYPE_IDLE, tile);
       if (frame == THING_BEAM_WEAPON_TILES_MAX - 1) {
         tile_is_cleanup_on_end_of_anim_set(tile);
       }

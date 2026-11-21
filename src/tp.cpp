@@ -991,7 +991,7 @@ void tp_stat_set(Tpp tp, ThingStatType stat, const std::string &val)
   return roll == 1;
 }
 
-[[nodiscard]] auto tp_tiles_get(Tpp tp, ThingAnimType val, int index) -> Tilep
+[[nodiscard]] auto tp_tiles_get(Tpp tp, ThingAnimType val, AnimIndex index) -> Tilep
 {
   TRACE_DEBUG();
 
@@ -1016,7 +1016,7 @@ void tp_tiles_push_back(Tpp tp, ThingAnimType val, Tilep tile)
     return;
   }
 
-  if (val >= THING_ANIM_ENUM_MAX) {
+  if (val >= THING_ANIM_TYPE_ENUM_MAX) {
     tp_err(tp, "bad value in tp for %s, %d", __FUNCTION__, val);
     return;
   }

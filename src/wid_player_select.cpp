@@ -883,7 +883,7 @@ void wid_player_and_sacrfifice_select(Gamep g)
     //
     // Sacrecant icon
     //
-    Tilep tile = tp_tiles_get(tp, THING_ANIM_IDLE, 0);
+    Tilep tile = tp_tiles_get(tp, THING_ANIM_TYPE_IDLE, 0);
     if (tile != nullptr) {
       TRACE();
       auto        *w = wid_new_square_button(g, wid_player_and_sacrfifice_select_window, "Icon");

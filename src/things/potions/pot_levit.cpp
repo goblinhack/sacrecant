@@ -204,7 +204,7 @@ static void tp_pot_levit_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, Thing
     auto *tile = tile_find_mand(name + std::string(".") + std::to_string(frame));
     tile_size_set(tile, TILE_WIDTH, TILE_HEIGHT);
     tile_delay_ms_set(tile, delay);
-    tp_tiles_push_back(tp, THING_ANIM_IDLE, tile);
+    tp_tiles_push_back(tp, THING_ANIM_TYPE_IDLE, tile);
   }
 
   return true;

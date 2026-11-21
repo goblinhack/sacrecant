@@ -58,7 +58,7 @@ static void tp_explosion_spawned(Gamep g, Levelsp v, Levelp l, Thingp me, ThingE
   for (auto frame = 0; frame < 16; frame++) {
     auto *tile = tile_find_mand(name + std::string(".idle.") + std::to_string(frame));
     tile_delay_ms_set(tile, delay);
-    tp_tiles_push_back(tp, THING_ANIM_IDLE, tile);
+    tp_tiles_push_back(tp, THING_ANIM_TYPE_IDLE, tile);
     tile_size_set(tile, OUTLINE_TILE_WIDTH, OUTLINE_TILE_HEIGHT * 2);
 
     if (frame == 15) {
