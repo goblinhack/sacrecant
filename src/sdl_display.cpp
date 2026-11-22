@@ -262,23 +262,25 @@ static inline void sdl_list_video_size()
     video_width  = 640;
     video_height = 480;
 
-    video_width  = 2000;
-    video_height = 640;
-
-    video_width  = 800;
-    video_height = 600;
-
-    video_width  = 1366;
-    video_height = 768;
-
-    video_width  = 2560;
-    video_height = 1440;
+    // xxx
+    //
+    video_width  = 3840;
+    video_height = 2160;
 
     video_width  = 1440;
     video_height = 900;
 
-    video_width  = 3840;
-    video_height = 2160;
+    video_width  = 2560;
+    video_height = 1440;
+
+    video_width  = 1366;
+    video_height = 768;
+
+    video_width  = 800;
+    video_height = 600;
+
+    video_width  = 2000;
+    video_height = 640;
   }
 
   if (AN_ERROR_OCCURRED()) {

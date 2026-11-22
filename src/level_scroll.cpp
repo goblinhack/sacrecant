@@ -220,16 +220,21 @@ void level_scroll_to_focus(Gamep g, Levelsp v, Levelp l)
   //
   // Check for overflow
   //
-  if (v->pixel_map_at.x > v->pixel_max.x) {
-    v->pixel_map_at.x = v->pixel_max.x;
-  } else if (v->pixel_map_at.x < 0) {
-    v->pixel_map_at.x = 0;
-  }
+  if (0) {
+    //
+    // We need to allow overflow for when the map is really zoomed out
+    //
+    if (v->pixel_map_at.x > v->pixel_max.x) {
+      v->pixel_map_at.x = v->pixel_max.x;
+    } else if (v->pixel_map_at.x < 0) {
+      v->pixel_map_at.x = 0;
+    }
 
-  if (v->pixel_map_at.y > v->pixel_max.y) {
-    v->pixel_map_at.y = v->pixel_max.y;
-  } else if (v->pixel_map_at.y < 0) {
-    v->pixel_map_at.y = 0;
+    if (v->pixel_map_at.y > v->pixel_max.y) {
+      v->pixel_map_at.y = v->pixel_max.y;
+    } else if (v->pixel_map_at.y < 0) {
+      v->pixel_map_at.y = 0;
+    }
   }
 
   //

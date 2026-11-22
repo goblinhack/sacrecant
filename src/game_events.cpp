@@ -152,7 +152,10 @@
       // Over the map?
       //
       if (! level_cursor_is_valid(g, v)) {
-        return false;
+        //
+        // No, allow this so we can scroll the map when really zoomed out and we can go beyond the map edges
+        //
+        // return false;
       }
 
       level_scroll_delta(g, v, l, spoint(wheelx, -wheely));

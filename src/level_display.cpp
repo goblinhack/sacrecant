@@ -41,58 +41,46 @@ static void level_blit_light(Gamep g, Levelsp v, Levelp l, color c)
   int visible_map_br_y = 0;
   game_visible_map_pix_get(g, &visible_map_tl_x, &visible_map_tl_y, &visible_map_br_x, &visible_map_br_y);
 
-  if (game_map_zoom_is_full_map_visible(g)) {
-    //
-    // Zoomed out. Full map visible.
-    //
-    blit_init();
-    blit(g_fbo_tex_id[ FBO_MAP_LIGHT_MASK ], 0, 1, 1, 0, visible_map_tl_x, visible_map_tl_y, visible_map_br_x, visible_map_br_y, c);
-    blit_flush();
-  } else {
-    //
-    // Zoomed in. Partial map visible.
-    //
-    spoint tl1;
-    spoint br1;
-    spoint tl2;
-    spoint br2;
-    //
-    // Get the on screen pixel coordinates of the top left and bottom right tiles
-    //
-    //    auto single_pix_size = game_map_single_pix_size_get(g);
-    thing_display_get_tile_info(g, v, l, bpoint(0, 0), NULL_TP, NULL_THING, tl1, br1, nullptr);
-    thing_display_get_tile_info(g, v, l, bpoint(MAP_WIDTH - 1, MAP_HEIGHT - 1), NULL_TP, NULL_THING, tl2, br2, nullptr);
+  spoint tl1;
+  spoint br1;
+  spoint tl2;
+  spoint br2;
+  //
+  // Get the on screen pixel coordinates of the top left and bottom right tiles
+  //
+  //    auto single_pix_size = game_map_single_pix_size_get(g);
+  thing_display_get_tile_info(g, v, l, bpoint(0, 0), NULL_TP, NULL_THING, tl1, br1, nullptr);
+  thing_display_get_tile_info(g, v, l, bpoint(MAP_WIDTH - 1, MAP_HEIGHT - 1), NULL_TP, NULL_THING, tl2, br2, nullptr);
 
-    tl1.x += visible_map_tl_x;
-    tl1.y += visible_map_tl_y;
-    br2.x += visible_map_tl_x;
-    br2.y += visible_map_tl_y;
+  tl1.x += visible_map_tl_x;
+  tl1.y += visible_map_tl_y;
+  br2.x += visible_map_tl_x;
+  br2.y += visible_map_tl_y;
 
-    //
-    // glScissor coordinates are inverted
-    //
-    auto y = game_window_pix_height_get(g) - visible_map_br_y;
-    auto w = visible_map_br_x - visible_map_tl_x;
-    auto h = visible_map_br_y - visible_map_tl_y;
+  //
+  // glScissor coordinates are inverted
+  //
+  auto y = game_window_pix_height_get(g) - visible_map_br_y;
+  auto w = visible_map_br_x - visible_map_tl_x;
+  auto h = visible_map_br_y - visible_map_tl_y;
 
-    //
-    // As we display the light map zoomed in, we need to clip it
-    //
-    glEnable(GL_SCISSOR_TEST);
-    glScissor(visible_map_tl_x, y, w, h);
+  //
+  // As we display the light map zoomed in, we need to clip it
+  //
+  glEnable(GL_SCISSOR_TEST);
+  glScissor(visible_map_tl_x, y, w, h);
 
-    //
-    // Blit the entire light map, scaled to the pixel size of the zoomed in mode
-    //
-    blit_init();
-    blit(g_fbo_tex_id[ FBO_MAP_LIGHT ], 0, 1, 1, 0, tl1.x, tl1.y, br2.x, br2.y, c);
-    blit_flush();
+  //
+  // Blit the entire light map, scaled to the pixel size of the zoomed in mode
+  //
+  blit_init();
+  blit(g_fbo_tex_id[ FBO_MAP_LIGHT ], 0, 1, 1, 0, tl1.x, tl1.y, br2.x, br2.y, c);
+  blit_flush();
 
-    // sdl_fbo_dump(g, FBO_MAP_LIGHT_MASK, "FBO_MAP_LIGHT_MASK");
-    // sdl_fbo_dump(g, FBO_MAP_LIGHT, "FBO_MAP_LIGHT");
+  // sdl_fbo_dump(g, FBO_MAP_LIGHT_MASK, "FBO_MAP_LIGHT_MASK");
+  // sdl_fbo_dump(g, FBO_MAP_LIGHT, "FBO_MAP_LIGHT");
 
-    glDisable(GL_SCISSOR_TEST);
-  }
+  glDisable(GL_SCISSOR_TEST);
 }
 
 static void level_blit_light_mask(Gamep g, Levelsp v, Levelp l, color c)
@@ -108,58 +96,49 @@ static void level_blit_light_mask(Gamep g, Levelsp v, Levelp l, color c)
   int visible_map_br_y = 0;
   game_visible_map_pix_get(g, &visible_map_tl_x, &visible_map_tl_y, &visible_map_br_x, &visible_map_br_y);
 
-  if (game_map_zoom_is_full_map_visible(g)) {
-    //
-    // Zoomed out. Full map visible.
-    //
-    blit_init();
-    blit(g_fbo_tex_id[ FBO_MAP_LIGHT_MASK ], 0, 1, 1, 0, visible_map_tl_x, visible_map_tl_y, visible_map_br_x, visible_map_br_y, c);
-    blit_flush();
-  } else {
-    //
-    // Zoomed in. Partial map visible.
-    //
-    spoint tl1;
-    spoint br1;
-    spoint tl2;
-    spoint br2;
-    //
-    // Get the on screen pixel coordinates of the top left and bottom right tiles
-    //
-    //    auto single_pix_size = game_map_single_pix_size_get(g);
-    thing_display_get_tile_info(g, v, l, bpoint(0, 0), NULL_TP, NULL_THING, tl1, br1, nullptr);
-    thing_display_get_tile_info(g, v, l, bpoint(MAP_WIDTH - 1, MAP_HEIGHT - 1), NULL_TP, NULL_THING, tl2, br2, nullptr);
+  //
+  // Zoomed in. Partial map visible.
+  //
+  spoint tl1;
+  spoint br1;
+  spoint tl2;
+  spoint br2;
+  //
+  // Get the on screen pixel coordinates of the top left and bottom right tiles
+  //
+  //    auto single_pix_size = game_map_single_pix_size_get(g);
+  thing_display_get_tile_info(g, v, l, bpoint(0, 0), NULL_TP, NULL_THING, tl1, br1, nullptr);
+  thing_display_get_tile_info(g, v, l, bpoint(MAP_WIDTH - 1, MAP_HEIGHT - 1), NULL_TP, NULL_THING, tl2, br2, nullptr);
 
-    tl1.x += visible_map_tl_x;
-    tl1.y += visible_map_tl_y;
-    br2.x += visible_map_tl_x;
-    br2.y += visible_map_tl_y;
+  tl1.x += visible_map_tl_x;
+  tl1.y += visible_map_tl_y;
+  br2.x += visible_map_tl_x;
+  br2.y += visible_map_tl_y;
 
-    //
-    // glScissor coordinates are inverted
-    //
-    auto y = game_window_pix_height_get(g) - visible_map_br_y;
-    auto w = visible_map_br_x - visible_map_tl_x;
-    auto h = visible_map_br_y - visible_map_tl_y;
+  //
+  // glScissor coordinates are inverted
+  //
+  auto y = game_window_pix_height_get(g) - visible_map_br_y;
+  auto w = visible_map_br_x - visible_map_tl_x;
+  auto h = visible_map_br_y - visible_map_tl_y;
 
-    //
-    // As we display the light map zoomed in, we need to clip it
-    //
-    glEnable(GL_SCISSOR_TEST);
-    glScissor(visible_map_tl_x, y, w, h);
+  //
+  // As we display the light map zoomed in, we need to clip it
+  //
+  glEnable(GL_SCISSOR_TEST);
+  glScissor(visible_map_tl_x, y, w, h);
 
-    //
-    // Blit the entire light map, scaled to the pixel size of the zoomed in mode
-    //
-    blit_init();
-    blit(g_fbo_tex_id[ FBO_MAP_LIGHT_MASK ], 0, 1, 1, 0, tl1.x, tl1.y, br2.x, br2.y, c);
-    blit_flush();
+  //
+  // Blit the entire light map, scaled to the pixel size of the zoomed in mode
+  //
+  blit_init();
+  blit(g_fbo_tex_id[ FBO_MAP_LIGHT_MASK ], 0, 1, 1, 0, tl1.x, tl1.y, br2.x, br2.y, c);
+  blit_flush();
 
-    // sdl_fbo_dump(g, FBO_MAP_LIGHT_MASK, "FBO_MAP_LIGHT_MASK");
-    // sdl_fbo_dump(g, FBO_MAP_LIGHT, "FBO_MAP_LIGHT");
+  // sdl_fbo_dump(g, FBO_MAP_LIGHT_MASK, "FBO_MAP_LIGHT_MASK");
+  // sdl_fbo_dump(g, FBO_MAP_LIGHT, "FBO_MAP_LIGHT");
 
-    glDisable(GL_SCISSOR_TEST);
-  }
+  glDisable(GL_SCISSOR_TEST);
 }
 
 static void level_display_effect_spell_target(Gamep g, Levelsp v, Levelp l, FboEnum fbo)

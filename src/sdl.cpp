@@ -656,19 +656,20 @@ void config_game_gfx_update(Gamep g)
     return;
   }
 
-  TERM_WIDTH = TERM_WIDTH_DEF;
+  TERM_WIDTH  = TERM_WIDTH_DEF;
+  TERM_HEIGHT = TERM_HEIGHT_DEF;
 
-  if (game_aspect_ratio_get(g) > 2) {
-    TERM_WIDTH *= 2;
-  }
-
-  int const new_font_width  = game_window_pix_width_get(g) / TERM_WIDTH;
-  int       new_font_height = static_cast< int >(static_cast< float >(new_font_width) * font_aspect_ratio);
-  TERM_HEIGHT               = game_window_pix_height_get(g) / new_font_height;
-
+  int new_font_height = game_window_pix_height_get(g) / TERM_HEIGHT;
   if ((new_font_height & 1) != 0) {
     new_font_height++;
   }
+
+  int new_font_width = static_cast< int >(static_cast< float >(new_font_height) / font_aspect_ratio);
+  if ((new_font_width & 1) != 0) {
+    new_font_width++;
+  }
+
+  TERM_WIDTH = game_window_pix_width_get(g) / new_font_width;
 
   log("SDL: Font");
   log("SDL: - pixel size              : %ux%u", font_width, font_height);
@@ -799,7 +800,7 @@ void config_game_gfx_update(Gamep g)
     zoom = game_map_zoom_get(g);
   }
 
-  if (game_map_zoom_is_full_map_visible(g)) {
+  if (0 && game_map_zoom_is_full_map_visible(g)) {
     //
     // Zoomed out to see the entire map
     //

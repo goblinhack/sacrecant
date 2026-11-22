@@ -282,26 +282,24 @@ static void game_display_title_bg(Gamep g)
 
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-  float       w = game_window_pix_width_get(g);
-  float const h = game_window_pix_height_get(g);
-
-  auto *tile = tile_find_mand("main_bg");
-
-  if (compiler_unused) {
-    float const tw = tile_width(tile);
-    float const th = tile_height(tile);
-
-    w = (h * tw) / th;
-  }
+  //
+  // Maintain the tile's aspect ratio with the displays
+  //
+  auto       *tile = tile_find_mand("main_bg");
+  float const tw   = tile_width(tile);
+  float const th   = tile_height(tile);
+  float const h    = game_window_pix_height_get(g);
+  float       w    = tw * (game_window_pix_height_get(g) / th);
 
   spoint tl(0, 0);
   spoint br(static_cast< int >(w), static_cast< int >(h));
 
-  if (compiler_unused) {
-    auto center = static_cast< int >((game_window_pix_width_get(g) - w) / 2);
-    tl.x += center;
-    br.x += center;
-  }
+  //
+  // Center the tile
+  //
+  auto center = static_cast< int >((game_window_pix_width_get(g) - w) / 2);
+  tl.x += center;
+  br.x += center;
 
   blit_init();
   if (compiler_unused) {
@@ -320,23 +318,26 @@ static void game_display_title_fg(Gamep g)
 
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-  float       w = game_window_pix_width_get(g);
-  float const h = game_window_pix_height_get(g);
-
   auto *tile = tile_find_mand("main_fg");
 
   if (! wid_is_visible(wid_main_menu_window->wid_popup_container)) {
     tile = tile_find_mand("main_alt_fg");
   }
 
+  //
+  // Maintain the tile's aspect ratio with the displays
+  //
   float const tw = tile_width(tile);
   float const th = tile_height(tile);
-
-  w = (h * tw) / th;
+  float const h  = game_window_pix_height_get(g);
+  float       w  = tw * (game_window_pix_height_get(g) / th);
 
   spoint tl(0, 0);
   spoint br(static_cast< int >(w), static_cast< int >(h));
 
+  //
+  // Center the tile
+  //
   auto center = static_cast< int >((game_window_pix_width_get(g) - w) / 2);
   tl.x += center;
   br.x += center;

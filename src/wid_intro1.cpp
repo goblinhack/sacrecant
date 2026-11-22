@@ -84,18 +84,22 @@ static void wid_intro1_display(Gamep g)
 
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-  float       w = game_window_pix_width_get(g);
-  float const h = game_window_pix_height_get(g);
+  auto *tile = tile_find_mand("intro1");
 
-  auto       *tile = tile_find_mand("intro1");
-  float const tw   = tile_width(tile);
-  float const th   = tile_height(tile);
-
-  w = (h * tw) / th;
+  //
+  // Maintain the tile's aspect ratio with the displays
+  //
+  float const tw = tile_width(tile);
+  float const th = tile_height(tile);
+  float const h  = game_window_pix_height_get(g);
+  float       w  = tw * (game_window_pix_height_get(g) / th);
 
   spoint tl(0, 0);
   spoint br(static_cast< int >(w), static_cast< int >(h));
 
+  //
+  // Center the tile
+  //
   auto center = static_cast< int >((game_window_pix_width_get(g) - w) / 2);
   tl.x += center;
   br.x += center;

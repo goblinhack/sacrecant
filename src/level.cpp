@@ -966,8 +966,13 @@ void level_bounds_set(Gamep g, Levelsp v, Levelp l)
   //
   // Set the scroll bounds
   //
-  v->pixel_map_at.x = std::max< short >(v->pixel_map_at.x, 0);
-  v->pixel_map_at.y = std::max< short >(v->pixel_map_at.y, 0);
+  if (0) {
+    //
+    // We need to allow overflow for when the map is really zoomed out
+    //
+    v->pixel_map_at.x = std::max< short >(v->pixel_map_at.x, 0);
+    v->pixel_map_at.y = std::max< short >(v->pixel_map_at.y, 0);
+  }
 
   v->pixel_max.x = (MAP_WIDTH * dw) - game_map_fbo_width_get(g);
   v->pixel_max.y = (MAP_HEIGHT * dh) - game_map_fbo_height_get(g);
@@ -975,8 +980,13 @@ void level_bounds_set(Gamep g, Levelsp v, Levelp l)
   //
   // Overflow?
   //
-  v->pixel_map_at.x = std::min(v->pixel_map_at.x, v->pixel_max.x);
-  v->pixel_map_at.y = std::min(v->pixel_map_at.y, v->pixel_max.y);
+  if (0) {
+    //
+    // We need to allow overflow for when the map is really zoomed out
+    //
+    v->pixel_map_at.x = std::min(v->pixel_map_at.x, v->pixel_max.x);
+    v->pixel_map_at.y = std::min(v->pixel_map_at.y, v->pixel_max.y);
+  }
 
   //
   // Set the tile bounds
