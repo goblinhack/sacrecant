@@ -53,10 +53,10 @@ void thing_interpolate(Gamep g, Levelsp v, Levelp l, Thingp me, float dt)
   //
   // Move all hooks and effects
   //
-  FOR_ALL_HOOKS(g, v, l, me, buff)
+  FOR_ALL_HOOKS(g, v, l, me, hook)
   {
-    thing_interpolate(g, v, l, buff, dt);
+    thing_interpolate(g, v, l, hook, dt);
 
-    FOR_ALL_FOLLOWERS(g, v, l, buff, follower) { thing_interpolate(g, v, l, follower, dt); }
+    FOR_ALL_FOLLOWERS(g, v, l, hook, follower) { thing_interpolate(g, v, l, follower, dt); }
   }
 }

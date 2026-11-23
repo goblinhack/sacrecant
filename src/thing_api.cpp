@@ -1489,7 +1489,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   return tp_flag(thing_tp(t), is_unused90) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused91(Thingp t) -> bool
+[[nodiscard]] auto thing_is_blocker_movement(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1497,10 +1497,10 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     no_thing_pointer();
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused91) != 0;
+  return tp_flag(thing_tp(t), is_blocker_movement) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused92(Thingp t) -> bool
+[[nodiscard]] auto thing_is_effect_holding(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1508,7 +1508,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     no_thing_pointer();
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused92) != 0;
+  return tp_flag(thing_tp(t), is_effect_holding) != 0;
 }
 
 [[nodiscard]] auto thing_is_one_per_tile_only(Thingp t) -> bool
@@ -2215,7 +2215,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   return tp_flag(thing_tp(t), is_edible) != 0;
 }
 
-[[nodiscard]] auto thing_is_able_to_be_engulfed_blocked(Thingp t) -> bool
+[[nodiscard]] auto thing_is_blocker_engulfed(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -2223,10 +2223,10 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     no_thing_pointer();
     return false;
   }
-  return tp_flag(thing_tp(t), is_able_to_be_engulfed_blocked) != 0;
+  return tp_flag(thing_tp(t), is_blocker_engulfed) != 0;
 }
 
-[[nodiscard]] auto thing_is_able_to_be_ensnared_blocked(Thingp t) -> bool
+[[nodiscard]] auto thing_is_blocker_ensnared(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -2234,7 +2234,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     no_thing_pointer();
     return false;
   }
-  return tp_flag(thing_tp(t), is_able_to_be_ensnared_blocked) != 0;
+  return tp_flag(thing_tp(t), is_blocker_ensnared) != 0;
 }
 
 [[nodiscard]] auto thing_is_active_when_worn(Thingp t) -> bool
@@ -2312,17 +2312,6 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     return false;
   }
   return tp_flag(thing_tp(t), is_flesh_eater) != 0;
-}
-
-[[nodiscard]] auto thing_is_able_to_move(Thingp t) -> bool
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    no_thing_pointer();
-    return false;
-  }
-  return tp_flag(thing_tp(t), is_able_to_move) != 0;
 }
 
 [[nodiscard]] auto thing_is_spider(Thingp t) -> bool

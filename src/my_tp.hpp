@@ -23,7 +23,7 @@
   CLANG_FORMAT_INDENT()                                                                     /* dummy line for clang indentation fixup */        \
   list_macro(is_able_to_be_buffed, "is_able_to_be_buffed"),                                 /* newline */                                       \
       list_macro(is_able_to_be_engulfed, "is_able_to_be_engulfed"),                         /* newline */                                       \
-      list_macro(is_able_to_be_ensnared_blocked, "is_able_to_be_ensnared_blocked"),         /* newline */                                       \
+      list_macro(is_blocker_ensnared, "is_blocker_ensnared"),                               /* newline */                                       \
       list_macro(is_able_to_be_ensnared, "is_able_to_be_ensnared"),                         /* newline */                                       \
       list_macro(is_able_to_be_invisible, "is_able_to_be_invisible"),                       /* newline */                                       \
       list_macro(is_able_to_be_levitated, "is_able_to_be_levitated"),                       /* newline */                                       \
@@ -402,8 +402,8 @@
       list_macro(is_unused89, "is_unused89"),                                               /* newline */                                       \
       list_macro(is_unused9, "is_unused9"),                                                 /* newline */                                       \
       list_macro(is_unused90, "is_unused90"),                                               /* newline */                                       \
-      list_macro(is_unused91, "is_unused91"),                                               /* newline */                                       \
-      list_macro(is_unused92, "is_unused92"),                                               /* newline */                                       \
+      list_macro(is_blocker_movement, "is_blocker_movement"),                               /* newline */                                       \
+      list_macro(is_effect_holding, "is_effect_holding"),                                   /* newline */                                       \
       list_macro(is_one_per_tile_only, "is_one_per_tile_only"),                             /* newline */                                       \
       list_macro(is_able_to_collect_spell_stones, "is_able_to_collect_spell_stones"),       /* newline */                                       \
       list_macro(is_temple, "is_temple"),                                                   /* newline */                                       \
@@ -429,7 +429,7 @@
       list_macro(is_wearable, "is_wearable"),                                               /* newline */                                       \
       list_macro(is_wood, "is_wood"),                                                       /* newline */                                       \
       list_macro(is_wooden_leg, "is_wooden_leg"),                                           /* newline */                                       \
-      list_macro(is_able_to_be_engulfed_blocked, "is_able_to_be_engulfed_blocked"),         /* newline */                                       \
+      list_macro(is_blocker_engulfed, "is_blocker_engulfed"),                               /* newline */                                       \
       list_macro(is_water_shallow, "is_water_shallow"),                                     /* newline */
 
 ENUM_DEF_H(THING_FLAG_ENUM, ThingFlagType)
@@ -882,7 +882,7 @@ class Tp;
 [[nodiscard]] auto tp_find_random(ThingFlagType /*f*/) -> Tpp;
 [[nodiscard]] auto tp_first_tile(class Tp *tp, ThingAnimType val) -> Tilep;
 [[nodiscard]] auto tp_first(ThingFlagType f) -> Tpp;
-[[nodiscard]] auto tp_follower_max_get(Tpp tp) -> int;
+[[nodiscard]] auto tp_follower_count_max_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_fumble_roll_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_health_get(Tpp tp) -> int;
 [[nodiscard]] auto tp_health_max_get(Tpp tp) -> int;
@@ -891,9 +891,7 @@ class Tp;
 [[nodiscard]] auto tp_id_max() -> int;
 [[nodiscard]] auto tp_init() -> bool;
 [[nodiscard]] auto tp_is_able_to_be_buffed(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_able_to_be_engulfed_blocked(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_able_to_be_engulfed(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_able_to_be_ensnared_blocked(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_able_to_be_ensnared(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_able_to_be_invisible(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_able_to_be_levitated(Tpp tp) -> bool;
@@ -969,6 +967,9 @@ class Tp;
 [[nodiscard]] auto tp_is_blit_square_outlined(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_blit_when_obscured_faded(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_blit_when_obscured_outline(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_blocker_engulfed(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_blocker_ensnared(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_blocker_movement(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_boost(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_boots(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_border(Tpp tp) -> bool;
@@ -1025,6 +1026,7 @@ class Tp;
 [[nodiscard]] auto tp_is_edible(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_effect_attack(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_effect_blood(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_effect_holding(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_effect_orange_explosion(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_effect_protection(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_effect_ripple(Tpp tp) -> bool;
@@ -1281,8 +1283,6 @@ class Tp;
 [[nodiscard]] auto tp_is_unused89(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused9(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused90(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused91(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused92(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_usable(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_vault(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_venomous(Tpp tp) -> bool;
@@ -1382,7 +1382,7 @@ void tp_err_(Tpp tp, const char *fmt, va_list args); // compile error without
 void tp_err(Tpp tp, const char *fmt, ...) CHECK_FORMAT_STR(printf, 2, 3);
 void tp_fini();
 void tp_flag_set(Tpp tp, ThingFlagType f, int val = 1);
-void tp_follower_max_set(Tpp tp, int val);
+void tp_follower_count_max_set(Tpp tp, int val);
 void tp_fumble_roll_set(Tpp tp, int val);
 void tp_get_id(const char *, int *id);
 void tp_health_set(Tpp tp, const std::string &val);

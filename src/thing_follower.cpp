@@ -233,7 +233,7 @@ void thing_is_follower_set(Thingp me)
   me->_is_follower = true;
 }
 
-[[nodiscard]] auto thing_follower_max(Gamep g, Levelsp v, Levelp l, Thingp me) -> int
+[[nodiscard]] auto thing_follower_count_max(Gamep g, Levelsp v, Levelp l, Thingp me) -> int
 {
   TRACE_DEBUG();
 
@@ -247,10 +247,10 @@ void thing_is_follower_set(Thingp me)
     return 0;
   }
 
-  return ext->_follower_max;
+  return ext->_follower_count_max;
 }
 
-[[nodiscard]] auto thing_follower_max_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
+[[nodiscard]] auto thing_follower_count_max_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
@@ -269,10 +269,10 @@ void thing_is_follower_set(Thingp me)
     val = THING_FOLLOWER_MAX;
   }
 
-  return ext->_follower_max = val;
+  return ext->_follower_count_max = val;
 }
 
-[[nodiscard]] auto thing_follower_max_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
+[[nodiscard]] auto thing_follower_count_max_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
@@ -286,14 +286,14 @@ void thing_is_follower_set(Thingp me)
     return 0;
   }
 
-  if (ext->_follower_max + val >= THING_FOLLOWER_MAX) {
-    return ext->_follower_max = THING_FOLLOWER_MAX;
+  if (ext->_follower_count_max + val >= THING_FOLLOWER_MAX) {
+    return ext->_follower_count_max = THING_FOLLOWER_MAX;
   }
 
-  return ext->_follower_max += val;
+  return ext->_follower_count_max += val;
 }
 
-[[nodiscard]] auto thing_follower_max_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
+[[nodiscard]] auto thing_follower_count_max_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
@@ -307,10 +307,10 @@ void thing_is_follower_set(Thingp me)
     return 0;
   }
 
-  if (static_cast< int >(ext->_follower_max) - val <= 0) {
-    return ext->_follower_max = 0;
+  if (static_cast< int >(ext->_follower_count_max) - val <= 0) {
+    return ext->_follower_count_max = 0;
   }
-  return ext->_follower_max -= val;
+  return ext->_follower_count_max -= val;
 }
 
 [[nodiscard]] auto thing_distance_follower_from_leader_max(Gamep g, Levelsp v, Levelp l, Thingp me) -> int

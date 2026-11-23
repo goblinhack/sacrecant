@@ -54,7 +54,6 @@ static bool tp_boots_spider_on_use(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
   thing_detail_set(tp, tp_boots_spider_detail_get);
   thing_on_use_set(tp, tp_boots_spider_on_use);
   tp_flag_set(tp, is_able_to_be_buffed);
-  tp_flag_set(tp, is_able_to_be_ensnared_blocked);
   tp_flag_set(tp, is_able_to_be_invisible);
   tp_flag_set(tp, is_able_to_be_levitated);
   tp_flag_set(tp, is_able_to_be_teleported);
@@ -66,6 +65,7 @@ static bool tp_boots_spider_on_use(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
   tp_flag_set(tp, is_blit_centered);
   tp_flag_set(tp, is_blit_hit_outline_w_black_inside);
   tp_flag_set(tp, is_blit_shown_in_chasms);
+  tp_flag_set(tp, is_blocker_ensnared);
   tp_flag_set(tp, is_boots);
   tp_flag_set(tp, is_collectable);
   tp_flag_set(tp, is_collision_circle_large);

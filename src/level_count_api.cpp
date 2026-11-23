@@ -1383,16 +1383,16 @@
   return level_count(g, v, l, is_unused90, p);
 }
 
-[[nodiscard]] auto level_count_is_unused91(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_blocker_movement(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused91, p);
+  return level_count(g, v, l, is_blocker_movement, p);
 }
 
-[[nodiscard]] auto level_count_is_unused92(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_effect_holding(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused92, p);
+  return level_count(g, v, l, is_effect_holding, p);
 }
 
 [[nodiscard]] auto level_count_is_one_per_tile_only(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
@@ -1863,16 +1863,16 @@
   return level_count(g, v, l, is_edible, p);
 }
 
-[[nodiscard]] auto level_count_is_able_to_be_engulfed_blocked(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_blocker_engulfed(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_able_to_be_engulfed_blocked, p);
+  return level_count(g, v, l, is_blocker_engulfed, p);
 }
 
-[[nodiscard]] auto level_count_is_able_to_be_ensnared_blocked(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_blocker_ensnared(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_able_to_be_ensnared_blocked, p);
+  return level_count(g, v, l, is_blocker_ensnared, p);
 }
 
 [[nodiscard]] auto level_count_is_active_when_worn(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t

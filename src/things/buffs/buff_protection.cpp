@@ -10,14 +10,14 @@
 #include "../../my_tps.hpp"
 #include "../../my_ui.hpp"
 
-static auto tp_buff_prot_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
+static auto tp_buff_protection_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std::string
 {
   TRACE();
 
   return UI_INFO1_FMT_STR "With this buff, your health issues are a thing of the past.\n"; //
 }
 
-static bool tp_buff_prot_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
+static bool tp_buff_protection_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
 {
   TRACE();
 
@@ -47,24 +47,26 @@ static bool tp_buff_prot_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
   return true; // allow the damage to be applied
 }
 
-void tp_buff_prot_on_hook_attached(Gamep g, Levelsp v, Levelp l, Thingp me)
+void tp_buff_protection_on_hook_attached(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
+
+  THING_DBG(g, v, l, me, "protection buff attached");
 
   (void) thing_leader_spawn_a_follower_at(g, v, l, me, tp_find_random(g, v, l, is_effect_protection), thing_at(g, v, l, me));
 }
 
-[[nodiscard]] auto tp_load_buff_prot() -> bool
+[[nodiscard]] auto tp_load_buff_protection() -> bool
 {
   TRACE();
 
-  auto *tp   = tp_load("buff_prot"); // keep as string for scripts
+  auto *tp   = tp_load("buff_protection"); // keep as string for scripts
   auto  name = tp_name(tp);
 
   // begin sort marker1 {
-  thing_detail_set(tp, tp_buff_prot_detail_get);
-  thing_on_damage_set(tp, tp_buff_prot_on_damage);
-  thing_on_hook_attached_set(tp, tp_buff_prot_on_hook_attached);
+  thing_detail_set(tp, tp_buff_protection_detail_get);
+  thing_on_damage_set(tp, tp_buff_protection_on_damage);
+  thing_on_hook_attached_set(tp, tp_buff_protection_on_hook_attached);
   tp_flag_set(tp, is_buff);
   tp_flag_set(tp, is_hook);
   tp_flag_set(tp, is_leader_kill_followers_on_death);
@@ -73,7 +75,7 @@ void tp_buff_prot_on_hook_attached(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_tick_on_use);
   tp_flag_set(tp, is_tickable);
-  tp_follower_max_set(tp, 1);
+  tp_follower_count_max_set(tp, 1);
   tp_lifespan_set(tp, "1d100+100");
   tp_name_short_set(tp, "protection");
   // end sort marker1 }

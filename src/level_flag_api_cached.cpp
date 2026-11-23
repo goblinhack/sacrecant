@@ -1419,16 +1419,16 @@
   return level_flag_cached(g, v, l, is_unused90, p);
 }
 
-[[nodiscard]] auto level_is_unused91_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_blocker_movement_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused91, p);
+  return level_flag_cached(g, v, l, is_blocker_movement, p);
 }
 
-[[nodiscard]] auto level_is_unused92_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_effect_holding_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused92, p);
+  return level_flag_cached(g, v, l, is_effect_holding, p);
 }
 
 [[nodiscard]] auto level_is_one_per_tile_only_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
@@ -1899,16 +1899,16 @@
   return level_flag_cached(g, v, l, is_edible, p);
 }
 
-[[nodiscard]] auto level_is_able_to_be_engulfed_blocked_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_blocker_engulfed_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_able_to_be_engulfed_blocked, p);
+  return level_flag_cached(g, v, l, is_blocker_engulfed, p);
 }
 
-[[nodiscard]] auto level_is_able_to_be_ensnared_blocked_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_blocker_ensnared_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_able_to_be_ensnared_blocked, p);
+  return level_flag_cached(g, v, l, is_blocker_ensnared, p);
 }
 
 [[nodiscard]] auto level_is_active_when_worn_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

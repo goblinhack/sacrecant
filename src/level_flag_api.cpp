@@ -1382,16 +1382,16 @@
   return level_flag(g, v, l, is_unused90, p, me);
 }
 
-[[nodiscard]] auto level_is_unused91(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_blocker_movement(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused91, p, me);
+  return level_flag(g, v, l, is_blocker_movement, p, me);
 }
 
-[[nodiscard]] auto level_is_unused92(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_effect_holding(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused92, p, me);
+  return level_flag(g, v, l, is_effect_holding, p, me);
 }
 
 [[nodiscard]] auto level_is_one_per_tile_only(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
@@ -1862,16 +1862,16 @@
   return level_flag(g, v, l, is_edible, p, me);
 }
 
-[[nodiscard]] auto level_is_able_to_be_engulfed_blocked(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_blocker_engulfed(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_able_to_be_engulfed_blocked, p, me);
+  return level_flag(g, v, l, is_blocker_engulfed, p, me);
 }
 
-[[nodiscard]] auto level_is_able_to_be_ensnared_blocked(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_blocker_ensnared(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_able_to_be_ensnared_blocked, p, me);
+  return level_flag(g, v, l, is_blocker_ensnared, p, me);
 }
 
 [[nodiscard]] auto level_is_active_when_worn(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp

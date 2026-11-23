@@ -22,9 +22,9 @@
     return true;
   }
 
-  FOR_ALL_HOOKS(g, v, l, me, buff)
+  FOR_ALL_HOOKS(g, v, l, me, hook)
   {
-    if (thing_is_myopic(g, v, l, buff)) {
+    if (thing_is_myopic(g, v, l, hook)) {
       return true;
     }
   }

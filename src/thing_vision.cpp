@@ -419,9 +419,9 @@ void thing_vision_calculate(Gamep g, Levelsp v, Levelp l, Thingp me)
     return true;
   }
 
-  FOR_ALL_HOOKS(g, v, l, me, buff)
+  FOR_ALL_HOOKS(g, v, l, me, hook)
   {
-    if (thing_is_vision_360_degrees(g, v, l, buff)) {
+    if (thing_is_vision_360_degrees(g, v, l, hook)) {
       return true;
     }
   }
@@ -449,9 +449,9 @@ void thing_vision_calculate(Gamep g, Levelsp v, Levelp l, Thingp me)
     return true;
   }
 
-  FOR_ALL_HOOKS(g, v, l, me, buff)
+  FOR_ALL_HOOKS(g, v, l, me, hook)
   {
-    if (thing_is_vision_180_degrees(g, v, l, buff)) {
+    if (thing_is_vision_180_degrees(g, v, l, hook)) {
       return true;
     }
   }

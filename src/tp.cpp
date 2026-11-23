@@ -151,7 +151,7 @@ const std::initializer_list< std::string > tps = {
     "buff_immune_fire",
     "buff_invis",
     "buff_levit",
-    "buff_prot",
+    "buff_protection",
     "buff_resistant_fire",
     "buff_stealth",
     "buff_tireless",
@@ -167,12 +167,14 @@ const std::initializer_list< std::string > tps = {
     "cursor_at",
     "cursor_path",
     "debuff_bad_luck",
+    "debuff_holding",
     "debuff_poison",
     "dirt",
     "door_locked",
     "door_unlocked",
     "effect_attack",
     "effect_blood",
+    "effect_holding",
     "effect_orange_explosion",
     "effect_protection",
     "effect_ripple",
@@ -275,6 +277,7 @@ const std::initializer_list< std::string > tps = {
     "spell_dispel_obstacles",
     "spell_fungus_amongus",
     "spell_hellish_onslaught",
+    "spell_holding",
     "spell_level_warp",
     "spell_poison_spray",
     "spell_stone",
@@ -504,6 +507,12 @@ static void tp_fixup()
 
       if (tp_is_able_to_be_levitated(tp) || tp_is_able_to_be_invisible(tp)) {
         tp_flag_set(tp, is_able_to_be_buffed);
+      }
+
+      if (tp_is_leader(tp)) {
+        if (! tp_follower_count_max_get(tp)) {
+          tp_err(tp, "is a leader with no follower count");
+        }
       }
     }
   }
@@ -2187,7 +2196,7 @@ void tp_minion_max_set(Tpp tp, int val)
   return tp->minion_max;
 }
 
-void tp_follower_max_set(Tpp tp, int val)
+void tp_follower_count_max_set(Tpp tp, int val)
 {
   TRACE_DEBUG();
   if (tp == nullptr) [[unlikely]] {
@@ -2199,17 +2208,17 @@ void tp_follower_max_set(Tpp tp, int val)
     return;
   }
 
-  tp->follower_max = val;
+  tp->follower_count_max = val;
 }
 
-[[nodiscard]] auto tp_follower_max_get(Tpp tp) -> int
+[[nodiscard]] auto tp_follower_count_max_get(Tpp tp) -> int
 {
   TRACE_DEBUG();
   if (tp == nullptr) [[unlikely]] {
     no_tp_pointer();
     return 0;
   }
-  return tp->follower_max;
+  return tp->follower_count_max;
 }
 
 void tp_missile_count_max_set(Tpp tp, int val)

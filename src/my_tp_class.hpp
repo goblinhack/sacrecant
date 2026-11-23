@@ -209,7 +209,7 @@ public:
   //
   // Max number of followers the thing can spawn
   //
-  int follower_max {0};
+  int follower_count_max {0};
 
   //
   // Max number of projectiles the thing can fire

@@ -410,9 +410,9 @@
     TRACE_INDENT();
   }
 
-  FOR_ALL_HOOKS(g, v, l, me, buff)
+  FOR_ALL_HOOKS(g, v, l, me, hook)
   {
-    auto mod = thing_stat_mod(g, v, l, buff, stat);
+    auto mod = thing_stat_mod(g, v, l, hook, stat);
 
     out += mod;
 
@@ -560,9 +560,9 @@
 
   int roll = tp_fumble_roll_get(thing_tp(me));
 
-  FOR_ALL_HOOKS(g, v, l, me, buff)
+  FOR_ALL_HOOKS(g, v, l, me, hook)
   { //
-    roll = std::max(thing_fumble_roll(g, v, l, buff), roll);
+    roll = std::max(thing_fumble_roll(g, v, l, hook), roll);
   }
 
   FOR_ALL_ACTIVE_ITEMS(g, v, l, me, item)
@@ -584,9 +584,9 @@
 
   int roll = tp_crit_roll_get(thing_tp(me));
 
-  FOR_ALL_HOOKS(g, v, l, me, buff)
+  FOR_ALL_HOOKS(g, v, l, me, hook)
   { //
-    roll = std::min(thing_crit_roll(g, v, l, buff), roll);
+    roll = std::min(thing_crit_roll(g, v, l, hook), roll);
   }
 
   FOR_ALL_ACTIVE_ITEMS(g, v, l, me, item)

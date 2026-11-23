@@ -192,9 +192,9 @@
     return false;
   }
 
-  FOR_ALL_HOOKS(g, v, l, me, buff)
+  FOR_ALL_HOOKS(g, v, l, me, hook)
   {
-    if (tp_flag(thing_tp(buff), is_able_to_be_ensnared_blocked) != 0) {
+    if (tp_flag(thing_tp(hook), is_blocker_ensnared) != 0) {
       return false;
     }
   }
@@ -204,7 +204,7 @@
   //
   FOR_ALL_ACTIVE_ITEMS(g, v, l, me, item)
   {
-    if (tp_flag(thing_tp(item), is_able_to_be_ensnared_blocked) != 0) {
+    if (tp_flag(thing_tp(item), is_blocker_ensnared) != 0) {
       return false;
     }
   }

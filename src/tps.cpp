@@ -39,7 +39,7 @@
   if (!tp_load_buff_immune_fire()) { return false; }
   if (!tp_load_buff_invis()) { return false; }
   if (!tp_load_buff_levit()) { return false; }
-  if (!tp_load_buff_prot()) { return false; }
+  if (!tp_load_buff_protection()) { return false; }
   if (!tp_load_buff_resistant_fire()) { return false; }
   if (!tp_load_buff_stealth()) { return false; }
   if (!tp_load_buff_tireless()) { return false; }
@@ -56,6 +56,7 @@
   if (!tp_load_cursor_path()) { return false; }
   if (!tp_load_death_fungus()) { return false; }
   if (!tp_load_debuff_bad_luck()) { return false; }
+  if (!tp_load_debuff_holding()) { return false; }
   if (!tp_load_debuff_poison()) { return false; }
   if (!tp_load_dirt()) { return false; }
   if (!tp_load_door_locked()) { return false; }
@@ -63,6 +64,7 @@
   if (!tp_load_door_unlocked()) { return false; }
   if (!tp_load_effect_attack()) { return false; }
   if (!tp_load_effect_blood()) { return false; }
+  if (!tp_load_effect_holding()) { return false; }
   if (!tp_load_effect_orange_explosion()) { return false; }
   if (!tp_load_effect_protection()) { return false; }
   if (!tp_load_effect_ripple()) { return false; }
@@ -168,6 +170,7 @@
   if (!tp_load_spell_dispel_obstacles()) { return false; }
   if (!tp_load_spell_fungus_amongus()) { return false; }
   if (!tp_load_spell_hellish_onslaught()) { return false; }
+  if (!tp_load_spell_holding()) { return false; }
   if (!tp_load_spell_level_warp()) { return false; }
   if (!tp_load_spell_poison_spray()) { return false; }
   if (!tp_load_spell_stone()) { return false; }

@@ -699,7 +699,7 @@ static auto thing_monst_choose_something_we_can_wander_to(Gamep g, Levelsp v, Le
   //
   // This is for spiders that do not move conventionally, but jump
   //
-  auto try_jump = ! thing_is_able_to_move(me);
+  auto try_jump = ! thing_is_able_to_move(g, v, l, me);
 
   //
   // Pirnana does not always move, but jumps sometimes
@@ -1013,7 +1013,7 @@ static auto thing_monst_choose_something_we_can_wander_to(Gamep g, Levelsp v, Le
     return true;
   }
 
-  if (! thing_is_able_to_move(me)) {
+  if (! thing_is_able_to_move(g, v, l, me)) {
     THING_DBG(g, v, l, me, "move to next: unable to move");
     return true;
   }
@@ -1109,7 +1109,7 @@ static auto thing_monst_choose_something_we_can_wander_to(Gamep g, Levelsp v, Le
 //
 void thing_monst_event_loop(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
-  THING_DBG(g, v, l, me, "monst event loop, move_rem %d", thing_move_remaining(me));
+  THING_DBG(g, v, l, me, "monst event loop, move_rem %d", thing_move_remaining(g, v, l, me));
   TRACE_INDENT();
 
   auto *player = thing_player(g);
@@ -1118,14 +1118,14 @@ void thing_monst_event_loop(Gamep g, Levelsp v, Levelp l, Thingp me)
   }
 
   const int player_speed = thing_speed(g, v, l, player);
-  auto      rem          = thing_move_remaining(me);
+  auto      rem          = thing_move_remaining(g, v, l, me);
   auto      at           = thing_at(g, v, l, me);
 
   //
   // If we have run out of moves, stop
   //
   if (rem < player_speed) {
-    THING_DBG(g, v, l, me, "no more moves this tick, move_rem %d", thing_move_remaining(me));
+    THING_DBG(g, v, l, me, "no more moves this tick, move_rem %d", thing_move_remaining(g, v, l, me));
 
     //
     // But can we attack even if we cannot move?
@@ -1143,7 +1143,7 @@ void thing_monst_event_loop(Gamep g, Levelsp v, Levelp l, Thingp me)
   }
 
   (void) thing_move_remaining_decr(g, v, l, me, player_speed);
-  THING_DBG(g, v, l, me, "move_rem %d", thing_move_remaining(me));
+  THING_DBG(g, v, l, me, "move_rem %d", thing_move_remaining(g, v, l, me));
 
   if (compiler_unused) {
     thing_can_see_dump(g, v, l, me);
@@ -1396,7 +1396,7 @@ void thing_monst_tick(Gamep g, Levelsp v, Levelp l, Thingp me)
   //
   (void) thing_move_remaining_incr(g, v, l, me, thing_speed(g, v, l, me));
 
-  THING_DBG(g, v, l, me, "monst tick, move_rem %d dt %f", thing_move_remaining(me), me->thing_dt);
+  THING_DBG(g, v, l, me, "monst tick, move_rem %d dt %f", thing_move_remaining(g, v, l, me), me->thing_dt);
   TRACE_INDENT();
 
   auto start = game_time_ms();

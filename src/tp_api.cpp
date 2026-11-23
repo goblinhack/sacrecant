@@ -1405,16 +1405,16 @@
   return tp_flag(tp, is_unused90) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused91(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_blocker_movement(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused91) != 0;
+  return tp_flag(tp, is_blocker_movement) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused92(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_effect_holding(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused92) != 0;
+  return tp_flag(tp, is_effect_holding) != 0;
 }
 
 [[nodiscard]] auto tp_is_one_per_tile_only(Tpp tp) -> bool
@@ -1885,16 +1885,16 @@
   return tp_flag(tp, is_edible) != 0;
 }
 
-[[nodiscard]] auto tp_is_able_to_be_engulfed_blocked(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_blocker_engulfed(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_able_to_be_engulfed_blocked) != 0;
+  return tp_flag(tp, is_blocker_engulfed) != 0;
 }
 
-[[nodiscard]] auto tp_is_able_to_be_ensnared_blocked(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_blocker_ensnared(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_able_to_be_ensnared_blocked) != 0;
+  return tp_flag(tp, is_blocker_ensnared) != 0;
 }
 
 [[nodiscard]] auto tp_is_active_when_worn(Tpp tp) -> bool

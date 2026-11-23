@@ -54,7 +54,7 @@ static bool tp_pot_prot_on_use(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp u
 {
   TRACE();
 
-  if (thing_hook_add(g, v, l, user, tp_find_mand("buff_prot"))) {
+  if (thing_hook_add(g, v, l, user, tp_find_mand("buff_protection"))) {
     if (thing_is_player(user)) {
       topcon(UI_GOOD_FMT_STR "You feel safe." UI_RESET_FMT);
       thing_sound_play(g, v, l, user, "bonus");

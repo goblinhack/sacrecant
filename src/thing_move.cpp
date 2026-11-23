@@ -99,11 +99,11 @@
     thing_leader_move_followers_offset(g, v, l, me, delta);
   }
 
-  FOR_ALL_HOOKS(g, v, l, me, buff)
+  FOR_ALL_HOOKS(g, v, l, me, hook)
   {
-    (void) thing_move_to(g, v, l, buff, to);
+    (void) thing_move_to(g, v, l, hook, to);
 
-    FOR_ALL_FOLLOWERS(g, v, l, buff, follower) { (void) thing_move_to(g, v, l, follower, to); }
+    FOR_ALL_FOLLOWERS(g, v, l, hook, follower) { (void) thing_move_to(g, v, l, follower, to); }
   }
 
   return true;
@@ -369,73 +369,88 @@ void thing_update_pos(Gamep g, Levelsp v, Levelp l, Thingp me)
   }
 }
 
-[[nodiscard]] auto thing_move_remaining(Thingp t) -> int
+[[nodiscard]] auto thing_move_remaining(Gamep g, Levelsp v, Levelp l, Thingp me) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     no_thing_pointer();
     return 0;
   }
-  return t->_move_remaining;
+
+  FOR_ALL_HOOKS(g, v, l, me, hook)
+  {
+    if (thing_is_blocker_movement(hook)) {
+      return 0;
+    }
+  }
+
+  FOR_ALL_ACTIVE_ITEMS(g, v, l, me, item)
+  {
+    if (thing_is_blocker_movement(item)) {
+      return 0;
+    }
+  }
+
+  return me->_move_remaining;
 }
 
-[[nodiscard]] auto thing_move_remaining_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+[[nodiscard]] auto thing_move_remaining_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     no_thing_pointer();
     return 0;
   }
-  return t->_move_remaining = val;
+  return me->_move_remaining = val;
 }
 
-[[nodiscard]] auto thing_move_remaining_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+[[nodiscard]] auto thing_move_remaining_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     no_thing_pointer();
     return 0;
   }
-  return t->_move_remaining += val;
+  return me->_move_remaining += val;
 }
 
-[[nodiscard]] auto thing_move_remaining_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int
+[[nodiscard]] auto thing_move_remaining_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     no_thing_pointer();
     return 0;
   }
-  if (t->_move_remaining - val <= 0) {
-    return t->_move_remaining = 0;
+  if (me->_move_remaining - val <= 0) {
+    return me->_move_remaining = 0;
   }
-  return t->_move_remaining -= val;
+  return me->_move_remaining -= val;
 }
 
-[[nodiscard]] auto thing_moving_from(Thingp t) -> bpoint
+[[nodiscard]] auto thing_moving_from(Thingp me) -> bpoint
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     no_thing_pointer();
     return bpoint(0, 0);
   }
-  return t->_moving_from;
+  return me->_moving_from;
 }
 
-void thing_moving_from_set(Thingp t, const bpoint &val)
+void thing_moving_from_set(Thingp me, const bpoint &val)
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     no_thing_pointer();
     return;
   }
-  t->_moving_from = val;
+  me->_moving_from = val;
 }
 
 //
@@ -612,17 +627,6 @@ void thing_moving_from_set(Thingp t, const bpoint &val)
   return tp_flag(thing_tp(me), is_cursor_path_jump_over) != 0;
 }
 
-[[nodiscard]] auto thing_is_able_to_move_diagonally(Thingp me) -> bool
-{
-  TRACE_DEBUG();
-
-  if (me == nullptr) {
-    no_thing_pointer();
-    return false;
-  }
-  return tp_flag(thing_tp(me), is_able_to_move_diagonally) != 0;
-}
-
 [[nodiscard]] auto thing_is_needs_move_confirm(Thingp me) -> bool
 {
   TRACE_DEBUG();
@@ -632,4 +636,56 @@ void thing_moving_from_set(Thingp t, const bpoint &val)
     return false;
   }
   return tp_flag(thing_tp(me), is_needs_move_confirm) != 0;
+}
+
+[[nodiscard]] auto thing_is_able_to_move_diagonally(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    no_thing_pointer();
+    return false;
+  }
+
+  FOR_ALL_HOOKS(g, v, l, me, hook)
+  {
+    if (thing_is_blocker_movement(hook)) {
+      return false;
+    }
+  }
+
+  FOR_ALL_ACTIVE_ITEMS(g, v, l, me, item)
+  {
+    if (thing_is_blocker_movement(item)) {
+      return false;
+    }
+  }
+
+  return tp_flag(thing_tp(me), is_able_to_move_diagonally) != 0;
+}
+
+[[nodiscard]] auto thing_is_able_to_move(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    no_thing_pointer();
+    return false;
+  }
+
+  FOR_ALL_HOOKS(g, v, l, me, hook)
+  {
+    if (thing_is_blocker_movement(hook)) {
+      return false;
+    }
+  }
+
+  FOR_ALL_ACTIVE_ITEMS(g, v, l, me, item)
+  {
+    if (thing_is_blocker_movement(item)) {
+      return false;
+    }
+  }
+
+  return tp_flag(thing_tp(me), is_able_to_move) != 0;
 }

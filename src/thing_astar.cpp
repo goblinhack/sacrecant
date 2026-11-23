@@ -548,7 +548,7 @@ void Astar::dump()
   a.src = src;
   a.dst = dst;
 
-  auto allow_diagonal = thing_is_able_to_move_diagonally(me);
+  auto allow_diagonal = thing_is_able_to_move_diagonally(g, v, l, me);
   auto path           = a.solve(allow_diagonal);
 
 #ifdef ENABLE_DEBUG_AI_ASTAR

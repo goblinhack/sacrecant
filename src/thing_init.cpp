@@ -83,7 +83,7 @@
   (void) thing_health_max_set(g, v, l, t, thing_health_set(g, v, l, t, tp_health_max_get(tp)));
   (void) thing_hearing_threshold_set(g, v, l, t, tp_hearing_threshold_get(tp));
   (void) thing_minion_max_set(g, v, l, t, tp_minion_max_get(tp));
-  (void) thing_follower_max_set(g, v, l, t, tp_follower_max_get(tp));
+  (void) thing_follower_count_max_set(g, v, l, t, tp_follower_count_max_get(tp));
   (void) thing_missile_count_max_set(g, v, l, t, tp_missile_count_max_get(tp));
   (void) thing_priority_set(g, v, l, t, tp_priority_get(tp));
   (void) thing_score_value_set(g, v, l, t, tp_score_value_get(tp));

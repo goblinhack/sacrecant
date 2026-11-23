@@ -76,22 +76,32 @@ void thing_leader_dead(Gamep g, Levelsp v, Levelp l, Thingp leader, ThingEvent &
     return nullptr;
   }
 
-  //
-  // Can't spawn over certain things
-  //
-  if (level_is_obs_to_spawning_bool(g, v, l, at)) {
-    return nullptr;
+  if (tp_is_effect(tp_follower)) {
+    //
+    // Always allow spawning
+    //
+  } else {
+    //
+    // Can't spawn over certain things
+    //
+    if (level_is_obs_to_spawning_bool(g, v, l, at)) {
+      THING_DBG(g, v, l, leader, "failed to spawn %s (obs)", tp_name_short(tp_follower).c_str());
+      return nullptr;
+    }
   }
 
   auto *ext = thing_ext_struct(g, v, leader);
   if (ext == nullptr) {
+    THING_DBG(g, v, l, leader, "failed to spawn %s (no memory)", tp_name_short(tp_follower).c_str());
+    no_thing_ext_pointer();
     return nullptr;
   }
 
   //
   // Too many followers
   //
-  if (thing_leader_follower_count_get(g, v, l, leader) >= thing_follower_max(g, v, l, leader)) {
+  if (thing_leader_follower_count_get(g, v, l, leader) >= thing_follower_count_max(g, v, l, leader)) {
+    THING_DBG(g, v, l, leader, "failed to spawn %s (too many)", tp_name_short(tp_follower).c_str());
     return nullptr;
   }
 
@@ -109,12 +119,14 @@ void thing_leader_dead(Gamep g, Levelsp v, Levelp l, Thingp leader, ThingEvent &
     //
     auto *new_follower = thing_spawn(g, v, l, tp_follower, at);
     if (new_follower == nullptr) {
+      THING_DBG(g, v, l, leader, "failed to spawn %s (spawn failed)", tp_name_short(tp_follower).c_str());
       return nullptr;
     }
 
     auto *new_follower_ext = thing_ext_struct(g, v, new_follower);
     if (new_follower_ext == nullptr) [[unlikely]] {
       thing_err(g, v, l, new_follower, "no thing ext pointer");
+      THING_DBG(g, v, l, leader, "failed to spawn %s (no follower ext)", tp_name_short(tp_follower).c_str());
       no_thing_ext_pointer();
       return nullptr;
     }
@@ -124,7 +136,7 @@ void thing_leader_dead(Gamep g, Levelsp v, Levelp l, Thingp leader, ThingEvent &
     new_follower_ext->leader_id = leader->id;
     ext->followers.count++;
 
-    THING_DBG(g, v, l, leader, "spawned follower %s (max %d)", to_string(g, v, l, new_follower).c_str(), thing_follower_max(g, v, l, leader));
+    THING_DBG(g, v, l, leader, "spawned follower %s (max %d)", to_string(g, v, l, new_follower).c_str(), thing_follower_count_max(g, v, l, leader));
     THING_DBG(g, v, l, new_follower, "new born follower");
 
     thing_is_follower_set(new_follower);

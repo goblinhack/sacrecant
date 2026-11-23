@@ -56,7 +56,7 @@ using ThingIdPacked = union {
 /* begin shell marker1 */
 /* shell printf "#define THING_HOOK_MAX " */
 /* shell find . -name "*.cpp" | xargs grep "tp_flag_set(tp, is_hook);" | wc -l */
-#define THING_HOOK_MAX 30
+#define THING_HOOK_MAX 31
 /* end shell marker1 */
 
 //
@@ -329,7 +329,7 @@ using ThingExt = struct ThingExt {
   //
   // How many followers this leader can spawn
   //
-  uint8_t _follower_max;
+  uint8_t _follower_count_max;
   //
   // Spell related
   //
@@ -913,10 +913,10 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_follower_get_leader_dmap(Gamep g, Levelsp v, Levelp l, Thingp me) -> Dmap *;
 [[nodiscard]] auto thing_follower_get_mob_dmap(Gamep g, Levelsp v, Levelp l, Thingp me) -> Dmap *;
 [[nodiscard]] auto thing_follower_leader_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> Thingp;
-[[nodiscard]] auto thing_follower_max_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
-[[nodiscard]] auto thing_follower_max_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
-[[nodiscard]] auto thing_follower_max_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int;
-[[nodiscard]] auto thing_follower_max(Gamep g, Levelsp v, Levelp l, Thingp me) -> int;
+[[nodiscard]] auto thing_follower_count_max_decr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
+[[nodiscard]] auto thing_follower_count_max_incr(Gamep g, Levelsp v, Levelp l, Thingp me, int val = 1) -> int;
+[[nodiscard]] auto thing_follower_count_max_set(Gamep g, Levelsp v, Levelp l, Thingp me, int val) -> int;
+[[nodiscard]] auto thing_follower_count_max(Gamep g, Levelsp v, Levelp l, Thingp me) -> int;
 [[nodiscard]] auto thing_follower_mob_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> Thingp;
 [[nodiscard]] auto thing_fumble_roll(Gamep g, Levelsp v, Levelp l, Thingp me) -> int;
 [[nodiscard]] auto thing_get_at_safe(Gamep g, Levelsp v, Levelp l, const bpoint &p, int slot) -> Thingp;
@@ -953,9 +953,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_inventory_remove(Gamep g, Levelsp v, Levelp l, Thingp drop_item, Thingp owner) -> bool;
 [[nodiscard]] auto thing_invisible(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_able_to_be_buffed(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_able_to_be_engulfed_blocked(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_be_engulfed(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
-[[nodiscard]] auto thing_is_able_to_be_ensnared_blocked(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_be_ensnared(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_able_to_breathe(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_cast_spells(Thingp me) -> bool;
@@ -980,8 +978,8 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_able_to_jump_land_then_pounce(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_able_to_jump(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_able_to_lunge(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_able_to_move_diagonally(Thingp me) -> bool;
-[[nodiscard]] auto thing_is_able_to_move(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_able_to_move_diagonally(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
+[[nodiscard]] auto thing_is_able_to_move(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_open_things(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_recoil(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_resurrect(Thingp t) -> bool;
@@ -1030,6 +1028,9 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_blit_square_outlined(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blit_when_obscured_faded(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blit_when_obscured_outline(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_blocker_engulfed(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_blocker_ensnared(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_blocker_movement(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_boost(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_boots(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_boss(Thingp t) -> bool;
@@ -1095,6 +1096,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_edible(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_effect_attack(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_effect_blood(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_effect_holding(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_effect_orange_explosion(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_effect_protection(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_effect_ripple(Thingp t) -> bool;
@@ -1361,8 +1363,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused89(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused9(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused90(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused91(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused92(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_upgradable(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade u) -> bool;
 [[nodiscard]] auto thing_is_upgradable(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_usable(Thingp t) -> bool;
@@ -1459,7 +1459,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_move_remaining_decr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_move_remaining_incr(Gamep g, Levelsp v, Levelp l, Thingp t, int val = 1) -> int;
 [[nodiscard]] auto thing_move_remaining_set(Gamep g, Levelsp v, Levelp l, Thingp t, int val) -> int;
-[[nodiscard]] auto thing_move_remaining(Thingp t) -> int;
+[[nodiscard]] auto thing_move_remaining(Gamep g, Levelsp v, Levelp l, Thingp t) -> int;
 [[nodiscard]] auto thing_move_to_next(Gamep, Levelsp, Levelp, Thingp) -> bool;
 [[nodiscard]] auto thing_move_to(Gamep g, Levelsp v, Levelp l, Thingp me, bpoint to) -> bool;
 [[nodiscard]] auto thing_moving_from(Thingp t) -> bpoint;

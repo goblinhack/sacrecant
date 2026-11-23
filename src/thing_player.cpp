@@ -842,6 +842,15 @@ static void player_check_if_target_needs_move_confirm_callback(Gamep g, bool val
     }
   }
 
+  //
+  // Held?
+  //
+  if (! thing_is_able_to_move(g, v, l, me)) {
+    topcon(UI_IMPORTANT_FMT_STR "You are being held and cannot move!" UI_RESET_FMT);
+    (void) level_tick_begin_requested(g, v, l, "player failed to move");
+    return false;
+  }
+
   if (thing_can_move_to_attempt(g, v, l, me, to)) {
     //
     // Fake a mouse path for movement

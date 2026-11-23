@@ -396,11 +396,11 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
   //
   // Move all hooks and effects
   //
-  FOR_ALL_HOOKS(g, v, l, me, buff)
+  FOR_ALL_HOOKS(g, v, l, me, hook)
   {
-    (void) thing_jump_to_do(g, v, l, buff, to);
+    (void) thing_jump_to_do(g, v, l, hook, to);
 
-    FOR_ALL_FOLLOWERS(g, v, l, buff, follower) { (void) thing_jump_to_do(g, v, l, follower, to); }
+    FOR_ALL_FOLLOWERS(g, v, l, hook, follower) { (void) thing_jump_to_do(g, v, l, follower, to); }
   }
 
   return true;
