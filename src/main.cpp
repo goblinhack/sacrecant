@@ -542,7 +542,10 @@ static void parse_args(int argc, char *argv[])
 
   if (! g_opt_tests && ! g_opt_do_level_gen) {
     TRACE_DEBUG();
-    sdl_config_update_all(g);
+    config_game_gfx_update(g);
+    config_gfx_vsync_update(g);
+    game_map_zoom_best_find(g);
+    gl_init_2d_mode(g);
   }
 
   if (g_skip_audio_and_gfx) {

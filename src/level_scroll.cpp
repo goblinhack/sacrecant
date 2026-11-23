@@ -220,7 +220,7 @@ void level_scroll_to_focus(Gamep g, Levelsp v, Levelp l)
   //
   // Check for overflow
   //
-  if (0) {
+  if (level_is_level_select(g, v, l)) {
     //
     // We need to allow overflow for when the map is really zoomed out
     //

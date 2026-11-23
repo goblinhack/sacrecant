@@ -133,9 +133,10 @@ public:
   //
   // Zoom gfx level.
   //
-  int  zoom     = {MAP_ZOOM_DEF};
-  int  zoom_old = {MAP_ZOOM_DEF};
-  bool zoom_set = {};
+  int  zoom         = {MAP_ZOOM_DEF};
+  int  zoom_old     = {MAP_ZOOM_DEF};
+  int  zoom_default = {MAP_ZOOM_DEF};
+  bool zoom_set     = {};
 
   SDL_Keysym key_wait        = {};
   SDL_Keysym key_console     = {};
@@ -3630,16 +3631,7 @@ void game_key_zoom_toggle_set(Gamep g, SDL_Keysym key)
   }
 
   if (level_is_level_select(g, v, l)) {
-    int w {};
-    int h {};
-    SDL_GetWindowSize(sdl.window, &w, &h);
-    if (w <= 1000) {
-      return 1;
-    }
-    if (w <= 1536) {
-      return 2;
-    }
-    return MAP_ZOOM_LEVEL_SELECT;
+    return game_map_zoom_default_get(g);
   }
 
   return game_map_zoom_get(g);
@@ -3658,6 +3650,32 @@ void game_map_zoom_set(Gamep g, int val)
   }
 
   g->config.zoom = val;
+}
+[[nodiscard]] auto game_map_zoom_default_get(Gamep g) -> int
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    no_game_pointer();
+    return MAP_ZOOM_DEF;
+  }
+
+  return g->config.zoom_default;
+}
+void game_map_zoom_default_set(Gamep g, int val)
+{
+  TRACE();
+
+  if (g == nullptr) [[unlikely]] {
+    no_game_pointer();
+    return;
+  }
+
+  if (val >= MAP_ZOOM_MAX) {
+    val = MAP_ZOOM_MAX - 1;
+  }
+
+  g->config.zoom_default = val;
 }
 [[nodiscard]] static auto game_map_zoom_old_get(Gamep g) -> int
 {
@@ -3738,17 +3756,6 @@ static void game_map_zoom_update(Gamep g)
   // Need to resize the map buffers and re-center
   //
   config_game_gfx_update(g);
-  gl_init_fbo(g, FBO_MAP_BG_FLOOR_WATER_LAVA);
-  gl_init_fbo(g, FBO_MAP_FG);
-  gl_init_fbo(g, FBO_MAP_FG_OVERLAY);
-  gl_init_fbo(g, FBO_MAP_BG_PREVIOUSLY_SEEN_TILES);
-  gl_init_fbo(g, FBO_MAP_LAVA_OVERLAY);
-  gl_init_fbo(g, FBO_FULL_SCREEN_PREVIOUSLY_SEEN_TILES);
-  gl_init_fbo(g, FBO_FULL_SCREEN_VISIBLE_TILES);
-  gl_init_fbo(g, FBO_FULL_SCREEN_LEVEL_CURR);
-  gl_init_fbo(g, FBO_FULL_SCREEN_LEVEL_MERGED);
-  gl_init_fbo(g, FBO_FULL_SCREEN_LEVEL_BELOW);
-  gl_init_fbo(g, FBO_SPRITE1);
 
   //
   // If following the player already, then no need to re-center
@@ -3852,6 +3859,65 @@ void game_map_zoom_out(Gamep g)
 
   game_map_zoom_set(g, MAP_ZOOM_FULL_MAP);
   game_map_zoom_update(g);
+}
+
+//
+// Zoom adapt to resolution
+//
+void game_map_zoom_best_find(Gamep g)
+{
+  DBG("zoom out");
+  TRACE_INDENT();
+
+  auto orig_zoom     = g->config.zoom;
+  auto orig_zoom_old = g->config.zoom_old;
+  auto orig_zoom_set = g->config.zoom_set;
+
+  con("INIT: saved zoom settings:");
+  con("INIT: - zoom                  : %d", g->config.zoom);
+  con("INIT: - zoom default          : %d", g->config.zoom_default);
+  con("INIT: - zoom old              : %d", g->config.zoom_old);
+  con("INIT: - zoom set              : %d", g->config.zoom_set);
+
+  //
+  // Try to get a sensible zoom
+  //
+  auto tries = MAP_ZOOM_MAX * 2;
+
+  TRACE_INDENT();
+
+  while ((game_tiles_visible_down_get(g) < 15) || (game_tiles_visible_down_get(g) > 30)) {
+
+    con("INIT: trying to find good zoom level:");
+    con("INIT: - zoom                  : %d", g->config.zoom);
+    con("INIT: - zoom default          : %d", g->config.zoom_default);
+    con("INIT: - tiles down            : %d tiles", game_tiles_visible_down_get(g));
+
+    game_map_zoom_incr(g);
+
+    config_game_gfx_update(g);
+    if (tries-- <= 0) {
+      break;
+    }
+  }
+
+  game_map_zoom_default_set(g, game_map_zoom_get(g));
+
+  if (! orig_zoom_set) {
+    game_map_zoom_set(g, game_map_zoom_get(g));
+  } else {
+    game_map_zoom_set(g, orig_zoom);
+  }
+
+  g->config.zoom_old = orig_zoom_old;
+  g->config.zoom_set = orig_zoom_set;
+
+  con("INIT: final zoom settings:");
+  con("INIT: - zoom                  : %d", g->config.zoom);
+  con("INIT: - zoom default          : %d", g->config.zoom_default);
+  con("INIT: - zoom old              : %d", g->config.zoom_old);
+  con("INIT: - zoom set              : %d", g->config.zoom_set);
+  con("INIT: - tiles down            : %d tiles", game_tiles_visible_down_get(g));
 }
 
 [[nodiscard]] auto game_cand_player_get(Gamep g) -> Tpp

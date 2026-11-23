@@ -586,18 +586,6 @@ void config_gfx_vsync_update(Gamep g)
   return 1U;
 }
 
-void sdl_config_update_all(Gamep g)
-{
-  log("SDL: Update config");
-  TRACE();
-
-  config_game_gfx_update(g);
-  config_gfx_vsync_update(g);
-  gl_init_2d_mode(g);
-
-  log("SDL: Updated config");
-}
-
 //
 // User has entered a command, run it
 //
@@ -611,8 +599,8 @@ void sdl_config_update_all(Gamep g)
 
 void config_game_gfx_update(Gamep g)
 {
-  log("SDL: Update");
-  TRACE();
+  log("SDL: Update gfx config");
+  TRACE_INDENT();
 
   //
   // Display ratio
@@ -783,7 +771,6 @@ void config_game_gfx_update(Gamep g)
   int          fbo_h         = static_cast< int >(ceil(fbo_w / map_w_h_ratio));
 
   fbo_w = std::min(fbo_w, max_fbo_w);
-
   fbo_h = std::min(fbo_h, max_fbo_h);
 
   game_visible_map_pix_set(g, visible_map_tl_x, visible_map_tl_y, visible_map_br_x, visible_map_br_y);
@@ -847,7 +834,22 @@ void config_game_gfx_update(Gamep g)
   }
 
   log("SDL: Map");
+  log("SDL: - zoom                    : %d", zoom);
   log("SDL: - size                    : %dx%d", MAP_WIDTH, MAP_HEIGHT);
   log("SDL: - tiles visible           : %dx%d", tiles_across, tiles_down);
   log("SDL: - tiles zoom              : %d", game_map_zoom_get(g));
+
+  log("SDL: Updated gfx config");
+
+  gl_init_fbo(g, FBO_MAP_BG_FLOOR_WATER_LAVA);
+  gl_init_fbo(g, FBO_MAP_FG);
+  gl_init_fbo(g, FBO_MAP_FG_OVERLAY);
+  gl_init_fbo(g, FBO_MAP_BG_PREVIOUSLY_SEEN_TILES);
+  gl_init_fbo(g, FBO_MAP_LAVA_OVERLAY);
+  gl_init_fbo(g, FBO_FULL_SCREEN_PREVIOUSLY_SEEN_TILES);
+  gl_init_fbo(g, FBO_FULL_SCREEN_VISIBLE_TILES);
+  gl_init_fbo(g, FBO_FULL_SCREEN_LEVEL_CURR);
+  gl_init_fbo(g, FBO_FULL_SCREEN_LEVEL_MERGED);
+  gl_init_fbo(g, FBO_FULL_SCREEN_LEVEL_BELOW);
+  gl_init_fbo(g, FBO_SPRITE1);
 }

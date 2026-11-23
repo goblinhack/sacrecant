@@ -40,7 +40,6 @@ static void wid_cfg_sound_destroy()
   if (local_g_config_changed) {
     local_g_config_changed = false;
     (void) game_load_config(g);
-    sdl_config_update_all(g);
   }
   wid_cfg_sound_destroy();
   wid_options_menu_select(g);

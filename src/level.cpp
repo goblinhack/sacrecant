@@ -966,7 +966,7 @@ void level_bounds_set(Gamep g, Levelsp v, Levelp l)
   //
   // Set the scroll bounds
   //
-  if (0) {
+  if (level_is_level_select(g, v, l)) {
     //
     // We need to allow overflow for when the map is really zoomed out
     //
@@ -980,7 +980,7 @@ void level_bounds_set(Gamep g, Levelsp v, Levelp l)
   //
   // Overflow?
   //
-  if (0) {
+  if (level_is_level_select(g, v, l)) {
     //
     // We need to allow overflow for when the map is really zoomed out
     //

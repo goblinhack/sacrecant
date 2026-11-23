@@ -161,7 +161,6 @@ static auto font_load(const std::string &name) -> Fontp
     UI_FONT_WIDTH  = UI_FONT_2_WIDTH;
     UI_FONT_HEIGHT = UI_FONT_2_HEIGHT;
   }
-  sdl_config_update_all(g);
 
   return true;
 }

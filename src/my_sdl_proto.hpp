@@ -40,7 +40,6 @@ class Tokens;
 
 auto config_game_gfx_update(Gamep g) -> void;
 auto config_gfx_vsync_update(Gamep g) -> void;
-auto sdl_config_update_all(Gamep g) -> void;
 auto sdl_display(Gamep g) -> void;
 auto sdl_display_reset(Gamep g) -> void;
 auto sdl_event(Gamep g, SDL_Event *event, bool &processed_mouse_motion_event) -> void;

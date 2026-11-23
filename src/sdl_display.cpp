@@ -253,22 +253,23 @@ static inline void sdl_list_video_size()
   if (resolution_test) {
     video_flags = 0;
 
+    video_width  = 1920; // widescreen
+    video_height = 1080;
+
     video_width  = 1536;
     video_height = 864;
 
-    video_width  = 1920;
-    video_height = 1080;
-
-    video_width  = 640;
-    video_height = 480;
-
-    // xxx
-    //
     video_width  = 3840;
     video_height = 2160;
 
+    video_width  = 3440; // widescreen
+    video_height = 1440;
+
     video_width  = 1440;
     video_height = 900;
+
+    video_width  = 1280; // widescreen
+    video_height = 720;
 
     video_width  = 2560;
     video_height = 1440;
@@ -278,6 +279,9 @@ static inline void sdl_list_video_size()
 
     video_width  = 800;
     video_height = 600;
+
+    video_width  = 640;
+    video_height = 480;
 
     video_width  = 2000;
     video_height = 640;

@@ -336,6 +336,11 @@ auto               game_key_zoom_in_set(Gamep g, SDL_Keysym key) -> void;
 [[nodiscard]] auto game_key_zoom_toggle_get(Gamep g) -> SDL_Keysym;
 auto               game_key_zoom_toggle_set(Gamep g, SDL_Keysym key) -> void;
 
+[[nodiscard]] auto game_map_zoom_default_get(Gamep g) -> int;
+void               game_map_zoom_default_set(Gamep g, int val);
+
+void game_map_zoom_best_find(Gamep g);
+
 [[nodiscard]] auto game_request_to_remake_ui_get(Gamep g) -> bool;
 auto               game_request_to_remake_ui_set(Gamep g) -> void;
 auto               game_request_to_remake_ui_unset(Gamep g) -> void;
