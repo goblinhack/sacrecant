@@ -704,7 +704,7 @@ static auto thing_monst_choose_something_we_can_wander_to(Gamep g, Levelsp v, Le
   //
   // Pirnana does not always move, but jumps sometimes
   //
-  if (thing_is_able_to_jump_attack(me)) {
+  if (thing_is_able_to_jump_attack(g, v, l, me)) {
     if (d100() < thing_jump_attack_pct_chance(me)) {
       try_jump = true;
     }
@@ -1015,6 +1015,7 @@ static auto thing_monst_choose_something_we_can_wander_to(Gamep g, Levelsp v, Le
 
   if (! thing_is_able_to_move(g, v, l, me)) {
     THING_DBG(g, v, l, me, "move to next: unable to move");
+    (void) thing_lunge(g, v, l, me, nexthop);
     return true;
   }
 
@@ -1114,6 +1115,10 @@ void thing_monst_event_loop(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   auto *player = thing_player(g);
   if (player == nullptr) [[unlikely]] {
+    return;
+  }
+
+  if (thing_is_dead(me)) {
     return;
   }
 

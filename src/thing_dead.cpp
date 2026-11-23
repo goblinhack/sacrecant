@@ -677,7 +677,11 @@ void thing_dead(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
   //
   if (thing_is_able_to_be_buffed(me)) {
     TRACE_INDENT();
-    (void) thing_hook_detach_all(g, v, l, me);
+    if (e.event_type != THING_EVENT_NONE) {
+      (void) thing_hook_kill_all(g, v, l, me, e);
+    } else {
+      (void) thing_hook_detach_all(g, v, l, me);
+    }
   }
 
   if (thing_is_hook(me)) {

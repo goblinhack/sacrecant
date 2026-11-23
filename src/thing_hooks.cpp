@@ -368,6 +368,16 @@ static void thing_hook_sort(Gamep g, Levelsp v, Levelp l, Thingp me)
 }
 
 //
+// Kill all hooks
+//
+[[nodiscard]] auto thing_hook_kill_all(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e) -> bool
+{
+  TRACE();
+
+  return thing_hook_process_all(g, v, l, me, nullptr, e);
+}
+
+//
 // Detach a hook from its owner
 //
 static auto thing_hook_detach_from_owner(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp hook) -> bool

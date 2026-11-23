@@ -136,7 +136,8 @@ void thing_leader_dead(Gamep g, Levelsp v, Levelp l, Thingp leader, ThingEvent &
     new_follower_ext->leader_id = leader->id;
     ext->followers.count++;
 
-    THING_DBG(g, v, l, leader, "spawned follower %s (max %d)", to_string(g, v, l, new_follower).c_str(), thing_follower_count_max(g, v, l, leader));
+    THING_DBG(g, v, l, leader, "spawned follower %s (max %d)", to_string(g, v, l, new_follower).c_str(),
+              thing_follower_count_max(g, v, l, leader));
     THING_DBG(g, v, l, new_follower, "new born follower");
 
     thing_is_follower_set(new_follower);
@@ -247,7 +248,11 @@ void thing_leader_dead(Gamep g, Levelsp v, Levelp l, Thingp leader, ThingEvent &
   TRACE();
 
   ThingEvent e = {};
-  e.reason     = "detach all followers";
+  e.reason     = "detach followers";
+
+  THING_DBG(g, v, l, leader, "detach followers");
+  TRACE_INDENT();
+
   return thing_leader_process_followers(g, v, l, leader, nullptr, e);
 }
 
@@ -257,6 +262,9 @@ void thing_leader_dead(Gamep g, Levelsp v, Levelp l, Thingp leader, ThingEvent &
 [[nodiscard]] auto thing_leader_kill_all_followers(Gamep g, Levelsp v, Levelp l, Thingp leader, ThingEvent &e) -> bool
 {
   TRACE();
+
+  THING_DBG(g, v, l, leader, "kill followers");
+  TRACE_INDENT();
 
   return thing_leader_process_followers(g, v, l, leader, nullptr, e);
 }

@@ -157,7 +157,6 @@ static bool tp_mantisman_on_missing(Gamep g, Levelsp v, Levelp l, Thingp attacke
   tp_flag_set(tp, is_attackable_by_player);
   tp_flag_set(tp, is_biome_bogland);
   tp_flag_set(tp, is_biome_dungeon);
-  tp_flag_set(tp, is_blasted_when_dead);
   tp_flag_set(tp, is_blit_centered);
   tp_flag_set(tp, is_blit_hit_outline_w_invis_inside);
   tp_flag_set(tp, is_blit_hit_solid_white);

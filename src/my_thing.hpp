@@ -941,6 +941,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_hearing_threshold(Gamep g, Levelsp v, Levelp l, Thingp me) -> int;
 [[nodiscard]] auto thing_hook_add(Gamep g, Levelsp v, Levelp l, Thingp me, Tpp what) -> Thingp;
 [[nodiscard]] auto thing_hook_detach_all(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
+[[nodiscard]] auto thing_hook_kill_all(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e) -> bool;
 [[nodiscard]] auto thing_hook_detach_me_from_owner(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_hook_owner_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> Thingp;
 [[nodiscard]] auto thing_init(Gamep g, Levelsp v, Levelp l, Tpp tp, const bpoint &at) -> Thingp;
@@ -974,7 +975,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_able_to_fall(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_able_to_fire_weapons(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_heal(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_able_to_jump_attack(Thingp me) -> bool;
+[[nodiscard]] auto thing_is_able_to_jump_attack(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_able_to_jump_land_then_pounce(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_able_to_jump(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_able_to_lunge(Thingp t) -> bool;
