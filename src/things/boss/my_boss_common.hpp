@@ -15,3 +15,4 @@
 #include "../../my_ui.hpp"
 
 void tp_boss_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e);
+void tp_boss_on_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me);

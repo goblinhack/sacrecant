@@ -3873,11 +3873,11 @@ void game_map_zoom_best_find(Gamep g)
   auto orig_zoom_old = g->config.zoom_old;
   auto orig_zoom_set = g->config.zoom_set;
 
-  con("INIT: saved zoom settings:");
-  con("INIT: - zoom                  : %d", g->config.zoom);
-  con("INIT: - zoom default          : %d", g->config.zoom_default);
-  con("INIT: - zoom old              : %d", g->config.zoom_old);
-  con("INIT: - zoom set              : %d", g->config.zoom_set);
+  log("INIT: Saved zoom settings:");
+  log("INIT: - zoom                  : %d", g->config.zoom);
+  log("INIT: - zoom default          : %d", g->config.zoom_default);
+  log("INIT: - zoom old              : %d", g->config.zoom_old);
+  log("INIT: - zoom set              : %d", g->config.zoom_set);
 
   //
   // Try to get a sensible zoom
@@ -3888,10 +3888,10 @@ void game_map_zoom_best_find(Gamep g)
 
   while ((game_tiles_visible_down_get(g) < 15) || (game_tiles_visible_down_get(g) > 30)) {
 
-    con("INIT: trying to find good zoom level:");
-    con("INIT: - zoom                  : %d", g->config.zoom);
-    con("INIT: - zoom default          : %d", g->config.zoom_default);
-    con("INIT: - tiles down            : %d tiles", game_tiles_visible_down_get(g));
+    log("INIT: Trying to find good zoom level:");
+    log("INIT: - zoom                  : %d", g->config.zoom);
+    log("INIT: - zoom default          : %d", g->config.zoom_default);
+    log("INIT: - tiles down            : %d tiles", game_tiles_visible_down_get(g));
 
     game_map_zoom_incr(g);
 
@@ -3912,12 +3912,12 @@ void game_map_zoom_best_find(Gamep g)
   g->config.zoom_old = orig_zoom_old;
   g->config.zoom_set = orig_zoom_set;
 
-  con("INIT: final zoom settings:");
-  con("INIT: - zoom                  : %d", g->config.zoom);
-  con("INIT: - zoom default          : %d", g->config.zoom_default);
-  con("INIT: - zoom old              : %d", g->config.zoom_old);
-  con("INIT: - zoom set              : %d", g->config.zoom_set);
-  con("INIT: - tiles down            : %d tiles", game_tiles_visible_down_get(g));
+  log("INIT: Final zoom settings:");
+  log("INIT: - zoom                  : %d", g->config.zoom);
+  log("INIT: - zoom default          : %d", g->config.zoom_default);
+  log("INIT: - zoom old              : %d", g->config.zoom_old);
+  log("INIT: - zoom set              : %d", g->config.zoom_set);
+  log("INIT: - tiles down            : %d tiles", game_tiles_visible_down_get(g));
 }
 
 [[nodiscard]] auto game_cand_player_get(Gamep g) -> Tpp

@@ -1474,9 +1474,9 @@ auto Game::load(int slot) -> bool
 
   if (! game_load_error.empty()) {
     (void) sound_play(this, "error");
-    topcon("failed to load the game from %s", this_save_file.c_str());
+    topcon("failed to load the game config from %s", this_save_file.c_str());
   } else {
-    topcon("Loaded the game from %s", this_save_file.c_str());
+    topcon("Loaded the game config from %s", this_save_file.c_str());
   }
 
   return game_load_error.empty();
@@ -1498,7 +1498,7 @@ auto Game::load_snapshot() -> bool
 
   state_change(STATE_PLAYING, "loaded snapshot");
 
-  topcon("Loaded the game from %s", this_save_file.c_str());
+  topcon("Loaded the game config from %s", this_save_file.c_str());
 
   return game_load_error.empty();
 }

@@ -17,7 +17,7 @@ static auto tp_buff_protection_detail_get(Gamep g, Levelsp v, Levelp l, Thingp m
   return UI_INFO1_FMT_STR "With this buff, your health issues are a thing of the past.\n"; //
 }
 
-static bool tp_buff_protection_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
+static bool tp_buff_protection_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEvent &e)
 {
   TRACE();
 
@@ -47,7 +47,7 @@ static bool tp_buff_protection_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me
   return true; // allow the damage to be applied
 }
 
-void tp_buff_protection_on_hook_attached(Gamep g, Levelsp v, Levelp l, Thingp me)
+void tp_buff_protection_hook_attached(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
 
@@ -65,8 +65,8 @@ void tp_buff_protection_on_hook_attached(Gamep g, Levelsp v, Levelp l, Thingp me
 
   // begin sort marker1 {
   thing_detail_set(tp, tp_buff_protection_detail_get);
-  thing_on_damage_set(tp, tp_buff_protection_on_damage);
-  thing_on_hook_attached_set(tp, tp_buff_protection_on_hook_attached);
+  thing_on_damage_set(tp, tp_buff_protection_damage);
+  thing_on_hook_attached_set(tp, tp_buff_protection_hook_attached);
   tp_flag_set(tp, is_buff);
   tp_flag_set(tp, is_hook);
   tp_flag_set(tp, is_leader_kill_followers_on_death);

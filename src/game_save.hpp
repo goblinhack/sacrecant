@@ -522,7 +522,7 @@ auto operator<<(std::ostream &out, Bits< const class Game & > const my) -> std::
     out << bits(tmp);                                             // all we're saving here is offsets for validation later
     tmp = offsetof(ThingExt, _minion_max);                        // all we're saving here is offsets for validation later
     out << bits(tmp);                                             // all we're saving here is offsets for validation later
-    tmp = offsetof(ThingExt, _follower_count_max);                      // all we're saving here is offsets for validation later
+    tmp = offsetof(ThingExt, _follower_count_max);                // all we're saving here is offsets for validation later
     out << bits(tmp);                                             // all we're saving here is offsets for validation later
     tmp = offsetof(ThingExt, _lunge_ms);                          // all we're saving here is offsets for validation later
     out << bits(tmp);                                             // all we're saving here is offsets for validation later
@@ -827,7 +827,7 @@ auto Game::save_config() -> bool
     const Config &c = game->config;
     out << bits(c);
     out << std::flush;
-    topcon("Saved config to '%s'", filename.c_str());
+    log("Saved config to '%s'", filename.c_str());
     return true;
   }
 
@@ -844,7 +844,7 @@ auto Game::save_config() -> bool
   out << bits(c);
   out << std::flush;
 
-  topcon("Saved to fallback '%s'", filename.c_str());
+  log("Saved to fallback '%s'", filename.c_str());
   return true;
 }
 

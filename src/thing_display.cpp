@@ -202,17 +202,44 @@ void thing_display_get_tile_info(Gamep g, Levelsp v, Levelp l, const bpoint &p, 
   br.x = tl.x + pix_width;
   br.y = tl.y + pix_height;
 
-  //
-  // Flippable?
-  //
-  if ((t_maybe_null != nullptr) && tp_is_animated_can_hflip(tp_maybe_null)) {
-    if (thing_is_dir_left(t_maybe_null) || thing_is_dir_tl(t_maybe_null) || thing_is_dir_bl(t_maybe_null)) {
-      std::swap(tl.x, br.x);
+  if (t_maybe_null) {
+    //
+    // Flippable?
+    //
+    if (tp_is_animated_can_hflip(tp_maybe_null)) {
+      if (thing_is_dir_left(t_maybe_null) || thing_is_dir_tl(t_maybe_null) || thing_is_dir_bl(t_maybe_null)) {
+        std::swap(tl.x, br.x);
+      }
     }
-  }
 
-  if (t_maybe_null != nullptr) {
+    //
+    // Increase the size of effects so that we can see the when over bosses
+    //
+    if (thing_is_effect(t_maybe_null)) {
+      auto leader = thing_follower_leader_get(g, v, l, t_maybe_null);
+      if (leader) {
+        if (thing_is_hook(leader)) {
+          auto *owner = thing_hook_owner_get(g, v, l, leader);
+          if (owner) {
+            if (thing_is_boss(owner)) {
+              tl.x -= pix_width;
+              br.x += pix_width;
+              tl.y -= pix_height;
+              br.y += pix_height;
+            }
+          }
+        }
+      }
+    }
+
+    //
+    // Lunging?
+    //
     thing_lunge_modify_position(g, v, l, t_maybe_null, tl, br);
+
+    //
+    // Recoiling?
+    //
     thing_recoil_modify_position(g, v, l, t_maybe_null, tl, br);
   }
 }

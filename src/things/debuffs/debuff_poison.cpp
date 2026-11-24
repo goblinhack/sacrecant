@@ -16,7 +16,7 @@ static auto tp_debuff_poison_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me)
   return UI_INFO1_FMT_STR "You are poisoned! Your health is ticking away!";
 }
 
-static void tp_debuff_poison_on_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
+static void tp_debuff_poison_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
 {
   TRACE();
 
@@ -35,7 +35,7 @@ static void tp_debuff_poison_on_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp 
 
   // begin sort marker1 {
   thing_detail_set(tp, tp_debuff_poison_detail_get);
-  thing_on_tick_begin_set(tp, tp_debuff_poison_on_tick_begin);
+  thing_on_tick_begin_set(tp, tp_debuff_poison_tick_begin);
   tp_flag_set(tp, is_debuff);
   tp_flag_set(tp, is_hook);
   tp_flag_set(tp, is_loggable);

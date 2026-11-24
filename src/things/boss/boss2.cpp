@@ -125,6 +125,13 @@ static void tp_boss2_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEven
   tp_boss_on_death(g, v, l, me, e);
 }
 
+static void tp_boss2_on_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
+{
+  TRACE();
+
+  tp_boss_on_tick_begin(g, v, l, me);
+}
+
 static bool tp_boss2_on_attacking(Gamep g, Levelsp v, Levelp l, Thingp attacker, Thingp target, ThingEvent &e)
 {
   THING_DBG(g, v, l, attacker, "boss attack");
@@ -238,6 +245,7 @@ static void tp_boss2_on_level_changed_for_player(Gamep g, Levelsp v, Levelp l, T
   thing_on_attacking_set(tp, tp_boss2_on_attacking);
   thing_on_damage_set(tp, tp_boss2_on_damage);
   thing_on_death_set(tp, tp_boss2_on_death);
+  thing_on_tick_begin_set(tp, tp_boss2_on_tick_begin);
   thing_on_level_changed_for_player_set(tp, tp_boss2_on_level_changed_for_player);
   thing_on_missing_set(tp, tp_boss2_on_missing);
   thing_on_popped_set(tp, tp_boss2_on_popped);

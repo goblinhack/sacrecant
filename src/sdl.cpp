@@ -538,10 +538,10 @@ void config_gfx_vsync_update(Gamep g)
   TRACE();
 
   if (game_gfx_vsync_enable_get(g)) {
-    con("SDL: Vsync enabled");
+    log("SDL: Vsync enabled");
     SDL_GL_SetSwapInterval(1);
   } else {
-    con("SDL: Vsync disabled");
+    log("SDL: Vsync disabled");
     SDL_GL_SetSwapInterval(0);
   }
   GL_ERROR_CHECK();
@@ -556,7 +556,7 @@ void config_gfx_vsync_update(Gamep g)
 
   error_clear(g);
 
-  con("Errored cleared.");
+  con("SDL: Error cleared.");
   wid_hide(g, wid_console_window);
   sdl_display_reset(g);
 
