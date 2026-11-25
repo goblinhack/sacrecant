@@ -128,6 +128,7 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
   fpoint delta = thing_real_at(g, v, l, me) - make_fpoint(thing_moving_from(me));
   fpoint tof   = outf + delta;
   bpoint to    = make_bpoint(tof);
+  auto   at    = thing_at(g, v, l, me);
 
   THING_DBG(g, v, l, me, "find a landing spot, target (%d,%d)", to.x, to.y);
   TRACE_INDENT();
@@ -157,11 +158,13 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
       tof   = outf + delta;
       if (! is_oob_or_border(tof)) {
         to = make_bpoint(tof);
-        if ((delta != fpoint(0, 0)) && ! level_is_obs_to_teleporting_onto_bool(g, v, l, to)) {
-          if (! level_is_obs_to_teleporting_onto_bool(g, v, l, to)) {
-            out = to;
-            THING_DBG(g, v, l, me, "found a landing spot (%d,%d) delta(%f,%f), (1)", to.x, to.y, (float) delta.x, (float) delta.y);
-            return true;
+        if (to != at) {
+          if ((delta != fpoint(0, 0)) && ! level_is_obs_to_teleporting_onto_bool(g, v, l, to)) {
+            if (! level_is_obs_to_teleporting_onto_bool(g, v, l, to)) {
+              out = to;
+              THING_DBG(g, v, l, me, "found a landing spot (%d,%d) delta(%f,%f), (1)", to.x, to.y, (float) delta.x, (float) delta.y);
+              return true;
+            }
           }
         }
       }
@@ -188,9 +191,11 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
       tof   = outf + delta;
       if (! is_oob_or_border(tof)) {
         to = make_bpoint(tof);
-        if (! level_is_obs_to_teleporting_onto_bool(g, v, l, to)) {
-          cands.push_back(to);
-          THING_DBG(g, v, l, me, "found a landing spot cand (%d,%d) (2)", to.x, to.y);
+        if (to != at) {
+          if (! level_is_obs_to_teleporting_onto_bool(g, v, l, to)) {
+            cands.push_back(to);
+            THING_DBG(g, v, l, me, "found a landing spot cand (%d,%d) (2)", to.x, to.y);
+          }
         }
       }
     }
@@ -223,9 +228,11 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
       tof   = outf + delta;
       if (! is_oob_or_border(tof)) {
         to = make_bpoint(tof);
-        if (! level_is_obs_to_teleporting_onto_bool(g, v, l, to)) {
-          cands.push_back(to);
-          THING_DBG(g, v, l, me, "found a landing spot cand (%d,%d) (3)", to.x, to.y);
+        if (to != at) {
+          if (! level_is_obs_to_teleporting_onto_bool(g, v, l, to)) {
+            cands.push_back(to);
+            THING_DBG(g, v, l, me, "found a landing spot cand (%d,%d) (3)", to.x, to.y);
+          }
         }
       }
     }
@@ -744,10 +751,10 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
   //
   // Very last chance
   //
-  THING_DBG(g, v, l, me, "last chance");
-  TRACE_INDENT();
-
   if (! got_one) {
+    THING_DBG(g, v, l, me, "last chance");
+    TRACE_INDENT();
+
     for (uint8_t y = MAP_BORDER; y < MAP_HEIGHT - MAP_BORDER; y++) {
       for (uint8_t x = MAP_BORDER; x < MAP_WIDTH - MAP_BORDER; x++) {
         to.x = x;
