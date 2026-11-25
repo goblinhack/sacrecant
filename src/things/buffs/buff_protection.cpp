@@ -67,9 +67,9 @@ void tp_buff_protection_hook_attached(Gamep g, Levelsp v, Levelp l, Thingp me)
   thing_detail_set(tp, tp_buff_protection_detail_get);
   thing_on_damage_set(tp, tp_buff_protection_damage);
   thing_on_hook_attached_set(tp, tp_buff_protection_hook_attached);
+  // tp_flag_set(tp, is_blocker_engulfed);
+  // tp_flag_set(tp, is_blocker_ensnared);
   tp_flag_set(tp, is_buff);
-  tp_flag_set(tp, is_blocker_engulfed);
-  tp_flag_set(tp, is_blocker_ensnared);
   tp_flag_set(tp, is_hook);
   tp_flag_set(tp, is_leader_kill_followers_on_death);
   tp_flag_set(tp, is_leader);

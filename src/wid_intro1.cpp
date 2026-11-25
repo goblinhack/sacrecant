@@ -92,7 +92,7 @@ static void wid_intro1_display(Gamep g)
   float const tw = tile_width(tile);
   float const th = tile_height(tile);
   float const h  = game_window_pix_height_get(g);
-  float       w  = tw * (game_window_pix_height_get(g) / th);
+  float const w  = tw * (game_window_pix_height_get(g) / th);
 
   spoint tl(0, 0);
   spoint br(static_cast< int >(w), static_cast< int >(h));

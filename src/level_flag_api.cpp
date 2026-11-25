@@ -1364,10 +1364,10 @@
   return level_flag(g, v, l, is_unused87, p, me);
 }
 
-[[nodiscard]] auto level_is_unused88(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_blocker_trap_activation(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused88, p, me);
+  return level_flag(g, v, l, is_blocker_trap_activation, p, me);
 }
 
 [[nodiscard]] auto level_is_blocker_falling(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp

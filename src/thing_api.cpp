@@ -1456,7 +1456,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   return tp_flag(thing_tp(t), is_unused87) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused88(Thingp t) -> bool
+[[nodiscard]] auto thing_is_blocker_trap_activation(Thingp t) -> bool
 {
   TRACE_DEBUG();
 
@@ -1464,7 +1464,7 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     no_thing_pointer();
     return false;
   }
-  return tp_flag(thing_tp(t), is_unused88) != 0;
+  return tp_flag(thing_tp(t), is_blocker_trap_activation) != 0;
 }
 
 [[nodiscard]] auto thing_is_blocker_falling(Thingp t) -> bool

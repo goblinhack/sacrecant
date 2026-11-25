@@ -1425,10 +1425,10 @@
   return level_flag_bool(g, v, l, is_unused87, p, me);
 }
 
-[[nodiscard]] auto level_is_unused88_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_blocker_trap_activation_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_bool(g, v, l, is_unused88, p, me);
+  return level_flag_bool(g, v, l, is_blocker_trap_activation, p, me);
 }
 
 [[nodiscard]] auto level_is_blocker_falling_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool

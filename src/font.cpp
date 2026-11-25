@@ -6,7 +6,6 @@
 #include "my_font.hpp"
 #include "my_game.hpp"
 #include "my_main.hpp"
-#include "my_sdl_proto.hpp"
 #include "my_tile.hpp"
 #include "my_types.hpp"
 #include "my_ui.hpp"

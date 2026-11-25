@@ -510,7 +510,7 @@ static void tp_fixup()
       }
 
       if (tp_is_leader(tp)) {
-        if (! tp_follower_count_max_get(tp)) {
+        if (tp_follower_count_max_get(tp) == 0) {
           tp_err(tp, "is a leader with no follower count");
         }
       }

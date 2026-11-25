@@ -94,7 +94,7 @@ auto sdl_get_mouse_state(Gamep g, int *x, int *y) -> int
   //
   // Account for window position
   //
-  if (((flags & SDL_WINDOW_FULLSCREEN) != 0u) || ((flags & SDL_WINDOW_FULLSCREEN_DESKTOP) != 0u)) {
+  if (((flags & SDL_WINDOW_FULLSCREEN) != 0U) || ((flags & SDL_WINDOW_FULLSCREEN_DESKTOP) != 0U)) {
     mx += px;
     my += py;
   }

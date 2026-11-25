@@ -398,7 +398,7 @@
       list_macro(is_unused85, "is_unused85"),                                               /* newline */                                       \
       list_macro(is_unused86, "is_unused86"),                                               /* newline */                                       \
       list_macro(is_unused87, "is_unused87"),                                               /* newline */                                       \
-      list_macro(is_unused88, "is_unused88"),                                               /* newline */                                       \
+      list_macro(is_blocker_trap_activation, "is_blocker_trap_activation"),                 /* newline */                                       \
       list_macro(is_blocker_falling, "is_blocker_falling"),                                 /* newline */                                       \
       list_macro(is_unused9, "is_unused9"),                                                 /* newline */                                       \
       list_macro(is_blocker_teleport, "is_blocker_teleport"),                               /* newline */                                       \
@@ -972,6 +972,7 @@ class Tp;
 [[nodiscard]] auto tp_is_blocker_falling(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_blocker_movement(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_blocker_teleport(Tpp tp) -> bool;
+[[nodiscard]] auto tp_is_blocker_trap_activation(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_boost(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_boots(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_border(Tpp tp) -> bool;
@@ -1281,7 +1282,6 @@ class Tp;
 [[nodiscard]] auto tp_is_unused85(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused86(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused87(Tpp tp) -> bool;
-[[nodiscard]] auto tp_is_unused88(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_unused9(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_usable(Tpp tp) -> bool;
 [[nodiscard]] auto tp_is_vault(Tpp tp) -> bool;

@@ -23,7 +23,7 @@
   }
 
   auto id = tp_id_get(tp);
-  if (id == 0u) {
+  if (id == 0U) {
     return false;
   }
 
@@ -36,7 +36,7 @@
   for (auto slot = 0; slot < MAP_TP_SLOTS; slot++) {
     auto *o_tp = &l->tps[ at.x ][ at.y ][ slot ];
 
-    if (! free_slot_set && (o_tp->tp_id == 0u)) {
+    if (! free_slot_set && (o_tp->tp_id == 0U)) {
       free_slot     = slot;
       free_slot_set = true;
       continue;
@@ -71,7 +71,7 @@
   }
 
   auto id = tp_id_get(tp);
-  if (id == 0u) {
+  if (id == 0U) {
     return false;
   }
 

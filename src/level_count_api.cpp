@@ -1365,10 +1365,10 @@
   return level_count(g, v, l, is_unused87, p);
 }
 
-[[nodiscard]] auto level_count_is_unused88(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_blocker_trap_activation(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused88, p);
+  return level_count(g, v, l, is_blocker_trap_activation, p);
 }
 
 [[nodiscard]] auto level_count_is_blocker_falling(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t

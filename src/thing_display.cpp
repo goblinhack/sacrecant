@@ -202,7 +202,7 @@ void thing_display_get_tile_info(Gamep g, Levelsp v, Levelp l, const bpoint &p, 
   br.x = tl.x + pix_width;
   br.y = tl.y + pix_height;
 
-  if (t_maybe_null) {
+  if (t_maybe_null != nullptr) {
     //
     // Flippable?
     //
@@ -216,11 +216,11 @@ void thing_display_get_tile_info(Gamep g, Levelsp v, Levelp l, const bpoint &p, 
     // Increase the size of effects so that we can see the when over bosses
     //
     if (thing_is_effect(t_maybe_null)) {
-      auto leader = thing_follower_leader_get(g, v, l, t_maybe_null);
-      if (leader) {
+      auto *leader = thing_follower_leader_get(g, v, l, t_maybe_null);
+      if (leader != nullptr) {
         if (thing_is_hook(leader)) {
           auto *owner = thing_hook_owner_get(g, v, l, leader);
-          if (owner) {
+          if (owner != nullptr) {
             if (thing_is_boss(owner)) {
               tl.x -= pix_width;
               br.x += pix_width;

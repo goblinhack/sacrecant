@@ -10,7 +10,6 @@
 #include "my_game_defs.hpp"
 #include "my_game_inlines.hpp"
 #include "my_game_popups.hpp"
-#include "my_gl.hpp"
 #include "my_globals.hpp"
 #include "my_hiscore.hpp"
 #include "my_level.hpp"
@@ -19,7 +18,6 @@
 #include "my_ptrcheck.hpp"
 #include "my_random.hpp"
 #include "my_random_name.hpp"
-#include "my_sdl_event.hpp"
 #include "my_sdl_proto.hpp"
 #include "my_spoint.hpp"
 #include "my_test.hpp"
@@ -35,7 +33,6 @@
 #include <SDL_keyboard.h>
 #include <SDL_keycode.h>
 #include <SDL_mixer.h>
-#include <SDL_video.h>
 #include <algorithm>
 #include <array>
 #include <cmath>
@@ -3877,7 +3874,7 @@ void game_map_zoom_best_find(Gamep g)
   log("INIT: - zoom                  : %d", g->config.zoom);
   log("INIT: - zoom default          : %d", g->config.zoom_default);
   log("INIT: - zoom old              : %d", g->config.zoom_old);
-  log("INIT: - zoom set              : %d", g->config.zoom_set);
+  log("INIT: - zoom set              : %d", static_cast< int >(g->config.zoom_set));
 
   //
   // Try to get a sensible zoom
@@ -3916,7 +3913,7 @@ void game_map_zoom_best_find(Gamep g)
   log("INIT: - zoom                  : %d", g->config.zoom);
   log("INIT: - zoom default          : %d", g->config.zoom_default);
   log("INIT: - zoom old              : %d", g->config.zoom_old);
-  log("INIT: - zoom set              : %d", g->config.zoom_set);
+  log("INIT: - zoom set              : %d", static_cast< int >(g->config.zoom_set));
   log("INIT: - tiles down            : %d tiles", game_tiles_visible_down_get(g));
 }
 
