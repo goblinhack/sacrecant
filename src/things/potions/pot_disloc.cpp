@@ -174,7 +174,6 @@ static void tp_pot_disloc_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, Thin
   thing_on_use_set(tp, tp_pot_disloc_on_use);
   tp_chance_set(tp, THING_CHANCE_CONTINUE_TO_BURN, "1d2"); // fumble => intensify / keep burning / crit => stop burning
   tp_damage_set(tp, THING_EVENT_THROWN_DAMAGE, "1d4");
-  tp_flag_set(tp, is_able_to_be_buffed);
   tp_flag_set(tp, is_able_to_be_invisible);
   tp_flag_set(tp, is_able_to_be_levitated);
   tp_flag_set(tp, is_able_to_be_teleported);
