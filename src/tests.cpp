@@ -186,6 +186,7 @@
   if (!test_load_pot_levit_trampled_grass()) { return false; }
   if (!test_load_pot_prot_from_engulfing()) { return false; }
   if (!test_load_pot_prot_no_ensnare_in_spiderweb()) { return false; }
+  if (!test_load_pot_prot_trap_activation()) { return false; }
   if (!test_load_pot_prot()) { return false; }
   if (!test_load_pot_stealth()) { return false; }
   if (!test_load_pot_tireless()) { return false; }

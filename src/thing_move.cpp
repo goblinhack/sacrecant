@@ -26,7 +26,7 @@
     THING_DBG(g, v, l, me, "move to (%d,%d)", to.x, to.y);
   }
 
-  if (is_oob_or_border(to)) [[unlikely]] {
+  if (is_oob(to)) [[unlikely]] {
     return false;
   }
 
@@ -116,7 +116,7 @@
 {
   TRACE();
 
-  if (is_oob_or_border(to)) [[unlikely]] {
+  if (is_oob(to)) [[unlikely]] {
     return false;
   }
 
@@ -145,7 +145,7 @@
   THING_DBG(g, v, new_level, me, "warp to @%d,%d", to.x, to.y);
   TRACE_INDENT();
 
-  if (is_oob_or_border(to)) [[unlikely]] {
+  if (is_oob(to)) [[unlikely]] {
     thing_err(g, v, new_level, me, "warp to oob %d,%d", to.x, to.y);
     return false;
   }

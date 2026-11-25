@@ -1036,7 +1036,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_blocker_falling(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blocker_movement(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_blocker_teleport(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
-[[nodiscard]] auto thing_is_blocker_trap_activation(Thingp t) -> bool;
+[[nodiscard]] auto thing_is_blocker_trap_activation(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_boost(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_boots(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_boss(Thingp t) -> bool;

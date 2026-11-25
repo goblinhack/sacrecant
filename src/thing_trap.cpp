@@ -34,6 +34,16 @@ void thing_trap_handle(Gamep g, Levelsp v, Levelp l, Thingp me)
 
   thing_sound_play(g, v, l, me, "click");
 
+  //
+  // Blocked from being trapped?
+  //
+  if (thing_is_blocker_trap_activation(g, v, l, me)) {
+    if (thing_is_player(me)) {
+      topcon(UI_IMPORTANT_FMT_STR "You laugh at the obviousness of that trap." UI_RESET_FMT);
+      return;
+    }
+  }
+
   if (thing_stat_success(g, v, l, me, THING_STAT_LUCK, TARGET_ROLL_TRAP)) {
     //
     // Lucky
