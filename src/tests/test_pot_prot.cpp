@@ -24,7 +24,7 @@
       = "xxxxxxx"
         "x.....x"
         "x.....x"
-        "x..@m.x"
+        "x..@M.x"
         "x.....x"
         "x.....x"
         "xxxxxxx";
@@ -32,7 +32,7 @@
       = "xxxxxxx"
         "x.....x"
         "x.....x"
-        "x..@..x"
+        "x..@M.x"
         "x.....x"
         "x.....x"
         "xxxxxxx";
@@ -42,7 +42,7 @@
   //
   Levelp            l = nullptr;
   LevelGenOverrides overrides;
-  overrides.o[ 'm' ].get_tp = [](char c, bpoint p) -> Tpp { return tp_find_mand("cleaner"); };
+  overrides.o[ 'M' ].get_tp = [](char c, bpoint p) -> Tpp { return tp_find_mand("ogrik"); };
   Levelsp v                 = game_test_init(g, &l, level_num, w, h, start.c_str(), overrides);
 
   //
@@ -130,7 +130,7 @@
   }
 
   TEST_ASSERT(t, thing_is_dead(player), "expected dead player");
-  TEST_ASSERT(t, game_tick_get(g, v) == 34, "final tick counter value");
+  TEST_ASSERT(t, game_tick_get(g, v) == 38, "final tick counter value");
 
   level_dump(g, v, l, w, h);
   TEST_PASSED(t);

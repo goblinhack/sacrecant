@@ -182,6 +182,7 @@ auto test_load_pot_levit_player_rubble() -> bool;
 auto test_load_pot_levit_player_spiderweb() -> bool;
 auto test_load_pot_levit_player_water() -> bool;
 auto test_load_pot_levit_trampled_grass() -> bool;
+auto test_load_pot_prot_from_engulfing() -> bool;
 auto test_load_pot_prot() -> bool;
 auto test_load_pot_stealth() -> bool;
 auto test_load_pot_tireless() -> bool;

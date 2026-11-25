@@ -184,6 +184,7 @@
   if (!test_load_pot_levit_player_spiderweb()) { return false; }
   if (!test_load_pot_levit_player_water()) { return false; }
   if (!test_load_pot_levit_trampled_grass()) { return false; }
+  if (!test_load_pot_prot_from_engulfing()) { return false; }
   if (!test_load_pot_prot()) { return false; }
   if (!test_load_pot_stealth()) { return false; }
   if (!test_load_pot_tireless()) { return false; }

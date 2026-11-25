@@ -206,6 +206,7 @@ const std::initializer_list< std::string > tests = {
     "pot_levit_player_spiderweb",
     "pot_levit_player_water",
     "pot_levit_trampled_grass",
+    "pot_prot_from_engulfing",
     "pot_prot",
     "pot_stealth",
     "pot_tireless",
