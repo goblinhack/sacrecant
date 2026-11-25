@@ -371,7 +371,7 @@ static void thing_fall_end(Gamep g, Levelsp v, Levelp l, Thingp me)
     // we need to break the potential fall loop.
     //
     if (thing_is_falling_continues(me)) {
-      if (! thing_is_able_to_fall_repeatedly(me)) {
+      if (! thing_is_able_to_fall_repeatedly(g, v, l, me)) {
         e.reason = "repeated falling";
 
         THING_DBG(g, v, l, me, "dead due to repeated falling");
@@ -595,6 +595,10 @@ void thing_fall(Gamep g, Levelsp v, Levelp l, Thingp me)
     return false;
   }
 
+  if (thing_is_blocker_falling(g, v, l, me)) {
+    return false;
+  }
+
   //
   // Allow dead floating monsters to fall
   //
@@ -625,6 +629,10 @@ void thing_fall(Gamep g, Levelsp v, Levelp l, Thingp me)
     return false;
   }
 
+  if (thing_is_blocker_falling(g, v, l, me)) {
+    return false;
+  }
+
   //
   // Can't fall when levitating
   //
@@ -635,7 +643,7 @@ void thing_fall(Gamep g, Levelsp v, Levelp l, Thingp me)
   return tp_flag(thing_tp(me), is_able_to_fall) != 0;
 }
 
-[[nodiscard]] auto thing_is_able_to_fall_repeatedly(Thingp me) -> bool
+[[nodiscard]] auto thing_is_able_to_fall_repeatedly(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool
 {
   TRACE_DEBUG();
 
@@ -643,6 +651,11 @@ void thing_fall(Gamep g, Levelsp v, Levelp l, Thingp me)
     no_thing_pointer();
     return false;
   }
+
+  if (thing_is_blocker_falling(g, v, l, me)) {
+    return false;
+  }
+
   return tp_flag(thing_tp(me), is_able_to_fall_repeatedly) != 0;
 }
 

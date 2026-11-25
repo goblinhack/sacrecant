@@ -1370,10 +1370,10 @@
   return level_flag(g, v, l, is_unused88, p, me);
 }
 
-[[nodiscard]] auto level_is_unused89(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
+[[nodiscard]] auto level_is_blocker_falling(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp
 {
   TRACE_DEBUG();
-  return level_flag(g, v, l, is_unused89, p, me);
+  return level_flag(g, v, l, is_blocker_falling, p, me);
 }
 
 [[nodiscard]] auto level_is_blocker_teleport(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> Thingp

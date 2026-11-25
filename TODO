@@ -1,7 +1,12 @@
 bugs
 ----
-teleport blocked on holding?
-new hiscore saved config message
+test holding teleport
+test holding falling
+test holding jumping
+test holding moving
+test protection trap
+test protection web
+test protection cleaner
 
 todo
 ----

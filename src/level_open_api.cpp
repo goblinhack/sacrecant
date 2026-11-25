@@ -1370,10 +1370,10 @@
   return level_open(g, v, l, is_unused88, p);
 }
 
-[[nodiscard]] auto level_open_is_unused89(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+[[nodiscard]] auto level_open_is_blocker_falling(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_open(g, v, l, is_unused89, p);
+  return level_open(g, v, l, is_blocker_falling, p);
 }
 
 [[nodiscard]] auto level_open_is_blocker_teleport(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp

@@ -954,9 +954,9 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_inventory_remove(Gamep g, Levelsp v, Levelp l, Thingp drop_item, Thingp owner) -> bool;
 [[nodiscard]] auto thing_invisible(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_able_to_be_buffed(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_able_to_be_teleported(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_able_to_be_engulfed(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_able_to_be_ensnared(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
+[[nodiscard]] auto thing_is_able_to_be_teleported(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_able_to_breathe(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_able_to_cast_spells(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_able_to_choose_targets(Thingp t) -> bool;
@@ -971,7 +971,7 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_able_to_engulf(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_able_to_ensnare(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_able_to_fall_normally(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
-[[nodiscard]] auto thing_is_able_to_fall_repeatedly(Thingp me) -> bool;
+[[nodiscard]] auto thing_is_able_to_fall_repeatedly(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_able_to_fall_sound(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_able_to_fall(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_able_to_fire_weapons(Thingp t) -> bool;
@@ -1032,6 +1032,8 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_blit_when_obscured_outline(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blocker_engulfed(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blocker_ensnared(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
+[[nodiscard]] auto thing_is_blocker_falling(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
+[[nodiscard]] auto thing_is_blocker_falling(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blocker_movement(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
 [[nodiscard]] auto thing_is_blocker_teleport(Gamep g, Levelsp v, Levelp l, Thingp t) -> bool;
 [[nodiscard]] auto thing_is_boost(Thingp t) -> bool;
@@ -1198,8 +1200,8 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_obs_to_hearing(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_obs_to_jumping_onto(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst) -> bool;
 [[nodiscard]] auto thing_is_obs_to_jumping_onto(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
-[[nodiscard]] auto thing_is_obs_to_jumping_out_of(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_obs_to_jumping_out_of(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst) -> bool;
+[[nodiscard]] auto thing_is_obs_to_jumping_out_of(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;
 [[nodiscard]] auto thing_is_obs_to_jumping_over(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst) -> bool;
 [[nodiscard]] auto thing_is_obs_to_jumping_over(Thingp me) -> bool;
 [[nodiscard]] auto thing_is_obs_to_movement(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst = nullptr) -> bool;
@@ -1364,7 +1366,6 @@ using Thing = struct Thing {
 [[nodiscard]] auto thing_is_unused86(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused87(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused88(Thingp t) -> bool;
-[[nodiscard]] auto thing_is_unused89(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_unused9(Thingp t) -> bool;
 [[nodiscard]] auto thing_is_upgradable(Gamep g, Levelsp v, Levelp l, Thingp me, TpSpellUpgrade u) -> bool;
 [[nodiscard]] auto thing_is_upgradable(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool;

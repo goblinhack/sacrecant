@@ -1393,10 +1393,10 @@
   return tp_flag(tp, is_unused88) != 0;
 }
 
-[[nodiscard]] auto tp_is_unused89(Tpp tp) -> bool
+[[nodiscard]] auto tp_is_blocker_falling(Tpp tp) -> bool
 {
   TRACE_DEBUG();
-  return tp_flag(tp, is_unused89) != 0;
+  return tp_flag(tp, is_blocker_falling) != 0;
 }
 
 [[nodiscard]] auto tp_is_blocker_teleport(Tpp tp) -> bool
