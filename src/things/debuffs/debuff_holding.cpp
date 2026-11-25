@@ -38,10 +38,10 @@ void tp_buff_holding_on_hook_attached(Gamep g, Levelsp v, Levelp l, Thingp me)
   tp_flag_set(tp, is_blocker_engulfed);
   tp_flag_set(tp, is_blocker_ensnared);
   tp_flag_set(tp, is_blocker_movement);
-  tp_flag_set(tp, is_leader_kill_followers_on_death);
-  tp_flag_set(tp, is_leader);
   tp_flag_set(tp, is_debuff);
   tp_flag_set(tp, is_hook);
+  tp_flag_set(tp, is_leader_kill_followers_on_death);
+  tp_flag_set(tp, is_leader);
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_tick_on_use);

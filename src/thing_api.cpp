@@ -1478,28 +1478,6 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
   return tp_flag(thing_tp(t), is_unused89) != 0;
 }
 
-[[nodiscard]] auto thing_is_unused90(Thingp t) -> bool
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    no_thing_pointer();
-    return false;
-  }
-  return tp_flag(thing_tp(t), is_unused90) != 0;
-}
-
-[[nodiscard]] auto thing_is_blocker_movement(Thingp t) -> bool
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    no_thing_pointer();
-    return false;
-  }
-  return tp_flag(thing_tp(t), is_blocker_movement) != 0;
-}
-
 [[nodiscard]] auto thing_is_effect_holding(Thingp t) -> bool
 {
   TRACE_DEBUG();
@@ -2213,28 +2191,6 @@ void thing_is_on_map_unset(Gamep g, Levelsp v, Levelp l, Thingp t)
     return false;
   }
   return tp_flag(thing_tp(t), is_edible) != 0;
-}
-
-[[nodiscard]] auto thing_is_blocker_engulfed(Thingp t) -> bool
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    no_thing_pointer();
-    return false;
-  }
-  return tp_flag(thing_tp(t), is_blocker_engulfed) != 0;
-}
-
-[[nodiscard]] auto thing_is_blocker_ensnared(Thingp t) -> bool
-{
-  TRACE_DEBUG();
-
-  if (t == nullptr) {
-    no_thing_pointer();
-    return false;
-  }
-  return tp_flag(thing_tp(t), is_blocker_ensnared) != 0;
 }
 
 [[nodiscard]] auto thing_is_active_when_worn(Thingp t) -> bool

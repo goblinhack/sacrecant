@@ -1376,10 +1376,10 @@
   return level_alive(g, v, l, is_unused89, p);
 }
 
-[[nodiscard]] auto level_alive_is_unused90(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
+[[nodiscard]] auto level_alive_is_blocker_teleport(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp
 {
   TRACE_DEBUG();
-  return level_alive(g, v, l, is_unused90, p);
+  return level_alive(g, v, l, is_blocker_teleport, p);
 }
 
 [[nodiscard]] auto level_alive_is_blocker_movement(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> Thingp

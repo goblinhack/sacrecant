@@ -323,14 +323,15 @@ void levels_test(Gamep g)
     LevelGenOverrides overrides;
 
     overrides.o[ 'm' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("argusul"); };
+    overrides.o[ '$' ].get_tp = [](char /*c*/, bpoint /*p*/) -> Tpp { return tp_find_mand("pot_disloc"); };
 
     level_fixed_add(g, CHANCE_NORMAL, LEVEL_TYPE_TEST, "test2", __FUNCTION__, __LINE__, overrides, 0,
                     /* line */ (const char *) "XXXXXXXXX",
-                    /* line */ (const char *) "X.......X",
-                    /* line */ (const char *) "X.......X",
-                    /* line */ (const char *) "X@.....mX",
-                    /* line */ (const char *) "X.......X",
-                    /* line */ (const char *) "X.......X",
+                    /* line */ (const char *) "X......CX",
+                    /* line */ (const char *) "X......CX",
+                    /* line */ (const char *) "X@$...mTX",
+                    /* line */ (const char *) "X......CX",
+                    /* line */ (const char *) "X......CX",
                     /* line */ (const char *) "XXXXXXXXX",
                     /* end */ nullptr);
   }

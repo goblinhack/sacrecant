@@ -319,7 +319,6 @@ static void tp_boss5_on_level_changed_for_player(Gamep g, Levelsp v, Levelp l, T
   thing_on_attacking_set(tp, tp_boss5_on_attacking);
   thing_on_damage_set(tp, tp_boss5_on_damage);
   thing_on_death_set(tp, tp_boss5_on_death);
-  thing_on_tick_begin_set(tp, tp_boss5_on_tick_begin);
   thing_on_level_changed_for_player_set(tp, tp_boss5_on_level_changed_for_player);
   thing_on_missing_set(tp, tp_boss5_on_missing);
   thing_on_popped_set(tp, tp_boss5_on_popped);

@@ -54,7 +54,7 @@ static void tp_pot_disloc_on_thrown_end(Gamep g, Levelsp v, Levelp l, Thingp me,
       continue;
     }
 
-    if (! thing_is_able_to_be_teleported(it)) {
+    if (! thing_is_able_to_be_teleported(g, v, l, it)) {
       continue;
     }
 
@@ -79,7 +79,7 @@ static void tp_pot_disloc_on_thrown_end(Gamep g, Levelsp v, Levelp l, Thingp me,
         continue;
       }
 
-      if (! thing_is_able_to_be_teleported(it)) {
+      if (! thing_is_able_to_be_teleported(g, v, l, it)) {
         continue;
       }
 

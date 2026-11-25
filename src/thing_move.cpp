@@ -442,13 +442,13 @@ void thing_moving_from_set(Thingp me, const bpoint &val)
 //
 // Return false to ignore this obstacle
 //
-[[nodiscard]] static auto thing_is_obs_to_movement_common(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst) -> bool
+[[nodiscard]] static auto thing_should_ignore_obstacle(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst) -> bool
 {
   TRACE_DEBUG();
 
   if (me == nullptr) {
     no_thing_pointer();
-    return false;
+    return true;
   }
 
   //
@@ -456,14 +456,17 @@ void thing_moving_from_set(Thingp me, const bpoint &val)
   //
   if (thing_is_openable(me)) {
     if (thing_is_open(me)) {
-      return false;
+      return true;
     }
   }
 
   if (player_or_monst != nullptr) {
     if (thing_is_player(player_or_monst)) {
       if (thing_is_magic_wall(me)) {
-        return thing_keys_carried(g, v, l, player_or_monst) == 0;
+        //
+        // Only ignore if we have keys
+        //
+        return thing_keys_carried(g, v, l, player_or_monst) != 0;
       }
     }
 
@@ -472,13 +475,13 @@ void thing_moving_from_set(Thingp me, const bpoint &val)
     //
     if (thing_is_obs_to_wall_walker(me)) {
       if (thing_is_wall_walker(g, v, l, player_or_monst)) {
-        return true;
+        return false;
       }
     }
 
     if (thing_is_wall(me)) {
       if (thing_is_wall_walker(g, v, l, player_or_monst)) {
-        return false;
+        return true;
       }
     }
 
@@ -487,31 +490,31 @@ void thing_moving_from_set(Thingp me, const bpoint &val)
     //
     if (thing_is_obs_to_ethereal(me)) {
       if (thing_is_ethereal(g, v, l, player_or_monst)) {
-        return true;
+        return false;
       }
     }
 
     if (thing_is_levitating(g, v, l, player_or_monst)) {
       if (thing_is_flat(me)) {
-        return false;
+        return true;
       }
     }
 
     if (thing_is_flying(g, v, l, player_or_monst)) {
       if (thing_is_flat(me)) {
-        return false;
+        return true;
       }
     }
   }
 
-  return true;
+  return false;
 }
 
 [[nodiscard]] auto thing_is_obs_to_movement(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst) -> bool
 {
   TRACE_DEBUG();
 
-  if (! thing_is_obs_to_movement_common(g, v, l, me, player_or_monst)) {
+  if (thing_should_ignore_obstacle(g, v, l, me, player_or_monst)) {
     return false;
   }
 
@@ -522,7 +525,7 @@ void thing_moving_from_set(Thingp me, const bpoint &val)
 {
   TRACE_DEBUG();
 
-  if (! thing_is_obs_to_movement_common(g, v, l, me, player_or_monst)) {
+  if (thing_should_ignore_obstacle(g, v, l, me, player_or_monst)) {
     return false;
   }
 
@@ -533,7 +536,7 @@ void thing_moving_from_set(Thingp me, const bpoint &val)
 {
   TRACE_DEBUG();
 
-  if (! thing_is_obs_to_movement_common(g, v, l, me, player_or_monst)) {
+  if (thing_should_ignore_obstacle(g, v, l, me, player_or_monst)) {
     return false;
   }
 
@@ -544,7 +547,7 @@ void thing_moving_from_set(Thingp me, const bpoint &val)
 {
   TRACE_DEBUG();
 
-  if (! thing_is_obs_to_movement_common(g, v, l, me, player_or_monst)) {
+  if (thing_should_ignore_obstacle(g, v, l, me, player_or_monst)) {
     return false;
   }
 
@@ -573,7 +576,7 @@ void thing_moving_from_set(Thingp me, const bpoint &val)
 {
   TRACE_DEBUG();
 
-  if (! thing_is_obs_to_movement_common(g, v, l, me, player_or_monst)) {
+  if (thing_should_ignore_obstacle(g, v, l, me, player_or_monst)) {
     return false;
   }
 
@@ -584,7 +587,7 @@ void thing_moving_from_set(Thingp me, const bpoint &val)
 {
   TRACE_DEBUG();
 
-  if (! thing_is_obs_to_movement_common(g, v, l, me, player_or_monst)) {
+  if (thing_should_ignore_obstacle(g, v, l, me, player_or_monst)) {
     return false;
   }
 
@@ -595,7 +598,7 @@ void thing_moving_from_set(Thingp me, const bpoint &val)
 {
   TRACE_DEBUG();
 
-  if (! thing_is_obs_to_movement_common(g, v, l, me, player_or_monst)) {
+  if (thing_should_ignore_obstacle(g, v, l, me, player_or_monst)) {
     return false;
   }
 
@@ -606,7 +609,7 @@ void thing_moving_from_set(Thingp me, const bpoint &val)
 {
   TRACE_DEBUG();
 
-  if (! thing_is_obs_to_movement_common(g, v, l, me, player_or_monst)) {
+  if (thing_should_ignore_obstacle(g, v, l, me, player_or_monst)) {
     return false;
   }
 
@@ -633,18 +636,8 @@ void thing_moving_from_set(Thingp me, const bpoint &val)
     return false;
   }
 
-  FOR_ALL_HOOKS(g, v, l, me, hook)
-  {
-    if (thing_is_blocker_movement(hook)) {
-      return false;
-    }
-  }
-
-  FOR_ALL_ACTIVE_ITEMS(g, v, l, me, item)
-  {
-    if (thing_is_blocker_movement(item)) {
-      return false;
-    }
+  if (thing_is_blocker_movement(g, v, l, me)) {
+    return false;
   }
 
   return tp_flag(thing_tp(me), is_able_to_move_diagonally) != 0;
@@ -659,18 +652,8 @@ void thing_moving_from_set(Thingp me, const bpoint &val)
     return false;
   }
 
-  FOR_ALL_HOOKS(g, v, l, me, hook)
-  {
-    if (thing_is_blocker_movement(hook)) {
-      return false;
-    }
-  }
-
-  FOR_ALL_ACTIVE_ITEMS(g, v, l, me, item)
-  {
-    if (thing_is_blocker_movement(item)) {
-      return false;
-    }
+  if (thing_is_blocker_movement(g, v, l, me)) {
+    return false;
   }
 
   return tp_flag(thing_tp(me), is_able_to_move) != 0;

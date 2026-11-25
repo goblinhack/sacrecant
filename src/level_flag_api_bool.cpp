@@ -1437,10 +1437,10 @@
   return level_flag_bool(g, v, l, is_unused89, p, me);
 }
 
-[[nodiscard]] auto level_is_unused90_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
+[[nodiscard]] auto level_is_blocker_teleport_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_bool(g, v, l, is_unused90, p, me);
+  return level_flag_bool(g, v, l, is_blocker_teleport, p, me);
 }
 
 [[nodiscard]] auto level_is_blocker_movement_bool(Gamep g, Levelsp v, Levelp l, const bpoint &p, Thingp me) -> bool

@@ -254,11 +254,11 @@ static void tp_boss3_on_level_changed_for_player(Gamep g, Levelsp v, Levelp l, T
   thing_on_attacking_set(tp, tp_boss3_on_attacking);
   thing_on_damage_set(tp, tp_boss3_on_damage);
   thing_on_death_set(tp, tp_boss3_on_death);
-  thing_on_tick_begin_set(tp, tp_boss3_on_tick_begin);
   thing_on_level_changed_for_player_set(tp, tp_boss3_on_level_changed_for_player);
   thing_on_missing_set(tp, tp_boss3_on_missing);
   thing_on_popped_set(tp, tp_boss3_on_popped);
   thing_on_pushed_set(tp, tp_boss3_on_pushed);
+  thing_on_tick_begin_set(tp, tp_boss3_on_tick_begin);
   tp_attack_count_max_per_tick_set(tp, 1);
   tp_chance_set(tp, THING_CHANCE_CONTINUE_TO_BURN, "1d6"); // fumble => intensify / keep burning / crit => stop burning
   tp_chance_set(tp, THING_CHANCE_START_BURNING, "1d2");    // fumble => flames spread to you

@@ -1413,10 +1413,10 @@
   return level_flag_cached(g, v, l, is_unused89, p);
 }
 
-[[nodiscard]] auto level_is_unused90_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
+[[nodiscard]] auto level_is_blocker_teleport_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool
 {
   TRACE_DEBUG();
-  return level_flag_cached(g, v, l, is_unused90, p);
+  return level_flag_cached(g, v, l, is_blocker_teleport, p);
 }
 
 [[nodiscard]] auto level_is_blocker_movement_cached(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> bool

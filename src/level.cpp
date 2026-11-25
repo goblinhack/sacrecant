@@ -465,6 +465,11 @@ void level_destroy(Gamep g, Levelsp v, Levelp l)
           return true; // filter out i.e. ignore
         }
         break;
+      case is_obs_to_jumping_out_of :
+        if (! thing_is_obs_to_jumping_out_of(g, v, l, it, me)) {
+          return true; // filter out i.e. ignore
+        }
+        break;
       case is_obs_to_jumping_onto :
         if (! thing_is_obs_to_jumping_onto(g, v, l, it, me)) {
           return true; // filter out i.e. ignore

@@ -322,18 +322,8 @@
     return false;
   }
 
-  FOR_ALL_HOOKS(g, v, l, me, hook)
-  {
-    if (tp_flag(thing_tp(hook), is_blocker_engulfed) != 0) {
-      return false;
-    }
-  }
-
-  FOR_ALL_ACTIVE_ITEMS(g, v, l, me, item)
-  {
-    if (tp_flag(thing_tp(item), is_blocker_engulfed) != 0) {
-      return false;
-    }
+  if (thing_is_blocker_engulfed(g, v, l, me)) {
+    return false;
   }
 
   return tp_flag(thing_tp(me), is_able_to_be_engulfed) != 0;

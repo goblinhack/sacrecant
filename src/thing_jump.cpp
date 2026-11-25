@@ -527,17 +527,6 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
   return ext->_distance_jump -= val;
 }
 
-[[nodiscard]] auto thing_is_obs_to_jumping_out_of(Thingp me) -> bool
-{
-  TRACE_DEBUG();
-
-  if (me == nullptr) {
-    no_thing_pointer();
-    return false;
-  }
-  return tp_flag(thing_tp(me), is_obs_to_jumping_out_of) != 0;
-}
-
 [[nodiscard]] auto thing_is_obs_to_jumping_over(Thingp me) -> bool
 {
   TRACE_DEBUG();
@@ -559,12 +548,20 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
   return tp_flag(thing_tp(me), is_obs_to_jumping_over) != 0;
 }
 
-[[nodiscard]] auto thing_is_obs_to_jumping_onto(Thingp me) -> bool
+[[nodiscard]] auto thing_is_obs_to_jumping_out_of(Gamep g, Levelsp v, Levelp l, Thingp me, Thingp player_or_monst) -> bool
 {
   TRACE_DEBUG();
 
   if (me == nullptr) {
     no_thing_pointer();
+    return false;
+  }
+
+  if (thing_is_blocker_movement(g, v, l, player_or_monst)) {
+    return false;
+  }
+
+  if (thing_is_blocker_movement(g, v, l, me)) {
     return false;
   }
 
@@ -577,7 +574,32 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
     }
   }
 
-  return tp_flag(thing_tp(me), is_obs_to_jumping_onto) != 0;
+  return tp_flag(thing_tp(me), is_obs_to_jumping_out_of) != 0;
+}
+
+[[nodiscard]] auto thing_is_obs_to_jumping_out_of(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool
+{
+  TRACE_DEBUG();
+
+  if (me == nullptr) {
+    no_thing_pointer();
+    return false;
+  }
+
+  if (thing_is_blocker_movement(g, v, l, me)) {
+    return false;
+  }
+
+  //
+  // Unless open
+  //
+  if (thing_is_openable(me)) {
+    if (thing_is_open(me)) {
+      return false;
+    }
+  }
+
+  return tp_flag(thing_tp(me), is_obs_to_jumping_out_of) != 0;
 }
 
 [[nodiscard]] auto thing_is_able_to_jump_land_then_pounce(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool
@@ -597,18 +619,8 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
     return false;
   }
 
-  FOR_ALL_HOOKS(g, v, l, me, hook)
-  {
-    if (thing_is_blocker_movement(hook)) {
-      return false;
-    }
-  }
-
-  FOR_ALL_ACTIVE_ITEMS(g, v, l, me, item)
-  {
-    if (thing_is_blocker_movement(item)) {
-      return false;
-    }
+  if (thing_is_blocker_movement(g, v, l, me)) {
+    return false;
   }
 
   return tp_flag(thing_tp(me), is_able_to_jump_land_then_pounce) != 0;
@@ -631,18 +643,8 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
     return false;
   }
 
-  FOR_ALL_HOOKS(g, v, l, me, hook)
-  {
-    if (thing_is_blocker_movement(hook)) {
-      return false;
-    }
-  }
-
-  FOR_ALL_ACTIVE_ITEMS(g, v, l, me, item)
-  {
-    if (thing_is_blocker_movement(item)) {
-      return false;
-    }
+  if (thing_is_blocker_movement(g, v, l, me)) {
+    return false;
   }
 
   return tp_flag(thing_tp(me), is_able_to_jump) != 0;
@@ -657,18 +659,8 @@ static auto thing_jump_something_in_the_way(Gamep g, Levelsp v, Levelp l, Thingp
     return false;
   }
 
-  FOR_ALL_HOOKS(g, v, l, me, hook)
-  {
-    if (thing_is_blocker_movement(hook)) {
-      return false;
-    }
-  }
-
-  FOR_ALL_ACTIVE_ITEMS(g, v, l, me, item)
-  {
-    if (thing_is_blocker_movement(item)) {
-      return false;
-    }
+  if (thing_is_blocker_movement(g, v, l, me)) {
+    return false;
   }
 
   bool const out = tp_flag(thing_tp(me), is_able_to_jump_attack) != 0;

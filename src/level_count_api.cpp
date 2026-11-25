@@ -1377,10 +1377,10 @@
   return level_count(g, v, l, is_unused89, p);
 }
 
-[[nodiscard]] auto level_count_is_unused90(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
+[[nodiscard]] auto level_count_is_blocker_teleport(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t
 {
   TRACE_DEBUG();
-  return level_count(g, v, l, is_unused90, p);
+  return level_count(g, v, l, is_blocker_teleport, p);
 }
 
 [[nodiscard]] auto level_count_is_blocker_movement(Gamep g, Levelsp v, Levelp l, const bpoint &p) -> uint32_t

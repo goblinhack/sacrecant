@@ -405,7 +405,7 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
     return false;
   }
 
-  if (! thing_is_able_to_be_teleported(me)) {
+  if (! thing_is_able_to_be_teleported(g, v, l, me)) {
     THING_DBG(g, v, l, me, "teleport, no; blocked");
     return false;
   }
@@ -466,7 +466,7 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
     return false;
   }
 
-  if (! thing_is_able_to_be_teleported(me)) {
+  if (! thing_is_able_to_be_teleported(g, v, l, me)) {
     THING_DBG(g, v, l, me, "teleport, no; blocked");
     return false;
   }
@@ -800,34 +800,54 @@ void thing_is_teleporting_unset(Gamep g, Levelsp v, Levelp l, Thingp me)
   return thing_teleport_to(g, v, l, me, to);
 }
 
-[[nodiscard]] auto thing_is_teleport(Thingp t) -> bool
+[[nodiscard]] auto thing_is_teleport(Thingp me) -> bool
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     no_thing_pointer();
     return false;
   }
-  return tp_flag(thing_tp(t), is_teleport) != 0;
+  return tp_flag(thing_tp(me), is_teleport) != 0;
 }
 
-[[nodiscard]] auto thing_is_obs_to_teleporting_onto(Thingp t) -> bool
+[[nodiscard]] auto thing_is_obs_to_teleporting_onto(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool
 {
   TRACE_DEBUG();
 
-  if (t == nullptr) {
+  if (me == nullptr) {
     no_thing_pointer();
     return false;
+  }
+
+  if (thing_is_blocker_teleport(g, v, l, me)) {
+    return true;
   }
 
   //
   // Unless open
   //
-  if (thing_is_openable(t)) {
-    if (thing_is_open(t)) {
+  if (thing_is_openable(me)) {
+    if (thing_is_open(me)) {
       return false;
     }
   }
 
-  return tp_flag(thing_tp(t), is_obs_to_teleporting_onto) != 0;
+  return tp_flag(thing_tp(me), is_obs_to_teleporting_onto) != 0;
+}
+
+[[nodiscard]] auto thing_is_able_to_be_teleported(Gamep g, Levelsp v, Levelp l, Thingp me) -> bool
+{
+  TRACE();
+
+  if (me == nullptr) {
+    no_thing_pointer();
+    return false;
+  }
+
+  if (thing_is_blocker_teleport(g, v, l, me)) {
+    return false;
+  }
+
+  return tp_flag(thing_tp(me), is_able_to_be_teleported) != 0;
 }

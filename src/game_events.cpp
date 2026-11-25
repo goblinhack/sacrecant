@@ -1013,7 +1013,13 @@ static auto game_event_jump(Gamep g) -> bool
   // Else, just jump, which cannot be done by mouse means unless it is
   // obvious and the target is a chasm.
   //
-  return player_jump(g, v, l, player, v->cursor_at);
+  if (! player_jump(g, v, l, player, v->cursor_at)) {
+    topcon(UI_WARN_FMT_STR "You cannot jump!" UI_RESET_FMT);
+    (void) sound_play(g, "error");
+    return false;
+  }
+
+  return true;
 }
 
 static auto game_event_throw(Gamep g) -> bool
