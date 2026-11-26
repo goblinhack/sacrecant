@@ -269,9 +269,23 @@ void level_is_completed_by_player_falling(Gamep g, Levelsp v, Levelp l)
   level_scroll_warp_to_focus(g, v, new_level);
   level_debug(g, v, new_level);
 
+  //
+  // Clear out old descriptions
+  //
+  level_cursor_describe_clear(g, v);
+
   if (level_is_level_select(g, v, new_level)) {
     botcon_newline();
     game_state_change(g, STATE_LEVEL_SELECT_MENU, "level change");
+
+    if (v->tick == 0U) {
+      topcon("Choose your starting level, mortal.");
+      topcon_newline();
+      topcon("Mouse hover over levels to preview contents.");
+    } else {
+      topcon("Choose your next level, mortal.");
+    }
+
     wid_level_select(g, v, new_level);
   } else if (new_level->player_completed_level_via_exit) {
     topcon_newline();

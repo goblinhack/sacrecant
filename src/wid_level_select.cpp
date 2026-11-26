@@ -84,12 +84,6 @@ void wid_level_select(Gamep g, Levelsp v, Levelp l)
     if (wid_rightbar_thing_info_count(g, v) != 0) {
       return;
     }
-  } else if (v->tick == 0U) {
-    topcon("Choose your starting level, mortal.");
-    topcon_newline();
-    topcon("Mouse hover over levels to preview contents.");
-  } else {
-    topcon("Choose your next level, mortal.");
   }
 
   auto         width = UI_RIGHTBAR_WIDTH;

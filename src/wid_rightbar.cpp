@@ -78,6 +78,10 @@ void wid_rightbar_create_minimap_level(Gamep g)
       continue;
     }
 
+    if (compiler_unused) {
+      thing_con(g, v, thing_level(g, v, t), t, "rightbar");
+    }
+
     wid_thing_info_count++;
   }
 
@@ -92,8 +96,14 @@ void wid_rightbar_create_minimap_level(Gamep g)
     }
 
     if (thing_is_dead(t)) {
-      wid_thing_info_count++;
+      continue;
     }
+
+    if (compiler_unused) {
+      thing_con(g, v, thing_level(g, v, t), t, "rightbar");
+    }
+
+    wid_thing_info_count++;
   }
 
   return wid_thing_info_count;
