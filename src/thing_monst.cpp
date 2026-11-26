@@ -699,55 +699,60 @@ static auto thing_monst_choose_something_we_can_wander_to(Gamep g, Levelsp v, Le
   //
   // This is for spiders that do not move conventionally, but jump
   //
-  auto try_jump = ! thing_is_able_to_move(g, v, l, me);
+  auto try_to_jump_if_possible = ! thing_is_able_to_move(g, v, l, me);
 
   //
   // Pirnana does not always move, but jumps sometimes
   //
   if (thing_is_able_to_jump_attack(g, v, l, me)) {
     if (d100() < thing_jump_attack_pct_chance(me)) {
-      try_jump = true;
+      try_to_jump_if_possible = true;
     }
   }
 
   //
   // If we cannot move, can we jump
   //
-  if (try_jump) {
-    THING_DBG(g, v, l, me, "move try: cannot move, jump?");
-    if (! adjacent(at, to)) {
-      if (thing_jump_to(g, v, l, me, to, false)) {
-        return true;
-      }
-    }
-
+  if (try_to_jump_if_possible) {
     //
-    // Try to reach the final target
+    // If we can jump, try to
     //
-    if (! adjacent(at, target)) {
-      if (thing_jump_to(g, v, l, me, target, false)) {
-        return true;
-      }
-    }
-
-    //
-    // Jump half way?
-    //
-    auto middle = (target + to) / 2;
-    if (! adjacent(at, middle)) {
-      if (thing_jump_to(g, v, l, me, middle, false)) {
-        return true;
-      }
-    }
-
-    //
-    // Try some alternative jump targets
-    //
-    for (auto tries = 0; tries < 10; tries++) {
-      auto alt_target = middle + bpoint(PCG_RANDOM_RANGE_INCLUSIVE(-2, 2), PCG_RANDOM_RANGE_INCLUSIVE(-2, 2));
-      if (! adjacent(at, alt_target)) {
-        if (thing_jump_to(g, v, l, me, alt_target, false)) {
+    if (thing_is_able_to_jump(g, v, l, me) || thing_is_able_to_jump_attack(g, v, l, me)) {
+      THING_DBG(g, v, l, me, "move try: cannot move, jump?");
+      if (! adjacent(at, to)) {
+        if (thing_jump_to(g, v, l, me, to, false)) {
           return true;
+        }
+      }
+
+      //
+      // Try to reach the final target
+      //
+      if (! adjacent(at, target)) {
+        if (thing_jump_to(g, v, l, me, target, false)) {
+          return true;
+        }
+      }
+
+      //
+      // Jump half way?
+      //
+      auto middle = (target + to) / 2;
+      if (! adjacent(at, middle)) {
+        if (thing_jump_to(g, v, l, me, middle, false)) {
+          return true;
+        }
+      }
+
+      //
+      // Try some alternative jump targets
+      //
+      for (auto tries = 0; tries < 10; tries++) {
+        auto alt_target = middle + bpoint(PCG_RANDOM_RANGE_INCLUSIVE(-2, 2), PCG_RANDOM_RANGE_INCLUSIVE(-2, 2));
+        if (! adjacent(at, alt_target)) {
+          if (thing_jump_to(g, v, l, me, alt_target, false)) {
+            return true;
+          }
         }
       }
     }
@@ -755,6 +760,7 @@ static auto thing_monst_choose_something_we_can_wander_to(Gamep g, Levelsp v, Le
     //
     // Gave up
     //
+    THING_DBG(g, v, l, me, "move try: could not move");
     (void) thing_lunge(g, v, l, me, to);
     return false;
   }

@@ -42,13 +42,11 @@ static bool tp_spell_holding_on_cast_per_tile(Gamep g, Levelsp v, Levelp l, Thin
 
   FOR_ALL_THINGS_AT_UNSAFE(g, v, l, it, p)
   {
-    if (thing_is_player(it) || thing_is_monst(it)) {
-      if (thing_is_able_to_be_buffed(it)) {
-        if (thing_hook_add(g, v, l, it, tp_find_mand("debuff_holding"))) {
-          if (thing_is_player(it)) {
-            topcon(UI_GOOD_FMT_STR "You are held in a magical barrier." UI_RESET_FMT);
-            thing_sound_play(g, v, l, it, "error");
-          }
+    if (thing_is_able_to_be_buffed(it)) {
+      if (thing_hook_add(g, v, l, it, tp_find_mand("debuff_holding"))) {
+        if (thing_is_player(it)) {
+          topcon(UI_GOOD_FMT_STR "You are held in a magical barrier." UI_RESET_FMT);
+          thing_sound_play(g, v, l, it, "error");
         }
       }
     }
@@ -109,7 +107,7 @@ static auto tp_spell_holding_on_upgrade_do(Gamep g, Levelsp v, Levelp l, Thingp 
   tp_flag_set(tp, is_loggable);
   tp_flag_set(tp, is_memory_ext);
   tp_flag_set(tp, is_spell);
-  tp_name_long_set(tp, "hold tight");
+  tp_name_long_set(tp, "hold monster");
   tp_spell_cost_set(tp, 2);
   tp_spell_mana_cost_set(tp, 10);
   tp_spell_radius_max_set(tp, 6);

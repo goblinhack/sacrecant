@@ -79,6 +79,7 @@ static auto tp_wand_energy_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -
   thing_on_use_weapon_request_set(tp, tp_wand_energy_on_use_weapon_request);
   tp_charge_count_set(tp, 1000);
   tp_flag_set(tp, is_able_to_be_buffed);
+  tp_flag_set(tp, is_able_to_be_buffed); // e.g. to allow holding spell
   tp_flag_set(tp, is_able_to_be_invisible);
   tp_flag_set(tp, is_able_to_be_levitated);
   tp_flag_set(tp, is_able_to_be_teleported);

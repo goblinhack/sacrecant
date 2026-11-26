@@ -1014,8 +1014,6 @@ static auto game_event_jump(Gamep g) -> bool
   // obvious and the target is a chasm.
   //
   if (! player_jump(g, v, l, player, v->cursor_at)) {
-    topcon(UI_WARN_FMT_STR "You cannot jump!" UI_RESET_FMT);
-    (void) sound_play(g, "error");
     return false;
   }
 

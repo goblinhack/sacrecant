@@ -173,6 +173,7 @@ static bool tp_chest_on_damage(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEve
   thing_on_damage_set(tp, tp_chest_on_damage);
   thing_on_open_request_set(tp, tp_chest_on_open_request);
   tp_chance_set(tp, THING_CHANCE_CONTINUE_TO_BURN, "1d2"); // fumble => intensify / keep burning / crit => stop burning
+  tp_flag_set(tp, is_able_to_be_buffed);                   // e.g. to allow holding spell
   tp_flag_set(tp, is_able_to_be_invisible);
   tp_flag_set(tp, is_able_to_be_levitated);
   tp_flag_set(tp, is_able_to_be_teleported);

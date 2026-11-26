@@ -1,12 +1,6 @@
 bugs
 ----
-test holding teleport
-test holding falling
 test holding jumping
-test holding moving
-test protection trap
-test protection web
-test protection cleaner
 
 todo
 ----
@@ -75,3 +69,10 @@ monsters
 future sacrifices
   - random-failure:         effects like levitation and ethereal may fail randomly                melee +80
   - madness:                occasional random spell use                                           melee +100
+
+mutations
+---------
+    offensive
+    escape
+    ability
+

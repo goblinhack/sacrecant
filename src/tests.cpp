@@ -240,6 +240,10 @@
   if (!test_load_spell_dispel_obstacles()) { return false; }
   if (!test_load_spell_fungus_amongus()) { return false; }
   if (!test_load_spell_hellish_onslaught()) { return false; }
+  if (!test_load_spell_holding_jump_blocked()) { return false; }
+  if (!test_load_spell_holding_move_blocked()) { return false; }
+  if (!test_load_spell_holding_teleport_blocked()) { return false; }
+  if (!test_load_spell_holding()) { return false; }
   if (!test_load_spell_poison_spray()) { return false; }
   if (!test_load_spell_watery_grave()) { return false; }
   if (!test_load_spell_wildfire_storm()) { return false; }

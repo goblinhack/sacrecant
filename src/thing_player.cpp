@@ -1671,6 +1671,7 @@ void player_collision_handle(Gamep g, Levelsp v, Levelp l, Thingp me)
   auto how_far_i_can_jump = thing_distance_jump(g, v, l, me);
   if (how_far_i_can_jump == 0) {
     topcon(UI_WARN_FMT_STR "You are too tired to jump." UI_RESET_FMT);
+    (void) sound_play(g, "error");
     return false;
   }
 
@@ -1692,6 +1693,19 @@ void player_collision_handle(Gamep g, Levelsp v, Levelp l, Thingp me)
     warn = false;
   }
 
+  (void) level_tick_begin_requested(g, v, l, "player could not to jump");
+
+  //
+  // Held?
+  //
+  if (! thing_is_able_to_move(g, v, l, me)) {
+    topcon(UI_IMPORTANT_FMT_STR "You are being held and cannot jump!" UI_RESET_FMT);
+    (void) sound_play(g, "error");
+    return false;
+  }
+
+  topcon(UI_WARN_FMT_STR "You could not jump!" UI_RESET_FMT);
+  (void) sound_play(g, "error");
   return false;
 }
 
@@ -1814,7 +1828,7 @@ void player_collision_handle(Gamep g, Levelsp v, Levelp l, Thingp me)
       // Something was in the way of jumping. Best to stop rather than accidentally
       // walk into a chasm.
       //
-      (void) level_tick_begin_requested(g, v, l, "player fail to jump to avoid a hazard");
+      (void) level_tick_begin_requested(g, v, l, "player could not jump to avoid a hazard");
       player_state_change(g, v, l, PLAYER_STATE_NORMAL);
       return false;
     }
@@ -1831,7 +1845,7 @@ void player_collision_handle(Gamep g, Levelsp v, Levelp l, Thingp me)
   if (thing_move_to(g, v, l, me, move_next)) {
     (void) level_tick_begin_requested(g, v, l, "player moved to next");
   } else {
-    (void) level_tick_begin_requested(g, v, l, "player failed to move to next location");
+    (void) level_tick_begin_requested(g, v, l, "player could not move to move to next location");
   }
 
   return true;

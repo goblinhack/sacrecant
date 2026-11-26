@@ -39,6 +39,7 @@ static auto tp_clover_detail_get(Gamep g, Levelsp v, Levelp l, Thingp me) -> std
   thing_detail_set(tp, tp_clover_detail_get);
   tp_chance_set(tp, THING_CHANCE_CONTINUE_TO_BURN, "1d2"); // fumble => intensify / keep burning / crit => stop burning
   tp_chance_set(tp, THING_CHANCE_START_BURNING, "1d100");  // fumble => flames spread to you
+  tp_flag_set(tp, is_able_to_be_buffed);                   // e.g. to allow holding spell
   tp_flag_set(tp, is_able_to_fall_sound);
   tp_flag_set(tp, is_able_to_fall);
   tp_flag_set(tp, is_active_when_carried);
