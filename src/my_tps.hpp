@@ -172,6 +172,7 @@ auto tp_load_spell_hellish_onslaught() -> bool;
 auto tp_load_spell_holding() -> bool;
 auto tp_load_spell_level_warp() -> bool;
 auto tp_load_spell_poison_spray() -> bool;
+auto tp_load_spell_possess_monst() -> bool;
 auto tp_load_spell_stone() -> bool;
 auto tp_load_spell_watery_grave() -> bool;
 auto tp_load_spell_wildfire_storm() -> bool;

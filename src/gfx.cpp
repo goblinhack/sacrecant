@@ -7316,7 +7316,7 @@ static void gfx_init_tiles_14x14()
       "icon_spell_cloud_death",
       "icon_spell_poison_spray",
       "icon_spell_caustic_gas",
-      "",
+      "icon_spell_possess_monst",
       "",
       "",
       "",

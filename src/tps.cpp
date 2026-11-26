@@ -174,6 +174,7 @@
   if (!tp_load_spell_holding()) { return false; }
   if (!tp_load_spell_level_warp()) { return false; }
   if (!tp_load_spell_poison_spray()) { return false; }
+  if (!tp_load_spell_possess_monst()) { return false; }
   if (!tp_load_spell_stone()) { return false; }
   if (!tp_load_spell_watery_grave()) { return false; }
   if (!tp_load_spell_wildfire_storm()) { return false; }

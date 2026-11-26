@@ -281,6 +281,7 @@ const std::initializer_list< std::string > tps = {
     "spell_holding",
     "spell_level_warp",
     "spell_poison_spray",
+    "spell_possess_monst",
     "spell_stone",
     "spell_watery_grave",
     "spell_wildfire_storm",
