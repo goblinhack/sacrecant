@@ -238,6 +238,7 @@ auto test_load_spell_deep_cover() -> bool;
 auto test_load_spell_dispel_obstacles() -> bool;
 auto test_load_spell_fungus_amongus() -> bool;
 auto test_load_spell_hellish_onslaught() -> bool;
+auto test_load_spell_holding_and_broken_earth() -> bool;
 auto test_load_spell_holding_jump_blocked() -> bool;
 auto test_load_spell_holding_move_blocked() -> bool;
 auto test_load_spell_holding_teleport_blocked() -> bool;
