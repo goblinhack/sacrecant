@@ -163,6 +163,7 @@ auto tp_load_skeleton() -> bool;
 auto tp_load_skullferno() -> bool;
 auto tp_load_smoke() -> bool;
 auto tp_load_spell_broken_earth() -> bool;
+auto tp_load_spell_caustic_gas() -> bool;
 auto tp_load_spell_cloud_death() -> bool;
 auto tp_load_spell_deep_cover() -> bool;
 auto tp_load_spell_dispel_obstacles() -> bool;

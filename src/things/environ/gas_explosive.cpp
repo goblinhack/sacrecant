@@ -88,7 +88,7 @@ static void tp_gas_explosive_tick_begin(Gamep g, Levelsp v, Levelp l, Thingp me)
           new_lifespani = 1;
         }
         if (g_opt_tests) {
-          new_lifespani = 1;
+          new_lifespani = 3;
         }
         (void) thing_lifespan_set(g, v, l, n, new_lifespani);
       }

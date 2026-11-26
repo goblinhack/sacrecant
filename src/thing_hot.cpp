@@ -17,6 +17,12 @@
 {
   TRACE_DEBUG();
 
+  if (thing_is_brazier(me)) {
+    if (thing_is_dead(me)) {
+      return false;
+    }
+    return true;
+  }
   if (thing_is_fire(me)) {
     return true;
   }

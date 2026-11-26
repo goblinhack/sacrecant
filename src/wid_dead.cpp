@@ -145,8 +145,7 @@ void wid_dead_select(Gamep g, const std::string &reason)
 
   game_state_change(g, STATE_DEAD_MENU, "player is dead");
 
-  auto         h = TERM_HEIGHT / 2;
-  spoint const tl(0, h + 1);
+  spoint const tl(0, TERM_HEIGHT - 30);
   spoint const br(UI_LEFTBAR_WIDTH - 1, TERM_HEIGHT - 1);
   auto         width = br.x - tl.x - 1;
 
@@ -312,8 +311,8 @@ void wid_dead_select(Gamep g, const std::string &reason)
   auto *w = wid_new_continue_button(g, p, "dead");
 
   {
-    spoint const tl2(9, h - 7);
-    spoint const br2(width - 11, h - 5);
+    spoint const tl2(9, 24);
+    spoint const br2(width - 11, 26);
 
     wid_set_pos(w, tl2, br2);
     wid_set_on_mouse_down(w, wid_dead_mouse_down);

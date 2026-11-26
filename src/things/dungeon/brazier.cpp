@@ -154,6 +154,7 @@ static void tp_brazier_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEv
   tp_flag_set(tp, is_obs_when_dead);
   tp_flag_set(tp, is_one_per_tile_only);
   tp_flag_set(tp, is_physics_explosion);
+  tp_flag_set(tp, is_physics_temperature);
   tp_flag_set(tp, is_physics_trap);
   tp_flag_set(tp, is_physics_water);
   tp_flag_set(tp, is_shovable);
@@ -166,7 +167,9 @@ static void tp_brazier_on_death(Gamep g, Levelsp v, Levelp l, Thingp me, ThingEv
   tp_name_pluralize_set(tp, "braziers");
   tp_name_short_set(tp, "brazier");
   tp_priority_set(tp, THING_PRIORITY_BRAZIER);
-  tp_weight_set(tp, WEIGHT_MEDIUM); // grams
+  tp_temperature_burns_at_set(tp, 200); // celsius
+  tp_temperature_initial_set(tp, 200);  // celsius
+  tp_weight_set(tp, WEIGHT_MEDIUM);     // grams
   tp_z_depth_set(tp, MAP_Z_DEPTH_OBJ);
   // end sort marker1 }
 

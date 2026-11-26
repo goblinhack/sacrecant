@@ -59,6 +59,7 @@
   if (!test_load_fungus_pyro()) { return false; }
   if (!test_load_gas_death_monst_dies()) { return false; }
   if (!test_load_gas_death_monst_lives()) { return false; }
+  if (!test_load_gas_explosive_with_brazier()) { return false; }
   if (!test_load_gas_life_heal_player()) { return false; }
   if (!test_load_gas_player_open_door_unlocked()) { return false; }
   if (!test_load_items_drift_away()) { return false; }

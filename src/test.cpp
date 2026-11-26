@@ -81,6 +81,7 @@ const std::initializer_list< std::string > tests = {
     "fungus_pyro",
     "gas_death_monst_dies",
     "gas_death_monst_lives",
+    "gas_explosive_with_brazier",
     "gas_life_heal_player",
     "gas_player_open_door_unlocked",
     "items_drift_away",

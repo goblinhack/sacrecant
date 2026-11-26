@@ -165,6 +165,7 @@
   if (!tp_load_skullferno()) { return false; }
   if (!tp_load_smoke()) { return false; }
   if (!tp_load_spell_broken_earth()) { return false; }
+  if (!tp_load_spell_caustic_gas()) { return false; }
   if (!tp_load_spell_cloud_death()) { return false; }
   if (!tp_load_spell_deep_cover()) { return false; }
   if (!tp_load_spell_dispel_obstacles()) { return false; }
