@@ -576,16 +576,20 @@ static void thing_damage_by_player(Gamep g, Levelsp v, Levelp l, Thingp it, Thin
           //
           // The player is burning.
           //
+          auto n = thing_name_long_the(g, v, l, it, TEXT_EXCLUDE_BURNING);
+          topcon(UI_IMPORTANT_FMT_STR "You burn %s." UI_RESET_FMT, n.c_str());
+
           if (thing_is_burning(it)) {
-            topcon(UI_IMPORTANT_FMT_STR "Your burning body burns %s." UI_RESET_FMT, the_thing_name_long.c_str());
+            topcon(UI_IMPORTANT_FMT_STR "Your burning body burns %s." UI_RESET_FMT, n.c_str());
           } else {
-            topcon(UI_IMPORTANT_FMT_STR "Your burning body sets fire to %s." UI_RESET_FMT, the_thing_name_long.c_str());
+            topcon(UI_IMPORTANT_FMT_STR "Your burning body sets fire to %s." UI_RESET_FMT, n.c_str());
           }
         } else {
           //
           // The player is not burning.
           //
-          topcon(UI_IMPORTANT_FMT_STR "You burn %s." UI_RESET_FMT, the_thing_name_long.c_str());
+          auto n = thing_name_long_the(g, v, l, it, TEXT_EXCLUDE_BURNING);
+          topcon(UI_IMPORTANT_FMT_STR "You burn %s." UI_RESET_FMT, n.c_str());
         }
         break;
       case THING_EVENT_NONE :             [[fallthrough]];

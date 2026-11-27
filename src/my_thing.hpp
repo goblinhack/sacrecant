@@ -65,11 +65,12 @@ using ThingIdPacked = union {
 #define THING_MISSILE_MAX (THING_BEAM_WEAPON_TILES_MAX * 3)
 
 enum {
-  TEXT_INCLUDE_OWNER = 1,
-  TEXT_EXCLUDE_DEATH = 2,
-  TEXT_A_OR_AN       = 4,
-  TEXT_APOSTROPHIZE  = 8,
-  TEXT_PLURALIZE     = 16,
+  TEXT_INCLUDE_OWNER   = 1 << 0,
+  TEXT_EXCLUDE_DEATH   = 1 << 1,
+  TEXT_EXCLUDE_BURNING = 1 << 2,
+  TEXT_A_OR_AN         = 1 << 3,
+  TEXT_APOSTROPHIZE    = 1 << 4,
+  TEXT_PLURALIZE       = 1 << 5,
 };
 
 using ThingTextFlags = uint8_t;

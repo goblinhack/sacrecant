@@ -82,7 +82,7 @@
     }
   }
 
-  if ((f & TEXT_EXCLUDE_DEATH) == 0) {
+  if ((f & TEXT_EXCLUDE_BURNING) == 0) {
     if (thing_is_burning(t)) {
       if (thing_is_dead(t)) {
         out += "burnt ";
@@ -90,7 +90,9 @@
         out += "burning ";
       }
     }
+  }
 
+  if ((f & TEXT_EXCLUDE_DEATH) == 0) {
     if (thing_is_dead(t)) {
       if (thing_is_player(t) || thing_is_monst(t)) {
         if (thing_is_undead(t)) {
